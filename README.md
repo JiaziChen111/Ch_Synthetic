@@ -139,6 +139,7 @@ A Git repository is a history of commits and how they relate.
 	Git tracks changes line by line
 	Git stores data as a series of snapshots
 A branch is a sequence of commits.
+An upstream is simply another branch name, usually a remote-tracking branch, associated with a (regular, local) branch.
 Git encourages workflows that branch and merge often, even multiple times in a day.
 
 
@@ -221,6 +222,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 	To abort the merge: git merge --abort
 
 - Save all your commits by sending them to the remote repository (your branch <branchname> in GitHub): git push
+	For Git to set origin/<branchname> as the upstream for the current branch, on the first push use: git push -u origin <branchname>
 	Always commit before pushing or pulling
 	You can push all your branches to the remote repository, or only some of them
 	To push just a single branch (and no other branches) nor the master: "git checkout <branchname>" followed by "git push origin <branchname>"
@@ -253,6 +255,11 @@ Comments:
 - To rename a repository: https://help.github.com/en/articles/renaming-a-repository
 - To relocate a local repo: https://stackoverflow.com/questions/11384928/change-git-repository-directory-location
 - Warning: git reset have options --hard and --soft that can be used to rewrite history and to throw out commits that you no longer want
+- If you use git init, and then want to upstream to a remote repo, in your first push you need: git push -u origin master
+	This will create an upstream master branch on the upstream (which can be done with git push origin master) AND will record that the local branch 'master' needs to be pushed to upstream (origin) 'master' (upstream branch)
+	Since git 1.7.11, the default push policy is 'simple': push only the current branch, and only if it has a similarly named remote tracking branch on upstream
+	Explained in: https://stackoverflow.com/questions/17096311/why-do-i-need-to-explicitly-push-a-new-branch/17096880#17096880
+- History for: Why do I have to “git push --set-upstream origin <branch>”? https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch
 - Reasons for not keeping the repository in Dropbox: there is a chance of conflicts between the syncing of Dropbox and GitHub, and the space limit in Dropbox might be an issue when the chapter folders grow in size (or even each chapter with different branches)
 - Reasons for having a project for each chapter: GitHub has a limit of 1 GB per project and has limits of 100MB per file, keeping them separate minimizes this issues
 
