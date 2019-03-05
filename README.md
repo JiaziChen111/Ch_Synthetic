@@ -223,7 +223,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 	Always commit before pushing or pulling
 	You can push all your branches to the remote repository, or only some of them
 	To push just a single branch (and no other branches) nor the master: "git checkout <branchname>" followed by "git push origin <branchname>"
-	Alternatively: "git push HEAD" to push only currently checked-out branch
+	See https://stackoverflow.com/questions/820178/how-do-you-push-just-a-single-git-branch-and-no-other-branches
 	Note that you need to checkout to <branchname> (be in that branch) because if you are on master it would try to push the local master branch to the remote <branchname>. If you want to not have to checkout first you would have to do "git push origin <branchname>:<branchname>"
 
 - IN GitHub.com refresh, go to your branch <branchname> and click the green button 'Compare, review, create a pull request', which will show your changes in green. This is also useful to understand some conflicts
