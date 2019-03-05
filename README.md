@@ -210,6 +210,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 - Go to the branch you had been working on: git checkout <branchname>
 
 - Make the necessary changes
+	Add and commit as many edits as necessary
 - Merge all the changes in the master branch INTO your branch: git merge master
 	Alternatively, you can go to the master and from there merge the <branchname>: git checkout master, followed by git merge <branchname>
 	If there are conflicts, they will be indicated; you are HEAD
@@ -221,7 +222,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 - Save all your commits by sending them to the remote repository (your branch <branchname> in GitHub): git push
 	Always commit before pushing or pulling
 	You can push all your branches to the remote repository, or only some of them
-	To push just a single branch (and no other branches) nor the master: git checkout <branchname> followed by git push origin <branchname>
+	To push just a single branch (and no other branches) nor the master: "git checkout <branchname>" followed by "git push origin <branchname>"
 	Alternatively: "git push HEAD" to push only currently checked-out branch
 	Note that you need to checkout to <branchname> (be in that branch) because if you are on master it would try to push the local master branch to the remote <branchname>. If you want to not have to checkout first you would have to do "git push origin <branchname>:<branchname>"
 
