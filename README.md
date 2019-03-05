@@ -192,6 +192,7 @@ Difference between stage and commit:
 Git workflow (branching, merging, pull request):
 Summary: to solve a feature request make a branch for it, code the feature, commit it, get latest master, merge master back into your branch, push it up, make a pull request for other people to peer review the code. You can make more merges to an existing pull request depending on the feedback received. When your branch is merged to the trunk of the tree (master branch), everybody's branches can inherit those changes.
 Branches are the most powerful part of Git. They allow to trying things out.
+CAUTION: Make sure to close the files when switching between branches (including the master branch) because Git will update them when you switch
 - Start from the master branch, and make sure you have the most recent version: git pull
 - To see all branches: git branch
 	If only the master branch exists, it will say: * master
@@ -223,6 +224,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 
 - Save all your commits by sending them to the remote repository (your branch <branchname> in GitHub): git push
 	For Git to set origin/<branchname> as the upstream for the current branch, on the first push use: git push -u origin <branchname>
+	With this, after the first push a message will say "Branch 'xpr/readdata' set up to track remote branch 'xpr/readdata' from 'origin'."
 	Always commit before pushing or pulling
 	You can push all your branches to the remote repository, or only some of them
 	To push just a single branch (and no other branches) nor the master: "git checkout <branchname>" followed by "git push origin <branchname>"
