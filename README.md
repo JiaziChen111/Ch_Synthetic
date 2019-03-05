@@ -149,8 +149,10 @@ Setting up Git (https://help.github.com/en/articles/set-up-git):
 - Set your commit email address in Git: git config --global user.email "Your Email"
 - Tell Git to colorize its output appropriately: git config --global color.ui "auto"
 - Authenticate with GitHub from Git using either HTTPS (recommended) or SSH: https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended
+- If using HTTPS:
 	Find out if Git and the osxkeychain helper are already installed: git credential-osxkeychain
 	Tell Git to use osxkeychain helper using the global credential.helper config: git config --global credential.helper osxkeychain
+	After this, the next time you try to clone, pull, push, etc. from the terminal, it will ask you for your GitHub user and password
 
 
 Create (remote and local) repositories (projects):
