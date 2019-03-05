@@ -211,10 +211,11 @@ Branches are the most powerful part of Git. They allow to trying things out.
 
 - Make the necessary changes
 	Add and commit as many edits as necessary
-- Merge all the changes in the master branch INTO your branch: git merge master
+- Merge all the changes that have happen in the master branch since the last time you pulled INTO your branch: git merge master
 	Alternatively, you can go to the master and from there merge the <branchname>: git checkout master, followed by git merge <branchname>
-	If there are conflicts, they will be indicated; you are HEAD
-- Manually resolve any conflict
+
+-If there are conflicts, they will be indicated; you are HEAD
+	Manually resolve any conflict
 	Delete all of the delimiters
 - Add the file back and finish the merge: git add --all followed by git merge --continue
 	To abort the merge: git merge --abort
