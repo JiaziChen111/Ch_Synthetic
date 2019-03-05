@@ -149,7 +149,8 @@ Setting up Git (https://help.github.com/en/articles/set-up-git):
 - Set your commit email address in Git: git config --global user.email "Your Email"
 - Tell Git to colorize its output appropriately: git config --global color.ui "auto"
 - Authenticate with GitHub from Git using either HTTPS (recommended) or SSH: https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended
-- If using HTTPS:
+	If you don't authenticate, when you try to clone, pull, push, etc. to the remote repository, the terminal will display the following error: Permission denied (publickey)
+- If you decide to use HTTPS:
 	Find out if Git and the osxkeychain helper are already installed: git credential-osxkeychain
 	Tell Git to use osxkeychain helper using the global credential.helper config: git config --global credential.helper osxkeychain
 	After this, the next time you try to clone, pull, push, etc. from the terminal, it will ask you for your GitHub user and password
@@ -170,7 +171,7 @@ Create (remote and local) repositories (projects):
 	Once a file is in the staging area, git keeps track of its changes
 	To add ALL files in the directory: git add . or git add -A or git add --all	
 	HEAD is the name of the current commit
-	To remove changes from the staging area (does not change the history at all nor does it change what is going on the working directory, safe command): git reset HEAD
+	To remove changes from the staging area (does not change the history at all nor does it change what is going on in the working directory, safe command): git reset HEAD
 	To unstage changes to a file: git reset HEAD <filename.ext>
 	To remove file from the staging area but not form the working directory: git rm --cached -- <filename.ext>
 	To discard changes in working directory before they are staged (Warning! When you do this you will lose any unsaved work!): git checkout HEAD -- <filename.ext>
