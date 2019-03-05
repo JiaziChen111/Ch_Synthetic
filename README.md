@@ -185,6 +185,7 @@ Create (remote and local) repositories (projects):
 Difference between stage and commit:
 - You don't want keep a record of EVERY little change. You want to make changes and once you are happy the final edit (no mistakes in code, compilation errors, consistent output), you add the file to the staging area.
 - It is recommended to commit per discrete task (which may involve multiple files). However, you may be modifying more files than the ones involved in a particular task. With git add you can select which of the modified files have to do with that particular task, and commit those without having to commit the other modified files unrelated to that task. In other words, staging allows to commit changes per task ('small' frequent commits rather than big infrequent commits).
+- When using git add, you can select which files to include. When using git commit you don't choose which files, all files in the staging area are committed.
 
 
 Git workflow (branching, merging, pull request):
@@ -207,6 +208,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 - Go to the branch to which you want to merge into: git checkout master
 - Load all new commits in the remote repository to make sure that master has not changed since the last sync with: git pull
 - Go to the branch you had been working on: git checkout <branchname>
+	Make the necessary changes
 - Merge all the changes in the master branch INTO your branch: git merge master
 	Alternatively, you can go to the master and from there merge the <branchname>: git checkout master, followed by git merge <branchname>
 	If there are conflicts, they will be indicated; you are HEAD
