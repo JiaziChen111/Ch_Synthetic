@@ -195,7 +195,7 @@ Branches are the most powerful part of Git. They allow to trying things out.
 - To see all branches: git branch
 	If only the master branch exists, it will say: * master
 - To create a new branch OF the branch you are currently on: git branch <branchname>
-	Use meaningful branch names
+	Use meaningful branch names. See some useful naming conventions that facilitate the workflow: https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches
 - To see all branches: git branch
 	It will display: <branchname>, * master
 	The asterisk tells you the branch in which you are currently working on
