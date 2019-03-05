@@ -190,8 +190,11 @@ Difference between stage and commit:
 
 
 Git workflow (branching, merging, pull request):
+
 Summary: to solve a feature request make a branch for it, code the feature, commit it, get latest master, merge master back into your branch, push it up, make a pull request for other people to peer review the code. You can make more merges to an existing pull request depending on the feedback received. When your branch is merged to the trunk of the tree (master branch), everybody's branches can inherit those changes.
+
 Branches are the most powerful part of Git. They allow to trying things out.
+
 CAUTION: Make sure to close the files when switching between branches (including the master branch) because Git will update them when you switch
 - Start from the master branch, and make sure you have the most recent version: git pull
 - To see all branches: git branch
