@@ -1,0 +1,47 @@
+%% Page Settings
+%
+%---------------------------------------------------------------
+% Margins
+%---------------------------------------------------------------
+%\usepackage[top=2.54cm, bottom=2.54cm,left=3.17cm,right=3.17cm]{geometry} 
+\usepackage[margin=1in]{geometry} 					% Sets the margins of the file
+
+%---------------------------------------------------------------
+% Indentation
+%---------------------------------------------------------------
+%\parindent=0cm 				 				% Sets space of first line of new text block
+
+%---------------------------------------------------------------
+% Spacing
+%---------------------------------------------------------------
+% Avoid excesive spacing between floating objects
+\usepackage{setspace}\doublespacing
+\AtBeginDocument{%
+	\addtolength\abovedisplayskip{-0.2\baselineskip}%
+	\addtolength\belowdisplayskip{-0.2\baselineskip}%
+	%  \addtolength\abovedisplayshortskip{-0.5\baselineskip}%
+	%  \addtolength\belowdisplayshortskip{-0.5\baselineskip}%
+}
+
+%---------------------------------------------------------------
+% Hyphenation
+%---------------------------------------------------------------
+\sloppy 								 			% Tries to avoid hyphens
+%\hyphenation{} 		   					   % Sets hyphenation of tolerance parameters
+	%\hyphenpenalty=10000			   % Ridiculously high values force hyphenless
+														 % may result in lines with very few words
+	%\exhyphenpenalty=10000
+
+%---------------------------------------------------------------
+% Head and Foot
+%---------------------------------------------------------------
+\usepackage{fancyhdr} % Needed for head and foot options
+
+%---------------------------------------------------------------
+% Sources
+%---------------------------------------------------------------
+% Spacing without extra spacing for floating objects
+%https://tex.stackexchange.com/questions/32918/how-can-i-decrease-spaces-between-equations
+
+% Hyphenation
+% http://www.jr-x.de/publikationen/latex/tipps/zeilenumbruch.html

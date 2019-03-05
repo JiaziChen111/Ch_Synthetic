@@ -1,0 +1,43 @@
+Potential questions:
+What countries are in the S&P chart (AEs and EMs)?
+How liquid are the CCS used?
+
+
+
+
+Idea:
+Default-free estimates of TP for EMs
+What is the TP
+
+Motivation:
+Much TP work done for AEs, none for EMs
+
+Why is it important:
+Uses of TP in advanced economies
+Type of questions that can be answered once having TP estimates
+
+Overview of estimating TPs:
+Default-free LC yield curve, idea from Du & Schreger
+ATSM
+TP estimates
+
+Findings:
+Comparison with US TP
+Relation with macroeconomic and financial variables (economic stories about TP behavior)
+Relation with LC credit spread
+How useful is the default-risk adjustment
+
+Current work:
+Given the potential for small sample problems, using survey data on forecasts to discipline the model
+
+Work ahead:
+Refine TP estimation
+Multiple models to see robustness
+FC yield curve
+FX and UIP
+Effects of US and local MP
+Multi-country ATSM
+Comparing EMs with AEs SOE (Australia, NZ, Canada)
+
+Conclusions
+

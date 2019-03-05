@@ -1,0 +1,15 @@
+From Carroll's BufferStockTheory.tex
+
+Create 'econtexShortcuts.sty' and save it in Library -> texmf -> tex -> latex
+in BufferStockTheory.tex call it by including in the preamble 
+'\usepackage{econtexShortcuts}'
+
+The file 'econtexShortcuts.sty' uses \providecommand to define variables which are then used to write the equations.
+
+What do newcommand, renewcommand, and providecommand do, and how do they differ?
+https://tex.stackexchange.com/questions/36175/what-do-newcommand-renewcommand-and-providecommand-do-and-how-do-they-differ
+
+
+Once it the equation with a label (e.g. \label{eq:supfn}) is saved in the Equations folder (up one level, i.e. at the level of the Latex folder), it is called in the main tex file using:
+
+\input ../\eq/supfn.tex

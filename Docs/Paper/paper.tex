@@ -1,0 +1,41 @@
+%---------------------------------------------------------------
+% Preamble
+%---------------------------------------------------------------
+\documentclass[a4paper, 12pt]{article} 	% Document class
+\input{../Settings/packages}		   		  % Packages
+\input{../Settings/page_settings}   		% Page settings
+\input{../Settings/macros}					   % Personalized commands
+%---------------------------------------------------------------
+
+\begin{document}
+%---------------------------------------------------------------
+% Title
+%---------------------------------------------------------------
+\title{Term Premia in Emerging Markets \thanks{ }}
+\author{M. Pavel Solís M. 
+	\thanks{Address: Wyman Park Building 544E, 3400 N. Charles Street, Baltimore, MD 21218. Email: msolism1@jhu.edu.}}
+\date{}
+\maketitle
+\vspace{-4ex}
+\begin{center}
+	This version: \today
+\end{center}
+
+%---------------------------------------------------------------
+% Contents
+%---------------------------------------------------------------
+\input{abstract}
+
+\input{sections}
+
+\bibliographystyle{abbrvnat} 	% Other styles: {plain}, {authordate1}
+%\bibliography{../References/library}
+\bibliography{../../../References/library} % Without executing file_duplicator.sh
+
+\input{appendix}
+
+\newpage
+\iftoggle{commentboxes}{\maketoc}	% Defined in packages.tex and macros.tex
+
+%\listoftodos
+\end{document}

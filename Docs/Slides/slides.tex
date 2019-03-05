@@ -1,0 +1,466 @@
+%----------------------------------------------------------------
+% Preamble
+%----------------------------------------------------------------
+\documentclass[12pt, xcolor=dvipsnames]{beamer} 			         % Document class
+% \documentclass[12pt,xcolor=dvipsnames,handout,notes=show]{beamer}	  % For printing
+\input{../Settings/packs_beamer}   		  % Packages
+\input{../Settings/macros}					   % Personalized commands
+%----------------------------------------------------------------
+
+\begin{document}
+
+\input{title_slide}
+
+%----------------------------------------------------------------
+% Frames
+%----------------------------------------------------------------
+
+\section{Introduction}
+
+%\begin{frame}{To Dos}
+%\listoftodos
+%\end{frame}
+
+ \begin{frame}
+	\frametitle{Motivation}
+	\begin{itemize}
+		\item \textit{Risk-free} zero-coupon yields can be decomposed into: 
+		\begin{itemize}
+			\item Expected nominal short-term interest rate
+			\item Risk premium
+		\end{itemize}
+		\item<2-> Sovereign debt of advanced economies is considered risk-free
+		\item<3> \textbf{Problem:} Debt of emerging markets (EMs) is \textit{not} risk-free
+		\begin{itemize}
+			\item<3> Credit risks embedded in local currency (LC) debt
+		\end{itemize}
+		% \textcolor{yaleblue}{\textbf{Gap:}}	% To color text
+	\end{itemize}
+\end{frame}
+\note{Risk premium: Compensation that investors require for bearing the risk that the short-term yield does not evolve as they expected. If LT bonds are seen as risky, need compensation so RP > 0; if they are seen as a hedge, investors are willing to receive less than what is expected for the short term rate and so RP < 0.}
+\note{Sometimes TP is used interchangably with RP. I will use TP.}
+\note{Credit risk understood as: (selective) default risk, currency convertibility risk, regulation risk, capital controls, jurisdiction risks, liquidity risk.}
+\note{Why default on LC debt? FC debt creates trade-off between default and inflating away LC; small cost to default in LC if already defaulted on FC; EMs can change the law + Suspension of currency convertibility, capital controls while not defaulting.}
+\note{The questions is: how can we decompose LC yield curves in EMs? Do we gain by taking into accout this risks?}
+
+\begin{frame}
+\frametitle{Motivation}
+\begin{center}
+	\includegraphics[width=0.8\textwidth,height=0.7\textheight]{../Figures/Sovereign_LC_Rating_Dist.png}
+\end{center}
+\end{frame}
+\note{Historical LC defaults: El Salvador 2017, Ecuador 2008, Argentina 2001, Turkey 1999 (earthquake, retroactively taxed LC debt), Russia 1998 (after high inflation).}
+
+\begin{frame}
+	\frametitle{What Do I Do?}
+	\begin{itemize}
+		\item Decompose LC yields of EMs \textit{without} credit risk
+		\begin{itemize}
+			\item Analyze components, especially the term premium
+		\end{itemize}
+		\pause
+		\item \textbf{Main idea:} Use synthetic zero-coupon yield curves
+		\begin{itemize}
+			\item Swap US Treasury bonds into LC using cross-currency swaps
+			\item What if the US issue debt in other currencies?
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{Today I can lock in a risk-free investment in LC by exchanging LC for USD, investing those USD in Tresuaries and enter into a forward agreeing to sell USD for LC in the future. Once the payment from Treasuries, I exchange them into LC.}
+
+\begin{frame}
+	\frametitle{Why Is This Important?}
+	\begin{itemize}
+		\item Determinants of LC yields
+		\begin{itemize}
+			\item Market expectations about monetary policy
+			\item Monetary policy transmission in EMs
+		\end{itemize}
+		\item<2-> Global financial cycle
+		\begin{itemize}
+			\item<2-> EMs vs advanced economies
+		\end{itemize}
+		\item<3> Testing asset pricing theories in EMs
+		\begin{itemize}
+			\item<3> Buraschi, Piatti \& Whelan (2018)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{The analysis opens the door to interesting research!!!}
+\note{Use proxies of the determinants of term premia implied by equilibrium models.}
+\note{Risk premia is affected by disagreement (interquartile range in GDP and CPI forecasts), habit preferences (monthly consumption growth rates), uncertainty of conditional growth rate (conditional variance of expected real growth and inflation).}
+
+\begin{frame}
+	\frametitle{What Has Been Done?}
+	\begin{itemize}
+		\item Vast literature on advanced economies (AEs)
+		\item Few papers make decompositions of EM yield curves	
+		\begin{itemize}
+			\item Blake, Rule \& Rummel (2017)
+		\end{itemize}
+		\item<2-> Synthetic yield curves
+		\begin{itemize}
+			\item<2-> LC credit spread (Du \& Schreger, 2016)
+			\item<2-> Convenience yield (Du, Im \& Schreger, 2018)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{Du \& Schreger (2016) developed an empirical measure to assess credit risk in LC debt.}
+
+
+\section{Methodology}
+
+\begin{frame}
+	\frametitle{Methodology}
+	\begin{itemize}
+		\item Construction of synthetic yield curves
+		\item Estimation of affine term structure model
+		\item Analysis of the components
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Synthetic Yield Curves}
+	\begin{itemize}
+		\item LC risk-free yield curve
+		\begin{itemize}
+			\item US yield curve
+			\item Cross-currency swaps (from USD to LC)
+		\end{itemize}
+		\item At every date, fit a curve
+		\begin{itemize}
+			\item Nelson \& Siegel (1987)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{In AEs a Svensson model is often used because it includes an extra parameter which captures the dynamics better when there are maturities longer than 10 years. For EMs, the maximum maturity considered is 10 years, so N-S performs well.}
+
+\begin{frame}
+	\frametitle{Affine Term Structure Model}
+	\begin{itemize}
+		\item Standard ATSM
+		\item Intuition:
+		\begin{itemize}
+			\item A set of stochastic factors drive the dynamics of the term structure.
+			\item No-arbitrage restrictions ensure consistency in the cross section and time series of bond yields
+			\item Yields are affine functions of the set of pricing factors
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{The coefficients are functions of the maturity of the bond and the coefficients that determine the stochastic processes for the state variables.}
+
+\begin{frame}
+	\frametitle{(Preliminary) Estimation}
+	\begin{itemize}
+		\item Treat state variables as observables
+		\begin{itemize}
+			\item Principal components (PCA)
+		\end{itemize}
+		\item Estimate the law of motion of the state variables
+				\begin{itemize}
+			\item VAR
+		\end{itemize}
+		\item Expectation of short-term interest rates $n$-periods ahead
+		\item Estimate the term premium
+	\end{itemize}
+\end{frame}
+
+
+\section{Data}
+
+\begin{frame}
+	\frametitle{Data}
+	\begin{itemize}
+		\item 15 EM countries
+		\begin{itemize}
+			\item \scriptsize Brazil, Colombia, Hungary, Indonesia, Israel, Korea, Malaysia, Mexico, Peru, Philippines, Poland, Russia, South Africa, Thailand, Turkey
+		\end{itemize}
+		\item<2-> End-of-month data until May 2018
+		\begin{itemize}
+			\item<2-> Starting date: Earliest Jan 2000, latest Dec 2006
+		\end{itemize}
+		\item<3-> Maturities (in years): 1, 2, \ldots, 10 
+		\begin{itemize}
+			\item<3-> US yield curve from Gürkaynak, Sack \& Wright (2007)
+			\item<3-> Cross-currency swap curves from Bloomberg
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{Talk about the desirability of longer series to be able to pin down TP since it is an unobserved variable. But more than 10 years is reasonable.}
+
+
+\section{Results}
+
+\begin{frame}
+	\frametitle{Benchmark}
+	\visible<2>{
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_us_10yr_ACMvsKM}
+			\par\end{center}
+		\caption{10-Year US Term Premium.}\label{fig:tp_us_10yr}
+	\end{figure}}
+\end{frame}
+\note{Benchmark to compare how EM TPs behave.}
+\note{Two frequently cited estimates of the US TP: KW and ACM.}
+\note{Highlight three things: (1) the US TP is not constant; (2) it has decline over time; and (3) it has changed sign in recent years.}
+\note{Explanations for decline: global investors, UMP.}
+\note{Another explanation proposed by Campbell, Sunderam \& Viceira (2016) is that TP < 0 is explained by the flip in the sign of the correlation between stocks and bonds -bonds hedge stocks-.}
+\note{We can analyze the behavior of the TP around key dates.}
+\note{Vertical lines: September 2008, March 2009, June 2013, November 2016.}
+
+\begin{frame}[label=tp_10yrA]
+	\frametitle{Term Premium Estimates}
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_10yr_1}
+			\par\end{center}
+		\caption{Estimated 10-Year Term Premia.}\label{fig:tp_10yrA}
+	\end{figure}
+	\begin{textblock*}{3cm}(.97\textwidth,-.08\textheight)
+		\hyperlink{tp_10yrB}{\beamergotobutton{B}}
+	\end{textblock*}
+\end{frame}
+\note{EM TP are time-varying.}
+\note{Sensible TP estimates, mostly positive; fluctuate around 1\% and 2\%.}
+\note{Sometimes they comove.}
+\note{Behavior around vertical lines}
+%\note{No same pattern to US TP seen in EMs}
+
+\begin{frame}
+	\frametitle{Term Structure of Term Premia}
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_ts_MXN}
+			\par\end{center}
+		\caption{Estimated 1-, 5- and 10-Year Term Premia.}\label{fig:tp_ts}
+	\end{figure}
+\end{frame}
+\note{One can not only compare the TP across country but across maturities.}
+\note{TP increases with maturity. As one would expect when LT are seen as risky, LT requiring a higher compensation.}
+\note{Sometimes, standard deviation of TP increases with maturity.}
+
+\begin{frame}
+	\frametitle{Gains from `Adjusting' for Default Risk}
+	\visible<2>{
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_cmp_5_MYR}
+			\par\end{center}
+		\caption{Estimated Term Premium: Synthetic vs Actual.}\label{fig:tp_comp_5yr}
+	\end{figure}}
+\end{frame}
+\note{Explain each line.}
+\note{Risk premium =! Term premium.}
+\note{The dyanmics of TP and LCCS play an important role in EM bond yields.}
+
+\begin{frame}
+	\input{../Tables/rp_decomp10yr}
+\end{frame}
+\note{Main component is expectation part. Mean and std of TP are higher than for LCCS.}
+\note{It would be interesting to further decompose the nominal parts (Expected and TP) into real and inflation!!!}
+\note{Mean: 6.9971    6.2480    4.9953    1.2527    0.6932}
+\note{Std:    1.9943    1.8840    1.9940    1.1793    0.7597}
+
+\begin{frame}
+	\frametitle{Correlations}
+	\begin{itemize}
+		\item Comparison with US term premium
+		\item LC credit spread (Du \& Schreger, 2016)
+		\item Uncertainty indexes (Baker, Bloom \& Davis, 2016)
+	\end{itemize}
+\end{frame}
+\note{EPU index is based on frequency of key words -economy, uncertainty, Fed- in newspapers. Only available for 5 countries in the sample.}
+
+\begin{frame}[label=corr_10yr]
+	\input{../Tables/rp_correl_10yr}
+	\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
+		\hyperlink{corr_5yr}{\beamergotobutton{5YR}}
+	\end{textblock*}
+\end{frame}
+\note{EM TP and US TP are closely related, it tends to increase with maturity.}
+\note{Correlation with LCCS is negative. Possible explanation: LCCS low reaction to global variables while the TP's is high.}
+\note{For EPU, need to study BRL and RUB more closely. Note that for COP is positive.}
+
+\begin{frame}
+	\frametitle{Common Factors in EM Term Premia}
+	\input{../Tables/rp_cmnfctrs}
+\end{frame}
+\note{Both domestic and common factors seem to be at play in EM TP.}
+
+\begin{frame}
+	\frametitle{Drivers of EM Term Premia}
+	\begin{itemize}
+		\item Panel regressions per maturity
+		\item Global financial variables
+		\begin{itemize}
+			\item<2> VIX, Fed funds rate, S\&P, oil price
+		\end{itemize}
+		\item Domestic variables
+		\begin{itemize}
+			\item<2> Macro: Inflation, unemployment rate, industrial production
+			\item<2> Financial: FX, stock market
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=pnl_tp10yr]
+	\frametitle{Panel Regression: 10-Year TP}
+	{\centering
+	\input{../Tables/rp_pnlreg_10yr} \par}
+	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
+		\hyperlink{pnl_tp5yr}{\beamergotobutton{5YR}}
+	\end{textblock*}
+\end{frame}
+\note{Main broad message at 10 years. Big difference: FFR more negative when there is no USTP and disappears when USTP}
+\note{Country fixed-effects were included to allow for the possibility that country-specific factors that may affect TP are also correlated with the controls.}
+
+\begin{frame}
+	\frametitle{Work in Progress}
+	\begin{itemize}
+		\item Given potential for small sample problems, use survey forecasts to discipline the model
+		\begin{itemize}
+			\item Key factor explaining differences in term premium estimates (Li, Meldrum \& Rodriguez, 2017)
+		\end{itemize}
+	\item Better characterization of EM term premia relative to AEs
+	\end{itemize}
+\end{frame}
+\note{Next things on the list.}
+\note{There is clearly uncertainty in the TP estimates and that is where survey forecasts can be helpful.}
+\note{Identify more clearly where and how EM TPs differ from AEs. Broaden the number of AEs in the sample.}
+
+\begin{frame}
+	\frametitle{Work Ahead}
+	\begin{itemize}
+		\item Full implementation of ATSM to refine TP estimation
+		\item Compare EMs with SOE AEs (Australia, NZ, Canada)
+		\item Multi-country ATSM
+		\pause
+		\item Related work:
+		\begin{itemize}
+			\item Role of capital flows: negative EM TP?
+			\item Role of FC yield curve: $\pi$ and FX expectations?
+			\item High-frequency effects of MP on EM \textit{risk-free} yields
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{MP: US and local}
+
+\section{Conclusions}
+
+\begin{frame}
+	\frametitle{Conclusions}
+	\begin{itemize}
+		\item `Clean' EM TP estimates using synthetic LC yield curves
+		\begin{itemize}
+			\item Gains from `adjusting' for credit risk
+			\item In EMs, risk premium $\neq$ term premium
+			\item More disaggregated decomposition of LC yield curves
+		\end{itemize}
+		\item Properties of EM term premia
+		\item Many potential extensions
+	\end{itemize}
+\end{frame}
+
+
+\section{Appendix}
+
+\begin{frame}
+	\begin{center}
+		\huge \textcolor{yaleblue}{Appendix}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Benchmark}
+\begin{figure}[!htbp]
+	\begin{center}
+		\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_us_5yr_ACMvsKM}
+		\par\end{center}
+	\caption{5-Year US Term Premium.}\label{fig:tp_us_5yr}
+\end{figure}
+\end{frame}
+
+\begin{frame}[label=tp_10yrB]
+	\frametitle{Term Premium Estimates}
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_10yr_3}
+			\par\end{center}
+		\caption{Estimated 10-Year Term Premia (cont.).}\label{fig:tp_10yrB}
+	\end{figure}
+	\begin{textblock*}{3cm}(.97\textwidth,-.08\textheight)
+		\hyperlink{tp_10yrA}{\beamerreturnbutton{A}}
+	\end{textblock*}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Term Premium Estimates}
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_10yr_2}
+			\par\end{center}
+		\caption{Estimated 10-Year Term Premia (cont.).}\label{fig:tp_10yrC}
+	\end{figure}
+	\begin{textblock*}{3cm}(.97\textwidth,-.08\textheight)
+		\hyperlink{tp_10yrA}{\beamerreturnbutton{A}}
+	\end{textblock*}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Gains from `Adjusting' for Default Risk}
+	\begin{figure}[!htbp]
+		\begin{center}
+			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_cmp_10_MYR}
+			\par\end{center}
+		\caption{Estimated Term Premium: Synthetic vs Actual.}\label{fig:tp_comp_10yr}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\input{../Tables/rp_decomp5yr}
+\end{frame}
+
+\begin{frame}[label=corr_5yr]
+	\input{../Tables/rp_correl_5yr}
+	\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
+		\hyperlink{corr_10yr}{\beamerreturnbutton{10YR}}
+	\end{textblock*}
+\end{frame}
+
+\begin{frame}[label=pnl_tp5yr]
+	\frametitle{Panel Regression: 5-Year TP}
+	{\centering
+	\input{../Tables/rp_pnlreg_5yr} \par}
+	%	\input{../Tables/rp_pnlreg_5yr_v0}
+	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
+			\hyperlink{pnl_tp10yr}{\beamerreturnbutton{10YR}}
+	\end{textblock*}
+\end{frame}
+
+\end{document}
+
+%---------------------------------------------------------------
+% Sources
+%---------------------------------------------------------------
+% Tips in general
+% https://en.wikibooks.org/wiki/LaTeX/Presentations
+%https://tex.stackexchange.com/questions/12328/how-can-i-use-todonotes-with-beamer
+% Insert links to slides
+% https://latex.org/forum/viewtopic.php?t=4594
+% Place button of link on slide
+%https://tex.stackexchange.com/questions/50643/hyperlink-button-in-an-exact-position
+% Make figures visible
+%https://stackoverflow.com/questions/4683093/beamer-how-to-show-images-as-step-by-step-images
+% Multicolumn and multirow
+%https://tex.stackexchange.com/questions/156219/proper-centering-with-cmidrule-and-multi-row-and-column
+
+% Code for hyperlinks
+%[label=corr_10yr]
+%\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
+%	\hyperlink{corr_10yr}{\beamergotobutton{10-Year TP}}
+%\end{textblock*}
+%
+%\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
+%	\hyperlink{corr_10yr}{\beamerreturnbutton{10-Year TP}}
+%\end{textblock*}

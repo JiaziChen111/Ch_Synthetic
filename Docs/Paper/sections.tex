@@ -1,0 +1,324 @@
+\section{Introduction}
+\iftoggle{commentboxes}{% Defined in packages.tex
+\gototoc
+\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+		\item Improve the literature review part.
+		\item Add a reference that explains why EM can default \textit{in LC}: small cost to default in LC if already defaulted in FC, if external debt of firms is large don't want to default in FC.
+		\item Review cases of actual default. Papers by Reinhart, database BoC-BoE, S\&P annual report on sovereign defaults.
+	\end{itemize}
+	\\ \hline
+\end{tabular} \\}
+
+What yields would the U.S. pay if it finance in other currencies? For debt issued in the currencies of other advanced economies, the yields paid by the U.S. would likely be similar to the ones paid by their governments. But for debt issued in the currencies of emerging markets, the yields paid by the U.S. would likely be lower than those paid by the respective governments, mainly because of the lower default risk the U.S. represents. This paper exploits this idea to construct risk-free yield curves for emerging markets, and then uses them to obtain estimates of term premia.
+
+In theory, the yield of a \textit{risk-free} zero-coupon bond can be decomposed into the average short-term interest rates expected when the bond matures and a term premium for holding the bond. The term premium is the compensation that investors require for bearing the risk that the short-term yield does not evolve as they expected. If long-term bonds are seen as risky, investors need compensation for holding them and so the term premium will be positive. On the contrary, if such bonds are seen as a hedge, investors will be willing to receive less than what is expected for the short term rate and so the term premium will be negative.
+
+Estimation of the term premium is an important task in macroeconomics and asset pricing. For example, term premia estimates provide valuable information for the analysis of monetary policy transmission and to study the determinants of bond risk premia. This provides an important channel to study the differences and similarities between advanced and emerging economies. Nevertheless, the literature has mainly focus on estimating the term premia estimates for advanced economies. The literature for emerging markets in this regard is less voluminous.\footnote{See for example \cite*{DePooter_etal:2013}, \cite*{BlakeRuleRummel:2015}.} However, there are no estimates of the term premia for emerging markets adjusted for credit risk.\footnote{Credit risk here is defined broadly including (selective) default risk, currency convertibility risk, regulation risk, capital controls, jurisdiction risks, liquidity risk. Therefore, when investors require compensation for any of these risks (e.g in case emerging markets change the law, suspension currency convertibility, impose capital controls) will be considered to demand a premium for credit risk even if the country does not default per se. Notwithstanding this, historically emerging markets have indeed defaulted in debt issued in local currency, some examples include El Salvador (2017), Ecuador (2008), Argentina (2001), Russia (1998); in 1999 after an earthquake, Turkey retroactively taxed LC debt.} This paper fills that void.
+
+Term structure models are the standard tool to estimate the term premium. A key assumption is that the yields used are free of default risk; a reasonable assumption for the sovereign debt of advanced countries. However, the sovereign yields of emerging markets include a premium for credit risk, even for bonds issued in their local currency (LC) for which they have (in theory) the ability to print their own currency to repay their debts \citep{DuSchreger:2016a}. Therefore, a direct application of term structure models to sovereign yields of emerging markets would give biased estimates of the term premium. I use synthetic yield curves to address this issue. The importance of this has increased over the years since bonds denominated in LC have become an important source of funds for emerging markets, in contrast to foreign currency (FC)-denominated bonds \citep{DuSchreger:2016b}. To the best of my knowledge, this is the first paper to estimate affine term structure models using synthetic yield curves.
+
+To construct the synthetic yield curves, I follow the methodology developed by \cite{DuSchreger:2016a}, which makes use of financial derivatives. Today an investor can lock in a risk-free investment in LC by first exchanging LC for U.S. dollars (USD), investing those USD in U.S. Treasuries and then entering into a forward contract in which the investor agrees to sell USD for LC in the future. Once the payoff (in USD) from the Treasuries is realized, the investor exchanges USD back into LC at the exchange rate agreed in the forward contract. While \cite{DuSchreger:2016a} use the synthetic LC yield curve as an intermediate step to define and analyze the LC credit spread (the difference between the nominal and synthetic curves) as a measure to assess credit risk in LC debt, I focus on the synthetic curve itself and rely on its `risk-free' property to estimate the term premium.
+
+This paper shows that the term premia in emerging markets are close to 100 basis points since 2005, and that there are common factors influencing them. Their cyclical properties of term premia are also studied. The Cboe volatility index (VIX) and the U.S. term premium itself emerge as important drivers of the term premia in emerging markets. In addition, domestic inflation also plays a prominent role in explaining the variation in the term premia.
+
+This paper is related to different branches of the literature in international macroeconomics and finance. First, it makes use of synthetic LC yield curves which was pioneered by \cite{DuSchreger:2016a} for emerging markets in the context of credit spreads and later used by \citet*{DuImSchreger:2018} for advanced economies to study the convenience yield of U.S. Treasuries. Second, it makes an international comparison of term premia estimates for emerging markets, contributing to the work done by \cite{Wright:2011} for advanced economies.
+
+This paper is also related to the literature on discrete-time affine term structure models like the one used by \cite{CochranePiazzesi:2008}. Those models are applied to the constructed risk-free yield curves of each country. 
+
+On the effects of U.S. monetary policy shocks on the yields of emerging markets, this paper may extend the results in \citet*{GilchristYueZakrajsek:2018} by studying not only the effects on the yield curve but on its components, namely the LC credit spread, expectations of future short-term interest rates and the term premium. \citet*{HofmannShimShin:2017} already study the link between the U.S. monetary policy, the exchange rate and LC credit spreads.
+
+%Finally, on the relationship between affine term structure models and exchange rates this paper is related to \cite{AngChen:2010}.
+
+The rest of the paper is structured as follows. The next section explains how to construct the synthetic yield curves. Section \ref{sec:ATSM} describes the affine term structure model. Section \ref{sec:results} reports the term premia estimates, while section \ref{sec:correl} studies their cyclical properties. The last section concludes.
+
+\section{Synthetic LC Yield Curves} \label{sec:rfLCyc}
+\iftoggle{commentboxes}{% Defined in packages.tex
+\gototoc
+\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+		\item Include reference for small counterparty risk in CCS.
+		\item Better explained the role of the parameters in NS and NSS.
+		\item Explain that NS is better when around 10 maturities while Svensson model is better when two humps.
+	\end{itemize}
+	\\ \hline
+\end{tabular} \\}
+
+I construct the synthetic LC yield curves following \cite{DuSchreger:2016a}. The key idea is to swap the U.S. yield curve into LC using the forward premium for the respective maturity.
+
+\subsection{Construction of Synthetic Yield Curves} \label{sec:synthConstr}
+For maturities of less than one year, the forward premium can be calculated as the difference between the forward and the spot exchange rates. Outright forwards, however, become illiquid for longer periods. For maturities greater than one year, the forward premium can be calculated using cross-currency swaps (CCS).\footnote{Two reasons support the use of CCS instead of credit default swaps (CDS): the definition of default in CDS is not always straightforward and, more importantly, defaults on LC bonds are not considered trigger events of CDS contracts.}  Although, the fixed-for-fixed CCS rates are rarely observed in the market directly, they can be constructed using cross-currency basis swaps and interest rate swaps. The idea is to swap fixed payments in LC into floating rate USD-cash flows using cross-currency basis swaps (referenced to the USD London interbank offered rate), and then swapping those floating rate cash flows into fixed USD-cash flows using interest rate swaps. CCS are usually collateralized instruments and so the bilateral counterparty risk in CCS is small.
+
+Let $\yUS$ denote the zero-coupon yield for the $\tnr$-period U.S. Treasury bond at time $t$, and $\fwdprm$ the $\tnr$-period zero-coupon fixed-for-fixed CCS rate from the USD to the LC. Then the zero-coupon synthetic LC yield for the $\tnr$-period bond at time $t$, $\yLCsynt$, is defined as
+	\input {../Equations/yLCsynt}
+
+$\yLCsynt$ is the borrowing rate paid by a hypothetical risk-free issuer in LC, it is the $\tnr$-period synthetic LC risk-free funding rate. Note that the resulting synthetic yield curve $\yLCsynt$ does not require knowledge of the nominal yield curve, which is denoted by $\yLCnom$.\footnote{Note also that for the U.S., $\yUSsynt = \yUS$.}
+
+According to the covered interest rate parity condition (CIP), the synthetic and direct LC interest rates should be equalized. However, \cite*{DuTepperVerdelhan:2018} show that there are persistent and systematic deviations from CIP. In fact, \cite{DuSchreger:2016a} and \cite*{DuImSchreger:2018} study these deviations for emerging markets and advanced economies, respectively. In particular, the spread between the two yields ($\yLCnom - \yLCsynt$) is what \cite{DuSchreger:2016a} define as the LC credit spread for emerging markets, and what \cite{DuImSchreger:2018} called the convenience yield for advanced countries.
+
+\subsection{Estimation of Synthetic Yield Curves} \label{sec:synthEstim}
+The methods to estimate the yield curve at a particular point in time can be classified in parametric and non-parametric. Since the purpose of estimating the yield curve in this paper is to understand its determinants, a parametric approach is more convenient because it smooths through idiosyncratic variation and, notwithstanding, it allows for a variety of yield curve shapes. This approach is also followed for the U.S. by \citet*{GSW:2007}. 
+
+\cite{NelsonSiegel:1987} assume that the instantaneous forward rate $\tnr$ years ahead follows a continuous function that depends on four parameters:
+	\input {../Equations/NSfwd}
+
+The behavior at long and short maturities is determined by the parameters $\betaLT$ and $\betaST$, while $\betaMTns$ and $\tauNS$ determine the ``hump's" magnitude, direction and position.
+
+\cite{Svensson:1994} extends the Nelson-Siegel approach to allow for a second hump at longer maturities. This is achieved at the expense of introducing two more parameters in functional form of the instantaneous forward rate as follows:
+	\input {../Equations/NSSfwd}
+
+Note that the Nelson-Siegel model is obtained by setting $\betaMTnss$ equal to zero in the last equation. The role of the two new parameters...
+
+The continuously compounded zero-coupon yield curve implied by the Svensson model is obtained by integrating the instantaneous forward rate in equation \ref{eq:NSSfwd}:
+	\input {../Equations/NSSzero}
+
+Again, the zero-coupon yield curve implied by the Nelson-Siegel model is obtained by setting $\betaMTnss$ equal to zero.
+
+Note that $\yZero$ can be either $\yLCsynt$ or $\yLCnom$. The focus of this paper is on $\yLCsynt$, which is calculated as explained in section \ref{sec:synthConstr}. However, $\yLCnom$ is also of interest for comparison purposes. Appendix \ref{sec:BFVcurves} explains how $\yLCnom$ is constructed.
+
+The parameters in the Svensson model are estimated by minimizing the sum of squared deviations between the prices obtained from equation (\ref{eq:yLCsynt}) and the prices implied by equation (\ref{eq:NSSzero}) weighted by the inverse of the duration for each period using non-linear least squares. Price deviations weighted by duration is approximately equal to fitting the yields; however, it is faster to compute than fitting yields directly since using yields requires to numerically find the root to a nonlinear equation. Speed is a factor given that I fit the model to daily curves for many countries.
+
+\section{Affine Term Structure Model} \label{sec:ATSM}
+\iftoggle{commentboxes}{% Defined in packages.tex
+\gototoc
+\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+		\item A
+	\end{itemize}
+	\\ \hline
+\end{tabular} \\}
+
+To estimate the term premium I use a standard discrete-time affine term structure model with an exponentially affine pricing kernel. These models have been widely use in the literature mainly to advanced economies, see for example \cite{CochranePiazzesi:2008} and \cite{Wright:2011}.
+
+An affine term structure model will fit the synthetic zero-coupon yield curve obtained as explained in section \ref{sec:synthEstim}. This allows to decompose the yield curve into the average short-term interest rates expected and a term premium at each maturity.
+
+\subsection{Model} \label{sec:ATS_model}
+Let $\Pzero$ be the price of a zero-coupon bond with maturity $\tnr$ at time $t$, then the continuously compounded yield on that bond is $\yZero = - \ln \Pzero/{n} $. The one-period continuously compounded risk-free rate is thus $\rShort = - \ln P_{1,t}$.
+
+The assumption of no-arbitrage implies that there exists a nominal stochastic discount factor (SDF) $\SDF$ such that today's price equals the expectation of tomorrow's discounted price:
+	\input{../Equations/Pzero}
+Alternatively, today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.
+
+The one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF $\SDF$ are assumed to be affine functions of a $\Xdim \times 1$ vector of state variables $\Xvars$:
+	\input{../Equations/rShort}
+	\input{../Equations/riskprice}
+	\input{../Equations/SDF}
+
+where $\error$ is $i.i.d.$ $\Normal \left(0,I_{\Xdim}\right)$. Note that the SDF is conditionally lognormal and heteroskedastic.
+
+Assume that the dynamics of the vector of state variables $\Xvars$ evolve under the physical measure $(\Pmeasure)$ according to the following vector autoregression (VAR):
+	\input{../Equations/XvarsP}
+
+The SDF in equation (\ref{eq:SDF}) and the law of motion of the vector of state variables in equation (\ref{eq:XvarsP}) can be formalized separately or jointly, see \cite{GurkaynakWright:2012} for a review of the literature.
+
+The following parameters:
+	\input{../Equations/XmuStar}
+	\input{../Equations/XPhiStar}
+
+govern the dynamics of the vector of state variables under the risk-neutral or pricing measure $(\Qmeasure)$:
+	\input{../Equations/XvarsQ}
+
+In this model, the log price of a risk-free zero-coupon bond is an affine function of the state variables $\Xvars$:
+	\input{../Equations/Paffine}
+where the coefficients can be computed recursively as follows\footnote{See \cite{CochranePiazzesi:2008}.}
+	\input{../Equations/affineA}
+	\input{../Equations/affineB}
+
+Finally, the implied yields are given by
+	\input{../Equations/yAffine}
+ 
+The term premium can then be estimated as the difference between the yields obtained under the $\Qmeasure$ measure and the yields obtained under the $\Pmeasure$ measure.
+
+Note that a key assumption behind this model is that $\yZero$ is a risk-free rate. \cite{DuSchreger:2016a} show that $\yLCnom$ is not risk-free. However, $\yLCsynt$ better aligns with that assumption.
+
+\subsection{Estimation} \label{sec:ATSM_est}
+The model described above can be estimated in a few simple steps. First, equation (\ref{eq:XvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:rShort}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:NSSzero}) and the yields implied by the affine model in equation (\ref{eq:yAffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
+
+However, in order to obtain preliminary estimates of the term premium only equations (\ref{eq:rShort}) and (\ref{eq:XvarsP}) are used in this version. To obtain estimates of the expected short-term interest rates in future periods, the expectation of the vector of state variables $\Xvars$ (which can be computed by iterating forward equation (\ref{eq:XvarsP})) is substituted in equation (\ref{eq:rShort}). The expectation of a yield $\tnr$ periods ahead is then obtained as the average of the expected short-term rates over $\tnr$ periods. The term premium estimate is then computed as the difference between the nominal yield and the expected yield obtained in this way.
+
+\section{Empirical Results} \label{sec:results}
+\iftoggle{commentboxes}{% Defined in packages.tex
+\gototoc
+\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+		\item Add website for Excel file with tickers.
+		\item Add table of starting dates for SOEs.
+		\item Indicate in table since when Svensson model is used per country.
+		\item The available maturities for each country vary between XX and YY?
+		\item Units or deviation with respect to what for RMSE table.
+		\item Include summary statistics of the NSS fitted curves to give a feeling about the data.
+	\end{itemize}
+	\\ \hline
+\end{tabular} \\}
+
+The focus of this paper is to study the term premia in emerging markets obtained from default-fee yield curves. The synthetic yields are obtained by swapping the U.S. yield curve into LC using the forward premium. All the relevant maturities are extracted by fitting the Svensson model to the synthetic yields. An affine term structure model is then estimated for each country in order to decompose the synthetic yield curves and obtain the term premia estimates. Two benchmarks are relevant to assess the results. First, how big is the difference between the term premia obtained from synthetic yields versus those from nominal yields. Second, since emerging markets are mainly small open economies, how does the term premia in emerging markets compare relative to those from advanced small open economies like Canada.
+
+This section describes first the sources used to obtain the data and it later discusses the term premia estimates.
+
+\subsection{Data Sources}
+I use end-of-month data for the following 15 emerging markets:\footnote{The currency identifier for each country is shown in parenthesis.} Brazil (BRL), Colombia (COP), Hungary (HUF), Indonesia (IDR), Israel (ILS), Korea (KRW), Malaysia (MYR), Mexico (MXN), Peru (PEN), Philippines (PHP), Poland (PLN), Russia (RUB), South Africa (ZAR), Thailand (THB) and Turkey (TRY). 
+
+Both the U.S. yield curve and the forward premium for different maturities are needed to construct the LC synthetic yield curves. Data for the U.S. zero-coupon yield curve is obtained from the database created by \cite{GSW:2007}; such data goes back to 1961. However, the main issue for the analysis is the information needed to calculate the forward premium. 
+
+As mentioned before, for periods less than one year the forward premium is calculated using forward exchange rates, while for longer periods it is calculated from CCS rates. The maturities of less than one year considered are 3, 6 and 9 months; that is, I use the spot exchange rate and the forwards for those maturities to compute the forward premium. To construct the CCS rates, I use each available year starting from year one. The maximum maturity available varies per country but there is data covering at least up to ten years; for some countries, it can go as far as 30 years.\footnote{After 10 years, the periodicity of data reduces from every year to every five years. Then, beyond 10 years the maturities available are usually for 15, 20, 25 and/or 30 years.} This is taken into account when estimating the model in section \ref{sec:synthEstim}. Yield curves with maturities up to 10 years tend to exhibit one hump at most. The Nelson-Siegel model can capture that pattern in a more parsimonious way than the Svensson model. Therefore, the Svensson model is only estimated when there are at least three maturities beyond 10 years.
+
+The forward premiums (using forwards and CCS curves) are constructed using data from Bloomberg. A spreadsheet with the Bloomberg tickers used in the construction of the forward premiums is available online.\footnote{Such file consolidates and expands (with tenors and tickers) equivalent files kindly posted online in Wenxin Du and Jesse Schreger's websites.} See Appendix \ref{sec:BFVcurves} for details of how the nominal yield curves are constructed.
+
+Since the models explained in sections \ref{sec:synthEstim} and \ref{sec:ATS_model} are estimated for each country separately, the starting dates are different (between January 2000 and November 2006) but the end date is the same for all countries (January 2019). Table \ref{tab:start_dates} shows the earliest end-of-month dates with available data per country. Note that there are at least 10 years of data for all countries, which is a reasonable time period for the estimation of affine term structure models.
+	\input{../Tables/StartingDates}
+ 
+The advanced small open economies considered for the comparison with emerging markets are: Australia (AUD), Canada (CAD), Denmark (DKK), Norway (NOK), New Zealand (NZD), Sweden (SEK) and Switzerland (CHF). Since there is more data available for these countries, their starting dates are generally before those of emerging markets. It is also more likely that the Svensson model is estimated earlier for these countries.
+
+The macroeconomic and financial variables used in section \ref{sec:correl} are also downloaded from Bloomberg.
+
+\subsection{Estimated Synthetic Yield Curves}
+The available maturities for each country vary between $7$ and $9$. At each period the model in equation (\ref{eq:NSSzero}) is estimated per country. However, when maturities up to 20 years are available, the model used is the one by Nelson and Siegel; that is, $\betaMTnss$ is set to zero. Therefore when there is data for 25 and/or 30 years to maturity, the Svensson model is used. \footnote{In some special cases, outliers need to be dropped in some periods to be able to fit the curve for the rest of the points.} Table \ref{tab:rmse_ns} reports the average of the root mean square error (RMSE) over the sample period for each country.
+	\input{../Tables/RMSE_NelsonSiegel}
+
+The implied yields obtained in this way are then used to estimate the term structure model as explained in section \ref{sec:ATSM_est}. For example, when data is not available to compute equation (\ref{eq:yLCsynt}) for $\tnr = 0.25$, equation (\ref{eq:rShort}) is estimated using the Nelson-Siegel implied 3-month yields.
+
+In order to estimate the VAR model in equation (\ref{eq:XvarsP}), the state variables are assumed to be observed. For this, the three factors described by \cite{LittermanScheinkman:1991} --level, slope and curvature-- are considered to be the state variables. These factors are obtained as the first three principal components (PCs) of the panel of Nelson-Siegel yield curves per country. Consistent with what is observed for advanced countries, Table \ref{tab:pc_explained} shows that for all emerging markets more than $99.5\%$ of the variation in the yields is explained by these three factors.
+	\input{../Tables/PC_explained}
+
+\subsection{Decomposition of the Synthetic Yield Curve}
+\input{../Tables/rp_decomp10yr}
+
+The main component is the expectations part. The mean and the standard deviation the term premium are higher than for LC credit spread.
+
+\subsection{Stylized Facts}
+As explained before, once the affine term structure model is estimated we can compute the term premia for each maturity.\footnote{Term premia estimates have been obtained for maturities starting at $\tnr = 0.25, 0.5, 0.75, 1, 2, \ldots$ up to the longest maturity available but only the $5$ year one is reported in what follows for the sake of brevity.}
+
+I use the U.S. term premium as a benchmark to compare the behavior of the term premia in emerging markets. Two frequently cited estimates of the U.S. term premium are \cite{KimWright:2005} and \cite*{ACM:2013}. Analysis of those estimates shows that: (1) the US TP is not constant; (2) it has decline over time; and (3) it has changed sign in recent years. Common explanations attribute the decline in the U.S. term premium to the increased demand of U.S. assets by global investors and the effects of the unconventional monetary policy of the Fed. An explanation for why the U.S. term premium has become negative has been proposed by \cite*{CampbellSunderamViceira:2017}. They argue that the change in sign of the term premium from positive to negative is explained by the flip in the sign of the correlation between stocks and bonds; in recent years, bonds have act as hedges of investments in stocks.
+
+The 5-year term premia estimates are plotted in Figure \ref{fig:5yr_rp} in the Appendix. It is worth highlighting some regularities observed in the figure: (1) the term premia in emerging markets are time-varying; (2) the estimates are sensible, they are mostly positive and fluctuate around 1\% and 2\%; (3) sometimes they comove; (4) they behave similar to the U.S. term premium around key dates like around the onset of the great recession (September 2008), the first unexpected announcement of the quantitative easing program (March 2009), the taper tantrum (June 2013), and the 2016 U.S. presidential election (November 2016); (5) it is not unusual for the term premia in emerging markets to be negative.\footnote{In fact, inverted yield curves, which may explain this, are common for some of the countries considered.}
+
+To summarize the figure, Table \ref{tab:rp_stats} shows the mean of the 5-year synthetic yields and summary statistics for the estimated 5-year term premia. The means of the synthetic yields fluctuate between $2.3\%$ and $10.5\%$, while the means of the risk premia fluctuate between $-36$ basis points to $150$ basis points. On average, the term premium represents around $12\%$ of the synthetic 5-year yield. For Indonesia, Russia, South Africa and Turkey the standard deviation of their term premia is relatively high compared to their mean. Philippines and Russia had periods with a really negative term premia in October 2000 and the first half of 2015, respectively; excluding those episodes, the term premium has fluctuated between $-3.5\%$ and $5.5\%$.
+	\input{../Tables/rp_5yr_stats}
+
+\cite{Wright:2011} shows evidence of a declining trend in term premia for advanced economies using data that goes back to the 1990s. Starting in 2000, however, the term premia seems to be stationary. This is consistent with the evidence shown in Figure \ref{fig:5yr_rp} since there is no observable trend in the term premia of emerging markets.
+
+\subsubsection{Term Structure of Term Premia}
+One can not only compare the term premium across country but across maturities. Term premia increases with maturity. As one would expect when long-term bonds are seen as risky, investors require a higher compensation for holding them.\footnote{Sometimes, the standard deviation of the term premia increases with maturity.}
+
+\subsubsection{Common Factors in Term Premia}
+To see whether there are common factors influencing the term premia, Table \ref{tab:rp_cmnfctrs} shows the proportion of the total variation in the 5-year term premia explained by the first three PCs, with two different starting dates. To consider all countries, the first starting date is November 2006 and, to see if the results hold over a longer time period, the second starting date\footnote{The second case only includes Colombia, Indonesia, Korea, Mexico, Philippines, Poland, South Africa and Turkey.} is June 2005. In both cases, the first three PCs explain around $80\%$ of the variation of risk premia. This evidence supports an approach that exploits the cross-section of yield curves in order to capture common factors affecting the term premia.
+%	\input{../Tables/PC_common_factors}
+
+Both domestic and common factors seem to be at play in in the term premia of emerging markets.
+	\input{../Tables/rp_cmnfctrs}
+
+\subsection{Comparison of Term Premia from Nominal Yield Curve}
+Compare the term premia estimates obtained as explained in this paper (using the synthetic yield curve $\yLCsynt$) to those obtained using the nominal yield curve ($\yLCnom$) in order to quantify the benefits of `adjusting' the yields for default risk when estimating term premia in emerging markets.
+
+Sometimes the terms risk premium and term premium are used interchangeably. However, at least for emerging markets, those two concepts are not equal. The dyanmics of the term premium and the LC credit spread play an important role in the bond yields of emerging markets.
+
+Conclusion: There are gains for estimating term premia in emerging markets by adjusting for credit risk.
+
+\subsection{Comparison with Advanced Small Open Economies}
+How do the term premia in emerging markets compare with the U.S. term premium?
+
+
+
+\section{Cyclical Properties of the Term Premia} \label{sec:correl}
+\iftoggle{commentboxes}{% Defined in packages.tex
+\gototoc
+\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+		\item Constrast the reference to Anaya et al. 2017 with Gilchrist, Yue \& Zakrajzek (2018) and with Wright et al. (2017).
+		\item Contrast effect of FX with Hofman, Shim and Shin
+		\item Claims about effect of variables on expected part can be tested using the expected part directly as well as forecasts.
+	\end{itemize}
+	\\ \hline
+\end{tabular} \\}
+
+To study the cyclical properties of the term premia, they are regressed on a variety of financial and macroeconomic variables.\footnote{The rest of the tables are in the Appendix. All the regressions include a constant although it is not reported.} The financial variables considered are available daily so end-of-month values are used. The macroeconomic variables considered have a monthly frequency.
+
+The VIX and the federal funds rate have been used in the global financial cycle literature \citep[see][]{Rey:2013} to study the effects of common factors on capital flows. The VIX is usually used as a measure of risk aversion and economic uncertainty and the fed funds rate is a measure of the monetary policy stance in the U.S. Given the sudden spikes in the VIX, it is common to use the $\ln \left( VIX \right)$ instead of the VIX directly. For the U.S. monetary policy, the variable used is the effective federal funds rate calculated by the New York Fed. 
+
+The exchange rate (LC per USD) and the local stock market index are used as measures of local financial conditions. For this two variables, monthly returns are used, which are calculated as the log difference of the series.
+
+\subsection{Correlation with Financial Variables}
+Table \ref{tab:rp_reg_lvix} reports the regression of the term premia on $\ln \left( VIX \right)$. As it can be seen, the VIX plays a relevant role as the effect is significant for most of the countries. With the exception of Hungary and Malaysia, an increase in the VIX is associated with an increase in the term premia in emerging markets: a $10\%$ increase in the VIX increases the term premia by $10$ basis points on average. Based on the $R^2$, it explains more than $10\%$ of the variation in term premia for the countries for which the effect is higher.
+
+The effect of the federal funds rate is shown in Table \ref{tab:rp_reg_ffr}. It is significant in half of the countries. With the exception of Russia, an increase in the fed funds rate decreases the term premia by 25 basis points on average. It also explains more than $10\%$ of the variation in term premia for those countries. This is consistent with a flattening of the synthetic yield curve. Along with evidence that the monetary policy stance in emerging markets tend to move in the same direction than that in the U.S. \citep*{AnayaHachulaOffermanns:2017}, this is consistent with an increase in the expectation of future short-term interest rates in emerging markets.
+
+The exchange rate has an effect on the term premia of only four countries: Indonesia, Peru, Philippines and Russia. The results are reported in Table \ref{tab:rp_reg_rfx}. A $1\%$ depreciation of the LC is associated with a decrease in the term premia of 15 basis points on average for those countries. Along with the uncovered interest parity (according to which a LC depreciation would be followed by an increase in the short-term interest rate), this effect is also consistent with an increase in the expectation of future short-term interest rates.
+
+Unlike the previous financial variables, the return of the local stock market is not correlated with the term premia as shown in Table \ref{tab:rp_reg_stx}.\footnote{Since the countries studied are emerging markets, the return on the price of a commodity was also used as a regressor (in this case oil) but there was also no observed effect (not reported here).}
+
+\subsubsection{Other Relevant Variables}
+Comparison with U.S. term premium. LC credit spread from \cite{DuSchreger:2016a}. The economic policy uncertainty (EPU) index proposed by \cite{BakerBloomDavis:2016}. The EPU index is based on the frequency of articles in local newspapers containing key words -economy, uncertainty, central bank-. It is only available for 5 countries in the sample.
+	\input{../Tables/rp_correl_10yr}
+
+The term premia in emerging markets and the U.S. term premium are closely related. The correlation tends to increase with maturity. The correlation with the LC credit spread is negative. A possible explanation is that the LC credit spread has a low reaction to global variables while the reaction of the term premia is high. Regarding the EPU, Brazil and Russia deserve further study. Note that for Colombia the correlation of its term premium with the EPU index is positive.
+
+\subsection{Correlation with Macroeconomic Variables}
+Three variables that are closely followed by market participants are inflation, the unemployment rate and industrial production because they capture the state of the economy at a monthly frequency. Therefore, the macroeconomic variables used in this section are the year-on-year percentage change in the consumer price index, the unemployment rate and the year-on-year percentage change in industrial production in each country. All countries have at least two of the three variables available for their respective time span, and only seven countries have the three variables available during their whole sample period.\footnote{The seven countries are Colombia, Hungary, Korea, Mexico, Peru, Russia and Turkey. Inflation is not included for Philippines since it is available starting in January 2013. Unemployment is not included for Israel (available since January 2012), Poland (March 2010) and South Africa (March 2008). Industrial production is not included for Indonesia (January 2011), Malaysia (January 2013) and Thailand (February 2011).} 
+
+The available macroeconomic variables are included in the regressions at the same time. The results are reported in Table \ref{tab:rp_reg_macro}. The table shows that inflation and the unemployment rate are important drivers of the term premia. They are significant for all countries for which they are included. An increase in inflation tends to decrease the term premia by 12 basis points on average, while unemployment increases term premia by 50 basis points on average. These effects are consistent with an active monetary policy in line with the standard textbook mechanism and expectations of future short-term interest rates following the same direction of the policy rate. Industrial production is important statistically and economically only for Peru.
+
+In addition, the variation in term premia explained by these variables is relatively high, $34\%$ on average, which is higher than for any of the financial variables analyzed before. This supports including macroeconomic factors in the vector of state variables. In future versions, this can be done following \citet*{JPS:2014}, which will also help in further testing the relevance of unspanned or hidden factors in emerging markets.
+
+\subsection{Panel Regressions}
+Panel regressions per maturity.
+Global financial variables: VIX, Fed funds rate, S\&P, oil price.
+Domestic variables. Macro: Inflation, unemployment rate, industrial production. Financial: FX, stock market.
+
+Main broad message at 10 years: there is shift in importance of the role of the federal funds rate (FFR). When the U.S. term premium is not included, the effect of the FFR on the term premia of emerging markets is negative. However, the effect disappears when the U.S. term premium is included.
+
+Country fixed-effects are included to allow for the possibility that country-specific factors that may affect the emerging market term premia are also correlated with the controls.
+	\input{../Tables/rp_pnlreg_10yr}
+
+\section{Conclusion}\label{sec:conclusion}
+\iftoggle{commentboxes}{% Defined in packages.tex
+\gototoc
+\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+		\item A
+	\end{itemize}
+	\\ \hline
+\end{tabular} \\}
+
+This paper estimates the term premia for 15 emerging markets using synthetic yield curves. There seems to be common factors influencing those term premia. When studying their cyclical properties, global financial variables and domestic macroeconomic variables appear to be important drivers.
+
+The work presented so far can be improved and extended in several directions.
+
+\subsection{Potential Improvements}
+\gototoc
+Potential ways to improve the work include:
+
+\begin{itemize}
+	\item Estimate the term structure model in section \ref{sec:ATSM} by one of the methods mentioned in footnote \ref{fn:est_methods}.
+	
+	\item Term premia estimates obtained from the term structure model can be compared with estimates obtained using survey responses from Consensus Economics (using the entries for expected inflation and output along with an estimated Taylor rule).
+	
+	\item Include macro factors when estimating the dynamics of the vector of state variables in equation \ref{eq:XvarsP}.
+
+	\item When considering the spillover effects of the monetary policy in the U.S., use a better measure of shocks (e.g. changes in futures of the fed funds rate around monetary policy announcements) and differentiate conventional from unconventional monetary policy.
+\end{itemize}
+
+\subsection{Potential Extensions}
+\gototoc
+Relevant questions that can be answered with this work include:
+
+\begin{itemize}
+	\item Study how the effect of macroeconomic and financial variables on the term premia compare to their effect on the LC credit spread and on the expectation of future short-term interest rates. That is, perform a full decomposition of `observed' yields (default risk, term premia and expectations of future short-term interest rates) and analyze the effects of said variables on each component. This would extend the analysis done by \cite{GilchristYueZakrajsek:2018} on the spillover effects of U.S. monetary policy on LC bonds of emerging markets. Compare also with \cite{HofmannShimShin:2017}. The set of variables could be extended too (e.g. monetary policy shocks in other advanced economies).
+	
+	\item Perform a more robust analysis of the determinants of term premia in emerging markets and how they differ from those of advanced economies.
+		
+	\item Uncovered interest parity is based on risk-neutrality. Could the risk-neutral yields obtained from the term structure model be used to revisit the findings from the literature on deviations from uncovered interest parity for EMs? This will extend the work done by \cite{AngChen:2010}.
+	
+	\item Can the findings from this research be used to make a decomposition of the FC-denominated yield curve? Following the same strategy of using synthetic yield curves. Similar to the way it can be done for the U.S. yield curve, the FC yield curve can be swapped into LC, which would allow a comparison between the FC and the LC yield curves. Can this be related to exchange rates and inflation expectations? To sovereign risks?
+	
+	\item The estimated yield curves are an input to the decomposition of the changes in the exchange rates (risk premia, inflation expectations) done by \cite{StavrakevaTang:2018b} for advanced economies, which could be extended for emerging markets.
+	
+	\item Exploit the cross-section of yields by using a multi-country term structure model in order to improve the precision in the term premia estimates. In future versions, a multi-country affine term structure model may be used in the spirit of \citet*{JotikasthiraLeLundblad:2015} to exploit information in the cross-section of yield curves.
+	
+	\item Forecast the LC yields in emerging markets.
+\end{itemize}

@@ -1,0 +1,77 @@
+%% Packages
+
+\usepackage[utf8]{inputenc}			% Input accented characters
+
+%---------------------------------------------------------------
+% Contents
+%---------------------------------------------------------------
+\usepackage[nottoc]{tocbibind} 		% Displays bibliography and other in the table of contents, option nottoc omits TOC from itself
+\usepackage{todonotes} 					% Used for to-do lists
+\usepackage{makeidx} 					% Creates an index at the end of the document
+	\makeindex
+\usepackage{textcomp}		  			% For the copyright symbol
+
+%---------------------------------------------------------------
+% Formatting
+%---------------------------------------------------------------
+\usepackage{float} 									% Placing inputs in current section
+\usepackage{setspace}							% Sets spaces above/below an equation, 
+												   			   % needed for \setlength in page.tex
+	%\setlength{\abovedisplayskip}{1pt} % Space before equation
+	%\setlength{\belowdisplayskip}{1pt}
+	%\setlength\abovedisplayskip{0pt}
+\usepackage{enumerate} 						 % Personalizes the enumerate style
+
+%---------------------------------------------------------------
+% Math
+%---------------------------------------------------------------
+%\usepackage{amssymb,amsmath,amsthm,enumitem}
+\usepackage{amsmath} 						% Needed for command eqref
+\usepackage{amssymb} 						% Needed for math fonts
+
+%---------------------------------------------------------------
+% Figures
+%---------------------------------------------------------------
+\usepackage{graphicx} 				% Needed for \includegraphics in article of slides
+\usepackage[outdir=./]{epstopdf} 		% Avoids errors to input figures
+
+%---------------------------------------------------------------
+% Tables
+%---------------------------------------------------------------
+\usepackage{booktabs}			   % Clean tables, needed for \toprule \bottomrule
+\usepackage{pdflscape}			   % To rotate landscape table page in PDF
+\usepackage{longtable} 				% For long tables over pages
+	\usepackage{bigstrut} 			 % Needed for the command \bigstrut
+
+%\usepackage{siunitx}				% To align the decimal points
+
+%---------------------------------------------------------------
+% Hyperlinks and references
+%---------------------------------------------------------------
+\usepackage[colorlinks=true]{hyperref} 										  % Creates hyperlinks in the document, the option colorlinks=true gets rid of the awful boxes
+\usepackage{xcolor}
+	\definecolor{c1}{rgb}{0,0,1} 											  % Blue
+	\definecolor{c2}{rgb}{0,0.3,0.9} 										% Light blue
+	\definecolor{c3}{rgb}{0.3,0,0.9} 										% Red blue
+	\hypersetup{
+	    linkcolor={c1}, 															% Internal links
+	    citecolor={c2}, 															% Citations
+	    urlcolor={c3} 																% External links/urls
+	}
+%\usepackage{cite} % needed for cite
+\usepackage[round,authoryear]{natbib} 	% For cite and abbrvnat bibliography style
+
+%---------------------------------------------------------------
+% Conditional Statements
+%---------------------------------------------------------------
+\usepackage{etoolbox}
+	\newtoggle{commentboxes}
+	\toggletrue{commentboxes}
+	%\togglefalse{commentboxes}
+	
+%---------------------------------------------------------------
+% Appendix
+%---------------------------------------------------------------
+\usepackage[page]{appendix}	% options: [titletoc,title,page,toc]; title adds 'Appendix' before each letter, page adds a separate title “Appendices” above the first appendix
+	\renewcommand*\appendixpagename{Appendix}
+	\renewcommand*\appendixtocname{Appendix}
