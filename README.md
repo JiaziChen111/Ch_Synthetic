@@ -140,18 +140,28 @@ A Git repository is a history of commits and how they relate.
 	Git stores data as a series of snapshots
 A branch is a sequence of commits.
 Git encourages workflows that branch and merge often, even multiple times in a day.
-Follow the configuration from Fernández-Villaverde and create the repository following the Youtube videos
 
 
-Immediately after creating a repository, create a .gitignore file with the file extensions you want Git to ignore so that they are ignored right away when you include files with those extensions in your repository (o/w -upload a file and then create the .gitignore file- you will need to untrack the file with the command: git rm --cached <filename.ext>)
-- Extensions to include: Latex junk, Excel files (.xls, .xlsx, .xlsb) because of size limits and they are later processed into .mat files
-	Very large (100 MB or larger) do not work well in version control because they are often duplicated in the history
-- Don't include: .tex, figures (you may want them later if you change the code)
-- You can place .gitignore within any directory in a Git repository. Note that it doesn't work if you put it in the .git (repository) directory. However, if you need to have a private version of .gitignore, you can add the rules to the .git/info/exclude file. 
+Setting up Git (https://help.github.com/en/articles/set-up-git):
+- Compare your current version (git --version) with the latest release (https://git-scm.com/downloads)
+- Git uses a username to associate commits with an identity. The Git username is not the same as your GitHub username.
+- Set your Git username for every repository on your computer: git config --gobal user.name "Your Name"
+- Set your commit email address in Git: git config --global user.email "Your Email"
+- Tell Git to colorize its output appropriately: git config --global color.ui "auto"
+- Authenticate with GitHub from Git using either HTTPS (recommended) or SSH: https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended
+	Find out if Git and the osxkeychain helper are already installed: git credential-osxkeychain
+	Tell Git to use osxkeychain helper using the global credential.helper config: git config --global credential.helper osxkeychain
+
 
 Create (remote and local) repositories (projects):
-- IN GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file
+- IN GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file. You can also include a GitHub-hosted .gitignore file.
+	Make sure to have or create a .gitignore file immediately after creating a repository that includes the file extensions you want Git to ignore so that they are ignored right away when you include files with those extensions in your local repository (o/w if you first upload a file with extension that you don't want to follow and then create the .gitignore file, you will need to untrack the file with the command: git rm --cached <filename.ext>)
+	Extensions to include: Latex junk, Excel files (.xls, .xlsx, .xlsb) because of size limits and they will later be processed into .mat files. Very large files (100 MB or larger) do not work well in version control because they are often duplicated in the history.
+	DO NOT include: .tex, figures (you may want them later if you change the code)
+	You can place .gitignore within any directory in a Git repository. Note that it doesn't work if you put it in the .git (repository) directory. However, if you need to have a private version of .gitignore, you can add the rules to the .git/info/exclude file.
+	
 - Copy the url link that is created to clone the repository in your machine
+	There are two options, you need the appropriate URL depending on how you decided to clone when setting up Git: using HTTPS (recommended) or SSH
 - IN the terminal go to the folder where you want to set the repository: git clone <url>
 - To see what's different between GitHub (in the cloud) and your local machine: git status
 - To include new (o/w untracked) or update modified (o/w not staged) files to the staging area (from which changes will be recorded later): git add <filename1.ext> <filename2.ext>
@@ -235,12 +245,7 @@ Comments:
 
 
 Order:
-- Youtube videos, Pinter (2019), Fernández-Villaverde (assumes you know the previous two)
-
-
-# Logs and databases #
-######################
-*.log
+- Healey (intuitively explains Git workflow), Youtube videos by Learn Code, Pinter (2019), Fernández-Villaverde (assumes you know the previous ones)
 
 
 
