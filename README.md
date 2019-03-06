@@ -1,18 +1,17 @@
 # Ch_Synthetic
 
 The files in this folder are provided to allow the replication of the results in "Term Premia in Emerging Markets" by Pavel Solís
-Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity
+Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity.
 
 
 ## SYSTEM FEATURES
 -------------------------------------------------------------------------------------
-The results in the paper were generated using the following
+The results in the paper were generated using the following:
 - Operating system: macOS High Sierra 10.14.3
 - Software: Matlab R2018b, Stata 15
-- Add-ons: Matlab Financial Toolbox, Excel add-in for Bloomberg
+- Add-ons: Financial Toolbox of Matlab, outreg2 for Stata, Excel add-in for Bloomberg
 - Restricted data sources: Bloomberg terminal, Thomson Reuters Datastream
 - Expected running time: Pre-Analysis (XX min/hr), only if replicated from scratch (i.e. using data directly downloaded from Bloomberg and Datastream); Analysis (XX min/hr)
-
 
 
 ## CONTENTS OF THE MAIN FOLDER
@@ -20,24 +19,23 @@ The results in the paper were generated using the following
 README.txt (this file)
 doAll.sh: generates results, paper and slides
 Codes folder: 
-	runCodes.EXT: executes the codes that generate the results
-	Pre-Analysis folder: codes for cleaning and preparing the data
-	Analysis folder: runAppendix.EXT and replication codes
+- runCodes.EXT: executes the codes that generate the results
+- Pre-Analysis folder: codes for cleaning and preparing the data
+- Analysis folder: runAppendix.EXT and replication codes
 Data folder: 
-	Analytic folder
-	Raw folder
-	Temp folder
-	MetadataGuide.docx
+- Analytic folder
+- Raw folder
+- Temp folder
+- MetadataGuide.docx
 Docs folder: 
-	Paper folder
-	Slides folder
-	Tables folder
-	Equations folder
-	Figures folder: figures, Latex folder
-	DataStats folder: descriptive statistics of the variables used
-	Settings folder: .tex files used for both the paper and the slides, .gitignore
-	References folder: .bib file with the references cited
-
+- Paper folder
+- Slides folder
+- Tables folder
+- Equations folder
+- Figures folder: figures, Latex folder
+- DataStats folder: descriptive statistics of the variables used
+- Settings folder: .tex files used for both the paper and the slides, .gitignore
+- References folder: .bib file with the references cited
 
 
 ## DATA FILES
