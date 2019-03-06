@@ -268,9 +268,12 @@ Comments:
 - Reasons for not keeping the repository in Dropbox: there is a chance of conflicts between the syncing of Dropbox and GitHub, and the space limit in Dropbox might be an issue when the chapter folders grow in size (or even each chapter with different branches)
 - Reasons for having a project for each chapter: GitHub has a limit of 1 GB per project and has limits of 100MB per file, keeping them separate minimizes this issues
 
+```bash
+git push
+```
 
 Order:
-- Healey (intuitively explains Git workflow), Youtube videos by Learn Code, Pinter (2019), Fernández-Villaverde (assumes you know the previous ones)
+- Healey (intuitively explains Git workflow); Youtube videos by Learn Code; Pinter (2019); Fernández-Villaverde (assumes you know the previous ones); StackExchange links for clarification, reinforcement and understanding the daily workflow
 
 
 
