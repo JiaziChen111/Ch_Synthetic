@@ -3,8 +3,8 @@
 The files in this folder are provided to allow the replication of the results in "Term Premia in Emerging Markets" by Pavel Solís
 Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity
 
--------------------------------------------------------------------------------------
-SYSTEM FEATURES
+
+## SYSTEM FEATURES
 -------------------------------------------------------------------------------------
 The results in the paper were generated using the following
 - Operating system: macOS High Sierra 10.14.3
@@ -14,8 +14,8 @@ The results in the paper were generated using the following
 - Expected running time: Pre-Analysis (XX min/hr), only if replicated from scratch (i.e. using data directly downloaded from Bloomberg and Datastream); Analysis (XX min/hr)
 
 
--------------------------------------------------------------------------------------
-CONTENTS OF THE MAIN FOLDER
+
+## CONTENTS OF THE MAIN FOLDER
 -------------------------------------------------------------------------------------
 README.txt (this file)
 doAll.sh: generates results, paper and slides
@@ -39,8 +39,8 @@ Docs folder:
 	References folder: .bib file with the references cited
 
 
--------------------------------------------------------------------------------------
-DATA FILES
+
+## DATA FILES
 -------------------------------------------------------------------------------------
 See the metadata guide (Data -> MetadataGuide.docx) for a description of the data files (e.g. date accessed, how to obtain a copy, list of variables, sample period)
 
@@ -52,8 +52,8 @@ The results can be replicated using the data contained in the MAT-file (Codes ->
 - Uncertainty indexes from Baker, Bloom & Davis
 
 
--------------------------------------------------------------------------------------
-INSTRUCTIONS TO REPLICATE THE STUDY
+
+## INSTRUCTIONS TO REPLICATE THE STUDY
 -------------------------------------------------------------------------------------
 Open doAll.sh. This file calls runCodes.EXT (Codes -> runCodes.EXT) to reproduce the results (figures and tables), paper.tex (Docs -> Paper -> paper.tex) and slides.tex (Docs -> Slides -> slides.tex) to generate the latest versions of the paper and the slides. Before executing doAll.sh choose the option that you want to execute: with access to Bloomberg and DataStream data or with no access to them. See below on how to update the data. If you don't want to or can't execute doAll.sh, you can replicate the results by manually executing runCodes.EXT and then (in any order) executing paper.tex and/or slides.tex.
 
@@ -74,8 +74,8 @@ paper
 
 
 
--------------------------------------------------------------------------------------
-FINAL COMMENTS
+
+## FINAL COMMENTS
 -------------------------------------------------------------------------------------
 If you modify the files in the main folder, keep in mind that file and folder names must not have spaces.
 
@@ -91,8 +91,8 @@ On reproducibility of empirical research, see:
 - Chang & Li, 2017. A Pre-analysis Plan to Replicate Sixty Economics Research Papers That Worked Half of the Time
 
 
--------------------------------------------------------------------------------------
-CODE WORKFLOW (OPTIONAL)
+
+## CODE WORKFLOW (OPTIONAL)
 -------------------------------------------------------------------------------------
 All information is stored in a Matlab structure array of countries with different fields. The information in the key fields (including lccs, tp, syn, nom) is stored as a timetable (a Matlab data type). Below are the details to facilitate following the workflow of the codes.
 
@@ -131,8 +131,8 @@ plot rf and risky
 
 
 
--------------------------------------------------------------------------------------
-GITHUB
+
+## GITHUB
 -------------------------------------------------------------------------------------
 Git is a version control software. Github is a hosting service for your committed changes.
 A Git repository is a history of commits and how they relate.
@@ -277,16 +277,16 @@ Order:
 
 
 
--------------------------------------------------------------------------------------
-COMPATIBILITY
+
+## COMPATIBILITY
 -------------------------------------------------------------------------------------
 The data types 'table' and 'categorical arrays' were introduced in MATLAB 8.2 (R2013b). This code makes heavy use of those data types as well as of functions for tables introduced in R2016b (e.g. synchronize).
 
 
 
 
--------------------------------------------------------------------------------------
-DELETE
+
+## DELETE
 -------------------------------------------------------------------------------------
 Files read_tickers and read_tickers_v2 were originally in Ch_X/Codes/Pre-Analysis. The first one read the Excel file with headers and in rectangle cell array (many zeros). The second one read without headers, also in a rectangle cell array, designed to extract tickers from column 3. v3 version stacks all sheets into one cell array. v4 version will do what v3 does but allowing for headers (i.e. extra first row, which is necessary to match the extra first column in dataB for the date once transposed)
 
@@ -307,8 +307,8 @@ Codes for analysis/results + Paper
 The paper and the slides have this line \usepackage{'XXX'}. Paste the files that will be used by many files there so that no need to have a copy every time (e.g. macros). Download the package from www.github.com and paste it in Library -> texmf -> tex -> latex. Check the link stackexchange to ensure you have the structure of the texmf folder.
 
 
--------------------------------------------------------------------------------------
-VBA CODE
+
+## VBA CODE
 -------------------------------------------------------------------------------------
 
 Sub StackTckrMtrx()
@@ -376,8 +376,8 @@ Sub StackTckrMtrx()
 End Sub
 
 
--------------------------------------------------------------------------------------
-WEBPAGES
+
+## WEBPAGES
 -------------------------------------------------------------------------------------
 
 Toolkit on Econometrics and Economics Teaching
