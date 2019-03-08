@@ -93,14 +93,13 @@ All information is stored in a Matlab structure array of countries with differen
 
 In pre-analysis folder
 
-run read_data.m 		-> generates dataset_daily (takes < 2 min)
+	run read_data.m 		-> generates dataset_daily (takes < 2 min)
 
-	read_data.m calls: read_tickers_v4.m, read_bloomberg.m, read_usyc.m, ccs.m, csp.m, 	append_dataset.m, plot_spreads.m
-
+	read_data.m calls: read_tickers_v4.m, read_bloomberg.m, read_usyc.m, ccs.m, csp.m, append_dataset.m, plot_spreads.m
 
 In analysis folder
 
-run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
+	run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
 
 	+run fit_NS.m 		-> default-free LC YCs (11 min or 15 if 4 initial values)
 	+run rp_estimation.m	-> estimates risk premia (seconds)
@@ -111,7 +110,7 @@ run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
 	+run rp_common_factors	-> common factors for orthogonal part of EMs TPs
 		run read_macro_vars.m 	-> load macro data (seconds)
 
-run rp_regressions.m	-> correlations
+	run rp_regressions.m	-> correlations
 
 *Ideal*: master file (rp_analysis) that calls functions fit_NS, rp_estimation, rp_plot
 give dataset (rf or risky) and special_cases (rf or risky) to fit_NS and get dataset_lcRF or dataset_lcRK
@@ -119,11 +118,9 @@ give dataset_lcXX to rp_estimation and get dataset_monthly, header_monthly, stat
 merge both datasets
 plot rf and risky
 
-
 'dataset_daily' contains yield curves (LC, FC, US), cross-currency swaps, credit spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down from first day of sample to the most recent one, series were appended to the RIGHT. Countries are identified using (filtering in) header_daily
 
 'dataset_monthly' contains synthetic LC yield curves, expected short rates, risk premia, LCCS for different maturities with MONTHLY frequency. Series run top-down form the first available date per country to the most recent one, series were appended BELOW (since series start at different times). Countries are identified using (filtering in) dataset_monthly
-
 
 
 ## GITHUB
@@ -136,11 +133,9 @@ A **Git repository** is a history of commits and how they relate.
 
 A **branch** is a sequence of commits. An **upstream** is simply another branch name, usually a remote-tracking branch, associated with a (regular, local) branch.
 
-Git encourages workflows that branch and merge often, even multiple times in a day.
-
 
 ### [Setting up Git](https://help.github.com/en/articles/set-up-git):
-Compare your current version with the latest release (https://git-scm.com/downloads)
+Compare your current version with the [latest release](https://git-scm.com/downloads)
 ```bash
 $ git --version
 ```
@@ -160,14 +155,9 @@ Tell Git to colorize its output on the terminal:
 $ git config --global color.ui "auto"
 ```
 
-[Authenticate](https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended) with GitHub from Git using either HTTPS (recommended) or SSH
-   If you don't authenticate, when you try to clone, pull, push, etc. to the remote repository, the terminal will display the following error:
+[Authenticate](https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended) with GitHub from Git using either HTTPS (recommended) or SSH. If you don't authenticate, when you try to clone, pull, push, etc. to the remote repository, the terminal will display the following error:
 ```bash
 > Permission denied (publickey)
-```
-
-```bash
-$ 
 ```
 
 - If you decide to use HTTPS:
@@ -180,128 +170,207 @@ $ git credential-osxkeychain
 $ git config --global credential.helper osxkeychain
 ```
 
-- After this, the next time you try to clone, pull, push, etc. from the terminal, it will ask you for your GitHub user and password (which you will only need to provide once)
+- After this, the next time you try to clone, pull, push, etc. from the terminal, it will ask you for your GitHub user and password (which you will only need to provide once).
+
+All Git commands have the following syntax: git verb options.
+
+When working in a project, Git commands only work when you are in a folder that contains a Git repository, otherwise the terminal will send an error message (`'Not a git repository'`).
 
 
 ### Create (remote and local) repositories (projects):
-- IN GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file. You can also include a GitHub-hosted .gitignore file.
-	Make sure to have or create a .gitignore file immediately after creating a repository that includes the file extensions you want Git to ignore so that they are ignored right away when you include files with those extensions in your local repository (o/w if you first upload a file with extension that you don't want to follow and then create the .gitignore file, you will need to untrack the file with the command: git rm --cached <filename.ext>)
-	Extensions to include: Latex junk, Excel files (.xls, .xlsx, .xlsb) because of size limits and they will later be processed into .mat files. Very large files (100 MB or larger) do not work well in version control because they are often duplicated in the history.
-	DO NOT include: .tex, figures (you may want them later if you change the code)
-	You can place .gitignore within any directory in a Git repository. Note that it doesn't work if you put it in the .git (repository) directory. However, if you need to have a private version of .gitignore, you can add the rules to the .git/info/exclude file.
-	
-- Copy the url link that is created to clone the repository in your machine
-	There are two options, you need the appropriate URL depending on how you decided to clone when setting up Git: using HTTPS (recommended) or SSH
-- IN the terminal go to the folder where you want to set the repository: git clone <url>
-- To see what's different between GitHub (in the cloud) and your local machine: git status
-- To include new (o/w untracked) or update modified (o/w not staged) files to the staging area (from which changes will be recorded later): git add <filename1.ext> <filename2.ext>
-	Once a file is in the staging area, git keeps track of its changes
-	To add ALL files in the directory: git add . or git add -A or git add --all	
-	HEAD is the name of the current commit
-	To remove changes from the staging area (does not change the history at all nor does it change what is going on in the working directory, safe command): git reset HEAD
-	To unstage changes to a file: git reset HEAD <filename.ext>
-	To remove file from the staging area but not form the working directory: git rm --cached -- <filename.ext>
-	To discard changes in working directory before they are staged (Warning! When you do this you will lose any unsaved work!): git checkout HEAD -- <filename.ext>
-- Before committing run tests and review changes
-- To lock in the changes to your LOCAL repository (commit a snapshot of the files in the staging area): git commit -m "Brief (< 50 characters) meaningful comment"
-	If you have already some files and want to add them: git commit -a -m "Message"
-- To sync up the local changes with GitHub.com: git push
-- To pull down from GitHub.com to your machine: git pull
+You can create a Git repository from the terminal with `$ git init` or from GitHub.com. With the first option, you will later need to call that local repository from GitHub; for the second option, you will later will need to clone the remote repository into your local machine. Below are the steps for creating a repository using GitHub.
+- When you initialize a folder to be a repository, Git creates a subfolder called *.git* that it uses to do all its magic.
+
+In GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file. You can also include a GitHub-hosted *.gitignore* file, it includes the file extensions you want Git to ignore.
+
+- If you are going to move an existing project (i.e. folder with files) to the repository, make sure to have or create a *.gitignore* file immediately after creating the repository, so that they are ignored right away when you include files with those extensions in your local repository; otherwise, if you first upload a file with extension that you don't want to follow and then create the .gitignore file, you will need to untrack the file with the command:
+```bash
+$ git rm --cached <filename.ext>
+```
+
+- Extensions to include in the *.gitignore* file: Latex junk, Excel files (.xls*) because of size limits and they will later be processed into .mat files. In fact, very large files (> 100 MB) do not work well in version control because they are often duplicated in the history.
+- Do **not** include: .tex files, figures (you may want them later if you change the code)
+- You can place the *.gitignore* file within any directory in the Git repository. However, it doesn't work if you put it in the *.git* folder. However, if you need to have a private version of the *.gitignore* file, you can add the rules to the *.git/info/exclude* file.
+
+Copy the URL link that GitHub creates in order to clone the repository in your machine.
+- Note that there are two options, you need the appropriate URL depending on how you decided to clone when setting up Git above: using HTTPS (recommended) or SSH.
+
+**In** the terminal go to the folder where you want to set the repository: 
+```bash
+$ git clone <url>
+```
+
+To pull down from GitHub.com the most recent version of the project to your machine:
+```bash
+$ git pull
+```
+
+#### Usual Work Cycle
+To see what's different between GitHub (in the cloud) and your local machine, you can use:
+```bash
+$ git status
+```
+
+To include new (i.e. untracked) or update modified (i.e. not staged) files to the **staging area** (from which changes will be recorded later), use:
+```bash
+$ git add <filename1.ext> <filename2.ext>
+```
+
+- Once a file is in the staging area, git keeps track of its changes
+- HEAD is the name of the current commit
+- To add ALL files in the directory: `git add .`, `git add -A` or `git add --all`.
+- To remove changes from the staging area (without changing the history at all nor changing what is going on in the working directory, i.e. a safe command): `git reset HEAD`
+- To unstage changes to a file: `git reset HEAD <filename.ext>`
+- To remove a file from the staging area but not form the working directory: `git rm --cached -- <filename.ext>`
+- To discard changes in working directory before they are staged (Warning! When you do this you will lose any unsaved work!): `git checkout HEAD -- <filename.ext>`
+
+Once you finish making changes to the files in the staging area, you want to **commit** (i.e. record) those changes.
+- Before committing run tests and review changes.
+
+To lock in the changes to your *local* repository (i.e. commit a snapshot of the files in the staging area):
+```bash
+$ git commit -m "Brief (< 50 characters) meaningful comment"
+```
+
+- You can combine the add and commit steps above (e.g. if you already have a project and want to move all existing files in one step) with: 
+```bash
+$ git commit -a -m "Message"
+```
+- If you forgot to include a message when you commit or want to write a multi-line message, a screen will show up in the terminal in case you want to write a message. You can either write a comment there or not, to exit the screen press `Esc` + `:wq`. 
+
+To sync up the local changes with GitHub.com:
+```bash
+$ git push
+```
 
 
-### Difference between stage and commit:
-- You don't want keep a record of EVERY little change. You want to make changes and once you are happy the final edit (no mistakes in code, compilation errors, consistent output), you add the file to the staging area.
-- It is recommended to commit per discrete task (which may involve multiple files). However, you may be modifying more files than the ones involved in a particular task. With git add you can select which of the modified files have to do with that particular task, and commit those without having to commit the other modified files unrelated to that task. In other words, staging allows to commit changes per task ('small' frequent commits rather than big infrequent commits).
-- When using git add, you can select which files to include. When using git commit you don't choose which files, all files in the staging area are committed.
+### Difference Between the Stage and Commit Steps
+You don't want keep a record of *every* little change you do. You want to make changes and once you are happy with the new version (no mistakes in code, compilation errors, consistent output), you add the file to the staging area.
+
+It is recommended to commit *per discrete task* (which may involve multiple files). However, you may be modifying more files than the ones involved in a particular task. With `git add` you can select which of the modified files have to do with that particular task, and commit only changes to those files without having to commit the other modified files (unrelated to the task). In other words, staging allows you to commit changes per task; it is preferred to make 'small' frequent commits rather than big infrequent commits.
+- Note that when using `git add`, you can select which files to include but when using `git commit` you don't choose which files since all the files in the staging area are committed.
 
 
-### Git workflow (branching, merging, pull request):
-
-Summary: to solve a feature request make a branch for it, code the feature, commit it, get latest master, merge master back into your branch, push it up, make a pull request for other people to peer review the code. You can make more merges to an existing pull request depending on the feedback received. When your branch is merged to the trunk of the tree (master branch), everybody's branches can inherit those changes.
+### Git Workflow (Branching, Merging, Pull Requests)
+*Summary*: Make a branch to solve a feature request, code the feature, make commits, get latest master version, merge master back into your branch, push your branch up, make a pull request for other people to peer review the code. You can make more merges to an existing pull request depending on the feedback received. When your changes are approved, your branch is merged to the master branch (trunk of the tree) and everybody's branches can inherit those changes.
 
 Branches are the most powerful part of Git. They allow to trying things out.
 
-CAUTION: Make sure to close the files when switching between branches (including the master branch) because Git will update them when you switch
-- Start from the master branch, and make sure you have the most recent version: git pull
-- To see all branches: git branch
-	If only the master branch exists, it will say: * master
-- To create a new branch OF the branch you are currently on: git branch <branchname>
-	Use meaningful branch names. See some useful naming conventions that facilitate the workflow: https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches
-- To see all branches: git branch
-	It will display: <branchname>, * master
-	The asterisk tells you the branch in which you are currently working on
-- Switch to the new branch: git checkout <branchname>
-	This allows to make changes to the new branch without affecting the master branch
-- Add the changes to the files in the branch and then: git add
-- Commit the changes to the branch: git commit
-- See in which brach you are working on: git branch
-	It will display: * <branchname>, master
-- Go to the branch to which you want to merge into: git checkout master
-- Load all new commits in the remote repository to make sure that master has not changed since the last sync with: git pull
-- Go to the branch you had been working on: git checkout <branchname>
+Git encourages workflows that branch and merge often, even multiple times in a day.
 
-- Make the necessary changes
-	Add and commit as many edits as necessary
-- Merge all the changes that have happen in the master branch since the last time you pulled INTO your branch: git merge master
-	Alternatively, you can go to the master and from there merge the <branchname>: git checkout master, followed by git merge <branchname>
-
--If there are conflicts, they will be indicated; you are HEAD
-	Manually resolve any conflict
-	Delete all of the delimiters
-- Add the file back and finish the merge: git add --all followed by git merge --continue
-	To abort the merge: git merge --abort
-
-- Save all your commits by sending them to the remote repository (your branch <branchname> in GitHub): git push
-	For Git to set origin/<branchname> as the upstream for the current branch, on the first push use: git push -u origin <branchname>
-	With this, after the first push a message will say "Branch 'xpr/readdata' set up to track remote branch 'xpr/readdata' from 'origin'."
-	Always commit before pushing or pulling
-	You can push all your branches to the remote repository, or only some of them
-	To push just a single branch (and no other branches) nor the master: "git checkout <branchname>" followed by "git push origin <branchname>"
-	See https://stackoverflow.com/questions/820178/how-do-you-push-just-a-single-git-branch-and-no-other-branches
-	Note that you need to checkout to <branchname> (be in that branch) because if you are on master it would try to push the local master branch to the remote <branchname>. If you want to not have to checkout first you would have to do "git push origin <branchname>:<branchname>"
-
-- IN GitHub.com refresh, go to your branch <branchname> and click the green button 'Compare, review, create a pull request', which will show your changes in green. This is also useful to understand some conflicts
-- Create a pull request for other people to peer review the changes by clicking the green button 'Create Pull Request'
-- After typing title and comments, click the green button 'Send pull request'
-- Back and forth conversion about the changes
-- Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in master
-	Usually a bad idea to merge your own pull requests when working with a team
-- Once it has been merged to master, the branch <branchname> can be safely deleted by clicking the grey button 'Delete branch'
-- IN the terminal, switch back to master and sync: git checkout master, git pull
+**CAUTION**: Close the files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to.
 
 
-### Comments:
-- pull before you push so that the local and the remote repos are in sync
-- all repositories should contain a license file
-	Explicitly claim copyright: Copyright [yyyy] [name of copyright owner]
-- '--' tells Git that what follows after the two dashes are filenames
-	To check out files from a previous commit: git checkout COMMIT_IDENTIFIER -- file1, file2
-- All commands for git have the following syntax: git verb options
-- git commands only work when you are in a folder that contains a git repository, otherwise it will send an error message ('Not a git repository')
-- To get out of the screen when no comment is included in a commit, there are two options:
-	Type in the multi-line message that you forgot to include
-	Esc+:wq to continue with the commit without a message
-- Working with large files: https://help.github.com/en/articles/working-with-large-files
-- Ignoring files: https://help.github.com/en/articles/ignoring-files
-- To rename a repository: https://help.github.com/en/articles/renaming-a-repository
-- To relocate a local repo: https://stackoverflow.com/questions/11384928/change-git-repository-directory-location
-- Warning: git reset have options --hard and --soft that can be used to rewrite history and to throw out commits that you no longer want
-- If you use git init, and then want to upstream to a remote repo, in your first push you need: git push -u origin master
-	This will create an upstream master branch on the upstream (which can be done with git push origin master) AND will record that the local branch 'master' needs to be pushed to upstream (origin) 'master' (upstream branch)
-	Since git 1.7.11, the default push policy is 'simple': push only the current branch, and only if it has a similarly named remote tracking branch on upstream
-	Explained in: https://stackoverflow.com/questions/17096311/why-do-i-need-to-explicitly-push-a-new-branch/17096880#17096880
-- History for: Why do I have to “git push --set-upstream origin <branch>”? https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch
-- Reasons for not keeping the repository in Dropbox: there is a chance of conflicts between the syncing of Dropbox and GitHub, and the space limit in Dropbox might be an issue when the chapter folders grow in size (or even each chapter with different branches)
-- Reasons for having a project for each chapter: GitHub has a limit of 1 GB per project and has limits of 100MB per file, keeping them separate minimizes this issues
-
+#### Knowing Where You Are and How to Move
+- In the terminal, go to the *local* `parent` branch (initially it will be the `master` branch) and make sure you have the most recent version of the *remote* `parent` branch:
 ```bash
-git push
+$ git checkout parent	# Update the files to work on `parent`
+$ git pull
 ```
 
-Order:
-- Healey (intuitively explains Git workflow); Youtube videos by Learn Code; Pinter (2019); Fernández-Villaverde (assumes you know the previous ones); StackExchange links for clarification, reinforcement and understanding the daily workflow
+- To see available branches:
+```bash
+$ git branch		# Displays all local branches
+$ git branch -r		# Displays all remote branches
+$ git branch -a		# Displays all local and remote branches
+
+> * master		# If only the master branch exists
+> * master, <branchname># If there are two branches
+```   
+   The asterisk tells you the branch in which you are currently working on. If color is displayed, the current branch will be displayed in green; remote branches will be displayed in red; the rest of the branches (local non-current) will be displayed in white.   
+   
+#### Create a Branch
+- Create a new branch **off** the *current* branch and go to the new branch:
+```bash
+$ git branch <branchname>
+$ git checkout <branchname>
+# OR
+$ git checkout -b <branchname>		# Creates branch and switches to it
+# OR
+$ git checkout -t origin/<branchname>	# Creates, switch and track (for push and pull) a remote branch
+# OR
+$ git checkout -b <branchname> origin/<branchname> # Same as previous but local and tracking branches can have different names
+```
+  You can now make changes to the new branch `<branchname>` without affecting the `master` branch.
+  If after switching to the branch you type `git branch`, the terminal will display: `master`, `* <branchname>`.
+  Use meaningful branch names. [Link](https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches) for useful naming conventions that facilitate the workflow.
+  Recommended: [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
+  Based on the previous two sources, I will use the following categories with a forward slash separator: 
+  - `dev` branch off from master and merge back into `master`
+  - `ftr` branch off from `dev` and merge back into `dev`
+  - `fix` branch off from `master` or `dev` and merge back into `master` or `dev`
+  [Link](https://stackoverflow.com/questions/10002239/difference-between-git-checkout-track-origin-branch-and-git-checkout-b-branch) for difference between `git checkout -b` and `git checkout -t` for tracking a remote branch.
+  
+#### Daily Workflow
+- Modify the files in the branch, add and commit to the branch as many edits as necessary: `git add`, `git commit`
+
+- Once you finish making changes, you want to incorporate the latest version of the parent branch to ensure there are no conflicts: 
+```bash
+$ git checkout <parent>
+$ git pull
+$ git checkout <branchname>
+$ git merge <parent>		# `git merge <xyz>` merges `<xyz>` **into** the *current* branch
+```
+
+   Always commit **before** pushing or pulling because there might be conflicts and reconstruction uses the commits.
+   Always pull before you push so that the local and the remote repositories are in sync.
+   If you want to merge the changes in `<branchname>` into the `master`: `git checkout master`, `git merge <branchname>`.
+
+- If there are conflicts, they will be indicated (you are HEAD -it indicates the head of the current branch-). Manually resolve any conflict. Delete all of the delimiters. Add the file back (`git add --all`) and finish the merge (`git merge --continue`). To abort the merge: `git merge --abort`.
+
+#### Upload Changes to the Remote Repository
+- Save all your commits in the local branch `<branchname>` to the remote repository (your branch `<branchname>` in GitHub):
+```bash
+$ git checkout <branchname>
+
+$ git push	   # works like `git push <branchname>`, where `<branchname>` is the *current* branch’s remote
+# OR
+$ git push origin  # pushes the *current* branch to the configured upstream, if it has the same name as the current branch.
+# OR
+$ git push origin <branchname> 	# Essentially the syntax is `git push <to> <from>`
+OR
+$ git push -u origin <branchname>  # If no remote branch is associated, use this in the first push and Git will set `origin/<branchname>` as the upstream for the current branch
+				 # Message: `Branch '<branchname>' set up to track remote branch '<branchname>' from 'origin'`
+```
+   Note that you need to switch to `<branchname>` because if you are on `master` and type `git push origin <branchname>`, Git will try to push the local `master` branch (the *current* branch) to the remote `<branchname>`. If you are in `master` and you don't want to checkout to `<branchname>` first, you can use: `git push origin <branchname>:<branchname>`
+   The options above [push just the current branch](https://stackoverflow.com/questions/820178/how-do-you-push-just-a-single-git-branch-and-no-other-branches), not other branches nor the `master`. However, if for every branch that exists on the local side, you want the remote side to be updated if a branch of the same name already exists on the remote side: `git push origin :` and `git push origin +:` (for non-fast-forward updates).
+
+- **In** GitHub.com refresh, go to your branch `<branchname>` and click the green button 'Compare, review, create a pull request', which will show your changes in green. This is also useful to understand some conflicts.
+
+#### Pull Requests
+- Create a pull request for other people to peer review the changes by clicking the green button 'Create Pull Request'. After typing title and comments, click the green button 'Send pull request'.
+- Time for back and forth conversation about the changes, as well as necessary corrections (new commits and merges).
+- Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in `master`.
+   Usually a bad idea to merge your own pull requests when working with a team
+- Once it has been merged to `master`, the branch `<branchname>` can be safely deleted by clicking the grey button 'Delete branch'.
+   You can also delete branches from the terminal, but first the branch must be fully merged in its upstream branch: `git branch -d <branchname>`
+
+#### Download the Changes to the Local Repository
+- In the terminal, switch back to master and sync: 
+```bash
+$ git checkout master
+$ git pull
+```
 
 
+### Details
+- A **ref** is anything pointing to a commit (e.g. branches (heads), tags, and remote branches), they are stored in the .git/refs directory (e.g. `refs/heads/master`, `refs/remotes/master`, `refs/tags`). For example, `refs/heads/0.58` specifies a branch named `0.58`; if you don't specify what namespace the ref is in, Git will look in the default ones, so using only `0.58` is ambiguous since there could have both a `branch` and a `tag` named `0.58`.
+- When an update changes a branch (or more in general, a ref) that used to point at commit A to point at another commit B, it is called a **fast-forward** update if and only if B is a descendant of A. Hence a fast-forward update from A to B does not lose any history.
+- To check out files from a previous commit (to reverse changes): `git checkout COMMIT_IDENTIFIER -- file1, file2`
+	'--' tells Git that what follows after the two dashes are filenames
+- Warning: `git reset` have options `--hard` and `--soft` that can be used to rewrite history and to throw out commits that you no longer want
+- If you use `git init` to create a local repository, and then want to upstream it to a remote repo, in your first push you need: `git push -u origin master`
+   This will create an upstream master branch on the upstream (`git push origin master` will only do this part) AND will record that the local branch 'master' needs to be pushed to upstream (origin) 'master' (upstream branch)
+   Since Git 1.7.11, the default push policy is `simple`: push only the current branch, and only if it has a similarly named remote tracking branch on the upstream. [Link](https://stackoverflow.com/questions/17096311/why-do-i-need-to-explicitly-push-a-new-branch/17096880#17096880) for an explanation.
+- [Why do I have to `git push --set-upstream origin <branch>`?](https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch)
+- Reasons for not keeping the repository in Dropbox: there is a chance of conflicts between the syncing of Dropbox and GitHub, and the space limit in Dropbox might be an issue when the project grows in size.
+- Reasons for having a project for each chapter: GitHub has a limit of 1 GB per project and has limits of 100MB per file, keeping them separate minimizes these issues.
+- To understand GitHub from scratch: Healey (intuitively explains Git workflow); Youtube videos by Learn Code show the basic workflow; Pinter (2019) explains benefits and gives recommendations; Notes by Fernández-Villaverde give more details for some Git commands (assumes you know the previous ones); StackExchange links for clarification, reinforcement and understanding the daily workflow.
+- It is recommended to include a license file in your repositories, or at least explicitly claim copyright by including: Copyright [yyyy] [name of copyright owner].
+- [Working with large files](https://help.github.com/en/articles/working-with-large-files)
+- [Ignoring files](https://help.github.com/en/articles/ignoring-files)
+- [Rename a repository](https://help.github.com/en/articles/renaming-a-repository)
+- [Relocate a local repo](https://stackoverflow.com/questions/11384928/change-git-repository-directory-location)
 
 
 ## COMPATIBILITY
