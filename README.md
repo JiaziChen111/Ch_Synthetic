@@ -17,16 +17,20 @@ The results in the paper were generated using the following:
 ## CONTENTS OF THE MAIN FOLDER
 -------------------------------------------------------------------------------------
 README.txt (this file)
+
 doAll.sh: generates results, paper and slides
+
 Codes folder: 
 - runCodes.EXT: executes the codes that generate the results
 - Pre-Analysis folder: codes for cleaning and preparing the data
 - Analysis folder: runAppendix.EXT and replication codes
+
 Data folder: 
 - Analytic folder
 - Raw folder
 - Temp folder
 - MetadataGuide.docx
+
 Docs folder: 
 - Paper folder
 - Slides folder
@@ -34,7 +38,7 @@ Docs folder:
 - Equations folder
 - Figures folder: figures, Latex folder
 - DataStats folder: descriptive statistics of the variables used
-- Settings folder: .tex files used for both the paper and the slides, .gitignore
+- Settings folder: .tex files with settings used for both the paper and the slides
 - References folder: .bib file with the references cited
 
 
@@ -42,13 +46,12 @@ Docs folder:
 -------------------------------------------------------------------------------------
 See the metadata guide (Data -> MetadataGuide.docx) for a description of the data files (e.g. date accessed, how to obtain a copy, list of variables, sample period)
 
-The results can be replicated using the data contained in the MAT-file (Codes -> Pre-Analysis -> .mat). This file constructs the necessary variables for the analysis from the data dowloaded from Bloomberg and Datastream, which is not included in the replication folder due to licensing issues. However, the dataset can be recreated from scratch and, subsequently, updated if you have access to those two sources. See the metadata guide (Data -> MetadataGuide.docx) for how to recreate or update each of the following:
+The results can be replicated using the data contained in the MAT-file (Codes -> Pre-Analysis -> .mat). This file constructs the necessary variables for the analysis from the data dowloaded from Bloomberg and Datastream, which are not included in the replication folder due to licensing issues. However, the dataset can be recreated from scratch and, subsequently, updated if you have access to those two data sources. See the metadata guide (Data -> MetadataGuide.docx) for how to recreate or update each of the following:
 - Tickers documented in AE_EM_Curves_Tickers.xlsx (Bloomberg and Datastream)
 - Tickers documented in Macro_Finance_Tickers.xlsx (Bloomberg)
-- US yield curve from Gürkaynak, Sack & Wright
-- US term premium from Adrian, Crump & Moench
-- Uncertainty indexes from Baker, Bloom & Davis
-
+- US yield curve from Gürkaynak, Sack & Wright (2007)
+- US term premium from Adrian, Crump & Moench (2013)
+- Uncertainty indexes from Baker, Bloom & Davis (2016)
 
 
 ## INSTRUCTIONS TO REPLICATE THE STUDY
@@ -61,16 +64,11 @@ Stratification (dividing into small components) avoids repeating code or duplica
 - paper.tex: call abstract.tex, sections.tex and appendix.tex (the last two call equations, figures and tables).
 - slides.tex: call title_slide.tex as well as equations, figures and tables.
 
-
-
 List of results reported in the paper that are replicated:
-Result 1: Figure 3
-Result 2: Table 2, column 4
-Result 3: The simulation reported in section 4.3
-Result 4: The income elasticity of demand for beef (1.86) reported on page 58 of the
-paper
-
-
+1. Figure 3
+1. Table 2, column 4
+1. The simulation reported in section 4.3
+1. The income elasticity of demand for beef (1.86) reported on page 58 of the paper
 
 
 ## FINAL COMMENTS
@@ -81,7 +79,7 @@ The paths in the codes for opening and/or saving files are relative to the folde
 
 Commands that generate specific results in the paper are indicated with comments in the code.
 
-The paths of directories are defined using the Unix convention (i.e. forward slash). Windows, in contrast, uses backslash; thus, an error may appear if the files are executed in a Windows machine. The user would just need to modify them where appropriate; this should only happen in executable .sh files because the codes in Matlab were written to be independent of the platform used.
+The paths of directories are defined using the Unix convention (i.e. forward slash). Windows, in contrast, uses a backslash; thus, an error may appear if the files are executed in a Windows machine. The user would just need to modify them where appropriate; this should only happen in executable .sh files because the codes in Matlab were written to be independent of the platform used.
 
 On reproducibility of empirical research, see:
 - TIER protocol (http://www.projecttier.org/tier-protocol/)
@@ -89,18 +87,21 @@ On reproducibility of empirical research, see:
 - Chang & Li, 2017. A Pre-analysis Plan to Replicate Sixty Economics Research Papers That Worked Half of the Time
 
 
-
 ## CODE WORKFLOW (OPTIONAL)
 -------------------------------------------------------------------------------------
 All information is stored in a Matlab structure array of countries with different fields. The information in the key fields (including lccs, tp, syn, nom) is stored as a timetable (a Matlab data type). Below are the details to facilitate following the workflow of the codes.
 
 In pre-analysis folder
+
 run read_data.m 		-> generates dataset_daily (takes < 2 min)
+
 	read_data.m calls: read_tickers_v4.m, read_bloomberg.m, read_usyc.m, ccs.m, csp.m, 	append_dataset.m, plot_spreads.m
 
 
 In analysis folder
+
 run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
+
 	+run fit_NS.m 		-> default-free LC YCs (11 min or 15 if 4 initial values)
 	+run rp_estimation.m	-> estimates risk premia (seconds)
 	+run rp_plot.m		-> plots risk premia (seconds)
@@ -111,16 +112,12 @@ run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
 		run read_macro_vars.m 	-> load macro data (seconds)
 
 run rp_regressions.m	-> correlations
-*
-∗
 
-
-ideal: master file (rp_analysis) that calls functions fit_NS, rp_estimation, rp_plot
+*Ideal*: master file (rp_analysis) that calls functions fit_NS, rp_estimation, rp_plot
 give dataset (rf or risky) and special_cases (rf or risky) to fit_NS and get dataset_lcRF or dataset_lcRK
 give dataset_lcXX to rp_estimation and get dataset_monthly, header_monthly, statistics
 merge both datasets
 plot rf and risky
-
 
 
 'dataset_daily' contains yield curves (LC, FC, US), cross-currency swaps, credit spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down from first day of sample to the most recent one, series were appended to the RIGHT. Countries are identified using (filtering in) header_daily
@@ -129,33 +126,64 @@ plot rf and risky
 
 
 
-
 ## GITHUB
 -------------------------------------------------------------------------------------
-Git is a version control software. Github is a hosting service for your committed changes.
-A Git repository is a history of commits and how they relate.
-	Git tracks changes line by line
-	Git stores data as a series of snapshots
-A branch is a sequence of commits.
-An upstream is simply another branch name, usually a remote-tracking branch, associated with a (regular, local) branch.
+**Git** is a version control software. **GitHub** is a hosting service for your committed changes.
+
+A **Git repository** is a history of commits and how they relate.
+- Git tracks changes line by line
+- Git stores data as a series of snapshots
+
+A **branch** is a sequence of commits. An **upstream** is simply another branch name, usually a remote-tracking branch, associated with a (regular, local) branch.
+
 Git encourages workflows that branch and merge often, even multiple times in a day.
 
 
-Setting up Git (https://help.github.com/en/articles/set-up-git):
-- Compare your current version (git --version) with the latest release (https://git-scm.com/downloads)
-- Git uses a username to associate commits with an identity. The Git username is not the same as your GitHub username.
-- Set your Git username for every repository on your computer: git config --gobal user.name "Your Name"
-- Set your commit email address in Git: git config --global user.email "Your Email"
-- Tell Git to colorize its output appropriately: git config --global color.ui "auto"
-- Authenticate with GitHub from Git using either HTTPS (recommended) or SSH: https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended
-	If you don't authenticate, when you try to clone, pull, push, etc. to the remote repository, the terminal will display the following error: Permission denied (publickey)
+### [Setting up Git](https://help.github.com/en/articles/set-up-git):
+Compare your current version with the latest release (https://git-scm.com/downloads)
+```bash
+$ git --version
+```
+
+Git uses a username to associate commits with an identity; the Git username is not the same as your GitHub username. Set your Git username for every repository on your computer:
+```bash
+$ git config --gobal user.name "Your Name"
+```
+
+Set your commit email address in Git:
+```bash
+$ git config --global user.email "Your Email"
+```
+
+Tell Git to colorize its output on the terminal:
+```bash
+$ git config --global color.ui "auto"
+```
+
+[Authenticate](https://help.github.com/en/articles/which-remote-url-should-i-use#cloning-with-https-urls-recommended) with GitHub from Git using either HTTPS (recommended) or SSH
+   If you don't authenticate, when you try to clone, pull, push, etc. to the remote repository, the terminal will display the following error:
+```bash
+> Permission denied (publickey)
+```
+
+```bash
+$ 
+```
+
 - If you decide to use HTTPS:
-	Find out if Git and the osxkeychain helper are already installed: git credential-osxkeychain
-	Tell Git to use osxkeychain helper using the global credential.helper config: git config --global credential.helper osxkeychain
-	After this, the next time you try to clone, pull, push, etc. from the terminal, it will ask you for your GitHub user and password
+   Find out if Git and the osxkeychain helper are already installed:
+```bash
+$ git credential-osxkeychain
+```
+- Tell Git to use osxkeychain helper using the global credential.helper config:
+```bash
+$ git config --global credential.helper osxkeychain
+```
+
+- After this, the next time you try to clone, pull, push, etc. from the terminal, it will ask you for your GitHub user and password (which you will only need to provide once)
 
 
-Create (remote and local) repositories (projects):
+### Create (remote and local) repositories (projects):
 - IN GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file. You can also include a GitHub-hosted .gitignore file.
 	Make sure to have or create a .gitignore file immediately after creating a repository that includes the file extensions you want Git to ignore so that they are ignored right away when you include files with those extensions in your local repository (o/w if you first upload a file with extension that you don't want to follow and then create the .gitignore file, you will need to untrack the file with the command: git rm --cached <filename.ext>)
 	Extensions to include: Latex junk, Excel files (.xls, .xlsx, .xlsb) because of size limits and they will later be processed into .mat files. Very large files (100 MB or larger) do not work well in version control because they are often duplicated in the history.
@@ -181,13 +209,13 @@ Create (remote and local) repositories (projects):
 - To pull down from GitHub.com to your machine: git pull
 
 
-Difference between stage and commit:
+### Difference between stage and commit:
 - You don't want keep a record of EVERY little change. You want to make changes and once you are happy the final edit (no mistakes in code, compilation errors, consistent output), you add the file to the staging area.
 - It is recommended to commit per discrete task (which may involve multiple files). However, you may be modifying more files than the ones involved in a particular task. With git add you can select which of the modified files have to do with that particular task, and commit those without having to commit the other modified files unrelated to that task. In other words, staging allows to commit changes per task ('small' frequent commits rather than big infrequent commits).
 - When using git add, you can select which files to include. When using git commit you don't choose which files, all files in the staging area are committed.
 
 
-Git workflow (branching, merging, pull request):
+### Git workflow (branching, merging, pull request):
 
 Summary: to solve a feature request make a branch for it, code the feature, commit it, get latest master, merge master back into your branch, push it up, make a pull request for other people to peer review the code. You can make more merges to an existing pull request depending on the feedback received. When your branch is merged to the trunk of the tree (master branch), everybody's branches can inherit those changes.
 
@@ -242,7 +270,7 @@ CAUTION: Make sure to close the files when switching between branches (including
 - IN the terminal, switch back to master and sync: git checkout master, git pull
 
 
-Comments:
+### Comments:
 - pull before you push so that the local and the remote repos are in sync
 - all repositories should contain a license file
 	Explicitly claim copyright: Copyright [yyyy] [name of copyright owner]
@@ -278,9 +306,7 @@ Order:
 
 ## COMPATIBILITY
 -------------------------------------------------------------------------------------
-The data types 'table' and 'categorical arrays' were introduced in MATLAB 8.2 (R2013b). This code makes heavy use of those data types as well as of functions for tables introduced in R2016b (e.g. synchronize).
-
-
+The data types 'table' and 'categorical arrays' were introduced in Matlab 8.2 (R2013b). This code makes heavy use of those data types as well as of functions for tables introduced in R2016b (e.g. synchronize).
 
 
 
@@ -372,7 +398,6 @@ Sub StackTckrMtrx()
     ActiveWorkbook.Worksheets(1).Select
     WBnew.Activate
 End Sub
-
 
 
 ## WEBPAGES
