@@ -261,28 +261,31 @@ Git encourages workflows that branch and merge often, even multiple times in a d
 
 **CAUTION**: Close the modified files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to.
 
-### Driessen's Branching Model
+### Driessen's Branching Model Adapted To A Research Project
 Use meaningful branch names. 
 - [Link](https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches) for useful naming conventions that facilitate the workflow. 
 - [Link](https://nvie.com/posts/a-successful-git-branching-model/) explaining a successful Git branching model.
 
-Based on the previous two sources, I will use the following branching categories with a forward slash separator: 
-- `dev` branch off from master and merge back into `master`. It is a permanent branch.
+Based on the previous two sources, I will use a forward slash separator and the following branching categories and rules: 
+- `dev` branch off from `master` and merge back into `master`. It is a permanent branch.
 - `ftr` branch off from `dev` and merge back into `dev`. It is a temporary branch.
-- `fix` branch off from `master` or `dev` and merge back into `master` or `dev`. It is a temporary branch.
+- `fix` branch off from `master` or `dev` and merge back into `master` or `dev`. It is a temporary branch. `fix` branches deal with bugs found in the `dev` branch or in the `master` branch (due to a -recent- merge from the `dev` branch).
 
-Naming conventions for the temporary branches:
-- Since `fix` can be branch off from `master` or `dev`, it is useful to distinguish so there will be two types: `fix/mst`, `fix/dev`.
+Since `dev` is a permanent branch and `fix` branches are mainly used to correct bugs, most of the branches that will be used are feature `ftr` branches. Therefore, naming conventions are needed to differentiate between them; also since `fix` branches can be branched off from `master` *or* `dev`, it will be useful to distinguish between them. Thus, these are the naming conventions for the temporary branches:
+- To distinguish a `fix` branched off from `master` or `dev`, the names of `fix` branches will begin with: `fix/mst` or `fix/dev`.
 - There can be three types of feature branches and so `ftr` can take any of three tokens: `data`, `code`, `docs`.
   `data` are branches dealing with raw or analytic data so this token will be followed by: `raw`, `ana`.
   `code` are branches dealing with pre-analysis or analysis of the data so this token will be followed by: `pre`, `ana`.
   `docs` are branches dealing with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref`, `tab`.
-- Examples: `data/raw/name`, `code/ana/name`, `docs/eqn/name`, `fix/dev/name`.
+- All three of the different types of feature branches can be used for experimenting or testing minor things unrelated to the previous categories, in which case any of the three types will be followed by: `tst`.
+- Examples: `data/raw/feature-name`, `code/ana/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
+- Therefore, there are in total 17 possible types of temporary branches: 15 feautre branches (12 regular, 3 for tests), 2 fix branches.
 
-[Implementation](https://stackoverflow.com/questions/4470523/create-a-branch-in-git-from-another-branch) of Driessen's branching model:
+[Implementation](https://stackoverflow.com/questions/4470523/create-a-branch-in-git-from-another-branch) of Driessen's branching model to a research project:
 ```bash
-$ git checkout -b <branchname> <parent>	# Create a new branch **off** the `<parent>` branch and go to the new branch
-					# Same as: `git checkout <parent>`, `git branch <branchname>`, `git checkout <branchname>`
+$ git checkout -b <branchname> <parent>	# Create a new branch **off** the `<parent>` branch *and* go to the new branch
+					# Same as: git checkout <parent>, git branch <branchname>, git checkout <branchname>
+
 $ git commit -am "Your message"		# Commit changes
 
 $ git checkout <parent>
@@ -290,10 +293,10 @@ $ git merge --no-ff <branchname>	# Merge your changes to <parent> without a fast
 
 $ git push origin <parent>		# Push changes to the server
 $ git push origin <branchname>
-$ git branch -d myfeature		# Optional
+$ git branch -d <branchname>		# Optional
 ```
 
-Implementation using the naming conventions:
+Implementation following the naming conventions:
 ```bash
 # Develop branch
 $ git checkout -b dev master
@@ -305,7 +308,7 @@ $ git push origin dev
 
 
 # Feature branches
-$ git checkout -b ftr/cat/name dev	# With this convention, no branch can have the name `ftr`
+$ git checkout -b ftr/cat/name dev	# With this convention, no branch can have the name `ftr/cat`
 $ git commit -am "Your message"
 $ git checkout dev
 $ git merge --no-ff ftr/cat/name	# Merge your changes to dev without a fast-forward
@@ -315,24 +318,24 @@ $ git branch -d ftr/cat/name		# Optional
 
 
 # Fix branches
-$ git checkout -b fix/dev-name dev
-$ git checkout -b fix/mst-name master
+$ git checkout -b fix/dev/name dev
+$ git checkout -b fix/mst/name master
 $ git commit -am "Your message"
 	# fix/mst branches
 $ git checkout master
-$ git merge --no-ff fix/mst-name	# Merge your changes to master or dev without a fast-forward
+$ git merge --no-ff fix/mst/name	# Merge your changes to master without a fast-forward
 $ git push origin master		# Push changes to the server
-$ git push origin fix/mst-name
+$ git push origin fix/mst/name
 $ git checkout dev
-$ git merge --no-ff fix/mst-name	# Merge your changes to master or dev without a fast-forward
+$ git merge --no-ff fix/mst/name	# Merge your changes to dev without a fast-forward
 $ git push origin dev			# Push changes to the server
 	# fix/dev branches
 $ git checkout dev
-$ git merge --no-ff fix/dev-name	# Merge your changes to master or dev without a fast-forward
+$ git merge --no-ff fix/dev/name	# Merge your changes to dev without a fast-forward
 $ git push origin dev			# Push changes to the server
-$ git push origin fix/dev-name
+$ git push origin fix/dev/name
 
-$ git branch -d fix/xxx-name		# Optional
+$ git branch -d fix/xxx/name		# Optional
 ```
 
 #### Knowing Where You Are and How to Move
@@ -434,7 +437,7 @@ $ git pull
 - [Why do I have to `git push --set-upstream origin <branch>`?](https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch)
 - Reasons for not keeping the repository in Dropbox: there is a chance of conflicts between the syncing of Dropbox and GitHub, and the space limit in Dropbox might be an issue when the project grows in size.
 - Reasons for having a project for each chapter: GitHub has a limit of 1 GB per project and has limits of 100MB per file, keeping them separate minimizes these issues.
-- To understand GitHub from scratch: Healey (intuitively explains Git workflow); Youtube videos by Learn Code show the basic workflow; Pinter (2019) explains benefits and gives recommendations; Notes by Fernández-Villaverde give more details for some Git commands (assumes you know the previous ones); StackExchange links for clarification, reinforcement and understanding the daily workflow.
+- To understand GitHub from scratch: Healey (intuitively explains Git workflow); Youtube videos by Learn Code show the basic workflow; Pinter (2019) explains benefits and gives recommendations; Sviatoslav (2017); Notes by Fernández-Villaverde complement/reinforce the previous one; StackExchange links for clarification, reinforcement and understanding the daily workflow.
 - It is recommended to include a license file in your repositories, or at least explicitly claim copyright by including: Copyright [yyyy] [name of copyright owner].
 - [Working with large files](https://help.github.com/en/articles/working-with-large-files)
 - [Ignoring files](https://help.github.com/en/articles/ignoring-files)
