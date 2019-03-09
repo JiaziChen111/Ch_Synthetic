@@ -195,9 +195,9 @@ $ git rm --cached <filename.ext>
 Copy the URL link that GitHub creates in order to clone the repository in your machine.
 - Note that there are two options, you need the appropriate URL depending on how you decided to clone when setting up Git above: using HTTPS (recommended) or SSH.
 
-**In** the terminal go to the folder where you want to set the repository: 
+In the terminal go to the folder where you want to set the repository: 
 ```bash
-$ git clone <url>
+$ git clone <URL>
 ```
 
 To pull down from GitHub.com the most recent version of the project to your machine:
@@ -216,27 +216,28 @@ To include new (i.e. untracked) or update modified (i.e. not staged) files to th
 $ git add <filename1.ext> <filename2.ext>
 ```
 
-- Once a file is in the staging area, git keeps track of its changes
-- HEAD is the name of the current commit
-- To add ALL files in the directory: `git add .`, `git add -A` or `git add --all`.
+- Once a file is in the staging area, git keeps track of its changes.
+- To add *all* files in the directory: `git add .`, `git add -A` or `git add --all`.
 - To remove changes from the staging area (without changing the history at all nor changing what is going on in the working directory, i.e. a safe command): `git reset HEAD`
-- To unstage changes to a file: `git reset HEAD <filename.ext>`
-- To remove a file from the staging area but not form the working directory: `git rm --cached -- <filename.ext>`
-- To discard changes in working directory before they are staged (Warning! When you do this you will lose any unsaved work!): `git checkout HEAD -- <filename.ext>`
+- HEAD is the name of the current commit in the current branch.
+- To unstage changes to a file: `git reset HEAD <filename.ext>`.
+- To remove a file from the staging area but not form the working directory: `git rm --cached -- <filename.ext>`.
+- `--` tells Git that what follows after the two dashes are filenames.
+- To discard changes in working directory before they are staged (*Warning*: When you do this you will lose any unsaved work!): `git checkout HEAD -- <filename.ext>`
 
-Once you finish making changes to the files in the staging area, you want to **commit** (i.e. record) those changes.
-- Before committing run tests and review changes.
+Once you finish making changes to the files in the staging area, the next thing to do is to record (i.e. **commit**) those changes.
+- Always run tests and review changes *before* committing.
 
-To lock in the changes to your *local* repository (i.e. commit a snapshot of the files in the staging area):
+To lock in the changes to your *local* repository, you need to commit a snapshot of the files in the staging area:
 ```bash
 $ git commit -m "Brief (< 50 characters) meaningful comment"
 ```
 
-- You can combine the add and commit steps above (e.g. if you already have a project and want to move all existing files in one step) with: 
+You can combine the add and commit steps above (e.g. if you already have a project and want to move all existing files in one step) with: 
 ```bash
 $ git commit -a -m "Message"
 ```
-- If you forgot to include a message when you commit or want to write a multi-line message, a screen will show up in the terminal in case you want to write a message. You can either write a comment there or not, to exit the screen press `Esc` + `:wq`. 
+- If you did not include a message when you commit (either you forgot or you want to write a multi-line message), the terminal a will show a screen to allow you to write a message. To exit that screen (regardless of whether you wrote a comment or not),  press `Esc` + `:wq`. 
 
 To sync up the local changes with GitHub.com:
 ```bash
@@ -247,8 +248,8 @@ $ git push
 ### Difference Between the Stage and Commit Steps
 You don't want keep a record of *every* little change you do. You want to make changes and once you are happy with the new version (no mistakes in code, compilation errors, consistent output), you add the file to the staging area.
 
-It is recommended to commit *per discrete task* (which may involve multiple files). However, you may be modifying more files than the ones involved in a particular task. With `git add` you can select which of the modified files have to do with that particular task, and commit only changes to those files without having to commit the other modified files (unrelated to the task). In other words, staging allows you to commit changes per task; it is preferred to make 'small' frequent commits rather than big infrequent commits.
-- Note that when using `git add`, you can select which files to include but when using `git commit` you don't choose which files since all the files in the staging area are committed.
+It is recommended to commit *per discrete task* (which may involve multiple files). However, you may be modifying more files than the ones involved in a particular task. With `git add` you can select which of the modified files have to do with that particular task, and commit only changes to those files without having to commit the other modified files (unrelated to the task). In other words, staging allows you to commit changes per task. That is, with `git add` you can select which files to include but when using `git commit` you don't choose which files since all the files in the staging area are committed.
+- Make 'small' frequent commits rather than big infrequent commits.
 
 
 ### Git Workflow (Branching, Merging, Pull Requests)
@@ -258,95 +259,166 @@ Branches are the most powerful part of Git. They allow to trying things out.
 
 Git encourages workflows that branch and merge often, even multiple times in a day.
 
-**CAUTION**: Close the files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to.
+**CAUTION**: Close the modified files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to.
 
+### Driessen's Branching Model
+Use meaningful branch names. 
+- [Link](https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches) for useful naming conventions that facilitate the workflow. 
+- [Link](https://nvie.com/posts/a-successful-git-branching-model/) explaining a successful Git branching model.
+
+Based on the previous two sources, I will use the following branching categories with a forward slash separator: 
+- `dev` branch off from master and merge back into `master`. It is a permanent branch.
+- `ftr` branch off from `dev` and merge back into `dev`. It is a temporary branch.
+- `fix` branch off from `master` or `dev` and merge back into `master` or `dev`. It is a temporary branch.
+
+Naming conventions for the temporary branches:
+- Since `fix` can be branch off from `master` or `dev`, it is useful to distinguish so there will be two types: `fix/mst`, `fix/dev`.
+- There can be three types of feature branches and so `ftr` can take any of three tokens: `data`, `code`, `docs`.
+  `data` are branches dealing with raw or analytic data so this token will be followed by: `raw`, `ana`.
+  `code` are branches dealing with pre-analysis or analysis of the data so this token will be followed by: `pre`, `ana`.
+  `docs` are branches dealing with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref`, `tab`.
+- Examples: `data/raw/name`, `code/ana/name`, `docs/eqn/name`, `fix/dev/name`.
+
+[Implementation](https://stackoverflow.com/questions/4470523/create-a-branch-in-git-from-another-branch) of Driessen's branching model:
+```bash
+$ git checkout -b <branchname> <parent>	# Create a new branch **off** the `<parent>` branch and go to the new branch
+					# Same as: `git checkout <parent>`, `git branch <branchname>`, `git checkout <branchname>`
+$ git commit -am "Your message"		# Commit changes
+
+$ git checkout <parent>
+$ git merge --no-ff <branchname>	# Merge your changes to <parent> without a fast-forward
+
+$ git push origin <parent>		# Push changes to the server
+$ git push origin <branchname>
+$ git branch -d myfeature		# Optional
+```
+
+Implementation using the naming conventions:
+```bash
+# Develop branch
+$ git checkout -b dev master
+$ git commit -am "Your message"
+$ git checkout master
+$ git merge --no-ff dev			# Merge your changes to master without a fast-forward
+$ git push origin master		# Push changes to the server
+$ git push origin dev
+
+
+# Feature branches
+$ git checkout -b ftr/cat/name dev	# With this convention, no branch can have the name `ftr`
+$ git commit -am "Your message"
+$ git checkout dev
+$ git merge --no-ff ftr/cat/name	# Merge your changes to dev without a fast-forward
+$ git push origin dev			# Push changes to the server
+$ git push origin ftr/cat/name
+$ git branch -d ftr/cat/name		# Optional
+
+
+# Fix branches
+$ git checkout -b fix/dev-name dev
+$ git checkout -b fix/mst-name master
+$ git commit -am "Your message"
+	# fix/mst branches
+$ git checkout master
+$ git merge --no-ff fix/mst-name	# Merge your changes to master or dev without a fast-forward
+$ git push origin master		# Push changes to the server
+$ git push origin fix/mst-name
+$ git checkout dev
+$ git merge --no-ff fix/mst-name	# Merge your changes to master or dev without a fast-forward
+$ git push origin dev			# Push changes to the server
+	# fix/dev branches
+$ git checkout dev
+$ git merge --no-ff fix/dev-name	# Merge your changes to master or dev without a fast-forward
+$ git push origin dev			# Push changes to the server
+$ git push origin fix/dev-name
+
+$ git branch -d fix/xxx-name		# Optional
+```
 
 #### Knowing Where You Are and How to Move
-- In the terminal, go to the *local* `parent` branch (initially it will be the `master` branch) and make sure you have the most recent version of the *remote* `parent` branch:
+In the terminal, go to the *local* `parent` branch (which initially will be the `master` branch) and make sure you have the most recent version of the *remote* `parent` branch:
 ```bash
-$ git checkout parent	# Update the files to work on `parent`
+$ git checkout <parent>		# Update the files to work on `parent`
 $ git pull
 ```
 
-- To see available branches:
+To see available branches:
 ```bash
-$ git branch		# Displays all local branches
-$ git branch -r		# Displays all remote branches
-$ git branch -a		# Displays all local and remote branches
+$ git branch			# Displays all local branches
+$ git branch -r			# Displays all remote branches
+$ git branch -a			# Displays all local and remote branches
 
-> * master		# If only the master branch exists
-> * master, <branchname># If there are two branches
+> * master			# If only the master branch exists
+> * master, <branchname>	# If there are two branches
 ```   
-   The asterisk tells you the branch in which you are currently working on. If color is displayed, the current branch will be displayed in green; remote branches will be displayed in red; the rest of the branches (local non-current) will be displayed in white.   
-   
+- The asterisk tells you the branch in which you are currently working on. If you configured Git to display its output in color, the current branch will be displayed in green; remote branches will be displayed in red; the rest of the branches (local non-current) will be displayed in white.   
+
 #### Create a Branch
-- Create a new branch **off** the *current* branch and go to the new branch:
+Create a new branch **off** the *current* branch and go to the new branch:
 ```bash
-$ git branch <branchname>
-$ git checkout <branchname>
+$ git branch <branchname>		# Creates a branch called <branchname>
+$ git checkout <branchname>		# Switches to branch <branchname>
 # OR
-$ git checkout -b <branchname>		# Creates branch and switches to it
+$ git checkout -b <branchname>		# Creates branch <branchname> and switches to it
 # OR
-$ git checkout -t origin/<branchname>	# Creates, switch and track (for push and pull) a remote branch
+$ git checkout -t origin/<branchname>	# Creates <branchname>, switches to it and tracks (for push and pull) its remote branch
 # OR
 $ git checkout -b <branchname> origin/<branchname> # Same as previous but local and tracking branches can have different names
 ```
-  You can now make changes to the new branch `<branchname>` without affecting the `master` branch.
-  If after switching to the branch you type `git branch`, the terminal will display: `master`, `* <branchname>`.
-  Use meaningful branch names. [Link](https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches) for useful naming conventions that facilitate the workflow.
-  Recommended: [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
-  Based on the previous two sources, I will use the following categories with a forward slash separator: 
-  - `dev` branch off from master and merge back into `master`
-  - `ftr` branch off from `dev` and merge back into `dev`
-  - `fix` branch off from `master` or `dev` and merge back into `master` or `dev`
-  [Link](https://stackoverflow.com/questions/10002239/difference-between-git-checkout-track-origin-branch-and-git-checkout-b-branch) for difference between `git checkout -b` and `git checkout -t` for tracking a remote branch.
-  
-#### Daily Workflow
-- Modify the files in the branch, add and commit to the branch as many edits as necessary: `git add`, `git commit`
+- You can now make changes to the new branch `<branchname>` without affecting the `master` branch.
+- If after switching to the branch you type `git branch`, the terminal will display: `master`, `* <branchname>`.
+- [Link](https://stackoverflow.com/questions/10002239/difference-between-git-checkout-track-origin-branch-and-git-checkout-b-branch) explaining the difference between `git checkout -b` and `git checkout -t` for tracking a remote branch.
 
-- Once you finish making changes, you want to incorporate the latest version of the parent branch to ensure there are no conflicts: 
+#### Daily Workflow
+Modify the files in the branch, add and commit to the branch as many edits as necessary with: `git add`, `git commit`.
+
+Once you finish making changes, you want to incorporate the latest version of the `parent` branch to ensure there are no conflicts: 
 ```bash
 $ git checkout <parent>
 $ git pull
 $ git checkout <branchname>
-$ git merge <parent>		# `git merge <xyz>` merges `<xyz>` **into** the *current* branch
+$ git merge <parent>		# merges <parent> **into** the *current* branch (i.e. <branchname>)
 ```
+- Always **commit before** pushing or pulling because if there are conflicts, Git reconstructs using the commits.
+- Always **pull before** you push so that the local and the remote repositories are in sync.
+- If you want to merge the changes in `<branchname>` into the `<parent>`: `git checkout <parent>`, `git merge <branchname>`.
 
-   Always commit **before** pushing or pulling because there might be conflicts and reconstruction uses the commits.
-   Always pull before you push so that the local and the remote repositories are in sync.
-   If you want to merge the changes in `<branchname>` into the `master`: `git checkout master`, `git merge <branchname>`.
-
-- If there are conflicts, they will be indicated (you are HEAD -it indicates the head of the current branch-). Manually resolve any conflict. Delete all of the delimiters. Add the file back (`git add --all`) and finish the merge (`git merge --continue`). To abort the merge: `git merge --abort`.
+If there are conflicts, they will be indicated in the respective file (you are HEAD). Manually resolve any conflict. Delete all of the delimiters (`<<<`). Add the file back (`git add --all`) and finish the merge (`git merge --continue`). To abort the merge use: `git merge --abort`.
 
 #### Upload Changes to the Remote Repository
-- Save all your commits in the local branch `<branchname>` to the remote repository (your branch `<branchname>` in GitHub):
+Save all your commits in the local branch `<branchname>` to the remote repository (your branch `<branchname>` in GitHub):
 ```bash
 $ git checkout <branchname>
 
-$ git push	   # works like `git push <branchname>`, where `<branchname>` is the *current* branch’s remote
+$ git push	   		   # Works like `git push <branchname>`, where `<branchname>` is the *current* branch’s remote
 # OR
-$ git push origin  # pushes the *current* branch to the configured upstream, if it has the same name as the current branch.
+$ git push origin  		   # Pushes the *current* branch to the configured upstream, if it has the same name as the current branch.
 # OR
-$ git push origin <branchname> 	# Essentially the syntax is `git push <to> <from>`
-OR
-$ git push -u origin <branchname>  # If no remote branch is associated, use this in the first push and Git will set `origin/<branchname>` as the upstream for the current branch
-				 # Message: `Branch '<branchname>' set up to track remote branch '<branchname>' from 'origin'`
+$ git push origin <branchname> 	   # Essentially the syntax is `git push <to> <from>`
+# OR
+$ git push -u origin <branchname>  # If there is no associated remote branch to <branchname>, use this line in the first push for Git to set `origin/<branchname>` as the upstream for the current branch
+				   # This is no needed if the branch was created with `git checkout -b` or `git checkout -t`
+				   # Message: `Branch '<branchname>' set up to track remote branch '<branchname>' from 'origin'`
 ```
-   Note that you need to switch to `<branchname>` because if you are on `master` and type `git push origin <branchname>`, Git will try to push the local `master` branch (the *current* branch) to the remote `<branchname>`. If you are in `master` and you don't want to checkout to `<branchname>` first, you can use: `git push origin <branchname>:<branchname>`
-   The options above [push just the current branch](https://stackoverflow.com/questions/820178/how-do-you-push-just-a-single-git-branch-and-no-other-branches), not other branches nor the `master`. However, if for every branch that exists on the local side, you want the remote side to be updated if a branch of the same name already exists on the remote side: `git push origin :` and `git push origin +:` (for non-fast-forward updates).
+-Note that you need to switch to `<branchname>` because if you are on `<parent>` and type `git push origin <branchname>`, Git will try to push the local `<parent>` branch (being the *current* branch) to the remote `<branchname>`, which would be incorrect. If you are in `<parent>` and you don't want to checkout to `<branchname>`, you can use: `git push origin <branchname>:<branchname>`.
+- The options above push [just the current branch](https://stackoverflow.com/questions/820178/how-do-you-push-just-a-single-git-branch-and-no-other-branches), not other branches nor the `<parent>`. However, if for every branch that exists on the local side, you want the remote side to be updated if a branch of the same name already exists on the remote side use: `git push origin :` or `git push origin +:` (for non-fast-forward updates).
 
-- **In** GitHub.com refresh, go to your branch `<branchname>` and click the green button 'Compare, review, create a pull request', which will show your changes in green. This is also useful to understand some conflicts.
+In GitHub.com refresh, go to your branch `<branchname>` and click the green button 'Compare, review, create a pull request', which will show your changes in green. This is also helpful to understand some conflicts.
 
 #### Pull Requests
-- Create a pull request for other people to peer review the changes by clicking the green button 'Create Pull Request'. After typing title and comments, click the green button 'Send pull request'.
-- Time for back and forth conversation about the changes, as well as necessary corrections (new commits and merges).
-- Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in `master`.
-   Usually a bad idea to merge your own pull requests when working with a team
-- Once it has been merged to `master`, the branch `<branchname>` can be safely deleted by clicking the grey button 'Delete branch'.
-   You can also delete branches from the terminal, but first the branch must be fully merged in its upstream branch: `git branch -d <branchname>`
+Create a pull request for other people to peer review the changes by clicking the green button 'Create Pull Request'. After typing title and comments, click the green button 'Send pull request'.
+
+Time for back and forth conversation about the changes, as well as necessary corrections (new commits and merges).
+
+Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in `master`.
+- It is usually a bad idea to merge your own pull requests when working with a team.
+
+Once it has been merged to `<parent>`, the branch `<branchname>` can be safely deleted by clicking the grey button 'Delete branch'.
+- Only delete temporary branches (`ftr` and `fix`), not permanent branches (`dev`).
+- You can also delete branches from the terminal (`git branch -d <branchname>`), but the branch must first be fully merged in its upstream branch.
 
 #### Download the Changes to the Local Repository
-- In the terminal, switch back to master and sync: 
+In the terminal, switch back to master and sync: 
 ```bash
 $ git checkout master
 $ git pull
@@ -354,14 +426,11 @@ $ git pull
 
 
 ### Details
-- A **ref** is anything pointing to a commit (e.g. branches (heads), tags, and remote branches), they are stored in the .git/refs directory (e.g. `refs/heads/master`, `refs/remotes/master`, `refs/tags`). For example, `refs/heads/0.58` specifies a branch named `0.58`; if you don't specify what namespace the ref is in, Git will look in the default ones, so using only `0.58` is ambiguous since there could have both a `branch` and a `tag` named `0.58`.
+- A **ref** is anything pointing to a commit (e.g. branches (heads), tags, and remote branches), they are stored in the .git/refs directory (e.g. `refs/heads/master`, `refs/remotes/master`, `refs/tags`). For example, `refs/heads/0.58` specifies a branch named `0.58`; if you don't specify what namespace the ref is in, Git will look in the default ones, so using only `0.58` is ambiguous (there could have both a `branch` and a `tag` named `0.58`).
 - When an update changes a branch (or more in general, a ref) that used to point at commit A to point at another commit B, it is called a **fast-forward** update if and only if B is a descendant of A. Hence a fast-forward update from A to B does not lose any history.
-- To check out files from a previous commit (to reverse changes): `git checkout COMMIT_IDENTIFIER -- file1, file2`
-	'--' tells Git that what follows after the two dashes are filenames
-- Warning: `git reset` have options `--hard` and `--soft` that can be used to rewrite history and to throw out commits that you no longer want
-- If you use `git init` to create a local repository, and then want to upstream it to a remote repo, in your first push you need: `git push -u origin master`
-   This will create an upstream master branch on the upstream (`git push origin master` will only do this part) AND will record that the local branch 'master' needs to be pushed to upstream (origin) 'master' (upstream branch)
-   Since Git 1.7.11, the default push policy is `simple`: push only the current branch, and only if it has a similarly named remote tracking branch on the upstream. [Link](https://stackoverflow.com/questions/17096311/why-do-i-need-to-explicitly-push-a-new-branch/17096880#17096880) for an explanation.
+- To check out files from a previous commit (to reverse changes): `git checkout COMMIT_IDENTIFIER -- file1, file2`.
+- Warning: `git reset` have options `--hard` and `--soft` that can be used to rewrite history and to throw out commits that you no longer want.
+- If you use `git init` to create a local repository, and then want to upstream it to a remote (empty) repo, in your first push you need to use: `git push -u origin master`. This will create an upstream `master` branch on the upstream (`git push origin master`) *and* will record `origin/master` as a remote tracking branch so that the local branch `master` will be pushed to the upstream (origin) `master` (upstream branch). Since Git 1.7.11, the default push policy is `simple`: push only the current branch, and only if it has a similarly named remote tracking branch on the upstream. [Link](https://stackoverflow.com/questions/17096311/why-do-i-need-to-explicitly-push-a-new-branch/17096880#17096880) for an explanation.
 - [Why do I have to `git push --set-upstream origin <branch>`?](https://stackoverflow.com/questions/37770467/why-do-i-have-to-git-push-set-upstream-origin-branch)
 - Reasons for not keeping the repository in Dropbox: there is a chance of conflicts between the syncing of Dropbox and GitHub, and the space limit in Dropbox might be an issue when the project grows in size.
 - Reasons for having a project for each chapter: GitHub has a limit of 1 GB per project and has limits of 100MB per file, keeping them separate minimizes these issues.
