@@ -1,4 +1,4 @@
-# Ch_Synthetic
+ # Ch_Synthetic
 
 The files in this folder are provided to allow the replication of the results in "Term Premia in Emerging Markets" by Pavel Solís
 Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity
