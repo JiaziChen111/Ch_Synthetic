@@ -370,7 +370,7 @@ Create a new branch **off** the *current* branch and go to the new branch:
 $ git branch <branchname>		# Creates a branch called <branchname>
 # OR
 $ git branch --set-upstream-to=origin/<branch> <branch>	# To set tracking information for the branch
-
+					# Message displayed: "Branch '<branchname>' set up to track remote branch '<branchname>' from 'origin'"
 # OR
 
 $ git checkout <branchname>		# Switches to branch <branchname>
