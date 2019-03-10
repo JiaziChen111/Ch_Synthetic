@@ -216,7 +216,7 @@ To include new (i.e. untracked) or update modified (i.e. not staged) files to th
 $ git add <filename1.ext> <filename2.ext>
 ```
 
-- Once a file is in the staging area, git keeps track of its changes.
+- Once a file is in the staging area (also known as index), Git keeps track of its changes.
 - To add *all* files in the directory: `git add .`, `git add -A` or `git add --all`.
 - To remove changes from the staging area (without changing the history at all nor changing what is going on in the working directory, i.e. a safe command): `git reset HEAD`
 - HEAD is the name of the current commit in the current branch.
@@ -259,7 +259,8 @@ Branches are the most powerful part of Git. They allow to trying things out.
 
 Git encourages workflows that branch and merge often, even multiple times in a day.
 
-**CAUTION**: Close the modified files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to.
+**CAUTION**: Always commit *and* close the modified files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to. If you introduce changes in one branch and suddenly realized to it would be better to swith to a different branch, Git [may or may not](https://stackoverflow.com/questions/22053757/checkout-another-branch-when-there-are-uncommitted-changes-on-the-current-branch) allow you to switch:
+- If Git doesn't allow you to switch, you can use `git commit` to the current branch and then switch to a different branch; alternatively, you can save your changes in a temporary branch using `git stash`, make the required changes in another branch and then restore the interrupted changes using `git stash pop`. `git stash` can also be used when your local changes conflict with the changes in the upstream (in which case, `git pull` will not merge): `git stash`, `git pull`, `git stash pop`.
 
 ### Driessen's Branching Model Adapted To A Research Project
 Use meaningful branch names. 
@@ -280,6 +281,7 @@ Since `dev` is a permanent branch and `fix` branches are mainly used to correct 
 - All three of the different types of feature branches can be used for experimenting or testing minor things unrelated to the previous categories, in which case any of the three types will be followed by: `tst`.
 - Examples: `data/raw/feature-name`, `code/ana/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
 - Therefore, there are in total 17 possible types of temporary branches: 15 feautre branches (12 regular, 3 for tests), 2 fix branches.
+- With this convention (names *and* forward slashes), no branch can have the following names (see first link above) -i.e. without the `/feature-name` part-: `ftr/cat` (e.g. `data/raw`,`code/ana`), `fix/dev`, `fix/mst`.
 
 [Implementation](https://stackoverflow.com/questions/4470523/create-a-branch-in-git-from-another-branch) of Driessen's branching model to a research project:
 ```bash
@@ -293,7 +295,8 @@ $ git merge --no-ff <branchname>	# Merge your changes to <parent> without a fast
 
 $ git push origin <parent>		# Push changes to the server
 $ git push origin <branchname>
-$ git branch -d <branchname>		# Optional
+$ git branch -d <branchname>		# Optional: remove local and remote branches
+$ git push origin --delete <branchname>
 ```
 
 Implementation following the naming conventions:
@@ -314,7 +317,8 @@ $ git checkout dev
 $ git merge --no-ff ftr/cat/name	# Merge your changes to dev without a fast-forward
 $ git push origin dev			# Push changes to the server
 $ git push origin ftr/cat/name
-$ git branch -d ftr/cat/name		# Optional
+$ git branch -d ftr/cat/name		# Optional: remove local and remote branches
+$ git push origin --delete ftr/cat/name
 
 
 # Fix branches
@@ -335,7 +339,8 @@ $ git merge --no-ff fix/dev/name	# Merge your changes to dev without a fast-forw
 $ git push origin dev			# Push changes to the server
 $ git push origin fix/dev/name
 
-$ git branch -d fix/xxx/name		# Optional
+$ git branch -d fix/xxx/name		# Optional: remove local and remote branches
+$ git push origin --delete fix/xxx/name
 ```
 
 #### Knowing Where You Are and How to Move
@@ -416,9 +421,41 @@ Time for back and forth conversation about the changes, as well as necessary cor
 Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in `master`.
 - It is usually a bad idea to merge your own pull requests when working with a team.
 
-Once it has been merged to `<parent>`, the branch `<branchname>` can be safely deleted by clicking the grey button 'Delete branch'.
-- Only delete temporary branches (`ftr` and `fix`), not permanent branches (`dev`).
-- You can also delete branches from the terminal (`git branch -d <branchname>`), but the branch must first be fully merged in its upstream branch.
+#### Delete Branches
+Only delete temporary branches (`ftr` and `fix`), not permanent branches (`dev`).
+
+Once it has been merged to in its upstream branch, the branch `<branchname>` can be safely deleted.
+
+To delete a **local** branch (which has already been fully merged in its upstream branch) from the terminal:
+```bash
+$ git branch -d <branchname>
+```
+
+To delete a **remote** branch from the terminal ([link](https://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-remotely), [link](https://stackoverflow.com/questions/5094293/git-remote-branch-deleted-but-still-appears-in-branch-a)):
+```bash
+$ git branch -d -r origin/<branch_name>		# Remove a particular remote-tracking branch
+# OR
+$ git push origin --delete <branch_name>
+# OR
+$ git push origin :<remote_branch_name>
+```
+
+To delete a branch **in GitHub**:
+- After a pull request has been approved and merged, you can delete a branch by clicking the grey button 'Delete branch'. 
+- If you merge a branch locally and then deleted it from the terminal, to delete it in GitHub click on the 'branches' tab at the top of the project's contents and click the trash button nex to the name of the branch.
+
+When you delete branches in GitHub, they will still show up in the terminal with `git branch -a`. Also, after deleting the local branch (with `git branch -d <branchname>`) and the remote branch (with `git push origin --delete <branchname>`) other machines may still have "obsolete tracking branches". To remove all such [stale](https://makandracards.com/makandra/6739-git-remove-information-on-branches-that-were-deleted-on-origin) branches locally:
+```bash
+$ git remote prune origin
+# OR
+$ git fetch --prune
+# OR
+$ git fetch --all --prune		# In other machines after deleting remote branches to propagate changes
+# OR
+$ git fetch -p				# Prune remote branches
+# OR
+$ git pull -p
+```
 
 #### Download the Changes to the Local Repository
 In the terminal, switch back to master and sync: 
