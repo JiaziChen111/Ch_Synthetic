@@ -256,11 +256,13 @@ It is recommended to commit *per discrete task* (which may involve multiple file
 
 
 ### Git Workflow (Branching, Merging, Pull Requests)
-*Summary*: Make a branch to solve a feature request, code the feature, make commits, get latest master version, merge master back into your branch, push your branch up, make a pull request for other people to peer review the code. You can make more merges to an existing pull request depending on the feedback received. When your changes are approved, your branch is merged to the master branch (trunk of the tree) and everybody's branches can inherit those changes.
+*Summary*: Make a branch to solve a feature request, code the feature, make commits, get latest master version, merge master back into your branch, push your branch up, make a pull request for other people to peer review the code, resolve conflicts and make more merges to an existing pull request depending on the feedback received. When your changes are approved, your branch is merged to the parent branch and everybody's branches can inherit those changes.
 
-Branches are the most powerful part of Git. They allow to trying things out.
+Branches are the most powerful part of Git. They allow to trying things out. By isolating features into separate branches, everybody can work independently, yet it is still possible to share changes with other developers when necessary.
 
 Git encourages workflows that branch and merge often, even multiple times in a day.
+
+All branches in the remote repo will hang from origin, that is why it is important to have a branching model (structure, naming conventions, rules for branching off and merging to) to distinguish between permanent (`master`, `development`) branches and among temporary (`feature`, `fixes`) branches.
 
 **CAUTION**: Always commit *and* close the modified files *before* switching branches (with `git checkout`) because when you switch Git will update the files in the repository to match the version to which you are moving to. If you introduce changes in one branch and suddenly realized to it would be better to swith to a different branch, Git [may or may not](https://stackoverflow.com/questions/22053757/checkout-another-branch-when-there-are-uncommitted-changes-on-the-current-branch) allow you to switch:
 - If Git doesn't allow you to switch, you can use `git commit` to the current branch and then switch to a different branch; alternatively, you can save your changes in a temporary branch using `git stash`, make the required changes in another branch and then restore the interrupted changes using `git stash pop`. `git stash` can also be used when your local changes conflict with the changes in the upstream (in which case, `git pull` will not merge): `git stash`, `git pull`, `git stash pop`.
@@ -397,6 +399,7 @@ $ git merge <parent>		# merges <parent> **into** the *current* branch (i.e. <bra
 ```
 - Always **commit before** pushing or pulling because if there are conflicts, Git reconstructs using the commits.
 - Always **pull before** you push so that the local and the remote repositories are in sync.
+- **Consult before** merging when working in a team in order to get feedback on a new feature branch. Create a pull request for this.
 - If you want to merge the changes in `<branchname>` into the `<parent>`: `git checkout <parent>`, `git merge <branchname>`.
 
 If there are conflicts, they will be indicated in the respective file (you are HEAD). Manually resolve any conflict. Delete all of the delimiters (`<<<`). Add the file back (`git add --all`) and finish the merge (`git merge --continue`). To abort the merge use: `git merge --abort`.
@@ -422,11 +425,16 @@ $ git push -u origin <branchname>  # If there is no associated remote branch to 
 In GitHub.com refresh, go to your branch `<branchname>` and click the green button 'Compare, review, create a pull request', which will show your changes in green. This is also helpful to understand some conflicts.
 
 #### Pull Requests
+*Before* merging, create a pull request when collaborating with other colleagues.
+
 Create a pull request for other people to peer review the changes by clicking the green button 'Create Pull Request'. After typing title and comments, click the green button 'Send pull request'.
 
 Time for back and forth conversation about the changes, as well as necessary corrections (new commits and merges).
+- Before you merge, you may have to resolve merge conflicts if others have made changes to the repo. 
 
-Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in `master`.
+When your pull request is approved and conflict-free, you can add your code to the `<parent>` branch.
+
+Someone with privileges can accept the changes by clicking the green button 'Merge pull request', then the 'Confirm merge' button. The changes will now show up in the `<parent>` branch.
 - It is usually a bad idea to merge your own pull requests when working with a team.
 
 #### Delete Branches
