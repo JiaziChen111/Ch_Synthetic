@@ -206,10 +206,11 @@ $ git pull
 ```
 
 #### Usual Work Cycle
-To see what's different between GitHub (in the cloud) and your local machine, you can use:
+To see what's different in your local machine with respect to the version in GitHub (in the cloud), you can use:
 ```bash
 $ git status
 ```
+- When your local version is not ahead to that in GitHub, the terminal will display `Your branch is up to date with 'origin/<parent>', nothing to commit, working tree clean`. However, this does not tell you whether the remote version is ahead of your local version. That is why it is recommended to always pull before pushing.
 
 To include new (i.e. untracked) or update modified (i.e. not staged) files to the **staging area** (from which changes will be recorded later), use:
 ```bash
