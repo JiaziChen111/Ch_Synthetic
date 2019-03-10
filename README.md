@@ -303,7 +303,7 @@ $ git push origin --delete <branchname>
 Implementation following the naming conventions:
 ```bash
 # Develop branch
-$ git checkout -b dev master
+$ git checkout -b dev master		# Follow it by `git push -u origin dev` to set the upstream for dev and see it in GitHub
 $ git commit -am "Your message"
 $ git checkout master
 $ git merge --no-ff dev			# Merge your changes to master without a fast-forward
@@ -312,7 +312,7 @@ $ git push origin dev
 
 
 # Feature branches
-$ git checkout -b ftr/cat/name dev	# With this convention, no branch can have the name `ftr/cat`
+$ git checkout -b ftr/cat/name dev	# Follow it by `git push -u origin ftr/cat/name` to set the upstream for the branch and see it in GitHub
 $ git commit -am "Your message"
 $ git checkout dev
 $ git merge --no-ff ftr/cat/name	# Merge your changes to dev without a fast-forward
