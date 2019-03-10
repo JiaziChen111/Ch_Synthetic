@@ -203,6 +203,8 @@ $ git clone <URL>
 To pull down from GitHub.com the most recent version of the project to your machine:
 ```bash
 $ git pull
+# OR
+$ git pull <remote> <branch>
 ```
 
 #### Usual Work Cycle
@@ -366,6 +368,11 @@ $ git branch -a			# Displays all local and remote branches
 Create a new branch **off** the *current* branch and go to the new branch:
 ```bash
 $ git branch <branchname>		# Creates a branch called <branchname>
+# OR
+$ git branch --set-upstream-to=origin/<branch> <branch>	# To set tracking information for the branch
+
+# OR
+
 $ git checkout <branchname>		# Switches to branch <branchname>
 # OR
 $ git checkout -b <branchname>		# Creates branch <branchname> and switches to it
