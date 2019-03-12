@@ -223,8 +223,8 @@ $ git add <filename1.ext> <filename2.ext>
 - To add *all* files in the directory: `git add .`, `git add -A` or `git add --all`.
 - To remove changes from the staging area (without changing the history at all nor changing what is going on in the working directory, i.e. a safe command): `git reset HEAD`
 - HEAD is the name of the current commit in the current branch.
-- To unstage changes to a file: `git reset HEAD <filename.ext>`.
-- To remove a file from the staging area but not form the working directory: `git rm --cached -- <filename.ext>`.
+- To unstage changes to a file: `git reset HEAD <filename.ext>`, `git reset HEAD -- path/to/file` or `git reset <filename.ext>`. To unstage all files at once: `git reset HEAD -- .`.
+- To remove a file from the staging area but not form the working directory: `git rm --cached <filename.ext>`.
 - `--` tells Git that what follows after the two dashes are filenames.
 - To discard changes in working directory before they are staged (*Warning*: When you do this you will lose any unsaved work!): `git checkout HEAD -- <filename.ext>`
 
