@@ -49,7 +49,7 @@ hdr_blp(:,5) = [hdr_blp(1,5); tnr_blp]; % Convert tenors from numbers to strings
 old = 'THB '; new = 'THB';             % There is an extra space
 hdr_blp(:,1) = strrep(hdr_blp(:,1),old,new);
 
-clear k l lb rows raw filename lbounds tnr_blp tnrmiss tnridx 
+clear k l lb rows raw filename lbounds tnr_blp tnrmiss tnridx path
 clear old new aux nmiss nsheets nameblp summary
 
 %% Sources

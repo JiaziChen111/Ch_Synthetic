@@ -1,11 +1,46 @@
-%% US Zero Coupon Yield Curve
-% This code reads US zero coupon yield curve data from the database of 
-% Gürkaynak, Sack & Wright (2007). 
-% Assumes that read_bloomberg.m has already been run.
-% Calls to m-files: construct_hdr.m
+%% Read U.S. Yield Curve Data from GSW
+% This code reads the Nelson-Siegel-Svensson parameters for the U.S. yield
+% curve from the database of Gürkaynak, Sack & Wright (2007).
+% Assumes that read_platform.m has already been run.
+% m-files called: construct_hdr.m
 %
-% Pavel Solís (pavel.solis@gmail.com), March 2018
-%% Read File with GSW Data
+% Pavel Solís (pavel.solis@gmail.com), March 2019
+%%
+path        = pwd;
+cd(fullfile(path,'..','..','Data','Raw'))               % Use platform-specific file separators
+filename    = 'original_US_Yield_Curve_Data.xlsx';
+param_names = {'BETA0','BETA1','BETA2','BETA3','TAU1','TAU2'};
+
+% Data
+opts = spreadsheetImportOptions;
+opts.VariableNamesRange = 'CQ10';                       % Starting cell for variable names
+opts.DataRange          = 'CQ11';                       % Starting cell for observations
+opts.VariableNames      = param_names;
+opts   = setvartype(opts,opts.VariableNames,{'double'});
+T_usyc = readtable(filename,opts);                      % Read parameters
+
+opts = spreadsheetImportOptions;
+opts.DataRange          = 'A11';                        % Starting cell for dates
+opts.VariableNames      = 'Date';
+opts = setvartype(opts,opts.VariableNames,{'datetime'});
+T_dates = readtable(filename,opts);                     % Read dates
+
+TT_usyc = table2timetable([T_dates, T_usyc]);           % Convert table to a timetable
+cd(path)
+
+% Headers
+H_usyc  = construct_hdr('USD','PARAMETER',param_names','USD N-S-S YIELD CURVE',NaN,' ','GSW');
+TH_usyc = cell2table(H_usyc);
+TH_usyc.Properties.VariableNames = TH_pltfm.Properties.VariableNames;
+
+% Merge timetables and headers
+TT_daily = synchronize(TT_pltfm,TT_usyc,'commonrange'); % Union over the intersection of time ranges
+TH_daily = [TH_pltfm; TH_usyc];
+
+clear path filename opts param_names T_* H_* *_pltfm *_usyc
+
+%%
+
 path = pwd;
 cd(fullfile(path,'..','..','Data'))% Use platform-dependent file separators
 filename = 'original_US_Yield_Curve_Data.xlsx';
@@ -49,7 +84,7 @@ data_usyc = nan(nT,size(dataGSW,2));              % Pre-allocate output
 data_usyc(samedates,:) = dataGSW(:,:);            % Populate same dates with GSW data
 data_usyc(idx_miss,1)  = datesmiss;               % Cols 2:end are left as NaNs
 
-clear aux* idx* old new datesmiss samedates name_usyc hdr_usyc1 hdr_usyc2 nT
+clear path aux* idx* old new datesmiss samedates name_usyc hdr_usyc1 hdr_usyc2 nT
 clear date1st dateEnd filename dataGSW tckrUS tnrmax tnr_usyc dates_usyc txt
 
 %% Sources
