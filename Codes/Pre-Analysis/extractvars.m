@@ -46,8 +46,10 @@ while nloops <= 0                               % Need to run it at least once; 
     
     nloops = nloops + 1;                        % Exit while loop the first time for EMs and G10 w/o cutoff date
 
-    if size(vars{1},2) ~= size(vars{2},2)       % Case of IRS convention for G10 (assumes IRS is var{1})
-        nloops = -1;                            % Need to run the while loop two more times (cases: 3M and 6M)
+    if numel(vars) > 1                          % IRS case only arises when extracting more than 1 variable
+        if size(vars{1},2) ~= size(vars{2},2)   % Case of IRS convention for G10 (assumes IRS is var{1})
+            nloops = -1;                        % Need to run the while loop two more times (cases: 3M and 6M)
+        end
     end
 
     if  nloops == -1                            % First repetition for 6M

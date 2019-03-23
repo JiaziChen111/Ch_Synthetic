@@ -1525,8 +1525,8 @@ clear name_lccs1 name_lccs2 hdr_lccs1 hdr_lccs2
 tblnms = [tblnms; names];
         tblmtx = [tblmtx; outmtrx(:)];
         tblbtm = [tblbtm cellstr(num2str([nobs; nctrs; r2]))];
-    end
-end
+%     end
+% end
  
 spcs    = cell(size(tblnms));
 spcs(:) = {' '};
@@ -1923,7 +1923,7 @@ newStruct(25,50) = struct('a',[],'b',[],'c',[]); % initialize a structure array 
 
 currentDate = datestr(now,'mmmdd');
 myStruct.(currentDate) = [1,2,3];               % dynamic field name
-myStruct.('Feb29') or myStruct.("Feb29")        % both are fine
+myStruct.('Feb29') %or myStruct.("Feb29")        % both are fine
                                                  
 [v1, v2, v3] = s(1:3).f;% returns the field f from multiple elements in a comma-separated list
 allNums = [nums.f];     % concatenate data if field f contains the same type of data and can form a hyperrectangle
@@ -1945,3 +1945,7 @@ Datastream
 'Sheet',2,'ReadVariableNames',true,'DatetimeType','exceldatenum','TreatAsEmpty','NA'
 
 
+%%
+
+
+end

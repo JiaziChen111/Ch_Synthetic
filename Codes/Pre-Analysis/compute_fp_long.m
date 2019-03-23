@@ -95,9 +95,9 @@ if strcmp(LC,'JPY') || strcmp(LC,'NOK')
     [vars2,tnr2] = extractvars(currencies,types,header,dataset);
     IRS = vars2{1}; TBS = vars2{2}; BS = vars2{3}; IRS_USD = vars2{4};
 
-    CCS2 = IRS - TBS + BS./100 - IRS_USD;
+    CCS2 = IRS - TBS./100 + BS./100 - IRS_USD;
 
-    [CCS,tnr] = split_merge_vars(LC,CCS1,CCS2,tnr1,tnr2,dataset);
+    [CCS,tnr] = split_merge_vars(LC,CCS1,CCS2,tnr1,tnr2,dataset); % if CCS* as cell arrays may not need iscell
 end
 
 % Header
