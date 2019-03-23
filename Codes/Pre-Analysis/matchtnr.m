@@ -17,3 +17,4 @@ tnrMatch = ismember(tnr1,tnr2); % Logical for tenors needed (tnr1 >= tnr2)
 idx1     = idx1(tnrMatch);      % Identify location of tenors needed
 fltr1(:) = 0;                   % Clean the filter (o/w some 1's remain)
 fltr1(idx1) = 1;                % Chosse only tenors needed
+        

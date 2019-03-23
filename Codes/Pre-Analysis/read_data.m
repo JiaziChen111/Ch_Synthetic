@@ -14,8 +14,16 @@ run read_bloomberg.m        % Historic data of swap and yield curves (generates 
 run read_usyc.m             % Historic data for U.S. yield curve (generates 'data_usyc')
 % Append the data of the US yield curve to the data from Bloomberg
 [dataset_daily,header_daily] = append_dataset(data_blp, data_usyc, hdr_blp, hdr_usyc);
+
+hdr_blp = [TH_daily.Properties.VariableNames;table2cell(TH_daily)]; % Convert header to cell array
+hdr_blp(2:end,5) = cellfun(@num2str,hdr_blp(2:end,5),'UniformOutput',false); % Convert tnrs to string
+data_blp = timetable2table(TT_daily); % Convert historic data from timetable to table
+aux = [num2cell(datenum(TT_daily.Date)), data_blp(:,2:end)]; % Change date from datetime to datenum
+data_blp = table2cell(aux);
+data_blp = cell2mat(data_blp);
 %%
-run ccs.m                   % Historic data of cross-currency swaps (generates 'data_ccs')
+run fwd_prm.m
+% run ccs.m                   % Historic data of cross-currency swaps (generates 'data_ccs')
 % Append the data of CCS to the data of swap and yield curves
 [dataset_daily,header_daily] = append_dataset(dataset_daily, data_ccs, header_daily, hdr_ccs);
 %%
