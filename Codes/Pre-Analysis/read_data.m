@@ -25,7 +25,7 @@ data_blp = cell2mat(data_blp);
 
 dataset_daily = data_blp;
 header_daily  = hdr_blp;
-%%
+
 run fwd_prm.m
 % run ccs.m                   % Historic data of cross-currency swaps (generates 'data_ccs')
 % Append the data of CCS to the data of swap and yield curves
@@ -37,4 +37,4 @@ run csp.m                   % Historic data of credit spreads (generates 'data_c
 
 run plot_spreads.m
 
-clear path sheets
+clear path sheets aux
