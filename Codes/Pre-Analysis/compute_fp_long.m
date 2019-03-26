@@ -6,7 +6,6 @@ function [CCS,hdr] = compute_fp_long(LC,header,dataset)
 %
 %     INPUTS
 % char: LC        - local currency for which CCS will be computed
-% double: formula - number of formula needed to compute the CCS (see bottom)
 % cell: header    - contains information about the tikcers (eg currency, type, tenor)
 % double: dataset - dataset with historic values of all the tickers
 % 

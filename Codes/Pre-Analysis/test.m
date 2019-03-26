@@ -1944,8 +1944,34 @@ Bloomberg
 Datastream
 'Sheet',2,'ReadVariableNames',true,'DatetimeType','exceldatenum','TreatAsEmpty','NA'
 
+%% From compare_cip.m
+diffs = [];
+TT.diff = TT.(['dis' tnr]) - TT.(['own' tnr]);  % Calculate daily difference in rhos
+diffs = [diffs; tnrsnum(l), mean(TT.diff,'omitnan')];
+S(k).rhodiff = diffs;
+
+%% From compare_fx.m
+% All Forwards Together
+%     plot(TT_daily.Date,[fx_fwd_blpP fx_fwd_blpF fx_fwd_wmrF fx_fwd_wmrM])
+%     lgnd = [cellstr(TH_daily.Ticker(fltrBLPpts)),cellstr(TH_daily.Ticker(fltrBLPout)),...
+%         cellstr(TH_daily.Ticker(fltrWMRf)),cellstr(TH_daily.Ticker(fltrWMRm))];
+% 
+% All Forwards Together (Not Accounting for Forward Points Convention)
+% 
+% for k = 1:length(currEM)
+%     tnr = 0.25;
+%     fltrFWD = TH_daily.Currency==currEM{k} & TH_daily.Type=='FWD' & TH_daily.Tenor==tnr;
+%     fwd = TT_daily{:,fltrFWD};
+%     figure
+%     plot(TT_daily.Date,fwd)
+%     lgnd = strcat(cellstr(TH_daily.Ticker(fltrFWD)),{' '},cellstr(TH_daily.Source(fltrFWD)));
+%     legend(lgnd,'Location','best')
+%     title(currEM{k})
+%     datetick('x','yy','keeplimits')
+% end
 
 %%
+
 
 
 end

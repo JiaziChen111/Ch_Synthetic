@@ -3,66 +3,57 @@
 %
 % Pavel Solís (pavel.solis@gmail.com), March 2019
 %%
-if ~exist('T_cip','var')                                      % Run code if T_cip is not in the workspace
+if ~exist('T_cip','var')                            % Run code if T_cip is not in the workspace
     run read_cip.m
 end
 
-[~,all_currencies] = findgroups(T_cip.currency);              % Find all currencies
-[~,~,currencies]   = findgroups(T_cip.group,T_cip.currency);  % Currencies ordered by group of countries
-S = cell2struct(cellstr(currencies)','ccy');                  % For field ccy, assign a country to a structure
+curncs = read_currencies(T_cip);
+S      = cell2struct(curncs','ccy');                % Assign a currency to a structure with field ccy
 
-[~,all_tenors] = findgroups(T_cip.tenor);           % Find the tenors as categorical variable
-tenors = cellstr(all_tenors);                       % Convert to cell array
-tenors{contains(tenors,'3m')} = '0.25y';            % Express all tenors in years
-tenors = strrep(tenors,'y','');                     % Remove 'y' from all tenors
-tenors = cellfun(@str2num,tenors);                  % Convert cell array to numbers
-[tenors,idx] = sort(tenors);                        % Sort all tenors
-all_tenors   = all_tenors(idx);                     % Reorder all tenors in ascending order
+[~,tnrscell] = findgroups(T_cip.tenor);             % Find the tenors as categorical variable
+tnrscell = cellstr(tnrscell);                       % Convert to cell array
+tnrsnum  = tnrscell;
+tnrsnum{contains(tnrsnum,'3m')} = '0.25y';          % Express all tenors in years
+tnrsnum  = strrep(tnrsnum,'y','');                  % Remove 'y' from all tenors
+tnrsnum  = cellfun(@str2num,tnrsnum);               % Convert cell array to numbers
+[tnrsnum,idx] = sort(tnrsnum);                      % Sort all tenors in ascending order
+tnrscell = tnrscell(idx);                           % Reorder cell array of tenors in ascending order
 
-for k = 1:length(currencies)
-    diffs = []; correls = [];
-    for l = 2:length(all_tenors)
-        tnryr= char(all_tenors(l));
-        curr = char(currencies(k));
+%% Compare Forward Premium for All Maturities
+for k = 1:length(curncs)
+    corrs = [];
+    for l = 1:length(tnrscell)
+        LC = curncs{k}; tnr = tnrscell{l};
 
-        % TTdis = table2timetable(table(T_cip.date(rows),T_cip{rows,'rho'}));
-        rows  = T_cip.currency==currencies(k) & T_cip.tenor==all_tenors(l);
-        z1    = table(T_cip.date(rows),T_cip{rows,'rho'},'VariableNames',{'date',['dis' tnryr]});
-        TTdis = table2timetable(z1);                % Create timetable for DIS rho
+        rows  = T_cip.currency==LC & T_cip.tenor==tnr;
+        aux   = table(T_cip.date(rows),T_cip{rows,'rho'},'VariableNames',{'date',['dis' tnr]});
+        TTdis = table2timetable(aux);               % Create timetable for DIS rho
         
         hdr  = header_daily;
-        fltr = ismember(hdr(:,1),currencies(k)) & ismember(hdr(:,2),'RHO') & ...
-            ismember(hdr(:,5),num2str(tenors(l)));
-        if sum(fltr) > 0                            % Proceed if tenor was calculated (data was available)
-            % TTown = table2timetable(table(t,dataset_daily(:,fltr)));
-            t  = datetime(dataset_daily(:,1),'ConvertFrom','datenum');
-            z1 = table(t,dataset_daily(:,fltr),'VariableNames',{'date',['own' tnryr]});
-            TTown = table2timetable(z1);            % Create timetable for own rho
+        fltr = ismember(hdr(:,1),LC) & ismember(hdr(:,2),'RHO') & ismember(hdr(:,5),num2str(tnrsnum(l)));
+        if sum(fltr) > 0                            % Proceed if tenor was calculated (i.e. data was available)
+            t     = datetime(dataset_daily(:,1),'ConvertFrom','datenum');
+            aux   = table(t,dataset_daily(:,fltr),'VariableNames',{'date',['own' tnr]});
+            TTown = table2timetable(aux);           % Create timetable for own rho
             
-            TT    = synchronize(TTdis,TTown,'intersection');    % Match values of rho in time
-            TT.diff = TT.(['dis' tnryr]) - TT.(['own' tnryr]);  % Calculate daily difference in rhos
-            diffs   = [diffs; tenors(l), mean(TT.diff,'omitnan')];
-            correls = [correls; tenors(l), corr(TT.(['dis' tnryr]),TT.(['own' tnryr]),'Rows','complete')];
+            TT    = synchronize(TTdis,TTown,'intersection');   % Match values of rho in time
+            corrs = [corrs; tnrsnum(l), corr(TT.(['dis' tnr]),TT.(['own' tnr]),'Rows','complete')];
         end
 
-        % figure
-%         f = figure;
-%         plot(T_cip.date(rows),T_cip{rows,'rho'})
-%         if sum(fltr) > 0                            % Proceed if tenor was calculated (data was available)
-%             hold on
-%             plot(t,dataset_daily(:,fltr))
-%             legend('DIS','Own')
-%         else
-%             legend('DIS')
-%         end
-%         title([curr ' ' tnryr])
-%         datetick('x','yy','keeplimits')
-%         tmr = timer('ExecutionMode','singleShot','StartDelay',1,'TimerFcn',@(~,~)close(f));
-%         start(tmr)
+        figure;
+        plot(T_cip.date(rows),T_cip{rows,'rho'})
+        if sum(fltr) > 0                            % Proceed if tenor was calculated (i.e. data was available)
+            hold on
+            plot(t,dataset_daily(:,fltr))
+            legend('DIS','Own')
+        else
+            legend('DIS')
+        end
+        title([LC ': Forward Premium ' tnr])
+        datetick('x','yy','keeplimits')
     end
-%     input([curr ' is displayed. Press Enter key to continue.'])
-    S(k).rhodiff = diffs;
-    S(k).rhocorr = correls;
+    input([LC ' is displayed. Press Enter key to continue.'])
+    S(k).rhocorr = corrs;
 end
 
-clear idx f t tmr fltr TTdis TTown TT tnryr curr diffs correls
+clear k l t idx aux hdr tnr* LC fltr TTdis TTown TT corrs
