@@ -59,7 +59,7 @@ switch LC
         fx_fwd = 1./fx_fwd;
 end
 
-% Calculate the FP for maturities < 1 yr
+% Calculate the FP (expressed in percentage points) for maturities < 1 yr
 fctr = 100./cellfun(@str2double,tnrs');     % Factor to annualize the FP (note tnrs are in fractions of a year)
 FP   = fctr.*(fx_fwd - fx_spt)./fx_spt;     % Alternative formula: FP = fctr.*(log(fx_fwd) - log(fx_spt));
 

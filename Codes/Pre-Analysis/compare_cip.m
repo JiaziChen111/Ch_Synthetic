@@ -50,6 +50,7 @@ for k = 1:length(curncs)
             legend('DIS')
         end
         title([LC ': Forward Premium ' tnr])
+        ylabel('%')
         datetick('x','yy','keeplimits')
     end
     input([LC ' is displayed. Press Enter key to continue.'])
