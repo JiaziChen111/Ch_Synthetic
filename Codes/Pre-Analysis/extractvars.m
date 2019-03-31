@@ -1,17 +1,17 @@
 function [vars,tenors] = extractvars(currencies,types,header,dataset)
-% This function extracts from the dataset the tickers (and the corresponding 
+% This function extracts from dataset the tickers (and the corresponding 
 % tenors) specified in currencies and types.
 % Assumes ctrs_struct.m has already been run.
-% m-files called: fltr4types.m, matchtnrs.m
+% m-files called: fltr4tickers.m, matchtnrs.m
 % 
 %     INPUTS
 % cell: currencies - currencies of the tickers to be extracted
 % cell: types      - types of tickers (e.g. IRS, NDS, BS, etc.) to be extracted
-% cell: header     - contains information about the tikcers (eg currency, type, tenor)
+% cell: header     - contains information about the tikcers (e.g. currency, type, tenor)
 % double: dataset  - contains historic values of all the tickers
 % 
 %     OUTPUT
-% double: vars - contains the variables extracted from the dataset, with matched tenors
+% double: vars - variables extracted from dataset, with matched tenors
 % cell: tenors - useful to construct the header for the extracted variables
 %
 % Pavel Solís (pavel.solis@gmail.com), March 2019
@@ -24,40 +24,43 @@ end
 
 % Filters
 floatleg = ''; nloops = 0;
-while nloops <= 0                               % Need to run it at least once; if IRS case, two more times
-    fltr = {}; tnr = {}; idx = {}; ntnr = [];   % Initialize
+while nloops <= 0                               % Runs at least once; if IRS case, runs two more times
+    fltr = cell(1,ntyp); tnr = cell(1,ntyp); idx = cell(1,ntyp); vars = cell(1,ntyp);
     for k = 1:ntyp                              % Identify tickers, as well as their tenors and positions
-        [fltr_temp,tnr_temp,idx_temp] = fltr4types(currencies{k},types{k},floatleg,header);
-        fltr = [fltr,fltr_temp];
-        tnr  = [tnr,{tnr_temp}];
-        idx  = [idx,idx_temp];
-        ntnr = [ntnr,numel(tnr_temp)];
+        [fltr{k},tnr{k},idx{k}] = fltr4tickers(currencies{k},types{k},floatleg,header);
     end
-
-    fltr = matchtnrs(fltr,tnr,idx,ntnr);
-
+    
+    % Case of two LC or FC yield curves in dataset (detect repeated tenors with unique)
+    LoC = ismember(types,{'LC','USD'});
+    if any(LoC) && ~isequal(length(unique(tnr{:,LoC})),length(tnr{:,LoC}))
+        fltr{:,LoC} = fltr{:,LoC} & startsWith(header(:,3),{'C','P'});  % Choose BFV curve (ticker with C or P)
+        tnr{:,LoC}  = header(fltr{:,LoC},5);                            % Update tnr; tenors are in col 5
+        idx{:,LoC}  = find(fltr{:,LoC});                                % Update idx
+    end
+    
+    [fltr,tenors] = matchtnrs(fltr,tnr,idx);
+    
     % Extract Information
     for k = 1:ntyp
         vars{k} = dataset(:,fltr{k});           % Extract the history of the tickers needed
     end
-
-    % Save tenors
-    tenors = header(fltr{1},5);                 % tenors are in col 5, all vars have same tenors (so use var{1})
     
     nloops = nloops + 1;                        % Exit while loop the first time for EMs and G10 w/o cutoff date
 
-    if numel(vars) > 1                          % IRS case only arises when extracting more than 1 variable
-        if size(vars{1},2) ~= size(vars{2},2)   % Case of IRS convention for G10 (assumes IRS is var{1})
-            nloops = -1;                        % Need to run the while loop two more times (cases: 3M and 6M)
+    if ismember('IRS',types)                        % IRS case: IRS for 3M and 6M
+        if numel(vars) > 1                          % IRS case only arises when extracting more than 1 variable
+            if size(vars{1},2) ~= size(vars{2},2)   % Case of IRS convention for G10 (assumes IRS is var{1})
+                nloops = -1;                        % Need to run the while loop two more times (3M and 6M)
+            end
         end
-    end
 
-    if  nloops == -1                            % First repetition for 6M
-        floatleg = '6M';
-    elseif nloops == 0                          % Second repetition for 3M
-        vars1    = vars;                        % Save vars and tenors for 6M
-        tenors1  = tenors;
-        floatleg = '3M';
+        if  nloops == -1                            % Do first recalculation for 6M
+            floatleg = '6M';
+        elseif nloops == 0                          % Do second recalculation for 3M
+            vars1    = vars;                        % Save vars and tenors for 6M
+            tenors1  = tenors;
+            floatleg = '3M';
+        end
     end
 end
 

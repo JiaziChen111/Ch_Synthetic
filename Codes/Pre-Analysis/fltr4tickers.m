@@ -1,4 +1,4 @@
-function [fltr,tnr,idx] = fltr4types(currency,type,floatleg,header)
+function [fltr,tnr,idx] = fltr4tickers(currency,type,floatleg,header)
 % This function identifies tickers, their tenors and position in the header
 % based on currency and type; for type IRS, also based on the floating leg.
 %
@@ -6,12 +6,12 @@ function [fltr,tnr,idx] = fltr4types(currency,type,floatleg,header)
 % char: currency - currency of the ticker
 % char: type     - type of ticker (e.g. IRS, NDS, BS, etc.)
 % char: floatleg - '3M' (3-month) or '6M' (6-month) floating interbank benchmark
-% cell: header   - contains information about the tikcers (eg currency, type, tenor)
+% cell: header   - contains information about the tikcers (e.g. currency, type, tenor)
 %
 %     OUTPUT
 % logical: fltr    - true when currency (col 1), type (col 2) -and leg (col 6)- match
 % cell/double: tnr - available tenors
-% double: idx      - position in header (the space of tickers)
+% double: idx      - position of tickers in header (the space of tickers)
 %
 % Pavel Solís (pavel.solis@gmail.com), March 2019
 %%

@@ -8,13 +8,13 @@
 %%
 clear; clc; close all;
 run read_platform.m         % Headers and historic data as (time)tables
-run read_tickers_v4.m       % Construct the headers (generates 'hdr_blp')
-run read_bloomberg.m        % Historic data of swap and yield curves (generates 'data_blp')
+% run read_tickers_v4.m       % Construct the headers (generates 'hdr_blp')
+% run read_bloomberg.m        % Historic data of swap and yield curves (generates 'data_blp')
 
 run read_usyc.m             % Historic data for U.S. yield curve (generates 'data_usyc')
 % Append the data of the US yield curve to the data from Bloomberg
-[dataset_daily,header_daily] = append_dataset(data_blp, data_usyc, hdr_blp, hdr_usyc);
-
+% [dataset_daily,header_daily] = append_dataset(data_blp, data_usyc, hdr_blp, hdr_usyc);
+%%
 % Convert table to cell arrays
 hdr_blp  = [TH_daily.Properties.VariableNames;table2cell(TH_daily)];         % Convert header to cell array
 hdr_blp(2:end,5) = cellfun(@num2str,hdr_blp(2:end,5),'UniformOutput',false); % Convert tnrs to string
@@ -26,6 +26,13 @@ data_blp = cell2mat(data_blp);
 dataset_daily = data_blp;
 header_daily  = hdr_blp;
 
+% Convert to categorical: Option 1 (Before readtable)
+opts  = detectImportOptions(filename);          % Detect variable names
+notnr = ~strcmp('Tenor',opts.VariableNames);    % All names except Tenor
+opts  = setvartype(opts,notnr,'categorical');   % Update data type to categorical
+T     = readtable(filename,opts);
+
+% Convert to categorical: Option 2 (After readtable)
 TH_daily.Currency = categorical(TH_daily.Currency);
 TH_daily.Type     = categorical(TH_daily.Type);
 TH_daily.Ticker   = categorical(TH_daily.Ticker);
@@ -39,7 +46,8 @@ run fwd_prm.m               % Historic data of forward premiums (generates 'data
 % Append the data of FP to the data of swap and yield curves
 [dataset_daily,header_daily] = append_dataset(dataset_daily, data_fp, header_daily, hdr_fp);
 %%
-run csp.m                   % Historic data of credit spreads (generates 'data_csp')
+run cip_vars.m              % Historic data of CIP deviations (generates 'data_cip_vars')
+% run csp.m                   % Historic data of credit spreads (generates 'data_csp')
 % Append the data of credit spreads to the data of swap curves, yield curves and CCS 
 [dataset_daily,header_daily] = append_dataset(dataset_daily, data_csp, header_daily, hdr_csp);
 

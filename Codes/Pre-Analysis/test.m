@@ -1970,8 +1970,34 @@ S(k).rhodiff = diffs;
 %     datetick('x','yy','keeplimits')
 % end
 
-%%
+%% From matchtnrs.m (can be deleted)
+% % If necessary, adjust filters so that all tenors coincide
+% [tnrmin, minpos] = min(ntnr);           % Find min and max tenors
+% tnrmax = max(ntnr);
+% if tnrmin ~= tnrmax                     % Stop if all have same tenors (tnrmin=tnrmax)
+%     tnrshigh = ~ismember(ntnr,tnrmin);  % Logical of high tenors
+%     tnrshpos = find(tnrshigh);          % Position of high tenors
+%     for k = tnrshpos                    % Remove tenors that will not be used
+%         [fltr{k},tnr{k},idx{k}] = adjustfltr(tnr{k},tnr{minpos},idx{k},fltr{k});
+%     end
+% end
+% 
+% % Flag cases with same tnrmin but different elements (eg [1,3,4] & [2,3,4]), if any
+%  Applied to PHP, PLN, RUB when currencies = {LC,LC} and types = {'LC','LCSYNT'};
+% if sum(ntnr(:) == tnrmin) > 1          % Only if at least 2 have tnrmin
+%     tnrmins = find(ntnr(:) == tnrmin); % Positions of tenors with same tnrmin
+%     for k = tnrmins(2:end)'            % By if condition, there are at least 2
+%         coincident = adjustfltr(tnr{k},tnr{tnrmins(1)},idx{k},fltr{k});
+%         if sum(coincident) < tnrmin
+%             % warning('Types %s and %s have different tenors.',types{tnrmins(1)},types{k})
+%             warning('Types have different tenors.')
+%         end
+%     end
+% end 
+% 
+% ntnr = cellfun(@sum,fltr);
 
+%     function [fltr1,tnr1,idx1] = adjustfltr(tnr1,tnr2,idx1,fltr1)
 
 
 end
