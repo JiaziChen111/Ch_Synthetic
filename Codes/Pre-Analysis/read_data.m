@@ -49,8 +49,8 @@ run fwd_prm.m               % Historic data of forward premiums (generates 'data
 run cip_vars.m              % Historic data of CIP deviations (generates 'data_cip_vars')
 % run csp.m                   % Historic data of credit spreads (generates 'data_csp')
 % Append the data of credit spreads to the data of swap curves, yield curves and CCS 
-[dataset_daily,header_daily] = append_dataset(dataset_daily, data_csp, header_daily, hdr_csp);
-
+[dataset_daily,header_daily] = append_dataset(dataset_daily, data_cip_vars, header_daily, hdr_cip_vars);
+%%
 run plot_spreads.m
 
 clear path sheets aux

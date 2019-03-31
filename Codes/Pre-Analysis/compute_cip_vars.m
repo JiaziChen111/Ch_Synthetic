@@ -38,21 +38,21 @@ switch ccy_type
         name_LCsprd = strcat(LC,' LC INTEREST RATE SPREAD',{' '},tnrLCsprd,' YR');
         hdr_LCsprd  = construct_hdr(LC,'LCSPRD','N/A',name_LCsprd,tnrLCsprd,' ',' ');
         
-        vars_aux = [dataset, y_LCsynt, y_LCsprd];
-        hdr_aux  = [header; hdr_LCsynt; hdr_LCsprd];
+        vars_aux = [y_LCsynt, y_LCsprd];
+        hdr_aux  = [hdr_LCsynt; hdr_LCsprd];
         
         % Deviations from CIP
         currencies = {LC,LC};
         types      = {'LC','LCSYNT'};
-        [vars,tnrCIPdev] = extractvars(currencies,types,hdr_aux,vars_aux);
+        [vars,tnrCIPdev] = extractvars(currencies,types,[header;hdr_aux],[dataset,vars_aux]);
         y_LC = vars{1};   y_LCsynt = vars{2};
         cip_dev = y_LC - y_LCsynt;
         name_CIPdev = strcat(LC,' CIP DEVIATION',{' '},tnrCIPdev,' YR');
         hdr_CIPdev  = construct_hdr(LC,'CIPDEV','N/A',name_CIPdev,tnrCIPdev,' ',' ');
         
         % Append all variables and stack the headers
-        CIPvars = [y_LCsynt, y_LCsprd, cip_dev];        
-        CIPhdr  = [hdr_LCsynt; hdr_LCsprd; hdr_CIPdev];
+        CIPvars = [vars_aux, cip_dev];        
+        CIPhdr  = [hdr_aux; hdr_CIPdev];
         
     case 2  % FC case
         % FC interest rate differential
