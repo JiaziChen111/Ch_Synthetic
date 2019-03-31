@@ -1,20 +1,20 @@
-function yields = y_NSS(param, maturities)
-% This function contains the equation for the zero curve implied by the
-% Nelson-Siegel-Svensson model for the instantaneous forward rate.
+function yields = y_NSS(params,maturities)
+% This function returns a panel of zero yield curves implied by the
+% Nelson-Siegel-Svensson model for the specified maturities.
+% m-files called: y_NS.m
 %
 %     INPUTS
-% double: param - vector containing parameters beta0 to beta3, tau1, tau2
+% double: params - matrix of parameters; rows: dates, cols: beta0 to beta3, tau1, tau2
 % double: maturities - vector of maturities
 %
 %     OUTPUT
-% double: yields - vector of yields at the specified maturities
+% double: yields - vector of yields; rows: dates, cols: maturities
 %
-% Pavel Solís (pavel.solis@gmail.com), April 2018
+% Pavel Solís (pavel.solis@gmail.com), March 2019
 %%
-aux1   = maturities/param(5);
-aux2   = exp(-aux1);
-yields_NS = param(1) + (param(2) + param(3))*((1-aux2)./aux1) - param(3)*aux2;
+if size(maturities,2) == 1 ; maturities = maturities'; end  % Ensure maturities is a row vector
 
-aux3   = maturities/param(6);
-aux4   = exp(-aux3);
-yields = yields_NS + param(4)*((1-aux4)./aux3 - aux4);
+ylds_NS = y_NS(params(:,[1:3 5]),maturities);
+aux3    = maturities./params(:,6);
+aux4    = exp(-aux3);
+yields  = ylds_NS + params(:,4).*((1-aux4)./aux3 - aux4);
