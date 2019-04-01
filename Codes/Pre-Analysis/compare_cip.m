@@ -28,7 +28,7 @@ ntnrs    = length(tnrscell);
 varDIS = {'rho','diff_y','cip_govt'};
 varOWN = {'RHO','LCSPRD','CIPDEV'};
 pltname = {'Forward Premium','Spread','CIP Deviations'};
-savefig = true; tf_input = false;
+savefig = false; tf_input = true;
 
 for j = 1:length(varDIS)
 for k = 1:length(curncs)
@@ -68,7 +68,7 @@ for k = 1:length(curncs)
         title([pltname{j} ': ' LC ' ' tnr])
         ylabel('%')
         datetick('x','yy','keeplimits')
-        figname = [varDIS{j} '_' LC '_' tnr 'yr'];
+        figname = [varDIS{j} '_' LC '_' tnr];
         save_figure('CIPvars',figname,savefig)
     end
     if tf_input; input([varDIS{j} ' ' LC ' is displayed. Press Enter key to continue.']); end
