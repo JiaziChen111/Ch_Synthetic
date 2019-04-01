@@ -39,7 +39,7 @@ TH_daily.Ticker   = categorical(TH_daily.Ticker);
 TH_daily.Name     = categorical(TH_daily.Name);
 TH_daily.FloatingLeg = categorical(TH_daily.FloatingLeg);
 TH_daily.Source   = categorical(TH_daily.Source);
-
+%%
 [curncs,currEM,currAE] = read_currencies();
 run fwd_prm.m               % Historic data of forward premiums (generates 'data_fp')
 % run ccs.m                   % Historic data of cross-currency swaps (generates 'data_ccs')
