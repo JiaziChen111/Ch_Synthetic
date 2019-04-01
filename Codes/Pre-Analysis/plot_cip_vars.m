@@ -1,4 +1,4 @@
-%% Plot Spreads
+%% Plot CIP Variables
 % This code plots the forward premium, local and foreign interest rate spreads
 % and deviations from covered interest rate parity for different countries.
 % Assumes that header_daily and dataset_daily are in the workspace.
