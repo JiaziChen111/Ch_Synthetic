@@ -18,11 +18,14 @@ function [CIPvars,CIPhdr] = compute_cip_vars(LC,ccy_type,header,dataset)
 %
 % Pavel Solís (pavel.solis@gmail.com), March 2019
 %%
+% Type of US yield curve
+ycUS = {'HC','LC'}; optn = 1;               % HC is GSW, LC is Bloomberg
+
 switch ccy_type
-    case 1  % LC case     
+    case 1  % LC case
         % Synthetic LC yield curve
         currencies = {'USD',LC};
-        types      = {'HC','RHO'};
+        types      = {ycUS{optn},'RHO'};
         [vars,tnrLCsynt] = extractvars(currencies,types,header,dataset);
         y_US = vars{1};   FP = vars{2};
         y_LCsynt = y_US + FP;
@@ -31,7 +34,7 @@ switch ccy_type
         
         % LC-US interest rate spread
         currencies = {LC,'USD'};
-        types      = {'LC','HC'};
+        types      = {'LC',ycUS{optn}};
         [vars,tnrLCsprd] = extractvars(currencies,types,header,dataset);
         y_LC = vars{1};   y_US = vars{2};
         y_LCsprd = y_LC - y_US;
@@ -57,7 +60,7 @@ switch ccy_type
     case 2  % FC case
         % FC interest rate differential
         currencies = {LC,'USD'};
-        types      = {'USD','HC'};
+        types      = {'USD',ycUS{optn}};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
         y_FC = vars{1};  y_US = vars{2};
         y_FCsprd = y_FC - y_US;
