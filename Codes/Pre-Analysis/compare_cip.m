@@ -25,10 +25,10 @@ ntnrs    = length(tnrscell);
 
 %% For Each Country Compare CIP Variables for All Maturities
 
-varDIS = {'rho','diff_y','cip_govt'};
-varOWN = {'RHO','LCSPRD','CIPDEV'};
+varDIS  = {'rho','diff_y','cip_govt'};
+varOWN  = {'RHO','LCSPRD','CIPDEV'};
 pltname = {'Forward Premium','Spread','CIP Deviations'};
-savefig = false; tf_input = true;
+figdir  = 'DISvsOwn'; figsave = false; tf_input = true;
 
 for j = 1:length(varDIS)
 for k = 1:length(curncs)
@@ -69,11 +69,11 @@ for k = 1:length(curncs)
         ylabel('%')
         datetick('x','yy','keeplimits')
         figname = [varDIS{j} '_' LC '_' tnr];
-        save_figure('CIPvars',figname,savefig)
+        save_figure(figdir,figname,savefig)
     end
     if tf_input; input([varDIS{j} ' ' LC ' is displayed. Press Enter key to continue.']); end
     S(k).([varDIS{j} '_corr']) = corrs;
 end
 end
 
-clear j k l t idx aux rows hdr tnr* LC fltr TTdis TTown TT corrs var* plt*
+clear j k l t idx aux rows hdr tnr* LC fltr TTdis TTown TT corrs var* plt* fig*
