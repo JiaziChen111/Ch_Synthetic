@@ -31,11 +31,17 @@ while nloops <= 0                               % Runs at least once; if IRS cas
     end
     
     % Case of two LC or FC yield curves in dataset (detect repeated tenors with unique)
-    LoC = ismember(types,{'LC','USD'});
-    if any(LoC) && ~isequal(length(unique(tnr{:,LoC})),length(tnr{:,LoC}))
-        fltr{:,LoC} = fltr{:,LoC} & startsWith(header(:,3),{'C','P'});  % Choose BFV curve (ticker with C or P)
-        tnr{:,LoC}  = header(fltr{:,LoC},5);                            % Update tnr; tenors are in col 5
-        idx{:,LoC}  = find(fltr{:,LoC});                                % Update idx
+    LoF = ismember(types,{'LC','USD'});
+    if any(LoF)
+        pLoF = find(LoF);
+        for k = 1:numel(pLoF)
+            nLoF = pLoF(k);
+            if ~isequal(length(unique(tnr{:,nLoF})),length(tnr{:,nLoF}))
+                fltr{:,nLoF} = fltr{:,nLoF} & startsWith(header(:,3),{'C','P'});  % BFV curve starts w/ C or P
+                tnr{:,nLoF}  = header(fltr{:,nLoF},5);                            % Update tnr; tenors in col 5
+                idx{:,nLoF}  = find(fltr{:,nLoF});                                % Update idx
+            end
+        end
     end
     
     [fltr,tenors] = matchtnrs(fltr,tnr,idx);
