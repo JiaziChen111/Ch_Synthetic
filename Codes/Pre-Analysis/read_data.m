@@ -46,4 +46,9 @@ run cip_vars.m              % Historic data of CIP deviations (generates 'data_c
 %%
 run plot_cip_vars.m
 
-clear path sheets aux
+%%
+run read_cip.m
+
+iso    = read_currencies(T_cip);
+curncs = iso2names(iso);
+S      = cell2struct(curncs',{'imf','cty','ccy','iso'});

@@ -10,8 +10,8 @@ if ~exist('T_cip','var')                            % Run code if T_cip is not i
     run read_cip.m
 end
 
-curncs = read_currencies(T_cip);
-S      = cell2struct(curncs','ccy');                % Assign a currency to a structure with field ccy
+iso   = read_currencies(T_cip);
+Scorr = cell2struct(iso','iso');                % Assign a currency to a structure with field ccy
 
 [~,tnrscell] = findgroups(T_cip.tenor);             % Find the tenors as categorical variable
 tnrscell = cellstr(tnrscell);                       % Convert to cell array
@@ -31,11 +31,11 @@ pltname = {'Forward Premium','Spread','CIP Deviations'};
 figdir  = 'DISvsOwn'; figsave = false; tf_input = true;
 
 for j = 1:length(varDIS)
-for k = 1:length(curncs)
+for k = 1:length(iso)
     close all
     corrs = nan(ntnrs,2);
     for l = 1:ntnrs
-        LC = curncs{k}; tnr = tnrscell{l}; corrs(l,1) = tnrsnum(l);
+        LC = iso{k}; tnr = tnrscell{l}; corrs(l,1) = tnrsnum(l);
 
         rows  = T_cip.currency==LC & T_cip.tenor==tnr;
         aux   = table(T_cip.date(rows),T_cip{rows,varDIS{j}},'VariableNames',{'date',['dis' tnr]});
@@ -69,10 +69,10 @@ for k = 1:length(curncs)
         ylabel('%')
         datetick('x','yy','keeplimits')
         figname = [varDIS{j} '_' LC '_' tnr];
-        save_figure(figdir,figname,savefig)
+        save_figure(figdir,figname,figsave)
     end
     if tf_input; input([varDIS{j} ' ' LC ' is displayed. Press Enter key to continue.']); end
-    S(k).([varDIS{j} '_corr']) = corrs;
+    Scorr(k).([varDIS{j} '_corr']) = corrs;
 end
 end
 
