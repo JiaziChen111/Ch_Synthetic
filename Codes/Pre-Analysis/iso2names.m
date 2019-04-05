@@ -1,12 +1,12 @@
 function ccy_names = iso2names(iso)
-% This function reads three-letter codes of currencies and returns currency
-% names, country names and three-digit IMF codes.
+% This function reads three-letter codes of currencies and returns country
+% names, currency names, three-letter ISO codes and three-digit IMF codes.
 %
 %     INPUTS
-% cell: curncs  - three letters indicating the currency (ISO 4217)
+% cell: iso  - three-letter code(s) indicating the currency (ISO 4217)
 % 
 %     OUTPUT
-% cell: ccy_names - three-letter and -digit codes, currency names, country names
+% cell: ccy_names - country names, currency names, three-letter and -digit codes
 %
 % Pavel Solís (pavel.solis@gmail.com), April 2019
 %%
@@ -69,11 +69,24 @@ codesWRD = codes_iso(fltr_iso,[1 2 3]);
 idx7 = ismember(codesWRD(:,3),[ccy_codes;xclude_code]);     % Delete extra countries
 codesWRD = codesWRD(idx7,:);
 
-ccy_names = [codesNUM codesWRD(:,end)];
+% Combine codes and names
+ccy_names = [codesNUM codesWRD(:,end)];                     % Both ordered alphabetically by country
 
+% Express the three-digit codes as doubles
 aux2 = cellfun(@str2num,ccy_names(:,1));
 aux2 = num2cell(aux2);
 ccy_names(:,1) = aux2;
+
+% Reorder columns to country, currency, iso, imf
+ccy_names = ccy_names(:,[2 3 4 1]);
+
+% Reorder rows from alphabetical to EM-AE ordering (assumes iso has EM-AE ordering)
+[~,idx_imf] = sort(ccy_names(:,3));                         % Reorder iso from alphabetical
+[~,idx_iso] = sort(iso);                                    % Reorder original iso so both match
+[~,idx_idx] = sort(idx_iso);                                % Restore original iso
+
+aux3 = ccy_names(idx_imf,:);                                % Reorder to alphabetical
+ccy_names = aux3(idx_idx,:);                                % Reorder to match original
 
 %% Sources
 % 

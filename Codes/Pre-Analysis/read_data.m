@@ -51,4 +51,4 @@ run read_cip.m
 
 iso    = read_currencies(T_cip);
 curncs = iso2names(iso);
-S      = cell2struct(curncs',{'imf','cty','ccy','iso'});
+S      = cell2struct(curncs',{'cty','ccy','iso','imf'});
