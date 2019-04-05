@@ -33,7 +33,7 @@ TH_daily.Name     = categorical(TH_daily.Name);
 TH_daily.FloatingLeg = categorical(TH_daily.FloatingLeg);
 TH_daily.Source   = categorical(TH_daily.Source);
 %%
-[curncs,currEM,currAE] = read_currencies();
+curncs = read_currencies();
 run fwd_prm.m               % Constructs historic data on forward premiums (generates 'data_fp','hdr_fp')
 
 % Append the data of FP to the dataset
@@ -44,11 +44,13 @@ run cip_vars.m              % Historic data of CIP deviations (generates 'data_c
 % Append the data of CIP variables to the dataset
 [dataset_daily,header_daily] = append_dataset(dataset_daily, data_cip_vars, header_daily, hdr_cip_vars);
 %%
-run plot_cip_vars.m
+% run plot_cip_vars.m
 
 %%
-run read_cip.m
+if ~exist('T_cip','var')                                % Run code if T_cip is not in the workspace
+    run read_cip.m
+end
 
-iso    = read_currencies(T_cip);
-curncs = iso2names(iso);
-S      = cell2struct(curncs',{'cty','ccy','iso','imf'});
+[iso,currEM,currAE] = read_currencies(T_cip);
+namescodes = iso2names(iso);
+S = cell2struct(namescodes',{'cty','ccy','iso','imf'});
