@@ -281,7 +281,7 @@ Since `dev` is a permanent branch and `fix` branches are mainly used to correct 
 - To distinguish a `fix` branched off from `master` or `dev`, the names of `fix` branches will begin with: `fix/mst` or `fix/dev`.
 - There can be three types of feature branches and so `ftr` can take any of three tokens: `data`, `code`, `docs`.
   Branches `data` deal with raw or analytic data so this token will be followed by: `raw` and `ans`. Branches
-  `code` deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ana`. Branches
+  `code` deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ans`. Branches
   `docs` deal with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref` and `tab`.
 - All three of the different types of feature branches can be used for experimenting or testing minor things unrelated to the previous categories, in which case any of the three types will be followed by: `tst`.
 - Examples: `data/raw/feature-name`, `code/ans/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
