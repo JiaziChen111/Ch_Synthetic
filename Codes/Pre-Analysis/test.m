@@ -1525,8 +1525,8 @@ clear name_lccs1 name_lccs2 hdr_lccs1 hdr_lccs2
 tblnms = [tblnms; names];
         tblmtx = [tblmtx; outmtrx(:)];
         tblbtm = [tblbtm cellstr(num2str([nobs; nctrs; r2]))];
-    end
-end
+%     end
+% end
  
 spcs    = cell(size(tblnms));
 spcs(:) = {' '};
@@ -1923,7 +1923,7 @@ newStruct(25,50) = struct('a',[],'b',[],'c',[]); % initialize a structure array 
 
 currentDate = datestr(now,'mmmdd');
 myStruct.(currentDate) = [1,2,3];               % dynamic field name
-myStruct.('Feb29') or myStruct.("Feb29")        % both are fine
+myStruct.('Feb29') %or myStruct.("Feb29")        % both are fine
                                                  
 [v1, v2, v3] = s(1:3).f;% returns the field f from multiple elements in a comma-separated list
 allNums = [nums.f];     % concatenate data if field f contains the same type of data and can form a hyperrectangle
@@ -1944,4 +1944,60 @@ Bloomberg
 Datastream
 'Sheet',2,'ReadVariableNames',true,'DatetimeType','exceldatenum','TreatAsEmpty','NA'
 
+%% From compare_cip.m
+diffs = [];
+TT.diff = TT.(['dis' tnr]) - TT.(['own' tnr]);  % Calculate daily difference in rhos
+diffs = [diffs; tnrsnum(l), mean(TT.diff,'omitnan')];
+S(k).rhodiff = diffs;
 
+%% From compare_fx.m
+% All Forwards Together
+%     plot(TT_daily.Date,[fx_fwd_blpP fx_fwd_blpF fx_fwd_wmrF fx_fwd_wmrM])
+%     lgnd = [cellstr(TH_daily.Ticker(fltrBLPpts)),cellstr(TH_daily.Ticker(fltrBLPout)),...
+%         cellstr(TH_daily.Ticker(fltrWMRf)),cellstr(TH_daily.Ticker(fltrWMRm))];
+% 
+% All Forwards Together (Not Accounting for Forward Points Convention)
+% 
+% for k = 1:length(currEM)
+%     tnr = 0.25;
+%     fltrFWD = TH_daily.Currency==currEM{k} & TH_daily.Type=='FWD' & TH_daily.Tenor==tnr;
+%     fwd = TT_daily{:,fltrFWD};
+%     figure
+%     plot(TT_daily.Date,fwd)
+%     lgnd = strcat(cellstr(TH_daily.Ticker(fltrFWD)),{' '},cellstr(TH_daily.Source(fltrFWD)));
+%     legend(lgnd,'Location','best')
+%     title(currEM{k})
+%     datetick('x','yy','keeplimits')
+% end
+
+%% From matchtnrs.m (can be deleted)
+% % If necessary, adjust filters so that all tenors coincide
+% [tnrmin, minpos] = min(ntnr);           % Find min and max tenors
+% tnrmax = max(ntnr);
+% if tnrmin ~= tnrmax                     % Stop if all have same tenors (tnrmin=tnrmax)
+%     tnrshigh = ~ismember(ntnr,tnrmin);  % Logical of high tenors
+%     tnrshpos = find(tnrshigh);          % Position of high tenors
+%     for k = tnrshpos                    % Remove tenors that will not be used
+%         [fltr{k},tnr{k},idx{k}] = adjustfltr(tnr{k},tnr{minpos},idx{k},fltr{k});
+%     end
+% end
+% 
+% % Flag cases with same tnrmin but different elements (eg [1,3,4] & [2,3,4]), if any
+%  Applied to PHP, PLN, RUB when currencies = {LC,LC} and types = {'LC','LCSYNT'};
+% if sum(ntnr(:) == tnrmin) > 1          % Only if at least 2 have tnrmin
+%     tnrmins = find(ntnr(:) == tnrmin); % Positions of tenors with same tnrmin
+%     for k = tnrmins(2:end)'            % By if condition, there are at least 2
+%         coincident = adjustfltr(tnr{k},tnr{tnrmins(1)},idx{k},fltr{k});
+%         if sum(coincident) < tnrmin
+%             % warning('Types %s and %s have different tenors.',types{tnrmins(1)},types{k})
+%             warning('Types have different tenors.')
+%         end
+%     end
+% end 
+% 
+% ntnr = cellfun(@sum,fltr);
+
+%     function [fltr1,tnr1,idx1] = adjustfltr(tnr1,tnr2,idx1,fltr1)
+
+
+end

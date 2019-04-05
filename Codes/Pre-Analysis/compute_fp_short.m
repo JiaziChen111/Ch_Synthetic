@@ -1,0 +1,91 @@
+function [FP,hdr] = compute_fp_short(LC,header,dataset,curncs)
+% This function computes the forward premium (FP) for maturities shorter
+% than 1 year: 3, 6 and 9 months.
+% Assumption: convpts and convfx (below) have same order of countries as curncs.
+% m-files called: construct_hdr.m
+%
+%     INPUTS
+% char: LC        - local currency for which the forward premium will be computed
+% cell: header    - contains information about the tikcers (eg currency, type, tenor)
+% double: dataset - dataset with historic values of all the tickers
+% cell: curncs    - [Optional] contains all currencies in ascending order (EMs followed by AEs)
+% 
+%     OUTPUT
+% double: FP - matrix of historic forward premiums (rows) for different tenors (cols)
+% cell: hdr  - header ready to be appended (NO extra first row with titles)
+%
+% Pavel Solís (pavel.solis@gmail.com), March 2019
+%%
+% Read conventions used to quote FX forward points
+path       = pwd;
+cd(fullfile(path,'..','..','Data','Raw'))                   % Use platform-specific file separators
+filename   = 'AE_EM_Curves_Tickers.xlsx';
+convpts    = xlsread(filename,'CONV','N66:N90');            % Update range as necessary
+[~,convfx] = xlsread(filename,'CONV','H66:H90');            % Update range as necessary
+cd(path)
+
+if nargin == 3; curncs = read_currencies(); end
+
+tnrs = {'0.25';'0.5';'0.75'};
+
+% Extract the FX spot
+fltrSPT = ismember(header(:,1),LC) & ismember(header(:,2),'SPT');
+fx_spt  = dataset(:,fltrSPT & ismember(header(:,7),'Bloomberg'));
+
+% Extract or calculate the FX forward
+fltrAUX = ismember(header(:,1),LC) & ismember(header(:,2),'FWD') & ismember(header(:,5),tnrs);
+fltrBLP = fltrAUX & ismember(header(:,7),'Bloomberg');
+fltrWMR = fltrAUX & ismember(header(:,7),'WMR');
+
+switch LC
+    case {'KRW','PHP','THB'}
+        fx_spt  = dataset(:,fltrSPT & ismember(header(:,7),'WMR'));
+        fltrFWD = fltrWMR & endsWith(header(:,3),'F');      % Use outright forwards from Datastream
+        fx_fwd  = dataset(:,fltrFWD);
+        
+    case {'IDR','MYR','PEN'}                                % Use outright forwards from Bloomberg
+        fltrFWD = fltrBLP & contains(header(:,3),'+');
+        fx_fwd  = dataset(:,fltrFWD);
+        
+    otherwise                                               % Use forward points from Bloomberg
+        fltrFWD = fltrBLP & ~contains(header(:,3),'+');
+        fx_fwd  = fx_spt + dataset(:,fltrFWD)/convpts(ismember(curncs,LC)); % Use right convention
+end
+
+% Express all FX as LC per USD
+switch LC
+    case curncs(~startsWith(convfx,'USD'))'
+        fx_spt = 1./fx_spt;
+        fx_fwd = 1./fx_fwd;
+end
+
+% Calculate the FP (expressed in percentage points) for maturities < 1 yr
+fctr = 100./cellfun(@str2double,tnrs');     % Factor to annualize the FP (note tnrs are in fractions of a year)
+FP   = fctr.*(fx_fwd - fx_spt)./fx_spt;     % Alternative formula: FP = fctr.*(log(fx_fwd) - log(fx_spt));
+
+% Header
+name = strcat(LC,' FORWARD PREMIUM',{' '},tnrs,' YR');
+hdr  = construct_hdr(LC,'RHO','N/A',name,tnrs,' ',' ');     % Note: No extra row 1 (title)
+
+%% Compare the FP for EMs Obtained Using Datastream
+% for k = 1:15
+%     if k ~= [4, 8]                               % DIS (2018) use Bloomberg for IDR and MYR
+%         LC   = curncs{k};   tnr  = 0.25;
+%         rows = T_cip.currency==LC & T_cip.tenor=='3m';
+% 
+%         fltrSPT = TH_daily.Currency==LC & TH_daily.Type=='SPT' & TH_daily.Source=='WMR';
+%         fx_spt  = TT_daily{:,fltrSPT};
+% 
+%         fltrFWD    = TH_daily.Currency==LC & TH_daily.Type=='FWD' & TH_daily.Tenor==tnr;
+%         fltrWMRf   = fltrFWD & TH_daily.Source=='WMR' & endsWith(cellstr(TH_daily.Ticker),'F');
+%         fx_fwd_wmr = TT_daily{:,fltrWMRf};
+% 
+%         FPwmr = (100/tnr)*(fx_fwd_wmr - fx_spt)./fx_spt;
+% 
+%         figure
+%         plot(T_cip.date(rows),T_cip{rows,'rho'},TT_daily.Date,FPwmr)
+%         legend('DIS','Own')
+%         title([LC ' ' num2str(tnr)])
+%         datetick('x','yy','keeplimits')
+%     end
+% end
