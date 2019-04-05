@@ -307,8 +307,12 @@ $ git push origin --delete <branchname>
 Implementation following the naming conventions:
 ```bash
 # Develop branch
-$ git checkout -b dev master		# Follow it by `git push -u origin dev` to set the upstream for dev and see it in GitHub
+$ git checkout -b dev master
+$ git push -u origin dev		# Sets the upstream for dev and see it in GitHub
+	# Usual workflow
+$ git status
 $ git commit -am "Your message"
+	# To merge dev branch into master
 $ git checkout master
 $ git merge --no-ff dev			# Merge your changes to master without a fast-forward
 $ git push origin master		# Push changes to the server
@@ -316,34 +320,47 @@ $ git push origin dev
 
 
 # Feature branches
-$ git checkout -b ftr/cat/name dev	# Follow it by `git push -u origin ftr/cat/name` to set the upstream for the branch and see it in GitHub
+	# Create the branch
+$ git checkout -b ftr/cat/name dev
+$ git push -u origin ftr/cat/name	# Sets the upstream for the branch and see it in GitHub
+	# Usual workflow
+$ git status
 $ git commit -am "Your message"
+	# To merge feature branch into dev
 $ git checkout dev
 $ git merge --no-ff ftr/cat/name	# Merge your changes to dev without a fast-forward
+$ git pull				# Pull before push to ensure you have the latest version and there are no conflicts
 $ git push origin dev			# Push changes to the server
-$ git push origin ftr/cat/name
+$ git push origin ftr/cat/name		# Might need `git branch` for the name of the feature branch
+	# To delete the feature branch
 $ git branch -d ftr/cat/name		# Optional: remove local and remote branches
 $ git push origin --delete ftr/cat/name
 
 
 # Fix branches
-$ git checkout -b fix/dev/name dev
-$ git checkout -b fix/mst/name master
+	# Create the branch
+$ git checkout -b fix/dev/name dev	OR	$ git checkout -b fix/mst/name master
+$ git push -u origin fix/dev/name	OR	$ git push -u origin fix/mst/name
+	# Usual workflow
+$ git status
 $ git commit -am "Your message"
-	# fix/mst branches
+				# fix/mst branches
+	# To merge fix branch into master
 $ git checkout master
 $ git merge --no-ff fix/mst/name	# Merge your changes to master without a fast-forward
 $ git push origin master		# Push changes to the server
 $ git push origin fix/mst/name
+	# To merge fix branch into dev
 $ git checkout dev
 $ git merge --no-ff fix/mst/name	# Merge your changes to dev without a fast-forward
 $ git push origin dev			# Push changes to the server
-	# fix/dev branches
+				# fix/dev branches
+	# To merge fix branch into dev
 $ git checkout dev
 $ git merge --no-ff fix/dev/name	# Merge your changes to dev without a fast-forward
 $ git push origin dev			# Push changes to the server
 $ git push origin fix/dev/name
-
+	# To delete the fix branch
 $ git branch -d fix/xxx/name		# Optional: remove local and remote branches
 $ git push origin --delete fix/xxx/name
 ```
