@@ -280,11 +280,11 @@ Based on the previous two sources, I will use a forward slash separator and the 
 Since `dev` is a permanent branch and `fix` branches are mainly used to correct bugs, most of the branches that will be used are feature `ftr` branches. Therefore, naming conventions are needed to differentiate between them; also since `fix` branches can be branched off from `master` *or* `dev`, it will be useful to distinguish between them. Thus, these are the naming conventions for the temporary branches:
 - To distinguish a `fix` branched off from `master` or `dev`, the names of `fix` branches will begin with: `fix/mst` or `fix/dev`.
 - There can be three types of feature branches and so `ftr` can take any of three tokens: `data`, `code`, `docs`.
-  `data` are branches dealing with raw or analytic data so this token will be followed by: `raw`, `ana`.
-  `code` are branches dealing with pre-analysis or analysis of the data so this token will be followed by: `pre`, `ana`.
-  `docs` are branches dealing with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref`, `tab`.
+  Branches `data` deal with raw or analytic data so this token will be followed by: `raw` and `ans`. Branches
+  `code` deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ana`. Branches
+  `docs` deal with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref` and `tab`.
 - All three of the different types of feature branches can be used for experimenting or testing minor things unrelated to the previous categories, in which case any of the three types will be followed by: `tst`.
-- Examples: `data/raw/feature-name`, `code/ana/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
+- Examples: `data/raw/feature-name`, `code/ans/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
 - Therefore, there are in total 17 possible types of temporary branches: 15 feautre branches (12 regular, 3 for tests), 2 fix branches.
 - With this convention (names *and* forward slashes), no branch can have the following names (see first link above) -i.e. without the `/feature-name` part-: `ftr/cat` (e.g. `data/raw`,`code/ana`), `fix/dev`, `fix/mst`.
 
