@@ -1928,6 +1928,17 @@ myStruct.('Feb29') %or myStruct.("Feb29")        % both are fine
 [v1, v2, v3] = s(1:3).f;% returns the field f from multiple elements in a comma-separated list
 allNums = [nums.f];     % concatenate data if field f contains the same type of data and can form a hyperrectangle
 
+% Structures can be referenced dynamically, you have to put brackets around the dynamic reference
+s.a         % is the same as
+s.('a');    % So then,
+n = 'a';
+s.(n);      % can be used instead
+fNames = fieldnames(S);
+S.(fNames{n});
+
+% Remove fields (first and fourth) from structure
+fields = {'first','fourth'};
+S = rmfield(S,fields);
 
 %% Cell Arrays
 [r1c1, r2c1, r1c2, r2c2] = C{1:2,1:2};  % returns the contents of multiple cells as a comma-separated list

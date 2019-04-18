@@ -1,18 +1,28 @@
-function dataset_monthly = end_of_month(dataset_daily)
+function [dataset_monthly, date_first_obs] = end_of_month(dataset_daily)
 % This function returns end-of-month observations from a dataset containing
 % daily observations. The code preserves all the columns.
-% Note: The code keeps the last observation (ie assumes it is end of month).
 %
 %     INPUT
-% dataset_daily - matrix with daily observations as rows (top-down is first-last obs), col1 has dates
+% dataset_daily - daily observations as rows (top-down is first-last obs), col1 has dates
 %
 %     OUTPUT
-% dataset_monthly - matrix with end-of-month observations
+% dataset_monthly - end-of-month observations as rows, same columns as input
+% date_first_obs  - date of the first monthly observation
 %
-% Pavel Solís (pavel.solis@gmail.com), September 2018
+% Pavel Solís (pavel.solis@gmail.com), April 2019
 %%
-idxEndMo = [diff(day(dataset_daily(:,1))); -1] < 0;   % 1 if last day of month; keep last obs
-dataset_monthly = dataset_daily(idxEndMo,:);          % Last available trading day per month
+dates   = dataset_daily(:,1);
+lastobs = dates(end);                               % Last date in the dataset
+lastmth = eomdate(lastobs);                         % Last date of the month
+if (lastobs >= lastmth-4) && (lastobs <= lastmth)   % Compare allowing for long weekend
+    last = -1;                                      % Keep last observation if it is end of month
+else
+    last = 0;
+end
+
+idxEndMo = [diff(day(dates)); last] < 0;            % 1 if last day of month
+dataset_monthly = dataset_daily(idxEndMo,:);        % Last available trading day per month
+date_first_obs  = dataset_monthly(1,1);
 
 %% Source
 %
