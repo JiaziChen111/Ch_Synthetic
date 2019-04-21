@@ -421,6 +421,18 @@ $ git merge <parent>		# merges <parent> **into** the *current* branch (i.e. <bra
 
 If there are conflicts, they will be indicated in the respective file (you are HEAD). Manually resolve any conflict. Delete all of the delimiters (`<<<`). Add the file back (`git add --all`) and finish the merge (`git merge --continue`). To abort the merge use: `git merge --abort`.
 
+### See Changes Before Adding/Committing
+Three different ways to see the changes made for a given file before adding and/or committing:
+```bash
+$ git diff [filename]		# show differences between index and working tree (i.e. changes you haven't staged to commit)
+
+$ git diff --cached [filename]	# show differences between current commit and index (i.e. what you're about to commit)
+$ git diff --staged 		# does exactly the same thing, use what you like
+
+$ git diff HEAD [filename]	# show differences between current commit and working tree
+```
+It'll work recursively on directories, and if no paths are given, it shows all changes.
+
 #### Upload Changes to the Remote Repository
 Save all your commits in the local branch `<branchname>` to the remote repository (your branch `<branchname>` in GitHub):
 ```bash
