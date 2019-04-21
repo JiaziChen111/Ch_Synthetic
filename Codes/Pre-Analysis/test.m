@@ -2010,5 +2010,103 @@ S(k).rhodiff = diffs;
 
 %     function [fltr1,tnr1,idx1] = adjustfltr(tnr1,tnr2,idx1,fltr1)
 
+%%
+
+fltrLC     = ismember(header_daily(:,2),YCtype);      % 1 if LC/LCSYNT data
+ncntrs = length(S);%numel(curncs);
+tnrs_all    = [0; cellfun(@str2num,header_daily(2:end,5))];
+
+% Construct the database of LC yield curves
+dataset_lc = [];
+for k = 1:ncntrs                                  % Adjust here when working with one country
+    crncy = S(k).iso;
+
+    % Available tenors per country
+    fltrYLD = ismember(header_daily(:,1),crncy) & fltrLC;   % Country + LC data
+    tnrs    = tnrs_all(fltrYLD);                            % Tenors available
+
+    % End-of-month data
+    idxDates = sum(~isnan(dataset_daily(:,fltrYLD)),2) > 4; 
+    fltrYLD(1) = true;                                      % To include dates
+    data_lc  = dataset_daily(idxDates,fltrYLD);             % Keep rows with at least 5 observations
+    [data_lc,first_obs] = end_of_month(data_lc);            % Keep end-of-month observations
+    S(k).start = datestr(first_obs,'mmm-yyyy');             % First monthly observation
+    S(k).lcsynt = [0 tnrs'; data_lc];
+
+% dates = data_lc(:,1);
+% yields = data_lc(:,2:end);
+% 
+% dates = dates(80:end);
+% yields = yields(80:end,:);
+% nobs = size(yields,1);
+end
+%%
+[coeff1,score1,~,~,~,mu1] = pca(yields,'algorithm','als');
+reconstrct = score1*coeff1' + repmat(mu1,nobs,1);
+%%
+    for l = 1:nobs                                  % Adjust here when working in one month
+%         % Tenors available may fluctuate between 5 and numel(tnrs)
+%         date    = data_lc(l,1);
+%         ydataLC = data_lc(l,fltrYLD)';                      % Column vector
+%         idxY    = ~isnan(ydataLC);                          % sum(idxY) >= 5, see above
+%         ydataLC = ydataLC(idxY);
+%         tnrs1   = tnrs(idxY);                               % Tenors with data on date l
+%         ntnrs(l)= numel(tnrs1);
+%         if     l == 1
+%             S(k).ntnrsI = numel(tnrs1);
+%         elseif l == nobs
+%             S(k).ntnrsL = numel(tnrs1);
+%         end
+
+%         % Plot yields: actual, dropped, LC NS, US NSS
+%         plot(tnrs1,ydataLC)
+%         plot(tnrs,yields(l,:)','o',tnrs,reconstrct(l,:)','x',tnrs,yields_m(l,:)','*')
+%         plot(mats,yields(l,:)','o',mats,yields_m(l,:)','x')
+        plot(mats,yields(l,:)','o',mats,yields_mKF(l,:)','x')
+        title([crncy '  ' datestr(dates(l))]), ylabel('%'), xlabel('Maturity')
+        H(l) = getframe(gcf);                               % To see individual frames: imshow(H(2).cdata)
+    end
+%     dataset_lc = [dataset_lc; dataset_aux];
+
+% end for cntrs
+%% 
+N = 2;
+% mats = tnrs';
+W = pcacov(cov(yields));
+% W = coeff1;
+W = W(:,1:N)';  % N*J
+cP = yields*W'; % T*N
+dt = 1/12;
+
+% Estimate the model by ML. 
+% help sample_estimation_fun
+VERBOSE = true;
+[llks, AcP, BcP, AX, BX, kinfQ, K0P_cP, K1P_cP, sigma_e, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, llkP, llkQ,  K0Q_X, K1Q_X, rho0_X, rho1_X, Sigma_cP] = ...
+        sample_estimation_fun(W, yields, mats, dt, VERBOSE);
+
+[BcP, AcP, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, K0Q_X, K1Q_X, AX, BX, Sigma_X] = jszLoadings(W, K1Q_X, kinfQ, Sigma_cP, mats, dt);
+
+yields_m = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+
+figure(1)
+plot(year(dates) + month(dates)/12, yields_m)
+xlabel('date')
+ylabel('yields')
+
+
+
+[llk, AcP, BcP, AX, BX, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, yields_filtered, cP_filtered] = ...
+    jszLLK_KF(yields, W, K1Q_X, kinfQ, Sigma_cP, mats, dt, K0P_cP, K1P_cP, sigma_e);
+fprintf('The average (negative) log likelihood is %6.6g when using KF instead of assuming yields without error at these estimates\n', mean(llk))
+
+[BcP, AcP, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, K0Q_X, K1Q_X, AX, BX, Sigma_X] = jszLoadings(W, K1Q_X, kinfQ, Sigma_cP, mats, dt);
+
+yields_mKF = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+
+figure(2)
+plot(year(dates) + month(dates)/12, [yields*W', cP_filtered])
+xlabel('date')
+ylabel('yields')
+
 
 end

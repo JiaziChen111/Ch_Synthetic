@@ -49,11 +49,23 @@ for k = 1:ncntrs                                  % Adjust here when working wit
 
     % End-of-month data
     idxDates = sum(~isnan(dataset_daily(:,fltrYLD)),2) > 4; 
-    data_lc  = dataset_daily(idxDates,:);                   % Keep rows with at least 5 observations
+    fltrYLD(1) = true;                                      % To include dates
+    data_lc  = dataset_daily(idxDates,fltrYLD);             % Keep rows with at least 5 observations
     [data_lc,first_obs] = end_of_month(data_lc);            % Keep end-of-month observations
     S(k).start = datestr(first_obs,'mmm-yyyy');             % First monthly observation
-    nobs = size(data_lc,1);                                 % Number of monthly observations
-    ntnrs = [];
+    S(k).lcsynt = [0 tnrs'; data_lc];
+
+    % dates = data_lc(:,1);
+% yields = data_lc(:,2:end);
+% 
+% dates = dates(80:end);
+% yields = yields(80:end,:);
+% nobs = size(yields,1);
+% mats = tnrs';
+
+[coeff1,score1,~,~,~,mu1] = pca(yields,'algorithm','als');
+reconstrct = score1*coeff1' + repmat(mu1,nobs,1);
+% W = coeff1;
 
 %     % Address special cases
 %     if strcmp(YCtype,'LCRF')
@@ -110,18 +122,20 @@ for k = 1:ncntrs                                  % Adjust here when working wit
 % %         plot(tnrs1,ydataLC,'ko',dropped(l,1),dropped(l,2),'go',...
 % %             times,y_NS(params,times),'r-',times,y_NSS(params0,times),'b-')
 %         title([crncy '  ' datestr(date)]), ylabel('%'), xlabel('Maturity')
-%         H(l) = getframe(gcf);                               % To see individual frames: imshow(H(2).cdata)
+        plot(mats,yields(l,:)','o',mats,yields_mKF(l,:)','x')
+        title([crncy '  ' datestr(dates(l))]), ylabel('%'), xlabel('Maturity')
+        H(l) = getframe(gcf);                               % To see individual frames: imshow(H(2).cdata)
     end
 %     dataset_lc = [dataset_lc; dataset_aux];
-figure
-plot(ntnrs)
-title(S(k).cty)
+% figure
+% plot(ntnrs)
+% title(S(k).cty)
 end
 
 % Comment next lines when addresing special cases
 % Header
 % hdr_lc    = construct_monthly_hdr(mtrts,YCtype,1);
 
-beep
+% beep
 
 % S = rmfield(S,{'tnrsF','tnrsL'});
