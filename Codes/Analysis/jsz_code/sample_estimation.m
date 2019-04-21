@@ -21,6 +21,6 @@ dt = 1/12;
 % Estimate the model by ML. 
 help sample_estimation_fun
 VERBOSE = true;
-[llks, AcP, BcP, AX, BX, kinfQ, K0P_cP, K1P_cP, sigma_e, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, llkP, llkQ,  K0Q_X, K1Q_X, rho0_X, rho1_X] = ...
+[llks, AcP, BcP, AX, BX, kinfQ, K0P_cP, K1P_cP, sigma_e, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, llkP, llkQ,  K0Q_X, K1Q_X, rho0_X, rho1_X, Sigma_cP] = ...
         sample_estimation_fun(W, yields, mats, dt, VERBOSE);
 
