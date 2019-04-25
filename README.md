@@ -526,6 +526,30 @@ $ git pull
 - [Rename a repository](https://help.github.com/en/articles/renaming-a-repository)
 - [Relocate a local repo](https://stackoverflow.com/questions/11384928/change-git-repository-directory-location)
 
+### Solving Issues
+See history of local commits
+```bash
+$ git log
+```
+
+See history of remote commits
+```bash
+$ git log HEAD..origin/brach_name
+```
+
+To remove a big file [wrongly committed](https://thomas-cokelaer.info/blog/2018/02/git-how-to-remove-a-big-file-wrongly-committed/)
+```bash
+$ git filter-branch --tree-filter 'rm -rf Codes/Pre-Analysis/struct_data.mat' HEAD
+$ git push
+```
+
+It may cause the local and remote branches to diverge, in which case (see [this](https://stackoverflow.com/questions/2452226/master-branch-and-origin-master-have-diverged-how-to-undiverge-branches) and [this](http://serebrov.github.io/html/2012-02-13-git-branches-have-diverged.html))
+```bash
+$ git rebase origin/code/ans/fit-models
+```
+
+
+
 
 ## COMPATIBILITY
 -------------------------------------------------------------------------------------
