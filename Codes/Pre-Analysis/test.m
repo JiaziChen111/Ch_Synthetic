@@ -2069,6 +2069,170 @@ reconstrct = score1*coeff1' + repmat(mu1,nobs,1);
 %     dataset_lc = [dataset_lc; dataset_aux];
 
 % end for cntrs
+%% Synchronize data from JSZ and GSW
+% Run read_usyc.m, use mats instead of mtrts
+T_jsz = array2table(yields*100);
+TT_jsz = table2timetable(T_jsz,'RowTimes',datetime(dates,'ConvertFrom','datenum'));
+TT_combined = synchronize(TT_jsz,TT_usyc,'intersection');
+
+plot(TT_combined.Time,[TT_combined{:,1} TT_combined{:,8}]);
+plot(TT_combined.Time,[TT_combined{:,2} TT_combined{:,9}]);
+plot(TT_combined.Time,[TT_combined{:,3} TT_combined{:,10}]);
+plot(TT_combined.Time,[TT_combined{:,4} TT_combined{:,11}]);
+plot(TT_combined.Time,[TT_combined{:,5} TT_combined{:,12}]);
+plot(TT_combined.Time,[TT_combined{:,6} TT_combined{:,13}]);
+plot(TT_combined.Time,[TT_combined{:,7} TT_combined{:,14}]);
+
+
+%% Replicate RY Model in JSZ Paper
+
+load('sample_RY_model_jsz.mat')
+load('sample_zeros.mat')
+[BcP, AcP, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, K0Q_X, K1Q_X, AX, BX, Sigma_X] = jszLoadings(W, K1Q_X, kinfQ, Sigma_cP, mats, dt);
+zyields_m = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+
+% sample_zeros.mat
+% Variables: dates mats yields
+
+% sample_RY_model_jsz.mat
+% Variables: AX	AcP	BcP	BX	dt	K0Q_cP	K0Q_X	K1Q_cP	K1Q_X	kinfQ	llks	rho0_cP	...
+%     rho0_X	rho1_cP	rho1_X	rinfQ	Sigma_cP	sigma_e	Sigma_X	W
+
+S = whos;
+zAX = AX;	zAcP = AcP;	zBcP = BcP;	zBX = BX;	zdt = dt;	zK0Q_cP = K0Q_cP;...
+    zK0Q_X = K0Q_X;	zK1Q_cP = K1Q_cP;	zK1Q_X = K1Q_X;	zkinfQ = kinfQ;	zllks = llks;...
+    zrho0_cP = rho0_cP;	zrho0_X = rho0_X;	zrho1_cP = rho1_cP;	zrho1_X = rho1_X;...
+    zrinfQ = rinfQ;	zSigma_cP = Sigma_cP;	zsigma_e = sigma_e;	zSigma_X = Sigma_X;	zW = W;
+
+clear AX	AcP	BcP	BX	dt	K0Q_cP	K0Q_X	K1Q_cP	K1Q_X	kinfQ	llks	rho0_cP	...
+    rho0_X	rho1_cP	rho1_X	rinfQ	Sigma_cP	sigma_e	Sigma_X	W
+
+% run sample_estimation.m since line 14 and compare variables with zvariables
+    % Setup format of model/data:
+% W = pcacov(cov(yields));
+% W = W(:,1:N)';  % N*J
+N = 3;  % N = 2;
+W = [1,0,0,0,0,0,0;0,0,1,0,0,0,0;0,0,0,0,0,0,1];    % With this cP is 0.5, 2, 10 yrs
+cP = yields*W'; % T*N
+dt = 1/12;
+    % Estimate the model by ML. 
+% help sample_estimation_fun
+VERBOSE = true;
+[llks, AcP, BcP, AX, BX, kinfQ, K0P_cP, K1P_cP, sigma_e, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, llkP, llkQ,  K0Q_X, K1Q_X, rho0_X, rho1_X, Sigma_cP] = ...
+        sample_estimation_fun(W, yields, mats, dt, VERBOSE);
+rinfQ = -kinfQ/K1Q_X(1,1);
+% kinfQ = -K1Q_X(1,1)*rinfQ;
+    % Compute the loadings
+[BcP, AcP, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, K0Q_X, K1Q_X, AX, BX, Sigma_X] = jszLoadings(W, K1Q_X, kinfQ, Sigma_cP, mats, dt);
+yields_m = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+plot(dates,zyields_m(:,7),'x',dates,yields_m(:,7),'+')
+
+% Compare actual yields vs estimated yields
+    % Time series
+plot(dates,yields(:,7),'x',dates,yields_m(:,7),'+')    % Slightly off in 1 and 5 years
+
+    % Cross section
+plot(mats,yields(1,:),'x',mats,yields_m(1,:),'+')      % 8.19 vs 8.25 (6 bp)
+plot(mats,yields(25,:),'x',mats,yields_m(25,:),'+')
+plot(mats,yields(75,:),'x',mats,yields_m(75,:),'+')    % 6.10 vs 6.03 (7 bp)
+plot(mats,yields(100,:),'x',mats,yields_m(100,:),'+')  % 5.6 vs 5.68 (8 bp)
+plot(mats,yields(125,:),'x',mats,yields_m(125,:),'+')  % 6.27 vs 6.45 (18 bp), 6.26 vs 6.4 (14 bp)
+plot(mats,yields(200,:),'x',mats,yields_m(200,:),'+')  % 4.90 vs 4.95 (5 bp)
+plot(mats,yields(216,:),'x',mats,yields_m(216,:),'+')  % 3.17 vs 3.3 (13 bp)
+
+% PCs: actual vs model
+[~,PCs] = pca(yields,'NumComponents',3);
+[~,PCs_m] = pca(yields_m,'NumComponents',3);
+plot(dates,[PCs(:,1) PCs_m(:,1)])    % Closely track actual PCs
+
+N = 3;
+Weights = pcacov(cov(yields));
+Weights = Weights(:,1:N)';
+cPCs = yields*Weights';
+plot([PCs_m(:,1) cPCs(:,1)])         % Same pattern, different levels
+
+% K1P_cP
+% cP = yields*zW';              % Given by sample_estimation.m
+[Gamma_hat, alpha_hat, Omega_hat] = regressVAR(cP);
+% K1P_cP = Gamma_hat - eye(N);  % Given by sample_estimation.m
+
+%% Tries to Calculate the TP from JSZ Estimation
+% [A,B] = pricing_params(round(mats/dt),K0Q_cP,K1Q_cP,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
+dt = 1/12;
+mats_periods = round(mats/dt);
+K0 = K0Q_cP;
+K1 = K1Q_cP;
+Sigma = Sigma_cP;
+rho0d = rho0_cP*dt;
+rho1d = rho1_cP*dt;
+
+% function [A,B] = pricing_params(mats_periods,K0,K1,Sigma,rho0d,rho1d,dt)
+        M      = length(mats_periods);
+        N      = length(K0);
+        A      = zeros(1,M);
+        B      = zeros(N,M);
+        A(1)   = -rho0d;
+        B(:,1) = -rho1d;
+        for k  = 2:M
+            A(k)   = -rho0d + A(k-1) + K0'*B(:,k-1) + 0.5*B(:,k-1)'*(Sigma*Sigma')*B(:,k-1);
+            B(:,k) = -rho1d + B(:,k-1) + K1'*B(:,k-1);
+        end
+        A = -A./mats_periods;   % Loadings for yields
+        B = -B./mats_periods;
+        A = A/dt;               % Annualized
+        B = B/dt;
+% end
+
+yields_own = ones(length(dates),1)*A + (yields*W.')*B;
+% yields_own = ones(length(dates),1)*A + cP*B;
+% plot(dates,zyields_m(:,7),'x',dates,yields_own(:,7),'+')
+yyaxis left
+plot(dates,yields(:,7),'x')
+yyaxis right
+plot(dates,yields_own(:,7),'+')
+
+%% Replicate RPC Model in JSZ Paper
+
+N = 3;
+W = pcacov(cov(yields));
+W = W(:,1:N)';
+cP = yields*W'; % T*N
+dt = 1/12;
+VERBOSE = true;
+[llks, AcP, BcP, AX, BX, kinfQ, K0P_cP, K1P_cP, sigma_e, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, llkP, llkQ,  K0Q_X, K1Q_X, rho0_X, rho1_X, Sigma_cP] = ...
+        sample_estimation_fun(W, yields, mats, dt, VERBOSE);
+rinfQ = -kinfQ/K1Q_X(1,1);
+
+
+%% Tries to Replicate RKF Model in JSZ Paper (Close)
+
+N = 3;
+W = pcacov(cov(yields));
+W = W(:,1:N)';
+cP = yields*W'; % T*N
+dt = 1/12;
+VERBOSE = true;
+[llks, AcP, BcP, AX, BX, kinfQ, K0P_cP, K1P_cP, sigma_e, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, llkP, llkQ,  K0Q_X, K1Q_X, rho0_X, rho1_X, Sigma_cP] = ...
+        sample_estimation_fun(W, yields, mats, dt, VERBOSE);
+[llk, AcP, BcP, AX, BX, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, cP, yields_filtered, cP_filtered] = ...
+    jszLLK_KF(yields, W, K1Q_X, kinfQ, Sigma_cP, mats, dt, K0P_cP, K1P_cP, sigma_e);
+
+[BcP, AcP, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, K0Q_X, K1Q_X, AX, BX, Sigma_X] = jszLoadings(W, K1Q_X, kinfQ, Sigma_cP, mats, dt);
+rinfQ = -kinfQ/K1Q_X(1,1);
+yields_kf = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+plot(dates,zyields_m(:,7),'x',dates,yields_kf(:,7),'+')
+
+    % Time series
+plot(dates,yields(:,7),'x',dates,yields_kf(:,7),'+')    % Slightly off in 1 and 5 years
+
+    % Cross section
+plot(mats,yields(216,:),'x',mats,yields_kf(216,:),'+')
+
+[~,PCs] = pca(yields,'NumComponents',3);
+[~,PCs_kf] = pca(yields_kf,'NumComponents',3);
+plot(dates,[PCs(:,1) PCs_kf(:,1)])              % Compare with yields_filtered and cP_filtered
+
+
 %% 
 N = 2;
 % mats = tnrs';
