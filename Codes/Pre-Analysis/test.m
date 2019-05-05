@@ -2151,45 +2151,6 @@ Weights = Weights(:,1:N)';
 cPCs = yields*Weights';
 plot([PCs_m(:,1) cPCs(:,1)])         % Same pattern, different levels
 
-% K1P_cP
-% cP = yields*zW';              % Given by sample_estimation.m
-[Gamma_hat, alpha_hat, Omega_hat] = regressVAR(cP);
-% K1P_cP = Gamma_hat - eye(N);  % Given by sample_estimation.m
-
-%% Tries to Calculate the TP from JSZ Estimation
-% [A,B] = pricing_params(round(mats/dt),K0Q_cP,K1Q_cP,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
-dt = 1/12;
-mats_periods = round(mats/dt);
-K0 = K0Q_cP;
-K1 = K1Q_cP;
-Sigma = Sigma_cP;
-rho0d = rho0_cP*dt;
-rho1d = rho1_cP*dt;
-
-% function [A,B] = pricing_params(mats_periods,K0,K1,Sigma,rho0d,rho1d,dt)
-        M      = length(mats_periods);
-        N      = length(K0);
-        A      = zeros(1,M);
-        B      = zeros(N,M);
-        A(1)   = -rho0d;
-        B(:,1) = -rho1d;
-        for k  = 2:M
-            A(k)   = -rho0d + A(k-1) + K0'*B(:,k-1) + 0.5*B(:,k-1)'*(Sigma*Sigma')*B(:,k-1);
-            B(:,k) = -rho1d + B(:,k-1) + K1'*B(:,k-1);
-        end
-        A = -A./mats_periods;   % Loadings for yields
-        B = -B./mats_periods;
-        A = A/dt;               % Annualized
-        B = B/dt;
-% end
-
-yields_own = ones(length(dates),1)*A + (yields*W.')*B;
-% yields_own = ones(length(dates),1)*A + cP*B;
-% plot(dates,zyields_m(:,7),'x',dates,yields_own(:,7),'+')
-yyaxis left
-plot(dates,yields(:,7),'x')
-yyaxis right
-plot(dates,yields_own(:,7),'+')
 
 %% Replicate RPC Model in JSZ Paper
 
@@ -2231,6 +2192,66 @@ plot(mats,yields(216,:),'x',mats,yields_kf(216,:),'+')
 [~,PCs] = pca(yields,'NumComponents',3);
 [~,PCs_kf] = pca(yields_kf,'NumComponents',3);
 plot(dates,[PCs(:,1) PCs_kf(:,1)])              % Compare with yields_filtered and cP_filtered
+
+
+%% TP from JSZ Estimation
+
+% K1P_cP
+% cP = yields*zW';              % Given by sample_estimation.m
+[Gamma_hat, alpha_hat, Omega_hat] = regressVAR(cP);
+% K1P_cP = Gamma_hat - eye(N);  % Given by sample_estimation.m
+
+dt = 1/12;
+maturities = round(mats/dt);
+mu = alpha_hat; % K0P_cP;
+% N  = length(mu);
+Phi = Gamma_hat; % K1P_cP + eye(N);
+Hcov = Omega_hat; % Sigma_cP;
+rho0dt = rho0_cP*dt;
+rho1dt = rho1_cP*dt;
+[Ay,By] = Yloadings(maturities,mu,Phi,Hcov,rho0dt,rho1dt,dt);
+
+% % Compare loadings with JSZ
+% [ByJSZ, AyJSZ] = gaussianDiscreteYieldLoadingsRecurrence(maturities, K0P_cP, K1P_cP, Hcov, rho0dt, rho1dt, dt);
+% yields_JSZloads = ones(length(dates),1)*AyJSZ + cP*ByJSZ;
+
+yields_exp = ones(length(dates),1)*Ay + cP*By;
+figure
+plot(dates,[yields(:,7) yields_exp(:,7)])       % Historic
+figure
+plot(mats,yields(100,:),mats,yields_exp(100,:)) % One day
+
+tp = yields_kf - yields_exp;
+% tpTT = table2timetable(array2table(tp*100),'RowTimes',datetime(dates,'ConvertFrom','datenum'));
+
+% Compare against ACM and KW
+date1    = min(dates);
+date2    = max(dates);
+yr_dbl   = 10;                                % Tenor to plot, adjust as wanted
+yr_str   = num2str(yr_dbl); 
+run read_acm.m
+data_acm = dataset_in_range(data_acm,date1,date2);
+if yr_dbl < 10
+    acm_labels = {['ACMY0' yr_str],['ACMTP0' yr_str],['ACMRNY0' yr_str]};
+else
+    acm_labels = {['ACMY' yr_str],['ACMTP' yr_str],['ACMRNY' yr_str]};
+end
+fltrACM1  = ismember(hdr_acm,acm_labels);
+acm_parts = data_acm(:,fltrACM1);
+    
+KW = getFredData(['THREEFYTP' yr_str],datestr(date1,29),datestr(date2,29)); % 29: date format ID
+KWtp = KW.Data;
+[row,~] = find(isnan(KWtp));
+KWtp(row,:)=[];                             % Remove NaN before doing end-of-month
+KWtp = end_of_month(KWtp);
+KWtp = dataset_in_range(KWtp,date1,date2);
+
+hold on
+plot(tp(:,end)*100) 
+plot(acm_parts(:,2))
+plot(KWtp(:,2))
+legend('JSZ','ACM','KW')
+hold off
 
 
 %% 
