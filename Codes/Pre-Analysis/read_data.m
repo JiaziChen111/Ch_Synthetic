@@ -54,3 +54,8 @@ end
 [iso,currEM,currAE] = read_currencies(T_cip);
 namescodes = iso2names(iso);
 S = cell2struct(namescodes',{'cty','ccy','iso','imf'});
+
+%% Save variables in mat files (in Dropbox, not in Git directory)
+% save struct_data_1_S.mat S
+% save struct_data_2_TT.mat curncs currAE currEM T_cip TT_daily TH_daily
+% save struct_data_3_cells.mat dataset_daily header_daily
