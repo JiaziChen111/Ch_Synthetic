@@ -248,9 +248,10 @@ for k = 2%1:ncntrs
     % [A,B] = pricing_params(round(mats/dt),K0Q_cP,K1Q_cP,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
     dt = 1/12;
     mats_periods = round(mats/dt);
+    N      = length(K0);
     K0 = K0P_cP; %K0Q_cP;
-    K1 = K1P_cP; %K1Q_cP;
-    Sigma = Sigma_cP; %Omega_hat;
+    K1 = K1P_cP + eye(N); %K1Q_cP;
+    Hcov = Sigma_cP; %Omega_hat;
     rho0d = rho0_cP*dt;
     rho1d = rho1_cP*dt;
     
@@ -262,14 +263,14 @@ for k = 2%1:ncntrs
     A(1)   = -rho0d;
     B(:,1) = -rho1d;
     for t  = 2:M
-        A(t)   = -rho0d + A(t-1) + K0'*B(:,t-1) + 0.5*B(:,t-1)'*(Sigma*Sigma')*B(:,t-1);
+        A(t)   = -rho0d + A(t-1) + K0'*B(:,t-1) + 0.5*B(:,t-1)'*Hcov*B(:,t-1);
         B(:,t) = -rho1d + K1'*B(:,t-1);
 %         B(:,t) = -rho1d + B(:,t-1) + K1'*B(:,t-1);
     end
-    A = -A./mats_periods;   % Loadings for yields
-    B = -B./mats_periods;
-    A = A/dt;               % Annualized
-    B = B/dt;
+    Ay = -A./mats_periods;   % Loadings for yields
+    By = -B./mats_periods;
+    Ay = Ay/dt;               % Annualized
+    By = By/dt;
     % end
     
     [B_P, A_P] = gaussianDiscreteYieldLoadingsRecurrence(mats_periods, K0P_cP, K1P_cP, Sigma, rho0d, rho1d, dt);
