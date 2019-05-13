@@ -1,6 +1,6 @@
 function [dataset_monthly, date_first_obs] = end_of_month(dataset_daily)
 % This function returns end-of-month observations from a dataset containing
-% daily observations. The code preserves all the columns.
+% daily observations. All columns are preserved.
 %
 %     INPUT
 % dataset_daily - daily observations as rows (top-down is first-last obs), col1 has dates
