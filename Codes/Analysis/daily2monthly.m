@@ -48,6 +48,8 @@ for k  = 1:ncntrs
         fltrVAR(1)   = true;                                            % To include dates
         data_var     = dataset_daily(:,fltrVAR);                        % Extract data
         data_var     = end_of_month(data_var);
+        idxNaN       = sum(isnan(data_var(:,2:end)),2) == length(tnrs); % Rows with no observations
+        data_var     = data_var(~idxNaN,:);                             % Keep rows with at least one obs
         S(k).(fname) = [nan tnrs'; data_var];
     else
         % End-of-month data
