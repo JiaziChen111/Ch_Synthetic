@@ -1936,9 +1936,14 @@ s.(n);      % can be used instead
 fNames = fieldnames(S);
 S.(fNames{n});
 
+z2 = ['pre' 'post'];
+z1(1).(z2) = 1;
+
 % Remove fields (first and fourth) from structure
 fields = {'first','fourth'};
 S = rmfield(S,fields);
+S = rmfield(S,{'tnrsF','tnrsL'});
+
 
 %% Cell Arrays
 [r1c1, r2c1, r1c2, r2c2] = C{1:2,1:2};  % returns the contents of multiple cells as a comma-separated list
@@ -2206,10 +2211,10 @@ maturities = round(mats/dt);
 mu = alpha_hat; % K0P_cP;
 % N  = length(mu);
 Phi = Gamma_hat; % K1P_cP + eye(N);
-Hcov = Omega_hat; % Sigma_cP;
+Hcov(:,:) = 0; %Hcov = Omega_hat; % Sigma_cP;
 rho0dt = rho0_cP*dt;
 rho1dt = rho1_cP*dt;
-[Ay,By] = Yloadings(maturities,mu,Phi,Hcov,rho0dt,rho1dt,dt);
+[Ay,By] = yld_loadings(maturities,mu,Phi,Hcov,rho0dt,rho1dt,dt);
 
 % % Compare loadings with JSZ
 % [ByJSZ, AyJSZ] = gaussianDiscreteYieldLoadingsRecurrence(maturities, K0P_cP, K1P_cP, Hcov, rho0dt, rho1dt, dt);
@@ -2221,8 +2226,8 @@ plot(dates,[yields(:,7) yields_exp(:,7)])       % Historic
 figure
 plot(mats,yields(100,:),mats,yields_exp(100,:)) % One day
 
-tp = yields_kf - yields_exp;
-% tpTT = table2timetable(array2table(tp*100),'RowTimes',datetime(dates,'ConvertFrom','datenum'));
+tpJSZ = (yields_kf - yields_exp)*100;
+% tpTT = table2timetable(array2table(tpJSZ),'RowTimes',datetime(dates,'ConvertFrom','datenum'));
 
 % Compare against ACM and KW
 date1    = min(dates);
@@ -2247,11 +2252,25 @@ KWtp = end_of_month(KWtp);
 KWtp = dataset_in_range(KWtp,date1,date2);
 
 hold on
-plot(tp(:,end)*100) 
+plot(tpJSZ(:,end)) 
 plot(acm_parts(:,2))
 plot(KWtp(:,2))
 legend('JSZ','ACM','KW')
 hold off
+
+z1 = ismember(data_acm(:,1),KWtp(:,1));
+tps = [tpJSZ(7:end,end) acm_parts(7:end,2) KWtp(:,2)];
+corr(tps)
+mean(tps(:,1) - tps(:,3))
+plot(tps)
+legend('JSZ','ACM','KW')
+% Hcov = Omega_hat;
+% cP: Correlation b/w JSZ and KW is 0.9664 (w/ ACM 0.8235), JSZ > KW by 80.5 bps on average
+% cP_filtered: Correlation b/w JSZ and KW is 0.9527 (w/ ACM 0.7868), JSZ > KW by 73.50 bps on average
+
+% Hcov = zeros;
+% cP: Correlation b/w JSZ and KW is 0.9664 (w/ ACM 0.8235), JSZ > KW by 76.5 bps on average
+% cP_filtered: Correlation b/w JSZ and KW is 0.9527 (w/ ACM 0.7868), JSZ > KW by 69.6 bps on average
 
 
 %% 

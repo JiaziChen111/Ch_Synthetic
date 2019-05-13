@@ -348,7 +348,7 @@ for l = 1:size(y,2)
     corrcoef(ySS(l,:),ySPXEM(l,:))
 end
 
-%% Testing EM0wAnC - It works!
+%% Testing EM0wAnC against SPXEM - It works!
 
 num = T;
 p = K;
@@ -372,8 +372,212 @@ tol = 1e-4;
 % Phi = EF, A = AB, Q = QEF and R~=RAB
 
 
-%%
+%% Estimating DLM Using fminunc and JSZ Data - Doesn't work
+
+% In JSZ directory
+% clear
+% load('sample_RY_model_jsz.mat')
+% load('sample_zeros.mat')
+% [BcP, AcP, K0Q_cP, K1Q_cP, rho0_cP, rho1_cP, K0Q_X, K1Q_X, AX, BX, Sigma_X] = ...
+%     jszLoadings(W, K1Q_X, kinfQ, Sigma_cP, mats, dt);
+% zyields_m = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+
+% In SPXEM directory
+% Y = yields';
+% K = 3;
+% [~,params00]  = LSSMinit(Y,K);
+% [mu0,Sigma0] = stationaryEV(params00.E,params00.F,params00.Q);
+
+% In ASTSA directory
+[N,T] = size(Y);
+num = T;
+p = K;
+q = N;
+y = Y';
+dt = 1/12;
+
+r = max(p,q);
+params0 = nan(8,r*r);
+params0(1,1:q)   = reshape(zeros(q,1),[1,q]); % mu_Q
+params0(2,1:q*p) = params00.B(:)'; % PhiQ
+params0(3,1:p)   = reshape(zeros(p,1),[1,p]); % mu_P
+params0(4,1:p*p) = params00.F(:)'; % PhiP
+params0(5,1)     = 0; % rho0
+params0(6,1:p)   = [mean(y(:,1)); 0; 0]'; % rho1
+params0(7,1:p*p) = reshape(chol(params00.Q),[1,p*p]); % cQ
+params0(8,1:q*q) = reshape(chol(params00.R),[1,q*q]); % cR
+
+% params0(2) = params00.B; % PhiQ
+% params0(3) = zeros(p,1); % mu_P
+% params0(4) = params00.F; % PhiP
+% params0(5) = 0; % rho0
+% params0(6) = [mean(y(:,1)) 0 0]; % rho1
+% params0(7) = chol(params00.Q); % cQ
+% params0(8) = chol(params00.R); % cR
+
+% [Phi,Q,A,R,EF,QEF,AB,RAB,mu0,Sigma0,llk,iter,cvg] = EM0wAnC(num,y,A,mu0,Sigma0,Phi,cQ,cR,mu_y,mu_x,max_iter,tol);
+% [xsSS,PsSS] = Ksmooth0wC(num,y,A,mu0,Sigma0,Phi,chol(Q),chol(R),AB(:,1),EF(:,1));
 
 
+objfun = @(params) logllkKF(params,num,y,mu0,Sigma0,dt,q,p);
+params = fminunc(objfun,params0);
+
+mu_Q = reshape(params(1,1:q),[q,1]);
+PhiQ = reshape(params(2,1:q*p),[q,p]);
+mu_P = resahpe(params(3,1:p),[p,1]);
+PhiP = reshape(params(4,1:p*p),[p,p]);
+rho0 = params(5,1);
+rho1 = reshape(params(6,1:p),[p,1]);
+cQ   = reshape(params(7,1:p*p),[p,p]);
+cR   = reshape(params(8,1:q*q),[q,q]);
+
+% mu_Q = params{1};
+% PhiQ = params{2};
+% mu_P = params{3};
+% PhiP = params{4};
+% rho0 = params{5};
+% rho1 = params{6};
+% cQ   = params{7};
+% cR   = params{8};
+
+SigmaX  = cQ'*cQ;
+rho0dt  = rho0*dt;
+rho1dt  = rho1*dt;
+[Ay,By] = Yloadings(maturities,mu_Q,PhiQ,SigmaX,rho0dt,rho1dt,dt);
+[xs,Ps] = Ksmooth0wC(num,y,By,mu0,Sigma0,PhiP,cQ,cR,Ay,mu_P);
+ySS = Ay*ones(1,T) + By*squeeze(xsSS);
+ySS = ySS';
+
+k = K;
+[~,PCjsz] = pca(yields,'NumComponents',k);
+[~,PCss] = pca(ySS,'NumComponents',k);
+l = 1;
+plot([PCss(:,l) PCjsz(:,l)])
+corrcoef(ySS(l,:),yields(l,:))
 
 
+function like = logllkKF(params,num,y,mu0,Sigma0,dt,q,p)
+mu_Q = reshape(params(1,1:q),[q,1]);
+PhiQ = reshape(params(2,1:q*p),[q,p]);
+mu_P = resahpe(params(3,1:p),[p,1]);
+PhiP = reshape(params(4,1:p*p),[p,p]);
+rho0 = params(5,1);
+rho1 = reshape(params(6,1:p),[p,1]);
+cQ   = reshape(params(7,1:p*p),[p,p]);
+cR   = reshape(params(8,1:q*q),[q,q]);
+
+% mu_Q = params{1}; % muQ  = mu_x - cQ*lambda0;
+% PhiQ = params{2}; % PhiQ = Phi - cQ*lambda1;
+% mu_P = params{3};
+% PhiP = params{4};
+% rho0 = params{5};
+% rho1 = params{6};
+% cQ   = params{7};
+% cR   = params{8};
+
+SigmaX = cQ'*cQ;
+rho0dt = rho0*dt;
+rho1dt = rho1*dt;
+
+[Ay,By] = Yloadings(maturities,mu_Q,PhiQ,SigmaX,rho0dt,rho1dt,dt);
+[~,~,~,~,~,~,~,~,~,~,like,~] = Kfilter0wC(num,y,By,mu0,Sigma0,PhiP,cQ,cR,Ay,mu_P);
+end
+
+%% Modification of before loadings4ylds.m
+% % M  = length(mats);
+% F  = length(mu);
+% % Ay = nan(1,M);      An = 0;
+% % By = nan(F,M);      Bn = zeros(F,1);
+% % curr_mat = 1;
+% 
+% Mmat = max(mats);
+% Ay = nan(1,Mmat);      An = 0;
+% By = nan(F,Mmat);      Bn = zeros(F,1);
+% % An = nan(1,Mmat);
+% % Bn = nan(F,Mmat);
+% 
+% for k  = 1:Mmat%mats(M)
+%     % Loadings for prices for every period
+%     An = -rho0dt + An + mu'*Bn + 0.5*Bn'*Hcov*Bn;
+%     Bn = -rho1dt + Phi'*Bn;
+%     
+%     yrs = k*dt;
+%     Ay (1,k) = -An/yrs; By(:,k) = -Bn/yrs;
+%     % Loadings for yields at specified maturities
+% %     if k == mats(curr_mat)
+% %         [An mats(curr_mat)]
+% %         [Bn' mats(curr_mat)]
+% %         Ay(1,curr_mat) = -An/-1;%mats(curr_mat);
+% %         By(:,curr_mat) = -Bn/-1;%mats(curr_mat);
+% %         curr_mat = curr_mat + 1;
+% %     end
+% end
+% 
+% % % Annualized loadings for yields
+% % Ay = Ay/dt;
+% % By = By/dt;
+% Ay = Ay(1,mats);
+% By = By(:,mats);
+
+%% From daily2monthly.m
+
+% aux1 = struct2cell(S)';
+% aux2 = fieldnames(S);
+% curncs = aux1(:,strcmp(aux2,'iso'));              % Extract iso currency codes
+
+% fltrMTY = ~ismember(header_daily(:,2),'OIS') & ~ismember(header_daily(:,2),'FFF') & ...
+%     ~isnan(tnrs_all) & tnrs_all > 0;
+% mtrts   = unique(tnrs_all(fltrMTY));
+% times   = linspace(0,max(tnrs_all));                      % Used for plots
+
+        % date    = data_lc(l,1);
+%         ydataLC = data_lc(l,2:end)';                        % Column vector
+%         idxY    = ~isnan(ydataLC);                          % sum(idxY) >= 5, see above
+        % ydataLC = ydataLC(idxY);
+%         tnrs1   = tnrs(idxY);  
+% sum(idxObs);%numel(tnrs1);
+
+%     yieldsINT = yieldsNOK;
+    % yieldsINT(74,colsMSS) = yieldsNOK(73,colsMSS);
+%     yieldsINT(74:81,colsMSS) = repmat(yieldsNOK(82,colsMSS),8,1);
+% S(23).blncd(2:end,2:end) = yieldsINT;
+
+
+% S(23).(fnameb)(74:81,colsMSS) = repmat(yldsNOK(82,colsMSS),8,1);
+
+%% From tp_estimation.m
+%     W  = pcacov(cov(yields));
+%     W  = W(:,1:N)';
+%     cP = yields*W';
+%     yields_Q = ones(length(dates),1)*AcP + (yields*W.')*BcP;
+%     yields_Q = ones(nobs,1)*AcP + cP_filtered*BcP;
+
+    %     plot(dates,[PCs(:,1) PCs_kf(:,1)])                    % Compare with yields_filtered and cP_filtered
+
+    % Term premium
+%     [mu, Phi, Hcov] = VAR1(cP_filtered); % cP, PCs, cP_filtered
+%     mu = K0P_cP; Phi = K1P_cP + eye(N); Hcov = Sigma_cP;
+%     Hcov(:,:) = 0;
+    maturities      = round(mats/dt);
+%     [Ay,By]         = yld_loadings(maturities,mu,Phi,Hcov,delta0*100,delta1*100,dt);
+%     [Ay,By]         = yld_loadings(maturities,mu,Phi,Hcov,rho0_cP*dt,rho1_cP*dt,dt);
+%     [Ay,By]         = loadings4ylds(maturities,mu,Phi,Hcov,delta0,delta1,dt);
+    [Ay,By]         = loadings4ylds(maturities,mu,Phi,Hcov,rho0_cP*dt,rho1_cP*dt,dt);
+    yields_P      = ones(nobs,1)*Ay + cP_filtered*By; % cP, PCs, cP_filtered
+    
+    tp_synt     = (yields_Q - yields_P)*100;            % TP in percentage points
+    S(k).tpsynt = [nan mats; nan mean(tp_synt); dates tp_synt];
+
+    
+    % tpavg = 0;
+% for k = 1:15
+%     if k == [1 4 9 10]
+%         continue
+%     end
+%     tpavg = tpavg + S(k).tpsynt(2, S(k).tpsynt(1,:) == 10);
+% end
+% tpavg = tpavg/11;
+    
+    
+    
+    
