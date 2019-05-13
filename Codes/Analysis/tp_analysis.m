@@ -17,26 +17,14 @@ cd(currentDir)
 N  = 3;
 dt = 1/12;
 
+S = daily2monthly(dataset_daily,header_daily,S,'CIPDEV');
+
 S = daily2monthly(dataset_daily,header_daily,S,'LCSYNT');
 [S,corrPCsyn] = tp_estimation(S,N,dt,'LCSYNT');
 
 S = daily2monthly(dataset_daily,header_daily,S,'LC');
 [S,corrPCnom] = tp_estimation(S,N,dt,'LC');
 
-
-% %% Add LCCS to Structure
-% ncntrs   = length(S);
-% tnrs_all = [0; cellfun(@str2num,header_daily(2:end,5))];
-% fltrCIP  = ismember(header_daily(:,2),'CIPDEV');
-% 
-% for k = 1:ncntrs
-%     fltrDEV = ismember(header_daily(:,1),S(k).iso) & fltrCIP;
-%     tnrs    = tnrs_all(fltrYLD);                                        % Tenors available
-%     fltrYLD(1) = true;                                                  % To include dates
-%     data_cipdev = dataset_daily(:,fltrYLD);
-%     data_cipdev    = end_of_month(data_cipdev);                         % Keep end-of-month observations
-%     S(k).(fnames{2}) = [nan tnrs'; data_lc(:,1) data_lc(:,2:end)/100];
-% end
 
 %% Compare TPs of Nominal vs Synthetic
 ncntrs  = length(S);

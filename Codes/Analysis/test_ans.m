@@ -537,6 +537,9 @@ end
 %         tnrs1   = tnrs(idxY);  
 % sum(idxObs);%numel(tnrs1);
 
+% Header
+% hdr_lc    = construct_monthly_hdr(mtrts,YCtype,1);
+
 %     yieldsINT = yieldsNOK;
     % yieldsINT(74,colsMSS) = yieldsNOK(73,colsMSS);
 %     yieldsINT(74:81,colsMSS) = repmat(yieldsNOK(82,colsMSS),8,1);
