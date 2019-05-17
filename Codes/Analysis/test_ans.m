@@ -581,6 +581,20 @@ end
 % end
 % tpavg = tpavg/11;
     
+%% From estimate_TR.m
+
+for k = 2 % Colombia, it adds 10 data points to GDP but makes little difference in outcome of regression
+    temp = [2.7000    3.9000    4.2000    4.1000    3.9000    4.0000    3.5000    4.8000    5.2000    5.2000];
+    TblQtr.GDP(15:24) = temp;
     
-    
-    
+    idxIP  = ismember(TblQtr.Properties.VariableNames,{'INF','IP','CBP'});
+    TblIP  = [TblQtr(2:end,idxIP) TblCBP];
+    TblIP  = movevars(TblIP,'CBPlag','Before',1);
+    tIP    = sum(~any(ismissing(TblIP),2));
+    MdlIP  = fitlm(TblIP)
+end
+
+
+
+
+

@@ -31,7 +31,7 @@ S = daily2monthly(dataset_daily,header_daily,S,'LC');
 ncntrs  = length(S);
 fnames  = fieldnames(S);
 tnr     = 10;
-series  = 'yldsP';%'tp';
+series  = 'yldsP';%'tp';%yldsQ;
 rowStrt = 2;
 
 % figure
@@ -55,27 +55,31 @@ for k = 1:ncntrs
 end
 % hold off
 
-%% Read data
+%% Estimate Taylor Rule
 
-run read_macro_vars.m
+[S,outputTLR] = estimate_TR(S,currEM);
 
-data_macro = end_of_month(data_macro);
-vars = {'INF','UNE','GDP'};
+
+%% Store macro data in structure
+
+vars = {'INF','UNE','IP','GDP','CBP'};
 fnames = lower(vars);
 
 for l = 1:length(vars)
     fltrMAC = ismember(hdr_macro(:,2),vars{l});
     for k = 1:15
-        fltrMVR    = ismember(hdr_macro(:,1),S(k).iso) & fltrMAC;
-        fltrMVR(1) = true;
-        data_mvar  = data_macro(:,fltrMVR);
+        fltrCTY    = ismember(hdr_macro(:,1),S(k).iso) & fltrMAC;
+        fltrCTY(1) = true;
+        data_mvar  = data_macro(:,fltrCTY);
         if size(data_mvar,2) > 1
             idxNaN     = isnan(data_mvar(:,2));             % Assumes once publication starts, it continues
             S(k).(fnames{l}) = data_mvar(~idxNaN,:);
         end
     end
 end
-%%
+
+%% Plot macro data
+
 for l = 1:length(vars)
     figure
     for k = 1:15
@@ -93,9 +97,27 @@ for l = 1:length(vars)
     datetick('x','YYQQ')
 end
 
-%%
-% run read_cbpol.m
+%% Compare IP vs GDP data per country
+
+for k = 1:15
+    figure
+    plot(S(k).ip(:,1),S(k).ip(:,2))
+    if size(S(k).gdp,2) > 1
+        hold on
+        plot(S(k).gdp(:,1),S(k).gdp(:,2))
+    end
+    title(S(k).iso)
+    legend('IP','GDP')
+    datetick('x','YYQQ')
+end
+
+%% 
 
 
 
 
+
+%% Sources
+% 
+% Hold on a legend in a plot
+% https://www.mathworks.com/matlabcentral/answers/9434-how-can-i-hold-the-previous-legend-on-a-plot
