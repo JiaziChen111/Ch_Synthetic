@@ -3,10 +3,10 @@ function [S,corrPC] = tp_estimation(S,N,dt,YCtype)
 % maturities following the methodology of Joslin, Singleton & Zhu (2011).
 %
 %	INPUTS
-% struct: S      - contains names of countries/currencies, codes and YC data
-% char:   YCtype - type of LC yield curve to use, i.e. nominal (LC) or synthetic (LCSYNT)
-% double: N      - number of state variables
-% double: dt     - frequency of the data in years (e.g. 1/12 for monthly data)
+% struct: S    - contains names of countries/currencies, codes and YC data
+% char: YCtype - type of LC yield curve to use, i.e. nominal (LC) or synthetic (LCSYNT)
+% double: N    - number of state variables
+% double: dt   - frequency of the data in years (e.g. 1/12 for monthly data)
 %
 %	OUTPUT
 % struct: S - adds term premia estimates to the input structure
@@ -23,7 +23,6 @@ corrPC  = cell(N,4);
 fnames  = fieldnames(S);
 idxB    = contains(fnames,[prefix 'blncd']);            % Identify the field containing the data
 fnameb  = fnames{idxB};                                 % Use field name
-% fnametp = [prefix 'tp'];                                % Field name for term premia
 
 for k = 1:ncntrs
     mats   = S(k).(fnameb)(1,2:end);
