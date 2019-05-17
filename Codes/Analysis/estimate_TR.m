@@ -1,4 +1,4 @@
-function [S,weightsLT,outputLT,outputTR] = estimate_TR(S,currEM)
+function [S,weightsLT,wgtNames,outputLT,outputTR] = estimate_TR(S,currEM)
 % This function estimates a Taylor rule for each emerging markets (EMs) and
 % reports the output.
 %
@@ -119,4 +119,10 @@ for k = 1:nEMs
     weightsLT(2:end,k) = aux3;
     outputLT(1,k)      = {S(k).iso};
     outputLT(2:end,k)  = cellfun(@num2str,aux4,'UniformOutput',false);
+    
+    % Save coefficient names
+    if k == 1
+        wgtNames = MdlTR.CoefficientNames';
+        wgtNames = wgtNames([1 3:end]);
+    end
 end
