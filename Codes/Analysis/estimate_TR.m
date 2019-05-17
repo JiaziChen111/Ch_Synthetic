@@ -38,12 +38,13 @@ hdr_macro = [hdr_macro; hdr_cbpol];
 
 %% Extract macro variables and estimate Taylor rules
 
+nEMs     = length(currEM);
 vars     = {'CCY','INF','UNE','IP','GDP','CBP'};                    % Variables to save in structure S
 fltrMAC  = ismember(hdr_macro(:,2),vars);
-outputTR = cell(11,15);     outputLT  = cell(4,15);
-hdr_cty  = cell(15,1);      weightsLT = nan(4,15);
+outputTR = cell(11,nEMs);	  outputLT  = cell(4,nEMs);
+hdr_cty  = cell(nEMs,1);      weightsLT = nan(4,nEMs);
 
-for k = 1:15
+for k = 1:nEMs
     % Monthly and quarterly frequency
     fltrCTY       = ismember(hdr_macro(:,1),S(k).iso) & fltrMAC;
     fltrCTY(1)    = true;                                           % Include dates
