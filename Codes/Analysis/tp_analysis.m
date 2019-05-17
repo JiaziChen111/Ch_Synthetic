@@ -57,7 +57,7 @@ end
 
 %% Estimate Taylor Rule
 
-[S,outputTLR] = estimate_TR(S,currEM);
+[S,weightsLT,outputLT,outputTR] = estimate_TR(S,currEM);
 
 
 %% Store macro data in structure
