@@ -3,7 +3,7 @@
 % advanced and emerging countries as well as between nominal and synthetic 
 % yield curves.
 % 
-% m-files called: 
+% m-files called: daily2monthly.m, tp_estimation.m, estimate_TR.m
 %
 % Pavel Solís (pavel.solis@gmail.com), May 2019
 % 
