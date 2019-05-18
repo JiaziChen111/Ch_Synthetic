@@ -1,4 +1,4 @@
-function [S,weightsLT,wgtNames,outputLT,outputTR] = estimate_TR(S,currEM)
+function [S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM)
 % This function estimates a Taylor rule for each emerging markets (EMs) and
 % reports the output.
 %
@@ -9,6 +9,7 @@ function [S,weightsLT,wgtNames,outputLT,outputTR] = estimate_TR(S,currEM)
 %	OUTPUT
 % struct: S         - adds end-ofmonth and end-of-quarter macro variables for each EM
 % double: weightsLT - coefficients to apply to LT inflation and output growth forecasts
+% cell: namesWgts   - names of the coefficients
 % cell: outputLT    - reports coefficients for LT inflation and output growth forecasts
 % cell: outputTR    - reports coefficients for Taylor rules with smoothing
 %
@@ -122,7 +123,7 @@ for k = 1:nEMs
     
     % Save coefficient names
     if k == 1
-        wgtNames = MdlTR.CoefficientNames';
-        wgtNames = wgtNames([1 3:end]);
+        namesWgts = MdlTR.CoefficientNames';
+        namesWgts = ['IMF Code'; namesWgts([1 3:end])];
     end
 end
