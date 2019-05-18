@@ -5,6 +5,8 @@ function trimmed_dataset = dataset_in_range(whole_dataset,date1,date2)
 %
 %     INPUT
 % whole_dataset - matrix with observations as rows, col1 has dates
+% date1 - minimum date in the range
+% date2 - maximum date in the range
 %
 %     OUTPUT
 % trimmed_dataset - matrix with observations within date1 and date2
