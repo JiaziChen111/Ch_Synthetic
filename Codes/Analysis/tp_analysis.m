@@ -55,9 +55,17 @@ for k = 1:ncntrs
 end
 % hold off
 
-%% Estimate Taylor Rule
+%% Use Survey Data
 
-[S,weightsLT,outputLT,outputTR] = estimate_TR(S,currEM);
+% Estimate Taylor Rule and save weights for inflation and GDP growth
+[S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM);
+
+% Estimate long-term forecasts of policy rates
+S = forecastLTcbpol(S,currEM,weightsLT,namesWgts);
+
+% Compare expected policy rate and term premium from ATSM and from surveys
+run compare_atsm_surveys.m
+
 
 
 %% Store macro data in structure
