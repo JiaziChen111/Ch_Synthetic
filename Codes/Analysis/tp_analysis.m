@@ -64,7 +64,7 @@ end
 S = forecastLTcbpol(S,currEM,weightsLT,namesWgts);
 
 % Compare expected policy rate and term premium from ATSM and from surveys
-run compare_atsm_surveys.m
+[corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);
 
 
 

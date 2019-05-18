@@ -594,7 +594,51 @@ for k = 2 % Colombia, it adds 10 data points to GDP but makes little difference 
     MdlIP  = fitlm(TblIP)
 end
 
+%% From compare_atsm_surveys.m
 
+% z1 = S(1).nomdata;
+% z2 = S(1).srvyldsE;
+% z1 = [z1(:,1) z1(:,z1(1,:) == 10)];
+% z1 = z1(2:end,:);
+% z3 = ismember(z1(:,1),z2(:,1));
+% sum(z3)
+% z4 = ismembertol(z1(:,1),z2(:,1),4,'DataScale', 1);
+% sum(z4) % 22
+% z5 = datestr(z1(z4,1)); % Dates of z1 in terms of z2
+% 
+% z6 = ismembertol(z2(:,1),z1(:,1),4,'DataScale', 1);
+% sum(z6) %% 22
+% z7 = datestr(z2(z6,1));
+% 
+% periodicity = unique(month(ylds_svy6m(:,1)))'; % Months in which CE publishes LT forecasts
+% ylds_nom6m = end_of_period(ylds_nom,periodicity); % Nominal yields with same frequency as surveys
+% 
+% dates_nom = ylds_nom6m(:,1);
+% dates_svy = ylds_svy6m(:,1);
+% 
+% min_nom = min(dates_nom);   max_nom = max(dates_nom); 
+% min_svy = min(dates_svy);   max_svy = max(dates_svy);
+% 
+% ylds_nom6m = dataset_in_range(ylds_nom6m,min_svy,max_svy);
+% ylds_svy6m = dataset_in_range(ylds_svy6m,min_nom,max_nom);
+% 
+% function dataset_period = end_of_period(dataset_monthly,periodicity)
+% % This function returns end-of-period observations from a dataset containing
+% % monthly observations (e.g. every six months). All columns are preserved.
+% %
+% %     INPUT
+% % double: dataset_monthly - monthly observations as rows (top-down is first-last obs), col1 has dates
+% % double: periodicity - months for which observations will be extracted (e.g. [4 10])
+% %
+% %     OUTPUT
+% % dataset_period - end-of-period observations as rows, same columns as input
+% %
+% % Pavel Solís (pavel.solis@gmail.com), May 2019
+% %%
+% dates          = dataset_monthly(:,1);
+% mnths          = month(dates);
+% idxPeriod      = any(mnths == periodicity,2);
+% dataset_period = dataset_monthly(idxPeriod,:);
 
 
 
