@@ -12,41 +12,34 @@
 	\end{tabular} \\}
 
 
-	\begin{figure}[!htbp]
-		\begin{centering}
-			
-			\includegraphics[width=0.9\textwidth,height=0.31\textheight]{../Figures/risk_premia_5yr_2}
-			\newline
+%	\begin{figure}[!htbp]
+%		\begin{centering}
+%			
+%			\includegraphics[width=0.9\textwidth,height=0.31\textheight]{../Figures/risk_premia_5yr_2}
+%			\newline
+%
+%			\includegraphics[width=0.92\textwidth,height=0.46\textheight]{../Figures/risk_premia_5yr_1}
+%			\par\end{centering}
+%		\caption{Estimated 5-Year Risk Premium.}\label{fig:5yr_rp}
+%	\end{figure}
+	\input{../Figures/Latex/temp_ts_tp}
 
-			\includegraphics[width=0.92\textwidth,height=0.46\textheight]{../Figures/risk_premia_5yr_1}
-			\par\end{centering}
-		\caption{Estimated 5-Year Risk Premium.}\label{fig:5yr_rp}
-	\end{figure}
 
-\newgeometry{top=4cm, left=5.5cm}	% Modify this if more space is needed
-%\newgeometry{margin=1cm}  % To make the table fit your landscape
-\begin{landscape}
-
-	\input{../Tables/rp_reg_lvix}
-	
-	\input{../Tables/rp_reg_ffr}
-	
-	\input{../Tables/rp_reg_rfx}
-	
-	\input{../Tables/rp_reg_stx}
-	
-	\input{../Tables/rp_reg_macro}
-	
-\end{landscape}
-\restoregeometry
-
-\section{Nominal Yield Curve Construction} \label{sec:BFVcurves}
-I use Bloomberg Fair Value (BFV) curves to estimate the nominal yield curve $\yLCnom$. BFV curves are par yield curves provided by Bloomberg on a daily basis for different maturities. These yields are converted into discount factors, which are then used to estimate the parameters in equation \ref{eq:NSSzero}. As with $\yLCsynt$, the parameters are chosen so as to minimize sum of squared deviations between the actual prices and the estimated prices weighted by the inverse of the duration of each security.
-
-Not all maturities are available, that is why is important to obtained the implied zero-coupon yield curve.
-
-I estimate curves from actual prices and they closely followed those reported by Bloomberg.
-
-The tickers used to construct the nominal and the synthetic yield curves are provided in an Excel spreadsheet in the website.
+%\newgeometry{top=4cm, left=5.5cm}	% Modify this if more space is needed
+%%\newgeometry{margin=1cm}  % To make the table fit your landscape
+%\begin{landscape}
+%
+%	\input{../Tables/rp_reg_lvix}
+%	
+%	\input{../Tables/rp_reg_ffr}
+%	
+%	\input{../Tables/rp_reg_rfx}
+%	
+%	\input{../Tables/rp_reg_stx}
+%	
+%	\input{../Tables/rp_reg_macro}
+%	
+%\end{landscape}
+%\restoregeometry
 
 \end{appendices}

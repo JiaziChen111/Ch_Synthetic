@@ -11,7 +11,7 @@
 %---------------------------------------------------------------
 % Title
 %---------------------------------------------------------------
-\title{Term Premia in Emerging Markets \thanks{ }}
+\title{Term Premia in Emerging Markets}% \thanks{ }}
 \author{M. Pavel Solís M. 
 	\thanks{Address: Wyman Park Building 544E, 3400 N. Charles Street, Baltimore, MD 21218. Email: \href{mailto:msolism1@jhu.edu}{\texttt{msolism1@jhu.edu}}.}}
 \date{}
@@ -29,8 +29,18 @@
 \input{sections}
 
 \bibliographystyle{abbrvnat} 	% Other styles: {plain}, {authordate1}
+
+% Local copy of the database with references
+% Might need to run file_duplicator.sh first
+% To clean removed references, in the terminal execute
+% $ cd Book/Ch_Synthetic/Docs/Paper
+% $ bibexport -o ../References/library.bib paper.aux
 %\bibliography{../References/library}
-\bibliography{../../../References/library} % Without executing file_duplicator.sh
+
+% Centralized database with references
+% It does not need executing file_duplicator.sh
+% Con: it might show removed citations that were previously included
+\bibliography{../../../References/library}
 
 \input{appendix}
 
@@ -39,3 +49,5 @@
 
 %\listoftodos
 \end{document}
+
+% Source for cleaning .bib file from removed citations https://tex.stackexchange.com/questions/41821/creating-bib-file-containing-only-the-cited-references-of-a-bigger-bib-file

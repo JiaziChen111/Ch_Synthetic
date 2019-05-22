@@ -20,11 +20,13 @@
 % Variable Definitions for Equations
 %-------------------------------------------------------------------
 \providecommand{\tnr}{n}
-\providecommand{\fInst}{f_{\tnr,t}}
-\providecommand{\yZero}{y_{\tnr,t}}
-\providecommand{\Pzero}{P_{\tnr,t}}
-\providecommand{\Pzerolag}{P_{\tnr-1,t+1}}
-\providecommand{\rShort}{r_{t}}
+\providecommand{\fInst}{f_{t,\tnr}}
+\providecommand{\yZero}{y_{t,\tnr}}
+\providecommand{\Pzero}{P_{t,\tnr}}
+\providecommand{\Pzerolag}{P_{t+1,\tnr-1}}
+\providecommand{\STrate}{r}								% Update in a later revision
+\providecommand{\rShort}{\STrate_{t}}
+\providecommand{\rShortlag}{\STrate_{t-1}}
 \providecommand{\SDF}{M_{t+1}}
 \providecommand{\SDFprod}{\Expec \left[\Pi_{j=1} ^\tnr M_{t+j}\right]}
 \providecommand{\Xvars}{X_{t}}
@@ -33,10 +35,10 @@
 \providecommand{\affineB}{B_{\tnr}}
 \providecommand{\affineAfwd}{A_{\tnr + 1}}
 \providecommand{\affineBfwd}{B_{\tnr + 1}}
-\providecommand{\yLCnom}{y_{\tnr,t} ^{LC}}
-\providecommand{\yLCsynt}{\widetilde{y}_{\tnr,t} ^{LC}}
-\providecommand{\yUS}{y_{\tnr,t} ^{US}}
-\providecommand{\yUSsynt}{\widetilde{y}_{\tnr,t} ^{US}}
+\providecommand{\yLCnom}{y_{t,\tnr} ^{LC}}
+\providecommand{\yLCsynt}{\widetilde{y}_{t,\tnr} ^{LC}}
+\providecommand{\yUS}{y_{t,\tnr} ^{US}}
+\providecommand{\yUSsynt}{\widetilde{y}_{t,\tnr} ^{US}}
 
 % Math fonts
 \providecommand{\Expec}{\mathrm{E}_{t}}
@@ -49,7 +51,7 @@
 \providecommand{\riskprice}{\lambda_{t}}
 \providecommand{\lambdazero}{\lambda_{0}}
 \providecommand{\lambdaone}{\lambda_{1}}
-\providecommand{\fwdprm}{\rho_{\tnr,t}}
+\providecommand{\fwdprm}{\rho_{t,\tnr}}
 \providecommand{\deltazero}{\delta_{0}}
 \providecommand{\deltaone}{\delta_{1}}
 \providecommand{\error}{\nu_{t+1}}
