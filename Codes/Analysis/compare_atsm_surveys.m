@@ -1,4 +1,4 @@
-function [corrExp,corrTP] = compare_atsm_surveys(S,currEM,showfigs)
+function [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,showfigs)
 % Compare Results from ATSM vs Surveys
 % This code compares the paths of the expected long-term (LT) policy rate
 % and the term premium obtained with an affine term structure model to those
@@ -56,6 +56,8 @@ for k = 1:nEMs
         tpsynsvy   = ylds_syn(:,2) - ylds_svy(fltrSVYsyn,2);
         tp_nom_svy = [ylds_nom(:,1) tpnomsvy];
         tp_syn_svy = [ylds_syn(:,1) tpsynsvy];
+        S(k).svynomtp = tp_nom_svy;
+        S(k).svysyntp = tp_syn_svy;
         
         % Use the semmiannual long-term expected policy rate
         fltrSVYnmP = ismembertol(ylds_svy(:,1),yldsPnom(:,1),4,'DataScale',1);  % Same periodicity
