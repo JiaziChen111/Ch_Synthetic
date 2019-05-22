@@ -123,7 +123,7 @@ plot rf and risky
 'dataset_monthly' contains synthetic LC yield curves, expected short rates, risk premia, LCCS for different maturities with MONTHLY frequency. Series run top-down form the first available date per country to the most recent one, series were appended BELOW (since series start at different times). Countries are identified using (filtering in) dataset_monthly
 
 
-## GITHUB
+## GIT AND GITHUB
 -------------------------------------------------------------------------------------
 **Git** is a version control software. **GitHub** is a hosting service for your committed changes. In this way, you can work in your machine (local) and backup your changes online (remote).
 
@@ -425,7 +425,7 @@ $ git pull -p
 
 
 
-### Driessen's Branching Model Adapted To A Research Project
+### Driessen's Branching Model
 Use meaningful branch names. 
 - [Link](https://stackoverflow.com/questions/273695/what-are-some-examples-of-commonly-used-practices-for-naming-git-branches) for useful naming conventions that facilitate the workflow. 
 - [Link](https://nvie.com/posts/a-successful-git-branching-model/) explaining a successful Git branching model.
@@ -446,6 +446,7 @@ Since `dev` is a permanent branch and `fix` branches are mainly used to correct 
 - Therefore, there are in total 17 possible types of temporary branches: 15 feautre branches (12 regular, 3 for tests), 2 fix branches.
 - With this convention (names *and* forward slashes), no branch can have the following names (see first link above) -i.e. without the `/feature-name` part-: `ftr/cat` (e.g. `data/raw`,`code/ana`), `fix/dev`, `fix/mst`.
 
+#### Driessen's Model Adapted To A Research Project
 [Implementation](https://stackoverflow.com/questions/4470523/create-a-branch-in-git-from-another-branch) of Driessen's branching model to a research project:
 ```bash
 $ git checkout -b <branchname> <parent>	# Create a new branch **off** the `<parent>` branch *and* go to the new branch
