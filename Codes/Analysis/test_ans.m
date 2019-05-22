@@ -581,6 +581,21 @@ end
 % end
 % tpavg = tpavg/11;
     
+
+%% Compare IP vs GDP data per country
+
+for k = 1:15
+    figure
+    plot(S(k).ip(:,1),S(k).ip(:,2))
+    if size(S(k).gdp,2) > 1
+        hold on
+        plot(S(k).gdp(:,1),S(k).gdp(:,2))
+    end
+    title(S(k).iso)
+    legend('IP','GDP')
+    datetick('x','YYQQ')
+end
+
 %% From estimate_TR.m
 
 for k = 2 % Colombia, it adds 10 data points to GDP but makes little difference in outcome of regression
