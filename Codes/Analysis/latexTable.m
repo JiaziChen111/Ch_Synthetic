@@ -270,7 +270,7 @@ end
 
 % make footer lines for table:
 tableFooter = {'\end{tabular}';['\caption{',input.tableCaption,'}']; ...
-    ['\label{table:',input.tableLabel,'}'];'\end{table}'};
+    ['\label{tab:',input.tableLabel,'}'];'\end{table}'};
 if isfield(input,'fontSize')
     tableFooter = [tableFooter;['\end{',input.fontSize,'}']];
 end
