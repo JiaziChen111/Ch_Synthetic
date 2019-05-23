@@ -139,10 +139,13 @@ An **upstream** is simply another branch name, usually a *remote-tracking* branc
 
 To **pull** is to download the changes in the remote repository to your local machine. To **push** is to upload the changes in your local machine to the remote repository.
 
-In what follows, the lines starting with the '$' symbol mean commands one inputs in the terminal; the lines starting with the '>' symbol mean output shown in the terminal.
+In what follows:
+- The lines starting with the '$' symbol mean commands one inputs in the terminal; the lines starting with the '>' symbol mean output shown in the terminal.
+- The most commonly used commands in the terminal (also known as shell) when working with Git are: `cd`, `ls`.
+- The most commonly used Git commands are: `status`, `add`, `commit`, `push`, `pull`; other less used commands include: `diff`, `reset`, `branch`, `checkout`, `merge`.
 
 ### [Setting Up Git](https://help.github.com/en/articles/set-up-git)
-Compare your current version with the [latest release](https://git-scm.com/downloads)
+In the terminal type the following to compare your current version of Git with the [latest release](https://git-scm.com/downloads)
 ```bash
 $ git --version
 ```
