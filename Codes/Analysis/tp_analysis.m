@@ -307,7 +307,7 @@ input.texName = filename;
 latexTable(input);
 
 
-%% Common Factor Affecting TPs
+%% Common Factors Affecting TPs
 
 datesTP   = S(10).syndata(2:end,1);
 TPdataset = nan(length(datesTP),26);
@@ -462,6 +462,44 @@ input.tableCaption = 'Correlations of 10-Year Term Premia: EPU Index.';
 input.tableLabel = 'temp_tp_corr10yr_epu';
 input.texName = filename;
 latexTable(input);
+
+
+%% Term Spread
+
+ncntrs  = length(S);
+Mlong  = 10;
+Mshort = 0.25; %2;
+tsnomvssyn = nan(ncntrs,3);
+tsmean = nan(ncntrs,3);
+corrTSprd = nan(ncntrs,2);
+
+for k = 1:ncntrs
+    trmsprd_nom = S(k).nomblncd(:,S(k).nomblncd(1,:) == Mlong) - S(k).nomblncd(:,S(k).nomblncd(1,:) == Mshort);
+    trmsprd_syn = S(k).synblncd(:,S(k).synblncd(1,:) == Mlong) - S(k).synblncd(:,S(k).synblncd(1,:) == Mshort);
+    S(k).nomtsprd = [S(k).nomblncd(:,1) trmsprd_nom*100];
+    S(k).syntsprd = [S(k).synblncd(:,1) trmsprd_syn*100];
+    figure
+    plot(S(k).nomtsprd(:,1),S(k).nomtsprd(:,2)), hold on
+    plot(S(k).syntsprd(:,1),S(k).syntsprd(:,2))
+    title([S(k).cty ' Term Spread']), legend('Nominal','Synthetic'), ylabel('%'), datetick('x','YY')
+    
+    x = S(k).nomtsprd(:,2);
+    y = S(k).syntsprd(:,2);
+    [h,p] = ttest2(x,y);     % Equality of means test b/w TSnom and TSsyn
+    tsnomvssyn(k,:) = [k h p]; % Null of equality is not rejected for any country
+    
+    tsmean(k,:) = [k mean(x) mean(y)];
+    % The mean of the 10yr-3m spread is higher than the mean of the 10-2yr spread
+    % tsmean(:,3) - tsmean(:,2);
+    % for the 10-2yr spread, the mean of syn > nom except for 4 EMs
+    % for the 10yr-3m spread, the mean of syn > nom for only 7 EMs
+    
+    fltrTSnom = ismembertol(S(k).nomtsprd(:,1),S(k).syntsprd(:,1),4,'DataScale',1);
+    fltrTSsyn = ismembertol(S(k).syntsprd(:,1),S(k).nomtsprd(:,1),4,'DataScale',1);
+    corrTSprd(k,1) = S(k).imf;
+    corrTSprd(k,2) = corr(S(k).nomtsprd(fltrTSnom,2),S(k).syntsprd(fltrTSsyn,2));
+    % corr of 10-2yr spread b/w nom and syn is generally higher than corr of 10yr-3m spread
+end
 
 %% Average over a field: EM vs AE and Nom vs Syn
 
