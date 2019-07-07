@@ -313,10 +313,7 @@ The term premia for Latin American countries show a positive correlation with th
 To study the cyclical properties of term premia in emerging markets formally, I run  panel data regressions with a variety of macroeconomic and financial variables. The macroeconomic variables considered have a monthly frequency, and since the financial variables considered are available daily, end-of-month values are used for them.
 
 The panel data regressions have the form
-
-\begin{equation} \label{eq:panel_reg}
-	tp_{it} = \alpha_{i} + \beta' z_{it} + u_{it},
-\end{equation}
+	\input {../Equations/panelTPreg}
 
 where $tp_{it}$ denotes the model-based 10-year term premium of country $i$ in month $t$, $z_{it}$ is a vector of regressors and $\alpha_{i}$ denotes a country fixed-effect. The regressors include global and domestic variables as suggested by the evidence presented in table \ref{tab:temp_tp_common}.
 
@@ -324,7 +321,7 @@ The global financial variables include the Cboe VIX, the federal funds rate, the
  
  The domestic variables include inflation, the unemployment rate and industrial production to capture macroeconomic effects. In addition, the exchange rate (LC per USD) and the local stock market index are used as measures of local financial conditions. For this two variables, both levels and monthly returns are used.\footnote{The monthly returns are calculated as the log difference of the series.} Given the different scales, the exchange rate is standardized when used in levels.
 
-Table \ref{tab:temp_tp_regs} reports different specifications of the model in equation (\ref{eq:panel_reg}). The first model in the table focuses mainly on global variables, while the second one focuses on domestic variables. These two models already shed some light on the driving forces behind the term premia in emerging markets. However, the models with the most explanatory power include both global and domestic variables.
+Table \ref{tab:temp_tp_regs} reports different specifications of the model in equation (\ref{eq:panelTPreg}). The first model in the table focuses mainly on global variables, while the second one focuses on domestic variables. These two models already shed some light on the driving forces behind the term premia in emerging markets. However, the models with the most explanatory power include both global and domestic variables.
 %	\input{../Tables/rp_pnlreg_10yr}
 	\input{../Tables/temp_tp_regs}
 
