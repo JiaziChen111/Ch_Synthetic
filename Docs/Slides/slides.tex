@@ -1,8 +1,8 @@
 %----------------------------------------------------------------
 % Preamble
 %----------------------------------------------------------------
-\documentclass[12pt, xcolor=dvipsnames]{beamer} 			         % Document class
-% \documentclass[12pt,xcolor=dvipsnames,handout,notes=show]{beamer}	  % For printing
+\documentclass[12pt, aspectratio=169, xcolor=dvipsnames]{beamer} 			         % Document class
+% \documentclass[12pt, aspectratio=169,xcolor=dvipsnames,handout,notes=show]{beamer}	  % For printing
 \input{../Settings/packs_beamer}   		  % Packages
 \input{../Settings/macros}					   % Personalized commands
 %----------------------------------------------------------------
@@ -26,8 +26,8 @@
 	\begin{itemize}
 		\item \textit{Risk-free} zero-coupon yields can be decomposed into: 
 		\begin{itemize}
-			\item Expected nominal short-term interest rate
-			\item Risk premium
+			\item Expected short-term interest rate
+			\item Term premium
 		\end{itemize}
 		\item<2-> Sovereign debt of advanced economies is considered risk-free
 		\item<3> \textbf{Problem:} Debt of emerging markets (EMs) is \textit{not} risk-free
@@ -37,11 +37,11 @@
 		% \textcolor{yaleblue}{\textbf{Gap:}}	% To color text
 	\end{itemize}
 \end{frame}
-\note{Risk premium: Compensation that investors require for bearing the risk that the short-term yield does not evolve as they expected. If LT bonds are seen as risky, need compensation so RP > 0; if they are seen as a hedge, investors are willing to receive less than what is expected for the short term rate and so RP < 0.}
+\note{Term premium: Compensation that investors require for bearing the risk that the short-term yield does not evolve as they expected. If LT bonds are seen as risky, need compensation so RP > 0; if they are seen as a hedge, investors are willing to receive less than what is expected for the short term rate and so RP < 0.}
 \note{Sometimes TP is used interchangably with RP. I will use TP.}
 \note{Credit risk understood as: (selective) default risk, currency convertibility risk, regulation risk, capital controls, jurisdiction risks, liquidity risk.}
 \note{Why default on LC debt? FC debt creates trade-off between default and inflating away LC; small cost to default in LC if already defaulted on FC; EMs can change the law + Suspension of currency convertibility, capital controls while not defaulting.}
-\note{The questions is: how can we decompose LC yield curves in EMs? Do we gain by taking into accout this risks?}
+\note{The questions is: how can we decompose LC yield curves in EMs? What can we learn by taking into accout these risks?}
 
 \begin{frame}
 \frametitle{Motivation}
@@ -49,6 +49,7 @@
 	\includegraphics[width=0.8\textwidth,height=0.7\textheight]{../Figures/Sovereign_LC_Rating_Dist.png}
 \end{center}
 \end{frame}
+\note{A bond is considered investment grade if its credit rating is BBB- or higher.}
 \note{Historical LC defaults: El Salvador 2017, Ecuador 2008, Argentina 2001, Turkey 1999 (earthquake, retroactively taxed LC debt), Russia 1998 (after high inflation).}
 
 \begin{frame}
@@ -59,14 +60,18 @@
 			\item Analyze components, especially the term premium
 		\end{itemize}
 		\pause
-		\item \textbf{Main idea:} Use synthetic zero-coupon yield curves
+		\item \textbf{Main idea:} What if the U.S. issue debt in other currencies?
+		\pause
 		\begin{itemize}
-			\item Swap US Treasury bonds into LC using cross-currency swaps
-			\item What if the US issue debt in other currencies?
+			\item Use synthetic zero-coupon yield curves
+			\item Swap U.S. Treasury yields into LC using derivatives
+			\begin{itemize}
+				\item Forward premium
+			\end{itemize}
 		\end{itemize}
 	\end{itemize}
 \end{frame}
-\note{Today I can lock in a risk-free investment in LC by exchanging LC for USD, investing those USD in Tresuaries and enter into a forward agreeing to sell USD for LC in the future. Once the payment from Treasuries, I exchange them into LC.}
+\note{Today I can lock in a risk-free investment in LC by exchanging LC for USD, investing those USD in Tresuaries and enter into a forward agreeing to sell USD for LC in the future. Once I receive the payment from Treasuries, I exchange them into LC.}
 
 \begin{frame}
 	\frametitle{Why Is This Important?}
@@ -82,7 +87,7 @@
 		\end{itemize}
 		\item<3> Testing asset pricing theories in EMs
 		\begin{itemize}
-			\item<3> Buraschi, Piatti \& Whelan (2018)
+			\item<3> Buraschi, Piatti and Whelan (2018)
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -93,77 +98,144 @@
 \begin{frame}
 	\frametitle{What Has Been Done?}
 	\begin{itemize}
-		\item Vast literature on advanced economies (AEs)
-		\item Few papers make decompositions of EM yield curves	
+		\item Vast literature on yield curve decomposition for advanced economies (AEs)
+		\item Fewer papers decompose of EM yield curves
 		\begin{itemize}
-			\item Blake, Rule \& Rummel (2017)
+			\item \citet*{BlakeRuleRummel:2015}
 		\end{itemize}
 		\item<2-> Synthetic yield curves
 		\begin{itemize}
-			\item<2-> LC credit spread (Du \& Schreger, 2016)
-			\item<2-> Convenience yield (Du, Im \& Schreger, 2018)
+			\item<2-> LC credit spread \citep{DuSchreger:2016a}
+			\item<2-> Convenience yield \citep*{DuImSchreger:2018}
 		\end{itemize}
 	\end{itemize}
 \end{frame}
 \note{Du \& Schreger (2016) developed an empirical measure to assess credit risk in LC debt.}
 
+\begin{frame}
+\frametitle{Roadmap}
+\begin{itemize}
+	\item Construction of yield curves: synthetic and nominal
+	\item Affine term structure models
+	\item Results
+	\item Proposals
+\end{itemize}
+\end{frame}
 
 \section{Methodology}
 
 \begin{frame}
-	\frametitle{Methodology}
+	\frametitle{Construction of \textbf{Synthetic} Yield Curves}
+	\vspace{-1cm}
+	\input {../Equations/yLCsynt_nn}
+	\vspace{-0.5cm}
 	\begin{itemize}
-		\item Construction of synthetic yield curves
-		\item Estimation of affine term structure model
-		\item Analysis of the components
+		\item $\yLCsynt$ is the $\tnr$-period zero-coupon yield of a country in LC at time $t$
+		\item $\yUS$ is the $\tnr$-period zero-coupon yield of the U.S. in USD at time $t$
+		\item $\fwdprm$ is the $\tnr$-period forward premium from USD to LC at time $t$
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Synthetic Yield Curves}
+	\frametitle{Construction of Synthetic Yield Curves: Forward Premium}
+	\vspace{-0.8cm}
+	$$\fwdprm$$
+	\vspace{-1cm}
 	\begin{itemize}
-		\item LC risk-free yield curve
+		\item $< 1$ year: FX forwards $\rightarrow$ $(forward_{t,\tnr} - spot_{t})/\tnr$
+		\item $\geq 1$ year: Fixed-for-fixed cross-currency swaps (CCS)
+		\pause
 		\begin{itemize}
-			\item US yield curve
-			\item Cross-currency swaps (from USD to LC)
-		\end{itemize}
-		\item At every date, fit a curve
-		\begin{itemize}
-			\item Nelson \& Siegel (1987)
+			\item Constructed using cross-currency basis swaps and interest rate swaps
+			\item Why CCS?
+			\begin{itemize}
+				\item Defaults on LC bonds not considered trigger events of credit default swaps (CDS)
+				\item CCS are collateralized $\rightarrow$ Bilateral counterparty risk in CCS is small
+			\end{itemize}
 		\end{itemize}
 	\end{itemize}
 \end{frame}
-\note{In AEs a Svensson model is often used because it includes an extra parameter which captures the dynamics better when there are maturities longer than 10 years. For EMs, the maximum maturity considered is 10 years, so N-S performs well.}
+
+\begin{frame}
+\frametitle{Construction of \textbf{Nominal} Yield Curves}
+\begin{itemize}
+	\item Focus on synthetic yield curve $\yLCsynt$ but nominal yield curve $\yLCnom$ also of interest
+	\begin{itemize}
+		\item Assess benefits of `adjusting' for credit risk
+		\item Calculate deviations from covered interest rate parity (CIP)
+	\end{itemize}
+	\item $\yLCnom$ estimated from:
+	\begin{itemize}
+		\item Bloomberg Fair Value (BFV) curves
+		\item \cite{NelsonSiegel:1987}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+\note{BFV curves are par yield curves provided by Bloomberg on a daily basis for different maturities. To obtain the implied zero-coupon curves, the yields are converted into discount factors, which are then used to estimate the parameters of the Nelson-Siegel-Svensson model.}
+
+\begin{frame}
+\frametitle{Deviations from CIP}
+\vspace{-0.8cm}
+$$\CIPdev = \yLCnom - \yLCsynt$$
+\vspace{-1cm}
+\begin{itemize}
+	\item $\CIPdev$ measures CIP deviations between government bond yields
+	\item Explanations:
+	\begin{itemize}
+		\item Sovereign credit risk \citep{DuSchreger:2016a}
+		\item Liquidity and convenience yields \citep*{DuImSchreger:2018}
+		\item Financial market frictions \citep*{DuTepperVerdelhan:2018}
+	\end{itemize}
+\end{itemize}
+\end{frame}
 
 \begin{frame}
 	\frametitle{Affine Term Structure Model}
 	\begin{itemize}
-		\item Standard ATSM
-		\item Intuition:
+		\item ATSMs standard tool to estimate dynamics of \textit{nominal} yield curves for AEs
 		\begin{itemize}
-			\item A set of stochastic factors drive the dynamics of the term structure.
-			\item No-arbitrage restrictions ensure consistency in the cross section and time series of bond yields
+			\item A set of stochastic factors drive the dynamics of the term structure
+			\item No-arbitrage restrictions: Consistency in (cross section/time series) bond yields
 			\item Yields are affine functions of the set of pricing factors
 		\end{itemize}
+		\item Key assumption: Yields are risk-free
 	\end{itemize}
 \end{frame}
-\note{The coefficients are functions of the maturity of the bond and the coefficients that determine the stochastic processes for the state variables.}
+\note{The coefficients are functions of the maturity of the bond and the coefficients that determine the stochastic processes that drive the state variables.}
+\note{Once the parameters of the model are estimated, they can be used to estimate the term premium.}
 
 \begin{frame}
-	\frametitle{(Preliminary) Estimation}
+	\frametitle{ATSM for EMs}
 	\begin{itemize}
-		\item Treat state variables as observables
+		\item For EMs,
 		\begin{itemize}
-			\item Principal components (PCA)
+			\item $\yLCnom$ is not risk-free since $\CIPdev \neq 0$ \citep{DuSchreger:2016a}
+			\item Focusing on $\yLCsynt$ better aligns with the risk-free assumption
 		\end{itemize}
-		\item Estimate the law of motion of the state variables
-				\begin{itemize}
-			\item VAR
+		\item Estimating an ATSM for the dynamics of $\yLCsynt$ allows to decompose $\yLCnom$ into:
+		\begin{itemize}
+			\item Expected future short-term interest rate
+			\item Term premium
+			\item LC credit spread
 		\end{itemize}
-		\item Expectation of short-term interest rates $n$-periods ahead
-		\item Estimate the term premium
 	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Identification Problem}
+	\begin{itemize}
+		\item Bond yields are persistent $\rightarrow$ Small sample bias \citep{KimOrphanides:2012}
+		\begin{itemize}
+			\item Overestimates the stability of the expected path of the short-term interest rate
+			\item Most variability in yields will be attributed to fluctuations in the term premium
+		\end{itemize}
+	\item Solutions: parameter restrictions, bias-corrected estimators, survey forecasts
+	\item Surveys is an effective solution to obtain robust decompositions of the yield curve \citep{Guimaraes:2014} 
+	\end{itemize}
+\end{frame}
+\note{Only zero-coupon bond yields are needed to estimate the parameters of an ATSM.}
+\note{TP is an unobserved variable.}
+\note{Two ways in which the information from surveys is used. First, to obtain a model-free estimate of the term premium. Second, to supplement the information from bond yields in the estimation of affine term structure models.}
 
 
 \section{Data}
@@ -171,49 +243,71 @@
 \begin{frame}
 	\frametitle{Data}
 	\begin{itemize}
-		\item 15 EM countries
+		\item Countries:
 		\begin{itemize}
-			\item \scriptsize Brazil, Colombia, Hungary, Indonesia, Israel, Korea, Malaysia, Mexico, Peru, Philippines, Poland, Russia, South Africa, Thailand, Turkey
+			\item \scriptsize 15 EMs: BRL, COP, HUF, IDR, ILS, KRW, MYR, MXN, PEN, PHP, PLN, RUB, ZAR, THB, TRY
+			\item \scriptsize 10 AEs: G-3 (EUR, JPY, GBP), SOE (AUD, CAD, DKK, NOK, NZD, SEK, CHF)
 		\end{itemize}
-		\item<2-> End-of-month data until May 2018
+		\item<2-> End-of-month data until Jan-2019, starting dates vary (Jan-2000, Dec-2006)
+		\item<3-> Maturities (in years): 0.25, 0.5, 0.75 1, 2, \ldots, 10; max. 30
+		\item <4-> Sources:
 		\begin{itemize}
-			\item<2-> Starting date: Earliest Jan 2000, latest Dec 2006
-		\end{itemize}
-		\item<3-> Maturities (in years): 1, 2, \ldots, 10 
-		\begin{itemize}
-			\item<3-> US yield curve from Gürkaynak, Sack \& Wright (2007)
-			\item<3-> Cross-currency swap curves from Bloomberg
+			\item<5-> $\yUS$: U.S. yield curve from \citet*{GSW:2007}
+			\vspace{-0.1cm}
+			\item<6-> $\fwdprm$: Bloomberg and Datastream
+			\vspace{-0.1cm}
+			\item<7-> Expected short-term rate: Consensus Economics $+$ BIS policy rate statistics
 		\end{itemize}
 	\end{itemize}
 \end{frame}
+\note{The currency identifier for each country is shown.}
+\note{In order to establish a set of stylized facts for emerging markets, the results are compared against those obtained for 10 AEs.}
 \note{Talk about the desirability of longer series to be able to pin down TP since it is an unobserved variable. But more than 10 years is reasonable.}
-
+\note{Reasons for use monthly: VAR is a good approximation for monthly, adequate frequency if want to use macro data.}
+\note{Consensus Economics provides long-horizon forecasts for consumer inflation and real GDP growth but not for policy rates.}
 
 \section{Results}
 
 \begin{frame}
-	\frametitle{Benchmark}
-	\visible<2>{
-	\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_us_10yr_ACMvsKM}
-			\par\end{center}
-		\caption{10-Year US Term Premium.}\label{fig:tp_us_10yr}
-	\end{figure}}
+	\frametitle{Results}
+	\begin{itemize}
+		\item Goal: Decompose synthetic yield curves $\yLCsynt$ of EMs
+		\begin{itemize}
+			\item Byproduct: Decomposition of nominal yield curves $\yLCnom$ of EMs
+		\end{itemize}
+		\item To assess the relevance of the results:
+		\begin{itemize}
+			\item Compare estimated term premia of EMs to those of advanced SOEs
+			\item Compare the term premia obtained from both $\yLCnom$ and $\yLCsynt$
+		\end{itemize}
+		\item Results reported for 10-year maturity
+	\end{itemize}
 \end{frame}
-\note{Benchmark to compare how EM TPs behave.}
-\note{Two frequently cited estimates of the US TP: KW and ACM.}
-\note{Highlight three things: (1) the US TP is not constant; (2) it has decline over time; and (3) it has changed sign in recent years.}
-\note{Explanations for decline: global investors, UMP.}
-\note{Another explanation proposed by Campbell, Sunderam \& Viceira (2016) is that TP < 0 is explained by the flip in the sign of the correlation between stocks and bonds -bonds hedge stocks-.}
-\note{We can analyze the behavior of the TP around key dates.}
-\note{Vertical lines: September 2008, March 2009, June 2013, November 2016.}
+\note{To estimate the TP, one needs to assume that the curves used are risk-free.}
+
+\begin{frame}
+	\frametitle{Dynamics of EM Term Premia: Stylized Facts}
+	\begin{itemize}
+		\item U.S. benchmark
+		\begin{enumerate}
+			\item U.S. term premium (USTP) is time-varying
+			\item USTP increases during periods of uncertainty
+			\item USTP has declined over time
+			\item USTP turned negative in recent years
+		\end{enumerate}
+		\item Estimates for EMs consistent with $1$ and $2$, some countries with $3$ and $4$
+	\end{itemize}
+\end{frame}
+\note{USTP increased around the onset of the Great Recession (September 2008), the taper tantrum (June 2013), and the 2016 U.S. presidential election (November 2016), while it declined after the first unexpected announcement of the QE program by the Fed (March 2009).}
+\note{Common explanations for the decline in the USTP include an increased demand of U.S. assets by global investors and the effects of the UMP of the Fed.}
+\note{Explanation for change in sign (Campbell, Sunderam \& Viceira (2016)): TP < 0 is explained by the flip in the sign of the correlation between stocks and bonds -bonds hedge stocks-.}
+
 
 \begin{frame}[label=tp_10yrA]
-	\frametitle{Term Premium Estimates}
+	\frametitle{EM Term Premium Estimates: 10Y}
 	\begin{figure}[!htbp]
 		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_10yr_1}
+			\includegraphics[trim={0 8.95cm 0 0}, clip, width=0.9\textwidth, height=0.65\textheight]{../Figures/Temp/temp_tp10yrEM}
 			\par\end{center}
 		\caption{Estimated 10-Year Term Premia.}\label{fig:tp_10yrA}
 	\end{figure}
@@ -222,16 +316,15 @@
 	\end{textblock*}
 \end{frame}
 \note{EM TP are time-varying.}
-\note{Sensible TP estimates, mostly positive; fluctuate around 1\% and 2\%.}
+\note{Sensible TP estimates, mostly positive; fluctuate between 0\% and 5\%.}
 \note{Sometimes they comove.}
-\note{Behavior around vertical lines}
-%\note{No same pattern to US TP seen in EMs}
+
 
 \begin{frame}
 	\frametitle{Term Structure of Term Premia}
 	\begin{figure}[!htbp]
 		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_ts_MXN}
+			\includegraphics[trim={0 0 0 8.5cm}, clip, width=0.9\textwidth, height=0.65\textheight]{../Figures/Temp/temp_ts_tp}
 			\par\end{center}
 		\caption{Estimated 1-, 5- and 10-Year Term Premia.}\label{fig:tp_ts}
 	\end{figure}
@@ -241,110 +334,135 @@
 \note{Sometimes, standard deviation of TP increases with maturity.}
 
 \begin{frame}
-	\frametitle{Gains from `Adjusting' for Default Risk}
-	\visible<2>{
-	\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_cmp_5_MYR}
-			\par\end{center}
-		\caption{Estimated Term Premium: Synthetic vs Actual.}\label{fig:tp_comp_5yr}
-	\end{figure}}
+	\frametitle{Nominal Yield Curve Decomposition}
+	\input{../Tables/temp_decomp10yr}
+	\begin{itemize}
+		\item Estimated TP is higher on average than CIP deviations
+		\item Main component of the nominal yield curve:
+		\begin{itemize}
+			\item For EMs, the expectation of the future short-term interest rate
+			\item For AEs, the term premium
+		\end{itemize}
+	\end{itemize}
 \end{frame}
-\note{Explain each line.}
-\note{Risk premium =! Term premium.}
+\note{Deviations from CIP (CIP Dev) referred to as the LC credit spread (LCCS) for EMs and the convenience yield for AEs.}
 \note{The dyanmics of TP and LCCS play an important role in EM bond yields.}
-
-\begin{frame}
-	\input{../Tables/rp_decomp10yr}
-\end{frame}
-\note{Main component is expectation part. Mean and std of TP are higher than for LCCS.}
 \note{It would be interesting to further decompose the nominal parts (Expected and TP) into real and inflation!!!}
-\note{Mean: 6.9971    6.2480    4.9953    1.2527    0.6932}
-\note{Std:    1.9943    1.8840    1.9940    1.1793    0.7597}
 
 \begin{frame}
-	\frametitle{Correlations}
+	\frametitle{Term Premia: Does It Matter Which Curve Is Used?}
+	\input{../Tables/temp_tp_compare}
+	\begin{itemize}
+		\item Difference between the two TP estimates is larger for EMs on average
+		\begin{itemize}
+			\item Null of equal means is rejected at $5$\% for 13 EMs vs 4 AEs
+			\item For EMs, risk premium $\neq$ term premium
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{The null of equal means is rejected at the $5$\% significance level for all EMs except Hungary and Malaysia. However, the null is only rejected for four AEs (Australia, Denmark, Japan and New Zealand).}
+
+\begin{frame}
+	\frametitle{Is There A Global Factor in EM Term Premia?}
+	\input{../Tables/temp_tp_common}
+	\begin{itemize}
+		\item Global financial cycle: Common factors on capital flows \citep{Rey:2013}
+		\item For AEs, a global factor seems more relevant for TP
+		\item For EMs, both domestic and global factors appear more relevant for TP
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Relationship with Risk and Uncertainty Measures}
 	\begin{itemize}
 		\item Comparison with US term premium
-		\item LC credit spread (Du \& Schreger, 2016)
-		\item Uncertainty indexes (Baker, Bloom \& Davis, 2016)
+		\begin{itemize}
+			\item TP
+			\item $\perp$TP
+		\end{itemize}
+		\item CIP deviations: 
+		\begin{itemize}
+			\item LC credit spread \citep{DuSchreger:2016a}
+			\item Convenience yield \citep{DuImSchreger:2018}
+		\end{itemize}
+		\item Uncertainty indexes \citep{BakerBloomDavis:2016}
 	\end{itemize}
 \end{frame}
 \note{EPU index is based on frequency of key words -economy, uncertainty, Fed- in newspapers. Only available for 5 countries in the sample.}
 
 \begin{frame}[label=corr_10yr]
-	\input{../Tables/rp_correl_10yr}
-	\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
-		\hyperlink{corr_5yr}{\beamergotobutton{5YR}}
-	\end{textblock*}
+	\input{../Tables/temp_tp_corr10yr}
+	\input{../Tables/temp_tp_corr10yr_epu}
 \end{frame}
 \note{EM TP and US TP are closely related, it tends to increase with maturity.}
 \note{Correlation with LCCS is negative. Possible explanation: LCCS low reaction to global variables while the TP's is high.}
-\note{For EPU, need to study BRL and RUB more closely. Note that for COP is positive.}
-
-\begin{frame}
-	\frametitle{Common Factors in EM Term Premia}
-	\input{../Tables/rp_cmnfctrs}
-\end{frame}
-\note{Both domestic and common factors seem to be at play in EM TP.}
+\note{For EPU, need to study KRW and RUB more closely.}
 
 \begin{frame}
 	\frametitle{Drivers of EM Term Premia}
 	\begin{itemize}
 		\item Panel regressions per maturity
-		\item Global financial variables
+		%\vspace{-1cm}
+		\input {../Equations/panelTPreg_nn}
+		\vspace{-0.5cm}
 		\begin{itemize}
-			\item<2> VIX, Fed funds rate, S\&P, oil price
-		\end{itemize}
-		\item Domestic variables
-		\begin{itemize}
-			\item<2> Macro: Inflation, unemployment rate, industrial production
-			\item<2> Financial: FX, stock market
+			\item $tp_{it}$: model-based $\tnr$-year term premium of country $i$ in month $t$
+			\item $z_{it}$: vector of regressors
+			\item $\alpha_{i}$: country fixed effects
 		\end{itemize}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Drivers of EM Term Premia: Regressors}
+\begin{itemize}
+	\item Global financial variables
+	\begin{itemize}
+		\item VIX, Fed funds rate, S\&P, oil price
+	\end{itemize}
+	\item Domestic variables
+	\begin{itemize}
+		\item Macro: Inflation, unemployment rate, industrial production
+		\item Financial: exchange rate (LC per USD), stock market
+	\end{itemize}
+\end{itemize}
 \end{frame}
 
 \begin{frame}[label=pnl_tp10yr]
 	\frametitle{Panel Regression: 10-Year TP}
 	{\centering
-	\input{../Tables/rp_pnlreg_10yr} \par}
+	\input{../Tables/temp_tp_regs} \par}
 	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
 		\hyperlink{pnl_tp5yr}{\beamergotobutton{5YR}}
 	\end{textblock*}
 \end{frame}
 \note{Main broad message at 10 years. Big difference: FFR more negative when there is no USTP and disappears when USTP}
 \note{Country fixed-effects were included to allow for the possibility that country-specific factors that may affect TP are also correlated with the controls.}
+\note{External conditions have a relevant impact on domestic bond markets. }
+\note{The channel does not seem to be through the VIX nor even through the monetary policy of the U.S. directly via the federal funds rate but through the U.S. term premia.}
+\note{The effect of the domestic variables is in line with what has been found for AEs. 
+	Investors demand a higher term premium during recessions, when the unemployment rate increases. This shows evidence of a countercyclical behavior of the TP in EMs.
+	The positive effect of inflation on the TP conforms with the idea that inflation erodes the value of nominal bonds and so in periods of rising inflation investors demand a higher TP.}
+\note{A depreciation of the LC is associated with an increase in the TP. This seems counterintuitive since EMs are usually commodity exporters so it appears to contradict the standard trade-channel effect. However, it is in line with the risk-taking channel of exchange rates found by \cite{HofmannShimShin:2017}, according to which currency appreciation is associated with easier financial conditions and compressed sovereign bond spreads.}
 
 \begin{frame}
 	\frametitle{Work in Progress}
 	\begin{itemize}
-		\item Given potential for small sample problems, use survey forecasts to discipline the model
+		\item Survey forecasts so far as a robustness check. Next: supplement ATSM
+		\item Controls to include when studying the drivers of TP:
 		\begin{itemize}
-			\item Key factor explaining differences in term premium estimates (Li, Meldrum \& Rodriguez, 2017)
+			\item Measures of inflation uncertainty (Stock and Watson, 2007)
+			\item Measures of political uncertainty \citep{BakerBloomDavis:2016}
 		\end{itemize}
-	\item Better characterization of EM term premia relative to AEs
-	\end{itemize}
-\end{frame}
-\note{Next things on the list.}
-\note{There is clearly uncertainty in the TP estimates and that is where survey forecasts can be helpful.}
-\note{Identify more clearly where and how EM TPs differ from AEs. Broaden the number of AEs in the sample.}
-
-\begin{frame}
-	\frametitle{Work Ahead}
+	\item How U.S. monetary policy moves EM yields?
 	\begin{itemize}
-		\item Full implementation of ATSM to refine TP estimation
-		\item Compare EMs with SOE AEs (Australia, NZ, Canada)
-		\item Multi-country ATSM
-		\pause
-		\item Related work:
-		\begin{itemize}
-			\item Role of capital flows: negative EM TP?
-			\item Role of FC yield curve: $\pi$ and FX expectations?
-			\item High-frequency effects of MP on EM \textit{risk-free} yields
-		\end{itemize}
+		\item Event study methodology (G\"{u}rkaynak and Wright, 2013)
+		\item Local projections (Jord\`a, 2005)
+	\end{itemize}
 	\end{itemize}
 \end{frame}
-\note{MP: US and local}
+\note{There is clearly uncertainty in the TP estimates and that is where survey forecasts can be helpful.}
+
 
 \section{Conclusions}
 
@@ -355,13 +473,142 @@
 		\begin{itemize}
 			\item Gains from `adjusting' for credit risk
 			\item In EMs, risk premium $\neq$ term premium
-			\item More disaggregated decomposition of LC yield curves
+			\item More disaggregated decomposition of nominal LC yield curves
 		\end{itemize}
 		\item Properties of EM term premia
-		\item Many potential extensions
+		\item Several potential extensions
+	\end{itemize}
+\end{frame}
+\note{Potential extensions: nominal and real decompositions, multi-country models, models with jumps.}
+
+\section{Internship}
+
+\begin{frame}
+\begin{center}
+	\huge \textcolor{yaleblue}{Internship Proposals}
+\end{center}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Proposals}
+	\begin{itemize}
+		\item Effects of changes in the yield curve on the banking system
+		\item Effects of monetary policy on the banking system
+		\begin{itemize}
+			\item Whose monetary policy?
+			\begin{itemize}
+				\item Mexico vs U.S.
+			\end{itemize}
+			\item Effects on what?
+			\begin{itemize}
+				\item Prices: bank stock returns, deposit rates
+				\item Quantities: size of deposits, loans, balance sheet
+				\item Performance: interest rate risk, NIM, ROA, ROE
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{Altavilla et al. (2018): Banks' profits are crucial for banks' capital and hence for financial stability.}
+\note{Stock market returns provide market-based expectations on future profitability.}
+
+\begin{frame}
+	\frametitle{Proposal 1}
+	\begin{itemize}
+		\item Challenge of assessing impact of MP: Isolate exogenous policy changes
+		\item Identification of monetary policy shocks
+		\begin{itemize}
+			\item SVAR for quarterly data and macro variables (e.g. GDP, inflation, policy rate)
+			\item Ordering is not straight forward when using other financial variables
+		\end{itemize}
+		\item In such cases, high-frequency event studies allow for identification
+		\begin{itemize}
+			\item Changes in interest rate futures contracts around MP announcements
+			\item But tool rely on federal funds futures rates $\rightarrow$ U.S. specific
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{G\&W (2013): As both MP and asset prices are forward-looking, they react to each other within the quarter.}
+\note{Altavilla et al. (2018): Changes in small windows around announcements, captures the efficient market reaction to new information and thus reflects the causal impact of MP.}
+\note{Lloyd (208): FFFs are US-specific and very few similar instruments are traded elsewhere.}
+\note{Banxico don't have access to historical HF data.}
+
+\begin{frame}
+	\frametitle{Proposal 1}
+	\begin{itemize}
+	\item \textbf{Proposal}: Are there real effects of HF-identified U.S. MP shocks on local credit conditions?
+	\begin{itemize}
+		\item Quantities: size of deposits, loans, bank balance sheets
+	\end{itemize}
+	\item Evidence on the international bank-lending channel using Mexican data
+	\begin{itemize}
+		\item Morais, Peydró, Roldán-Peña and Ruiz (2019)
+		\item But they don't identify U.S. MP shocks using HF data
+	\end{itemize}
 	\end{itemize}
 \end{frame}
 
+\begin{frame}
+	\frametitle{Proposal 2}
+	\begin{itemize}
+		\item Theoretically, effects of expansionary MP on bank performance are ambiguous
+		\begin{itemize}
+			\item Higher present value of future cash flows $\rightarrow$ Higher stock price
+			\item Lower net interest margin $\rightarrow$ Lower ROA
+		\end{itemize}
+		\item Mixed evidence on the effects of MP on bank performance
+		\begin{itemize}
+			\item Negative effect ($-$): English et al. (2018)
+			\item Positive effect ($+$): Claessens et al. (2018)
+			\item Reversal effect ($-$, $+$): Ampudia and Van den Heuvel (2018), Yuan (2019)
+			\item No effect: Altavilla et al. (2018), Drechsler et al. (2018)
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+\note{Drawback with HF MP shocks: persistency of effect.}
+\note{Altavilla et al. (2018): Net effect of MP on bank profitability is an empirical question.}
+\note{Even among those that find no effect, they differ. Altavilla et al. (2018) no overall effect because effect on ROA components offset, while Drechsler et al. (2018) no effect because ROA components insensitive to changes in interest rates.}
+\note{Topic has attracted a lot of attention recently due to concerns on the potential side effects for banks of very low interest rates in AEs.}
+
+\begin{frame}
+	\frametitle{Proposal 2}
+	\begin{itemize}
+		\item \textbf{Proposal}: Effects of MXN monetary policy changes on banks' performance
+		\begin{itemize}
+			\item Interest rate risk, NIM, ROA
+		\end{itemize}
+		\item Main implication of no effect $\rightarrow$ Deposits channel of MP not limited to AEs
+		\begin{itemize}
+			\item Banks unexposed to interest rate risk
+			\begin{itemize}
+				\item Market power over deposits lowers sensitivity of banks' expenses
+			\end{itemize}
+			\item Maturity transformation \textit{hedges} banks' interest rate risk
+			\begin{itemize}
+				\item Banks invest in long-term assets to hedge their deposit franchise
+			\end{itemize}
+		\end{itemize}
+		\item DC might be behind both: bank-lending and risk-taking channels of MP
+	\end{itemize}
+\end{frame}
+\note{Old view: perfect competition in deposit side. New view: imperfect competition on deposit side.}
+\note{DC: MP not only affects loan supply but also deposit supply.}
+\note{By affecting the deposit supply, MP influences loan supply and credit spreads (appetite for risk).}
+
+\begin{frame}
+	\frametitle{Data Needed}
+	\begin{itemize}
+		\item EM TP: Surveys from Consensus Economics for Latam countries since 2013
+		\item Proposal 1: Quantities
+		\begin{itemize}
+			\item Size of deposits, loans, bank balance sheets
+		\end{itemize}
+		\item Proposal 2: Interest expense and interest income over assets. Plus:
+		\begin{itemize}
+			\item Deposit rates, durations of assets and liabilities
+		\end{itemize}
+		\item P1 \& P2: NIM, ROA
+	\end{itemize}
+\end{frame}
 
 \section{Appendix}
 
@@ -371,23 +618,13 @@
 	\end{center}
 \end{frame}
 
-\begin{frame}
-\frametitle{Benchmark}
-\begin{figure}[!htbp]
-	\begin{center}
-		\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_us_5yr_ACMvsKM}
-		\par\end{center}
-	\caption{5-Year US Term Premium.}\label{fig:tp_us_5yr}
-\end{figure}
-\end{frame}
-
 \begin{frame}[label=tp_10yrB]
-	\frametitle{Term Premium Estimates}
+	\frametitle{EM Term Premium Estimates: 10Y (cont.)}
 	\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_10yr_3}
+		\begin{center} % trim removes: left, down, right, top
+			\includegraphics[trim={0 0 0 4cm},clip, width=0.9\textwidth,height=0.65\textheight]{../Figures/Temp/temp_tp10yrEM}
 			\par\end{center}
-		\caption{Estimated 10-Year Term Premia (cont.).}\label{fig:tp_10yrB}
+		%\caption{Estimated 10-Year Term Premia (cont.).}\label{fig:tp_10yrB}
 	\end{figure}
 	\begin{textblock*}{3cm}(.97\textwidth,-.08\textheight)
 		\hyperlink{tp_10yrA}{\beamerreturnbutton{A}}
@@ -436,6 +673,11 @@
 	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
 			\hyperlink{pnl_tp10yr}{\beamerreturnbutton{10YR}}
 	\end{textblock*}
+\end{frame}
+
+\begin{frame}<presentation:0>
+\bibliographystyle{abbrvnat} 
+\bibliography{../../../References/library}
 \end{frame}
 
 \end{document}
