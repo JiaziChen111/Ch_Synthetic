@@ -488,10 +488,11 @@ $ git push -u origin ftr/cat/name	# Sets the upstream for the branch and see it 
 	# Usual workflow
 $ git status
 $ git commit -am "Your message"
-	# To merge feature branch into dev
+	# To merge feature branch into dev, first close all open files from the feature branch
 $ git checkout dev
-$ git merge --no-ff ftr/cat/name	# Merge your changes to dev without a fast-forward
-$ git pull				# Pull before push to ensure you have the latest version and there are no conflicts
+$ git pull				# Pull before push to ensure you have the latest version of the remote dev branch
+$ git merge --no-ff ftr/cat/name	# Merge your branch changes to dev without a fast-forward
+$ git pull				# When working in teams, it might be needed to again pull to ensure you have the latest version of the remote dev branch and there are no conflicts
 $ git push origin dev			# Push changes to the server
 $ git push origin ftr/cat/name		# Might need `git branch` for the name of the feature branch
 	# To delete the feature branch
