@@ -230,7 +230,7 @@ $$\CIPdev = \yLCnom - \yLCsynt$$
 			\item Most variability in yields will be attributed to fluctuations in the term premium
 		\end{itemize}
 	\item Solutions: parameter restrictions, bias-corrected estimators, survey forecasts
-	\item Surveys is an effective solution to obtain robust decompositions of the yield curve \citep{Guimaraes:2014} 
+	\item Surveys are an effective solution to obtain robust decompositions of the yield curve \citep{Guimaraes:2014} 
 	\end{itemize}
 \end{frame}
 \note{Only zero-coupon bond yields are needed to estimate the parameters of an ATSM.}
@@ -418,7 +418,7 @@ $$\CIPdev = \yLCnom - \yLCsynt$$
 \begin{itemize}
 	\item Global financial variables
 	\begin{itemize}
-		\item VIX, Fed funds rate, S\&P, oil price
+		\item (log) VIX, fed funds rate (FFR), S\&P, oil price
 	\end{itemize}
 	\item Domestic variables
 	\begin{itemize}
@@ -429,12 +429,28 @@ $$\CIPdev = \yLCnom - \yLCsynt$$
 \end{frame}
 
 \begin{frame}[label=pnl_tp10yr]
-	\frametitle{Panel Regression: 10-Year TP}
-	{\centering
-	\input{../Tables/temp_tp_regs} \par}
-	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
-		\hyperlink{pnl_tp5yr}{\beamergotobutton{5YR}}
-	\end{textblock*}
+	\frametitle{10Y EM TP}
+	\begin{center}
+		\vspace{-1.1cm}
+		\input{../Tables/temp_tp_regs_slides} \par
+	\end{center}
+%	\begin{columns}
+%		\begin{column}{0.3\textwidth}
+%			%\large \textcolor{yaleblue}{\enskip 10Y EM TP}
+%			\vfill
+%		\end{column}
+%		\begin{column}{0.7\textwidth}  %%<--- here
+%			\begin{center}
+%				\vspace{-1cm}
+%					\input{../Tables/temp_tp_regs_slides} \par
+%			\end{center}
+%		\end{column}
+%	\end{columns}
+	
+	
+%	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
+%		\hyperlink{pnl_tp5yr}{\beamergotobutton{5YR}}
+%	\end{textblock*}
 \end{frame}
 \note{Main broad message at 10 years. Big difference: FFR more negative when there is no USTP and disappears when USTP}
 \note{Country fixed-effects were included to allow for the possibility that country-specific factors that may affect TP are also correlated with the controls.}
@@ -632,48 +648,13 @@ $$\CIPdev = \yLCnom - \yLCsynt$$
 \end{frame}
 
 \begin{frame}
-	\frametitle{Term Premium Estimates}
-	\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_10yr_2}
-			\par\end{center}
-		\caption{Estimated 10-Year Term Premia (cont.).}\label{fig:tp_10yrC}
-	\end{figure}
-	\begin{textblock*}{3cm}(.97\textwidth,-.08\textheight)
-		\hyperlink{tp_10yrA}{\beamerreturnbutton{A}}
-	\end{textblock*}
+	\frametitle{Survey-Based Term Premium Estimates}
+	\input{../Figures/Latex/temp_tp10yrSvy}
+%	\begin{textblock*}{3cm}(.97\textwidth,-.08\textheight)
+%		\hyperlink{tp_10yrA}{\beamerreturnbutton{A}}
+%	\end{textblock*}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Gains from `Adjusting' for Default Risk}
-	\begin{figure}[!htbp]
-		\begin{center}
-			\includegraphics[width=0.9\textwidth,height=0.65\textheight]{../Figures/rp_cmp_10_MYR}
-			\par\end{center}
-		\caption{Estimated Term Premium: Synthetic vs Actual.}\label{fig:tp_comp_10yr}
-	\end{figure}
-\end{frame}
-
-\begin{frame}
-	\input{../Tables/rp_decomp5yr}
-\end{frame}
-
-\begin{frame}[label=corr_5yr]
-	\input{../Tables/rp_correl_5yr}
-	\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
-		\hyperlink{corr_10yr}{\beamerreturnbutton{10YR}}
-	\end{textblock*}
-\end{frame}
-
-\begin{frame}[label=pnl_tp5yr]
-	\frametitle{Panel Regression: 5-Year TP}
-	{\centering
-	\input{../Tables/rp_pnlreg_5yr} \par}
-	%	\input{../Tables/rp_pnlreg_5yr_v0}
-	\begin{textblock*}{3cm}(.92\textwidth,-.955\textheight)
-			\hyperlink{pnl_tp10yr}{\beamerreturnbutton{10YR}}
-	\end{textblock*}
-\end{frame}
 
 \begin{frame}<presentation:0>
 \bibliographystyle{abbrvnat} 
@@ -706,3 +687,6 @@ $$\CIPdev = \yLCnom - \yLCsynt$$
 %\begin{textblock*}{3cm}(.9\textwidth,-.5\textheight)
 %	\hyperlink{corr_10yr}{\beamerreturnbutton{10-Year TP}}
 %\end{textblock*}
+
+% Two-column frame template
+%http://felix11h.github.io/blog/beamer-two-col
