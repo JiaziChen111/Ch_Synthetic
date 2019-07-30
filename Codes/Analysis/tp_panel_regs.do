@@ -63,15 +63,23 @@ log using "`mainpath'//`logpath'", text replace
 
 * Define variables
 global y1 TP
-global y2 log_VIX FFR USTP10 SPX INF UNE IP STX OIL
+*global y2 log_VIX FFR USTP10 SPX INF UNE IP STX OIL
+*global x1 log_VIX FFR RSP ROI
+*global x2 log_VIX FFR USTP10 RSP ROI
+*global x3 INF UNE IP RFX RSX
+*global x4 log_VIX FFR RSP ROI INF UNE IP RFX RSX
+*global x5 log_VIX FFR USTP10 RSP INF UNE IP RFX RSX
+*global x6 log_VIX FFR USTP10 INF UNE IP RFX RSX
+*global x7 log_VIX FFR RSP ROI INF UNE IP RFX RSX
+*global x8 log_VIX FFR USTP10 RSP ROI INF UNE IP RFX RSX
+global y2 log_VIX FFR USTP10 RSP INF UNE IP RSX ROI
 global x1 log_VIX FFR RSP ROI
 global x2 log_VIX FFR USTP10 RSP ROI
 global x3 INF UNE IP RFX RSX
 global x4 log_VIX FFR RSP ROI INF UNE IP RFX RSX
 global x5 log_VIX FFR USTP10 RSP INF UNE IP RFX RSX
 global x6 log_VIX FFR USTP10 INF UNE IP RFX RSX
-*global x7 log_VIX FFR RSP ROI INF UNE IP RFX RSX
-global x8 log_VIX FFR USTP10 RSP ROI INF UNE IP RFX RSX
+*global x8 INF UNE IP RFX RSX
 
 * Summary statistics
 describe $id $t $y2
@@ -101,12 +109,12 @@ xtreg $y1 $x4, fe vce(cluster $id)
 outreg2 using tp_regs.xls, append label dec(2) addtext(Country FE, Yes, Time FE, No)
 xtreg $y1 $x5, fe vce(cluster $id)
 outreg2 using tp_regs.xls, append label dec(2) addtext(Country FE, Yes, Time FE, No)
-*xtreg $y1 $x7, fe vce(cluster $id)
-*outreg2 using tp_regs.xls, append label dec(2) addtext(Country FE, Yes)
-xtreg $y1 $x8, fe vce(cluster $id)
+xtreg $y1 $x6, fe vce(cluster $id)
 outreg2 using tp_regs.xls, append label dec(2) addtext(Country FE, Yes, Time FE, No)
-xtreg $y1 $x8 i.DATE, fe vce(cluster $id)
-outreg2 using tp_regs.xls, append label keep($x8) addtext(Country FE, Yes, Time FE, Yes)
+*xtreg $y1 $x8, fe vce(cluster $id)
+*outreg2 using tp_regs.xls, append label dec(2) addtext(Country FE, Yes, Time FE, No)
+xtreg $y1 $x3 i.DATE, fe vce(cluster $id)
+outreg2 using tp_regs.xls, append label keep($x3) addtext(Country FE, Yes, Time FE, Yes)
 
 * Test whether the time FE belong to the model
 testparm i.DATE
