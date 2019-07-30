@@ -276,7 +276,7 @@ $ git diff --staged 		# does exactly the same thing, use what you like
 
 $ git diff HEAD [filename]	# show differences between current commit and working tree
 ```
-It'll work recursively on directories, and if no paths are given, it shows all the changes.
+It'll work recursively on directories, and if no paths are given, it shows all the changes. [Here](https://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged) is a graphic that explains the differences between using `--cached` and `HEAD`.
 
 
 
