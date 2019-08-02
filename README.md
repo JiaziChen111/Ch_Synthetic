@@ -278,6 +278,21 @@ $ git diff HEAD [filename]	# show differences between current commit and working
 ```
 It'll work recursively on directories, and if no paths are given, it shows all the changes. [Here](https://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged) is a graphic that explains the differences between using `--cached` and `HEAD`.
 
+#### Discard Changes Before Adding/Committing
+Discard all local changes, but save them for possible re-use later: 
+```bash
+$ git stash
+```
+
+Discarding local changes (permanently) to a file:
+```bash
+$ git checkout -- <file>
+```
+
+Discard all local changes to all files permanently:
+```bash
+$ git reset --hard
+```
 
 
 ### Git Workflow: Branching, Merging, Pull Requests
