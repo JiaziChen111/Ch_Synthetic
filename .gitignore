@@ -22,6 +22,10 @@
 ## Shell scripting
 *.sh~
 
+## Lyx
+*.lyx~
+*lyxformat-413.lyx
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
