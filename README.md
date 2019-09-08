@@ -249,10 +249,11 @@ $ git commit -a -m "Message"
 # OR
 $ git commit -am "Message"
 ```
-- If you did not include a message when you commit (either you forgot or you want to write a multi-line message), the terminal will show a screen to allow you to write a message. To exit that screen (regardless of whether you wrote a comment or not),  press 
+- If you did not include a message when you commit (either you forgot or you want to write a multi-line message), the terminal will show a screen to allow you to write a message. Git opens your default editor for you to edit the commit message. In a Mac it might be the `vi` editor. To start writing, press `i` (to switch to the insert mode) and write your comment. To exit the insert mode and switch to the command mode in order to save the changes, press `Esc`. Then type `:wq` to save the commit message and exit the editor, where `:` enters the command mode, `w` is for write/save and `q` is for quit (see [here](https://apple.stackexchange.com/questions/252541/how-do-i-escape-the-git-commit-window-from-os-x-terminal)). In summary,
 ```bash
-Esc + :wq
+Esc + :wq + Enter
 ```
+
 
 To sync up the changes made locally with the repository in GitHub.com, use:
 ```bash
@@ -293,6 +294,15 @@ Discard all local changes to all files permanently:
 ```bash
 $ git reset --hard
 ```
+
+#### Remove File from Commit
+To move a wrongly commited file to the staging area from a previous commit (without canceling the changes done): 
+```bash
+$ git reset --soft HEAD^
+$ git reset HEAD path/to/unwanted_file		# Reset the unwanted files in order to leave them out from the commit
+$ git commit -c ORIG_HEAD 			# Commit again with this or the usual command
+```
+Explained in this [link](https://stackoverflow.com/questions/12481639/remove-files-from-git-commit), which includes case where you also `git push`.
 
 
 ### Git Workflow: Branching, Merging, Pull Requests
@@ -456,9 +466,9 @@ Based on the previous two sources, I will use a forward slash separator and the 
 Since `dev` is a permanent branch and `fix` branches are mainly used to correct bugs, most of the branches that will be used are feature `ftr` branches. Therefore, naming conventions are needed to differentiate between them; also since `fix` branches can be branched off from `master` *or* `dev`, it will be useful to distinguish between them. Thus, these are the naming conventions for the temporary branches:
 - To distinguish a `fix` branched off from `master` or `dev`, the names of `fix` branches will begin with: `fix/mst` or `fix/dev`.
 - There can be three types of feature branches and so `ftr` can take any of three tokens: `data`, `code`, `docs`.
-  Branches `data` deal with raw or analytic data so this token will be followed by: `raw` and `ans`. Branches
-  `code` deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ans`. Branches
-  `docs` deal with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref` and `tab`.
+  `data` branches deal with raw or analytic data so this token will be followed by: `raw` and `ans`.
+  `code` branches deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ans`.
+  `docs` branches deal with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `ppr`, `set`, `sld`, `ref` and `tab`.
 - All three of the different types of feature branches can be used for experimenting or testing minor things unrelated to the previous categories, in which case any of the three types will be followed by: `tst`.
 - Examples: `data/raw/feature-name`, `code/ans/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
 - Therefore, there are in total 17 possible types of temporary branches: 15 feautre branches (12 regular, 3 for tests), 2 fix branches.
