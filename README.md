@@ -304,6 +304,13 @@ $ git commit -c ORIG_HEAD 			# Commit again with this or the usual command
 ```
 Explained in this [link](https://stackoverflow.com/questions/12481639/remove-files-from-git-commit), which includes case where you also `git push`.
 
+#### Add All Files But One
+When you want to include all (unstaged or untracked) files to the staging area except one (or a few more), it is easiest to add them all and then remove the ones that you don't want to include in the commit.
+```bash
+$ git add .
+$ git reset HEAD path/to/unwanted_file
+```
+
 
 ### Git Workflow: Branching, Merging, Pull Requests
 *Summary*: Make a branch to solve a feature request, code the feature, make commits, get latest master version, merge master back into your branch, push your branch up, make a pull request for other people to peer review the code, resolve conflicts and make more merges to an existing pull request depending on the feedback received. When your changes are approved, your branch is merged to the parent branch and everybody's branches can inherit those changes.
