@@ -189,17 +189,17 @@ Note: Git commands only work when (in the terminal) you are in a folder that con
 > Not a git repository
 ```
 
-### Create (remote and local) repositories
+### Create (Remote and Local) Repositories
 You need to designate a folder to be a Git repository. When you initialize a folder to be a repository, Git creates a subfolder called *.git* that it uses to do all its magic.
 
 You can create a Git repository from the terminal with `$ git init` or from GitHub.com. With the first option, you will later need to call that local repository from GitHub; for the second option, later you will need to clone the remote repository into your local machine. Below are the steps for creating a repository using GitHub.
 
 In GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file. Although it's optional, it is recommended to include a GitHub-hosted *.gitignore* file, it includes the file extensions you want Git to ignore (e.g. junk files from Latex).
 
-- If you are going to move an existing project (i.e. folder with files) to the repository just created, make sure to have or create a *.gitignore* file immediately after the repository is created, so that the unwanted files are ignored right away when you include files with those extensions in your local repository; otherwise, if you first upload a file with extension that you don't want to follow and then create the .gitignore file, you will need to untrack the file with the command: `$ git rm --cached <filename.ext>`.
+- If you are going to move an existing project (i.e. folder with files) to the repository just created, make sure to have or create a *.gitignore* file immediately after the repository is created, so that the unwanted files are ignored right away when you include files with those extensions in your local repository; otherwise, if you first upload a file with extension that you don't want to follow and then create the *.gitignore* file, you will need to untrack the file with the command: `$ git rm --cached <filename.ext>`.
 - You can place the *.gitignore* file within any folder in the Git repository except in the *.git* folder itself, in which case the file won't work. However, if you need to have a private version of the *.gitignore* file, you can add the rules to the *.git/info/exclude* file.
 - Extensions to include in the *.gitignore* file: Latex junk, Excel files (.xls*) because of size limits and they will later be processed into .mat or .dta files. In fact, very large files (> 100 MB) do not work well in version control because they are often duplicated in the history and are not supported by GitHub.
-- Do **not** include: .tex files, figures (you may want them later if you change the code).
+- Do **not** ignore: .tex files, figures (you may want them later if you change the code).
 
 Once you created a repository in GitHub, copy the URL link that GitHub creates in order to clone the repository in your machine. You need the appropriate URL depending on how you decided to clone when setting up Git above. Thus there are two options: using HTTPS (recommended) or SSH.
 
@@ -214,6 +214,17 @@ $ git pull
 # OR
 $ git pull <remote> <branch>
 ```
+
+#### Adding a New Repository to Use the Branching Model (See Below)
+In GitHub.com go to repositories and click in 'New'. Type a name and choose whether you want the repository to be private or public. Do not initialize with a README file. Add *.gitignore* file for TeX. Click 'Create'.
+
+Once created, click on 'Clone or Download' and copy the https address. In the terminal, use the `cd` command to go to the folder GitHub/Book, and then
+```bash
+$ git clone <URL>	# Use the http address you just copied
+```
+
+A new folder with the name of the new repository will be created under the folder GitHub/Book. Update the *.gitignore* file in GitHub.com including extensions for Excel, Matlab, Stata, R, Python, Shell and Lyx. Copy and paste the contents of the Ch_Skeleton folder into the new repository. Use the following commands in the terminal to update the local and remote repositories: `cd`, `add`, `commit`, `pull`, `push`. Follow the branching model below.
+
 
 ### Daily Workflow: Status, Add, Commit and Push
 To see what has changed in your local repository and/or what is different in your local machine with respect to the version in GitHub (in the cloud), use:
