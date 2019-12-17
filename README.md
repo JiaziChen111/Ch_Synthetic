@@ -189,6 +189,8 @@ Note: Git commands only work when (in the terminal) you are in a folder that con
 > Not a git repository
 ```
 
+**Update:** Authetication in GitHub changed by the end 0f 2019. [Check this page](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) to create a personal access token for the command line.
+
 ### Create (Remote and Local) Repositories
 You need to designate a folder to be a Git repository. When you initialize a folder to be a repository, Git creates a subfolder called *.git* that it uses to do all its magic.
 
