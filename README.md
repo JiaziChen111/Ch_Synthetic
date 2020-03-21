@@ -189,17 +189,19 @@ Note: Git commands only work when (in the terminal) you are in a folder that con
 > Not a git repository
 ```
 
-### Create (remote and local) repositories
+**Update:** Authetication in GitHub changed by the end 0f 2019. [Check this page](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) to create a personal access token for the command line. [Link to the announcement](https://developer.github.com/changes/2019-11-05-deprecated-passwords-and-authorizations-api/). [About personal access tokens](https://github.com/settings/tokens).
+
+### Create (Remote and Local) Repositories
 You need to designate a folder to be a Git repository. When you initialize a folder to be a repository, Git creates a subfolder called *.git* that it uses to do all its magic.
 
 You can create a Git repository from the terminal with `$ git init` or from GitHub.com. With the first option, you will later need to call that local repository from GitHub; for the second option, later you will need to clone the remote repository into your local machine. Below are the steps for creating a repository using GitHub.
 
 In GitHub.com click the plus sign at the top and follow the instructions. Choose whether you want the repository to be private or public. Initialize it with a README file. Although it's optional, it is recommended to include a GitHub-hosted *.gitignore* file, it includes the file extensions you want Git to ignore (e.g. junk files from Latex).
 
-- If you are going to move an existing project (i.e. folder with files) to the repository just created, make sure to have or create a *.gitignore* file immediately after the repository is created, so that the unwanted files are ignored right away when you include files with those extensions in your local repository; otherwise, if you first upload a file with extension that you don't want to follow and then create the .gitignore file, you will need to untrack the file with the command: `$ git rm --cached <filename.ext>`.
+- If you are going to move an existing project (i.e. folder with files) to the repository just created, make sure to have or create a *.gitignore* file immediately after the repository is created, so that the unwanted files are ignored right away when you include files with those extensions in your local repository; otherwise, if you first upload a file with extension that you don't want to follow and then create the *.gitignore* file, you will need to untrack the file with the command: `$ git rm --cached <filename.ext>`.
 - You can place the *.gitignore* file within any folder in the Git repository except in the *.git* folder itself, in which case the file won't work. However, if you need to have a private version of the *.gitignore* file, you can add the rules to the *.git/info/exclude* file.
 - Extensions to include in the *.gitignore* file: Latex junk, Excel files (.xls*) because of size limits and they will later be processed into .mat or .dta files. In fact, very large files (> 100 MB) do not work well in version control because they are often duplicated in the history and are not supported by GitHub.
-- Do **not** include: .tex files, figures (you may want them later if you change the code).
+- Do **not** ignore: .tex files, figures (you may want them later if you change the code).
 
 Once you created a repository in GitHub, copy the URL link that GitHub creates in order to clone the repository in your machine. You need the appropriate URL depending on how you decided to clone when setting up Git above. Thus there are two options: using HTTPS (recommended) or SSH.
 
@@ -214,6 +216,17 @@ $ git pull
 # OR
 $ git pull <remote> <branch>
 ```
+
+#### Adding a New Repository to Use the Branching Model (See Below)
+In GitHub.com go to repositories and click in 'New'. Type a name and choose whether you want the repository to be private or public. Do not initialize with a README file. Add *.gitignore* file for TeX. Click 'Create'.
+
+Once created, click on 'Clone or Download' and copy the https address. In the terminal, use the `cd` command to go to the folder GitHub/Book, and then
+```bash
+$ git clone <URL>	# Use the http address you just copied
+```
+
+A new folder with the name of the new repository will be created under the folder GitHub/Book. Update the *.gitignore* file in GitHub.com including extensions for Excel, Matlab, Stata, R, Python, Shell and Lyx. Copy and paste the contents of the Ch_Skeleton folder into the new repository. Use the following commands in the terminal to update the local and remote repositories: `cd`, `add`, `commit`, `pull`, `push`. Follow the branching model below.
+
 
 ### Daily Workflow: Status, Add, Commit and Push
 To see what has changed in your local repository and/or what is different in your local machine with respect to the version in GitHub (in the cloud), use:
@@ -249,10 +262,11 @@ $ git commit -a -m "Message"
 # OR
 $ git commit -am "Message"
 ```
-- If you did not include a message when you commit (either you forgot or you want to write a multi-line message), the terminal will show a screen to allow you to write a message. To exit that screen (regardless of whether you wrote a comment or not),  press 
+- If you did not include a message when you commit (either you forgot or you want to write a multi-line message), the terminal will show a screen to allow you to write a message. Git opens your default editor for you to edit the commit message. In a Mac it might be the `vi` editor. To start writing, press `i` (to switch to the insert mode) and write your comment. To exit the insert mode and switch to the command mode in order to save the changes, press `Esc`. Then type `:wq` to save the commit message and exit the editor, where `:` enters the command mode, `w` is for write/save and `q` is for quit (see [here](https://apple.stackexchange.com/questions/252541/how-do-i-escape-the-git-commit-window-from-os-x-terminal)). In summary,
 ```bash
-Esc + :wq
+Esc + :wq + Enter
 ```
+
 
 To sync up the changes made locally with the repository in GitHub.com, use:
 ```bash
@@ -278,6 +292,37 @@ $ git diff HEAD [filename]	# show differences between current commit and working
 ```
 It'll work recursively on directories, and if no paths are given, it shows all the changes. [Here](https://stackoverflow.com/questions/1587846/how-do-i-show-the-changes-which-have-been-staged) is a graphic that explains the differences between using `--cached` and `HEAD`.
 
+#### Discard Changes Before Adding/Committing
+Discard all local changes, but save them for possible re-use later: 
+```bash
+$ git stash
+```
+
+Discarding local changes (permanently) to a file:
+```bash
+$ git checkout -- <file>
+```
+
+Discard all local changes to all files permanently:
+```bash
+$ git reset --hard
+```
+
+#### Remove File from Commit
+To move a wrongly commited file to the staging area from a previous commit (without canceling the changes done): 
+```bash
+$ git reset --soft HEAD^
+$ git reset HEAD path/to/unwanted_file		# Reset the unwanted files in order to leave them out from the commit
+$ git commit -c ORIG_HEAD 			# Commit again with this or the usual command
+```
+Explained in this [link](https://stackoverflow.com/questions/12481639/remove-files-from-git-commit), which includes case where you also `git push`.
+
+#### Add All Files But One
+When you want to include all (unstaged or untracked) files to the staging area except one (or a few more), it is easiest to add them all and then remove the ones that you don't want to include in the commit.
+```bash
+$ git add .
+$ git reset HEAD path/to/unwanted_file
+```
 
 
 ### Git Workflow: Branching, Merging, Pull Requests
@@ -441,9 +486,9 @@ Based on the previous two sources, I will use a forward slash separator and the 
 Since `dev` is a permanent branch and `fix` branches are mainly used to correct bugs, most of the branches that will be used are feature `ftr` branches. Therefore, naming conventions are needed to differentiate between them; also since `fix` branches can be branched off from `master` *or* `dev`, it will be useful to distinguish between them. Thus, these are the naming conventions for the temporary branches:
 - To distinguish a `fix` branched off from `master` or `dev`, the names of `fix` branches will begin with: `fix/mst` or `fix/dev`.
 - There can be three types of feature branches and so `ftr` can take any of three tokens: `data`, `code`, `docs`.
-  Branches `data` deal with raw or analytic data so this token will be followed by: `raw` and `ans`. Branches
-  `code` deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ans`. Branches
-  `docs` deal with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `pap`, `set`, `sld`, `ref` and `tab`.
+  `data` branches deal with raw or analytic data so this token will be followed by: `raw` and `ans`.
+  `code` branches deal with pre-analysis or analysis of the data so this token will be followed by: `pre` and `ans`.
+  `docs` branches deal with issues on equations, statistics, figures, paper, slides, references, tables so this token will be followed by: `sta`, `eqn`, `fig`, `ppr`, `set`, `sld`, `ref` and `tab`.
 - All three of the different types of feature branches can be used for experimenting or testing minor things unrelated to the previous categories, in which case any of the three types will be followed by: `tst`.
 - Examples: `data/raw/feature-name`, `code/ans/feature-name`, `docs/eqn/feature-name`, `fix/dev/feature-name`, `code/tst/feature-name`, `docs/tst/feature-name`.
 - Therefore, there are in total 17 possible types of temporary branches: 15 feautre branches (12 regular, 3 for tests), 2 fix branches.
