@@ -322,24 +322,27 @@ for k = 1:ncntrs
     TPdataset(fltrDTS,k+1) = TPdata;
 end
 
+nPCs = 1;
 [~,~,~,~,explainedEM] = pca(TPdataset(84:end,2:16),'algorithm','als');
 [~,~,~,~,explainedAE] = pca(TPdataset(84:end,17:end),'algorithm','als');
-commonPC(1,:) = [sum(explainedEM(1:3)) sum(explainedAE(1:3))];
+commonPC(:,1) = [sum(explainedEM(1:nPCs)); sum(explainedAE(1:nPCs))];
 
- [~,~,~,~,explainedEM] = pca(TPdataset(66:end,[3 5 6 7 8 11 15 16]),'algorithm','als');
+% [~,~,~,~,explainedEM] = pca(TPdataset(66:end,[3 4 5 6 7 8 10 11 15 16]),'algorithm','als');
+[~,~,~,~,explainedEM] = pca(TPdataset(66:end,[3 5 6 7 8 11 15 16]),'algorithm','als');
 [~,~,~,~,explainedAE] = pca(TPdataset(66:end,17:end),'algorithm','als');
- commonPC(2,:) = [sum(explainedEM(1:3)) sum(explainedAE(1:3))];
+ commonPC(:,2) = [sum(explainedEM(1:nPCs)); sum(explainedAE(1:nPCs))];
 
- clear input
+clear input
 labelcty    = {'EM','AE'};
 labelcty{1} = [' ' labelcty{1}];                % Otherwise, Latex gives an error
 input.tableRowLabels = labelcty;
-input.tableColLabels = {'Dec-2006','Jun-2005'};
+input.tableColLabels = {'Jun-2005'};
+% input.tableColLabels = {'Dec-2006','Jun-2005'};
 input.dataFormat = {'%.2f'};
-input.fontSize = 'tiny';
+input.fontSize = 'footnotesize';
 filename   = fullfile('..','..','Docs','Tables','temp_tp_common');
-input.data = commonPC';     % Note the transpose
-input.tableCaption = 'Total Variation Explained by First 3 PCs (\%): 10-Year Term Premium.';
+input.data = commonPC(:,2);
+input.tableCaption = 'Variation of 10-Year Term Premium Explained by First PC (\%)';
 input.tableLabel = 'temp_tp_common';
 input.texName = filename;
 latexTable(input);
@@ -437,12 +440,14 @@ clear input
 labelcty    = {'EM','A-SOE','G-3'};
 labelcty{1} = [' ' labelcty{1}];                % Otherwise, Latex gives an error
 input.tableRowLabels = labelcty;
-input.tableColLabels = {'TP-USTP','TP-CIP Dev','$\perp$TP-CIP Dev'};
+input.tableColLabels = {'TP-USTP','TP-CIP Dev'};
+% input.tableColLabels = {'TP-USTP','TP-CIP Dev','$\perp$TP-CIP Dev'};
 input.dataFormat = {'%.2f'};
 input.fontSize = 'tiny';
 filename   = fullfile('..','..','Docs','Tables','temp_tp_corr10yr');
-input.data = AvgCorrTPwIdxs;
-input.tableCaption = 'Correlations of 10-Year Term Premia: U.S TP and LCCS.';
+input.data = AvgCorrTPwIdxs(:,[1 2]);
+% input.data = AvgCorrTPwIdxs;
+input.tableCaption = 'Correlations of 10-Year Term Premia: U.S TP and CIP Deviations';
 input.tableLabel = 'temp_tp_corr10yr';
 input.texName = filename;
 latexTable(input);
@@ -450,15 +455,17 @@ latexTable(input);
 AvgCorrTPwEPU(1,:) = corrTPwIdxs([1 2 6 7 12],3)';
 AvgCorrTPwEPU(2,:) = corrOGwIdxs([1 2 6 7 12],2)';
 clear input
-labelcty    = {'TP-EPU','$\perp$TP-EPU'};
+labelcty    = {'TP-EPU'};
+% labelcty    = {'TP-EPU','$\perp$TP-EPU'};
 labelcty{1} = [' ' labelcty{1}];                % Otherwise, Latex gives an error
 input.tableRowLabels = labelcty;
 input.tableColLabels = {'BRL','COP','KRW','MXN','RUB'};
 input.dataFormat = {'%.2f'};
 input.fontSize = 'tiny';
 filename   = fullfile('..','..','Docs','Tables','temp_tp_corr10yr_epu');
-input.data = AvgCorrTPwEPU;
-input.tableCaption = 'Correlations of 10-Year Term Premia: EPU Index.';
+input.data = AvgCorrTPwEPU(1,:);
+% input.data = AvgCorrTPwEPU;
+input.tableCaption = 'Correlations of 10-Year Term Premia: Economic Policy Uncertainty Index';
 input.tableLabel = 'temp_tp_corr10yr_epu';
 input.texName = filename;
 latexTable(input);
