@@ -1,23 +1,8 @@
 %% Personalized Macros
+% Variable Definitions, Equations, Table of Contents, Paths, Text Fomats, Tables
 
 %-------------------------------------------------------------------
-% Table of contents
-%-------------------------------------------------------------------
-% Link to ToC from section
-\newcommand{\gototoc}{\vspace{-1.8cm} \null\hfill [\hyperlink{toc}{Go to ToC}] \newline}
-
-\newcommand{\maketoc}{
-\hypertarget{toc}{}				% Allows to link back to the ToC
-\tableofcontents
-\vspace{2.5\bigskipamount}}
-
-%-------------------------------------------------------------------
-% Text fomats
-%-------------------------------------------------------------------
-\newcommand{\tbi}[1]{\textbf{\textit{#1}}}
-
-%-------------------------------------------------------------------
-% Variable Definitions for Equations
+% Variable Definitions
 %-------------------------------------------------------------------
 \providecommand{\tnr}{n}
 \providecommand{\fInst}{f_{t,\tnr}}
@@ -81,14 +66,56 @@
 \providecommand{\loadMTnsZero}{\left(\loadSTnsZero - \loadSTnsFwd \right)}
 \providecommand{\loadMTnssZero}{\left( \loadSTnssZero - \loadSTnssFwd \right)}
 
-%\providecommand{}{}
-%\providecommand{}{}
-%\providecommand{}{}
-%\providecommand{}{}
+%\providecommand{\}{}
 
 %-------------------------------------------------------------------
 % Equations
 %-------------------------------------------------------------------
-
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{tp_{it} = \alpha_{i} + \beta' z_{it} + u_{it}}
+
+%---------------------------------------------------------------
+% Table of Contents
+%---------------------------------------------------------------
+% Link to ToC from section
+\newcommand{\gototoc}{\vspace{-2cm} \null\hfill [\hyperlink{toc}{Go2ToC}] \newline}
+
+% Link back to section from ToC
+\newcommand{\maketoc}{
+	\hypertarget{toc}{}
+	\newpage
+	\tableofcontents
+	\vspace{2.5\bigskipamount} }
+
+% Box with bullets for tasks to do in a section
+\newenvironment{boxeditems}
+	{\begin{tabular}{|p{\linewidth}|}
+	\hline
+	\begin{itemize}
+	}
+	{
+	\end{itemize}
+	\\ \hline
+	\end{tabular} \\
+	}
+
+%---------------------------------------------------------------
+% Paths
+%---------------------------------------------------------------
+%\newcommand*{\pathFigs}{../Figures}
+%\input{pathFigs/fig1.tex}
+
+%---------------------------------------------------------------
+% Text Fomats
+%---------------------------------------------------------------
+%\newcommand{\txtbi}[1]{\textbf{\textit{#1}}}
+
+%---------------------------------------------------------------
+% Tables
+%---------------------------------------------------------------
+%\newcommand\LL[1]{\multicolumn{2}{|l}{#1}}
+%\newcommand\RR[1]{\multicolumn{2}{c|}{#1}}
+%\newcommand\LR[1]{\multicolumn{2}{|c|}{#1}}
+%\newcommand\LL[1]{\multicolumn{1}{|c}{#1}}
+%\newcommand\RR[1]{\multicolumn{1}{c|}{#1}}
+%\newcommand\LR[1]{\multicolumn{1}{|c|}{#1}}

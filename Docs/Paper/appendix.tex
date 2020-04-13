@@ -1,15 +1,11 @@
 \newpage
 \begin{appendices}
-\iftoggle{commentboxes}{% Defined in packages.tex
-	\gototoc
-	\begin{tabular}{|p{\linewidth}|}
-		\hline
-		\begin{itemize}
-			\item Add link to website for Excel file with tickers.
-			\item Add reference to paper that compares YC from Bloomberg for the Euro area.
-		\end{itemize}
-		\\ \hline
-	\end{tabular} \\}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+\iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
+	\begin{boxeditems}
+		\item Add link to website for Excel file with tickers.
+		\item Add reference to paper that compares YC from Bloomberg for the Euro area.
+	\end{boxeditems}}{}
 
 
 %	\begin{figure}[!htbp]
