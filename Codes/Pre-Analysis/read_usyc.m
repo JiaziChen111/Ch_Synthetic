@@ -1,52 +1,98 @@
-%% Read U.S. Yield Curve Data from GSW
-% This code reads the U.S. yield curve data and the Nelson-Siegel-Svensson
-% parameters from the database of Gürkaynak, Sack & Wright (2007).
-% Assumes that read_platform.m has already been run.
-% m-files called: y_NSS.m, construct_hdr.m
-%
-% Pavel Solís (pavel.solis@gmail.com), March 2019
+function [TTusyc,THusyc] = read_usyc()
+% READ_USYC Read U.S. yield curve data from Gürkaynak, Sack & Wright (2007).
+%   TTusyc: stores historical data in a timetable
+%   THusyc: stores headers in a table
+
+% Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
-path        = pwd;
-cd(fullfile(path,'..','..','Data','Raw'))               % Use platform-specific file separators
-filename    = 'original_US_Yield_Curve_Data.xlsx';
-param_names = {'BETA0','BETA1','BETA2','BETA3','TAU1','TAU2'};
+pathc  = pwd;
+pathd  = fullfile(pathc,'..','..','Data','Raw');       % platform-specific file separators
+namefl = 'US_Yield_Curve_Data.xlsx';
 
-% Parameters
-opts = spreadsheetImportOptions;
-opts.DataRange     = 'CQ11';                            % Starting cell for parameters
-opts.VariableNames = param_names;
-opts   = setvartype(opts,opts.VariableNames,{'double'});
-T_prms = readtable(filename,opts);
-
-% Dates
-opts = spreadsheetImportOptions;
-opts.DataRange     = 'A11';                             % Starting cell for dates
-opts.VariableNames = 'Date';
-opts    = setvartype(opts,opts.VariableNames,{'datetime'});
-T_dates = readtable(filename,opts);
-cd(path)
+cd(pathd)
+opts  = detectImportOptions(namefl);
+opts  = setvartype(opts,opts.VariableNames(1),'datetime');
+opts  = setvartype(opts,opts.VariableNames(2:end),'double');
+opts.VariableNames{1} = 'Date';
+ttaux = readtimetable(namefl,opts);
+cd(pathc)
 
 % Yields
-fltr   = ~ismember(TH_pltfm.Type,'OIS') & ~ismember(TH_pltfm.Type,'FFF') & ...
-    ~isnan(TH_pltfm.Tenor) & TH_pltfm.Tenor > 0;
-mtrts  = unique(TH_pltfm.Tenor(fltr));
-params = table2array(T_prms);
-T_usyc = array2table(y_NSS(params,mtrts));              % Calculate zero yields for specified maturities
+matmth = [0.25 0.5 0.75];	matyrs = [1:9 10:5:30];     matall = [matmth,matyrs]';
+tnrs   = strtrim(cellstr(num2str(matall)));
+TTgsw  = removevars(ttaux,~contains(ttaux.Properties.VariableNames,'SVENY')); % keep zero-coupon yields
+TTgsw  = TTgsw(:,matyrs);                                                     % keep tenors 1Y-9Y+10Y:5Y:30Y
+TTparm = removevars(ttaux,~contains(ttaux.Properties.VariableNames,{'BETA','TAU'})); % keep NSS parameters
+TTbill = array2timetable(y_NSS(TTparm{:,:},matmth),'RowTimes',TTparm.Date);   % generate 3M, 6M, 9M
+TTbill.Properties.VariableNames = strcat('SVENY',tnrs(1:3));
+TTusyc = synchronize(TTbill,TTgsw);                                           % merge yields (old-new)
 
-% Headers
-H_prms  = construct_hdr('USD','PARAMETER',param_names','USD N-S-S YIELD CURVE',NaN,' ','GSW');
-tnrs    = strtrim(cellstr(num2str(mtrts)));
-name_yc = strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR');
-H_usyc  = construct_hdr('USD','HC',strcat('SVENY',tnrs),name_yc,num2cell(mtrts),' ','GSW'); % HC - hard currency
-TH_usyc = cell2table([H_prms; H_usyc]);
-TH_usyc.Properties.VariableNames = TH_pltfm.Properties.VariableNames;
+% Header
+H_usyc  = construct_hdr('USD','HC',TTusyc.Properties.VariableNames',...       % variable names as tickers
+    strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR'),num2cell(matall),' ','GSW'); % HC - hard currency
+% H_usyc(1:3,end) = {'CRSP'};                                                 % if Tbill data not from GSW
+THusyc = cell2table(H_usyc);
+THusyc = movevars(THusyc,5,'After',7);                                        % tenor remains as double
+THusyc = [varfun(@categorical,THusyc,'inputvariables',THusyc.Properties.VariableNames(1:6)) THusyc(:,7)];
+THusyc = movevars(THusyc,7,'After',4);                                        % relocate tenor
+THusyc.Properties.VariableNames = {'Currency','Type','Ticker','Name','Tenor','FloatingLeg','Source'};
 
-% Merge timetables and headers
-TT_usyc  = table2timetable([T_dates, T_prms, T_usyc]);  % Convert table to a timetable
-TT_daily = synchronize(TT_pltfm,TT_usyc,'commonrange'); % Union over the intersection of time ranges
-TH_daily = [TH_pltfm; TH_usyc];
+% In case the NSS parameters want to be included in the dataset
+% TTusyc = synchronize(TTparm,TTusyc);
+% H_prms  = construct_hdr('USD','PARAMETER',TTparm.Properties.VariableNames',...
+%     'USD N-S-S YIELD CURVE',NaN,' ','GSW');
+% THusyc = cell2table([H_prms; H_usyc]);
 
-clear path filename opts param_names fltr mtrts params tnrs name_yc H_* *_pltfm *_usyc *_dates
+%%
+% %% Read U.S. Yield Curve Data from GSW
+% % This code reads the U.S. yield curve data and the Nelson-Siegel-Svensson
+% % parameters from the database of Gürkaynak, Sack & Wright (2007).
+% % Assumes that read_platform.m has already been run.
+% % m-files called: y_NSS.m, construct_hdr.m
+% %
+% % Pavel Solís (pavel.solis@gmail.com), March 2019
+% %%
+% path        = pwd;
+% cd(fullfile(path,'..','..','Data','Raw'))               % Use platform-specific file separators
+% filename    = 'US_Yield_Curve_Data.xlsx';
+% param_names = {'BETA0','BETA1','BETA2','BETA3','TAU1','TAU2'};
+% 
+% % Parameters
+% opts = spreadsheetImportOptions;
+% opts.DataRange     = 'CQ11';                            % Starting cell for parameters
+% opts.VariableNames = param_names;
+% opts   = setvartype(opts,opts.VariableNames,{'double'});
+% T_prms = readtable(filename,opts);
+% 
+% % Dates
+% opts = spreadsheetImportOptions;
+% opts.DataRange     = 'A11';                             % Starting cell for dates
+% opts.VariableNames = 'Date';
+% opts    = setvartype(opts,opts.VariableNames,{'datetime'});
+% T_dates = readtable(filename,opts);
+% cd(path)
+% 
+% % Yields
+% fltr   = ~ismember(TH_pltfm.Type,'OIS') & ~ismember(TH_pltfm.Type,'FFF') & ...
+%     ~isnan(TH_pltfm.Tenor) & TH_pltfm.Tenor > 0;
+% mtrts  = unique(TH_pltfm.Tenor(fltr));
+% params = table2array(T_prms);
+% T_usyc = array2table(y_NSS(params,mtrts));              % Calculate zero yields for specified maturities
+% 
+% % Headers
+% H_prms  = construct_hdr('USD','PARAMETER',param_names','USD N-S-S YIELD CURVE',NaN,' ','GSW');
+% tnrs    = strtrim(cellstr(num2str(mtrts)));
+% name_yc = strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR');
+% H_usyc  = construct_hdr('USD','HC',strcat('SVENY',tnrs),name_yc,num2cell(mtrts),' ','GSW'); % HC - hard currency
+% TH_usyc = cell2table([H_prms; H_usyc]);
+% TH_usyc.Properties.VariableNames = TH_pltfm.Properties.VariableNames;
+% 
+% % Merge timetables and headers
+% TT_usyc  = table2timetable([T_dates, T_prms, T_usyc]);  % Convert table to a timetable
+% TT_daily = synchronize(TT_pltfm,TT_usyc,'commonrange'); % Union over the intersection of time ranges
+% TH_daily = [TH_pltfm; TH_usyc];
+% 
+% clear path filename opts param_names fltr mtrts params tnrs name_yc H_* *_pltfm *_usyc *_dates
 
 %%
 % 

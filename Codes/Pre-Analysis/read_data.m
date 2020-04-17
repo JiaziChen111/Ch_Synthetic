@@ -8,8 +8,15 @@
 % Pavel Solís (pavel.solis@gmail.com), April 2019
 %%
 clear; clc; close all;
-run read_platform.m         % Headers and historic data as (time)tables
-run read_usyc.m             % Historic data for U.S. yield curve (merges tables)
+% run read_platform.m         % Headers and historic data as (time)tables
+% run read_usyc.m             % Historic data for U.S. yield curve (merges tables)
+
+[TTpltf,THpltf] = read_platforms();
+[TTusyc,THusyc] = read_usyc();
+
+% Merge timetables and headers
+TTdy = synchronize(TTpltf,TTusyc,'commonrange');        % union over the intersection
+THdy = [THpltf; THusyc];
 %%
 % Convert tables to cell arrays
 header_daily  = [TH_daily.Properties.VariableNames;table2cell(TH_daily)];              % Convert header to cell
