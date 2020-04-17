@@ -23,7 +23,8 @@ dataset_daily = table2cell(aux);
 dataset_daily = cell2mat(dataset_daily);
 
 %%
-curncs = read_currencies();
+% curncs = read_currencies();
+curncs = cellstr(unique(THdy.Currency(THdy.Type == 'SPT' & THdy.Source == 'Bloomberg'),'stable'));
 run fwd_prm.m               % Constructs historic data on forward premiums (generates 'data_fp','hdr_fp')
 
 % Append the data of FP to the dataset
@@ -41,8 +42,8 @@ if ~exist('T_cip','var')                                % Run code if T_cip is n
     run read_cip.m
 end
 
-[iso,currEM,currAE] = read_currencies(T_cip);
-namescodes = iso2names(iso);
+% [iso,currEM,currAE] = read_currencies(T_cip);
+namescodes = iso2names(curncs);
 S = cell2struct(namescodes',{'cty','ccy','iso','imf'});
 
 %% Save variables in mat files (in Dropbox, not in Git directory)
