@@ -1,0 +1,19 @@
+TFZ_DLY_RF2.*
+
+1. FAMA RI FILES – MONTHLY ONLY
+TERMSTRUCT 2000010 2000027
+TFZ_MTH_TS.*
+12-month series are represented by the TREASNOX range 2000010-2000021, with each TREASNOX representing a different number of months to maturity, between one and 12.
+
+INDEX FAMILY: TERMSTRUCT - FAMA TERM STRUCTURE
+TREASNOX 	TERM TYPE DESCRIPTION
+2000010 	FAMA 12 MONTH T-BILLS – 1 MONTH
+2000012		FAMA 12 MONTH T-BILLS – 3 MONTH
+2000015		FAMA 12 MONTH T-BILLS – 6 MONTH
+2000018		FAMA 12 MONTH T-BILLS – 9 MONTH
+
+Six-month series are represented by the TREASNOX range 2000022-2000027, with each TREASNOX representing a different number of months to maturity, between one and 6.
+
+TRZ_DLY_TS2.* - DAILY 26-WEEK TERM STRUCTURE
+
+
