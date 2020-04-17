@@ -5,16 +5,12 @@
 % m-files called: read_platform.m, read_usyc.m, fwd_prm.m, cip_vars.m,
 % append_dataset.m, plot_cip_vars.m
 %
-% Pavel Solís (pavel.solis@gmail.com), April 2019
+% Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
 clear; clc; close all;
-% run read_platform.m         % Headers and historic data as (time)tables
-% run read_usyc.m             % Historic data for U.S. yield curve (merges tables)
-
 [TTpltf,THpltf] = read_platforms();
 [TTusyc,THusyc] = read_usyc();
 
-% Merge timetables and headers
 TTdy = synchronize(TTpltf,TTusyc,'commonrange');        % union over the intersection
 THdy = [THpltf; THusyc];
 %%
@@ -26,19 +22,6 @@ aux           = [num2cell(datenum(TT_daily.Date)), dataset_daily(:,2:end)];     
 dataset_daily = table2cell(aux);
 dataset_daily = cell2mat(dataset_daily);
 
-% % Convert to categorical: Option 1 (Before readtable)
-% opts  = detectImportOptions(filename);          % Detect variable names
-% notnr = ~strcmp('Tenor',opts.VariableNames);    % All names except Tenor
-% opts  = setvartype(opts,notnr,'categorical');   % Update data type to categorical
-% T     = readtable(filename,opts);
-
-% Convert to categorical: Option 2 (After readtable)
-TH_daily.Currency = categorical(TH_daily.Currency);
-TH_daily.Type     = categorical(TH_daily.Type);
-TH_daily.Ticker   = categorical(TH_daily.Ticker);
-TH_daily.Name     = categorical(TH_daily.Name);
-TH_daily.FloatingLeg = categorical(TH_daily.FloatingLeg);
-TH_daily.Source   = categorical(TH_daily.Source);
 %%
 curncs = read_currencies();
 run fwd_prm.m               % Constructs historic data on forward premiums (generates 'data_fp','hdr_fp')
