@@ -33,7 +33,7 @@
 	\vspace{2.5\bigskipamount}
 	
 
-\section{Data}
+\section{Data: BLP}
 \gototoc
 \begin{todolist}
 	\item After comparing datasets downloaded from BLP on Mar 2018 and Feb 2019: BLP updated values (slightly) in variables starting on: 9/30/2009 (USSW), 5/4/11 (USBC, USBA).
@@ -45,15 +45,34 @@
 	\item Check NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
 \end{todolist}
 
-\section{Codes}
+\section{Data: Codes}
 \begin{todolist}
-	\item Update codes since EUBS1-EUBS20 for PLN was deleted because they were already downloaded for HUF.
+	\item Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
 	\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
 	\item Availability of data for PZBSEC6 Curncy and PZSW15 and Curncy might be related to the history of the synthetic curves for PLN.
 	\item Check that the shorter history of PZSW15V3 Curncy and PZSW20V3 Curncy (starts in 2013) does not affect the history of the synthetic curves for PLN.
 	\item Check that MRBS10 and lower start around 2005, while MRBS15 around 2007 and MRBS20 in mid-2009.
 	\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
 	\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
+\end{todolist}
+
+\section{Data: Files}
+\gototoc
+\begin{todolist}
+	\item Compare EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
+	\item From AE_EM_Curves_BDH.xlsx delete EUBS1-EUBS20 for HUF but need to be in line with the codes because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
+	\begin{todolist}
+		\item Highlight in red columns DM-DV in original_Zero_Swap_Curves_Bloomberg.xlsx to indicate that those tickers were removed in current dataset.
+		\item Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx, and update Type column in HUF and PLN sheets for EUBS1-EUBS20.
+	\end{todolist}
+	\item[\done] Change name of file to US_Yield_Curve_Data.xlsx (original_ removed).
+	\item[\done] Delete EUBS1-EUBS20 for PLN in both sheets (All, Tickers) of AE_EM_Curves_BDH.xlsx.
+\end{todolist}
+
+\section{Codes}
+\gototoc
+\begin{todolist}
+	\item[\done] Filter SPT in THdt to see if the currency tickers are identified.
 \end{todolist}
 
 \section{Analysis}
@@ -63,7 +82,6 @@
 	\item Tables:
 	\begin{todolist}
 		\item Format changes.
-		\item Try different rescaling.
 	\end{todolist}
 \end{todolist}
 
