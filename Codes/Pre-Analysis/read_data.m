@@ -14,7 +14,7 @@ clear; clc; close all;
 TTdy = synchronize(TTpltf,TTusyc,'commonrange');        % union over the intersection
 THdy = [THpltf; THusyc];
 %%
-% Convert tables to cell arrays
+% Convert tables to cell arrays (easier to perform calculations)
 header_daily  = [TH_daily.Properties.VariableNames;table2cell(TH_daily)];              % Convert header to cell
 header_daily(2:end,5) = cellfun(@num2str,header_daily(2:end,5),'UniformOutput',false); % Convert tnrs to string
 dataset_daily = timetable2table(TT_daily);                                             % Convert data to table
@@ -24,7 +24,7 @@ dataset_daily = cell2mat(dataset_daily);
 
 %%
 % curncs = read_currencies();
-curncs = cellstr(unique(THdy.Currency(THdy.Type == 'SPT' & THdy.Source == 'Bloomberg'),'stable'));
+curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
 run fwd_prm.m               % Constructs historic data on forward premiums (generates 'data_fp','hdr_fp')
 
 % Append the data of FP to the dataset
