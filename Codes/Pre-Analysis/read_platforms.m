@@ -15,9 +15,7 @@ for k0 = 1:nfls
     opts  = detectImportOptions(namefl{k0},'Sheet','Data');
     opts  = setvartype(opts,opts.VariableNames(2:end),'double');
     ttaux = readtimetable(namefl{k0},opts);
-    opts  = detectImportOptions(namefl{k0},'Sheet','Identifiers');
-    opts  = setvartype(opts,opts.VariableNames([1:4 6:7]),'categorical');   % tenor remains as double
-    thaux = readtable(namefl{k0},opts,'ReadVariableNames',true);
+    thaux = readtable(namefl{k0},'Sheet','Identifiers','ReadVariableNames',true);
     if k0 == 1
         TTpltf = ttaux;
         THpltf = thaux;

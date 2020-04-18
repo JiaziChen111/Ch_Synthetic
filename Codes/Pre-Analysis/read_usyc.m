@@ -30,15 +30,13 @@ TTusyc = synchronize(TTbill,TTgsw);                                           % 
 
 % Header
 H_usyc  = construct_hdr('USD','HC',TTusyc.Properties.VariableNames',...       % variable names as tickers
-    strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR'),' ','GSW',num2cell(matall)); % HC - hard currency
+    strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR'),num2cell(matall),' ','GSW'); % HC - hard currency
 % H_usyc(1:3,end) = {'CRSP'};                                                 % if Tbill data not from GSW
-THusyc = cell2table(H_usyc);                                                  % tenor (as double) is last
-THusyc = [varfun(@categorical,THusyc,'inputvariables',THusyc.Properties.VariableNames(1:6)) THusyc(:,7)];
-THusyc = movevars(THusyc,7,'After',4);                                        % relocate tenor
+THusyc = cell2table(H_usyc);
 THusyc.Properties.VariableNames = {'Currency','Type','Ticker','Name','Tenor','FloatingLeg','Source'};
 
 % In case the NSS parameters want to be included in the dataset
 % TTusyc = synchronize(TTparm,TTusyc);
 % H_prms  = construct_hdr('USD','PARAMETER',TTparm.Properties.VariableNames',...
-%     'USD N-S-S YIELD CURVE',' ','GSW',NaN);
+%     'USD N-S-S YIELD CURVE',NaN,' ','GSW');
 % THusyc = cell2table([H_prms; H_usyc]);
