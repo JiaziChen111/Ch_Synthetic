@@ -1769,6 +1769,16 @@ histogram(Age(Gender=='Female'))                % plot the age of only the femal
 
 Location = removecats(Location,'VA Hospital');  % remove VA Hospital from the categories of Location
 
+% Define categorical variables before reading the data
+opts  = detectImportOptions(namefile,'Sheet','Data');
+opts  = setvartype(opts,opts.VariableNames(2:end),'categorical');
+ttaux = readtable(namefile,opts);
+
+% Converting multiple table variables from string to categorical
+tblIn= table({'cat';'dog';'bird'},{'bat';'rat';'sat'},(1:3)');
+cellOfColumnNames = {'Var1','Var2'};
+tblOut = [tblIn(:,~ismember(tblIn.Properties.VariableNames,cellOfColumnNames))...
+               varfun(@categorical,tblIn,'inputvariables',cellOfColumnNames)];
 
 %% Tables
 % readtable reads variables with nonnumeric elements as cell array of character vectors
