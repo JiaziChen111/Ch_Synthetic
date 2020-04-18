@@ -5,21 +5,19 @@ function [TTpltf,THpltf] = read_platforms()
 
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
-pathc   = pwd;
-pathd   = fullfile(pathc,'..','..','Data','Raw');       % platform-specific file separators
-namefls = {'EM_Currencies_Data.xlsx'};
-% namefls = {'AE_EM_Curves_Data.xlsx','EM_Currencies_Data.xlsx'};
-nfls    = length(namefls);
+pathc  = pwd;
+pathd  = fullfile(pathc,'..','..','Data','Raw');       % platform-specific file separators
+namefl = {'AE_EM_Curves_Data.xlsx','EM_Currencies_Data.xlsx'};
+nfls   = length(namefl);
 
 cd(pathd)
 for k0 = 1:nfls
-    opts  = detectImportOptions(namefls{k0},'Sheet','Data');
+    opts  = detectImportOptions(namefl{k0},'Sheet','Data');
     opts  = setvartype(opts,opts.VariableNames(2:end),'double');
-    ttaux = readtimetable(namefls{k0},opts);
-    opts  = detectImportOptions(namefls{k0},'Sheet','Identifiers');
+    ttaux = readtimetable(namefl{k0},opts);
+    opts  = detectImportOptions(namefl{k0},'Sheet','Identifiers');
     opts  = setvartype(opts,opts.VariableNames([1:4 6:7]),'categorical');   % tenor remains as double
-    thaux = readtable(namefls{k0},opts,'ReadVariableNames',true);
-    %thaux = readtable(namefls{k0},'Sheet','Identifiers','ReadVariableNames',true);
+    thaux = readtable(namefl{k0},opts,'ReadVariableNames',true);
     if k0 == 1
         TTpltf = ttaux;
         THpltf = thaux;
@@ -36,12 +34,7 @@ end
 
 % Clean dataset
 TTpltf.Properties.VariableNames = erase(TTpltf.Properties.VariableNames,{'Curncy','Index','Comdty'});
-% THpltf.Ticker = TTpltf.Properties.VariableNames';               % variable names in TTdt as tickers in THdt
+% THpltf.Ticker = TTpltf.Properties.VariableNames';     % variable names in TTdt as tickers in THdt
 
 % Formatting
 TTpltf.Date.Format = 'dd-MMM-yyyy';
-% varaux = THpltf.Properties.VariableNames;
-% exctnr = ~contains(varaux,'Tenor');                             % tenor remains as double
-% THpltf = [varfun(@categorical,THpltf,'inputvariables',varaux(exctnr)) THpltf(:,~exctnr)];   % categorical 
-% THpltf = movevars(THpltf,7,'After',4);                          % relocate tenor to original position
-% THpltf.Properties.VariableNames = varaux;                       % conversion to categorical changes names
