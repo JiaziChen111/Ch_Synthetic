@@ -8,7 +8,7 @@ function [FP,hdr] = compute_fp_short(LC,header,dataset,curncs)
 % char: LC        - local currency for which the forward premium will be computed
 % cell: header    - contains information about the tikcers (eg currency, type, tenor)
 % double: dataset - dataset with historic values of all the tickers
-% cell: curncs    - [Optional] contains all currencies in ascending order (EMs followed by AEs)
+% cell: curncs    - contains all currencies in ascending order (EMs followed by AEs)
 % 
 %     OUTPUT
 % double: FP - matrix of historic forward premiums (rows) for different tenors (cols)
@@ -17,14 +17,21 @@ function [FP,hdr] = compute_fp_short(LC,header,dataset,curncs)
 % Pavel Solís (pavel.solis@gmail.com), March 2019
 %%
 % Read conventions used to quote FX forward points
-path       = pwd;
-cd(fullfile(path,'..','..','Data','Raw'))                   % Use platform-specific file separators
-filename   = 'AE_EM_Curves_Tickers.xlsx';
-convpts    = xlsread(filename,'CONV','N66:N90');            % Update range as necessary
-[~,convfx] = xlsread(filename,'CONV','H66:H90');            % Update range as necessary
-cd(path)
-
-if nargin == 3; curncs = read_currencies(); end
+pathc    = pwd;
+pathd    = fullfile(pathc,'..','..','Data','Raw');                  % platform-specific file separators
+cd(pathd)
+filename = 'AE_EM_Curves_Tickers.xlsx';
+convpts  = readmatrix(filename,'Sheet','CONV','Range','N66:N90');	% update range as necessary
+convfx   = readcell(filename,'Sheet','CONV','Range','H66:H90');     % update range as necessary
+cd(pathc)
+% path       = pwd;
+% cd(fullfile(path,'..','..','Data','Raw'))                   % Use platform-specific file separators
+% filename   = 'AE_EM_Curves_Tickers.xlsx';
+% convpts    = xlsread(filename,'CONV','N66:N90');            % Update range as necessary
+% [~,convfx] = xlsread(filename,'CONV','H66:H90');            % Update range as necessary
+% cd(path)
+% 
+% if nargin == 3; curncs = read_currencies(); end
 
 tnrs = {'0.25';'0.5';'0.75'};
 
