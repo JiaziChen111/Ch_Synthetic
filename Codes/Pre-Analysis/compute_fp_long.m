@@ -84,7 +84,7 @@ switch LC
         disp('Cannot compute the CCS for %s.',LC)
 end
 
-% Special cases
+% Special cases (formula changes)
 if strcmp(LC,'JPY') || strcmp(LC,'NOK')
     CCS1 = CCS; tnr1 = tnr;
     
