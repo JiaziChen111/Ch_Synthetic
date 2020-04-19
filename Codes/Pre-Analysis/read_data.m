@@ -24,20 +24,20 @@ dataset_daily = cell2mat(dataset_daily);
 
 %%
 curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
-[data_fp,hdr_fp,tnrLCfp] = fwd_prm(dataset_daily,header_daily,curncs);          % data on forward premiums 
+[data_fp,hdr_fp,tnrsLCfp] = fwd_prm(dataset_daily,header_daily,curncs);          % data on forward premiums 
 
 % Append the data of FP to the dataset
 [dataset_daily,header_daily] = append_dataset(dataset_daily, data_fp, header_daily, hdr_fp);
 %%
-run cip_vars.m              % Historic data of CIP deviations (generates 'data_cip_vars','hdr_cip_vars')
+[data_cip,hdr_cip,tnrsLCcip] = cip_vars(dataset_daily,header_daily);             % data on CIP deviations
 
 % Append the data of CIP variables to the dataset
-[dataset_daily,header_daily] = append_dataset(dataset_daily, data_cip_vars, header_daily, hdr_cip_vars);
+[dataset_daily,header_daily] = append_dataset(dataset_daily, data_cip, header_daily, hdr_cip);
 %%
 % run plot_cip_vars.m
 
 %%
-if ~exist('T_cip','var')                                % Run code if T_cip is not in the workspace
+if ~exist('T_cip','var')                                                        % if T_cip not in workspace
     run read_cip.m
 end
 
