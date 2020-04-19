@@ -1,5 +1,5 @@
 function [CCS,hdr] = compute_fp_long(LC,header,dataset)
-% COMPUTE_FP_LONG Compute fixed-for-fixed cross-currency swaps for local currencies
+% COMPUTE_FP_LONG Compute fixed-for-fixed cross-currency swaps for maturities >= 1Y
 % Formulas are in 'AE_EM_Curves_Tickers.xlsx'. See Du & Schreger (2016) and Du, Im & Schreger (2018)
 % m-files called: extractvars, split_merge_vars, construct_hdr
 %
