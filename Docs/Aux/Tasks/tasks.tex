@@ -59,9 +59,9 @@
 \section{Data: Files}
 \gototoc
 \begin{todolist}
-	\item Compare EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
-	\item From AE_EM_Curves_BDH.xlsx delete EUBS1-EUBS20 for HUF but need to be in line with the codes because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
+	\item It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
 	\begin{todolist}
+		\item Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
 		\item Highlight in red columns DM-DV in original_Zero_Swap_Curves_Bloomberg.xlsx to indicate that those tickers were removed in current dataset.
 		\item Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx, and update Type column in HUF and PLN sheets for EUBS1-EUBS20.
 	\end{todolist}
@@ -72,7 +72,14 @@
 \section{Codes}
 \gototoc
 \begin{todolist}
-	\item[\done] Filter SPT in THdt to see if the currency tickers are identified.
+	\item Add plot_cip_vars.m in m-files called in read_data.m.
+	\item Consider to include findNaN.m as subfunction in remove_NaNcols.m.
+	\item Consider to include fltr4tickers.m and matchtnrs.m as subfunctions in extract_vars.m.
+	\item Consider to include y_NS as subfunction in y_NSS.m.
+	\item Check if the formula for the CCS of HUF needs to be updated in compute_fp_long.m as indicated in the AE_EM_Curves_Tickers.xlsx file (check the sign ---plus or minus--- for TBS6v3).
+	\item[\done] Move old codes to Aux->Temp folder.
+	\item[\wontdo] Check what the mat-files (ccs_data.mat, ccs_info.mat) contain to decide whether to move them to the Aux folder. Obtained with old codes.
+	\item[\done] Filter SPT in THdt to see if the currency tickers are identified. Yes, actually curncs is now obtained directly from the headers table.
 \end{todolist}
 
 \section{Analysis}
