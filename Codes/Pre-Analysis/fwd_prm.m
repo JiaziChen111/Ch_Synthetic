@@ -1,9 +1,9 @@
-function [data_fp,hdr_fp,tnrLCfp] = fwd_prm(dataset_daily,header_daily,curncs)
+function [data_fp,hdr_fp,tnrsLCfp] = fwd_prm(dataset_daily,header_daily,curncs)
 % FWD_PRM Calculate the market-implied forward premium (FP)
 % Use forward/spot exchange rates (<1Y maturities) and cross-currency swaps (>1Y maturities)
 %   data_fp: stores historical data
 %   hdr_fp: stores headers (note: row 1 has no titles, i.e. ready to be appended)
-%   tnrLCfp: reports FP tenors per currency
+%   tnrsLCfp: reports FP tenors per currency
 
 % m-files called: compute_fp_short, compute_fp_long, remove_NaNcols
 % Pavel Solís (pavel.solis@gmail.com), April 2020
@@ -22,8 +22,8 @@ end
 [data_fp,hdr_fp] = remove_NaNcols(hdr_fp,data_fp);
 
 %% Report FP Tenors per Currency
-tnrLCfp = {};                    % count only after remove_NaNcols.m is called
+tnrsLCfp = {};                      % count only after remove_NaNcols.m is called
 LC_once = unique(hdr_fp(:,1),'stable');
 for k = LC_once'
-    tnrLCfp = [tnrLCfp; k, 'Fwd Prm', sum(strcmp(hdr_fp(:,1),k))];
+    tnrsLCfp = [tnrsLCfp; k, 'Fwd Prm', sum(strcmp(hdr_fp(:,1),k))];
 end
