@@ -1891,6 +1891,8 @@ powerLosses.maxLoss = splitapply(@max,T.Loss,G);       % Determine greatest powe
 osumFcn = @(x)(sum(x,'omitnan'));       
 powerLosses.totalCustomers = splitapply(osumFcn,T.Customers,G); % Calculate Number of Customers Impacted
 
+% Calculations on Tables
+% https://www.mathworks.com/help/matlab/matlab_prog/calculations-on-tables.html
 
 %% Timetables
 
