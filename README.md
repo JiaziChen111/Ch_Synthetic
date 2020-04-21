@@ -92,8 +92,7 @@ All information is stored in a Matlab structure array of countries with differen
 In pre-analysis folder
 
 	run read_data.m 		-> generates dataset_daily (takes ~ 8 min)
-
-	read_data.m calls: read_platforms, read_usyc, fwd_prm, cip_vars, read_cip, plot_cip_vars, append_dataset, iso2names
+	read_data.m calls: read_platforms, read_usyc, fwd_prm, spreads, read_cip, plot_spreads, append_dataset, iso2names
 
 In analysis folder
 
