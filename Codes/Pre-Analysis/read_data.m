@@ -3,8 +3,8 @@
 % dataset of yield curves, swap curves, forward premia, cross-currency swaps
 % and deviations from covered interest rate parity.
 
-% m-files called: read_platforms, read_usyc, fwd_prm, cip_vars, append_dataset,
-% plot_cip_vars, read_cip, iso2names
+% m-files called: read_platforms, read_usyc, fwd_prm, cip_vars, read_cip,
+% plot_cip_vars, append_dataset, iso2names
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %% Data on yield curves and swap curves
 clear; clc; close all;
@@ -25,17 +25,16 @@ curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
 [data_fp,hdr_fp,tnrsLCfp]    = fwd_prm(dataset_daily,header_daily,curncs);
 [dataset_daily,header_daily] = append_dataset(dataset_daily, data_fp, header_daily, hdr_fp);
 
-%% Data on CIP deviations
-[data_cip,hdr_cip,tnrsLCcip] = cip_vars(dataset_daily,header_daily);
-[dataset_daily,header_daily] = append_dataset(dataset_daily, data_cip, header_daily, hdr_cip);
+%% Data on spreads (synthetic yield curves, interest rate differentials, CIP deviations)
+[data_sprd,hdr_sprd,tnrsSprd] = spreads(dataset_daily,header_daily);
+[dataset_daily,header_daily]  = append_dataset(dataset_daily, data_sprd, header_daily, hdr_sprd);
 
 [TTcip,currEM,currAE] = read_cip();
-%%
-% run plot_cip_vars.m
+% run plot_spreads.m
 
 %%
-namescodes = iso2names(curncs);
-S = cell2struct(namescodes',{'cty','ccy','iso','imf'});
+
+S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
 
 %% Save variables in mat files (in Dropbox, not in Git directory)
 % save struct_data_1_S.mat S

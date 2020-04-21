@@ -95,4 +95,4 @@ for l0 = 1:n0
     end
 end
 
-clear LCs curr* type* year* fltr* sprds* fig* dates keydates labels group j* k* l* n*
+clear LCs type* year* fltr* sprds* fig* dates keydates labels group j* k* l* n*
