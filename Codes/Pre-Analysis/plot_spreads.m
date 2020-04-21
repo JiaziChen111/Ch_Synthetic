@@ -12,7 +12,7 @@ end
 
 LCs    = [currEM;currAE];
 dates  = dataset_daily(:,1);
-figdir = 'Spreads'; figsave = true;
+figdir = 'Spreads'; figsave = false;
 
 %% Spreads per maturity for each country
 types  = {'RHO','CIPDEV','LCSPRD','FCSPRD'};
