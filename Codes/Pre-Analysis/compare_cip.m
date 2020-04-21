@@ -10,7 +10,7 @@ if ~exist('T_cip','var')                            % Run code if T_cip is not i
     run read_cip.m
 end
 
-iso   = read_currencies(T_cip);
+% iso   = read_currencies(T_cip);
 Scorr = cell2struct(iso','iso');                % Assign a currency to a structure with field ccy
 
 [~,tnrscell] = findgroups(T_cip.tenor);             % Find the tenors as categorical variable
@@ -28,7 +28,7 @@ ntnrs    = length(tnrscell);
 varDIS  = {'rho','diff_y','cip_govt'};
 varOWN  = {'RHO','LCSPRD','CIPDEV'};
 pltname = {'Forward Premium','Spread','CIP Deviations'};
-figdir  = 'DISvsOwn'; figsave = false; tf_input = true;
+figdir  = 'DISvsOwn'; figsave = false; formats = {'eps'}; tf_input = true;
 
 for j = 1:length(varDIS)
 for k = 1:length(iso)
@@ -69,7 +69,7 @@ for k = 1:length(iso)
         ylabel('%')
         datetick('x','yy','keeplimits')
         figname = [varDIS{j} '_' LC '_' tnr];
-        save_figure(figdir,figname,figsave)
+        save_figure(figdir,figname,formats,figsave)
     end
     if tf_input; input([varDIS{j} ' ' LC ' is displayed. Press Enter key to continue.']); end
     Scorr(k).([varDIS{j} '_corr']) = corrs;
