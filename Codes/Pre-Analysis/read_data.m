@@ -3,8 +3,8 @@
 % dataset of yield curves, swap curves, forward premia, cross-currency swaps
 % and deviations from covered interest rate parity.
 
-% m-files called: read_platforms, read_usyc, fwd_prm, cip_vars, read_cip,
-% plot_cip_vars, append_dataset, iso2names
+% m-files called: read_platforms, read_usyc, fwd_prm, spreads, read_cip,
+% plot_spreads, append_dataset, iso2names
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %% Data on yield curves and swap curves
 clear; clc; close all;
@@ -30,13 +30,13 @@ curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
 [dataset_daily,header_daily]  = append_dataset(dataset_daily, data_sprd, header_daily, hdr_sprd);
 
 [TTcip,currEM,currAE] = read_cip();
-% run plot_spreads.m
+% corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE);
+% Scorr    = compare_cip(dataset_daily,header_daily,curncs,TTcip);
 
 %%
-
 S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
+clear data_* hdr_* TH* TTpltf THusyc TTdy
 
 %% Save variables in mat files (in Dropbox, not in Git directory)
-% save struct_data_1_S.mat S
-% save struct_data_2_TT.mat curncs currAE currEM T_cip TT_daily TH_daily
+% save struct_data_1_S.mat S Scorr curncs currAE currEM Tcip corrsprd tnrs*
 % save struct_data_3_cells.mat dataset_daily header_daily
