@@ -45,26 +45,41 @@
 	\item Check NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
 \end{todolist}
 
+\section{Data: CRSP}
+\gototoc
+\begin{todolist}
+	\item Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months.
+	\item Update read_usyc.m to read CRSP data for maturities < 1Y.
+	\item Compare results in LC spread and forward premium for 3M against DIS.
+\end{todolist}
+
 \section{Data: Codes}
 \begin{todolist}
-	\item Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
-	\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
-	\item Availability of data for PZBSEC6 Curncy and PZSW15 and Curncy might be related to the history of the synthetic curves for PLN.
-	\item Check that the shorter history of PZSW15V3 Curncy and PZSW20V3 Curncy (starts in 2013) does not affect the history of the synthetic curves for PLN.
-	\item Check that MRBS10 and lower start around 2005, while MRBS15 around 2007 and MRBS20 in mid-2009.
-	\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
-	\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
+	\item Consider shorter histories of some series within a country.
+	\begin{todolist}
+		\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
+		\item Availability of data for PZBSEC6 Curncy and PZSW15 and Curncy might be related to the history of the synthetic curves for PLN.
+		\item Check that the shorter history of PZSW15V3 Curncy and PZSW20V3 Curncy (starts in 2013) does not affect the history of the synthetic curves for PLN.
+		\item Check that MRBS10 and lower start around 2005, while MRBS15 around 2007 and MRBS20 in mid-2009.
+		\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
+		\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
+	\end{todolist}
+	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
 \end{todolist}
 
 \section{Data: Files}
 \gototoc
 \begin{todolist}
-	\item It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
+	\item[\done] It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
 	\begin{todolist}
-		\item Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
-		\item Highlight in red columns DM-DV in original_Zero_Swap_Curves_Bloomberg.xlsx to indicate that those tickers were removed in current dataset.
-		\item Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx, and update Type column in HUF and PLN sheets for EUBS1-EUBS20.
+		\item[\done] Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
+		\item[\done] Highlight in red columns DM-DV in original_Zero_Swap_Curves_Bloomberg.xlsx to indicate that those tickers were removed in current dataset.
+		\item[\done] Comment after comparison: small differences between 2018 and 2019. No change was made to 2019 series. Same data when comparing EUBS1-EUBS20 for HUF and EUR.
+		\item[\done] Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx. Update Type columns in HUF and PLN sheets for EUBS1-EUBS20 from BS_EUR to BS.
+		\item[\done] Update AE_EM_Curves_BDH.xlsx.
 	\end{todolist}
+	\item[\done] Change name of file to IMF_Country_Codes.xlsx and ISO_Currency_Codes.xlsx (original_ removed).
+	\item[\done] Change name of file to CIP_Data.xlsx and CIP_data.dta (original_ removed).
 	\item[\done] Change name of file to US_Yield_Curve_Data.xlsx (original_ removed).
 	\item[\done] Delete EUBS1-EUBS20 for PLN in both sheets (All, Tickers) of AE_EM_Curves_BDH.xlsx.
 \end{todolist}
@@ -72,11 +87,14 @@
 \section{Codes}
 \gototoc
 \begin{todolist}
-	\item Add plot_cip_vars.m in m-files called in read_data.m.
-	\item Consider to include findNaN.m as subfunction in remove_NaNcols.m.
-	\item Consider to include fltr4tickers.m and matchtnrs.m as subfunctions in extract_vars.m.
-	\item Consider to include y_NS as subfunction in y_NSS.m.
+	\item Consider to include files as subfunctions.
+	\begin{todolist}
+		\item findNaN.m into remove_NaNcols.m.
+		\item fltr4tickers.m and matchtnrs.m into extract_vars.m.
+		\item y_NS into y_NSS.m.
+	\end{todolist}
 	\item Check if the formula for the CCS of HUF needs to be updated in compute_fp_long.m as indicated in the AE_EM_Curves_Tickers.xlsx file (check the sign ---plus or minus--- for TBS6v3).
+	\item[\done] Add read_cip.m and iso2names.m in m-files called in read_data.m.
 	\item[\done] Move old codes to Aux->Temp folder.
 	\item[\wontdo] Check what the mat-files (ccs_data.mat, ccs_info.mat) contain to decide whether to move them to the Aux folder. Obtained with old codes.
 	\item[\done] Filter SPT in THdt to see if the currency tickers are identified. Yes, actually curncs is now obtained directly from the headers table.
@@ -95,9 +113,8 @@
 \section{Literature}
 \gototoc
 \begin{todolist}
-	\item Serge Jeanneau and Camilo Tovar (2007) on development of LC bonds markets (before short-term debt and dollar-indexed liabilities).
-	\item Papers suggested by Duffee.
-	\item Cite Jeanneau and Tovar (2008): for developments in LC bond markets.
+	\item Serge Jeanneau and Camilo Tovar (2007) on development of LC bonds markets (before short-term debt and dollar-indexed liabilities). Jeanneau and Tovar (2008): for developments in LC bond markets.
+	\item Papers suggested by Duffee: Agustin, Chernov, Schmid, Song; Banque de France.
 	\item Hoffman Im and Shin (2020) for developments and references on LC bond markets.
 	\item R\&R (2010): The Forgotten History of Domestic Debt.
 	\item IMF(2019): A Guide to Sovereign Debt Data.
