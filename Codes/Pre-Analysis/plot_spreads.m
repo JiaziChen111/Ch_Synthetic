@@ -1,18 +1,14 @@
-%% Plot Spreads
-% This code plots local and foreign currency interest rate spreads, the forward
-% premium and deviations from covered interest rate parity for countries in sample.
-% Assumes that header_daily and dataset_daily are in the workspace.
+function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE)
+% PLOT_SPREADS Plot local and foreign currency interest rate spreads, the forward
+% premium and deviations from covered interest rate parity (CIP)
+%   corrsprd: pair-wise correlations of forward premium and CIP deviations
 
 % m-files called: save_figure
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
-if ~exist('currEM','var')                                % if currEM is not in the workspace
-    [~,currEM,currAE] = read_cip();
-end
-
 LCs    = [currEM;currAE];
 dates  = dataset_daily(:,1);
-figdir = 'Spreads'; figsave = false;
+figdir = 'Spreads'; formats = {'eps'}; figsave = false;
 
 %% Spreads per maturity for each country
 types  = {'RHO','CIPDEV','LCSPRD','FCSPRD'};
@@ -34,7 +30,7 @@ for k0 = 1:numel(years)
         datetick('x','yy','keeplimits')              	% annual ticks
         yline(0);                                       % horizontal line at the origin
         figname = ['sprds_' years{k0} 'y_' LCs{k1}];
-        save_figure(figdir,figname,'eps',figsave)
+        save_figure(figdir,figname,formats,figsave)
     end
 end
 
@@ -59,7 +55,7 @@ for j0 = 1:numel(LCs)
             line(repmat(keydates,1,2),get(gca,'YLim'),'Color',[0 0 0]+0.65,'LineStyle','-.');
             yline(0);                                   % horizontal line at the origin
             figname = ['ts_' LCs{j0} '_' types{j1}];    % term structure per type
-            save_figure(figdir,figname,'eps',figsave)
+            save_figure(figdir,figname,formats,figsave)
         end
     end
 end
@@ -70,7 +66,7 @@ end
 types = {'RHO','CIPDEV'};
 group = {currEM,currAE};
 n0    = numel(types);   n1 = length(group);  n2 = numel(years);
-corrmtrx = cell(n2,n0*n1,2);
+corrsprd = cell(n2,n0*n1,2);
 for l0 = 1:n0
     for l1 = 1:n1
         fltrGP  = ismember(header_daily(:,1),group{l1});
@@ -88,11 +84,9 @@ for l0 = 1:n0
             datetick('x','yy','keeplimits')
             yline(0);                                 	% horizontal line at the origin
             figname = ['g' num2str(l1) '_' types{l0} '_' years{l2} 'y'];
-            save_figure(figdir,figname,'eps',figsave)
-            [corrmtrx{l2,n0*(l0-1)+l1,1},corrmtrx{l2,n0*(l0-1)+l1,2}] = corrcoef(sprds,'Rows','complete');
+            save_figure(figdir,figname,formats,figsave)
+            [corrsprd{l2,n0*(l0-1)+l1,1},corrsprd{l2,n0*(l0-1)+l1,2}] = corrcoef(sprds,'Rows','complete');
             % rows (1Y,5Y,10Y), cols (RHO (G1,G2),CIP (G1,G2)), 3D (correlations omit NaN rows, p-values)
         end
     end
 end
-
-clear LCs type* year* fltr* sprds* fig* dates keydates labels group j* k* l* n*
