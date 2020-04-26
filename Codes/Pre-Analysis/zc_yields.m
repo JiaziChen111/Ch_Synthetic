@@ -12,8 +12,8 @@ function [data_zc,hdr_zc] = zc_yields(header,dataset,curncs)
 hdr_zc  = {};                                  % no row 1 with titles (i.e. ready to be appended)
 data_zc = dataset(:,1);
 settle  = dataset(:,1);
+for k0  = 25%1:numel(curncs)
 tic
-for k0  = 9%1:numel(curncs)
     LC  = curncs{k0};	tfbfv = true;
     [fltr,tnrscll] = fltr4tickers(LC,'LC','',header);
     tnrsnum = cellfun(@str2num,tnrscll);
@@ -27,8 +27,10 @@ for k0  = 9%1:numel(curncs)
         tfbfv = false;
     end
     
-    % Exclusions
-    if strcmp(LC,'HUF') && strcmp(tnrscll{end},'20')            % HUF 20Y yield behaves oddly
+    % Exclusions (yields that behave oddly)
+    if (strcmp(LC,'HUF') && strcmp(tnrscll{end},'20')) || ...   % PLN since 2012, THB since 2016
+       (ismember(LC,{'PLN','RUB','THB','CAD','CHF','DKK','EUR','GBP','SEK'}) && strcmp(tnrscll{end},'30'))
+%        (strcmp(LC,'PLN') && strcmp(tnrscll{end},'30')) 
         fltr(find(fltr,1,'last')) = false; tnrscll(end) = [];
     end
     
@@ -73,10 +75,10 @@ for k0  = 9%1:numel(curncs)
             yldszc(k1,fltry) = yzcfitted*100;                   % in percentages
             rmse(k1) = error*100;
             
-            % Plot and compare
-            plot(tnrs,yzc2fit*100,'b',tnrs,yldszc(k1,fltry),'r',tnrs,yldspar(k1,fltry)*100,'mo')
-            title([LC '  ' datestr(settle(k1))])
-            H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for individual frames
+%             % Plot and compare
+%             plot(tnrs,yzc2fit*100,'b',tnrs,yldszc(k1,fltry),'r',tnrs,yldspar(k1,fltry)*100,'mo')
+%             title([LC '  ' datestr(settle(k1))])
+%             H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for individual frames
         end
     end
     
@@ -86,8 +88,8 @@ for k0  = 9%1:numel(curncs)
     hdr_ZC  = construct_hdr(LC,'LCNOM','N/A',name_ZC,tnrscll,' ',' ');
     hdr_zc  = [hdr_zc; hdr_ZC];
     data_zc = [data_zc, yldszc];
-end
 toc
+end
 %%
 end
 
