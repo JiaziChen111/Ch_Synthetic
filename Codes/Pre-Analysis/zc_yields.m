@@ -1,14 +1,17 @@
 function [data_zc,hdr_zc] = zc_yields(header,dataset,curncs)
-% ZC_YIELDS Return zero-coupon local currency (LC) yield curves
+% ZC_YIELDS Zero-coupon continuosly compounded local currency (LC) yield curves
 %   data_zc: stores historical data
-%   hdr_zc: stores headers (note: row 1 has no titles, i.e. ready to be appended)
-%   In dataset BFV curves report par yields and IYC curves report zero-coupon yields
+%   hdr_zc: stores headers (note: no title row, i.e. ready to be appended)
+%   BFV and IYC curves report coupon-equivalent (CE) par and zero-coupon yields,
+%   they need to be converted to zero-coupon continuosly compounding (CC) yields;
+%   the code assumes the compounding frequency of CE yields is semiannual
 %   COP, HUF, IDR, KRW, MXN, MYR, PEN, PHP, PLN, ZAR have BFV and IYC LC curves
-%   RUB, THB, TRY, AEs only have BFV curves, whereas BRL and ILS only have IYC LC curves
+%   RUB, THB, TRY, AEs only have BFV curves, whereas BRL and ILS only have IYC LC curvesa
 
 % m-files called: fltr4tickers, construct_hdr
 % Pavel Solís (pavel.solis@gmail.com), April 2020
-%%
+
+%% Zero coupon yield curves for advanced and emerging economies
 hdr_zc  = {};                                                   % no title row (ie. ready to be appended)
 data_zc = dataset(:,1);
 settle  = dataset(:,1);
@@ -38,50 +41,51 @@ tic
     end
     
     % Extract information and preallocate variables
-    yldspar = dataset(:,fltr)/100;                              % in decimals
-    [ndates,ntnrs] = size(yldspar);
-    yldszc  = nan(ndates,ntnrs);    ydates  = nan(ndates,ntnrs);    rmse = nan(ndates,1);   params = [];
+    yldsCE = dataset(:,fltr)/100;                              % in decimals
+    [ndates,ntnrs] = size(yldsCE);
+    yldszc = nan(ndates,ntnrs);    ydates  = nan(ndates,ntnrs);    rmse = nan(ndates,1);   params = [];
     
     % Fit NS/NSS models daily
     for k1 = 1:ndates
-        fltry = ~isnan(yldspar(k1,:));                          % tenors with observations
+        fltry = ~isnan(yldsCE(k1,:));                           % tenors with observations
         if sum(fltry) > 0                                       % at least one observation
             % Tenors and maturities (based on settlement day)
             tnrs = tnrsnum(fltry);                              % define the tenors
             ydates(k1,fltry) = datemnth(settle(k1),12*tnrs);    % define maturity dates
             
-            % Yields treatment depending on whether BFV or IYC curve
-            if tfbfv == true                                  	% BFV par yields SAC to zc yields CC
+            % Yields treatment depending on whether BFV or IYC curve  (column vectors)
+            if tfbfv == true                                  	% BFV par yields CE to zc yields CC
                 try                                             % if error, use values from previous days
-                    yzc2fit = pyld2zero(yldspar(k1,fltry)',ydates(k1,fltry)',settle(k1),...
+                    yzc2fit = pyld2zero(yldsCE(k1,fltry)',ydates(k1,fltry)',settle(k1),...
                         'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
                 catch
                     try                                         % eg. curncs{4} = 'IDR', k1 = 2292
-                        yzc2fit = pyld2zero(yldspar(k1-1,fltry)',ydates(k1,fltry)',settle(k1),...
+                        yzc2fit = pyld2zero(yldsCE(k1-1,fltry)',ydates(k1,fltry)',settle(k1),...
                             'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
                     catch                                       % eg. curncs{4} = 'IDR', k1 = 2305
-                        yzc2fit = pyld2zero(yldspar(k1-2,fltry)',ydates(k1,fltry)',settle(k1),...
+                        yzc2fit = pyld2zero(yldsCE(k1-2,fltry)',ydates(k1,fltry)',settle(k1),...
                             'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
                     end
                 end
-            else                                            	% use IYC zero-coupon yields
-                yzc2fit = yldspar(k1,fltry)';
+            else                                            	% IYC zc yields CE to zc yields CC
+                yzc2fit = 2*log(1 + yldsCE(k1,fltry)'./2);
             end
             
             % Initial values from the data
             fmin  = find(fltry,1,'first');	fmax  = find(fltry,1,'last' );
-            beta0 = yldspar(k1,fmax);       beta1 = yldspar(k1,fmin) - beta0; beta2 = -beta1; 
-            beta3 = beta2;                  tau1  = 1;                        tau2  = tau1;
+            beta0 = yzc2fit(fmax);          beta1 = yzc2fit(fmin) - beta0;  beta2 = -beta1;
+            %beta0 = yldsCE(k1,fmax);        beta1 = yldsCE(k1,fmin) - beta0; beta2 = -beta1;
+            beta3 = beta2;                  tau1  = 1;                      tau2  = tau1;
             
             % Fit NS/NSS models
             [yzcfitted,params,error] = fit_NS_S(yzc2fit,tnrs,params,[beta0 beta1 beta2 beta3 tau1 tau2]);
             yldszc(k1,fltry) = yzcfitted*100;                   % in percentages
             rmse(k1) = error*100;
             
-%             % Plot and compare
-%             plot(tnrs,yzc2fit*100,'b',tnrs,yldszc(k1,fltry),'r',tnrs,yldspar(k1,fltry)*100,'mo')
-%             title([LC '  ' datestr(settle(k1))])
-%             H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for a frame
+            % Plot and compare
+            plot(tnrs,yzc2fit*100,'b',tnrs,yldszc(k1,fltry),'r',tnrs,yldsCE(k1,fltry)*100,'mo')
+            title([LC '  ' datestr(settle(k1))])
+            H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for a frame
         end
     end
     
@@ -93,7 +97,89 @@ tic
     data_zc = [data_zc, yldszc];
 toc
 end
-%%
+
+%% Comparison of US yield curves
+hdr_zcus  = {};                                                 % no title row (ie. ready to be appended)
+data_zcus = dataset(:,1);
+settle    = dataset(:,1);
+LC        = 'USD';
+for k0  = 1:3                                                   % 1 - GSW, 2 - BFV, 3 - IYC
+tic
+    % Determine yield curve
+    [fltr,~] = fltr4tickers(LC,'LC','',header);
+    if     k0 == 1
+        [fltr,tnrscll] = fltr4tickers(LC,'HC','',header);       % GSW curve
+    elseif k0 == 2
+        fltr    = fltr & startsWith(header(:,3),{'C','P'});   	% BFV curve starts w/ C or P
+        tnrscll = header(fltr,5);                           	% update tenors (col 5 in header)
+    elseif k0 == 3
+        fltr    = fltr & ~startsWith(header(:,3),{'C','P'});   	% IYC curve
+        tnrscll = header(fltr,5);                           	% update tenors (col 5 in header)
+    end
+    tnrsnum = cellfun(@str2num,tnrscll);
+    
+    % Exclude tenors not in BFV or IYC
+    ftrue = find(fltr);                                         % ftrue, ttrue, tnrs* have same dimensions
+    ttrue = ~ismember(tnrsnum,[0.75 6 11:30]);                	% tenors not in BFV nor IYC and others
+    tnrsnum(~ttrue) = [];   tnrscll(~ttrue) = [];   ftrue(~ttrue) = [];
+    fltr(:) = false;        fltr(ftrue)     = true;
+    
+    % Extract information and preallocate variables
+    yldsCE = dataset(:,fltr)/100;                               % in decimals
+    [ndates,ntnrs] = size(yldsCE);
+    yldszc  = nan(ndates,ntnrs);    ydates  = nan(ndates,ntnrs);    rmse = nan(ndates,3);   params = [];
+    
+    % Type of yield curve
+    if k0 == 1; yldszc = yldsCE*100; else                   	% GSW curve
+    for k1 = 1:ndates                                           % fit NS/NSS models daily
+        fltry = ~isnan(yldsCE(k1,:));                           % tenors with observations
+        if sum(fltry) > 0                                       % at least one observation
+            % Tenors and maturities (based on settlement day)
+            tnrs = tnrsnum(fltry);                              % define the tenors
+            ydates(k1,fltry) = datemnth(settle(k1),12*tnrs);    % define maturity dates
+            
+            % Yields treatment depending on whether BFV or IYC curve (column vectors)
+            if     k0 == 2                                      % BFV par yields CE to zc yields CC
+                yzc2fit = pyld2zero(yldsCE(k1,fltry)',ydates(k1,fltry)',settle(k1),...
+                        'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
+            elseif k0 == 3                                      % IYC zc yields CE to zc yields CC
+                yzc2fit = 2*log(1 + yldsCE(k1,fltry)'./2);
+            end
+            
+            % Initial values from the data
+            fmin  = find(fltry,1,'first');   fmax = find(fltry,1,'last' );
+            beta0 = yzc2fit(fmax);           beta1 = yzc2fit(fmin) - beta0;   beta2 = -beta1;
+            % beta0 = yldsCE(k1,fmax);         beta1 = yldsCE(k1,fmin) - beta0;   beta2 = -beta1;
+            beta3 = beta2;                   tau1  = 1;                         tau2  = tau1;
+            
+            % Fit NS/NSS models
+            [yzcfitted,params,error] = fit_NS_S(yzc2fit,tnrs,params,[beta0 beta1 beta2 beta3 tau1 tau2]);
+            yldszc(k1,fltry) = yzcfitted*100;                   % in percentages
+            rmse(k1,1) = error*100;
+            rmse(k1,2) = sqrt(mean((data_zcus(k1,[false fltry])-yzc2fit'*100).^2));     % zc2fit vs GSW
+            rmse(k1,3) = sqrt(mean((data_zcus(k1,[false fltry])-yldszc(k1,fltry)).^2)); % zcfitted vs GSW
+            
+            % Plot and compare
+            plot(tnrs,yzc2fit*100,'b',tnrs,yldszc(k1,fltry),'r',tnrs,data_zcus(k1,[false fltry]),'m')
+            title([LC '  ' datestr(settle(k1))])
+            H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for a frame
+        end
+    end
+    ['RMSE for ' LC ': ' num2str(mean(rmse(:,1),'omitnan')) ', ' num2str(mean(rmse(:,2),'omitnan'))...
+        ', ' num2str(mean(rmse(:,3),'omitnan'))]
+    end
+    
+    % Save and append data
+    name_ZC = strcat(LC,' NOMINAL LC YIELD CURVE',{' '},tnrscll,' YR');
+    if     k0 == 1; hdr_ZC  = construct_hdr(LC,'LCNOMGSW','N/A',name_ZC,tnrscll,' ',' ');
+    elseif k0 == 2; hdr_ZC  = construct_hdr(LC,'LCNOMBFV','N/A',name_ZC,tnrscll,' ',' ');
+    elseif k0 == 3; hdr_ZC  = construct_hdr(LC,'LCNOMIYC','N/A',name_ZC,tnrscll,' ',' ');
+    end
+    hdr_zcus  = [hdr_zcus; hdr_ZC];
+    data_zcus = [data_zcus, yldszc];
+toc
+end
+
 end
 
 function [yldszc,params1model,rmse] = fit_NS_S(yzc2fit,tnrs,params0model,params1data)
