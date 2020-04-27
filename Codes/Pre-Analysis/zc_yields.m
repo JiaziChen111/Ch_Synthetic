@@ -9,14 +9,14 @@ function [data_zc,hdr_zc] = zc_yields(header,dataset,curncs)
 % m-files called: fltr4tickers, construct_hdr
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
-hdr_zc  = {};                                  % no row 1 with titles (i.e. ready to be appended)
+hdr_zc  = {};                                                   % no title row (ie. ready to be appended)
 data_zc = dataset(:,1);
 settle  = dataset(:,1);
-for k0  = 25%1:numel(curncs)
+tmax    = 10;
+for k0  = 1:numel(curncs)
 tic
     LC  = curncs{k0};	tfbfv = true;
     [fltr,tnrscll] = fltr4tickers(LC,'LC','',header);
-    tnrsnum = cellfun(@str2num,tnrscll);
     
     % Determine whether BFV or IYC curve
     if ~isequal(length(unique(tnrscll)),length(tnrscll))     	% case of two curves, chose BFV
@@ -26,11 +26,14 @@ tic
     if any(~startsWith(header(fltr,3),{'C','P'}))            	% case of only IYC curve (BRL, ILS)
         tfbfv = false;
     end
+    tnrsnum = cellfun(@str2num,tnrscll);
     
-    % Exclusions (yields that behave oddly)
-    if (strcmp(LC,'HUF') && strcmp(tnrscll{end},'20')) || ...   % PLN since 2012, THB since 2016
-       (ismember(LC,{'PLN','RUB','THB','CAD','CHF','DKK','EUR','GBP','SEK'}) && strcmp(tnrscll{end},'30'))
-%        (strcmp(LC,'PLN') && strcmp(tnrscll{end},'30')) 
+    % Exclude tenors beyond tmax
+    ftrue = find(fltr);                                         % ftrue, ttrue, tnrs* have same dimensions
+    ttrue = tnrsnum <= tmax;                                   	% maximum tenor to include
+    tnrsnum(~ttrue) = [];   tnrscll(~ttrue) = [];   ftrue(~ttrue) = [];
+    fltr(:) = false;        fltr(ftrue)     = true;
+    if (strcmp(LC,'HUF') && strcmp(tnrscll{end},'20'))          % in case tmax >= 20
         fltr(find(fltr,1,'last')) = false; tnrscll(end) = [];
     end
     
@@ -43,7 +46,7 @@ tic
     for k1 = 1:ndates
         fltry = ~isnan(yldspar(k1,:));                          % tenors with observations
         if sum(fltry) > 0                                       % at least one observation
-            % Tenors and maturities based on settlement day
+            % Tenors and maturities (based on settlement day)
             tnrs = tnrsnum(fltry);                              % define the tenors
             ydates(k1,fltry) = datemnth(settle(k1),12*tnrs);    % define maturity dates
             
@@ -51,14 +54,14 @@ tic
             if tfbfv == true                                  	% BFV par yields SAC to zc yields CC
                 try                                             % if error, use values from previous days
                     yzc2fit = pyld2zero(yldspar(k1,fltry)',ydates(k1,fltry)',settle(k1),...
-                        'InputCompounding',1,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
+                        'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
                 catch
                     try                                         % eg. curncs{4} = 'IDR', k1 = 2292
                         yzc2fit = pyld2zero(yldspar(k1-1,fltry)',ydates(k1,fltry)',settle(k1),...
-                            'InputCompounding',1,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
+                            'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
                     catch                                       % eg. curncs{4} = 'IDR', k1 = 2305
                         yzc2fit = pyld2zero(yldspar(k1-2,fltry)',ydates(k1,fltry)',settle(k1),...
-                            'InputCompounding',1,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
+                            'InputCompounding',2,'InputBasis',0,'OutputCompounding',-1,'OutputBasis',0);
                     end
                 end
             else                                            	% use IYC zero-coupon yields
@@ -66,9 +69,9 @@ tic
             end
             
             % Initial values from the data
-            fmin  = find(fltry,1,'first');   fmax = find(fltry,1,'last' );
-            beta0 = yldspar(k1,fmax); beta1 = yldspar(k1,fmin) - beta0; beta2 = -beta1; 
-            beta3 = beta2;            tau1  = 1;                        tau2  = tau1;
+            fmin  = find(fltry,1,'first');	fmax  = find(fltry,1,'last' );
+            beta0 = yldspar(k1,fmax);       beta1 = yldspar(k1,fmin) - beta0; beta2 = -beta1; 
+            beta3 = beta2;                  tau1  = 1;                        tau2  = tau1;
             
             % Fit NS/NSS models
             [yzcfitted,params,error] = fit_NS_S(yzc2fit,tnrs,params,[beta0 beta1 beta2 beta3 tau1 tau2]);
@@ -78,12 +81,12 @@ tic
 %             % Plot and compare
 %             plot(tnrs,yzc2fit*100,'b',tnrs,yldszc(k1,fltry),'r',tnrs,yldspar(k1,fltry)*100,'mo')
 %             title([LC '  ' datestr(settle(k1))])
-%             H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for individual frames
+%             H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for a frame
         end
     end
     
     % Save and append data
-    ['RMSE for ' LC ': ' num2str(mean(rmse,'omitnan'))]
+    % ['RMSE for ' LC ': ' num2str(mean(rmse,'omitnan'))]         % report fit
     name_ZC = strcat(LC,' NOMINAL LC YIELD CURVE',{' '},tnrscll,' YR');
     hdr_ZC  = construct_hdr(LC,'LCNOM','N/A',name_ZC,tnrscll,' ',' ');
     hdr_zc  = [hdr_zc; hdr_ZC];
