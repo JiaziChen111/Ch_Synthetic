@@ -103,6 +103,7 @@ The rest of the paper is structured as follows. The next section explains how to
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
 		\item Include reference for small counterparty risk in CCS.
+		\item BFV (CE par yield) and IYC (CE zero yield) curves in BLP so conversion to CC zero yields to which NS is fitted.
 	\end{boxeditems}}{}
 
 Although the focus of this paper is on the synthetic yield curve, the nominal yield curve is also of interest.\footnote{Below the synthetic yield curve is denoted by $\yLCsynt$ and the nominal yield curve is denoted by $\yLCnom$.} A byproduct of decomposing the synthetic yield curve into the expectation for the future short-term interest rate and a term premium, is to decompose the nominal yield curve into three parts, the third component being the deviation from covered interest rate parity (CIP) -which in the case of emerging markets is the LC credit spread-. In addition, the nominal yield curve is used to compare the estimated term premium obtained from it to the one obtained from the synthetic yield curve. This section explains how to construct both curves.
