@@ -23,11 +23,15 @@ dataset_daily = cell2mat(dataset_daily);
 %% Data on forward premiums 
 curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
 [data_fp,hdr_fp,tnrsLCfp]    = fwd_prm(dataset_daily,header_daily,curncs);
-[dataset_daily,header_daily] = append_dataset(dataset_daily, data_fp, header_daily, hdr_fp);
+[dataset_daily,header_daily] = append_dataset(dataset_daily,data_fp,header_daily,hdr_fp);
+
+%% Zero-coupon yield curves
+[data_zc,hdr_zc,fitreport]   = zc_yields(dataset_daily,header_daily,curncs,false);
+[dataset_daily,header_daily] = append_dataset(dataset_daily,data_zc,header_daily,hdr_zc);
 
 %% Data on spreads (synthetic yield curves, interest rate differentials, CIP deviations)
-[data_sprd,hdr_sprd,tnrsSprd] = spreads(dataset_daily,header_daily);
-[dataset_daily,header_daily]  = append_dataset(dataset_daily, data_sprd, header_daily, hdr_sprd);
+[data_sprd,hdr_sprd,tnrsspd] = spreads(dataset_daily,header_daily);
+[dataset_daily,header_daily] = append_dataset(dataset_daily,data_sprd,header_daily,hdr_sprd);
 
 [TTcip,currEM,currAE] = read_cip();
 % corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE);
