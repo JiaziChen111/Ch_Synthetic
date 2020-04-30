@@ -32,7 +32,7 @@ ntnrs    = length(tnrscell);
 figdir  = 'DISvsOwn'; formats = {'eps'}; figstop = true; figsave = false;
 varDIS  = {'rho','cip_govt','diff_y'};
 varOWN  = {'RHO','CIPDEV','LCSPRD'};
-pltname = {'Forward Premium','Spread','CIP Deviations'};
+pltname = {'Forward Premium','CIP Deviations','Spread'};
 
 for j0 = 1:length(varDIS)
 for j1 = 1:length(curncs)
