@@ -1,4 +1,4 @@
-function [data_zc,hdr_zc] = zc_yields(header,dataset,curncs,tfplot)
+function [data_zc,hdr_zc] = zc_yields(dataset,header,curncs,tfplot)
 % ZC_YIELDS Zero-coupon continuosly compounded local currency (LC) yield curves
 % BFV and IYC LC curves report coupon-equivalent (CE) par and zero-coupon yields,
 % they are converted to zero-coupon continuosly compounded (CC) yields which

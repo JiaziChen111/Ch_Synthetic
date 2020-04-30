@@ -1,4 +1,4 @@
-function [data_zcus,hdr_zcus] = compare_ycs(header,dataset,curncs)
+function [data_zcus,hdr_zcus] = compare_ycs(dataset,header,curncs)
 % COMPARE_YCS Compare BFV and IYC yield curves from Bloomberg
 % BFV and IYC curves report coupon-equivalent (CE) par and zero-coupon yields,
 % they are converted to zero-coupon continuosly compounded (CC) yields and plotted;
