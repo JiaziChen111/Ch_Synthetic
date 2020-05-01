@@ -1,4 +1,4 @@
-function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE)
+function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figsave)
 % PLOT_SPREADS Plot local and foreign currency interest rate spreads, the forward
 % premium and deviations from covered interest rate parity (CIP)
 %   corrsprd: pair-wise correlations of forward premium and CIP deviations
@@ -8,8 +8,9 @@ function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE)
 %%
 LCs    = [currEM;currAE];
 dates  = dataset_daily(:,1);
-figdir = 'Spreads'; formats = {'eps'}; figsave = false;
+figdir = 'Spreads'; formats = {'eps'}; figstop = false;
 
+if figstop == true
 %% Spreads per maturity for each country
 types  = {'RHO','CIPDEV','LCSPRD','FCSPRD'};
 years  = {'1','5','10'};
@@ -32,6 +33,8 @@ for k0 = 1:numel(years)
         figname = ['sprds_' years{k0} 'y_' LCs{k1}];
         save_figure(figdir,figname,formats,figsave)
     end
+    if figstop == true; input([LCs{k1} ' ' years{k0} 'Y displayed. Press Enter key to continue.']); end
+    close all
 end
 
 %% Spreads per country across maturities
@@ -58,12 +61,17 @@ for j0 = 1:numel(LCs)
             save_figure(figdir,figname,formats,figsave)
         end
     end
+    if figstop == true; input(['TS ' LCs{j0} ' ' types{j1} ' displayed. Press Enter key to continue.']); end
+    close all
+end
+
 end
 
 %% Spreads per maturity across countries
 % To see whether spreads are correlated across countries in the sample
 
 types = {'RHO','CIPDEV'};
+years = {'1','5','10'};
 group = {currEM,currAE};
 n0    = numel(types);   n1 = length(group);  n2 = numel(years);
 corrsprd = cell(n2,n0*n1,2);
@@ -89,4 +97,6 @@ for l0 = 1:n0
             % rows (1Y,5Y,10Y), cols (RHO (G1,G2),CIP (G1,G2)), 3D (correlations omit NaN rows, p-values)
         end
     end
+    if figstop == true; input(['G ' types{l0} ' ' years{l2} 'Y displayed. Press Enter key to continue.']); end
+    close all
 end
