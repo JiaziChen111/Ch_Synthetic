@@ -29,8 +29,8 @@ TTbill.Properties.VariableNames = strcat('SVENY',tnrs(1:3));
 TTusyc = synchronize(TTbill,TTgsw);                                           % merge yields (old-new)
 
 % Header
-H_usyc  = construct_hdr('USD','HC',TTusyc.Properties.VariableNames',...       % variable names as tickers
-    strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR'),num2cell(matall),' ','GSW'); % HC - hard currency
+H_usyc  = construct_hdr('USD','LCNOM',TTusyc.Properties.VariableNames',...    % variable names as tickers
+    strcat('USD ZERO-COUPON YIELD',{' '},tnrs,' YR'),num2cell(matall),' ','GSW');
 % H_usyc(1:3,end) = {'CRSP'};                                                 % if Tbill data not from GSW
 THusyc = cell2table(H_usyc);
 THusyc.Properties.VariableNames = {'Currency','Type','Ticker','Name','Tenor','FloatingLeg','Source'};

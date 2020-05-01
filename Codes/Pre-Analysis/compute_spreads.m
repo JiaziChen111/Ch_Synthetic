@@ -18,13 +18,14 @@ function [SPRDvars,SPRDhdr] = compute_spreads(LC,ccy_type,header,dataset)
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
 % Type of US yield curve
-ycUS = {'HC','LC'}; optn = 1;               % HC is GSW, LC is Bloomberg
+ycUS = {'LCNOM','LC'};	optUS = 1;          	% LCNOM is GSW, LC is Bloomberg
+ycCY = {'LCNOM','LC'};  optCY = 1;            	% LCNOM is NSS, LC is Bloomberg
 
 switch ccy_type
     case 1  % LC case
         % Synthetic LC yield curve
         currencies = {'USD',LC};
-        types      = {ycUS{optn},'RHO'};
+        types      = {ycUS{optUS},'RHO'};
         [vars,tnrLCsynt] = extractvars(currencies,types,header,dataset);
         y_US = vars{1};   FP = vars{2};
         y_LCsynt = y_US + FP;
@@ -33,7 +34,7 @@ switch ccy_type
         
         % LC-US interest rate spread
         currencies = {LC,'USD'};
-        types      = {'LC',ycUS{optn}};
+        types      = {ycCY{optCY},ycUS{optUS}};
         [vars,tnrLCsprd] = extractvars(currencies,types,header,dataset);
         y_LC = vars{1};   y_US = vars{2};
         y_LCsprd = y_LC - y_US;
@@ -45,7 +46,7 @@ switch ccy_type
         
         % Deviations from CIP
         currencies = {LC,LC};
-        types      = {'LC','LCSYNT'};
+        types      = {ycCY{optCY},'LCSYNT'};
         [vars,tnrCIPdev] = extractvars(currencies,types,[header;hdr_aux],[dataset,vars_aux]);
         y_LC = vars{1};   y_LCsynt = vars{2};
         CIP_dev = y_LC - y_LCsynt;
@@ -59,7 +60,7 @@ switch ccy_type
     case 2  % FC case
         % FC interest rate differential
         currencies = {LC,'USD'};
-        types      = {'USD',ycUS{optn}};
+        types      = {'USD',ycUS{optUS}};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
         y_FC = vars{1};  y_US = vars{2};
         y_FCsprd = y_FC - y_US;

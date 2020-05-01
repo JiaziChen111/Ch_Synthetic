@@ -95,7 +95,7 @@ tic
     % Determine yield curve
     [fltr,~] = fltr4tickers(LC,'LC','',header);
     if     k0 == 1
-        [fltr,tnrscll] = fltr4tickers(LC,'HC','',header);       % GSW curve
+        [fltr,tnrscll] = fltr4tickers(LC,'LCNOM','',header);   	% GSW curve
     elseif k0 == 2
         fltr    = fltr & startsWith(header(:,3),{'C','P'});   	% BFV curve starts w/ C or P
         tnrscll = header(fltr,5);                           	% update tenors (col 5 in header)
