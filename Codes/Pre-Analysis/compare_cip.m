@@ -1,4 +1,4 @@
-function Scorr = compare_cip(dataset_daily,header_daily,curncs,TTcip)
+function Scorr = compare_cip(dataset_daily,header_daily,curncs,TTcip,figsave)
 % COMPARE_CIP Compare own CIP Calculations with those of Du, Im & Schreger (2018)
 %   Scorr: structure with the correlations for each type at each tenor
 
@@ -29,7 +29,7 @@ ntnrs    = length(tnrscell);
 % end
 
 %% For each country compare CIP variables for all maturities
-figdir  = 'DISvsOwn'; formats = {'eps'}; figstop = true; figsave = false;
+figdir  = 'DISvsOwn'; formats = {'eps'}; figstop = false;
 varDIS  = {'rho','cip_govt','diff_y'};
 varOWN  = {'RHO','CIPDEV','LCSPRD'};
 pltname = {'Forward Premium','CIP Deviations','Spread'};
@@ -70,7 +70,7 @@ for j1 = 1:length(curncs)
         figname = [varDIS{j0} '_' LC '_' tnr];
         save_figure(figdir,figname,formats,figsave)
     end
-    if figstop; input([varDIS{j0} ' for ' LC ' displayed. Press Enter key to continue.']); end
+    if figstop == true; input([varDIS{j0} ' for ' LC ' displayed. Press Enter key to continue.']); end
     Scorr(j1).([varDIS{j0} '_corr']) = corrs;
 end
 end
