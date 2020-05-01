@@ -1,4 +1,4 @@
-function Scorr = compare_cip(dataset_daily,header_daily,curncs,TTcip,figsave)
+function Scorr = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave)
 % COMPARE_CIP Compare own CIP Calculations with those of Du, Im & Schreger (2018)
 %   Scorr: structure with the correlations for each type at each tenor
 
@@ -29,14 +29,13 @@ ntnrs    = length(tnrscell);
 % end
 
 %% For each country compare CIP variables for all maturities
-figdir  = 'DISvsOwn'; formats = {'eps'}; figstop = false;
+figdir  = 'DISvsOwn'; formats = {'eps'};
 varDIS  = {'rho','cip_govt','diff_y'};
 varOWN  = {'RHO','CIPDEV','LCSPRD'};
 pltname = {'Forward Premium','CIP Deviations','Spread'};
 
 for j0 = 1:length(varDIS)
 for j1 = 1:length(curncs)
-    close all
     LC = curncs{j1};
     corrs = nan(ntnrs,2);
     for j2 = 1:ntnrs
@@ -55,22 +54,25 @@ for j1 = 1:length(curncs)
             corrs(j2,2) = corr(TT.(1),TT.(2),'Rows','complete');
         end
         
-        figure
-        plot(TTcip.date(fltr1),TTcip{fltr1,varDIS{j0}})
-        if sum(fltr2) > 0                        	% plot own if tenor exists (i.e. data was available)
-            hold on
-            plot(t,dataset_daily(:,fltr2))
-            legend('DIS','Own')
-        else
-            legend('DIS')
+        if figstop || figsave
+            figure
+            plot(TTcip.date(fltr1),TTcip{fltr1,varDIS{j0}})
+            if sum(fltr2) > 0                        	% plot own if tenor exists (i.e. data was available)
+                hold on
+                plot(t,dataset_daily(:,fltr2))
+                legend('DIS','Own')
+            else
+                legend('DIS')
+            end
+            title([pltname{j0} ': ' LC ' ' tnr])
+            ylabel('%')
+            datetick('x','yy','keeplimits')
+            figname = [varDIS{j0} '_' LC '_' tnr];
+            save_figure(figdir,figname,formats,figsave)
         end
-        title([pltname{j0} ': ' LC ' ' tnr])
-        ylabel('%')
-        datetick('x','yy','keeplimits')
-        figname = [varDIS{j0} '_' LC '_' tnr];
-        save_figure(figdir,figname,formats,figsave)
     end
     if figstop == true; input([varDIS{j0} ' for ' LC ' displayed. Press Enter key to continue.']); end
+    close all
     Scorr(j1).([varDIS{j0} '_corr']) = corrs;
 end
 end

@@ -1,4 +1,4 @@
-function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figsave)
+function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figstop,figsave)
 % PLOT_SPREADS Plot local and foreign currency interest rate spreads, the forward
 % premium and deviations from covered interest rate parity (CIP)
 %   corrsprd: pair-wise correlations of forward premium and CIP deviations
@@ -8,9 +8,9 @@ function corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figsav
 %%
 LCs    = [currEM;currAE];
 dates  = dataset_daily(:,1);
-figdir = 'Spreads'; formats = {'eps'}; figstop = false;
+figdir = 'Spreads'; formats = {'eps'};
 
-if figstop == true
+if figstop || figsave
 %% Spreads per maturity for each country
 types  = {'RHO','CIPDEV','LCSPRD','FCSPRD'};
 years  = {'1','5','10'};
