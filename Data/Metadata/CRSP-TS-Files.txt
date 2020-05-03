@@ -1,8 +1,21 @@
-TFZ_DLY_RF2.*
+In https://wrds-web.wharton.upenn.edu/wrds/
+Home->Get Data->CRSP->Annual Update->Treasuries
+
+TFZ_MTH_RF.* - MONTHLY RISKFREE SERIES (1-MONTH AND 3-MONTH)
+	Monthly risk-free series beginning in 1925.
+Standard source for 3M Treasury bill yields on CRSP
+2000001 	RISK-FREE RATES – 1 MONTH2000002 	RISK-FREE RATES – 3 MONTH
+
+TFZ_DLY_RF2.* - DAILY RISKFREE SERIES (4-, 13-, AND 26-WEEK)
+	Daily risk-free series. Data series begins June 15, 1961.
+26-week bill yield as a 6M yield
+2000061 	RISK FREE 4-WEEK2000062 	RISK FREE 13-WEEK2000063 	RISK FREE 26-WEEK
+
 
 1. FAMA RI FILES – MONTHLY ONLY
-TERMSTRUCT 2000010 2000027
+
 TFZ_MTH_TS.*
+TERMSTRUCT 2000010 2000027
 12-month series are represented by the TREASNOX range 2000010-2000021, with each TREASNOX representing a different number of months to maturity, between one and 12.
 
 INDEX FAMILY: TERMSTRUCT - FAMA TERM STRUCTURE
@@ -14,6 +27,8 @@ TREASNOX 	TERM TYPE DESCRIPTION
 
 Six-month series are represented by the TREASNOX range 2000022-2000027, with each TREASNOX representing a different number of months to maturity, between one and 6.
 
+
 TRZ_DLY_TS2.* - DAILY 26-WEEK TERM STRUCTURE
-
-
+2000067 	FAMA T-BILL 26-WEEK TERM STRUCTURE - 4 WEEK
+2000076 	FAMA T-BILL 26-WEEK TERM STRUCTURE - 13 WEEK
+2000089 	FAMA T-BILL 26-WEEK TERM STRUCTURE - 26 WEEK
