@@ -49,18 +49,35 @@
 	\end{todolist}
 \end{todolist}
 
+\section{Datasets: Daily}
+\gototoc
+\begin{todolist}
+	\item For BRL RHO 2Y deviates from DIS starting in 2016. RHO 7Y is not available relative to DIS.
+	\item For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009.
+	\item For GBP RHO 7Y increases a lot relative to DIS in 2010.
+	\item For PEN RHO 7Y big decrease in 2018.
+	\item For PHP RHO 7Y big spike in 2010.
+	\item For THB, AUD, CHF, DKK, EUR, NZD, SEK RHO 7Y and CAD 3Y, 7Y big declines.
+	\item Review RHO: 
+	\begin{todolist}
+		\item COP 1Y flat b/w 2012-2015.
+		\item HUF 3M.
+		\item IDR 1Y.
+		\item ILS 3M, 7Y.
+		\item MYR 2Y.
+	\end{todolist}
+\end{todolist}
+
 \section{Data: CRSP}
 \gototoc
 \begin{todolist}
 	\item Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months.
-	\item Update read_usyc.m to read CRSP data for maturities < 1Y.
+	\item Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
 	\item Compare results in LC spread and forward premium for 3M against DIS.
 \end{todolist}
 
 \section{Data: Codes}
 \begin{todolist}
-	\item There are countries with BFV and IYC curves, transform BFV into ZC yields and compare the curves.
-	\item For countries for which DIS have a longer history than me, check whether it is b/c we use different LC YC (BFV vs. IYC) and one has a longer history.
 	\item Consider shorter histories of some series within a country.
 	\begin{todolist}
 		\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
@@ -70,13 +87,15 @@
 		\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
 		\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
 	\end{todolist}
+	\item[\done] There are countries with BFV and IYC curves, transform BFV into ZC yields and compare the curves. BFV has CE par yields, IYC has CE ZC yields. Need to be converted into ZC continuously compounding.
+	\item[\wontdo] For countries for which DIS have a longer history than me, check whether it is b/c we use different LC YC (BFV vs. IYC) and one has a longer history. For HUF and PLN is b/c BS series start in 2007 in my sample.
 	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
 \end{todolist}
 
 \section{Data: Files}
 \gototoc
 \begin{todolist}
-	\item[\done] In the dataset, the BFV series includes IYC (converted into CE par) yields since 1-Oct-2018. 
+	\item[\done] In the dataset, the BFV series for PHP includes IYC (converted into CE par) yields since 1-Oct-2018. 
 	\item[\done] It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
 	\begin{todolist}
 		\item[\done] Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
@@ -94,13 +113,14 @@
 \section{Codes}
 \gototoc
 \begin{todolist}
-	\item Consider to include files as subfunctions.
-	\begin{todolist}
-		\item findNaN.m into remove_NaNcols.m.
-		\item fltr4tickers.m and matchtnrs.m into extract_vars.m.
-		\item y_NS into y_NSS.m.
-	\end{todolist}
 	\item Check if the formula for the CCS of HUF needs to be updated in compute_fp_long.m as indicated in the AE_EM_Curves_Tickers.xlsx file (check the sign ---plus or minus--- for TBS6v3).
+	\item[\done] Consider to include files as subfunctions.
+	\begin{todolist}
+		\item[\done] findNaN.m into remove_NaNcols.m.
+		\item[\wontdo] matchtnrs.m into extract_vars.m. extract_vars.m is already long.
+		\item[\wontdo] fltr4tickers.m into extract_vars.m. Filter also used by compare_ycs.m and zc_yields.m.
+		\item[\wontdo] y_NS into y_NSS.m. They are used separately by zc_yields.m.
+	\end{todolist}
 	\item[\done] Add read_cip.m and iso2names.m in m-files called in read_data.m.
 	\item[\done] Move old codes to Aux->Temp folder.
 	\item[\wontdo] Check what the mat-files (ccs_data.mat, ccs_info.mat) contain to decide whether to move them to the Aux folder. Obtained with old codes.
