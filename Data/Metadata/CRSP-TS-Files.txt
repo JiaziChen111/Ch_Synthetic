@@ -1,4 +1,9 @@
-In https://wrds-web.wharton.upenn.edu/wrds/
+# Series used
+TFZ_DLY_RF2.* - DAILY RISKFREE SERIES (13- AND 26-WEEK). Daily risk-free series. Data series begins June 15, 1961.2000062 	RISK FREE 13-WEEK2000063 	RISK FREE 26-WEEK
+
+
+# Comparison of different series
+To download all the series and compare them, in https://wrds-web.wharton.upenn.edu/wrds/
 Home->Get Data->CRSP->Annual Update->Treasuries
 
 TFZ_MTH_RF.* - MONTHLY RISKFREE SERIES (1-MONTH AND 3-MONTH)
@@ -12,7 +17,7 @@ TFZ_DLY_RF2.* - DAILY RISKFREE SERIES (4-, 13-, AND 26-WEEK)
 2000061 	RISK FREE 4-WEEK2000062 	RISK FREE 13-WEEK2000063 	RISK FREE 26-WEEK
 
 
-1. FAMA RI FILES – MONTHLY ONLY
+## FAMA RI FILES – MONTHLY ONLY
 
 TFZ_MTH_TS.*
 TERMSTRUCT 2000010 2000027
