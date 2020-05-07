@@ -1895,6 +1895,8 @@ powerLosses.totalCustomers = splitapply(osumFcn,T.Customers,G); % Calculate Numb
 % https://www.mathworks.com/help/matlab/matlab_prog/calculations-on-tables.html
 
 %% Timetables
+% 'table' and 'categorical arrays' were introduced in Matlab 8.2 (R2013b). 
+% functions for tables introduced in R2016b (e.g. synchronize).
 
 indoors = readtable('indoors.csv'); % readtable function returns a table only
 indoors = table2timetable(indoors); % convert table to a timetable
