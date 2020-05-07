@@ -1,13 +1,13 @@
 %% Read Data
-% This code reads data from different files to construct a comprehensive
-% dataset of yield curves, swap curves, forward premia, cross-currency swaps
-% and deviations from covered interest rate parity.
+% Read data from different files to construct a dataset of yield curves,
+% spreads, forward premia and deviations from covered interest rate parity
 
-% m-files called: read_platforms, read_usyc, fwd_prm, spreads, read_cip,
-% plot_spreads, compare_cip, append_dataset, iso2names
+% m-files called: read_platforms, read_usyc, fwd_prm, zc_yields, spreads,
+% read_cip, plot_spreads, compare_cip, append_dataset, iso2names
 % Pavel Solís (pavel.solis@gmail.com), April 2020
+
 %% Data on yield curves and swap curves
-clear; clc; close all; tStart = tic;
+clear; clc; close all;
 warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')                          % suppress table warnings
 [TTpltf,THpltf] = read_platforms();
 [TTusyc,THusyc] = read_usyc();
@@ -37,7 +37,7 @@ clear T*
 
 %% Clean dataset
 types = {'Type','RHO','LCNOM','LCSYNT','LCSPRD','CIPDEV','FCSPRD'};
-fltr = ~ismember(header_daily(:,2),types);
+fltr  = ~ismember(header_daily(:,2),types);
 dataset_daily(:,fltr) = [];
 header_daily(fltr,:)  = [];
 
@@ -48,8 +48,7 @@ corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figstop,figsave
 corrDIS  = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave);
 S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
 clear data_* hdr_* fig* fltr types
-toc(tStart)
 
-%% Save variables in mat files (in Dropbox, not in Git directory)
+%% Save variables in mat files (in Dropbox not in Git directory due to size)
 % save struct_data_1_S.mat S fit_zc corr* cur* tnrs*
 % save struct_data_2_cells.mat dataset_daily header_daily
