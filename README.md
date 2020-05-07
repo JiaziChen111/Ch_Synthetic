@@ -71,7 +71,7 @@ Commands that generate specific results in the paper are indicated with comments
 1. The income elasticity of demand for beef (1.86) reported on page 58 of the paper
 
 
-## FINAL COMMENTS
+## COMMENTS
 -------------------------------------------------------------------------------------
 If you add or modify the files in the main folder, keep in mind that the names of files and folders must have *no* spaces.
 
@@ -87,16 +87,14 @@ On reproducibility of empirical research, see:
 
 ## CODE WORKFLOW (OPTIONAL)
 -------------------------------------------------------------------------------------
-All information is stored in a Matlab structure array of countries with different fields. The information in the key fields (including lccs, tp, syn, nom) is stored as a timetable (a Matlab data type). Below are the details to facilitate following the workflow of the codes.
+All the data is stored in a Matlab structure array of countries with different fields. The information in the key fields (including lccs, tp, syn, nom) is stored as a timetable (a Matlab data type). Below are the details to facilitate following the workflow of the codes.
 
 In pre-analysis folder
-
-	run read_data.m 		-> generates dataset_daily (takes < 2 min)
-
-	read_data.m calls: read_tickers_v4.m, read_bloomberg.m, read_usyc.m, ccs.m, csp.m, append_dataset.m, plot_spreads.m
+	run read_data.m 	-> generates dataset_daily (runtime ~ 75 min)
+read_data.m calls: read_platforms, read_usyc, fwd_prm, zc_yields, spreads, read_cip, plot_spreads, compare_cip, append_dataset, iso2names
+auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
 In analysis folder
-
 	run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
 
 	+run fit_NS.m 		-> default-free LC YCs (11 min or 15 if 4 initial values)
@@ -116,37 +114,22 @@ give dataset_lcXX to rp_estimation and get dataset_monthly, header_monthly, stat
 merge both datasets
 plot rf and risky
 
-'dataset_daily' contains yield curves (LC, FC, US), cross-currency swaps, credit spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down from first day of sample to the most recent one, series were appended to the RIGHT. Countries are identified using (filtering in) header_daily
+'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified using (filtering in) header_daily
 
-'dataset_monthly' contains synthetic LC yield curves, expected short rates, risk premia, LCCS for different maturities with MONTHLY frequency. Series run top-down form the first available date per country to the most recent one, series were appended BELOW (since series start at different times). Countries are identified using (filtering in) dataset_monthly
-
-
+'dataset_monthly' contains synthetic LC yield curves, expected short rates, term premia, LCCS for different maturities with MONTHLY frequency. Series run top-down old-new, series were appended BELOW (since series start at different times). Series are identified using (filtering in) dataset_monthly
 
 
 
-## COMPATIBILITY
+## MISCELLANEOUS
 -------------------------------------------------------------------------------------
-The data types 'table' and 'categorical arrays' were introduced in Matlab 8.2 (R2013b). This code makes heavy use of those data types as well as of functions for tables introduced in R2016b (e.g. synchronize).
 
 
+Data Cycle: Download data + Metadata Guide + Codes to process data + Data appendix
 
-## DELETE
--------------------------------------------------------------------------------------
-Files read_tickers and read_tickers_v2 were originally in Ch_X/Codes/Pre-Analysis. The first one read the Excel file with headers and in rectangle cell array (many zeros). The second one read without headers, also in a rectangle cell array, designed to extract tickers from column 3. v3 version stacks all sheets into one cell array. v4 version will do what v3 does but allowing for headers (i.e. extra first row, which is necessary to match the extra first column in dataB for the date once transposed)
+Results Cycle:
+Codes for analysis + Results + Paper
 
-Next:
-retrieve_blp_data.m change line 11 to stacked(2:end,3); to reflect stacked with headers
-modify read_tickers_v3 to allow for stacked to have headers
-the objective is for the filters in test.m to have the extra first entry considering the date column in dataB
-retrieve_blp_data took 15 min
-
-
-Process or Cycle: Download data + Metadata Guide + Codes to process data + Data appendix
-
-Cycle:
-Codes for analysis/results + Paper
-
-[When finished?] Paste library.bib in References folder and uncomment line for reading it from that folder
+When finished, paste library.bib in References folder and uncomment line for reading it from that folder
 
 The paper and the slides have this line \usepackage{'XXX'}. Paste the files that will be used by many files there so that no need to have a copy every time (e.g. macros). Download the package from www.github.com and paste it in Library -> texmf -> tex -> latex. Check the link stackexchange to ensure you have the structure of the texmf folder.
 

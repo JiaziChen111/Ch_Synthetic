@@ -33,7 +33,7 @@
 	\vspace{2.5\bigskipamount}
 	
 
-\section{Data}
+\section{Data: BLP}
 \gototoc
 \begin{todolist}
 	\item After comparing datasets downloaded from BLP on Mar 2018 and Feb 2019: BLP updated values (slightly) in variables starting on: 9/30/2009 (USSW), 5/4/11 (USBC, USBA).
@@ -42,18 +42,101 @@
 	\item Download PZSW15 and Curncy PZSW20 to complement the history 6/12/2000-1/30/2013 for Curncy PZSW15V3 Curncy and PZSW20V3 Curncy, respectively.
 	\item Check MRBS* starting in 4/20/2016 because in the data downloaded in 2019 they were flat most of the time after that date.
 	\item Check the following series b/c they remain mostly flat during those periods: SABS15 Curncy b/w 4/15/2014-1/27/2016, SABS20 Curncy b/w 4/15/2014-8/28/2015, SABS25 Curncy b/w 1/3/2000-9/5/2011, SABS30 Curncy b/w 1/3/2000-5/10/2010.
-	\item Check NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
+	\item Check constant yield curves.
+	\begin{todolist}
+		\item NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
+		\item PHP: Since 29-Oct-2018 BFV data does not vary. In the dataset, the BFV series includes IYC (converted into CE par) yields since 1-Oct-2018. Update BFV series w/ BLP data when access to it is available.
+	\end{todolist}
+\end{todolist}
+
+\section{Datasets: Daily}
+\gototoc
+\begin{todolist}
+	\item For BRL RHO 2Y deviates from DIS starting in 2016. RHO 7Y is not available relative to DIS.
+	\item For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009.
+	\item For GBP RHO 7Y increases a lot relative to DIS in 2010.
+	\item For PEN RHO 7Y big decrease in 2018.
+	\item For PHP RHO 7Y big spike in 2010.
+	\item For THB, AUD, CHF, DKK, EUR, NZD, SEK RHO 7Y and CAD 3Y, 7Y big declines.
+	\item Review RHO: 
+	\begin{todolist}
+		\item COP 1Y flat b/w 2012-2015.
+		\item HUF 3M.
+		\item IDR 1Y.
+		\item ILS 3M, 7Y.
+		\item MYR 2Y.
+	\end{todolist}
+\end{todolist}
+
+\section{Data: CRSP}
+\gototoc
+\begin{todolist}
+	\item[\done] Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months. Compare them.
+	\item[\done] Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
+	\item[\done] Compare results in LC spread and forward premium for 3M against DIS.
+\end{todolist}
+
+\section{Data: Codes}
+\begin{todolist}
+	\item Consider shorter histories of some series within a country.
+	\begin{todolist}
+		\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
+		\item Availability of data for PZBSEC6 Curncy and PZSW15 and Curncy might be related to the history of the synthetic curves for PLN.
+		\item Check that the shorter history of PZSW15V3 Curncy and PZSW20V3 Curncy (starts in 2013) does not affect the history of the synthetic curves for PLN.
+		\item Check that MRBS10 and lower start around 2005, while MRBS15 around 2007 and MRBS20 in mid-2009.
+		\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
+		\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
+	\end{todolist}
+	\item[\done] There are countries with BFV and IYC curves, transform BFV into ZC yields and compare the curves. BFV has CE par yields, IYC has CE ZC yields. Need to be converted into ZC continuously compounding.
+	\item[\wontdo] For countries for which DIS have a longer history than me, check whether it is b/c we use different LC YC (BFV vs. IYC) and one has a longer history. For HUF and PLN is b/c BS series start in 2007 in my sample.
+	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
+\end{todolist}
+
+\section{Data: Files}
+\gototoc
+\begin{todolist}
+	\item[\done] In the dataset, the BFV series for PHP includes IYC (converted into CE par) yields since 1-Oct-2018. 
+	\item[\done] It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
+	\begin{todolist}
+		\item[\done] Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
+		\item[\done] Highlight in red columns DM-DV in original_Zero_Swap_Curves_Bloomberg.xlsx to indicate that those tickers were removed in current dataset.
+		\item[\done] Comment after comparison: small differences between 2018 and 2019. No change was made to 2019 series. Same data when comparing EUBS1-EUBS20 for HUF and EUR.
+		\item[\done] Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx. Update Type columns in HUF and PLN sheets for EUBS1-EUBS20 from BS_EUR to BS.
+		\item[\done] Update AE_EM_Curves_BDH.xlsx.
+	\end{todolist}
+	\item[\done] Change name of file to IMF_Country_Codes.xlsx and ISO_Currency_Codes.xlsx (original_ removed).
+	\item[\done] Change name of file to CIP_Data.xlsx and CIP_data.dta (original_ removed).
+	\item[\done] Change name of file to US_Yield_Curve_Data.xlsx (original_ removed).
+	\item[\done] Delete EUBS1-EUBS20 for PLN in both sheets (All, Tickers) of AE_EM_Curves_BDH.xlsx.
 \end{todolist}
 
 \section{Codes}
+\gototoc
 \begin{todolist}
-	\item Update codes since EUBS1-EUBS20 for PLN was deleted because they were already downloaded for HUF.
-	\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
-	\item Availability of data for PZBSEC6 Curncy and PZSW15 and Curncy might be related to the history of the synthetic curves for PLN.
-	\item Check that the shorter history of PZSW15V3 Curncy and PZSW20V3 Curncy (starts in 2013) does not affect the history of the synthetic curves for PLN.
-	\item Check that MRBS10 and lower start around 2005, while MRBS15 around 2007 and MRBS20 in mid-2009.
-	\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
-	\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
+	\item Check if the formula for the CCS of HUF needs to be updated in compute_fp_long.m as indicated in the AE_EM_Curves_Tickers.xlsx file (check the sign ---plus or minus--- for TBS6v3).
+	\item[\done] Consider to include files as subfunctions.
+	\begin{todolist}
+		\item[\done] findNaN.m into remove_NaNcols.m.
+		\item[\wontdo] matchtnrs.m into extract_vars.m. extract_vars.m is already long.
+		\item[\wontdo] fltr4tickers.m into extract_vars.m. Filter also used by compare_ycs.m and zc_yields.m.
+		\item[\wontdo] y_NS into y_NSS.m. They are used separately by zc_yields.m.
+	\end{todolist}
+	\item[\done] Add read_cip.m and iso2names.m in m-files called in read_data.m.
+	\item[\done] Move old codes to Aux->Temp folder.
+	\item[\wontdo] Check what the mat-files (ccs_data.mat, ccs_info.mat) contain to decide whether to move them to the Aux folder. Obtained with old codes.
+	\item[\done] Filter SPT in THdt to see if the currency tickers are identified. Yes, actually curncs is now obtained directly from the headers table.
+\end{todolist}
+
+\section{Facts}
+\gototoc
+\begin{todolist}
+	\item No EM was at the ZLB over the period.
+	\item Dates at which each EM started issuing 10Y bonds.
+	\begin{todolist}
+		\item RUB issued 10Y bonds until 2007.
+		\item TRY  issued 10Y bonds until 2010.
+	\end{todolist}
+	\item Since 2016, CHF and DKK negative YC up to 10Y and 7Y, respectively. Before GFC, close to ZLB.
 \end{todolist}
 
 \section{Analysis}
@@ -63,20 +146,25 @@
 	\item Tables:
 	\begin{todolist}
 		\item Format changes.
-		\item Try different rescaling.
 	\end{todolist}
 \end{todolist}
 
 \section{Literature}
 \gototoc
 \begin{todolist}
-	\item Serge Jeanneau and Camilo Tovar (2007) on development of LC bonds markets (before short-term debt and dollar-indexed liabilities).
-	\item Papers suggested by Duffee.
-	\item Cite Jeanneau and Tovar (2008): for developments in LC bond markets.
-	\item Hoffman Im and Shin (2020) for developments and references on LC bond markets.
+	\item Serge Jeanneau and Camilo Tovar (2007) on development of LC bonds markets (before short-term debt and dollar-indexed liabilities). Jeanneau and Tovar (2008): for developments in LC bond markets.
+	\item Papers suggested by Duffee: Agustin, Chernov, Schmid, Song; Banque de France.
+	\item BIS bulleting 2020.
+	\begin{todolist}
+		\item Hoffman Im and Shin (2020) for developments and references on LC bond markets. Emerging market economy exchange rates and local currency bond markets amid the Covid-19 pandemic.
+		\item Dollar funding costs during the Covid-19 crisis through the lens of the FX swap market.
+		\item Leverage and margin spirals in fixed income markets during the Covid-19 crisis.
+	\end{todolist}
+	
 	\item R\&R (2010): The Forgotten History of Domestic Debt.
 	\item IMF(2019): A Guide to Sovereign Debt Data.
 	\item G20(2020): Recent developments in EM LC bond markets.
+	\item Erce \& Mallucci (2018): Selective Sovereign Defaults
 \end{todolist}
 
 \end{document}

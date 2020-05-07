@@ -1,8 +1,7 @@
 function [CCS,hdr] = compute_fp_long(LC,header,dataset)
-% This function uses the formulas in 'AE_EM_Curves_Tickers.xlsx' to compute
-% fixed-for-fixed cross-currency swaps for local currencies (LC). See 
-% Du & Schreger (2016) and Du, Im & Schreger (2018).
-% m-files called: extractvars.m, construct_hdr.m
+% COMPUTE_FP_LONG Compute fixed-for-fixed cross-currency swaps for maturities >= 1Y
+% Formulas are in 'AE_EM_Curves_Tickers.xlsx'. See Du & Schreger (2016) and Du, Im & Schreger (2018)
+% m-files called: extractvars, split_merge_vars, construct_hdr
 %
 %     INPUTS
 % char: LC        - local currency for which CCS will be computed
@@ -12,12 +11,12 @@ function [CCS,hdr] = compute_fp_long(LC,header,dataset)
 %     OUTPUT
 % double: CCS - matrix of historic CCS (rows) for different tenors (cols)
 % cell: hdr   - header ready to be appended (NO extra first row with titles)
-%
-% Pavel Solís (pavel.solis@gmail.com), March 2019
+
+% Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
 ccy_AE = {'AUD','CAD','CHF','DKK','EUR','GBP','JPY','NOK','NZD','SEK'};
 switch LC
-    case {'BRL','COP','IDR','PEN','PHP','KRW'} % Formula 1
+    case {'BRL','COP','IDR','PEN','PHP','KRW'}      % Formula 1
         currencies = {LC,'USD','USD'};
         types      = {'NDS','TBS3v6_USD','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
@@ -25,15 +24,15 @@ switch LC
 
         CCS = NDS - TBS3v6_USD./100 - IRS_USD;
     
-    case {'HUF', 'PLN'} % Formula 2
+    case {'HUF','PLN'}                              % Formula 2
         currencies = {LC,LC,'EUR','USD'};
-        types      = {'IRS','BS','BS_EUR','IRS_USD'};
+        types      = {'IRS','BS','BS','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
         IRS = vars{1};  BS = vars{2};  BS_EUR = vars{3}; IRS_USD = vars{4};
 
         CCS = IRS + BS./100 + BS_EUR./100 - IRS_USD;
 
-    case ['ILS', 'MYR', 'ZAR', ccy_AE] % Formula 3
+    case ['ILS','MYR','ZAR',ccy_AE]                 % Formula 3
         currencies = {LC,LC,'USD'};
         types      = {'IRS','BS','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
@@ -41,7 +40,7 @@ switch LC
         
         CCS = IRS + BS./100 - IRS_USD;
 
-    case 'MXN' % Formula 4
+    case 'MXN'                                      % Formula 4
         currencies = {LC,LC,'USD','USD'};
         types      = {'IRS','BS','TBS1v3_USD','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
@@ -49,7 +48,7 @@ switch LC
 
         CCS = IRS - BS./100 + TBS1v3_USD./100 - IRS_USD;
 
-    case 'THB' % Formula 5
+    case 'THB'                                      % Formula 5
         currencies = {LC,LC,'USD','USD'};
         types      = {'IRS','BS','TBS3v6_USD','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
@@ -57,7 +56,7 @@ switch LC
 
         CCS = IRS + BS./100 - TBS3v6_USD./100 - IRS_USD;
 
-    case 'TRY' % Formula 6
+    case 'TRY'                                      % Formula 6
         currencies = {LC,'USD'};
         types      = {'CCS','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
@@ -65,7 +64,7 @@ switch LC
 
         CCS = CCS - IRS_USD;
 
-    case 'RUB' % Formula 7
+    case 'RUB'                                      % Formula 7
         currencies = {LC,'USD'};
         types      = {'NDS','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
@@ -85,7 +84,7 @@ switch LC
         disp('Cannot compute the CCS for %s.',LC)
 end
 
-% Special cases
+% Special cases (formula changes)
 if strcmp(LC,'JPY') || strcmp(LC,'NOK')
     CCS1 = CCS; tnr1 = tnr;
     

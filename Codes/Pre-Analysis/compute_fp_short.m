@@ -1,30 +1,28 @@
 function [FP,hdr] = compute_fp_short(LC,header,dataset,curncs)
-% This function computes the forward premium (FP) for maturities shorter
-% than 1 year: 3, 6 and 9 months.
-% Assumption: convpts and convfx (below) have same order of countries as curncs.
-% m-files called: construct_hdr.m
+% COMPUTE_FP_SHORT Compute forward premium (FP) for 3- 6- 9-month maturities
+% Assumption: countries in convpts and convfx (below) have same order as in curncs
+% m-files called: construct_hdr
 %
 %     INPUTS
 % char: LC        - local currency for which the forward premium will be computed
 % cell: header    - contains information about the tikcers (eg currency, type, tenor)
 % double: dataset - dataset with historic values of all the tickers
-% cell: curncs    - [Optional] contains all currencies in ascending order (EMs followed by AEs)
+% cell: curncs    - contains all currencies in ascending order (EMs followed by AEs)
 % 
 %     OUTPUT
 % double: FP - matrix of historic forward premiums (rows) for different tenors (cols)
 % cell: hdr  - header ready to be appended (NO extra first row with titles)
-%
-% Pavel Solís (pavel.solis@gmail.com), March 2019
+
+% Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
 % Read conventions used to quote FX forward points
-path       = pwd;
-cd(fullfile(path,'..','..','Data','Raw'))                   % Use platform-specific file separators
-filename   = 'AE_EM_Curves_Tickers.xlsx';
-convpts    = xlsread(filename,'CONV','N66:N90');            % Update range as necessary
-[~,convfx] = xlsread(filename,'CONV','H66:H90');            % Update range as necessary
-cd(path)
-
-if nargin == 3; curncs = read_currencies(); end
+pathc    = pwd;
+pathd    = fullfile(pathc,'..','..','Data','Raw');                  % platform-specific file separators
+cd(pathd)
+filename = 'AE_EM_Curves_Tickers.xlsx';
+convpts  = readmatrix(filename,'Sheet','CONV','Range','N66:N90');	% update range as necessary
+convfx   = readcell(filename,'Sheet','CONV','Range','H66:H90');     % update range as necessary
+cd(pathc)
 
 tnrs = {'0.25';'0.5';'0.75'};
 
@@ -32,22 +30,22 @@ tnrs = {'0.25';'0.5';'0.75'};
 fltrSPT = ismember(header(:,1),LC) & ismember(header(:,2),'SPT');
 fx_spt  = dataset(:,fltrSPT & ismember(header(:,7),'Bloomberg'));
 
-% Extract or calculate the FX forward
+% Extract (outright) or calculate (forward points) the FX forwards (3M, 6M, 9M)
 fltrAUX = ismember(header(:,1),LC) & ismember(header(:,2),'FWD') & ismember(header(:,5),tnrs);
 fltrBLP = fltrAUX & ismember(header(:,7),'Bloomberg');
 fltrWMR = fltrAUX & ismember(header(:,7),'WMR');
 
 switch LC
     case {'KRW','PHP','THB'}
-        fx_spt  = dataset(:,fltrSPT & ismember(header(:,7),'WMR'));
-        fltrFWD = fltrWMR & endsWith(header(:,3),'F');      % Use outright forwards from Datastream
+        fx_spt  = dataset(:,fltrSPT & ismember(header(:,7),'WMR')); % spot from same source for consistency
+        fltrFWD = fltrWMR & endsWith(header(:,3),'F');      % use outright forwards from Datastream
         fx_fwd  = dataset(:,fltrFWD);
         
-    case {'IDR','MYR','PEN'}                                % Use outright forwards from Bloomberg
+    case {'IDR','MYR','PEN'}                                % use outright forwards from Bloomberg
         fltrFWD = fltrBLP & contains(header(:,3),'+');
         fx_fwd  = dataset(:,fltrFWD);
         
-    otherwise                                               % Use forward points from Bloomberg
+    otherwise                                               % use forward points from Bloomberg
         fltrFWD = fltrBLP & ~contains(header(:,3),'+');
         fx_fwd  = fx_spt + dataset(:,fltrFWD)/convpts(ismember(curncs,LC)); % Use right convention
 end
@@ -60,7 +58,7 @@ switch LC
 end
 
 % Calculate the FP (expressed in percentage points) for maturities < 1 yr
-fctr = 100./cellfun(@str2double,tnrs');     % Factor to annualize the FP (note tnrs are in fractions of a year)
+fctr = 100./cellfun(@str2double,tnrs');     % Need to annualize the FP (note: tnrs are in year fractions)
 FP   = fctr.*(fx_fwd - fx_spt)./fx_spt;     % Alternative formula: FP = fctr.*(log(fx_fwd) - log(fx_spt));
 
 % Header

@@ -67,17 +67,15 @@ end
     % This function reads the cut-off dates in which the convention for computing
     % IRS for some G10 currencies changed from 6 months to 3 months. 
     %
-    path        = pwd;
-    cd(fullfile(path,'..','..','Data','Raw'))               % Use platform-specific file separators
-    filename    = 'AE_EM_Curves_Tickers.xlsx';
-    [~,ctrs]    = xlsread(filename,'FWD PRM','B41:B50');    % Update ranges as necessary
-    [~,~,raw]   = xlsread(filename,'FWD PRM','E41:E50');    % Need to read both doubles and 'N/A'
-    idxNaN      = cellfun(@ischar,raw);                     % Replace strings with NaNs
-    raw(idxNaN) = {NaN};                                    % raw is a cell array with dates in Excel format
-    raw         = x2mdate(cell2mat(raw));                   % Convert dates from Excel to Matlab format
-    raw         = num2cell(raw);                            % Convert array to cell array
-    cutoff      = [ctrs, raw];
-    cd(path)
+    pathc  = pwd;
+    pathd  = fullfile(pathc,'..','..','Data','Raw');                    % platform-specific file separators
+    cd(pathd)
+    namefl = 'AE_EM_Curves_Tickers.xlsx';
+    ctrs   = readcell(namefl,'Sheet','FWD PRM','Range','B41:B50');      % update ranges as necessary
+    raw    = readmatrix(namefl,'Sheet','FWD PRM','Range','E41:E50');	% matrix with dates in Excel format
+    raw    = num2cell(x2mdate(raw));                                 	% dates in Matlab format in cell array
+    cutoff = [ctrs, raw];
+    cd(pathc)
     end
 
 end

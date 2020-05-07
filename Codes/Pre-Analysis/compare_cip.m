@@ -1,79 +1,78 @@
-%% Compare CIP Calculations
-% This code compares my CIP variables with those of Du, Im & Schreger (2018).
-% Assumes that header_daily and dataset_daily are in the workspace and
-% contain the CIP variables (rho, spread, CIP deviations).
-%
-% Pavel Solís (pavel.solis@gmail.com), March 2019
-% 
-%% Prepare Currencies and Tenors
-if ~exist('T_cip','var')                            % Run code if T_cip is not in the workspace
-    run read_cip.m
-end
+function Scorr = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave)
+% COMPARE_CIP Compare own CIP Calculations with those of Du, Im & Schreger (2018)
+%   Scorr: structure with the correlations for each type at each tenor
 
-iso   = read_currencies(T_cip);
-Scorr = cell2struct(iso','iso');                % Assign a currency to a structure with field ccy
+% Pavel Solís (pavel.solis@gmail.com), April 2020
+%% Prepare dataset and tenors
+Scorr = cell2struct(curncs','ccy');                 % assign each currency to a structure with field ccy
+TTcip.cip_govt = TTcip.cip_govt(:)/100;             % express cip_govt in percentages instead of bps
 
-[~,tnrscell] = findgroups(T_cip.tenor);             % Find the tenors as categorical variable
-tnrscell = cellstr(tnrscell);                       % Convert to cell array
+tnrscell = categories(TTcip.tenor);                 % tenors as a cell array
 tnrsnum  = tnrscell;
-tnrsnum{contains(tnrsnum,'3m')} = '0.25y';          % Express all tenors in years
-tnrsnum  = strrep(tnrsnum,'y','');                  % Remove 'y' from all tenors
-tnrsnum  = cellfun(@str2num,tnrsnum);               % Convert cell array to numbers
-[tnrsnum,idx] = sort(tnrsnum);                      % Sort all tenors in ascending order
-tnrscell = tnrscell(idx);                           % Reorder cell array of tenors in ascending order
+tnrsnum{contains(tnrsnum,'3m')} = '0.25y';          % express all tenors in years
+tnrsnum  = cellfun(@str2num,strrep(tnrsnum,'y',''));% remove 'y' and convert to numbers
+[tnrsnum,idx] = sort(tnrsnum);                      % sort all tenors in ascending order
+tnrscell = tnrscell(idx);                           % reorder cell array of tenors in ascending order
 ntnrs    = length(tnrscell);
 
-%% For Each Country Compare CIP Variables for All Maturities
+%% diff_y = rho + cip_govt
+% TTcip.lcsprd   = TTcip.rho(:) + TTcip.cip_govt(:);  % define the LC spread
+% for k0 = 1:length(curncs)
+%     close all
+%     for k1 = 1:length(tnrscell)
+%         figure
+%         fltr0 = TTcip.currency == curncs{k0} & TTcip.tenor == tnrscell{k1};
+%         plot(TTcip.date(fltr0),[TTcip.diff_y(fltr0),TTcip.lcsprd(fltr0)]);
+%         title([curncs{k0} ' ' tnrscell{k1}])
+%     end
+%     if figstop; input(['LC spread for ' curncs{k0} ' displayed. Press Enter key to continue.']); end
+% end
 
-varDIS  = {'rho','diff_y','cip_govt'};
-varOWN  = {'RHO','LCSPRD','CIPDEV'};
-pltname = {'Forward Premium','Spread','CIP Deviations'};
-figdir  = 'DISvsOwn'; figsave = false; tf_input = true;
+%% For each country compare CIP variables for all maturities
+figdir  = 'DISvsOwn'; formats = {'eps'};
+varDIS  = {'rho','cip_govt','diff_y'};
+varOWN  = {'RHO','CIPDEV','LCSPRD'};
+pltname = {'Forward Premium','CIP Deviations','Spread'};
 
-for j = 1:length(varDIS)
-for k = 1:length(iso)
-    close all
+for j0 = 1:length(varDIS)
+for j1 = 1:length(curncs)
+    LC = curncs{j1};
     corrs = nan(ntnrs,2);
-    for l = 1:ntnrs
-        LC = iso{k}; tnr = tnrscell{l}; corrs(l,1) = tnrsnum(l);
-
-        rows  = T_cip.currency==LC & T_cip.tenor==tnr;
-        aux   = table(T_cip.date(rows),T_cip{rows,varDIS{j}},'VariableNames',{'date',['dis' tnr]});
-        TTdis = table2timetable(aux);               % Create timetable for DIS variable
+    for j2 = 1:ntnrs
+        tnr = tnrscell{j2}; corrs(j2,1) = tnrsnum(j2);
         
-        hdr  = header_daily;
-        fltr = ismember(hdr(:,1),LC) & ismember(hdr(:,2),varOWN{j}) & ismember(hdr(:,5),num2str(tnrsnum(l)));
-        if sum(fltr) > 0                            % Compare if tenor was calculated (i.e. data was available)
+        fltr1 = TTcip.currency == LC & TTcip.tenor == tnr;
+        TTdis = TTcip(fltr1,varDIS{j0});
+        
+        fltr2 = ismember(header_daily(:,1),LC) & ismember(header_daily(:,2),varOWN{j0}) & ...
+            ismember(header_daily(:,5),num2str(tnrsnum(j2)));
+        if sum(fltr2) > 0                        	% compare if tenor exists (i.e. data was available)
             t     = datetime(dataset_daily(:,1),'ConvertFrom','datenum');
-            aux   = table(t,dataset_daily(:,fltr),'VariableNames',{'date',['own' tnr]});
-            TTown = table2timetable(aux);           % Create timetable for own variable
+            TTown = table2timetable(table(t,dataset_daily(:,fltr2)));
             
-            TT = synchronize(TTdis,TTown,'intersection'); % Match values of variables in time
-            corrs(l,2) = corr(TT.(['dis' tnr]),TT.(['own' tnr]),'Rows','complete');
+            TT = synchronize(TTdis,TTown,'intersection'); % match values of variables in time
+            corrs(j2,2) = corr(TT.(1),TT.(2),'Rows','complete');
         end
-
-        figure;
-        if strcmp(varDIS{j},'cip_govt')             % Plot CIP deviations in percentage points
-            plot(T_cip.date(rows),T_cip{rows,varDIS{j}}./100)
-        else
-            plot(T_cip.date(rows),T_cip{rows,varDIS{j}})
+        
+        if figstop || figsave
+            figure
+            plot(TTcip.date(fltr1),TTcip{fltr1,varDIS{j0}})
+            if sum(fltr2) > 0                        	% plot own if tenor exists (i.e. data was available)
+                hold on
+                plot(t,dataset_daily(:,fltr2))
+                legend('DIS','Own')
+            else
+                legend('DIS')
+            end
+            title([pltname{j0} ': ' LC ' ' tnr])
+            ylabel('%')
+            datetick('x','yy','keeplimits')
+            figname = [varDIS{j0} '_' LC '_' tnr];
+            save_figure(figdir,figname,formats,figsave)
         end
-        if sum(fltr) > 0                            % Plot own if tenor was calculated (i.e. data was available)
-            hold on
-            plot(t,dataset_daily(:,fltr))
-            legend('DIS','Own')
-        else
-            legend('DIS')
-        end
-        title([pltname{j} ': ' LC ' ' tnr])
-        ylabel('%')
-        datetick('x','yy','keeplimits')
-        figname = [varDIS{j} '_' LC '_' tnr];
-        save_figure(figdir,figname,figsave)
     end
-    if tf_input; input([varDIS{j} ' ' LC ' is displayed. Press Enter key to continue.']); end
-    Scorr(k).([varDIS{j} '_corr']) = corrs;
+    if figstop == true; input([varDIS{j0} ' for ' LC ' displayed. Press Enter key to continue.']); end
+    close all
+    Scorr(j1).([varDIS{j0} '_corr']) = corrs;
 end
 end
-
-clear j k l t idx aux rows hdr tnr* LC fltr TTdis TTown TT corrs var* plt* fig*
