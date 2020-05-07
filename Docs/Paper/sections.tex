@@ -99,7 +99,7 @@ On the effects of U.S. monetary policy shocks, the paper extends the results in 
 
 %Finally, on the relationship between affine term structure models and exchange rates this paper is related to \cite{AngChen:2010}.
 
-The rest of the paper proceeds as follows. The next section explains how to construct the local currency yield curves. Section \ref{sec:ATSM} describes the affine term structure model and its estimation. Section \ref{sec:results} reports the yield decompositions and the evidence on comovement. Section \ref{sec:correl} studies the cyclical properties of the term premia. The last section concludes.
+The rest of the paper proceeds as follows. The next section explains how to construct the local currency yield curves. Section \ref{sec:ATSM} describes the affine term structure model. Section \ref{sec:comovement} reports the yield decompositions and the evidence on comovement. Section \ref{sec:spillovers} studies the U.S. monetary policy spillovers to the bond yields in emerging markets. The last section concludes.
 
 }{}	% Closes \iftoggle{fulldraft}
 
@@ -131,7 +131,7 @@ The idea is to start by swapping fixed payments in LC into floating-rate cash fl
 
 Let $\yUS$ denote the zero-coupon yield for an $\tnr$-period U.S. Treasury security at time $t$, and $\fwdprm$ the $\tnr$-period forward premium from USD to LC at time $t$. 
 The zero-coupon synthetic LC yield for the $\tnr$-period bond at time $t$, $\yLCsynt$, is thus defined as
-	\input {../Equations/yLCsynt}
+	\input {../Equations/nLCsynt}
 Instead of relying on the U.S. yield curve and XCS rates, zero-coupon nominal yields, $\yLCnom$, can be derived from the actual quotes of the 
 %sovereign 
 bonds traded in the market.
@@ -147,7 +147,7 @@ The spread between the nominal and synthetic yields ($\yLCnom - \yLCsynt$) there
 \cite*{DuImSchreger:2018JIE} show that these CIP deviations reflect differences in the convenience yield of advanced countries relative to the U.S.
 Nevertheless, CIP deviations have a different interpretation for emerging markets. \cite{DuSchreger:2016JoF} argue that the nominal-synthetic spread captures a credit risk premium in the sovereign yields of emerging markets.\footnote{ For instance, CDS rates are highly correlated with the CIP deviations of emerging markets but not with the CIP deviations of advanced countries.}
 Whereas the nominal yields of advanced countries are usually considered free of default risk, it is reasonable for the nominal yields of emerging markets to include a credit risk premium.
-In fact, since the components of the synthetic yield in equation (\ref{eq:yLCsynt}) are risk-free, it can be seen as the borrowing rate paid by a hypothetical issuer in LC with no default risk. 
+In fact, since the components of the synthetic yield in equation (\ref{eq:nLCsynt}) are risk-free, it can be seen as the borrowing rate paid by a hypothetical issuer in LC with no default risk. 
 The nominal-synthetic spread in emerging markets therefore captures the credit risk premium.
 
 
@@ -163,21 +163,21 @@ To obtain the implied zero-coupon curves, the BFV par rates are converted into c
 %The methods to estimate the yield curve at a particular point in time can be classified in parametric and non-parametric. Since the purpose of estimating the yield curve in this paper is to understand its determinants, a parametric approach is more convenient because it smooths through idiosyncratic variation and, notwithstanding, it allows for a variety of yield curve shapes. This approach is also followed for the U.S. by \citet*{GSW:2007}. 
 
 \cite{NelsonSiegel:1987} assume the following  functional form for the instantaneous forward rate $\tnr$ years ahead, $\fInst$:
-	\input {../Equations/NSfwd}
+	\input {../Equations/nNSfwd}
 The four parameters determine the behavior of the rate at long and short maturities as well as the magnitude, direction and position of the forward curve's ``hump".
 This model allows for a variety of shapes for curves with maturities up to ten years, which tend to exhibit one hump.\footnote{ To capture the convexity of bonds with longer maturities, \cite{Svensson:1994} allows for a second hump by introducing two additional parameters in the functional form of the instantaneous forward rate.}
 % The behavior at long and short maturities is determined by the parameters $\betaLT$ and $\betaST$, while $\betaMTns$ and $\tauNS$ determine the magnitude, direction and position of the yield curve's ``hump".
 
-Integrating equation (\ref{eq:NSfwd}) results in the continuously-compounded zero-coupon yield implied by the model:
-	\input {../Equations/NSzero}
-The parameters of the model are estimated by minimizing the sum of squared deviations between the zero-coupon yields implied by the BFV curve and the yields in equation (\ref{eq:NSzero}). The resulting curve is what this paper refers to as the nominal yield curve $\yLCnom$.
+Integrating equation (\ref{eq:nNSfwd}) results in the continuously-compounded zero-coupon yield implied by the model:
+	\input {../Equations/nNSzero}
+The parameters of the model are estimated by minimizing the sum of squared deviations between the zero-coupon yields implied by the BFV curve and the yields in equation (\ref{eq:nNSzero}). The resulting curve is what this paper refers to as the nominal yield curve $\yLCnom$.
 
 %\cite{NelsonSiegel:1987} assume a functional form for the instantaneous forward rate $\tnr$ years ahead, $\fInst$, that is governed by four parameters determining the behavior of the rate at long and short maturities as well as the magnitude, direction and position of the yield curve's ``hump".
 %The Nelson--Siegel model allows for a rich array of shapes for yield curves with maturities of up to ten years. To capture the convexity of bonds with longer maturities, \cite{Svensson:1994} allows for a second hump by introducing two additional parameters in the functional form of the instantaneous forward rate:
-%\input {../Equations/NSSfwd}
-%Integrating equation (\ref{eq:NSSfwd}) results in the continuously-compounded zero-coupon yield implied by the model:\footnote{ The original Nelson--Siegel instantaneous forward rate and the corresponding zero-coupon yield are special cases of equations (\ref{eq:NSSfwd}) and (\ref{eq:NSSzero}), respectively, in which $\betaMTnss = 0$.}
-%\input {../Equations/NSSzero}
-%The parameters in the Svensson model are estimated by minimizing the sum of squared deviations between the log prices obtained from the reported BFV yields $\yLCnom$ and the log prices implied by equation (\ref{eq:NSzero}) weighted by the inverse of the duration for each period. Using log price deviations weighted by duration is approximately equal to fitting yields but is faster because the latter requires numerically finding the root to a nonlinear equation \citep*[see][]{GSW:2007}.
+%\input {../Equations/nNSSfwd}
+%Integrating equation (\ref{eq:nNSSfwd}) results in the continuously-compounded zero-coupon yield implied by the model:\footnote{ The original Nelson--Siegel instantaneous forward rate and the corresponding zero-coupon yield are special cases of equations (\ref{eq:nNSSfwd}) and (\ref{eq:nNSSzero}), respectively, in which $\betaMTnss = 0$.}
+%\input {../Equations/nNSSzero}
+%The parameters in the Svensson model are estimated by minimizing the sum of squared deviations between the log prices obtained from the reported BFV yields $\yLCnom$ and the log prices implied by equation (\ref{eq:nNSzero}) weighted by the inverse of the duration for each period. Using log price deviations weighted by duration is approximately equal to fitting yields but is faster because the latter requires numerically finding the root to a nonlinear equation \citep*[see][]{GSW:2007}.
 %Yield curves with maturities up to 10 years tend to exhibit one hump at most. The Nelson-Siegel model can capture that pattern in a more parsimonious way than the Svensson model. Therefore, the Svensson model is only estimated when there are at least three maturities beyond 10 years.
 
 \subsection{Yield Curve Data}
@@ -236,115 +236,127 @@ This section describes the affine term structure model that is used to estimate 
 Let $\Pzero$ be the price at time $t$ of a zero-coupon risk-free bond with maturity $\tnr$. The continuously compounded yield on that bond is then $\yZero = - \ln \Pzero/\tnr $. Thus, the one-period continuously compounded risk-free rate is $\rShort = - \ln P_{t,1}$.
 
 The no-arbitrage assumption implies that there exists a stochastic discount factor (SDF), $\SDF$, such that today's price equals the expectation of tomorrow's discounted price:
-	\input{../Equations/Pzero}
-Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:Pzero}) implies that today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.
+	\input{../Equations/nPzero}
+Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:nPzero}) implies that today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.
 
 A discrete-time affine term structure model assumes that a $\Xdim \times 1$ vector of state variables $\Xvars$ drives the dynamics of the one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF in an affine form as follows:
-	\input{../Equations/rShort}
-	\input{../Equations/riskprice}
-	\input{../Equations/SDF}
-\noindent where $\error$ is $i.i.d.$ $\Normal \left(0,I_{\Xdim}\right)$.
+	\input{../Equations/nRshort}
+	\input{../Equations/nRiskprice}
+	\input{../Equations/nSDF}
+\noindent where $\error$ is $i.i.d.$ $\Normal \left(0,I_{\Xdim}\right)$ and $I_{\Xdim}$ is the identity matrix of dimension $\Xdim$.
 
-Assume that the dynamics of the vector of state variables $\Xvars$ evolve under the physical measure $(\Pmeasure)$ according to the following vector autoregression (VAR):
-	\input{../Equations/XvarsP}
+The dynamics of the vector of state variables $\Xvars$ are assumed to evolve under the physical measure $(\Pmeasure)$ according to the following vector autoregression (VAR):
+	\input{../Equations/nXvarsP}
+The SDF in equation (\ref{eq:nSDF}) and the law of motion of the vector of state variables in equation (\ref{eq:nXvarsP}) can be formalized separately or jointly \citep[see][]{GurkaynakWright:2012}.
 
-The SDF in equation (\ref{eq:SDF}) and the law of motion of the vector of state variables in equation (\ref{eq:XvarsP}) can be formalized separately or jointly; see \cite{GurkaynakWright:2012} for a review of the literature.
-
-The following parameters:
-	\input{../Equations/XmuStar}
-	\input{../Equations/XPhiStar}
-
-\noindent govern the dynamics of the vector of state variables under the risk-neutral or pricing measure $(\Qmeasure)$:
-	\input{../Equations/XvarsQ}
-
+The dynamics of the vector of state variables under the risk-neutral or pricing measure $(\Qmeasure)$:
+	\input{../Equations/nXvarsQ}
+are governed by the following parameters:
+	\input{../Equations/uXmuStar}
+	\input{../Equations/uXPhiStar}
 The log price and the continuously compounded yield of a risk-free zero-coupon bond in this model are then affine functions of the state variables $\Xvars$:
-	\input{../Equations/Paffine}
-	\input{../Equations/yAffine}
-where the scalar \input{../Equations/functionAn} and the $1 \times \Xdim$ vector \input{../Equations/functionBn}. These coefficients can be computed recursively combining the no-arbitrage condition and the functional form for bond prices as follows:
-	\input{../Equations/affineA}
-	\input{../Equations/affineB}
-
-The term premium for maturity $\tnr$ at time $t$, $\TPatsm$, can then be estimated as the difference between the yields obtained under the $\Qmeasure$ measure and the yields obtained under the $\Pmeasure$ measure:
-	\input{../Equations/TPatsm}
-
-Note that a key assumption behind this model is that the yield $\yZero$ is risk-free. \cite{DuSchreger:2016JoF} find that the LC credit spread is statistically different from zero and, thus, that the nominal yield $\yLCnom$ for emerging markets is not risk-free. Therefore, I focus on the synthetic yield $\yLCsynt$ because it aligns better with the risk-free assumption.
-
-\subsection{Identification Problem} \label{sec:Identification}
-In principle, the only input needed to estimate the parameters of the affine term structure model are zero-coupon bond yields. This is enough to estimate ($\XmuStar, \XPhiStar$), the pricing coefficients under the $\Qmeasure$ measure in equation (\ref{eq:XvarsQ}). However, they are not enough to identify ($\Xmu, \XPhi$), the parameters under the $\Pmeasure$ measure in equation (\ref{eq:XvarsP}), which are necessary to estimate the term premium as indicated in equation (\ref{eq:TPatsm}).
-
-This identification problem is due to the high persistence of bond yields, which results in small sample bias as has been highlighted by \cite{KimOrphanides:2012} and \cite{Guimaraes:2014}. Accordingly, the dynamics of the state vector will tend to mean-revert too quickly, overestimating the stability of the expected path of the short-term interest rate. In that situation, much of the variability in yields will be attributed to fluctuations in the term premium.
-
-Different solutions have been proposed to address this identification problem, including restrictions on parameters, bias-corrected estimators and using survey forecasts of professional forecasters. \cite{Guimaraes:2014} compares the three approaches and concludes that the use of surveys is an effective solution to obtain a robust decompositions of the yield curve.
-
-Therefore, there are two ways in which the information from surveys can be used in this context. First, to obtain a model-free estimate of the term premium as the difference between the long-term interest rate and the expected future short-term interest rate over the horizon of the survey; this estimate serves as a robustness check. Second, to supplement the information from bond yields in the estimation of affine term structure models.\footnote{In a future draft, I will therefore supplement the affine term structure model with survey data on the expected long-term policy rate for each country.}
+	\input{../Equations/uPaffine}
+	\input{../Equations/uYaffine}
+\noindent where the scalar \input{../Equations/functionAn} and the $1 \times \Xdim$ vector \input{../Equations/functionBn}. These coefficients can be computed recursively as follows after combining the no-arbitrage condition and the functional form for bond prices:
+	\input{../Equations/uAffineA}
+	\input{../Equations/uAffineB}
+The term premium for maturity $\tnr$ at time $t$, $\TPatsm$, can then be estimated as the difference between the yields obtained under the $\Qmeasure$ and $\Pmeasure$ measures:
+	\input{../Equations/nTPatsm}
+A key assumption behind this model is that the yield $\yZero$ is risk-free, a reasonable assumption for advanced but not for emerging countries since investors demand a credit risk premium from them \citep{DuSchreger:2016JoF}. 
+This implies that the nominal yield $\yLCnom$ of emerging markets is not risk-free, that is why I focus on their synthetic yield $\yLCsynt$ because it aligns better with the risk-free assumption.
 
 
 \subsection{Estimation} \label{sec:Estimation}
-This section describes both the estimation method and the data sources employed in the estimation of the model presented in section \ref{sec:ATSMeqns}.
+%This section describes both the estimation method and the data sources employed in the estimation of the model presented in section \ref{sec:ATSMeqns}.
 
 Affine term structure models can be estimated by maximum likelihood. Traditionally, the convergence to the global optimum of that method has been subject to computational challenges and multiple local optima. In light of this, \citet*{JSZ:2011} (hence JSZ) propose a normalization that improves the convergence to the global optimum of the likelihood function.
 
-The model's likelihood function is the product of the $\Pmeasure$ and $\Qmeasure$ likelihood functions. The JSZ normalization allows for the near separation of both likelihood functions and reduces the dimension of the parameter space from $(\deltazero, \deltaone, \XmuStar, \XPhiStar, \XSigma)$ to $(r^{\Qmeasure}_{\infty}, \lambda^{\Qmeasure},\XSigma)$, where $r^{\Qmeasure}_{\infty}$ is the long-run short-term interest rate under $\Qmeasure$, $\lambda^{\Qmeasure}$ is a $\Xdim \times 1$ vector of ordered eigenvalues of $\XPhiStar$, and $\XSigma$ is a lower triangular matrix with positive diagonal elements.
+The model's likelihood function is the product of the $\Pmeasure$ and $\Qmeasure$ likelihood functions. The JSZ normalization allows for the near separation of both likelihood functions and reduces the dimension of the parameter space from $(\deltazero, \deltaone, \XmuStar, \XPhiStar, \XSigma)$ to $(r^{\Qmeasure}_{\infty}, \lambda^{\Qmeasure},\XSigma)$, where $r^{\Qmeasure}_{\infty}$ is the short rate in the long-run  under $\Qmeasure$, $\lambda^{\Qmeasure}$ is a $\Xdim \times 1$ vector of ordered eigenvalues of $\XPhiStar$, and $\XSigma$ is a lower triangular matrix with positive diagonal elements.
 
-The JSZ normalization allows a two-stage estimation of the model presented in section \ref{sec:ATSMeqns}. First, the $\Pmeasure$ parameters are estimated by OLS of the VAR in equation (\ref{eq:XvarsP}), using the estimated $\Xdim$ principal components of the synthetic yield curve $\yLCsynt$. This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking $\hat{\Xmu}$ and $\hat{\XPhi}$ as given, the $\Qmeasure$ parameters can be estimated by maximum likelihood.
+The JSZ normalization allows a two-stage estimation of the model presented in section \ref{sec:ATSMeqns}. First, the $\Pmeasure$ parameters are estimated by OLS of the VAR in equation (\ref{eq:nXvarsP}), using the estimated $\Xdim$ principal components of the synthetic yield curve $\yLCsynt$. This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking $\hat{\Xmu}$ and $\hat{\XPhi}$ as given, the $\Qmeasure$ parameters can be estimated by maximum likelihood.
 
-
-%The model described above can be estimated in a few simple steps. First, equation (\ref{eq:XvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:rShort}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:NSzero}) and the yields implied by the affine model in equation (\ref{eq:yAffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
+%The model described above can be estimated in a few simple steps. First, equation (\ref{eq:nXvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:nRshort}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:nNSzero}) and the yields implied by the affine model in equation (\ref{eq:nYaffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
 %
-%However, in order to obtain preliminary estimates of the term premium only equations (\ref{eq:rShort}) and (\ref{eq:XvarsP}) are used in this version. To obtain estimates of the expected short-term interest rates in future periods, the expectation of the vector of state variables $\Xvars$ (which can be computed by iterating forward equation (\ref{eq:XvarsP})) is substituted in equation (\ref{eq:rShort}). The expectation of a yield $\tnr$ periods ahead is then obtained as the average of the expected short-term rates over $\tnr$ periods. The term premium estimate is then computed as the difference between the nominal yield and the expected yield obtained in this way.
+%However, in order to obtain preliminary estimates of the term premium only equations (\ref{eq:nRshort}) and (\ref{eq:nXvarsP}) are used in this version. To obtain estimates of the expected short-term interest rates in future periods, the expectation of the vector of state variables $\Xvars$ (which can be computed by iterating forward equation (\ref{eq:nXvarsP})) is substituted in equation (\ref{eq:nRshort}). The expectation of a yield $\tnr$ periods ahead is then obtained as the average of the expected short-term rates over $\tnr$ periods. The term premium estimate is then computed as the difference between the nominal yield and the expected yield obtained in this way.
+
+\subsubsection{Identification Problem} \label{sec:Identification}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+In principle, the estimation of the parameters in the affine term structure model only  requires zero-coupon bond yields as an input.
+This is enough to estimate the pricing coefficients under the $\Qmeasure$ measure,
+%in equation (\ref{eq:nXvarsQ})
+namely $\XmuStar$ and $\XPhiStar$. However, they are not enough to identify the parameters under the $\Pmeasure$ measure, 
+%in equation (\ref{eq:nXvarsP})
+$\Xmu$ and $\XPhi$, which in turn are necessary to estimate the term premium in equation (\ref{eq:nTPatsm}).
+
+This identification problem is due to the high persistence of bond yields, which results in small sample bias as has been highlighted by \cite{KimOrphanides:2012} and \cite{Guimaraes:2014}. Accordingly, the dynamics of the state vector will tend to mean-revert too quickly, overestimating the stability of the expected path of the short rate and, thus, much of the variability in yields is attributed to fluctuations in the term premium.
+
+Different solutions have been proposed to address this identification problem, including restrictions on parameters, bias-corrected estimators and adding information from survey forecasts in the estimation.
+%of professional forecasters. 
+\cite{Guimaraes:2014} compares the three approaches and concludes that surveys are an effective solution to obtain robust decompositions of yield curves.
+I follow \cite{Guimaraes:2014} in supplementing the JSZ approach with survey data when estimating the affine model for emerging markets.
+
+In addition to supplementing the information from bond yields in the estimation of affine term structure models, surveys can also be used to obtain a model-free estimate of the term premium, calculated as the difference between the long-term interest rate and the expected future short rate from surveys (over the same horizon). This model-free estimate serves as a robustness check for the term premia obtained from the affine model. 
 
 
-\subsection{Survey Data} \label{sec:SurveyData}
-The macroeconomic and financial variables used in section \ref{sec:correl} are downloaded from Bloomberg. Here I describe the data sources for 
-%the construction of the yield curves and for 
-the surveys of professional forecasters.
+\subsubsection{Survey Data} \label{sec:SurveyData}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-As mentioned in section \ref{sec:Identification}, long-horizon forecasts for the policy rate of emerging markets can be used to obtain model-free estimates of the term premium and to supplement bond yields in the estimation of affine term structure models.
+Long-term forecasts (ten years ahead) for emerging markets come from Consensus Economics.
+Although the data contains long-horizon forecasts for consumer inflation and real GDP growth, it does not provide long-horizon forecasts for the policy rate. 
+They can be inferred, however, using a Taylor rule-type regression.
 
-Although Consensus Economics provides long-horizon forecasts for consumer inflation and real GDP growth, it does not provide those forecasts for policy rates. In order to approximate the policy rate expectations embedded in those survey responses, I use the following model for the policy rate of each emerging market
-	\input{../Equations/TaylorRule}
+First, the following model for the policy rate is estimated with quarterly data for each emerging market:
+	\input{../Equations/nTaylorRule}
+\noindent where $\rShort$ is the policy rate, $\pi_{t}$ is the year-on-year consumer inflation and $g_{t}$ is the year-on-year real GDP growth. 
+$\beta_{\STrate}$ is a smoothing parameter that improves the fit of the model to the data. 
+The information for $\rShort$ is obtained from the policy rate statistics of the Bank for International Settlements, and the data for inflation and real GDP growth comes from Bloomberg.
 
-\noindent where $\rShort$ is the policy rate, $\pi_{t}$ is the year-on-year consumer inflation and $g_{t}$ is the year-on-year real GDP growth. $\beta_{\STrate}$ is a smoothing parameter that improves the fit of the model to the data. The information for $\rShort$ is obtained from the policy rate statistics of the Bank for International Settlements, while the data for consumer inflation and real GDP growth is downloaded from Bloomberg.
+Second, to obtain the embedded expectations for the policy rate in the survey responses, I  assume that the estimated parameters in equation (\ref{eq:nTaylorRule}) apply to the long-horizon survey forecasts for inflation and real GDP growth from Consensus Economics. This is done for all emerging markets in the sample except for Israel and South Africa because the survey data needed is not available.
 
-To obtain the implied expectations of the policy rate, I estimate the regression in equation (\ref{eq:TaylorRule}) using quarterly data and assume that the parameter estimates apply to the long-horizon survey forecasts for inflation and real GDP growth from Consensus Economics. I do this for all emerging markets in the sample except for Israel and South Africa due to data availability.
-
-The expectations of the policy rate obtained in this way can then be used for the two goals described in the first paragraph of this section. In particular, the term premium using surveys will be obtained as:\footnote{Note that under stationarity, $\mathrm{E}(\rShort) = \mathrm{E}(\rShortlag)$.}
-	\input{../Equations/TPsurvey}
-
-Since the surveys used from Consensus Economics are long-term forecasts ten years ahead, $\tnr = 10$ in equation (\ref{eq:TPsurvey}).
+Finally, the model-free estimate for the $\tnr$-period term premium is obtained as:\footnote{ Under stationarity, $\mathrm{E}(\rShort) = \mathrm{E}(\rShortlag)$. Notice that $\tnr = 10$ in equation (\ref{eq:nTPsurvey}) since the forecasts are ten years ahead.}
+	\input{../Equations/nTPsurvey}
 
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Empirical Results} \label{sec:results}
+\section{Sovereign Yield Comovement} \label{sec:comovement}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
 		\item Add website for Excel file with tickers.
 		\item Units or deviation with respect to what for RMSE table.
 		\item Include summary statistics of the ATSM fitted curves to give a feeling about the data.
-		\item Include macro factors when estimating the dynamics of the vector of state variables in equation \ref{eq:XvarsP}.
+		\item Include macro factors when estimating the dynamics of the vector of state variables in equation \ref{eq:nXvarsP}.
 		\item When considering the spillover effects of the monetary policy in the U.S., use a better measure of shocks (e.g. changes in futures of the fed funds rate around monetary policy announcements) and differentiate conventional from unconventional monetary policy.
 	\end{boxeditems}}{}
 
 The aim of this paper is to decompose the synthetic yield curves of emerging markets, which in turn provides a decomposition of their nominal yield curves. I use two benchmarks to assess the relevance of the results. First, I compare the estimated term premia for emerging markets to those of advanced economies. Second, I compare the term premia obtained from both nominal and synthetic yield curves\footnote{In each case, assuming that the curve used is risk-free.} to assess the benefit of using synthetic curves.
+The macroeconomic and financial variables used in section \ref{sec:spillovers} are downloaded from Bloomberg. 
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
+\subsection{Empirical Results} \label{sec:results}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+\subsubsection{Yield Curve Decompositions}
+
+\subsubsection{Assessment of Term Premia Estimates}
+
 \subsection{Estimated Synthetic Yield Curves}
-An affine term structure model is estimated for each country using the JSZ normalization and the two-stage procedure described in section \ref{sec:Estimation}. The VAR model in equation (\ref{eq:XvarsP}) is estimated using the first three principal components (PCs) of the synthetic yield curves. Consistent with the empirical evidence that uses nominal yield curves,\footnote{\cite{LittermanScheinkman:1991} first report this and refer to those PCs as level, slope and curvature.} on average more than $99\%$ of the variation in synthetic yields is explained by those three factors for all emerging markets.
+An affine term structure model is estimated for each country using the JSZ normalization and the two-stage procedure described in section \ref{sec:Estimation}. The VAR model in equation (\ref{eq:nXvarsP}) is estimated using the first three principal components (PCs) of the synthetic yield curves. Consistent with the empirical evidence that uses nominal yield curves,\footnote{\cite{LittermanScheinkman:1991} first report this and refer to the PCs as level, slope and curvature.} on average more than $99\%$ of the variation in synthetic yields is explained by those three factors for all emerging markets.
 %	\input{../Tables/PC_explained}
 
 Table \ref{tab:rmse_atsm} summarizes the fit of the models. The table shows the average root mean square fitting error in annualized percentage points of nominal and synthetic yields for emerging markets and advanced economies.\footnote{For each country, the root mean square fitting error is calculated as the square root of the average (across months and maturities) squared difference between the observed yields and the fitted yields from the estimated affine term structure model.} As can be seen, the fit of the model for the nominal curves of both groups of countries is similar. The fit for the synthetic curves of advanced countries slightly improves relative to the fit for their nominal curves, while that for emerging markets declines. It is worth mentioning that the latter is driven mainly by two countries, Brazil and Indonesia, whose root mean square fitting error is slightly above 2\%.\footnote{Although not as high, the root mean square fitting error for Peru and Philippines is also above average at around 0.64 and 0.54, respectively.} This requires further inspection of the synthetic yield curves of these two countries.\footnote{In some special cases, outliers may need to be dropped in some periods to be able to fit the curve for the rest of the points.} 
 	\input{../Tables/temp_RMSE_ATSM}
 %	\input{../Tables/RMSE_NelsonSiegel}
 
-%The implied yields obtained in this way are then used to estimate the term structure model as explained in section \ref{sec:Estimation}. For example, when data is not available to compute equation (\ref{eq:yLCsynt}) for $\tnr = 0.25$, equation (\ref{eq:rShort}) is estimated using the Nelson-Siegel implied 3-month yields.
+%The implied yields obtained in this way are then used to estimate the term structure model as explained in section \ref{sec:Estimation}. For example, when data is not available to compute equation (\ref{eq:nLCsynt}) for $\tnr = 0.25$, equation (\ref{eq:nRshort}) is estimated using the Nelson-Siegel implied 3-month yields.
 
 \subsection{Nominal Yield Curve Decomposition}
 Once the affine term structure model is estimated for each country, I can compute the term premia for each maturity (as explained in section \ref{sec:ATSMeqns}) and, in turn, decompose both the synthetic as well as the nominal yield curves.\footnote{Although term premia estimates are calculated for all maturities, only the $10$-year maturity is reported in what follows for the sake of brevity.} In particular, the synthetic yield curve is decomposed into the expectation of the future short-term interest rate and a term premium. In addition to those two, the third element in the decomposition of the nominal yield curve is the deviation from CIP.
 
-Table \ref{tab:decomp10yr} shows the simple average across countries of the decomposition of the $10$-year yields.\footnote{The numbers in the table do not add up exactly for two reasons: (1) the term premium is obtained using equation (\ref{eq:TPatsm}), that is it uses the fitted synthetic yield curve, while the table reports the observed synthetic yield curve for the column `Synthetic', and (2) the sample period for the yield curves might differ slightly to that of the CIP deviations.} Several patterns emerge from the table. The values for the deviations from CIP (CIP Dev) are in line with the results reported by \cite{DuSchreger:2016JoF} and \cite{DuImSchreger:2018JIE} referred to as the LC credit spread (LCCS) for emerging markets and the convenience yield for advanced countries, respectively. Note that the estimated term premium is higher on average than the CIP dev for the three groups of countries; it is almost 90 basis points higher for emerging markets, almost 150 basis points higher for Germany, Japan and the United Kingdom and more than 200 basis points for the advanced small open economies. Thus, the term premium plays a relatively bigger role than CIP deviations in the dynamics of sovereign bond yields. %To assess whether the term premium and the CIP Dev are statistically different from each other, I perform a $t$-test for the equality of means (with unequal variances) between them. The null of equal means is rejected at the $5$\% significance level for all countries except Korea, Russia and Turkey.
+Table \ref{tab:decomp10yr} shows the simple average across countries of the decomposition of the $10$-year yields.\footnote{The numbers in the table do not add up exactly for two reasons: (1) the term premium is obtained using equation (\ref{eq:nTPatsm}), that is it uses the fitted synthetic yield curve, while the table reports the observed synthetic yield curve for the column `Synthetic', and (2) the sample period for the yield curves might differ slightly to that of the CIP deviations.} Several patterns emerge from the table. The values for the deviations from CIP (CIP Dev) are in line with the results reported by \cite{DuSchreger:2016JoF} and \cite{DuImSchreger:2018JIE} referred to as the LC credit spread (LCCS) for emerging markets and the convenience yield for advanced countries, respectively. Note that the estimated term premium is higher on average than the CIP dev for the three groups of countries; it is almost 90 basis points higher for emerging markets, almost 150 basis points higher for Germany, Japan and the United Kingdom and more than 200 basis points for the advanced small open economies. Thus, the term premium plays a relatively bigger role than CIP deviations in the dynamics of sovereign bond yields. %To assess whether the term premium and the CIP Dev are statistically different from each other, I perform a $t$-test for the equality of means (with unequal variances) between them. The null of equal means is rejected at the $5$\% significance level for all countries except Korea, Russia and Turkey.
 	\input{../Tables/temp_decomp10yr}
 %	\input{../Tables/rp_decomp10yr}
 
@@ -404,7 +416,7 @@ With the exception of Brazil during 2012-13, the term premia estimated using sur
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Cyclical Properties of the Term Premia} \label{sec:correl}
+\section{International Spillovers of U.S. Monetary Policy} \label{sec:spillovers}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -511,7 +523,7 @@ The work presented in this paper can be extended in several directions and I wil
 
 Different models can also be used to assess different characteristics of the data from the synthetic curves. A model that explicitly considers the joint behavior of nominal and real interest rates can allow to further decompose both nominal and synthetic yield curves into the expectation of the future real interest rate and the real term premium. The model can also be supplemented not only with survey data but also with macroeconomic information. Other extensions include models with jumps in yields, which might be applicable to a couple of emerging markets (those with a poor fit mentioned in section \ref{sec:results}). Given the reaction to common factors, multi-country term structure models might be relevant. To further study the phenomenon of negative term premiums, quadratic term structure models with joint dynamics for stocks and bonds might be useful.
 
-Finally, other improvements can also be included like extending the comparison with advanced economies for the analysis shown in section \ref{sec:correl}. In particular, analyzing the relationship between the EPU index for those advanced countries for which it is available (Australia, Canada, Germany, Japan, UK and Sweden) to compare it with what is reported for emerging markets, as well as contrasting the results from the panel regressions to advanced countries. More generally, the panel regression analysis can be applied to the other components of the nominal yield curve, namely the expectation part and the LC credit spread. This will provide a broader picture of the relative importance of global and domestic factors on local bond markets.
+Finally, other improvements can also be included like extending the comparison with advanced economies for the analysis shown in section \ref{sec:spillovers}. In particular, analyzing the relationship between the EPU index for those advanced countries for which it is available (Australia, Canada, Germany, Japan, UK and Sweden) to compare it with what is reported for emerging markets, as well as contrasting the results from the panel regressions to advanced countries. More generally, the panel regression analysis can be applied to the other components of the nominal yield curve, namely the expectation part and the LC credit spread. This will provide a broader picture of the relative importance of global and domestic factors on local bond markets.
 
 }{}	% Closes \iftoggle{fulldraft}
 
