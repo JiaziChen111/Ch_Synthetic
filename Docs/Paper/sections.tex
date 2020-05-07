@@ -3,9 +3,10 @@
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
 		\item Improve the literature review part.
-		\item Add a reference that explains why EM can default \textit{in LC}: small cost to default in LC if already defaulted in FC, if external debt of firms is large don't want to default in FC.
+		\item Reference for theoretical explanations of why EM can default \textit{in LC}: small cost to default in LC if already defaulted in FC, if external debt of firms is large don't want to default in FC.
 		\item Review cases of actual default. Papers by Reinhart, database BoC-BoE, S\&P annual report on sovereign defaults.
-		\item [Done] Why doing this is useful/necessary? To improve the conduct of MP in EMEs: appropriately characterizing expectations, TP and credit risk.
+		\item Why doing this is useful/necessary? To improve the conduct of MP in EMEs: appropriately characterizing expectations, TP and credit risk.
+		\item Applications: portfolio allocation, MP, risk management.
 	\end{boxeditems}}{}
 
 %No correction for credit risk: Blake et al, ACDM
@@ -22,14 +23,16 @@ This paper asks whether and to what extent the local currency sovereign yields o
 This is important for two reasons. 
 First, emerging markets play an increasingly important role in the global economy.
 Second, bonds denominated in local currency have become an important source of funds for emerging markets over the last two decades \citep{DuSchreger:2016WP,OttonelloPerez:2019,Galli:2020}.
-As such, uncovering how their local financial conditions are interrelated will improve our understanding of the vulnerabilities of the global financial system.
+Therefore, improving our understanding of how their local financial conditions are interrelated will help in assessing the vulnerabilities of the global financial system.
 
 \iftoggle{fulldraft}{	% Turn it on/off in packages.tex
 
 % Credit risk in EM LC yields: Default episodes and explanations
-Since sovereign yields compensate investors for different motives, decomposing them would provide further insights about the extent to which they are interconnected.
-Nevertheless, unlike for advanced countries that issue bonds denominated in their own currencies, international investors demand a credit risk premium to hold the bonds issued by emerging markets to compensate them for the risk of not receiving the promised payments.\footnote{Credit risk here is defined broadly including, for example, (selective) default risk, currency convertibility risk, regulation risk, capital controls, jurisdiction risk and, if any, liquidity risk. Therefore, when investors require compensation for any of these risks, it is considered that they demand a premium for credit risk even if the country does not default per se.}
-Indeed, even though countries can, in theory, print their own currency to avoid defaulting on their debt, some emerging markets have actually defaulted \citep{ReinhartRogoff:2011}.\footnote{ Examples of actual defaults in local currency debt include El Salvador (2017), Ecuador (2008), Argentina (2001), Russia (1998); and in 1999 after an earthquake, Turkey retroactively taxed its debt.} 
+Sovereign yields compensate investors for different motives, thus decomposing them provides further insights about the extent to which they are interconnected.
+An important consideration is that, contrary to the debt issued by advanced countries,
+%Nevertheless, unlike for advanced countries, that issue bonds denominated in their own currencies, 
+international investors demand a credit risk premium to hold the bonds issued by emerging markets to compensate them for the risk of not receiving the promised payments.\footnote{Credit risk here is defined broadly including, for example, (selective) default risk, currency convertibility risk, regulation risk, capital controls, jurisdiction risk and, if any, liquidity risk. Therefore, when investors require compensation for any of these risks, it is considered that they demand a premium for credit risk even if the country does not default per se.}
+Indeed, even though countries can, in theory, print their own currency to avoid defaulting on their debt, emerging markets are prone to default  \citep{ReinhartRogoff:2011,ErceMallucci:2018}.\footnote{ Examples of actual defaults in local currency debt include El Salvador (2017), Ecuador (2008), Argentina (2001), Russia (1998); and in 1999 after an earthquake, Turkey retroactively taxed its debt.} 
 Theoretical explainations for these episodes include \cite{DuSchreger:2016WP} and \cite{Galli:2020}.
 %Different theories attempt to explain these episodes.
 %When advanced countries issue bonds denominated in their own currencies, international investors generally consider them free of credit risk, the risk that the issuer fails to make the required payments. In contrast, investors demand a credit risk premium to hold the bonds issued by emerging markets whether they are denominated in foreign or local currency.
@@ -39,33 +42,37 @@ Theoretical explainations for these episodes include \cite{DuSchreger:2016WP} an
 %The same approach has been applied to decompose the yields of emerging markets but without correcting for credit risk. This paper fills that void.
 
 % Empirical approach
-The no-credit-risk assumption is key to decompose the bond yields of advanced countries into a future expected short rate and a term premium which compensates investors for locking their money for the life of the bond. 
-To account for credit risk, I use synthetic local currency yield curves; the idea is to swap the U.S. yield curve into local currency yields using
+The no-credit-risk assumption is key to decompose the bond yields of advanced countries into a future expected short-term interest rate and a term premium that compensates investors for locking their money for the life of the bond. 
+To account for credit risk in the bond yields of emerging markets, I use synthetic local currency yield curves, in essence, the U.S. yield curve swapped into each local currency and,
+%the idea is to swap the U.S. yield curve into local currency yields using currency derivatives.
 %in order to estimate the term premia and the expected short rates of 15 emerging markets.
 %, it becomes a benchmark to assess the debt of other countries.
-currency derivatives.
-These synthetic yield curves are akin to the U.S. issuing bonds in the respective local currency and can thus be seen as free of credit risk.\footnote{ Admittedly, this assumes that the U.S. yield curve and currency derivatives are free of credit risk.}
+therefore, akin to the U.S. issuing bonds in that currency.\footnote{ This implicitly assumes that the U.S. yield curve and the financial instruments used to swap it are free of credit risk. In section \ref{sec:LCYCs}, I argue that these are reasonable assumptions.}
+% and can thus be seen as free of credit risk
 %First, I consider the U.S. yield curve to be free of default risk and use it as a benchmark to assess the debt of other countries. Second, I swap the U.S. yield curve into the local currencies of 15 emerging markets using financial derivatives. 
-Therefore, I use the synthetic rather than the actual curves of 15 emerging markets to estimate their future expected short rates and the term premia. The difference between the two curves
-%actual local currency yields and the synthetic yields 
-is an indicator of the credit risk of each country \citep{DuSchreger:2016JoF}.
+They can be seen as the yield curves free of credit risk in each emerging market and, thus, decomposed into a 
+%Therefore, I use the synthetic rather than the actual curves of 15 emerging markets to estimate their 
+future expected short rate and a term premium via an affine term structure model as in \cite{CochranePiazzesi:2008}. 
+The difference between the actual yields and the synthetic ones captures the credit risk premium in each country \citep{DuSchreger:2016JoF}.
 
-By correcting for credit risk, I can decompose the actual yield curves of emerging markets into three parts: the expected future short-term interest rate, a term premium and a credit risk premium. 
+Accounting for credit risk allows me to decompose the actual bond yields of emerging markets into three parts: an expected future short-term interest rate, a term premium and a credit risk premium. 
 %To have a sense of the magnitudes, the results 
-The evidence shows that a quarter of the 10-year yield of emerging economies (around 175 basis points on average) is due to the term premium, more than double the size of the credit risk premium. 
-This decomposition is of interest to both practitioners and policymakers since it can be used for risk management, asset allocation and monetary policy transmission in emerging markets.\footnote{ Some of these applications include simulations of the yield curve for scenario analysis, investments based on the term premium, and the effectiveness of monetary policy tools used by central banks.}
+This decomposition enables policymakers and practitioners to refine their analysis of the transmission of monetary policy in emerging markets as well as their risk management and asset allocation.\footnote{ Examples of applications include simulations of the yield curve components for scenario analysis, investment allocation based on the term premium, and the effects of monetary policy decisions.}
+For instance, the results show that a quarter of the 10-year yield of emerging economies (around 175 basis points on average) is due to the term premium, more than double the size of the credit risk premium. 
 %In theory, the yield of a \textit{risk-free} zero-coupon bond can be decomposed into the average short-term interest rates expected over the life of the bond plus a term premium for holding it. The term premium is the compensation investors require for bearing the risk that the short-term interest rate does not evolve as they expect. If long-term bonds lose value when the marginal utility of investors is high as is the case during recessions or in episodes in which inflation is high, those bonds would be seen as risky investments so investors will require a compensation for holding them; in those cases, they would demand a positive term premium. On the contrary, if long-term bonds gain value in those situations, then they will be seen as a hedge and investors will be willing to receive less than what is expected for the short-term rate, which translates into a negative term premium.
 
 %This compares with an average term premium of around 200 basis points for advanced small open economies. 
 %In addition, the main component for the 10-year yield of emerging markets is the expected future path of the short-term interest rate, while for advanced economies the main component is the term premium. 
 %The findings reported below show that the main component for the 10-year yield of emerging markets is the expected future path of the short-term interest rate, while for advanced economies the main component is the term premium. The term premia in emerging markets for the 10-year maturity is around 175 basis points on average, compared to an average of around 200 basis points for small open advanced economies. 
 
-This paper finds that the bond yields of emerging markets do indeed comove. The analysis of the yield curve components reveals that the comovement is mainly driven by the term premia. In fact, the term premia is more globally connected than the credit risk premia and the expected short rates. The strong factor structure of the term premia of emerging markets is consistent with the evidence for advance countries \citep*{ACDM:2019}.
+The main findings of the paper are that the bond yields of emerging markets do indeed comove, and that this comovement is mainly driven by the term premia. 
+In fact, the term premia is more globally connected than the credit risk premia and the expected short rates. The strong factor structure of the term premia of emerging markets is consistent with the evidence for advance countries \citep*{ACDM:2019}.
 
-The analysis then focuses on the determinants of the term premia in emerging markets. The results show that both global and domestic factors are important drivers of the term premia. Specifically, the global component of the term premia is highly linked to the U.S. term premium, whereas its idiosyncratic component is countercyclical. 
+The analysis then focuses on the determinants of the term premia in emerging markets. The results show that both global and domestic factors are important drivers of the term premia. 
+Specifically, the global component of the term premia is highly linked to the U.S. term premium, whereas its idiosyncratic component is countercyclical. 
 In fact, an increase in the unemployment rate or domestic inflation 
 %are important local drivers of the dynamics of the term premia;  those variables 
-is associated with an increase in the term premia. Meanwhile, the effect of the exchange rate is in line with the risk-taking channel of exchange rates \citep*{HofmannShimShin:2017}, according to which a currency appreciation is associated with easier financial conditions and compressed sovereign bond spreads.
+is associated with an increase in the term premia. Meanwhile, the effect of the exchange rate is in line with the risk-taking channel of exchange rates \citep*{HofmannShimShin:2019}, according to which a currency appreciation is associated with easier financial conditions and compressed sovereign bond spreads.
 
 %[Finally, the term premia of emerging markets have seen a reduction in recent years. The reduction owes in part to declining inflation uncertainty among emerging markets, which is consistent with the evidence for advance countries \citep{Wright:2011}.]
 
@@ -73,73 +80,141 @@ is associated with an increase in the term premia. Meanwhile, the effect of the 
 
 %Affine term structure models are the standard tool to estimate the term premium. A key assumption in those models is that the yields used are free of default risk. Although it is a reasonable assumption for the sovereign debt of advanced countries, the debt of emerging markets include a premium for credit risk even for bonds issued in local currency (LC) as has been shown by \cite*{DuSchreger:2016JoF}. Therefore, a direct application of term structure models to the sovereign yields of emerging markets would give biased estimates of the term premium. I construct synthetic yield curves using financial derivatives to `adjust' for credit risk. This is important since bonds denominated in LC have become an important source of funds for emerging markets in recent years, in contrast to foreign currency (FC)-denominated bonds \citep{DuSchreger:2016WP}. 
 
-This paper is related to different branches in the literature. 
-Other papers have used synthetic yields to analyze deviations from covered interest parity \citep*{DuTepperVerdelhan:2018}.
-\cite{DuSchreger:2016JoF} define the difference between the actual and synthetic curves of emerging markets as the local currency credit spread, and show that it is a sensible measure of credit risk. 
-\citet{DuImSchreger:2018JIE} focus on the difference between the actual and the synthetic curves of advanced economies to study the convenience yield of U.S. Treasuries relative to that of other countries.
-In this paper, rather than concentrating on the difference between the two curves, I focus on the synthetic yield curves themselves and rely on their no-credit-risk property to estimate the term premium and the future expected short rates of emerging markets. 
-In this sense, the paper contributes to the large literature on term structure models by pioneering their application on synthetic yield curves.
-More importantly, the paper contributes to the literature that decomposes the bond yields of emerging markets \citep{BlakeRuleRummel:2015,ACDM:2019} by correcting for credit risk. 
+The literature harness the synthetic yields in different contexts.
+\cite*{DuTepperVerdelhan:2018} used them to show that there are persistent and systematic deviations from covered interest parity (CIP), reflecting a higher regulatory burden for financial intermediaries. 
+The CIP deviations in sovereign yields have different interpretations for different countries.
+\cite*{DuImSchreger:2018JIE} show that CIP deviations reflect differences in the convenience yield of advanced countries relative to the U.S., whereas \cite{DuSchreger:2016JoF} show that CIP deviations capture a credit risk premium for emerging markets.
+Rather than concentrating on CIP deviations, this paper focuses on the synthetic yields themselves and exploits them to decompose the bond yields of emerging markets.
+%rely on their no-credit-risk property to estimate the term premium and the future expected short rates of emerging markets. 
+This paper therefore contributes to the large literature on term structure models by pioneering their application on synthetic yield curves, and to the literature that decomposes the bond yields of emerging markets \citep*{BlakeRuleRummel:2015,ACDM:2019} by correcting for credit risk. 
 
 %Recent studies have used synthetic instruments in other contexts but, to the best of my knowledge, this is the first attempt to estimate affine term structure models using synthetic yield curves.
-
 %To construct the synthetic yield curves, I follow the methodology developed in a series of papers by \cite{DuSchreger:2016JoF}, \citet*{DuImSchreger:2018JIE} and \citet*{DuImSchreger:2018CIP}. Today an investor can lock in a risk-free investment in LC by first exchanging LC for U.S. dollars (USD), investing those USD in U.S. Treasuries and then entering into a forward contract in which the investor agrees to sell USD for LC in the future. Once the payoff (in USD) from the Treasuries is realized, the investor exchanges USD back into LC at the exchange rate agreed in the forward contract. While those papers use the synthetic LC yield curves as an intermediate step to analyze the deviations from covered interest parity, I focus on the synthetic curves themselves and rely on their `risk-free' property to estimate the term premium. This allows me to decompose the nominal LC yield curves into three parts: the expected future path of the short-term interest rate, the term premium and the LC credit spread (the difference between the nominal and synthetic curves). Arguably, this characterization of the components of nominal yield curves will enhance the analysis of monetary policy in emerging markets.
 
 %This paper is related to different branches of the literature in international macroeconomics and finance. First, it makes use of synthetic LC yield curves which was pioneered by \cite{DuSchreger:2016JoF} for emerging markets to analyze the LC credit spread as a measure of credit risk in LC debt, and later used by \citet{DuImSchreger:2018JIE} for advanced economies to study the convenience yield of U.S. Treasuries. 
 
 This paper also contributes to the literature on the international comparison of sovereign yields \citep{DahlquistHasseltoft:2016,ACDM:2019}, which has mainly focused on advanced economies. 
-In addition, it extends the work of \cite{Wright:2011} by considering emerging markets in the international comparison of term premia.
-On the effects of U.S. monetary policy shocks, the paper extends the results in \citet*{GilchristYueZakrajsek:2019} by studying not only the effects on the yield curve but on its components,\footnote{ \cite{HofmannShimShin:2017} already study the link between the U.S. monetary policy, the exchange rate and local currency credit spreads.} it also extends the results in \cite*{CurcuruKaminLiRodriguez:2018} by analyzing the effects of the components of the U.S. yield curve on the components of the yields of emerging markets. 
+It also extends the work of \cite{Wright:2011} by considering emerging markets in the international comparison of term premia.
+On the effects of U.S. monetary policy shocks, the paper extends the results in \citet*{GilchristYueZakrajsek:2019} by studying not only the effects on the yield curve but on its components,\footnote{ \cite{HofmannShimShin:2017} already study the link between the U.S. monetary policy, the exchange rate and credit risk premium in emerging markets.} it also extends the results in \cite*{CurcuruKaminLiRodriguez:2018} by analyzing the effects of the components of the U.S. yield curve on the components of the yields of emerging markets. 
 
 %Finally, on the relationship between affine term structure models and exchange rates this paper is related to \cite{AngChen:2010}.
 
-The rest of the paper is structured as follows. The next section explains how to construct both nominal and synthetic yield curves. Section \ref{sec:ATSM} describes the affine term structure model, its estimation and data sources. Section \ref{sec:results} reports the evidence on comovement, the yield curve decompositions and some stylized facts. Section \ref{sec:correl} studies the cyclical properties of the term premia. The last section concludes.
+The rest of the paper proceeds as follows. The next section explains how to construct the local currency yield curves. Section \ref{sec:ATSM} describes the affine term structure model and its estimation. Section \ref{sec:results} reports the yield decompositions and the evidence on comovement. Section \ref{sec:correl} studies the cyclical properties of the term premia. The last section concludes.
 
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Local Currency Yield Curves} 
+\section{Local Currency Yield Curves} \label{sec:LCYCs}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
-		\item Include reference for small counterparty risk in CCS.
-		\item BFV (CE par yield) and IYC (CE zero yield) curves in BLP so conversion to CC zero yields to which NS is fitted.
+		\item Include reference for small counterparty risk in XCS.
 	\end{boxeditems}}{}
 
-Although the focus of this paper is on the synthetic yield curve, the nominal yield curve is also of interest.\footnote{Below the synthetic yield curve is denoted by $\yLCsynt$ and the nominal yield curve is denoted by $\yLCnom$.} A byproduct of decomposing the synthetic yield curve into the expectation for the future short-term interest rate and a term premium, is to decompose the nominal yield curve into three parts, the third component being the deviation from covered interest rate parity (CIP) -which in the case of emerging markets is the LC credit spread-. In addition, the nominal yield curve is used to compare the estimated term premium obtained from it to the one obtained from the synthetic yield curve. This section explains how to construct both curves.
+This section explains how to construct the LC yield curves. It first explains how the nominal and synthetic yield curves are obtained, followed by a description of the different data sources. 
+The synthetic yield curve will be decomposed into an expected future short-term interest rate and a term premium in the next section. 
+%The spread between the nominal and the synthetic yield curves is a measure of the credit risk premium in the case of emerging markets.
+%Although the focus of this paper is on the synthetic yield curve, the nominal yield curve is also of interest.\footnote{Below the synthetic yield curve is denoted by $\yLCsynt$ and the nominal yield curve is denoted by $\yLCnom$.} A byproduct of decomposing the synthetic yield curve into the expectation for the future short-term interest rate and a term premium, is to decompose the nominal yield curve into three parts, the third component being the deviation from covered interest rate parity (CIP) -which in the case of emerging markets is the LC credit spread-. In addition, the nominal yield curve is used to compare the estimated term premium obtained from it to the one obtained from the synthetic yield curve. This section explains how to construct both curves.
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
-\subsection{Construction of Synthetic Yield Curves} \label{sec:synYC}
-The key idea to construct the synthetic LC yield curves is to swap the U.S. yield curve into LC using the forward premium for the respective maturity \citep*[see][]{DuImSchreger:2018CIP}.
+\subsection{Construction of Synthetic Yield Curves} \label{sec:YCsynt}
+The main idea to construct the synthetic LC yield curves is to swap the U.S. yield curve into LC using the forward premium for each maturity \citep*[see][]{DuImSchreger:2018CIP}.
+The forward premium compensates for the expected depreciation of a currency.\footnote{ In this paper, the exchange rate is expressed in LC per USD. An increase in the exchange rate thus represents a LC depreciation.}
+The key assumption behind this approach is that the U.S. yield curve is free of default risk and therefore serves as the benchmark for all the other countries in the sample.
 
-For maturities of less than one year, the forward premium can be calculated as the difference between the forward and the spot exchange rates. Outright forwards, however, become illiquid for longer periods. Therefore, for maturities greater than one year, the forward premium can be calculated using cross-currency swaps (CCS).\footnote{CCS are used instead of credit default swaps (CDS) for two reasons: the definition of default in CDS is not always straightforward and, more importantly, defaults on LC bonds are not considered trigger events of CDS contracts.}  Although, the fixed-for-fixed CCS rates are rarely observed in the market directly, they can be constructed using cross-currency basis swaps and interest rate swaps. The idea is to swap fixed payments in LC into floating rate USD-cash flows using cross-currency basis swaps (referenced to the USD London interbank offered rate), and then swapping those floating-rate cash flows into fixed USD-cash flows using interest rate swaps. CCS are usually collateralized instruments and so the bilateral counterparty risk in CCS is small.
+The calculation of the forward premium depends on the maturity.
+For maturities of less than one year, the forward premium is calculated as the annualized difference between the forward and the spot exchange rates. 
+For maturities of one year and larger, the forward premium is calculated using cross-currency swaps (XCS) since outright forwards are less liquid.\footnote{ Although credit default swaps (CDS)---financial derivatives aimed to protect investors against default by a bond issuer---capture credit risk in the medium to long term, they are not used in this paper for several reasons \citep{PalladiniPortes:2011}. First, credit risk is not eliminated since it shifts from the bond issuer to the CDS seller, i.e. there is counterparty credit risk. Second, there is not enough clarity on the definition of a credit event; for instance, borrowers can intentionally circumvent the CDS payout. Third, since investors do not need to hold the underlying bond to buy a CDS, there is the chance for market manipulation.}
+Although, the fixed-for-fixed XCS rates are rarely observed in the market directly, they can be constructed using cross-currency basis swaps and interest rate swaps. 
+The idea is to start by swapping fixed payments in LC into floating-rate cash flows in USD using cross-currency basis swaps (referenced to the London interbank offered rate in USD), and then swap them into fixed-rate cash flows in USD using interest rate swaps. Both types of swaps are liquid and collateralized instruments and so the bilateral counterparty risk in XCS is small.
 
-Let $\yUS$ denote the zero-coupon yield for the $\tnr$-period U.S. Treasury bond at time $t$, and $\fwdprm$ the $\tnr$-period forward premium from the USD to the LC at time $t$. Then the zero-coupon synthetic LC yield for the $\tnr$-period bond at time $t$, $\yLCsynt$, is defined as
+Let $\yUS$ denote the zero-coupon yield for an $\tnr$-period U.S. Treasury security at time $t$, and $\fwdprm$ the $\tnr$-period forward premium from USD to LC at time $t$. 
+The zero-coupon synthetic LC yield for the $\tnr$-period bond at time $t$, $\yLCsynt$, is thus defined as
 	\input {../Equations/yLCsynt}
+Instead of relying on the U.S. yield curve and XCS rates, zero-coupon nominal yields, $\yLCnom$, can be derived from the actual quotes of the 
+%sovereign 
+bonds traded in the market.
+At the same time, the construction of the synthetic yield curve $\yLCsynt$ does not require knowledge of the nominal yield curve $\yLCnom$.\footnote{ For the U.S., $\yUSsynt = \yUS$ since there is no forward premium for the USD relative to the USD.}
 
-Note that $\yLCsynt$ is the borrowing rate paid by a hypothetical risk-free issuer in LC, it is the $\tnr$-period synthetic LC risk-free funding rate. Note that the resulting synthetic yield curve $\yLCsynt$ does not require knowledge of the nominal yield curve, $\yLCnom$.\footnote{Note that $\fwdprm = 0$ for the USD and, thus, $\yUSsynt = \yUS$.}
+According to the CIP condition, the nominal (direct) and the synthetic (indirect) LC interest rates should be equal. 
+CIP thus implies that an 
+%sovereign 
+issuer should be able to borrow directly or indirectly (synthetically) in LC at the same yield. 
+\cite*{DuTepperVerdelhan:2018} show, however, that there are persistent and systematic deviations from CIP. 
+The spread between the nominal and synthetic yields ($\yLCnom - \yLCsynt$) therefore measures CIP deviations in sovereign yields.
+%In principle, the nominal or actual yield $\yLCnom$ of a country other than the benchmark can include a risk premium relative to the synthetic yield $\yLCsynt$ measured by the spread between the two yields ($\yLCnom - \yLCsynt$).
+\cite*{DuImSchreger:2018JIE} show that these CIP deviations reflect differences in the convenience yield of advanced countries relative to the U.S.
+Nevertheless, CIP deviations have a different interpretation for emerging markets. \cite{DuSchreger:2016JoF} argue that the nominal-synthetic spread captures a credit risk premium in the sovereign yields of emerging markets.\footnote{ For instance, CDS rates are highly correlated with the CIP deviations of emerging markets but not with the CIP deviations of advanced countries.}
+Whereas the nominal yields of advanced countries are usually considered free of default risk, it is reasonable for the nominal yields of emerging markets to include a credit risk premium.
+In fact, since the components of the synthetic yield in equation (\ref{eq:yLCsynt}) are risk-free, it can be seen as the borrowing rate paid by a hypothetical issuer in LC with no default risk. 
+The nominal-synthetic spread in emerging markets therefore captures the credit risk premium.
 
-According to the CIP condition, the nominal (direct) and the synthetic (indirect) LC interest rates should be equalized. In particular, a sovereign issuer of an emerging market should be able to borrow directly or indirectly (synthetically) in LC at the same yield. However, \cite*{DuTepperVerdelhan:2018} show that there are persistent and systematic deviations from CIP. In fact, \cite{DuSchreger:2016JoF} and \cite{DuImSchreger:2018JIE} study these deviations for emerging markets and advanced economies, respectively. In particular, the spread between the two yields ($\yLCnom - \yLCsynt$) is what \cite{DuSchreger:2016JoF} define as the LC credit spread for emerging markets, and what \cite{DuImSchreger:2018JIE} called the convenience yield for advanced countries.
 
-\subsection{Construction of Nominal Yield Curves}
-I use Bloomberg Fair Value (BFV) curves to estimate the nominal yield curve, $\yLCnom$. BFV curves are par yield curves provided by Bloomberg on a daily basis for different maturities. To obtain the implied zero-coupon curves, the yields are converted into discount factors, which are then used to estimate the parameters of the Nelson-Siegel-Svensson model.\footnote{As a robustness check, I estimate the nominal yield curves from actual prices for some of the countries in the sample. These estimated yield curves follow those reported by Bloomberg closely.}
 
+\subsection{Construction of Nominal Yield Curves} \label{sec:YCnom}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+To estimate the nominal yield curve $\yLCnom$, I use the Bloomberg Fair Value (BFV) curves.
+%, which are provided by Bloomberg with a daily frequency. 
+These curves report coupon-equivalent par yields. 
+To obtain the implied zero-coupon curves, the BFV par rates are converted into continuously-compounded rates, which are then used to estimate a parametric model to smooth through the inherent idiosyncratic variation \citep*[see][]{GSW:2007}.\footnote{As a robustness check, I estimate the nominal yield curves from actual prices for some of the countries in the sample. These estimated yield curves follow those reported by Bloomberg closely.}
 %\subsection{Estimation of Synthetic Yield Curves} \label{sec:synthEstim}
 %The methods to estimate the yield curve at a particular point in time can be classified in parametric and non-parametric. Since the purpose of estimating the yield curve in this paper is to understand its determinants, a parametric approach is more convenient because it smooths through idiosyncratic variation and, notwithstanding, it allows for a variety of yield curve shapes. This approach is also followed for the U.S. by \citet*{GSW:2007}. 
 
-\cite{NelsonSiegel:1987} assume that the instantaneous forward rate $\tnr$ years ahead, $\fInst$, is a continuous function that depends on four parameters:
+\cite{NelsonSiegel:1987} assume the following  functional form for the instantaneous forward rate $\tnr$ years ahead, $\fInst$:
 	\input {../Equations/NSfwd}
+The four parameters determine the behavior of the rate at long and short maturities as well as the magnitude, direction and position of the forward curve's ``hump".
+This model allows for a variety of shapes for curves with maturities up to ten years, which tend to exhibit one hump.\footnote{ To capture the convexity of bonds with longer maturities, \cite{Svensson:1994} allows for a second hump by introducing two additional parameters in the functional form of the instantaneous forward rate.}
+% The behavior at long and short maturities is determined by the parameters $\betaLT$ and $\betaST$, while $\betaMTns$ and $\tauNS$ determine the magnitude, direction and position of the yield curve's ``hump".
 
-The behavior at long and short maturities is determined by the parameters $\betaLT$ and $\betaST$, respectively, while $\betaMTns$ and $\tauNS$ determine the magnitude, direction and position of the yield curve's ``hump".
+Integrating equation (\ref{eq:NSfwd}) results in the continuously-compounded zero-coupon yield implied by the model:
+	\input {../Equations/NSzero}
+The parameters of the model are estimated by minimizing the sum of squared deviations between the zero-coupon yields implied by the BFV curve and the yields in equation (\ref{eq:NSzero}). The resulting curve is what this paper refers to as the nominal yield curve $\yLCnom$.
 
-\cite{Svensson:1994} extends the Nelson-Siegel approach by considering a second hump to capture the convexity of bonds at longer maturities. This is achieved at the expense of introducing two more parameters in the functional form of the instantaneous forward rate:
-	\input {../Equations/NSSfwd}
+%\cite{NelsonSiegel:1987} assume a functional form for the instantaneous forward rate $\tnr$ years ahead, $\fInst$, that is governed by four parameters determining the behavior of the rate at long and short maturities as well as the magnitude, direction and position of the yield curve's ``hump".
+%The Nelson--Siegel model allows for a rich array of shapes for yield curves with maturities of up to ten years. To capture the convexity of bonds with longer maturities, \cite{Svensson:1994} allows for a second hump by introducing two additional parameters in the functional form of the instantaneous forward rate:
+%\input {../Equations/NSSfwd}
+%Integrating equation (\ref{eq:NSSfwd}) results in the continuously-compounded zero-coupon yield implied by the model:\footnote{ The original Nelson--Siegel instantaneous forward rate and the corresponding zero-coupon yield are special cases of equations (\ref{eq:NSSfwd}) and (\ref{eq:NSSzero}), respectively, in which $\betaMTnss = 0$.}
+%\input {../Equations/NSSzero}
+%The parameters in the Svensson model are estimated by minimizing the sum of squared deviations between the log prices obtained from the reported BFV yields $\yLCnom$ and the log prices implied by equation (\ref{eq:NSzero}) weighted by the inverse of the duration for each period. Using log price deviations weighted by duration is approximately equal to fitting yields but is faster because the latter requires numerically finding the root to a nonlinear equation \citep*[see][]{GSW:2007}.
+%Yield curves with maturities up to 10 years tend to exhibit one hump at most. The Nelson-Siegel model can capture that pattern in a more parsimonious way than the Svensson model. Therefore, the Svensson model is only estimated when there are at least three maturities beyond 10 years.
 
-The continuously compounded zero-coupon yield curve implied by the Svensson model is obtained by integrating the instantaneous forward rate in equation (\ref{eq:NSSfwd}), and is given as follows:\footnote{The continuously compounded zero-coupon yield curve implied by the Nelson-Siegel model is obtained by setting $\betaMTnss$ equal to zero in equation (\ref{eq:NSSzero}).}
-	\input {../Equations/NSSzero}
+\subsection{Yield Curve Data}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-The parameters in the Svensson model are estimated by minimizing the sum of squared deviations between the log prices obtained from the reported BFV yields $\yLCnom$ and the log prices implied by equation (\ref{eq:NSSzero}) weighted by the inverse of the duration for each period. Using log price deviations weighted by duration is approximately equal to fitting yields but is faster because the latter requires numerically finding the root to a nonlinear equation \citep*[see][]{GSW:2007}.
+Nominal and synthetic yield curves are constructed for 15 emerging markets (EMs) and, to compare the results, 10 advanced economies (AEs).\footnote{ The 15 EMs are: Brazil (BRL), Colombia (COP), Hungary (HUF), Indonesia (IDR), Israel (ILS), Korea (KRW), Malaysia (MYR), Mexico (MXN), Peru (PEN), Philippines (PHP), Poland (PLN), Russia (RUB), South Africa (ZAR), Thailand (THB) and Turkey (TRY). The 10 AEs are: Australia (AUD), Canada (CAD), Denmark (DKK), Germany (EUR), Japan (JPY), Norway (NOK), New Zealand (NZD), Sweden (SEK), Switzerland (CHF) and the United Kingdom (GBP). For each country, the currency identifier is shown in parenthesis.} 
+The countries are selected based on data availability. 
+AEs are sometimes split into two groups to assess whether the type of advanced country matters. The first group (non-U.S. G3) is comprised by Germany, Japan and the United Kingdom, and the rest of the countries comprises the second group (A-SOE), which are basically advanced small open economies, arguably more directly comparable to emerging markets.
+
+Yields are observed at the end of each month from January 2000 to January 2019. 
+The dataset includes yields with maturities of three and six months, and one through ten years. 
+The maximum maturity considered is ten years because bonds with larger maturities tend to have less history and to be less liquid, especially for emerging markets.
+Even though the end date is the same for all countries, the starting dates vary per country (between January 2000 and November 2006). 
+%Although data for advanced countries is available earlier, their initial dates are set at January 2000. 
+Nevertheless, there are at least 10 years of data for all emerging markets, which is a reasonable time period for the estimation of the affine term structure model discussed in section \ref{sec:ATSM}.
+%Table \ref{tab:start_dates} shows the earliest end-of-month dates with available data for emerging countries.
+%	\input{../Tables/StartingDates}
+%The model presented in section \ref{sec:ATSMeqns} is estimated for each country separately.
+
+The nominal yield curves for all but two countries are obtained from the BFV curves, as explained in section \ref{sec:YCnom}. 
+Although there are no BFV curves for Brazil and Israel, Bloomberg provides zero-coupon yields with coupon-equivalent compounding for them.
+I convert these yields, known as IYC curves, into continuously-compounded yields before fitting the Nelson--Siegel model.\footnote{ For some EMs, Bloomberg reports both BFV and IYC curves. BFV curves are preferred for several reasons. First, they have a longer history than IYC curves. Second, IYC curves are not available for AEs. Third, compared to the BFV curves, the short end of the IYC curves behaves differently for some countries and dates.} 
+
+The construction of the LC synthetic yield curves involves data from the U.S. yield curve and the forward premium for different maturities, as explained in section \ref{sec:YCsynt}. 
+Data for the U.S. zero-coupon yield curve is obtained from two sources. 
+For maturities of one through ten years, the yields come from the dataset constructed by \cite*{GSW:2007} (hence GSW).\footnote{Available at: \url{https://www.federalreserve.gov/pubs/feds/2006/200628/200628abs.html}.} 
+Treasury securities with less than one year to maturity are less actively traded than others. 
+The estimates from the Center for Research in Security Prices (CRSP) are thought to be more robust at the short end of the curve \citep[see][]{GolinskiSpencer:2019}.
+Specifically, the 3- and 6-month yields are the annualized 13- and 26-week rates (bid/ask average) in the CRSP Risk-Free Rates Series.\footnote{ The 3- and 6-month yields implied by the GSW fitted model are highly correlated with the CRSP yields (0.9985 and 0.9995, respectively) but the former are on average higher (by 16 and 10 basis points, respectively).} 
+%Although the GSW dataset goes back to 1961, the main issue for the construction of the synthetic yield curves is the information needed to calculate the forward premium. 
+
+As mentioned before, how the forward premium is calculated depends on the maturity.
+%The calculation of the forward premium uses forward exchange rates for maturities of less than one year and XCS rates for longer maturities.
+To compute the forward premium for maturities of less than one year, I use data on the spot exchange rate along with 3- and 6-month forwards from Bloomberg for all but three countries; for Korea, Philippines and Thailand the data is obtained from Datastream.
+To construct the XCS rates, I use data on cross-currency basis swaps and interest rate swaps for each available maturity from one through ten years. 
+For all the countries in the sample, the data for these swap curves comes from Bloomberg.\footnote{A spreadsheet with the tickers used in the construction of the forward premiums and in the estimation of the nominal yield curves is available upon request. The file consolidates and expands (with tenors and tickers) similar files kindly posted online in Wenxin Du and Jesse Schreger's websites.}
+%The maximum maturity available varies per country but there is data covering at least up to ten years for all but it can go as far as 30 years for some countries.\footnote{After 10 years, the periodicity decreases to every five years. Then, when they are available, the maturities beyond 10 years are reported for 15, 20, 25 and up to 30 years.} 
 
 }{}	% Closes \iftoggle{fulldraft}
 
@@ -151,23 +226,23 @@ The parameters in the Svensson model are estimated by minimizing the sum of squa
 		\item None.
 	\end{boxeditems}}{}
 
-Discrete-time affine term structure models with an exponentially affine pricing kernel are commonly used in the literature to estimate the dynamics of the nominal yield curve mainly for advanced economies \citep[see][]{Wright:2011}. In this paper, however, I use an affine term structure model to estimate the dynamics of the synthetic yield curve. The advantage of this approach is that it allows to decompose the \textit{nominal} yield curve into three parts: the expected future short-term interest rate, a term premium and the LC credit spread.
+This section describes the affine term structure model that is used to estimate the dynamics of the sovereign yield curves for the countries in the sample.
+%To decompose the nominal yield curves of emerging markets into an expected future short-term interest rate, a term premium and a credit risk premium.
+%Discrete-time affine term structure models with an exponentially affine pricing kernel are a standard tool to estimate the dynamics of the nominal yield curve for advanced economies. 
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
 \subsection{Model} \label{sec:ATSMeqns}
-Let $\Pzero$ be the price at time $t$ of a zero-coupon risk-free bond with maturity $\tnr$, then the continuously compounded yield on that bond is $\yZero = - \ln \Pzero/\tnr $. Thus, the one-period continuously compounded risk-free rate is $\rShort = - \ln P_{t,1}$.
+Let $\Pzero$ be the price at time $t$ of a zero-coupon risk-free bond with maturity $\tnr$. The continuously compounded yield on that bond is then $\yZero = - \ln \Pzero/\tnr $. Thus, the one-period continuously compounded risk-free rate is $\rShort = - \ln P_{t,1}$.
 
 The no-arbitrage assumption implies that there exists a stochastic discount factor (SDF), $\SDF$, such that today's price equals the expectation of tomorrow's discounted price:
 	\input{../Equations/Pzero}
-	
 Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:Pzero}) implies that today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.
 
-A $\Xdim \times 1$ vector of state variables $\Xvars$ is assumed to drive the dynamics of the one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF in an affine form as follows:
+A discrete-time affine term structure model assumes that a $\Xdim \times 1$ vector of state variables $\Xvars$ drives the dynamics of the one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF in an affine form as follows:
 	\input{../Equations/rShort}
 	\input{../Equations/riskprice}
 	\input{../Equations/SDF}
-
 \noindent where $\error$ is $i.i.d.$ $\Normal \left(0,I_{\Xdim}\right)$.
 
 Assume that the dynamics of the vector of state variables $\Xvars$ evolve under the physical measure $(\Pmeasure)$ according to the following vector autoregression (VAR):
@@ -214,29 +289,16 @@ The model's likelihood function is the product of the $\Pmeasure$ and $\Qmeasure
 The JSZ normalization allows a two-stage estimation of the model presented in section \ref{sec:ATSMeqns}. First, the $\Pmeasure$ parameters are estimated by OLS of the VAR in equation (\ref{eq:XvarsP}), using the estimated $\Xdim$ principal components of the synthetic yield curve $\yLCsynt$. This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking $\hat{\Xmu}$ and $\hat{\XPhi}$ as given, the $\Qmeasure$ parameters can be estimated by maximum likelihood.
 
 
-%The model described above can be estimated in a few simple steps. First, equation (\ref{eq:XvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:rShort}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:NSSzero}) and the yields implied by the affine model in equation (\ref{eq:yAffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
+%The model described above can be estimated in a few simple steps. First, equation (\ref{eq:XvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:rShort}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:NSzero}) and the yields implied by the affine model in equation (\ref{eq:yAffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
 %
 %However, in order to obtain preliminary estimates of the term premium only equations (\ref{eq:rShort}) and (\ref{eq:XvarsP}) are used in this version. To obtain estimates of the expected short-term interest rates in future periods, the expectation of the vector of state variables $\Xvars$ (which can be computed by iterating forward equation (\ref{eq:XvarsP})) is substituted in equation (\ref{eq:rShort}). The expectation of a yield $\tnr$ periods ahead is then obtained as the average of the expected short-term rates over $\tnr$ periods. The term premium estimate is then computed as the difference between the nominal yield and the expected yield obtained in this way.
 
-\subsection{Data}
-The macroeconomic and financial variables used in section \ref{sec:correl} are downloaded from Bloomberg. Here I describe the data sources for the construction of the yield curves and for the surveys of professional forecasters.
 
-\subsubsection{Yield Curve Data}
-I use end-of-month data for the following 15 emerging markets (EMs):\footnote{The currency identifier for each country is shown in parenthesis.} Brazil (BRL), Colombia (COP), Hungary (HUF), Indonesia (IDR), Israel (ILS), Korea (KRW), Malaysia (MYR), Mexico (MXN), Peru (PEN), Philippines (PHP), Poland (PLN), Russia (RUB), South Africa (ZAR), Thailand (THB) and Turkey (TRY). 
+\subsection{Survey Data} \label{sec:SurveyData}
+The macroeconomic and financial variables used in section \ref{sec:correl} are downloaded from Bloomberg. Here I describe the data sources for 
+%the construction of the yield curves and for 
+the surveys of professional forecasters.
 
-In order to establish a set of stylized facts for emerging markets, the results are compared against those obtained for 10 advanced countries (AEs): Australia (AUD), Canada (CAD), Denmark (DKK), Germany (EUR), Japan (JPY), Norway (NOK), New Zealand (NZD), Sweden (SEK), Switzerland (CHF) and the United Kingdom (GBP). These countries are sometimes split into two groups to assess whether the type of advanced country matters. The first group (G-3) is comprised by Germany, Japan and the United Kingdom. The second group (A-SOE) comprises the rest of the countries. Note that the latter is basically a group of advanced small open economies, which arguably are more directly comparable to emerging markets.
-
-As explained in section \ref{sec:synYC}, the U.S. yield curve and the forward premium for different maturities are needed to construct the LC synthetic yield curves. Data for the U.S. zero-coupon yield curve is obtained from the database developed by \citet*{GSW:2007} (hence GSW). Although the GSW dataset goes back to 1961, the main issue for the construction of the synthetic yield curves is the information needed to calculate the forward premium. 
-
-As mentioned before, for periods less than one year, the forward premium is calculated using forward exchange rates, while for longer periods it is calculated from CCS rates. The maturities of less than one year considered in the analysis are 3, 6 and 9 months; that is, I use the forwards and the spot exchange rate to compute the forward premium for those maturities. To construct the CCS rates, I use each available maturity starting from year one. The maximum maturity available varies per country but there is data covering at least up to ten years for all but it can go as far as 30 years for some countries.\footnote{After 10 years, the periodicity decreases to every five years. Then, when they are available, the maturities beyond 10 years are reported for 15, 20, 25 and up to 30 years.} %This is taken into account when estimating the model in section \ref{sec:synthEstim}. Yield curves with maturities up to 10 years tend to exhibit one hump at most. The Nelson-Siegel model can capture that pattern in a more parsimonious way than the Svensson model. Therefore, the Svensson model is only estimated when there are at least three maturities beyond 10 years.
-
-The forwards used to construct the forward premiums (for less than one year) for Korea, Philippines and Thailand are obtained from Datastream. For all the other countries, the data to construct the forward premiums (using forwards and CCS curves) is obtained from Bloomberg.\footnote{A spreadsheet with the Datastream and Bloomberg tickers used in the construction of the forward premiums and in the estimation of the nominal yield curves is available upon request. The file consolidates and expands (with tenors and tickers) equivalent files kindly posted online in Wenxin Du and Jesse Schreger's websites.}
-
-The model presented in section \ref{sec:ATSMeqns} is estimated for each country separately. Therefore, the starting dates vary (between January 2000 and November 2006) but the end date is the same for all countries (January 2019). Although data for advanced countries is available earlier, their initial dates are set at January 2000. Note that there are at least 10 years of data for all emerging markets, which is a reasonable time period for the estimation of affine term structure models.
-%Table \ref{tab:start_dates} shows the earliest end-of-month dates with available data for emerging countries.
-%	\input{../Tables/StartingDates}
-
-\subsubsection{Survey Data} \label{sec:SurveyData}
 As mentioned in section \ref{sec:Identification}, long-horizon forecasts for the policy rate of emerging markets can be used to obtain model-free estimates of the term premium and to supplement bond yields in the estimation of affine term structure models.
 
 Although Consensus Economics provides long-horizon forecasts for consumer inflation and real GDP growth, it does not provide those forecasts for policy rates. In order to approximate the policy rate expectations embedded in those survey responses, I use the following model for the policy rate of each emerging market
