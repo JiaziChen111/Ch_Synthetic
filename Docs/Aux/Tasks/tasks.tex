@@ -53,7 +53,6 @@
 \gototoc
 \begin{todolist}
 	\item For BRL RHO 2Y deviates from DIS starting in 2016. RHO 7Y is not available relative to DIS.
-	\item For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009.
 	\item For GBP RHO 7Y increases a lot relative to DIS in 2010.
 	\item For PEN RHO 7Y big decrease in 2018.
 	\item For PHP RHO 7Y big spike in 2010.
@@ -66,14 +65,7 @@
 		\item ILS 3M, 7Y.
 		\item MYR 2Y.
 	\end{todolist}
-\end{todolist}
-
-\section{Data: CRSP}
-\gototoc
-\begin{todolist}
-	\item[\done] Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months. Compare them.
-	\item[\done] Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
-	\item[\done] Compare results in LC spread and forward premium for 3M against DIS.
+	\item[\done] For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009. Reason: cutoff date of convention to compute IRS.
 \end{todolist}
 
 \section{Data: Codes}
@@ -92,10 +84,19 @@
 	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
 \end{todolist}
 
+\section{Data: CRSP}
+\gototoc
+\begin{todolist}
+	\item[\done] Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months. Compare them.
+	\item[\done] Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
+	\item[\done] Compare results in LC spread and forward premium for 3M against DIS.
+\end{todolist}
+
 \section{Data: Files}
 \gototoc
 \begin{todolist}
 	\item[\done] In the dataset, the BFV series for PHP includes IYC (converted into CE par) yields since 1-Oct-2018. 
+	\item[\done] In AE_EM_Curves_Tickers.xlsx change cutoff date for NOK. Official date 9/2/2008 only applies to 1Y, 5Y and 10Y tenors. New date 5/20/2009 applies to all tenors.
 	\item[\done] It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
 	\begin{todolist}
 		\item[\done] Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).

@@ -1,6 +1,6 @@
 # Ch_Synthetic
 
-The files in this folder are provided to facilitate the replication of the results in "Term Premia in Emerging Markets" by Pavel Solís
+The files in this folder are provided to facilitate the replication of the results in "Comovement of the Sovereign Yields of Emerging Markets" by Pavel Solís
 Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity.
 
 
@@ -91,11 +91,20 @@ All the data is stored in a Matlab structure array of countries with different f
 
 In pre-analysis folder
 	run read_data.m 	-> generates dataset_daily (runtime ~ 75 min)
+		read_platforms	-> tickers from Bloomberg and Datastream
+		read_usyc	-> data from GSW and CRSP
+		fwd_prm		-> short and long term forward premia
+		zc_yields	-> par converted into zero-coupon yields, fit NS model
+		spreads		-> CIP deviations, yield spreads (LC, FC)
+		read_cip	-> load DIS dataset
+		plot_spreads	-> plot (term structure of) spreads
+		compare_cip	-> compare own spreads vs DIS
+variable types in header_daily: RHO,LCNOM,LCSYNT,LCSPRD,CIPDEV,FCSPRD
 read_data.m calls: read_platforms, read_usyc, fwd_prm, zc_yields, spreads, read_cip, plot_spreads, compare_cip, append_dataset, iso2names
 auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
 In analysis folder
-	run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
+	run tp_analysis.m	-> once using 'LCRF' and once using 'LC'
 
 	+run fit_NS.m 		-> default-free LC YCs (11 min or 15 if 4 initial values)
 	+run rp_estimation.m	-> estimates risk premia (seconds)
