@@ -153,4 +153,7 @@ else                                                        % fit NSS model
     params1model = vparams(idx,:);
     yldszc       = y_NSS(params1model,tnrsout);
 end
+if max(tnrsin) < max(tnrsout) - 1                           % extrapolating from max-1Y to max is allowed
+    yldszc(tnrsout > max(tnrsin)) = nan;                    % don't extrapolate from more than 1Y to the max
+end
 end
