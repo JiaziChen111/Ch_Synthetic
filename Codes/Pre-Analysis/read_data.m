@@ -50,5 +50,5 @@ S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
 clear data_* hdr_* fig* fltr types
 
 %% Save variables in mat files (in Dropbox not in Git directory due to size)
-% save struct_data_1_S.mat S fit_zc corr* cur* tnrs*
-% save struct_data_2_cells.mat dataset_daily header_daily
+% save struct_datady_S.mat S fit_zc corr* cur* tnrs*
+% save struct_datady_cells.mat dataset_daily header_daily
