@@ -68,38 +68,3 @@ for j0 = 1:length(VarType)
         S(k0).(fnames{4}) = udataset;
     end
 end
-
-
-% if startsWith(VarType,'LC'); isYCtype = true; else; isYCtype = false; end
-% if ~isYCtype                                                              % field names for extracted data
-%     prefix = 'c_';
-% %     fname = lower(VarType);
-% %     fnames = strcat(prefix,fnames);
-% else
-%     if contains(VarType,'NOM'); prefix = 'n_'; else; prefix = 's_'; end
-% %     fnames = {'dated','data','tnrs','tnrF','tnrL','dateb','blnc'};
-% %     fnames = strcat(prefix,fnames);
-% end
-% fnames   = strcat(prefix,fnames);
-
-%     if ~isYCtype
-% %         S(k0).(fnames{2}) = [tnrs'; data_var];
-% %         S(k0).(fname) = [tnrs'; data_var];
-%     else
-% %         S(k0).(fnames{1}) = datestr(data_var(1,1),'mmm-yyyy');          	% first monthly observation
-% %         S(k0).(fnames{2}) = [tnrs'; data_var(:,1) data_var(:,2:end)/100];	% yields as decimals
-%         
-% %         if contains(VarType,'NOM')
-% %             nobs  = size(data_var,1);
-% %             ntnrs = nan(nobs,1);
-% %             for l = 1:nobs
-% %                 idxObs   = ~isnan(data_var(l,:));                     	% observations on date l
-% %                 ntnrs(l) = sum(idxObs) - 1;                            	% tenors w/ data (exclude dates)
-% %                 S(k0).(fnames{3})(l,1:3) = [data_var(l,1) ntnrs(l) max(tnrs(idxObs))];
-% %                 if     l == 1;      S(k0).(fnames{4}) = ntnrs(l);
-% %                 elseif l == nobs;   S(k0).(fnames{5}) = ntnrs(l);   end
-% %             end
-% %         end
-%     end
-
-% fnamed = fnames{2};     fnameb = fnames{4};                             % in case order in fnames changes
