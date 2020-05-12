@@ -79,6 +79,7 @@
 		\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
 		\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
 	\end{todolist}
+	\item[\done] In compute_fp_long.m address cases for HUF, PLN and NOK. If BS (HUF, PLN) and IRS (NOK) series are NaN, use zeros.
 	\item[\done] There are countries with BFV and IYC curves, transform BFV into ZC yields and compare the curves. BFV has CE par yields, IYC has CE ZC yields. Need to be converted into ZC continuously compounding.
 	\item[\wontdo] For countries for which DIS have a longer history than me, check whether it is b/c we use different LC YC (BFV vs. IYC) and one has a longer history. For HUF and PLN is b/c BS series start in 2007 in my sample.
 	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
@@ -132,11 +133,15 @@
 \gototoc
 \begin{todolist}
 	\item No EM was at the ZLB over the period.
-	\item Dates at which each EM started issuing 10Y bonds.
+	\item Countries w/ LCNOM YCs  of less than 10Y maturities:
 	\begin{todolist}
-		\item RUB issued 10Y bonds until 2007.
-		\item TRY  issued 10Y bonds until 2010.
+		\item IDR b/w 25-Feb-2003 and 15-Apr-2003 max tenor was 8Y.
+		\item KOR b/w 3-Jan-2000 and 30-Oct-2000 max tenor was 8Y.
+		\item RUB b/w 04-Apr-2006 and 19-Jun-2007 max tenor was 7Y.
+		\item TRY  b/w 17-Feb-2005 and 22-Feb-2005 max tenor was 3Y.
+		\item TRY  b/w 22-Feb-2005 and 28-Jun-2010 max tenor was 5Y.
 	\end{todolist}
+	\item Advantage of LCSYNT (longer history) instead of LCNOM for: BRL, IDR, PHP, RUB, TRY. Disadvantage for COP, HUF, ILS, MXN, MYR, PEN, PLN, THB, ZAR.
 	\item Since 2016, CHF and DKK negative YC up to 10Y and 7Y, respectively. Before GFC, close to ZLB.
 \end{todolist}
 
