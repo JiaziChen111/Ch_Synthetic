@@ -10,22 +10,21 @@
 %% Save data to structure
 clear
 currentDir = pwd;
-cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB'
-load('struct_data_1_S.mat')
-load('struct_data_2_TT.mat')
-load('struct_data_3_cells.mat')
+cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/May-2020'
+load('struct_datady_S.mat')
+load('struct_datady_cells.mat')
 cd(currentDir)
-N  = 3;
-dt = 1/12;
+nPCs = 3;   dt = 1/12;
 
-S = daily2monthly(dataset_daily,header_daily,S,'CIPDEV');
+[S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
+[S,corrPCnom] = tp_estimation(S,nPCs,dt,'LCNOM');
+[S,corrPCsyn] = tp_estimation(S,nPCs,dt,'LCSYNT');
 
-S = daily2monthly(dataset_daily,header_daily,S,'LCSYNT');
-[S,corrPCsyn] = tp_estimation(S,N,dt,'LCSYNT');
-
-S = daily2monthly(dataset_daily,header_daily,S,'LC');
-[S,corrPCnom] = tp_estimation(S,N,dt,'LC');
-
+% S = daily2monthly(dataset_daily,header_daily,S,'CIPDEV');
+% S = daily2monthly(dataset_daily,header_daily,S,'LCSYNT');
+% [S,corrPCsyn] = tp_estimation(S,N,dt,'LCSYNT');
+% S = daily2monthly(dataset_daily,header_daily,S,'LC');
+% [S,corrPCnom] = tp_estimation(S,N,dt,'LC');
 
 %% Compare TPs: Nominal vs Synthetic
 ncntrs  = length(S);
