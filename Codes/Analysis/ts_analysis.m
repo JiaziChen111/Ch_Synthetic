@@ -4,7 +4,7 @@
 % m-files called: daily2monthly.m, ts_estimation.m, estimate_TR.m
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 % 
-%% Save data to structure
+%% Load data and estimate ATSM
 clear
 currentDir = pwd;
 cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/May-2020'
@@ -14,37 +14,29 @@ cd(currentDir)
 
 [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
 addpath(genpath('jsz_code'))
-nPCs = 3;   dt = 1/12;
+nPCs = 3;  dt = 1/12;
 [S,corrPCnom] = ts_estimation(S,nPCs,dt,'LCNOM');
 [S,corrPCsyn] = ts_estimation(S,nPCs,dt,'LCSYNT');
 
-%% Compare TPs: Nominal vs Synthetic
+%% Compare CIP deviations with TP estimates from LCNOM and LCSYNT
 ncntrs  = length(S);
-fnames  = fieldnames(S);
-tnr     = 10;
-series  = 'yldsP';%'tp';%yldsQ;
-if strcmp(series,'tp'); rowStrt = 3; else; rowStrt = 2; end
-
-% figure
-% hold on
-for k = 1:ncntrs
-    idxN    = contains(fnames,['nom' series]);   fnameN  = fnames{idxN};
-    idxS    = contains(fnames,['syn' series]);   fnameS  = fnames{idxS};
-    matsN   = S(k).(fnameN)(1,2:end);            matsS   = S(k).(fnameS)(1,2:end);
-    datesN  = S(k).(fnameN)(rowStrt:end,1);      datesS  = S(k).(fnameS)(rowStrt:end,1);
-    seriesN = S(k).(fnameN)(rowStrt:end,2:end);  seriesS = S(k).(fnameS)(rowStrt:end,2:end);
-    
+tnr  = 10;
+flds = {'n_tp','s_tp','c_data'};
+tnrs = cell(3,1); dts = cell(3,1); srs = cell(3,1);
+for k0 = 1:ncntrs
+    for k1 = 1:length(flds)
+        tnrs{k1} = S(k0).(flds{k1})(1,2:end);
+        dts{k1}  = S(k0).(flds{k1})(2:end,1);
+        srs{k1}  = S(k0).(flds{k1})(2:end,2:end);
+    end
     figure
-    plot(datesN,seriesN(:,matsN == tnr),datesS,seriesS(:,matsS == tnr))
-%     plot(datesN,seriesN(:,matsN == tnr))
-%     plot(datesS,seriesS(:,matsS == tnr))
-    title([S(k).ccy '  ' num2str(tnr) ' YR']),
-    legend('Nominal','Synthetic')%, ylabel('%')
-    datetick('x','YY:QQ')
-    hline = refline(0,0); hline.Color = 'k';
-    ylim([-inf inf])
+    plot(dts{1},srs{1}(:,tnrs{1} == tnr),'b',...
+         dts{2},srs{2}(:,tnrs{2} == tnr),'r',...
+         dts{3},srs{3}(:,tnrs{3} == tnr)*100,'g')
+    legend('TP Nominal','TP Synthetic','CIP Deviation','AutoUpdate','off')
+    title([S(k0).cty ': ' num2str(tnr) 'Y'])
+    datetick('x','yy'); ylabel('%'); yline(0);
 end
-% hold off
 
 %% Use Survey Data
 
