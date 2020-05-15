@@ -29,6 +29,7 @@ fltrCTY    = ismember(cnts_cbpol,cnts_smpl);                       	% match coun
 cnts_cbpol = cnts_cbpol(fltrCTY);                                   % choose countries in sample
 tckr_cbpol = tckr_cbpol([false fltrCTY]);                       	% exclude column name
 datescbpol = x2mdate(data_cbpol(:,1),0);                        	% save dates in Matlab format
+datescbpol = unique(lbusdate(year(datescbpol),month(datescbpol)));	% use last U.S. business day per month
 data_cbpol = data_cbpol(:,[false fltrCTY]);                         % exclude dates column
 
 % Reorder countries in BIS as in S
