@@ -1,9 +1,9 @@
-function [data_cbpol,cnts_ccy,tckr_cbpol] = read_cbpol(S)
+function [data_cbpol,hdr_cbpol] = read_cbpol(S)
 % READ_CBPOL Read policy rates from BIS policy rate database
 %   data_cbpol: stores historical data for countries in same order as in S
-%   cnts_ccy: stores countries currency codes (no title in first entry)
-%   tckr_cbpol: stores BIS tickers (no title in first entry, ready for header)
+%   hdr_cbpol: headaer (no title in first entry, ready to be appended)
 
+% m-files called: construct_hdr
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
 pathc  = pwd;
@@ -38,3 +38,5 @@ data_cbpol = data_cbpol(:,[false fltrCTY]);                         % exclude da
 tckr_cbpol = tckr_cbpol(idxBIS(idx2));                              % reorder tickers
 data_cbpol = [datescbpol data_cbpol(:,idxBIS(idx2))];           	% reorder columns and add dates
 data_cbpol = data_cbpol(datescbpol >= datenum('1-Jan-2000'),:);     % sample starts in 2000
+
+hdr_cbpol  = construct_hdr(cnts_ccy,'CBP',tckr_cbpol','CB Policy Rate','N/A','Monthly');
