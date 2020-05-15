@@ -9,7 +9,7 @@
 %% Read the data
 path = pwd;
 cd(fullfile(path,'..','..','Data','Raw'))               % Use platform-specific file separators
-filename   = 'original_BIS_CB_Policy_Rates.xlsx';
+filename   = 'BIS_CB_Policy_Rates.xlsx';
 [data_cbpol,txt_pol] = xlsread(filename,3);             % Read data without headers but with dates
 dates_pol  = x2mdate(data_cbpol(:,1),0);                % Convert dates from Excel to Matlab format
 data_cbpol(:,1) = dates_pol;                            % Use dates in Matlab format
