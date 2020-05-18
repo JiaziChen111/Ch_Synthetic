@@ -14,7 +14,6 @@ function [S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM,data_m
 % cell: outputLT    - reports coefficients for LT inflation and output growth forecasts
 % cell: outputTR    - reports coefficients for Taylor rules
 
-% m-files called: read_macro_vars
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
 nEMs     = length(currEM);
