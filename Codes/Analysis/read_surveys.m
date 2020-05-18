@@ -11,9 +11,9 @@ namefl = 'CE_Forecasts.xlsx';
 
 cd(pathd)
 aux_svys  = readcell(namefl,'Sheet',1);
-hdr_svys  = aux_svys(1,2:end);
-datessvys = datenum(aux_svys(2:end,1));
-datessvys = unique(lbusdate(year(datessvys),month(datessvys)));     % use last U.S. business day per month
+hdr_svys  = aux_svys(1,:);                                          % include column for dates
+datessvys = datenum(aux_svys(2:end,1));                             % exclude header row
+datessvys = unique(lbusdate(year(datessvys),month(datessvys)));     % last U.S. business day per month
 data_svys = readmatrix(namefl,'Sheet',1);
-data_svys = [datessvys data_svys(:,2:end)];
+data_svys = [datessvys data_svys(:,2:end)];                         % use end-of-month dates
 cd(pathc)
