@@ -1,9 +1,11 @@
-function [S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM)
+function [S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM,data_macro,hdr_macro)
 % ESTIMATE_TR Estimate a Taylor rule for each emerging market (EM)
 %
 %	INPUTS
 % struct: S    - contains names of countries/currencies, codes and YC data
 % char: currEM - ISO currency codes of EMs in the sample
+% double: data_macro - stores historical data
+% cell: hdr_macro - stores headers
 %
 %	OUTPUT
 % struct: S         - adds end-ofmonth and end-of-quarter macro variables for each EM
@@ -12,11 +14,9 @@ function [S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM)
 % cell: outputLT    - reports coefficients for LT inflation and output growth forecasts
 % cell: outputTR    - reports coefficients for Taylor rules
 
-% m-files called: read_macro_vars, end_of_quarter
+% m-files called: read_macro_vars
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
-[data_macro,hdr_macro] = read_macrovars(S);
-
 nEMs     = length(currEM);
 vars     = {'CCY','INF','UNE','IP','GDP','CBP'};                    % variables to save in structure S
 fltrMAC  = ismember(hdr_macro(:,2),vars);
@@ -104,9 +104,8 @@ end
 
 function dataset_qrtrly = end_of_quarter(dataset_monthly)
 % Return end-of-quarter observations from a monthly dataset (all columns)
-%
-% dataset_monthly - monthly observations as rows (top-down old-new obs), col1 has dates
-% dataset_qrtrly - end-of-quarter observations as rows, same columns as input
+%   dataset_monthly - monthly observations as rows (top-down old-new obs), col1 has dates
+%   dataset_qrtrly - end-of-quarter observations as rows, same columns as input
 %%
 dates          = dataset_monthly(:,1);
 mnths          = month(dates);
