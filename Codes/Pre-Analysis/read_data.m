@@ -49,6 +49,7 @@ corrDIS  = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave);
 S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
 clear data_* hdr_* fig* fltr types
 
-%% Save variables in mat files (in Dropbox not in Git directory due to size)
+%% Save variables in mat files (not in Git directory due to size limits)
+% cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/May-2020'
 % save struct_datady_S.mat S fit_zc corr* cur* tnrs*
 % save struct_datady_cells.mat dataset_daily header_daily
