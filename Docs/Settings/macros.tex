@@ -5,13 +5,16 @@
 % Variable Definitions
 %-------------------------------------------------------------------
 \providecommand{\tnr}{n}
-\providecommand{\fInst}{f_{t,\tnr}}
-\providecommand{\yZero}{y_{t,\tnr}}
-\providecommand{\Pzero}{P_{t,\tnr}}
+\providecommand{\idxt}{t}
+\providecommand{\idxs}{\idxt,\tnr}
+\providecommand{\fInst}{f_{\idxs}}
+\providecommand{\yZero}{y_{\idxs}}
+\providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{t+1,\tnr-1}}
 \providecommand{\STrate}{r}								% Update in a later revision
 \providecommand{\rShort}{\STrate_{t}}
 \providecommand{\rShortlag}{\STrate_{t-1}}
+\providecommand{\ySvy}{\STrate_{\idxs}^{survey}}
 \providecommand{\SDF}{M_{t+1}}
 \providecommand{\SDFprod}{\Expec \left[\Pi_{j=1} ^\tnr M_{t+j}\right]}
 \providecommand{\Xvars}{X_{t}}
@@ -20,11 +23,11 @@
 \providecommand{\affineB}{B_{\tnr}}
 \providecommand{\affineAfwd}{A_{\tnr + 1}}
 \providecommand{\affineBfwd}{B_{\tnr + 1}}
-\providecommand{\yLCnom}{y_{t,\tnr} ^{LC}}
-\providecommand{\yLCsynt}{\widetilde{y}_{t,\tnr} ^{LC}}
-\providecommand{\yUS}{y_{t,\tnr} ^{US}}
-\providecommand{\yUSsynt}{\widetilde{y}_{t,\tnr} ^{US}}
-\providecommand{\TPatsm}{tp_{t,\tnr}}
+\providecommand{\yLCnom}{y_{\idxs} ^{LC}}
+\providecommand{\yLCsynt}{\widetilde{y}_{\idxs} ^{LC}}
+\providecommand{\yUS}{y_{\idxs} ^{US}}
+\providecommand{\yUSsynt}{\widetilde{y}_{\idxs} ^{US}}
+\providecommand{\TPatsm}{tp_{\idxs}}
 
 % Math fonts
 \providecommand{\Expec}{\mathrm{E}_{t}}
@@ -37,8 +40,8 @@
 \providecommand{\riskprice}{\lambda_{t}}
 \providecommand{\lambdazero}{\lambda_{0}}
 \providecommand{\lambdaone}{\lambda_{1}}
-\providecommand{\fwdprm}{\rho_{t,\tnr}}
-\providecommand{\CIPdev}{\phi_{t,\tnr}}
+\providecommand{\fwdprm}{\rho_{\idxs}}
+\providecommand{\CIPdev}{\phi_{\idxs}}
 \providecommand{\deltazero}{\delta_{0}}
 \providecommand{\deltaone}{\delta_{1}}
 \providecommand{\error}{\nu_{t+1}}
@@ -73,6 +76,8 @@
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{tp_{it} = \alpha_{i} + \beta' z_{it} + u_{it}}
+\newcommand{\eqySvy}{\ySvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\STrate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\STrate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{y}}}{1-\hat{\beta}_{\STrate}} g_{\idxs}^{survey} }
+
 
 %---------------------------------------------------------------
 % Table of Contents
