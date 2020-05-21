@@ -13,12 +13,22 @@ function [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,showfigs)
 
 % m-files called: none
 % Pavel Solís (pavel.solis@gmail.com), May 2020
-%%
-tnr     = 10;                                                                   % maturity for survey
-nEMs    = length(currEM);
-corrExp = cell(nEMs,3);
-corrTP  = cell(nEMs,3);
 
+%% Display policy rate forecasts for different maturities
+nEMs = length(currEM);
+if showfigs
+    for k = 1:nEMs
+        figure
+        plot(S(k).yS(2:end,1),S(k).yS(2:end,2:end))
+        title(S(k).cty), ylabel('%'), datetick('x','YY')
+        legend(cellfun(@num2str,num2cell(S(k).yS(1,2:end)),'UniformOutput',false))
+    end
+    input([S(k).iso ' displayed. Press Enter key to continue.']);
+end
+
+%% Compare ATSM and surveys
+tnr     = 10;                                                                   % maturity for survey
+corrExp = cell(nEMs,3); corrTP  = cell(nEMs,3);
 for k = 1:nEMs
     if ismember(S(k).iso,{'ILS','ZAR'})                                         % no survey data
         continue
