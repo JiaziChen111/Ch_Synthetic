@@ -4,52 +4,29 @@
 % m-files called: daily2monthly.m, ts_estimation.m, estimate_TR.m
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 % 
-%% Load data and estimate ATSM
+%% Load data
 clear
-currentDir = pwd;
-cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/May-2020'
+pathc = pwd;
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/May-2020';
+cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
-cd(currentDir)
+cd(pathc)
 
+%% Estimate ATSM
 [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
 addpath(genpath('jsz_code'))
 nPCs = 3;  dt = 1/12;
 [S,corrPCnom] = ts_estimation(S,nPCs,dt,'LCNOM');
 [S,corrPCsyn] = ts_estimation(S,nPCs,dt,'LCSYNT');
 
-%% Compare CIP deviations with TP estimates from LCNOM and LCSYNT
-ncntrs  = length(S);
-tnr  = 10;
-flds = {'n_tp','s_tp','c_data'};
-tnrs = cell(3,1); dts = cell(3,1); srs = cell(3,1);
-for k0 = 1:ncntrs
-    for k1 = 1:length(flds)
-        tnrs{k1} = S(k0).(flds{k1})(1,2:end);
-        dts{k1}  = S(k0).(flds{k1})(2:end,1);
-        srs{k1}  = S(k0).(flds{k1})(2:end,2:end);
-    end
-    figure
-    plot(dts{1},srs{1}(:,tnrs{1} == tnr),'b',...
-         dts{2},srs{2}(:,tnrs{2} == tnr),'r',...
-         dts{3},srs{3}(:,tnrs{3} == tnr)*100,'g')
-    legend('TP Nominal','TP Synthetic','CIP Deviation','AutoUpdate','off')
-    title([S(k0).cty ': ' num2str(tnr) 'Y'])
-    datetick('x','yy'); ylabel('%'); yline(0);
-end
+cd(pathd)
+save struct_datamy_S.mat S
+cd(pathc)
 
-%% Use Survey Data
-
-% Estimate Taylor Rule and save weights for inflation and GDP growth
-[S,weightsLT,namesWgts,outputLT,outputTR] = estimate_TR(S,currEM);
-
-% Estimate long-term forecasts of policy rates
-S = forecastLTcbpol(S,currEM,weightsLT,namesWgts);
-
-% Compare expected policy rate and term premium from ATSM and from surveys
-[S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);
-
-
+%% Survey data
+S = forecast_cbpol(S,currEM);
+[S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
 
 %% Store macro data in structure
 
