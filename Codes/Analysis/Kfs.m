@@ -1,33 +1,36 @@
-function [llk,xp,Pp,xf,Pf,xs,Ps,Pslag] = Kfs(y,Phi,A,Q,R,mu_x,mu_y)
-% Implementation of the Kalman filter and smoother algorithms in
-% Time Series Analysis and Its Applications by Shumway & Stoffer
+function [llk,xp,Pp,xf,Pf,xs,Ps,xs0n,Ps0n,S11,S10,S00] = Kfs(y,Phi,A,Q,R,xf0,Pf0,mu_x,mu_y)
+% KFS Implement the Kalman filter and smoother algorithms in Time Series
+% Analysis and Its Applications by Shumway & Stoffer
 % 
-% Dynamic linear model:
-% x_t = mu_x + Phi*x_{t-1} + w_t, cov(w) = Q            transition equation
-% y_t = mu_y +   A*x_t     + v_t, cov(v) = R            measurement equation
-%
-% p     : number of state variables
-% q     : number of observed variables
-% n     : number of observations
+%               Dynamic linear model (time-invariant coefficients)
+% transition  : x_t = mu_x + Phi*x_{t-1} + w_t, cov(w) = Q, x has dimension p, number of state variables
+% measurement : y_t = mu_y +   A*x_t     + v_t, cov(v) = R, y has dimension q, number of measured variables
+% number of observations : n
 % 
 % INPUTS
-% y     : q*n matrix of observables
-% Phi   : p*p transition matrix
+% y     : q*n matrix of measurements
+% Phi   : p*p state transition matrix
 % A     : q*p measurement matrix
-% Q     : p*p transition covariance
-% R     : q*q measurement covariance
+% Q     : p*p state error covariance matrix
+% R     : q*q measurement error covariance matrix
+% xf0   : p*1 initial state mean vector (optional)
+% Pf0   : p*p initial state covariance matrix (optional)
 % mu_x  : p*1 transition intercept (optional)
 % mu_y  : q*1 measurement intercept (optional)
 %
 % OUTPUT
-% llk   : 1*1   (not minus) log-likelihood (includes constant)
+% llk   : 1*1   log-likelihood (includes constant)
 % xp    : p*n   matrix of predicted mean of state,       stores Exp[x(t)|y(t-1)]
 % Pp    : p*p*n matrix of predicted covariance of state, stores Var[x(t)|y(t-1)]
 % xf    : p*n   matrix of filtered mean of state,        stores Exp[x(t)|y(t)]
 % Pf    : p*p*n matrix of filtered covariance of state,  stores Var[x(t)|y(t)]
 % xs    : p*n   matrix of smoothed mean of state,        stores Exp[x(t)|y(n)]
 % Ps    : p*p*n matrix of smoothed covariance of state,  stores Var[x(t)|y(n)]
-% Pslag : p*p*n matrix of lag-one covariances of state,  stores Cov[x(t),x(t-1)|y(n)]
+% xs0n  : p*1   estimate of initial state mean
+% Ps0n  : p*p   estimate of initial state covariance matrix
+% S11   : p*p   smoother using current xs and Ps
+% S10   : p*p   smoother using current and past xs and Pslag
+% S00   : p*p   smoother using past xs and Ps
 
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 
@@ -35,8 +38,9 @@ function [llk,xp,Pp,xf,Pf,xs,Ps,Pslag] = Kfs(y,Phi,A,Q,R,mu_x,mu_y)
 % Determine dimensions
 p     = size(Phi,1);
 [q,n] = size(y);
-if nargin < 7; mu_y = zeros(q,1); end
-if nargin < 6; mu_x = zeros(p,1); end
+if n < q; error('y may need to be transposed.'); end
+if nargin < 9; mu_y = zeros(q,1); end
+if nargin < 8; mu_x = zeros(p,1); end
 
 % Pre-allocate space
 xp  = nan(p,n);     Pp  = nan(p,p,n);       Ip    = eye(p);
@@ -45,10 +49,12 @@ xs  = nan(p,n);     Ps  = nan(p,p,n);       Pslag = nan(p,p,n);
 llk = 0;            S11 = zeros(p,p);
 
 % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
-xf0 = (Ip - Phi)\mu_x;                                         	% p*1
-Pf0 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
-if any(~isreal(eig(Pf0))) || any(eig(Pf0) < 0) || any(isnan(Pf0),'all') || any(isinf(Pf0),'all')
-    Pf0 = Ip;                                                   % in case the state is non-stationary
+if nargin < 6
+    xf0 = (Ip - Phi)\mu_x;                                         	% p*1
+    Pf0 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
+    if any(isnan(Pf0),'all') || any(isinf(Pf0),'all') || any(~isreal(eig(Pf0))) || any(eig(Pf0) < 0)
+        xf0 = zeros(p,1);       Pf0 = Ip;                           % in case the state is non-stationary
+    end
 end
 
 %% Estimation: Kalman filter
