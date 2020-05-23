@@ -54,7 +54,7 @@ for iter = 1:maxiter
     end
     A = delta/S11;
     
-    for t = 1:n
+    for t = 1:n                                             % use A from this iteration
         v = y(:,t) - A*xs(:,t);                             % innovation
         if t == 1
             R = v*v' + A*Ps(:,:,t)*A';
@@ -62,5 +62,5 @@ for iter = 1:maxiter
             R = R + v*v' + A*Ps(:,:,t)*A';
         end
     end
-    R = R/n;                                                % use A from this iteration
+    R = R/n;
 end
