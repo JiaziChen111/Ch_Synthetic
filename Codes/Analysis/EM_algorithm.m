@@ -2,13 +2,14 @@ function [Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,maxit
 % EM_ALGORITHM Estimate parameters and state of time-invariant state space models
 % 
 % INPUTS
+% [p,q,n] : p states, q measurements, n observations
 % y       : q*n matrix of measurements
 % Phi     : p*p state transition matrix
 % A       : q*p measurement matrix
 % Q       : p*p state error covariance matrix
 % R       : q*q measurement error covariance matrix
-% xf0     : p*1 initial state mean vector
-% Pf0     : p*p initial state covariance matrix
+% x00     : p*1 initial state mean vector
+% P00     : p*p initial state covariance matrix
 % maxiter : maximum number of iterations
 % tol     : relative tolerance for determining convergence
 % 
@@ -19,7 +20,7 @@ function [Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,maxit
 % R       : Estimate of R
 % xs      : Smoothed estimate of state
 % Ps      : Smoothed estimate of state covariance matrix
-% like	  : log-likelihood at each iteration
+% llk	  : log-likelihood at each iteration
 % iter	  : number of iterations to convergence
 % cvg     : relative tolerance at convergence
 
@@ -28,39 +29,51 @@ function [Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,maxit
 p     = size(Phi,1);
 [q,n] = size(y);
 cvg   = 1 + tol;
-llk   = zeros(maxiter,1);
+llk   = nan(maxiter,1);
+miss  = isnan(y);                                           % keep record of missing data
+yt    = y;   yt(miss) = 0;                                 	% y may contain NaNs, yt replace them w/ zeros
 
 for iter = 1:maxiter
-    [llk(iter),~,~,~,~,xs,Ps,xs0n,Ps0n,S11,S10,S00] = Kfs(y,Phi,A,Q,R,x00,P00);
+    % E-step (output accounts for missing data eg. smoothers, uses y)
+    [llk(iter),~,~,~,~,xs,Ps,x0n,P0n,S11,S10,S00] = Kfs(y,Phi,A,Q,R,x00,P00);
     
+    % Determine convergence
     if iter > 1
         cvg = (llk(iter) - llk(iter-1))/abs(llk(iter-1));
     end
     if cvg < 0
-        warning('Likelihood is not increasing')
+        warning('Likelihood stopped increasing at iteration %d, log-likelihood %0.3f',iter,llk(iter))
+        break
     end
     if abs(cvg) < tol
-        sprintf('iteration  %d,  log-likelihood  %0.3f',iter,llk(iter))
+        sprintf('Convergence at iteration %d, log-likelihood %0.3f',iter,llk(iter))
         break
     end
     
-    x00   = xs0n;
-    P00   = Ps0n;
+    % M-step (accounts for missing data in A and R, uses yt)
+    x00   = x0n;
+    P00   = P0n;
     Phi   = S10/S00;                                        % smoothers calculated from parameters at iter-1
-    Q     = (S11 - Phi*S10')/n;                         	% use Phi from this iteration
-    delta = zeros(q,p);
-    for t = 1:n
-        delta = delta + y(:,t)*xs(:,t)';
-    end
-    A = delta/S11;
+    Q     = (S11 - Phi*S10')/n;                         	% use smoothers from this iteration
     
-    for t = 1:n                                             % use A from this iteration
-        v = y(:,t) - A*xs(:,t);                             % innovation
+    Rlast = R;                                              % use R from previous iteration for missing obs
+    for t = 1:n
+        At = A; At(miss(:,t),:) = 0;                    	% account for missing observations
+        v  = yt(:,t) - At*xs(:,t);                          % innovation
+        Rt = diag(miss(:,t))*Rlast;                         % zero matrix if no missing observations
         if t == 1
-            R = v*v' + A*Ps(:,:,t)*A';
+            R = v*v' + At*Ps(:,:,t)*At' + Rt;
         else
-            R = R + v*v' + A*Ps(:,:,t)*A';
+            R = R + v*v' + At*Ps(:,:,t)*At' + Rt;
         end
     end
     R = R/n;
+    % R = diag(diag(R));                                      % S&S report this
+    
+    delta = zeros(q,p);
+    for t = 1:n
+        delta = delta + yt(:,t)*xs(:,t)';
+    end
+    A = delta/S11;                                          % comment if A is not a parameter to be estimated
 end
+llk(isnan(llk)) = [];
