@@ -1,6 +1,6 @@
-function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00] = Kfs(y,Phi,A,Q,R,xf0,Pf0,mu_x,mu_y)
-% KFS Implement the (missing data versions of the) Kalman filter and smoother
-% algorithms in Time Series Analysis and Its Applications by Shumway & Stoffer
+function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,Phi,A,Q,R,xf0,Pf0,mu_x,mu_y)
+% KFS Implement the missing-data versions of the Kalman filter and smoother
+% Notation from Time Series Analysis and Its Applications by Shumway & Stoffer
 % 
 %               Dynamic linear model with time-invariant coefficients
 % transition  : x_t = mu_x + Phi*x_{t-1} + w_t, cov(w) = Q
@@ -28,9 +28,10 @@ function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00] = Kfs(y,Phi,A,Q,R,xf0,Pf0,m
 % Ps   : p*p*n matrix of smoothed covariance of state,  stores Var[x(t)|y(n)]
 % x0n  : p*1   (smoothed) estimate of initial state mean
 % P0n  : p*p   (smoothed) estimate of initial state covariance matrix
-% S11  : p*p   smoother using current xs and Ps
-% S10  : p*p   smoother using current and past xs and Pslag
-% S00  : p*p   smoother using past xs and Ps
+% S11  : (p+1)*(p+1) smoother using current xs and Ps (accounts for intercept)
+% S10  : p*(p+1)     smoother using current and past xs and Pslag (accounts for intercept)
+% S00  : (p+1)*(p+1) smoother using past xs and Ps (accounts for intercept)
+% Syx  : q*(p+1)     smoother using y and current xs (accounts for intercept)
 
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
@@ -43,7 +44,6 @@ if n < q; warning('The number of columns in y should equal the sample size.'); e
 xp  = nan(p,n);     Pp  = nan(p,p,n);       Ip    = eye(p);
 xf  = nan(p,n);     Pf  = nan(p,p,n);       J     = nan(p,p,n);	
 xs  = nan(p,n);     Ps  = nan(p,p,n);       Pslag = nan(p,p,n);
-llk = 0;            S11 = zeros(p,p);
 
 % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
 if nargin < 9; mu_y = zeros(q,1); end
@@ -61,13 +61,14 @@ miss = isnan(y);                                                    % keep recor
 yt   = y;   yt(miss) = 0;                                         	% replace missing values w/ zeros
 
 %% Estimation: Kalman filter
+llk = 0;
 for t = 1:n
     % Predicting equations
     if t == 1
-        xp(:,t)   = mu_x + Phi*xf0;
+        xp(:,t)   = Phi*xf0 + mu_x;
         Pp(:,:,t) = Phi*Pf0*Phi' + Q;
     else
-        xp(:,t)   = mu_x + Phi*xf(:,t-1);
+        xp(:,t)   = Phi*xf(:,t-1) + mu_x;
         Pp(:,:,t) = Phi*Pf(:,:,t-1)*Phi' + Q;
     end
     
@@ -82,7 +83,8 @@ for t = 1:n
     
     % Log-likelihood
     term3 = max(v'/V*v,0);                                          % in case V is non-PSD
-    llk   = llk - 0.5*(q*log(2*pi) + log(det(V)) + term3);
+%     llk   = llk - 0.5*(q*log(2*pi) + log(det(V)) + term3);
+    llk   = llk + 0.5*(log(det(V)) + term3);  % reports -llk
 end
 
 %% Inference: Kalman smoother
@@ -113,14 +115,36 @@ for t = n:-1:1
     end
 end
 
-% Smoothers
-for t = 1:n
-    S11 = S11 + xs(:,t)*xs(:,t)' + Ps(:,:,t);
-    if t == 1
-        S10 = xs(:,t)*x0n' + Pslag(:,:,t);
-        S00 = x0n*x0n' + P0n;
-    else
-        S10 = S10 + xs(:,t)*xs(:,t-1)' + Pslag(:,:,t);
-        S00 = S00 + xs(:,t-1)*xs(:,t-1)' + Ps(:,:,t-1);
-    end
-end
+% Smoothers (account for a constant)
+% Syx   = zeros(q,p);       S11 = zeros(p,p);
+% for t = 1:n
+%     Syx = Syx + yt(:,t)*xs(:,t)';
+%     S11 = S11 + xs(:,t)*xs(:,t)' + Ps(:,:,t);
+%     if t == 1
+%         S10 = xs(:,t)*x0n' + Pslag(:,:,t);
+%         S00 = x0n*x0n' + P0n;
+%     else
+%         S10 = S10 + xs(:,t)*xs(:,t-1)' + Pslag(:,:,t);
+%         S00 = S00 + xs(:,t-1)*xs(:,t-1)' + Ps(:,:,t-1);
+%     end
+% end
+
+
+Xs  = [ones(1,n+1); x0n xs];                                       % (p+1)*(n+1) includes constant, t = 0:n
+
+    % t = 1:n
+Syx = yt*Xs(:,2:end)';                                              % q*n x n*(p+1) = q*(p+1) exclude t = 0
+S11 = Xs(:,2:end)*Xs(:,2:end)';                                 	% (p+1)*(p+1) exclude t = 0
+S11(2:p+1,2:p+1) = S11(2:p+1,2:p+1) + sum(Ps,3);                    % sum Ps over n, exclude constant zero cov
+
+    % t = 0:n-1
+S00 = Xs(:,1:end-1)*Xs(:,1:end-1)';                                 % (p+1)*(p+1) exclude t = n
+S00(2:p+1,2:p+1) = S00(2:p+1,2:p+1) + P0n + sum(Ps,3) - Ps(:,:,end);% add t = 0, remove t = n
+
+    % t = 0:n (t = 0:n-1 and t = 1:n)
+S10 = Xs(2:end,2:end)*Xs(:,1:end-1)';                               % p*n x n*(p+1) = p*(p+1)
+S10(:,2:end) = S10(:,2:end) + sum(Pslag,3);                         % sum Pslag over all periods
+
+% % Smoothers w/o a constant
+% Syx = Syx(:,2:p+1);     S11 = S11(2:p+1,2:p+1);
+% S10 = S10(:,2:p+1);     S00 = S00(2:p+1,2:p+1);
