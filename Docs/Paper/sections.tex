@@ -226,6 +226,10 @@ To construct the XCS rates, I use data on cross-currency basis swaps and interes
 For all the countries in the sample, the data for these swap curves comes from Bloomberg.\footnote{A spreadsheet with the tickers used in the construction of the forward premiums and in the estimation of the nominal yield curves is available upon request. The file consolidates and expands (with tenors and tickers) similar files kindly posted online in Wenxin Du and Jesse Schreger's websites.}
 %The maximum maturity available varies per country but there is data covering at least up to ten years for all but it can go as far as 30 years for some countries.\footnote{After 10 years, the periodicity decreases to every five years. Then, when they are available, the maturities beyond 10 years are reported for 15, 20, 25 and up to 30 years.} 
 
+
+% Learning
+% CRSP data monthly and daily data fixed-rate and risk-free series are very close to each other once they are annualized. The `biggest' differences are in the 1-month interest rate and before 1980.
+
 }{}	% Closes \iftoggle{fulldraft}
 
 
@@ -333,11 +337,13 @@ The JSZ normalization allows a two-stage estimation of the model presented in se
 %However, in order to obtain preliminary estimates of the term premium only equations (\ref{eq:nRshort}) and (\ref{eq:nXvarsP}) are used in this version. To obtain estimates of the expected short-term interest rates in future periods, the expectation of the vector of state variables $\Xvars$ (which can be computed by iterating forward equation (\ref{eq:nXvarsP})) is substituted in equation (\ref{eq:nRshort}). The expectation of a yield $\tnr$ periods ahead is then obtained as the average of the expected short-term rates over $\tnr$ periods. The term premium estimate is then computed as the difference between the nominal yield and the expected yield obtained in this way.
 
 
+% Learning
+% Theoretically, removing the constant when calculating the log-likelihood is irrelevant. However, it can have an impact in practice because convergence is defined based on the value of the log-likelihood, so the comparison of the convergence against the tolerance criteria can influence whether to stop the loop or continue with more iterations, which will influence the point estimates. Do not need to re-calculate how you report your llk but you may need to adjust your tolerance. Hopefully, if the tolerance is sufficiently small that the difference is not large.
 
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Sovereign Yield Comovement} \label{sec:comovement}
+\section{Yield Curve Decompositions} \label{sec:comovement}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -353,12 +359,10 @@ The macroeconomic and financial variables used in section \ref{sec:spillovers} a
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
-\subsection{Empirical Results} \label{sec:results}
+\subsection{Assessment of Term Premia Estimates} \label{sec:results}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-\subsubsection{Yield Curve Decompositions}
-
-\subsubsection{Assessment of Term Premia Estimates}
+\subsection{Sovereign Yield Comovement}
 
 \subsection{Estimated Synthetic Yield Curves}
 An affine term structure model is estimated for each country using the JSZ normalization and the two-stage procedure described in section \ref{sec:Estimation}. The VAR model in equation (\ref{eq:nXvarsP}) is estimated using the first three principal components (PCs) of the synthetic yield curves. Consistent with the empirical evidence that uses nominal yield curves,\footnote{\cite{LittermanScheinkman:1991} first report this and refer to the PCs as level, slope and curvature.} on average more than $99\%$ of the variation in synthetic yields is explained by those three factors for all emerging markets.
