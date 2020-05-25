@@ -16,8 +16,8 @@ function [mu_x,mu_y,Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00
 % P00     : p*p initial state covariance matrix
 % maxiter : maximum number of iterations
 % tol     : relative tolerance for determining convergence
-% mu_x    : p*1 transition intercept (optional)
-% mu_y    : q*1 measurement intercept (optional)
+% mu_x    : p*1 transition intercept, do not input if state has no intercept
+% mu_y    : q*1 measurement intercept, do not input if measurement has no intercept
 % 
 % OUTPUT
 % mu_x    : estimate of mu_x
@@ -32,6 +32,7 @@ function [mu_x,mu_y,Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00
 % iter	  : number of iterations to convergence
 % cvg     : relative tolerance at convergence
 
+% m-files called: Kfs
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
 p     = size(Phi,1);
@@ -50,8 +51,7 @@ for iter = 1:maxiter
     
     % Determine convergence
     if iter > 1
-%         cvg = (llk(iter) - llk(iter-1))/abs(llk(iter-1));
-        cvg = (llk(iter-1) - llk(iter))/abs(llk(iter-1)); % when using -llk
+        cvg = (llk(iter) - llk(iter-1))/abs(llk(iter-1));
     end
     if cvg < 0
         warning('Likelihood stopped increasing at iteration %d, log-likelihood %0.3f',iter,llk(iter))
@@ -65,13 +65,9 @@ for iter = 1:maxiter
     % M-step (accounts for missing data in A and R, uses yt and smoothers from this iteration)
     x00   = x0n;
     P00   = P0n;
-%     Phi   = S10/S00;                                      	% smoothers calculated from parameters at iter-1
-%     Q     = (S11 - Phi*S10')/n;                           	% use 
-%     A     = Syx/S11;                                      	% comment if A is not to be estimated
-    
     mu_x  = S10(:,1)/S00(1,1);
-    Phi   = S10(:,2:p+1)/S00(2:p+1,2:p+1);                	% Phi = S10/S00;
-    Q     = (S11(2:p+1,2:p+1) - Phi*S10(:,2:p+1)')/n;       % Q = (S11 - Phi*S10')/n;
+    Phi   = S10(:,2:p+1)/S00(2:p+1,2:p+1);                	% Phi = S10/S00 if smoothers w/o a constant
+    Q     = (S11(2:p+1,2:p+1) - Phi*S10(:,2:p+1)')/n;       % Q = (S11 - Phi*S10')/n if smoothers w/o a constant
     Rlast = R;                                              % use R from previous iteration for missing obs
     for t = 1:n
         At   = A; At(miss(:,t),:) = 0;                    	% account for missing observations
@@ -84,8 +80,8 @@ for iter = 1:maxiter
         end
     end
     R    = R/n;
-    R  = diag(diag(R));                                   % S&S report this for missing data
-    mu_y = Syx(:,1)/S11(1,1);                               % mu_y and A computed after R
-%     A    = Syx(:,2:p+1)/S11(2:p+1,2:p+1);                	% A = Syx/S11;
+    % R  = diag(diag(R));                                   % S&S report this for missing data
+    mu_y = Syx(:,1)/S11(1,1);                               % note: mu_y and A computed after R
+    A    = Syx(:,2:p+1)/S11(2:p+1,2:p+1);                	% A = Syx/S11;
 end
 llk(isnan(llk)) = [];

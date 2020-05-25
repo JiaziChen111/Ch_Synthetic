@@ -38,7 +38,7 @@ function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,Phi,A,Q,R,xf0,P
 % Determine dimensions
 p     = size(Phi,1);
 [q,n] = size(y);
-if n < q; warning('The number of columns in y should equal the sample size.'); end
+if  n < q; warning('The number of columns in y should equal the sample size.'); end
 
 % Pre-allocate space
 xp  = nan(p,n);     Pp  = nan(p,p,n);       Ip    = eye(p);
@@ -83,8 +83,7 @@ for t = 1:n
     
     % Log-likelihood
     term3 = max(v'/V*v,0);                                          % in case V is non-PSD
-%     llk   = llk - 0.5*(q*log(2*pi) + log(det(V)) + term3);
-    llk   = llk + 0.5*(log(det(V)) + term3);  % reports -llk
+    llk   = llk - 0.5*(q*log(2*pi) + log(det(V)) + term3);
 end
 
 %% Inference: Kalman smoother
@@ -116,35 +115,21 @@ for t = n:-1:1
 end
 
 % Smoothers (account for a constant)
-% Syx   = zeros(q,p);       S11 = zeros(p,p);
-% for t = 1:n
-%     Syx = Syx + yt(:,t)*xs(:,t)';
-%     S11 = S11 + xs(:,t)*xs(:,t)' + Ps(:,:,t);
-%     if t == 1
-%         S10 = xs(:,t)*x0n' + Pslag(:,:,t);
-%         S00 = x0n*x0n' + P0n;
-%     else
-%         S10 = S10 + xs(:,t)*xs(:,t-1)' + Pslag(:,:,t);
-%         S00 = S00 + xs(:,t-1)*xs(:,t-1)' + Ps(:,:,t-1);
-%     end
-% end
-
-
-Xs  = [ones(1,n+1); x0n xs];                                       % (p+1)*(n+1) includes constant, t = 0:n
+Xs  = [ones(1,n+1); x0n xs];                                        % (p+1)*(n+1) includes constant, t = 0:n
 
     % t = 1:n
 Syx = yt*Xs(:,2:end)';                                              % q*n x n*(p+1) = q*(p+1) exclude t = 0
 S11 = Xs(:,2:end)*Xs(:,2:end)';                                 	% (p+1)*(p+1) exclude t = 0
-S11(2:p+1,2:p+1) = S11(2:p+1,2:p+1) + sum(Ps,3);                    % sum Ps over n, exclude constant zero cov
+S11(2:p+1,2:p+1) = S11(2:p+1,2:p+1) + sum(Ps,3);                    % exclude constant zero cov, sum Ps over n
 
     % t = 0:n-1
 S00 = Xs(:,1:end-1)*Xs(:,1:end-1)';                                 % (p+1)*(p+1) exclude t = n
-S00(2:p+1,2:p+1) = S00(2:p+1,2:p+1) + P0n + sum(Ps,3) - Ps(:,:,end);% add t = 0, remove t = n
+S00(2:p+1,2:p+1) = S00(2:p+1,2:p+1) + P0n + sum(Ps,3) - Ps(:,:,end);% excl. constant, add t = 0, remove t = n
 
-    % t = 0:n (t = 0:n-1 and t = 1:n)
+    % t = 0:n (t = 1:n and t = 0:n-1)
 S10 = Xs(2:end,2:end)*Xs(:,1:end-1)';                               % p*n x n*(p+1) = p*(p+1)
-S10(:,2:end) = S10(:,2:end) + sum(Pslag,3);                         % sum Pslag over all periods
+S10(:,2:end) = S10(:,2:end) + sum(Pslag,3);                         % excl. constant, sum Pslag over all t
 
-% % Smoothers w/o a constant
+% Smoothers w/o a constant
 % Syx = Syx(:,2:p+1);     S11 = S11(2:p+1,2:p+1);
 % S10 = S10(:,2:p+1);     S00 = S00(2:p+1,2:p+1);
