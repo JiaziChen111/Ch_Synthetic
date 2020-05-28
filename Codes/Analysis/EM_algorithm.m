@@ -1,4 +1,4 @@
-function [mu_x,mu_y,Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,maxiter,tol,mu_x,mu_y)
+function [Phi,A,Q,R,xs,Ps,llk,iter,cvg,mu_x,mu_y] = EM_algorithm(y,Phi,A,Q,R,x00,P00,maxiter,tol,mu_x,mu_y)
 % EM_ALGORITHM Estimate parameters and state of time-invariant state space models
 % 
 %               Dynamic linear model with time-invariant coefficients
@@ -16,12 +16,10 @@ function [mu_x,mu_y,Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00
 % P00     : p*p initial state covariance matrix
 % maxiter : maximum number of iterations
 % tol     : relative tolerance for determining convergence
-% mu_x    : p*1 transition intercept, do not input if state has no intercept
-% mu_y    : q*1 measurement intercept, do not input if measurement has no intercept
+% mu_x    : p*1 transition intercept (optional)
+% mu_y    : q*1 measurement intercept (optional)
 % 
 % OUTPUT
-% mu_x    : estimate of mu_x
-% mu_y    : estimate of mu_y
 % Phi     : estimate of Phi
 % A       : estimate of A
 % Q       : estimate of Q
@@ -31,8 +29,10 @@ function [mu_x,mu_y,Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00
 % llk	  : log-likelihood at each iteration
 % iter	  : number of iterations to convergence
 % cvg     : relative tolerance at convergence
+% mu_x    : estimate of mu_x
+% mu_y    : estimate of mu_y
 
-% m-files called: Kfs
+% m-files called: Kfs, model
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
 p     = size(Phi,1);
@@ -54,17 +54,17 @@ for iter = 1:maxiter
         cvg = (llk(iter) - llk(iter-1))/abs(llk(iter-1));
     end
     if cvg < 0
-        warning('Likelihood stopped increasing at iteration %d, log-likelihood %0.3f',iter,llk(iter))
-        break
+        warning('Likelihood did not increase at iteration %d, log-likelihood %0.3f',iter,llk(iter))
     end
-    if abs(cvg) < tol
+    if     abs(cvg) < tol
         sprintf('Convergence at iteration %d, log-likelihood %0.3f',iter,llk(iter))
         break
+    elseif iter == maxiter
+        sprintf('Maximum number of iterations (%d) reached, log-likelihood %0.3f',iter,llk(iter))
     end
     
-    % M-step (accounts for missing data in A and R, uses yt and smoothers from this iteration)
-    x00   = x0n;
-    P00   = P0n;
+    % M-step (accounts for missing data in A and R, uses yt)
+    x00   = x0n;    P00   = P0n;                            % initial values for next iteration
     mu_x  = S10(:,1)/S00(1,1);
     Phi   = S10(:,2:p+1)/S00(2:p+1,2:p+1);                	% Phi = S10/S00 if smoothers w/o a constant
     Q     = (S11(2:p+1,2:p+1) - Phi*S10(:,2:p+1)')/n;       % Q = (S11 - Phi*S10')/n if smoothers w/o a constant
@@ -82,6 +82,8 @@ for iter = 1:maxiter
     R    = R/n;
     % R  = diag(diag(R));                                   % S&S report this for missing data
     mu_y = Syx(:,1)/S11(1,1);                               % note: mu_y and A computed after R
-    A    = Syx(:,2:p+1)/S11(2:p+1,2:p+1);                	% A = Syx/S11;
+    A    = Syx(:,2:p+1)/S11(2:p+1,2:p+1);                	% A = Syx/S11 if smoothers w/o a constant
+    
+    [Phi,A,Q,R,mu_x,mu_y] = model(Phi,A,Q,R,mu_x,mu_y);     % match parameters of specific model
 end
 llk(isnan(llk)) = [];
