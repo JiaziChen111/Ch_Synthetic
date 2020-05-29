@@ -28,21 +28,33 @@ cd(pathc)
 S = forecast_cbpol(S,currEM);
 [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
 
+%% Estimate ATSM for emerging markets with surveys
+
+% y,Phi,A,Q,R come from JSZ
+param0 = [1.03,.01,.01,.25];
+x00    = [.7;0;0;0];
+P00    = diag(repmat(.04,4,1));
+llkhd  = @(x)llkfn(x,y',x00,P00);                           % handle to include variables in workspace
+parest = fminsearch(llkhd,param0);                          % estimate parameters
+[Phi,A,Q,R,mu_x,mu_y] = atsm_params(parest);                % get model parameters
+[loglk,~,~,~,~,xs,Ps] = Kfs(y',Phi,A,Q,R,x00,P00,mu_x,mu_y);% smoothed state
+
+
 %% EM algorithm for emerging markets
-
-for k0 = 1:nEMs
-    % y,Phi,A,Q,R come from JSZ
-    % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
-    x00 = (Ip - Phi)\mu_x;                                         	% p*1
-    P00 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
-    if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
-        x00 = zeros(p,1);       P00 = Ip;                           % in case the state is non-stationary
-    end
-
-    [Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,max_iter,tol);
-    [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare decompositions after surveys
-                                                                % save plots before and after surveys
-end
+% 
+% for k0 = 1:nEMs
+%     % y,Phi,A,Q,R come from JSZ
+%     % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
+%     x00 = (Ip - Phi)\mu_x;                                         	% p*1
+%     P00 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
+%     if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
+%         x00 = zeros(p,1);       P00 = Ip;                           % in case the state is non-stationary
+%     end
+% 
+%     [Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,max_iter,tol);
+%     [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare decompositions after surveys
+%                                                                 % save plots before and after surveys
+% end
 
 %% Store macro data in structure
 
