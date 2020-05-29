@@ -1,5 +1,5 @@
 function [Phi,A,Q,R,mu_x,mu_y] = atsm_params(parest)
-% MODELPARAMS Define parameters for affine term structure model
+% ATSM_PARAMS Define parameters for affine term structure model
 
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
