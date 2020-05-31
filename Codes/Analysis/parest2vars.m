@@ -1,0 +1,28 @@
+function [PhiP,Sgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS] = parest2vars(parest)
+% PAREST2VARS Transform vector parest into variables contained in it
+% Parameters vectorized in parest: PhiP;Sgm;lmbd1;lmbd0;mu_xP;rho1;rho0;sgmY;sgmS
+
+% Pavel Solís (pavel.solis@gmail.com), May 2020
+%%
+% Identify dimension of state vector
+ncons = 3;                                                  % number of constants in parest
+tot   = length(parest);
+p     = (-3 + sqrt(9 - 12*(ncons - tot)))/6;                % #states (quadratic formula) given #parameters
+
+% Reshape to get constants, vectors and matrices
+aux  = reshape(parest,ncons,[]);                            % rows = #constants, appropriate #columns
+cons = aux(:,end);                                          % #constants in last column
+aux  = reshape(aux(:,1:end-1),3*p,p+1);                     % 3p*(p+1) remaining elements
+vecs = reshape(aux(:,end),p,3);                             % 3 vectors in parest stacked in last column
+matx = reshape(aux(:,1:end-1),p,p,3);                       % 3 matrices in parest
+
+% Recover variables
+PhiP  = matx(:,:,1);
+Sgm   = matx(:,:,2);
+lmbd1 = matx(:,:,3);
+lmbd0 = vecs(:,1);
+mu_xP = vecs(:,2);
+rho1  = vecs(:,3);
+rho0  = cons(1);
+sgmY  = cons(2);
+sgmS  = cons(3);
