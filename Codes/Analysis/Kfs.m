@@ -1,4 +1,4 @@
-function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,Phi,A,Q,R,xf0,Pf0,mu_x,mu_y)
+function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,mu_x,mu_y,Phi,A,Q,R,xf0,Pf0)
 % KFS Implement the missing-data versions of the Kalman filter and smoother
 % Notation from Time Series Analysis and Its Applications by Shumway & Stoffer
 % 
@@ -9,14 +9,14 @@ function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,Phi,A,Q,R,xf0,P
 % 
 % INPUTS
 % y    : q*n matrix of measurements
+% mu_x : p*1 transition intercept
+% mu_y : q*1 measurement intercept
 % Phi  : p*p state transition matrix
 % A    : q*p measurement matrix
 % Q    : p*p state error covariance matrix
 % R    : q*q measurement error covariance matrix
 % xf0  : p*1 initial state mean vector (optional)
 % Pf0  : p*p initial state covariance matrix (optional)
-% mu_x : p*1 transition intercept (optional)
-% mu_y : q*1 measurement intercept (optional)
 %
 % OUTPUT
 % llk  : 1*1   log-likelihood (includes constant)
@@ -46,9 +46,9 @@ xf  = nan(p,n);     Pf  = nan(p,p,n);       J     = nan(p,p,n);
 xs  = nan(p,n);     Ps  = nan(p,p,n);       Pslag = nan(p,p,n);
 
 % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
-if nargin < 9; mu_y = zeros(q,1); end
-if nargin < 8; mu_x = zeros(p,1); end
-if nargin < 6
+% if nargin < 9; mu_y = zeros(q,1); end
+% if nargin < 8; mu_x = zeros(p,1); end
+if nargin < 8 %6
     xf0 = (Ip - Phi)\mu_x;                                         	% p*1
     Pf0 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
     if any(isnan(Pf0),'all') || any(isinf(Pf0),'all') || any(~isreal(eig(Pf0))) || any(eig(Pf0) < 0)
