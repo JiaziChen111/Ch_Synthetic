@@ -15,8 +15,8 @@ q2    = length(matsS);
 [PhiP,Sgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS] = parest2vars(parest);
 
 % Loadings for yields
-mu_xQ = mu_xP - Sgm*lmbd0;
-PhiQ  = PhiP  - Sgm*lmbd1;
+mu_xQ = mu_xP - chol(Sgm)*lmbd0;
+PhiQ  = PhiP  - chol(Sgm)*lmbd1;
 [AnQ,BnQ] = loadings4ylds(matsY,mu_xQ,PhiQ,Sgm,rho0,rho1,dt);   % AnQ: 1*q1, BnQ: p*q1
 
 % Loadings for forward rates (to match survey forecasts)
