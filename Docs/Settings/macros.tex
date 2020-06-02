@@ -16,7 +16,7 @@
 \providecommand{\rShortlag}{\STrate_{t-1}}
 \providecommand{\ySvy}{\STrate_{\idxs}^{survey}}
 \providecommand{\SDF}{M_{t+1}}
-\providecommand{\SDFprod}{\Expec \left[\Pi_{j=1} ^\tnr M_{t+j}\right]}
+\providecommand{\SDFprod}{\ExpP \left[\Pi_{j=1} ^\tnr M_{t+j}\right]}
 \providecommand{\Xvars}{X_{t}}
 \providecommand{\XvarsFwd}{X_{t+1}}
 \providecommand{\affineA}{A_{\tnr}}
@@ -30,11 +30,13 @@
 \providecommand{\TPatsm}{tp_{\idxs}}
 
 % Math fonts
-\providecommand{\Expec}{\mathrm{E}_{t}}
 \providecommand{\Xdim}{\mathrm{K}}
 \providecommand{\Normal}{\mathrm{N}}
 \providecommand{\Pmeasure}{\mathbb{P}}
 \providecommand{\Qmeasure}{\mathbb{Q}}
+\providecommand{\Expec}{\mathrm{E}_{t}}
+\providecommand{\ExpP}{\mathrm{E}^{\Pmeasure}_{t}}
+\providecommand{\ExpQ}{\mathrm{E}^{\Qmeasure}_{t}}
 
 % Greeks
 \providecommand{\riskprice}{\lambda_{t}}
@@ -45,11 +47,11 @@
 \providecommand{\deltazero}{\delta_{0}}
 \providecommand{\deltaone}{\delta_{1}}
 \providecommand{\error}{\nu_{t+1}}
-\providecommand{\Xmu}{\mu}
-\providecommand{\XmuStar}{\mu^{*}}
+\providecommand{\XmuP}{\mu^{\Pmeasure}}
+\providecommand{\XmuQ}{\mu^{\Qmeasure}}
 \providecommand{\XSigma}{\Sigma}
-\providecommand{\XPhi}{\Phi}
-\providecommand{\XPhiStar}{\Phi^{*}}
+\providecommand{\XPhiP}{\Phi^{\Pmeasure}}
+\providecommand{\XPhiQ}{\Phi^{\Qmeasure}}
 \providecommand{\betaLT}{\beta_{0}}
 \providecommand{\betaST}{\beta_{1}}
 \providecommand{\betaMTns}{\beta_{2}}
@@ -70,6 +72,11 @@
 \providecommand{\loadMTnssZero}{\left( \loadSTnssZero - \loadSTnssFwd \right)}
 
 %\providecommand{\}{}
+% DELETE
+\providecommand{\Xmu}{\mu}
+\providecommand{\XPhi}{\Phi}
+\providecommand{\XmuStar}{\mu^{*}}
+\providecommand{\XPhiStar}{\Phi^{*}}
 
 %-------------------------------------------------------------------
 % Equations
