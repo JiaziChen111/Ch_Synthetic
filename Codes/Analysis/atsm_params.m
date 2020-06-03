@@ -18,7 +18,6 @@ q2    = length(matsS);
 Hcov  = cSgm*cSgm';
 mu_xQ = mu_xP - chol(Hcov,'lower')*lmbd0;
 PhiQ  = PhiP  - chol(Hcov,'lower')*lmbd1;
-% Hcov  = cSgm*cSgm';
 [AnQ,BnQ] = loadings(matsY,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);      	% AnQ: 1*q1, BnQ: p*q1
 
 if ~isempty(matsS)
@@ -28,8 +27,8 @@ if ~isempty(matsS)
     BnmE = -BpE./(matsF - matsS);
 
     % Loadings for yields and forward rates
-    AnQ = [AnQ,AnmE];                                               % 1*q = [1*q1 1*q2]
-    BnQ = [BnQ,BnmE];                                               % p*q = [p*q1 p*q2]
+    AnQ = [AnQ,AnmE];                                           % 1*q = [1*q1 1*q2]
+    BnQ = [BnQ,BnmE];                                        	% p*q = [p*q1 p*q2]
 end
 
 % Parameters in state space form
@@ -45,11 +44,3 @@ elseif isempty(sgmS)
 else
     R = diag([repmat(sgmY^2,q1,1); repmat(sgmS^2,q2,1)]);
 end
-
-
-% matsF = matsS + 3;                                              % mats2 + tenor (in months) of rate in surveys
-% [AnQ,BnQ] = loadings4ylds(matsY,mu_xQ,PhiQ,Sgm,rho0,rho1,dt);   % AnQ: 1*q1, BnQ: p*q1
-% [AnE,BnE] = loadings4ylds(matsS,mu_xP,PhiP,zeros(size(Sgm)),rho0,rho1,dt);
-% [AmE,BmE] = loadings4ylds(matsF,mu_xP,PhiP,zeros(size(Sgm)),rho0,rho1,dt);
-% AnmE = (matsF.*AmE - matsS.*AnE)./(matsF - matsS);
-% BnmE = (matsF.*BmE - matsS.*BnE)./(matsF - matsS);
