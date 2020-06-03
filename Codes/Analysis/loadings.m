@@ -8,7 +8,7 @@ function [Ay,By,Ap,Bp] = loadings(mats_years,mu,Phi,Hcov,rho0dt,rho1dt,dt)
 % Hcov       : p*p
 % rho0dt     : scalar
 % rho1dt     : p*1
-% dt         : time period expressed in years (eg. dt = 1/12 for monthly data)
+% dt         : length of period in years (eg. dt = 1/12 for monthly data)
 % 
 % OUTPUT
 % Ay, A      : 1*q
