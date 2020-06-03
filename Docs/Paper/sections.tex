@@ -242,31 +242,39 @@ For all the countries in the sample, the data for these swap curves comes from B
 		\item Sources: Brandt and Chapman, Guimaraes, Lloyd.
 	\end{boxeditems}}{}
 
-This section describes the affine term structure model that is used to estimate the dynamics of the sovereign yield curves for the countries in the sample.
+This section describes the discrete-time affine term structure model used to estimate the dynamics of the sovereign yield curves for the countries in the sample, discusses the identification problem of the model parameters and presents the survey data used in the estimation of the model for emerging markets.
 %To decompose the nominal yield curves of emerging markets into an expected future short-term interest rate, a term premium and a credit risk premium.
 %Discrete-time affine term structure models with an exponentially affine pricing kernel are a standard tool to estimate the dynamics of the nominal yield curve for advanced economies. 
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
 \subsection{Term Structure Model} \label{sec:ATSMeqns}
-Let $\Pzero$ be the price at time $t$ of a zero-coupon risk-free bond with maturity $\tnr$. The continuously compounded yield on that bond is then $\yZero = - \ln \Pzero/\tnr $. Thus, the one-period continuously compounded risk-free rate is $\rShort = - \ln P_{t,1}$.
+Let \(\Pzero\) be the price at time $t$ of a zero-coupon risk-free bond with maturity \(\tnr\). The continuously compounded yield on that bond is then \(\yZero = - \ln \Pzero/\tnr\). Thus, the one-period continuously compounded risk-free rate is \(\rShort = - \ln P_{t,1}\).
 
-The no-arbitrage assumption implies that there exists a stochastic discount factor (SDF), $\SDF$, such that today's price equals the expectation of tomorrow's discounted price:
+The no-arbitrage assumption implies the existence of a strictly positive stochastic discount factor (SDF), \(\SDF\), that prices all assets. Accordingly, the bond price today equals the expectation of tomorrow's discounted price, it is thus recursively defined as follows:\footnote{ Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:nPzero}) implies that today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.}
 	\input{../Equations/nPzero}
-Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:nPzero}) implies that today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.
+\noindent where \(\ExpP [\cdot]\) denotes the expectation of a random variable taken using the actual or physical probability measure, \(\Pmeasure\).
 
-A discrete-time affine term structure model assumes that a $\Xdim \times 1$ vector of state variables $\Xvars$ drives the dynamics of the one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF in an affine form as follows:
+The existence of the SDF also implies that there exists a theoretical risk-neutral or risk-adjusted pricing measure, \(\Qmeasure\), that is different from the \(\Pmeasure\) measure that generates the data.
+
+A discrete-time affine term structure model assumes that the dynamics of a \(\Xdim \times 1\) vector unobserved pricing factors or state variables \(\Xvars\) follow a first-order vector autoregression, VAR(1), under the risk-neutral measure \(\Qmeasure\):
+	\input{../Equations/nXvarsQ}
+\noindent where \(\XmuQ\) is a \(\Xdim \times 1\) vector and \(\XPhiQ\) is a \(\Xdim \times \Xdim\) matrix of parameters, $\XSigma$ is a \(\Xdim \times \Xdim\) lower triangular matrix with positive diagonal elements, and \(\error\) is a \(\Xdim \times 1\) independent and identically distributed, zero-mean normal vector with covariance equal to the identity matrix conditional on the state vector; this is written as \(\error | \Xvars \overset{\text{iid}}{\sim} \Normal_{\Xdim} \left(0,I\right)\). 
+
+of the vector of state variables $\Xvars$ are assumed to evolve under the physical measure $(\Pmeasure)$ according to the following :
+\input{../Equations/nXvarsP}
+
+drives the dynamics of the one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF in an affine form as follows:
 	\input{../Equations/nRshort}
 	\input{../Equations/nRiskprice}
 	\input{../Equations/nSDF}
-\noindent where $\error$ is $i.i.d.$ $\Normal \left(0,I_{\Xdim}\right)$ and $I_{\Xdim}$ is the identity matrix of dimension $\Xdim$.
 
-The dynamics of the vector of state variables $\Xvars$ are assumed to evolve under the physical measure $(\Pmeasure)$ according to the following vector autoregression (VAR):
-	\input{../Equations/nXvarsP}
+
+
 The SDF in equation (\ref{eq:nSDF}) and the law of motion of the vector of state variables in equation (\ref{eq:nXvarsP}) can be formalized separately or jointly \citep[see][]{GurkaynakWright:2012}.
 
 The dynamics of the vector of state variables under the risk-neutral or pricing measure $(\Qmeasure)$:
-	\input{../Equations/nXvarsQ}
+
 are governed by the following parameters:
 	\input{../Equations/uXmuStar}
 	\input{../Equations/uXPhiStar}
