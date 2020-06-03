@@ -4,11 +4,11 @@ function [PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS] = parest2vars(parest)
 
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
-% Identify dimension of state vector
+% Fix number of constants in parest to identify dimension of state vector
 % ncons = 3;                                                  % number of constants in parest
-% tot   = length(parest);
-% p     = (-3 + sqrt(9 - 12*(ncons - tot)))/6;                % #states (quadratic formula) given #parameters
+% p     = (-3 + sqrt(9 - 12*(ncons - length(parest))))/6;     % #states (quadratic formula) given #parameters
 
+% Fix dimension of state vector to identify number of constants in parest
 p     = 3;
 ncons = length(parest) - 3*p*(p+1);                         % 3 matrices, 3 vectors, the rest are constants
 
@@ -29,5 +29,5 @@ rho1  = vecs(:,3);
 rho0  = cons(1);
 sgmY  = []; 
 sgmS  = [];
-if ncons > 1;   sgmY = cons(2);     end
+if ncons > 1;   sgmY = cons(2);     end                     % sgmY and sgmS only if included in parest
 if ncons > 2;   sgmS = cons(3);     end
