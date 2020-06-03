@@ -34,63 +34,89 @@ W     = pca(ylds,'NumComponents',p);                                          % 
     llkP,llkQ,K0Q_X,K1Q_X,rho0_X,rho1_X,Sigma_cP] = sample_estimation_fun(W',ylds,matsY,dt,false);
 [llk,AcP,BcP,AX,BX,K0Q_cP,K1Q_cP,rho0_cP,rho1_cP,cP,yields_filtered,cP_filtered] = ...
     jszLLK_KF(ylds,W',K1Q_X,kinfQ,Sigma_cP,matsY,dt,K0P_cP,K1P_cP,sigma_e);
-ylds_Q = ones(nobs,1)*AcP + cP_filtered*BcP;                    % with cP_filtered is same as yields_filtered
+ylds_Qjsz = ones(nobs,1)*AcP + cP_filtered*BcP;                 % with cP_filtered is same as yields_filtered
 
 %% ATSM estimation: Yields and surveys
-exitflag = 0;
-niter    = 1000;
+% exitflag = 0;
+% niter    = 1000;
 
-tic
-while exitflag == 0
-% Initial values come from JSZ
-mu_xP = K0P_cP;     PhiP = K1P_cP + Ip;  Sgm = Sigma_cP;
-mu_xQ = K0Q_cP;     PhiQ = K1Q_cP + Ip;
-rho0  = rho0_cP*dt; lmbd0 = chol(Sgm,'lower')\(mu_xP - mu_xQ);
-rho1  = rho1_cP*dt; lmbd1 = chol(Sgm,'lower')\(PhiP - PhiQ);
-sgmY  = mean(std(ylds,'omitnan')); %0.1;
-sgmS  = mean(std(svys,'omitnan')); %0.2;
-par0  = [PhiP(:);Sgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];
+% tic
+% while exitflag == 0
+% Use initial values from JSZ
+mu_xP = K0P_cP;     PhiP = K1P_cP + Ip;  Hcov = Sigma_cP;
+mu_xQ = K0Q_cP;     PhiQ = K1Q_cP + Ip;  cSgm = chol(Hcov,'lower');
+rho0  = rho0_cP*dt;
+rho1  = rho1_cP*dt;
+lmbd0 = cSgm\(mu_xP - mu_xQ);
+lmbd1 = cSgm\(PhiP - PhiQ);
+sgmY  = sigma_e; % mean(std(ylds,'omitnan')); %0.1;
+% sgmS  = mean(std(svys,'omitnan')); %0.2;
+% par0  = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];
+par0  = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY];%;sgmS];
+% [PhiP9,cSgm9,lmbd19,lmbd09,mu_xP9,rho19,rho09,sgmY9,sgmS9] = parest2vars(par0);  % check parest2vars
 x00   = (Ip - PhiP)\mu_xP;                                        	% p*1
-P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Sgm,p^2,1),p,p);	% p*p
+P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Hcov,p^2,1),p,p);	% p*p
 if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
     x00 = zeros(p,1);       P00 = Ip;                        	% in case the state is non-stationary
 end
 
+[mu_x0,mu_y0,Phi0,A0,Q0,R0] = atsm_params(par0,matsY,dt);                % check initial values
+[loglk0,~,~,~,~,xs0,Ps0] = Kfs(ylds',mu_x0,mu_y0,Phi0,A0,Q0,R0,x00,P00);
+
+
 % Estimate parameters (use yields and surveys)
-maxitr = length(par0)*niter;
-matsS  = [0.25:0.25:1 10];                                          % maturities of surveys
-mats   = [matsY matsS];                                             % maturities in years
-% mats   = round([matsY matsS]/dt);                                   % maturities in months
+tic
+% maxitr = length(par0)*niter;
+maxitr = length(par0)*200;
+mats   = matsY;                                                 % maturities in years
+% matsS  = [0.25:0.25:1 10];                                          % maturities of surveys
+% mats   = [matsY matsS];                                             % maturities in years
 optns  = optimset('MaxFunEvals',maxitr,'MaxIter',maxitr);
-llkhd  = @(x)llkfn(x,y',x00,P00,mats,dt);                        	% handle to include vars in workspace
-[parest,fval,exitflag] = fminsearch(llkhd,par0,optns);           	% estimate parameters
-if ~isinf(fval) && exitflag == 0;   niter = niter + 1000;   end
-end
+llkhd  = @(x)llkfn(x,ylds',x00,P00,mats,dt);                        	% handle to include vars in workspace
+% llkhd  = @(x)llkfn(x,y',x00,P00,mats,dt);                        	% handle to include vars in workspace
+parest = fminsearch(llkhd,par0,optns);                          % estimate parameters
+% [parest,fval,exitflag] = fminsearch(llkhd,par0,optns);           	% estimate parameters
+% if ~isinf(fval) && exitflag == 0;   niter = niter + 1000;   end
+% end
 toc
 
 % Estimate state vector based on estimated parameters
 [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,mats,dt);                % get model parameters
-[loglk,~,~,~,~,xs,Ps] = Kfs(y',mu_x,mu_y,Phi,A,Q,R,x00,P00);     	% smoothed state
+[loglk,~,~,~,~,xs,Ps] = Kfs(ylds',mu_x,mu_y,Phi,A,Q,R,x00,P00);     	% smoothed state
+% [loglk,~,~,~,~,xs,Ps] = Kfs(y',mu_x,mu_y,Phi,A,Q,R,x00,P00);     	% smoothed state
 
 % Estimate the term premium (in percentage points)
-[PhiP,Sgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS] = parest2vars(parest);
-mu_xQ     = mu_xP - chol(Sgm,'lower')*lmbd0;
-PhiQ      = PhiP  - chol(Sgm,'lower')*lmbd1;
-% matsY     = round(matsY/dt);                                        % maturities in months
-% [AnQ,BnQ] = loadings4ylds(matsY,mu_xQ,PhiQ,Sgm,rho0,rho1,dt);       % AnQ: 1*q, BnQ: p*q
-% [AnP,BnP] = loadings4ylds(matsY,mu_xP,PhiP,Sgm,rho0,rho1,dt);
-[AnQ,BnQ] = loadings(matsY,mu_xQ,PhiQ,Sgm,rho0,rho1,dt);            % AnQ: 1*q, BnQ: p*q
-[AnP,BnP] = loadings(matsY,mu_xP,PhiP,Sgm,rho0,rho1,dt);
+% [PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0] = parest2vars(parest);
+% Hcov      = cSgm*cSgm';
+% mu_xQ     = mu_xP - chol(Hcov,'lower')*lmbd0;
+% PhiQ      = PhiP  - chol(Hcov,'lower')*lmbd1;
+% [AnQ,BnQ] = loadings(matsY,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);            % , 
+mu_xP = mu_x;                                                   % p*1
+AnQ   = mu_y';                                                    % AnQ: 1*q
+PhiP  = Phi;                                                    % p*p
+BnQ   = A';                                                    % BnQ: p*q
+Hcov  = Q;                                                      % p*p
+[~,~,~,~,~,rho1,rho0] = parest2vars(parest);
+[AnP,BnP] = loadings(matsY,mu_xP,PhiP,Hcov,rho0,rho1,dt);
+ylds_Q    = ones(nobs,1)*AnQ + xs'*BnQ;
 tpyldsvy  = ones(nobs,1)*(AnQ - AnP) + xs'*(BnQ - BnP);
 tpyldsvy  = tpyldsvy*100;
 
 [Ay,By] = loadings(matsY,K0P_cP,K1P_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
-% [Ay,By] = loadings4ylds(matsY,K0P_cP,K1P_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
-ylds_P  = ones(nobs,1)*Ay + cP_filtered*By;                         % same cP as for yields_Q
-tpylds  = (ylds_Q - ylds_P)*100;
+ylds_Pjsz  = ones(nobs,1)*Ay + cP_filtered*By;                         % same cP as for yields_Q
+tpylds  = (ylds_Qjsz - ylds_Pjsz)*100;
 
-plot(tpyldsvy(:,end))
-plot(tpylds(:,end))
+figure; plot(dates,ylds(:,end),dates,ylds_Qjsz(:,end),dates,ylds_Q(:,end))
+figure; plot(dates,tpyldsvy(:,end),dates,tpylds(:,end))
+
+
+
+
+% mats   = round([matsY matsS]/dt);                                   % maturities in months
+% matsY     = round(matsY/dt);                                        % maturities in months
+% [AnQ,BnQ] = loadings4ylds(matsY,mu_xQ,PhiQ,Sgm,rho0,rho1,dt);       % AnQ: 1*q, BnQ: p*q
+% [AnP,BnP] = loadings4ylds(matsY,mu_xP,PhiP,Sgm,rho0,rho1,dt);
+% [Ay,By] = loadings4ylds(matsY,K0P_cP,K1P_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
 
 end
 
