@@ -23,8 +23,8 @@ PhiQ  = PhiP  - chol(Hcov,'lower')*lmbd1;
 if ~isempty(matsS)
     % Loadings for forward rates (to match survey forecasts)
     [~,~,ApE,BpE] = loadings(matsS,mu_xP,PhiP,zeros(size(Hcov)),rho0,rho1,dt);
-    AnmE = -ApE./(matsF - matsS);
-    BnmE = -BpE./(matsF - matsS);
+    AnmE = -ApE./matsS;%(matsF - matsS);
+    BnmE = -BpE./matsS;%(matsF - matsS);
 
     % Loadings for yields and forward rates
     AnQ = [AnQ,AnmE];                                           % 1*q = [1*q1 1*q2]
