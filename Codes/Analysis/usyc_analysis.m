@@ -7,7 +7,7 @@ function usyc_analysis()
 %% Load data
 % TTycsv = usycsvy_data ();
 % y   = TTycsv{:,:}./100;
-y     = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux'),'USYCSVYdata.xlsx'),'Sheet',1);
+y     = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),'USYCSVYdata.xlsx'),'Sheet',1);
 dates = x2mdate(y(:,1));                                                        % dates as datenum
 y     = y(:,2:end)./100;                                                        % data in decimals
 ylds  = y(:,1:8);                                                               % yield data
@@ -17,17 +17,17 @@ svys  = y(:,9:end);                                                             
 % table1 = [mean(ylds,'omitnan'); std(ylds,'omitnan')];                        	% table 1a
 % plot(ylds)                                                                    % figure 1a
 % plot(dates,svys,'*')                                                          % figure 1b
-% [tableA1,tableA3] = tpunrestricted();
-[tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy] = tpsurveys();
-figure                                                              % unrestricted
+% [tableA1,tableA3,smplsdate,smplsylds,smplstpjsz] = tpunrestricted();
+[tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy,smplsparam,smplsxs] = tpsurveys();
+figure                                                              % figure 3 (3 factors): unrestricted
 plot(smplsdate{1},smplstpjsz{1}(:,end),smplsdate{2},smplstpjsz{2}(:,end),smplsdate{3},smplstpjsz{3}(:,end),...
      smplsdate{4},smplstpjsz{4}(:,end),smplsdate{5},smplstpjsz{5}(:,end),smplsdate{6},smplstpjsz{6}(:,end))
-datetick('x','YY')
+datetick('x','YY'); ylim([-2 8]); yline(0);
 
-figure                                                              % surveys
+figure                                                              % figure 3 (3 factors): surveys
 plot(smplsdate{1},smplstpsvy{1}(:,end),smplsdate{2},smplstpsvy{2}(:,end),smplsdate{3},smplstpsvy{3}(:,end),...
      smplsdate{4},smplstpsvy{4}(:,end),smplsdate{5},smplstpsvy{5}(:,end),smplsdate{6},smplstpsvy{6}(:,end))
-datetick('x','YY')
+datetick('x','YY'); ylim([-2 8]); yline(0);
 
 %% ATSM estimation: Yields only
 addpath(genpath('jsz_code'))
@@ -136,18 +136,19 @@ figure; plot(dates(240:end),ylds_P(240:end,end),dates(240:end),ylds_Pjsz(240:end
 end
 
 
-function [tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy] = tpsurveys()
+function [tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy,smplsparam,smplsxs] = tpsurveys()
 % Load data
 % addpath(genpath('jsz_code'))
-y = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux'),'USYCSVYdata.xlsx'),'Sheet',1);
+y = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),'USYCSVYdata.xlsx'),'Sheet',1);
 y(:,1)     = x2mdate(y(:,1),0);                                 % Excel to Matlab dates
 y(:,2:end) = y(:,2:end)./100;                                   % ylds as decimals
 
 % Samples
 years      = 1972:5:1997;
 nsmpls     = length(years);
-smplsdate  = cell(1,nsmpls);    smplsylds = cell(1,nsmpls);
+smplsdate  = cell(1,nsmpls);    smplsylds  = cell(1,nsmpls);
 smplstpsvy = cell(1,nsmpls);    smplstpjsz = cell(1,nsmpls);
+smplsparam = cell(1,nsmpls);    smplsxs    = cell(1,nsmpls);
 tableA3    = nan(2,nsmpls);
 for k1 = 1:nsmpls
     smplsdate{k1} = y(y(:,1) > datenum(['1-Jan-' num2str(years(k1))]),1);
@@ -203,6 +204,7 @@ for k0 = 1:nsmpls
     % Estimate state vector based on estimated parameters
     [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,mats,dt);                   	% get model parameters
     [loglk,~,~,~,~,xs]    = Kfs(y',mu_x,mu_y,Phi,A,Q,R,x00,P00);          	% smoothed state
+    smplsparam{k0} = parest; smplsxs{k0} = xs';
 
     % Estimate the term premium (in percent)
     mu_xP = mu_x;                                                        	% p*1
@@ -236,27 +238,27 @@ end
 end
 
 
-function [tableA1,tableA3] = tpunrestricted()
+function [tableA1,tableA3,smplsdate,smplsylds,smplstpjsz] = tpunrestricted()
 % Load data
 % addpath(genpath('jsz_code'))
-y = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux'),'USYCSVYdata.xlsx'),'Sheet',1);
+y = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),'USYCSVYdata.xlsx'),'Sheet',1);
 y(:,1)     = x2mdate(y(:,1),0);                                 % Excel to Matlab dates
 y(:,2:end) = y(:,2:end)./100;                                   % ylds as decimals
 
 % Samples
 years     = 1972:5:2002;
 nsmpls    = length(years);
-smplsdate = cell(1,nsmpls); smplsylds = cell(1,nsmpls); smplstp = cell(1,nsmpls);
+smplsdate = cell(1,nsmpls);     smplsylds = cell(1,nsmpls);     smplstpjsz = cell(1,nsmpls);
 tableA3   = nan(1,nsmpls);
 for k1 = 1:nsmpls
     smplsdate{k1} = y(y(:,1) > datenum(['1-Jan-' num2str(years(k1))]),1);
     smplsylds{k1} = y(y(:,1) > datenum(['1-Jan-' num2str(years(k1))]),2:end);
 end
 
-p         = 3;                                                  % number of factors
-dt        = 1/12;                                               % time period in years
-matsY     = [0.25 1:5 7 10];
-Ip        = eye(p);
+p     = 3;                                                      % number of factors
+dt    = 1/12;                                                   % time period in years
+matsY = [0.25 1:5 7 10];
+Ip    = eye(p);
 
 for k0 = 1:nsmpls
     ylds  = smplsylds{k0}(:,1:8);
@@ -283,13 +285,13 @@ for k0 = 1:nsmpls
     % Term premia
     [AP,BP] = loadings(matsY,K0P_cP,K1P_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
     ylds_P  = ones(nobs,1)*AP + cP*BP;                          % same cP as for yields_Q
-    smplstp{k0} = (ylds_Q - ylds_P)*100;
+    smplstpjsz{k0} = (ylds_Q - ylds_P)*100;
     tableA3(k0) = mean(mean(ylds_P))*100;
 end
 
-plot(smplsdate{1},smplstp{1}(:,end),smplsdate{2},smplstp{2}(:,end),smplsdate{3},smplstp{3}(:,end),...
-     smplsdate{4},smplstp{4}(:,end),smplsdate{5},smplstp{5}(:,end),smplsdate{6},smplstp{6}(:,end),...
-     smplsdate{7},smplstp{7}(:,end))                             % figure 3 (unrestricted)
+plot(smplsdate{1},smplstpjsz{1}(:,end),smplsdate{2},smplstpjsz{2}(:,end),smplsdate{3},smplstpjsz{3}(:,end),...
+     smplsdate{4},smplstpjsz{4}(:,end),smplsdate{5},smplstpjsz{5}(:,end),smplsdate{6},smplstpjsz{6}(:,end),...
+     smplsdate{7},smplstpjsz{7}(:,end))                             % figure 3 (unrestricted)
 datetick('x','YY')
 end
 
@@ -297,7 +299,7 @@ end
 function TTycsv = usycsvy_data ()
 pathc    = pwd;
 pathd{1} = fullfile(pathc,'..','..','Data','Raw');                         % platform-specific file separators
-pathd{2} = fullfile(pathc,'..','..','Data','Aux');
+pathd{2} = fullfile(pathc,'..','..','Data','Aux','USYCSVY');
 namefl   = {'US_Yield_Curve_Data.xlsx','Mean_TBILL_1Q-4Q-10Y.xlsx'};
 
 for k = 1:2
