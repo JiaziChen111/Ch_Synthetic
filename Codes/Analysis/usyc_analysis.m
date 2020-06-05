@@ -179,17 +179,21 @@ for k0 = 1:nsmpls
     niter    = 2000;
     tic
     while exitflag == 0
-        % Initial values from JSZ
-        mu_xP = K0P_cP;     PhiP = K1P_cP + Ip;	Hcov = Sigma_cP;
-        mu_xQ = K0Q_cP;     PhiQ = K1Q_cP + Ip;	cSgm = chol(Hcov,'lower');
-        rho0  = rho0_cP*dt;                     rho1  = rho1_cP*dt;       	% rho0 & rho1 in per period units
-        lmbd0 = cSgm\(mu_xP - mu_xQ);           lmbd1 = cSgm\(PhiP - PhiQ);	% implied lambda0 & lambda1
-        sgmY  = sigma_e;                        sgmS  = sigma_e;
-        par0  = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];% stack model parameters
-        x00   = (Ip - PhiP)\mu_xP;                                         	% p*1
-        P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Hcov,p^2,1),p,p);% p*p
-        if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
-            x00 = zeros(p,1);       P00 = Ip;                             	% in case state is non-stationary
+        if k0 == 1 && niter == 2000
+            % Initial values from JSZ
+            mu_xP = K0P_cP;     PhiP = K1P_cP + Ip;	Hcov = Sigma_cP;
+            mu_xQ = K0Q_cP;     PhiQ = K1Q_cP + Ip;	cSgm = chol(Hcov,'lower');
+            rho0  = rho0_cP*dt;                     rho1  = rho1_cP*dt; 	% rho0 & rho1 in per period units
+            lmbd0 = cSgm\(mu_xP - mu_xQ);           lmbd1 = cSgm\(PhiP - PhiQ);	% implied lambda0 & lambda1
+            sgmY  = sigma_e;                        sgmS  = sigma_e;
+            par0  = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];%stack model parameters
+            x00   = (Ip - PhiP)\mu_xP;                                         	% p*1
+            P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Hcov,p^2,1),p,p);% p*p
+            if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
+                x00 = zeros(p,1);       P00 = Ip;                       	% in case state is non-stationary
+            end
+        else
+            par0 = parest;
         end
         
         % Estimate parameters (use yields and surveys)
