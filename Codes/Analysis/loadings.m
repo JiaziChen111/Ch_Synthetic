@@ -1,5 +1,5 @@
 function [Ay,By,Ap,Bp] = loadings(mats_years,mu,Phi,Hcov,rho0dt,rho1dt,dt)
-% LOADINGS Compute loadings for yields and prices for different maturities
+% LOADINGS Compute loadings for yields and log-prices for different maturities
 % 
 % INPUTS
 % mats_years : 1*q, where q is the number of maturities
@@ -42,5 +42,5 @@ for k  = 1:maxM
     B(:,k) = Bn;
 end
 
-Ap = A(1,mats_months);  Bp = B(:,mats_months);          	% loadings for prices
+Ap = A(1,mats_months);  Bp = B(:,mats_months);          	% loadings for log-prices
 Ay = -Ap./mats_years; 	By = -Bp./mats_years;           	% loadings for yields (annualized)
