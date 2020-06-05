@@ -18,7 +18,7 @@ svys  = y(:,9:end);                                                             
 % plot(ylds)                                                                    % figure 1a
 % plot(dates,svys,'*')                                                          % figure 1b
 % [tableA1,tableA3,smplsdate,smplsylds,smplstpjsz] = tpunrestricted();
-[tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy,smplsparam,smplsxs] = tpsurveys();
+[tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy,smplsparam,smplsxs,smplsllk] = tpsurveys();
 figure                                                              % figure 3 (3 factors): unrestricted
 plot(smplsdate{1},smplstpjsz{1}(:,end),smplsdate{2},smplstpjsz{2}(:,end),smplsdate{3},smplstpjsz{3}(:,end),...
      smplsdate{4},smplstpjsz{4}(:,end),smplsdate{5},smplstpjsz{5}(:,end),smplsdate{6},smplstpjsz{6}(:,end))
@@ -51,25 +51,29 @@ niter    = 2000;
 
 tic
 while exitflag == 0
-    % Initial values from JSZ
-    mu_xP = K0P_cP;     PhiP = K1P_cP + Ip;	Hcov = Sigma_cP;
-    mu_xQ = K0Q_cP;     PhiQ = K1Q_cP + Ip;	cSgm = chol(Hcov,'lower');
-    rho0  = rho0_cP*dt;                     rho1  = rho1_cP*dt;           	% rho0 & rho1 in per period units
-    lmbd0 = cSgm\(mu_xP - mu_xQ);           lmbd1 = cSgm\(PhiP - PhiQ);  	% implied lambda0 & lambda1
-    sgmY  = sigma_e;                        sgmS  = sigma_e;
-    par0  = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];% stack model parameters
-    x00   = (Ip - PhiP)\mu_xP;                                            	% p*1
-    P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Hcov,p^2,1),p,p);   	% p*p
-    if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
-        x00 = zeros(p,1);       P00 = Ip;                                	% in case state is non-stationary
-    end
+    if niter == 2000
+        % Initial values from JSZ (only in first block of iterations, o/w use previous values)
+        mu_xP = K0P_cP;     PhiP = K1P_cP + Ip;	Hcov = Sigma_cP;
+        mu_xQ = K0Q_cP;     PhiQ = K1Q_cP + Ip;	cSgm = chol(Hcov,'lower');
+        rho0  = rho0_cP*dt;                     rho1  = rho1_cP*dt;      	% rho0 & rho1 in per period units
+        lmbd0 = cSgm\(mu_xP - mu_xQ);           lmbd1 = cSgm\(PhiP - PhiQ);	% implied lambda0 & lambda1
+        sgmY  = sigma_e;                        sgmS  = sigma_e;
+        par0  = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];% stack model parameters
+        x00   = (Ip - PhiP)\mu_xP;                                      	% p*1
+        P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Hcov,p^2,1),p,p);% p*p
+        if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
+            x00 = zeros(p,1);       P00 = Ip;                               % in case state is non-stationary
+        end
 
-    % Check initial values
-    matsS  = [0.25:0.25:1 10];                                          	% survey maturities in years
-    mats   = [matsY matsS];
-    [mu_x0,mu_y0,Phi0,A0,Q0,R0] = atsm_params(par0,mats,dt);
-    [loglk0,~,~,~,~,xs0]        = Kfs(y',mu_x0,mu_y0,Phi0,A0,Q0,R0,x00,P00);
-    % plot(dates,cP_filtered(:,1),dates,xs0(1,:))
+        % Check initial values
+        matsS  = [0.25:0.25:1 10];                                        	% survey maturities in years
+        mats   = [matsY matsS];
+        [mu_x0,mu_y0,Phi0,A0,Q0,R0] = atsm_params(par0,mats,dt);
+        [loglk0,~,~,~,~,xs0]        = Kfs(y',mu_x0,mu_y0,Phi0,A0,Q0,R0,x00,P00);
+        % plot(dates,cP_filtered(:,1),dates,xs0(1,:))
+    else
+        par0 = parest;
+    end
 
     % Estimate parameters (use yields and surveys)
     maxitr = length(par0)*niter;
@@ -136,7 +140,7 @@ figure; plot(dates(240:end),ylds_P(240:end,end),dates(240:end),ylds_Pjsz(240:end
 end
 
 
-function [tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy,smplsparam,smplsxs] = tpsurveys()
+function [tableA1,tableA3,smplsdate,smplstpjsz,smplstpsvy,smplsparam,smplsxs,smplsllk] = tpsurveys()
 % Load data
 % addpath(genpath('jsz_code'))
 y = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),'USYCSVYdata.xlsx'),'Sheet',1);
@@ -149,16 +153,16 @@ nsmpls     = length(years);
 smplsdate  = cell(1,nsmpls);    smplsylds  = cell(1,nsmpls);
 smplstpsvy = cell(1,nsmpls);    smplstpjsz = cell(1,nsmpls);
 smplsparam = cell(1,nsmpls);    smplsxs    = cell(1,nsmpls);
-tableA3    = nan(2,nsmpls);
+smplsllk   = cell(1,nsmpls);    tableA3    = nan(2,nsmpls);
 for k1 = 1:nsmpls
     smplsdate{k1} = y(y(:,1) > datenum(['1-Jan-' num2str(years(k1))]),1);
-    smplsylds{k1} = y(y(:,1) > datenum(['1-Jan-' num2str(years(k1))]),2:end);
+    smplsylds{k1} = y(y(:,1) > datenum(['1-Jan-' num2str(years(k1))]),2:end);   % end-1 to exclude 10Y
 end
 
 p      = 3;                                                     % number of factors
 dt     = 1/12;                                                  % time period in years
 matsY  = [0.25 1:5 7 10];
-matsS  = [0.25:0.25:1 10];                                      % survey maturities in years
+matsS  = [0.25:0.25:1 10];                                      % survey maturities; 0.25:0.25:1 to exclude 10Y
 mats   = [matsY matsS];
 Ip     = eye(p);
 
@@ -208,7 +212,7 @@ for k0 = 1:nsmpls
     % Estimate state vector based on estimated parameters
     [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,mats,dt);                   	% get model parameters
     [loglk,~,~,~,~,xs]    = Kfs(y',mu_x,mu_y,Phi,A,Q,R,x00,P00);          	% smoothed state
-    smplsparam{k0} = parest; smplsxs{k0} = xs';
+    smplsllk{k0} = loglk; smplsparam{k0} = parest; smplsxs{k0} = xs';
 
     % Estimate the term premium (in percent)
     mu_xP = mu_x;                                                        	% p*1
