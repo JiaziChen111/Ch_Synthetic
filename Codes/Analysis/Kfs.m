@@ -46,9 +46,7 @@ xf  = nan(p,n);     Pf  = nan(p,p,n);       J     = nan(p,p,n);
 xs  = nan(p,n);     Ps  = nan(p,p,n);       Pslag = nan(p,p,n);
 
 % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
-% if nargin < 9; mu_y = zeros(q,1); end
-% if nargin < 8; mu_x = zeros(p,1); end
-if nargin < 8 %6
+if nargin < 8
     xf0 = (Ip - Phi)\mu_x;                                         	% p*1
     Pf0 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
     if any(isnan(Pf0),'all') || any(isinf(Pf0),'all') || any(~isreal(eig(Pf0))) || any(eig(Pf0) < 0)
@@ -73,17 +71,17 @@ for t = 1:n
     end
     
     At = A; At(miss(:,t),:) = 0;                                 	% account for missing observations
-    v  = yt(:,t) - (mu_y + At*xp(:,t));                             % innovation
-    V  = At*Pp(:,:,t)*At' + R;                                      % innovation covariance
-    K  = Pp(:,:,t)*At'/V;                                           % optimal Kalman gain
+    u  = yt(:,t) - (mu_y + At*xp(:,t));                             % innovation
+    U  = At*Pp(:,:,t)*At' + R;                                      % innovation covariance
+    K  = Pp(:,:,t)*At'/U;                                           % optimal Kalman gain
     
     % Updating equations
-    xf(:,t)   = xp(:,t) + K*v;
+    xf(:,t)   = xp(:,t) + K*u;
     Pf(:,:,t) = (Ip - K*At)*Pp(:,:,t);
     
     % Log-likelihood
-    term3 = max(v'/V*v,0);                                          % in case V is non-PSD
-    llk   = llk - 0.5*(q*log(2*pi) + log(det(V)) + term3);
+    term3 = max(u'/U*u,0);                                          % in case V is non-PSD
+    llk   = llk - 0.5*(q*log(2*pi) + log(det(U)) + term3);
 end
 
 %% Inference: Kalman smoother
