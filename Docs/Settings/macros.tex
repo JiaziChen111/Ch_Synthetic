@@ -8,9 +8,11 @@
 \providecommand{\idxt}{t}
 \providecommand{\idxs}{\idxt,\tnr}
 \providecommand{\fInst}{f_{\idxs}}
-\providecommand{\yZero}{y_{\idxs}}
+\providecommand{\yld}{y}
+\providecommand{\yZero}{\yld_{\idxs}}
 \providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
 \providecommand{\yZeroP}{\yZero^{\Pmeasure}}
+\providecommand{\yZeroE}{\yZero^{e}}
 \providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{t+1,\tnr-1}}
 \providecommand{\STrate}{r}								% Update in a later revision
@@ -25,20 +27,40 @@
 \providecommand{\affineB}{B_{\tnr}}
 \providecommand{\affineAfwd}{A_{\tnr + 1}}
 \providecommand{\affineBfwd}{B_{\tnr + 1}}
-\providecommand{\yLCnom}{y_{\idxs} ^{LC}}
-\providecommand{\yLCsynt}{\widetilde{y}_{\idxs} ^{LC}}
+\providecommand{\affineAQ}{\affineA^{\Qmeasure}}
+\providecommand{\affineBQ}{\affineB^{\Qmeasure}}
+\providecommand{\affineAP}{\affineA^{\Pmeasure}}
+\providecommand{\affineBP}{\affineB^{\Pmeasure}}
+\providecommand{\affineAe}{\affineA^{e}}
+\providecommand{\affineBe}{\affineB^{e}}
+\providecommand{\yLCnom}{\yld_{\idxs} ^{LC}}
+\providecommand{\yLCsynt}{\widetilde{\yld}_{\idxs} ^{LC}}
 \providecommand{\yUS}{y_{\idxs} ^{US}}
-\providecommand{\yUSsynt}{\widetilde{y}_{\idxs} ^{US}}
+\providecommand{\yUSsynt}{\widetilde{\yld}_{\idxs} ^{US}}
 \providecommand{\TPatsm}{tp_{\idxs}}
 
 % Math fonts
 \providecommand{\Xdim}{\mathrm{K}}
-\providecommand{\Normal}{\mathrm{N}}
+\providecommand{\Ydim}{\mathrm{N}}
+\providecommand{\Sdim}{\mathrm{S}}
+\providecommand{\Normal}{\mathcal{N}}
 \providecommand{\Pmeasure}{\mathbb{P}}
 \providecommand{\Qmeasure}{\mathbb{Q}}
 \providecommand{\Expec}{\mathrm{E}_{t}}
 \providecommand{\ExpP}{\mathrm{E}^{\Pmeasure}_{t}}
 \providecommand{\ExpQ}{\mathrm{E}^{\Qmeasure}_{t}}
+\providecommand{\Svy}{S}
+\providecommand{\yVec}{\mathbf{\yld}_{t}}
+\providecommand{\ySVec}{\yVec^{\Svy}}
+\providecommand{\Avec}{\mathbf{A}}
+\providecommand{\Bvec}{\mathbf{B}}
+\providecommand{\ASvec}{\mathbf{A}^{\Svy}}
+\providecommand{\BSvec}{\mathbf{B}^{\Svy}}
+\providecommand{\uVec}{\mathbf{u}_{t}}
+\providecommand{\uSVec}{\mathbf{u}_{t}^{\Svy}}
+\providecommand{\Svec}{\mathbf{\Sigma}}
+\providecommand{\SyVec}{\mathbf{\Svec}_{Y}}
+\providecommand{\SsVec}{\mathbf{\Svec}_{\Svy}}
 
 % Greeks
 \providecommand{\riskprice}{\lambda_{t}}
@@ -86,6 +108,10 @@
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{tp_{it} = \alpha_{i} + \beta' z_{it} + u_{it}}
 \newcommand{\eqySvy}{\ySvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\STrate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\STrate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{y}}}{1-\hat{\beta}_{\STrate}} g_{\idxs}^{survey} }
+
+\newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
+\newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
+
 
 
 %---------------------------------------------------------------
