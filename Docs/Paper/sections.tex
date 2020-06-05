@@ -238,8 +238,7 @@ For all the countries in the sample, the data for these swap curves comes from B
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
-		\item Order of model: no arbitrage, SDF exists, Q exists and is different than P, price function in terms of expectation under Q, dynamics of the factors under Q and short rate dynamics, price function under Q, final component: for term premium SDF depends on factors (Duffee), SDF dynamics, factor dynamics under P.
-		\item Sources: Brandt and Chapman, Guimaraes, Lloyd.
+		\item References for solutions to identification problem.
 	\end{boxeditems}}{}
 
 This section describes the discrete-time affine term structure model used to estimate the dynamics of the sovereign yield curves for the countries in the sample, discusses the identification problem of the model parameters and presents the survey data used in the estimation of the model for emerging markets.
@@ -251,39 +250,45 @@ This section describes the discrete-time affine term structure model used to est
 \subsection{Term Structure Model} \label{sec:ATSMeqns}
 Let \(\Pzero\) be the price at time $t$ of a zero-coupon risk-free bond with maturity \(\tnr\). The continuously compounded yield on that bond is then \(\yZero = - \ln \Pzero/\tnr\). Thus, the one-period continuously compounded risk-free rate is \(\rShort = - \ln P_{t,1}\).
 
-The no-arbitrage assumption implies the existence of a strictly positive stochastic discount factor (SDF), \(\SDF\), that prices all assets. Accordingly, the bond price today equals the expectation of tomorrow's discounted price, it is thus recursively defined as follows:\footnote{ Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:nPzero}) implies that today's price equals the expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.}
-	\input{../Equations/nPzero}
-\noindent where \(\ExpP [\cdot]\) denotes the expectation of a random variable taken using the actual or physical probability measure, \(\Pmeasure\).
-
-The existence of the SDF also implies that there exists a theoretical risk-neutral or risk-adjusted pricing measure, \(\Qmeasure\), that is different from the \(\Pmeasure\) measure that generates the data.
-
-A discrete-time affine term structure model assumes that the dynamics of a \(\Xdim \times 1\) vector unobserved pricing factors or state variables \(\Xvars\) follow a first-order vector autoregression, VAR(1), under the risk-neutral measure \(\Qmeasure\):
+The no-arbitrage assumption implies the existence of a strictly positive stochastic discount factor (SDF), \(\SDF\), that prices all assets. Accordingly, the bond price today equals the expectation, conditioned on all current information, of tomorrow's discounted price, it is thus recursively defined as follows:\footnote{ Since the price at maturity of a zero-coupon bond is $1$, recursive substitution of equation (\ref{eq:nPzeroP}) implies that today's price equals the conditional expectation of the product of SDFs over the life of the bond, $\Pzero = \SDFprod$.}
+	\input{../Equations/nPzeroP}
+\noindent where \(\ExpP [\cdot]\) denotes the conditional expectation of a random variable taken using the actual or physical probability measure, \(\Pmeasure\), that generates the data.
+The existence of the SDF also implies that there exists a theoretical risk-neutral or risk-adjusted pricing measure, \(\Qmeasure\), different from the \(\Pmeasure\) measure, which is defined as follows:
+	\input{../Equations/nPzeroQ}
+A discrete-time affine term structure model assumes that the dynamics of a \(\Xdim \times 1\) vector of unobserved pricing factors or state variables, \(\Xvars\), follow a first-order vector autoregression, VAR(1), under the risk-neutral measure \(\Qmeasure\):
 	\input{../Equations/nXvarsQ}
-\noindent where \(\XmuQ\) is a \(\Xdim \times 1\) vector and \(\XPhiQ\) is a \(\Xdim \times \Xdim\) matrix of parameters, $\XSigma$ is a \(\Xdim \times \Xdim\) lower triangular matrix with positive diagonal elements, and \(\error\) is a \(\Xdim \times 1\) independent and identically distributed, zero-mean normal vector with covariance equal to the identity matrix conditional on the state vector; this is written as \(\error | \Xvars \overset{\text{iid}}{\sim} \Normal_{\Xdim} \left(0,I\right)\). 
+\noindent where \(\XmuQ\) is a \(\Xdim \times 1\) vector and \(\XPhiQ\) is a \(\Xdim \times \Xdim\) matrix of parameters, $\XSigma$ is a \(\Xdim \times \Xdim\) lower triangular matrix with positive diagonal elements, and \(\error\) is a \(\Xdim \times 1\) independent and identically distributed, zero-mean normal vector with covariance equal to the identity matrix conditional on the state vector; this is written as \(\error^{\Qmeasure} | \Xvars \overset{\text{iid}}{\sim} \Normal_{\Xdim} \left(0,I\right)\). 
 
-of the vector of state variables $\Xvars$ are assumed to evolve under the physical measure $(\Pmeasure)$ according to the following :
-\input{../Equations/nXvarsP}
-
-drives the dynamics of the one-period interest rate $\rShort$, the $\Xdim \times 1$ market price of risk $\riskprice$ and the logarithm of the SDF in an affine form as follows:
+The dynamics of the one-period interest rate are driven by the pricing factors as follows 
 	\input{../Equations/nRshort}
-	\input{../Equations/nRiskprice}
-	\input{../Equations/nSDF}
+\noindent where \(\deltazero\) is a scalar and \(\deltaone\) is a \(\Xdim \times 1\) vector of parameters.
 
-
-
-The SDF in equation (\ref{eq:nSDF}) and the law of motion of the vector of state variables in equation (\ref{eq:nXvarsP}) can be formalized separately or jointly \citep[see][]{GurkaynakWright:2012}.
-
-The dynamics of the vector of state variables under the risk-neutral or pricing measure $(\Qmeasure)$:
-
-are governed by the following parameters:
-	\input{../Equations/uXmuStar}
-	\input{../Equations/uXPhiStar}
-The log price and the continuously compounded yield of a risk-free zero-coupon bond in this model are then affine functions of the state variables $\Xvars$:
+These assumptions imply that the bond price is an exponentially affine function of the pricing factors:
 	\input{../Equations/uPaffine}
-	\input{../Equations/uYaffine}
-\noindent where the scalar \input{../Equations/functionAn} and the $1 \times \Xdim$ vector \input{../Equations/functionBn}. These coefficients can be computed recursively as follows after combining the no-arbitrage condition and the functional form for bond prices:
-	\input{../Equations/uAffineA}
-	\input{../Equations/uAffineB}
+such that the corresponding continuously compounded yield of the bond is an affine function of the pricing factors:
+	\input{../Equations/nYaffineQ}
+\noindent where \(\affineAQ = - \frac{1}{\tnr} \affineA\), \(\affineBQ = - \frac{1}{\tnr} \affineB\), and in turn the scalar \input{../Equations/functionAnQ} and the \(1 \times \Xdim\) vector \input{../Equations/functionBnQ} are loadings that satisfy the recursive equations:\footnote{ To obtain the price coefficients can be computed recursively as follows after combining the no-arbitrage condition and the functional form for bond prices.}
+	\input{../Equations/nAffineA}
+	\vspace{-.7cm}
+	\input{../Equations/nAffineB}
+The yields \(\yZeroQ\) are the model's fitted yields, this means that the risk-neutral measure \(\Qmeasure\) is sufficient for pricing bonds. However, to 
+%estimate the model and 
+be able to decompose the yields into the future expected short-term interest rate and a term premium, the model also specifies the dynamics for the market prices of risk, which control the transformation between the \(\Qmeasure\) and \(\Pmeasure\) measures. Following \cite{Duffee:2002}, the \(\Xdim \times 1\) vector of market prices of risk, \(\riskprice\), is also an affine function of the pricing factors:
+	\input{../Equations/nRiskprice}
+\noindent where \(\lambdazero\) is a \(\Xdim \times 1\) vector and \(\lambdaone\) is \(\Xdim \times \Xdim\) matrix of parameters.
+
+Given this structure for the market prices of risk, the dynamics of the pricing factors can also be described by a VAR(1) under the physical measure $(\Pmeasure)$ as follows:
+	\input{../Equations/nXvarsP}
+\noindent where \input{../Equations/uXmuQ}, \input{../Equations/uXPhiQ},  \(\error^{\Pmeasure} | \Xvars \overset{\text{iid}}{\sim} \Normal_{\Xdim} \left(0,I\right)\). Note that the covariance matrix of the shocks is the same under both measures; that is, it is measure independent. Finally, the SDF is conditionally lognormal:\footnote{ The SDF in equation (\ref{eq:nSDF}) and the law of motion of the vector of state variables in equation (\ref{eq:nXvarsP}) can be formalized separately or jointly \citep[see][]{GurkaynakWright:2012}. For instance, in a utility maximization framework, the SDF is usually interpreted as the intertemporal marginal rate of substitution.}
+	\input{../Equations/nSDF}
+The yields consistent with the expectations hypothesis of the yield curve---as if investors were actually risk-neutral (\(\lambdazero = \lambdaone = 0\))---are obtained as:
+	\input{../Equations/uYaffineP}
+\noindent where \(\affineAP = - \frac{1}{\tnr} \affineA\), \(\affineBP = - \frac{1}{\tnr} \affineB\), and where in turn the loadings \input{../Equations/functionAnP} and \input{../Equations/functionBnP} satisfy the same recursions as those above but using instead the parameters of the law of motion of the pricing factors under the physical \(\Pmeasure\) measure.
+
+The expected yield over the life of an \(\tnr\)-period bond equals the conditional expectation under \(\Pmeasure\) of the average short rate over the period, thus:
+\input{../Equations/nYaffineE}
+\noindent where \(\affineAe = - \frac{1}{\tnr} \affineA\), \(\affineBe = - \frac{1}{\tnr} \affineB\), and where \input{../Equations/functionAnE} and \input{../Equations/functionBnE} also satisfy the same recursions under \(\Pmeasure\) but setting \(\XSigma = 0\) (see Appendix C of \cite{Guimaraes:2014}).
+
 The term premium for maturity $\tnr$ at time $t$, $\TPatsm$, can then be estimated as the difference between the yields obtained under the $\Qmeasure$ and $\Pmeasure$ measures:
 	\input{../Equations/nTPatsm}
 A key assumption behind this model is that the yield $\yZero$ is risk-free, a reasonable assumption for advanced but not for emerging countries since investors demand a credit risk premium from them \citep{DuSchreger:2016JoF}. 
@@ -295,26 +300,31 @@ This implies that the nominal yield $\yLCnom$ of emerging markets is not risk-fr
 In principle, the estimation of the parameters in the affine term structure model only  requires zero-coupon bond yields as an input.
 This is enough to estimate the pricing coefficients under the $\Qmeasure$ measure,
 %in equation (\ref{eq:nXvarsQ})
-namely $\XmuStar$ and $\XPhiStar$. However, they are not enough to identify the parameters under the $\Pmeasure$ measure, 
+\{\(\XmuQ, \XPhiQ\)\}, but not to identify the parameters under the $\Pmeasure$ measure, 
 %in equation (\ref{eq:nXvarsP})
-$\Xmu$ and $\XPhi$, which in turn are necessary to estimate the term premium in equation (\ref{eq:nTPatsm}).
+\{\(\XmuP, \XPhiP\)\}, which are necessary to estimate the term premium in equation (\ref{eq:nTPatsm}).
 
-This identification problem is due to the high persistence of bond yields, which results in small sample bias as has been highlighted by \cite{KimOrphanides:2012} and \cite{Guimaraes:2014}. Accordingly, the dynamics of the state vector will tend to mean-revert too quickly, overestimating the stability of the expected path of the short rate and, thus, much of the variability in yields is attributed to fluctuations in the term premium.
+This identification problem is due to the high persistence of bond yields, which results in small sample bias \citep{KimOrphanides:2012,Guimaraes:2014}. Accordingly, the dynamics of the state vector will tend to mean-revert too quickly, overestimating the stability of the expected path of the short rate and, thus, attributing much of the variability in yields to fluctuations in the term premium.
 
-Different solutions have been proposed to address this identification problem, including restrictions on parameters, bias-corrected estimators and adding information from survey forecasts in the estimation.
+Different solutions have been proposed to address this identification problem, including restrictions on parameters (Duffee 2010, Bauer 2018), bias-corrected estimators (BRW 2012) and adding information from survey forecasts in the estimation \citep{KimWright:2005,KimOrphanides:2012,Guimaraes:2014}.
 %of professional forecasters. 
-\cite{Guimaraes:2014} compares the three approaches and concludes that surveys are an effective solution to obtain robust decompositions of yield curves.
-I follow \cite{Guimaraes:2014} in supplementing the JSZ approach with survey data when estimating the affine model for emerging markets.
+\cite{Guimaraes:2014} compares the three approaches and concludes that surveys provide robust decompositions of the yield curves in the U.S. and the U.K. For instance, he finds that the term premia estimated with the aid of surveys remain essentially the same after varying the number of pricing factors (from 3 to 5) and the sample periods.
 
-In addition to supplementing the information from bond yields in the estimation of affine term structure models, surveys can also be used to obtain a model-free estimate of the term premium, calculated as the difference between the long-term interest rate and the expected future short rate from surveys (over the same horizon). This model-free estimate serves as a robustness check for the term premia obtained from the affine model. 
-
+The results in \cite{Guimaraes:2014} are particularly relevant for emerging markets for two reasons. 
+First, compared to the usual sample size in estimating the U.S. yield curve, the sample size in emerging markets is relatively shorter.
+Second, since the early 2000s there has been a considerable reduction in the inflation rates of many emerging markets, which can be considered as a regime change. 
+This is one of the reasons studies focusing on the U.S. use different sample periods.
+\cite{Guimaraes:2014} shows that even with a sample starting in 1972---including the U.S. Great Inflation period--- the estimated term premia using surveys is consistent with those obtained with shorter samples.
+Since surveys help to overcome both small sample sizes and regime changes, they are especially pertinent to get reliable decompositions for the bond yields of emerging markets.\footnote{ In addition to supplementing the information from bond yields in the estimation of affine term structure models, surveys can also be used to obtain a model-free estimate of the term premium, calculated as the difference between the long-term interest rate and the expected future short rate from surveys (over the same horizon). This model-free estimate serves as a robustness check for the term premia obtained from the affine model.}
+ 
+%I follow \cite{Guimaraes:2014} in supplementing the JSZ approach with survey data when estimating the affine model for emerging markets.
 
 \subsection{Survey Data} \label{sec:SurveyData}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 There is no source for long-term forecasts for the future policy rate of emerging markets. However, they can be inferred from existing data and Taylor rule-type regressions.
 
-Twice a year Consensus Economics provides 1- through 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample; this data is available from March 2001 to October 2017.\footnote{ The availability of data varies by country; for example, data for the Philippines starts in 2009, whereas data for Latin American countries ends in October 2013. Survey data for Israel and South Africa is not available.}
+Twice a year Consensus Economics provides 1- through 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample. This data is available from March 2001 to October 2017.\footnote{ The availability of data varies by country; for example, data for the Philippines starts in 2009, whereas data for Latin American countries ends in October 2013. Survey data for Israel and South Africa is not available.}
 %on survey forecasts for emerging markets 
 %surveys professional forecasters 
 
@@ -324,23 +334,49 @@ To obtain the embedded expectations for the policy rate in the survey responses,
 $\beta_{\STrate}$ is a smoothing parameter that improves the fit of the model to the data. 
 The information for $\rShort$ is obtained from the policy rate statistics of the Bank for International Settlements, and the data for inflation and real GDP growth comes from Bloomberg.
 
-Second, I assume that the estimated parameters in equation (\ref{eq:nTaylorRule}) apply to each of the survey maturities \(\tnr = 1, 2 \ldots, 5, 10\) for inflation and real GDP growth, and thus the expected future policy rate is calculated as:\footnote{ Under stationarity, $\mathrm{E}(\rShort) = \mathrm{E}(\rShortlag)$. The long-term forecasts are allocated to the 10-year maturity.}
+I then assume that the estimated parameters from equation (\ref{eq:nTaylorRule}) apply to each of the survey maturities \(\tnr = 1, 2 \ldots, 5, 10\) for inflation and real GDP growth, and thus the expected future policy rate is calculated as:\footnote{ Under stationarity, $\mathrm{E}(\rShort) = \mathrm{E}(\rShortlag)$. The long-term forecasts are allocated to the 10-year maturity.}
 	\input{../Equations/nYsurvey}
-
-The model is augmented with these survey expectations on the last day of the month for which the data was published.\footnote{ From 2001 to 2014, data for countries covered in the Eastern European release is available in March and September; starting in October 2014, it is released on April and October. For the rest of emerging markets the forecasts have always been released on April and October.}
-
-Finally, the model-free estimate for the $\tnr$-period term premium is obtained as the difference between \(\yLCnom\) and \(\ySvy\).
+I account for the uncertainty in the estimation of \(\rShort^{survey}\) when estimating the survey-augmented affine model.
+The model-free estimate for the $\tnr$-period term premium is obtained as the difference between \(\yLCnom\) and \(\ySvy\).
 %	\input{../Equations/nTPsurvey}
+
+In principle, there is an alternative way to use the surveys from Consensus Economics to aid in the estimation of the affine model. 
+The emerging markets in the sample can be assumed to be small open economies and so their real interest rate would be determined abroad. Accordingly, the forecast for the local short rate would be equal to the forecast for the international short-term real interest rate plus the forecast for inflation at each of the available maturities. This, however, not only requires to define the international short-term real interest rate but also to rely on long-term forecasts for it.
 
 
 \subsection{Estimation} \label{sec:Estimation}
-%This section describes both the estimation method and the data sources employed in the estimation of the model presented in section \ref{sec:ATSMeqns}.
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+Affine term structure models can be estimated by maximum likelihood, but the convergence to the global optimum has been traditionally subject to computational challenges and multiple local optima. However, \citet*{JSZ:2011} (hence JSZ) propose a normalization of the affine model that improves the convergence to the global optimum of the likelihood function.
 
-Affine term structure models can be estimated by maximum likelihood. Traditionally, the convergence to the global optimum of that method has been subject to computational challenges and multiple local optima. In light of this, \citet*{JSZ:2011} (hence JSZ) propose a normalization that improves the convergence to the global optimum of the likelihood function.
+The JSZ normalization allows for the near separation of the model's likelihood function into the product of the $\Pmeasure$ and $\Qmeasure$ likelihood functions, and reduces the dimension of the parameter space from \((\deltazero, \deltaone, \XmuQ, \XPhiQ, \XSigma)$ to $(r^{\Qmeasure}_{\infty}, \lambda^{\Qmeasure},\XSigma)\), where \(r^{\Qmeasure}_{\infty}\) is the short rate under \(\Qmeasure\) in the long-run and \(\lambda^{\Qmeasure}\) is a \(\Xdim \times 1\) vector of ordered eigenvalues of \(\XPhiQ\).
 
-The model's likelihood function is the product of the $\Pmeasure$ and $\Qmeasure$ likelihood functions. The JSZ normalization allows for the near separation of both likelihood functions and reduces the dimension of the parameter space from $(\deltazero, \deltaone, \XmuStar, \XPhiStar, \XSigma)$ to $(r^{\Qmeasure}_{\infty}, \lambda^{\Qmeasure},\XSigma)$, where $r^{\Qmeasure}_{\infty}$ is the short rate in the long-run  under $\Qmeasure$, $\lambda^{\Qmeasure}$ is a $\Xdim \times 1$ vector of ordered eigenvalues of $\XPhiStar$, and $\XSigma$ is a lower triangular matrix with positive diagonal elements.
+The affine model can be estimated using the JSZ normalization following a two-stage procedure. 
+First, the \(\Pmeasure\) parameters are estimated by OLS of the VAR in equation (\ref{eq:nXvarsP}) using the \(\Xdim\) principal components of the synthetic yield curve \(\yLCsynt\). This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking \(\hat{\Xmu}^{\Pmeasure}\) and \(\hat{\XPhi}^{\Pmeasure}\) as given, the \(\Qmeasure\) parameters can be estimated by maximum likelihood. The two-stage estimation is used to estimate the affine model for the advanced countries in the sample.
 
-The JSZ normalization allows a two-stage estimation of the model presented in section \ref{sec:ATSMeqns}. First, the $\Pmeasure$ parameters are estimated by OLS of the VAR in equation (\ref{eq:nXvarsP}), using the estimated $\Xdim$ principal components of the synthetic yield curve $\yLCsynt$. This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking $\hat{\Xmu}$ and $\hat{\XPhi}$ as given, the $\Qmeasure$ parameters can be estimated by maximum likelihood.
+For emerging markets, however, the model presented in section \ref{sec:ATSMeqns} is augmented with survey expectations of the short rate.\footnote{ I do not have access to survey data for the advanced countries in the sample. However, they are not the main focus of this paper; in fact, the affine model is estimated for them just for comparison purposes. Moreover, the results in this paper for them are more comparable with other studies that do not use survey data. Finally, there are less concerns about small sample sizes for advanced countries and, for some of them, even for a regime change during the sample period.} 
+Notice that yield curve data is monthly whereas survey data is available twice a year.
+The model is augmented with the survey expectations on the last day of the month for which the data was published.\footnote{ From 2001 to 2014, data for countries covered in the Eastern European release is available in March and September; starting in October 2014, it is released on April and October. For the rest of emerging markets the forecasts have always been released on April and October.}
+
+The survey-augmented model is estimated by maximum likelihood using the Kalman filter because it can handle missing data. 
+The transition equation is the law of motion of the pricing factors under the \(\Pmeasure\) measure given in equation (\ref{eq:nXvarsP}).
+The dimension of the measurement equation varies depending on the availability of survey data. 
+
+On months in which there is no data on survey expectations, the observation equation adds measurement error to the fitted yields in equation (\ref{eq:nYaffineQ}) for each of the \(\Ydim\) maturities:
+	\input{../Equations/nYaffineY}
+\noindent where \(\yVec\) is an \(\Ydim \times 1\) vector of observed bond yields, \(\Avec\) is an \(\Ydim \times 1\) vector with elements \(\affineAQ\), \(\Bvec\) is an \(\Ydim \times \Xdim\) matrix with rows equal to \(\affineBQ\) for \(n = 1, \ldots, \Ydim\), \(\uVec \sim \Normal_\Ydim (0,I) \) and \(\SyVec\) is a lower triangular \(\Ydim \times \Ydim\) matrix with positive elements on the diagonal.
+
+On months when survey data is available, the measurement equation increases by the number of survey forecasts \(\Sdim\) as follows:
+	\input{../Equations/nYaffineYS}
+\noindent where \(\ySVec\) is a \(\Sdim \times 1\) vector of survey forecasts, \(\ASvec\) is a \(\Sdim \times 1\) vector with elements \(\affineAe\), \(\BSvec\) is a \(\Sdim \times \Xdim\) matrix with rows equal to \(\affineBe\) for \(n = 1, \ldots, \Sdim\), \(\uSVec \sim \Normal_\Sdim (0,I) \) and \(\SsVec\) is a lower triangular \(\Sdim \times \Sdim\) matrix with positive elements on the diagonal.
+%continuously-compounded forward rate starting in \(\tnr\) periods and maturing in m periods, \(m > \tnr\),
+
+Following \cite{Guimaraes:2014} and \cite{Lloyd:2018b}, I use the estimated parameters from the JSZ normalization as initial values for the Kalman filter of the survey-augmented model and assume homoskedasticity in yields and surveys, so that \(\SyVec = \sigma_y I_{\Ydim} \) and \(\SsVec = \sigma_s I_{\Sdim}\).
+This reduces the number of parameters to be estimated.
+% That is, the standard deviation of the errors in yields is the same for all maturities, as is the the standard deviation of the errors in the surveys for all maturities. 
+
+Survey data helps to discipline the model but, at the same time, relying too much on it can be counterproductive due to, for instance, measurement error\footnote{ Consensus Economics does not report long-term forecasts for the policy rate of emerging markets.} and overfitting. 
+To strike a balance between these two considerations, I follow \cite{KimWright:2005} in not estimating \(\sigma_s\), it is instead kept fixed at a conservative level of 75 basis points. This essentially means that survey data is considered a noisy measure of policy rate expectations.\footnote{ Check: The estimates are similar though when \(\sigma_s\) is estimated.}
+
 
 %The model described above can be estimated in a few simple steps. First, equation (\ref{eq:nXvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:nRshort}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:nNSzero}) and the yields implied by the affine model in equation (\ref{eq:nYaffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
 %
@@ -353,7 +389,7 @@ The JSZ normalization allows a two-stage estimation of the model presented in se
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Yield Curve Decompositions} \label{sec:comovement}
+\section{Results} \label{sec:comovement}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -368,6 +404,14 @@ The aim of this paper is to decompose the synthetic yield curves of emerging mar
 The macroeconomic and financial variables used in section \ref{sec:spillovers} are downloaded from Bloomberg. 
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
+
+\subsection{Emerging Markets Bond Risk Premia} \label{sec:results}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+
+\subsection{Yield Curve Decompositions} \label{sec:results}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
 
 \subsection{Assessment of Term Premia Estimates} \label{sec:results}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
