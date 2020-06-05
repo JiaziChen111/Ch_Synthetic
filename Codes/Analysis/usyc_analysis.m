@@ -1,7 +1,7 @@
 function usyc_analysis()
 % USYC_ANALYSIS Reproduce analysis in Guimaraes (2014)
 
-% m-files called: y_NSS, atsm_params, Kfs
+% m-files called: y_NSS, llkfn, atsm_params, Kfs
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 % 
 %% Load data
