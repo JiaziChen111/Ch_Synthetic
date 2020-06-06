@@ -1,13 +1,13 @@
 %% Term Structure Analysis: Nominal and Synthetic for EM and AE
 % This code calls functions to estimate and analyze affine term structure models
 
-% m-files called: daily2monthly.m, ts_estimation.m, estimate_TR.m
-% Pavel Solís (pavel.solis@gmail.com), May 2020
+% m-files called: daily2monthly.m, forecast_cbpol ts_estimation.m, compare_atsm_surveys
+% Pavel Solís (pavel.solis@gmail.com), June 2020
 % 
 %% Load data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/May-2020';
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/June-2020';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
