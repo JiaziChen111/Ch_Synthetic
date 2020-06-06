@@ -36,6 +36,6 @@ for k = 1:nEMs
     macroGDP = macrodata(:,contains(macroname,'GDP'));                      % GDP for all survey tenors
     macroCBP = bCON + bINF*macroINF + bGDP*macroGDP;                        % policy rate for all survey tenors
     fltrMSS  = sum(isnan(macroCBP),2) == size(macroCBP,2);                  % rows w/ missing data
-    S(k).yS  = [nan macrotnr;                                            	% add survey tenors in first row
+    S(k).svys = [nan macrotnr;                                            	% add survey tenors in first row
                 macrodata(~fltrMSS,1) macroCBP(~fltrMSS,:)];                % keep dates w/ actual data
 end
