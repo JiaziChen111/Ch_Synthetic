@@ -286,8 +286,9 @@ The yields consistent with the expectations hypothesis of the yield curve---as i
 \noindent where \(\affineAP = - \frac{1}{\tnr} \affineA\), \(\affineBP = - \frac{1}{\tnr} \affineB\), and where in turn the loadings \input{../Equations/functionAnP} and \input{../Equations/functionBnP} satisfy the same recursions as those above but using instead the parameters of the law of motion of the pricing factors under the physical \(\Pmeasure\) measure.
 
 The expected yield over the life of an \(\tnr\)-period bond equals the conditional expectation under \(\Pmeasure\) of the average short rate over the period, thus:
-\input{../Equations/nYaffineE}
-\noindent where \(\affineAe = - \frac{1}{\tnr} \affineA\), \(\affineBe = - \frac{1}{\tnr} \affineB\), and where \input{../Equations/functionAnE} and \input{../Equations/functionBnE} also satisfy the same recursions under \(\Pmeasure\) but setting \(\XSigma = 0\) (see Appendix C of \cite{Guimaraes:2014}).
+\input{../Equations/uYaffineE}
+\noindent where \(\affineAe = - \frac{1}{\tnr} \affineA\), \(\affineBe = - \frac{1}{\tnr} \affineB\), and where \input{../Equations/functionAnE} and \input{../Equations/functionBnE} also satisfy the same recursions under \(\Pmeasure\) but setting \(\XSigma = 0\) (see Appendix C of \cite{Guimaraes:2014}).\footnote{ The difference between \(\yZeroP\) and \(\yZeroE\) is a convexity term due to Jensen's inequality, which increases with maturity. In practice, however, this term usually becomes relevant for maturities beyond ten years. Further, in homoskedastic models this term is constant across maturities.}
+In this sense, having information about \(\yZeroE\) could help in identifying the parameters under the \(\Pmeasure\) measure, \{\(\XmuP, \XPhiP\)\}.
 
 The term premium for maturity $\tnr$ at time $t$, $\TPatsm$, can then be estimated as the difference between the yields obtained under the $\Qmeasure$ and $\Pmeasure$ measures:
 	\input{../Equations/nTPatsm}
@@ -354,27 +355,29 @@ The affine model can be estimated using the JSZ normalization following a two-st
 First, the \(\Pmeasure\) parameters are estimated by OLS of the VAR in equation (\ref{eq:nXvarsP}) using the \(\Xdim\) principal components of the synthetic yield curve \(\yLCsynt\). This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking \(\hat{\Xmu}^{\Pmeasure}\) and \(\hat{\XPhi}^{\Pmeasure}\) as given, the \(\Qmeasure\) parameters can be estimated by maximum likelihood. The two-stage estimation is used to estimate the affine model for the advanced countries in the sample.
 
 For emerging markets, however, the model presented in section \ref{sec:ATSMeqns} is augmented with survey expectations of the short rate.\footnote{ I do not have access to survey data for the advanced countries in the sample. However, they are not the main focus of this paper; in fact, the affine model is estimated for them just for comparison purposes. Moreover, the results in this paper for them are more comparable with other studies that do not use survey data. Finally, there are less concerns about small sample sizes for advanced countries and, for some of them, even for a regime change during the sample period.} 
-Notice that yield curve data is monthly whereas survey data is available twice a year.
 The model is augmented with the survey expectations on the last day of the month for which the data was published.\footnote{ From 2001 to 2014, data for countries covered in the Eastern European release is available in March and September; starting in October 2014, it is released on April and October. For the rest of emerging markets the forecasts have always been released on April and October.}
+Notice that yield curve data is monthly whereas survey data is available twice a year.
 
-The survey-augmented model is estimated by maximum likelihood using the Kalman filter because it can handle missing data. 
+The survey-augmented model is estimated by maximum likelihood using the Kalman filter, which can handle missing data. 
 The transition equation is the law of motion of the pricing factors under the \(\Pmeasure\) measure given in equation (\ref{eq:nXvarsP}).
-The dimension of the measurement equation varies depending on the availability of survey data. 
+The dimension of the observation equation varies depending on the availability of survey data. 
 
 On months in which there is no data on survey expectations, the observation equation adds measurement error to the fitted yields in equation (\ref{eq:nYaffineQ}) for each of the \(\Ydim\) maturities:
 	\input{../Equations/nYaffineY}
 \noindent where \(\yVec\) is an \(\Ydim \times 1\) vector of observed bond yields, \(\Avec\) is an \(\Ydim \times 1\) vector with elements \(\affineAQ\), \(\Bvec\) is an \(\Ydim \times \Xdim\) matrix with rows equal to \(\affineBQ\) for \(n = 1, \ldots, \Ydim\), \(\uVec \sim \Normal_\Ydim (0,I) \) and \(\SyVec\) is a lower triangular \(\Ydim \times \Ydim\) matrix with positive elements on the diagonal.
 
-On months when survey data is available, the measurement equation increases by the number of survey forecasts \(\Sdim\) as follows:
+On months when survey data is available, the observation equation increases by the number of survey forecasts \(\Sdim\) as follows:
 	\input{../Equations/nYaffineYS}
 \noindent where \(\ySVec\) is a \(\Sdim \times 1\) vector of survey forecasts, \(\ASvec\) is a \(\Sdim \times 1\) vector with elements \(\affineAe\), \(\BSvec\) is a \(\Sdim \times \Xdim\) matrix with rows equal to \(\affineBe\) for \(n = 1, \ldots, \Sdim\), \(\uSVec \sim \Normal_\Sdim (0,I) \) and \(\SsVec\) is a lower triangular \(\Sdim \times \Sdim\) matrix with positive elements on the diagonal.
 %continuously-compounded forward rate starting in \(\tnr\) periods and maturing in m periods, \(m > \tnr\),
 
-Following \cite{Guimaraes:2014} and \cite{Lloyd:2018b}, I use the estimated parameters from the JSZ normalization as initial values for the Kalman filter of the survey-augmented model and assume homoskedasticity in yields and surveys, so that \(\SyVec = \sigma_y I_{\Ydim} \) and \(\SsVec = \sigma_s I_{\Sdim}\).
+To estimate the survey-augmented model, I follow \cite{Guimaraes:2014} and \cite{Lloyd:2018b} in two aspects. First, I use the estimated parameters from the JSZ normalization as initial values for the Kalman filter.
+Second, I assume homoskedasticity in yields and survey errors, so that \(\SyVec = \sigma_y I_{\Ydim}\) and \(\SsVec = \sigma_s I_{\Sdim}\), where \(I_{\Ydim}\) and \(I_{\Sdim}\) are \(\Ydim \times \Ydim\) and \(\Sdim \times \Sdim\) identity matrices, respectively.
 This reduces the number of parameters to be estimated.
+% Why homoskedasticity?
 % That is, the standard deviation of the errors in yields is the same for all maturities, as is the the standard deviation of the errors in the surveys for all maturities. 
 
-Survey data helps to discipline the model but, at the same time, relying too much on it can be counterproductive due to, for instance, measurement error\footnote{ Consensus Economics does not report long-term forecasts for the policy rate of emerging markets.} and overfitting. 
+Finally, survey data helps to discipline the model but, at the same time, relying too much on it can be counterproductive due to, for instance, measurement error\footnote{ Consensus Economics does not report long-term forecasts for the policy rate of emerging markets.} and overfitting. 
 To strike a balance between these two considerations, I follow \cite{KimWright:2005} in not estimating \(\sigma_s\), it is instead kept fixed at a conservative level of 75 basis points. This essentially means that survey data is considered a noisy measure of policy rate expectations.\footnote{ Check: The estimates are similar though when \(\sigma_s\) is estimated.}
 
 
