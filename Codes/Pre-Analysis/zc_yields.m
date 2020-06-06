@@ -1,15 +1,15 @@
-function [data_zc,hdr_zc,fitrprt] = zc_yields(dataset,header,curncs,tfplot)
+function [data_zc,hdr_zc,fitrprt] = zc_yields(dataset,header,curncs,tfnss,tfplot)
 % ZC_YIELDS Zero-coupon continuosly compounded local currency (LC) yield curves
 % BFV and IYC LC curves report coupon-equivalent (CE) par and zero-coupon yields,
-% they are converted to zero-coupon continuosly compounded (CC) yields which
-% are then used to estimate the Nelson-Siegel and Svensson models
+% they are converted to zero-coupon continuosly compounded (CC) yields
+% Optionally, Nelson-Siegel-Svensson model can be fitted to those yields
 % IYC curves used for BRL and ILS, BFV curves used for all other countries
 %   data_zc: stores historical data
 %   hdr_zc: stores headers (note: no title row, i.e. ready to be appended)
-%   fitrprt: reports fit (country, average RMSE in %, minutes taken to fit)
+%   fitrprt: reports NSS fit (country, average RMSE in %, minutes to fit)
 
-% m-files called: fltr4tickers, construct_hdr
-% Pavel Solís (pavel.solis@gmail.com), April 2020
+% m-files called: fltr4tickers, construct_hdr; y_NS, y_NSS
+% Pavel Solís (pavel.solis@gmail.com), June 2020
 
 %% Zero-coupon continuosly compounded yield curves for advanced and emerging economies
 hdr_zc  = {};                                                   % no title row (ie. ready to be appended)
@@ -21,7 +21,7 @@ tnrsout = [0.25 0.5 1:10]';
 tnrshdr = cellfun(@num2str,num2cell(tnrsout),'UniformOutput',false);
 fitrprt = cell(numel(curncs),3);
 for k0  = 1:numel(curncs)
-    tic
+    if tfnss; tic; end                                          % measure time if NSS fit
     LC  = curncs{k0};	tfbfv = true;
     [fltr,tnrscll] = fltr4tickers(LC,'LC','',header);
     
@@ -45,18 +45,22 @@ for k0  = 1:numel(curncs)
     end
     
     % Extract information and preallocate variables
-    yldsCE = dataset(:,fltr)/100;                               % in decimals
+    yldsCE = dataset(:,fltr)/100;                               % in decimals, needed for pyld2zero
     [ndates,ntnrs] = size(yldsCE);
-    ydates = nan(ndates,ntnrs);    rmse = nan(ndates,1);   params = [];
-    yldszc = nan(ndates,length(tnrsout));
+    ydates = nan(ndates,ntnrs);    
+    if tfnss                                                    % #zc yields will depend on whether NSS fit
+        yldszc = nan(ndates,length(tnrsout));   rmse = nan(ndates,1);   params = [];
+    else
+        yldszc = nan(ndates,ntnrs);
+    end
     
-    % Fit NS/S models daily
+    % Convert CE yields into zero-coupon CC yields
     for k1 = 1:ndates
         fltry = ~isnan(yldsCE(k1,:));                           % tenors with observations
         if sum(fltry) > 0                                       % at least one observation
             % Tenors and maturities (based on settlement day)
             tnrsin = tnrsnum(fltry);                          	% define tenors
-            ydates(k1,fltry) = datemnth(settle(k1),12*tnrsin); 	% define maturity dates
+            ydates(k1,fltry) = datemnth(settle(k1),12*tnrsin); 	% define maturity dates in months
             
             % Yields treatment depending on whether BFV or IYC curve  (column vectors)
             if tfbfv == true                                  	% BFV par yields CE to zc yields CC
@@ -76,30 +80,40 @@ for k0  = 1:numel(curncs)
                 yzc2fit = frqCE*log(1 + yldsCE(k1,fltry)'./frqCE);
             end
             
-            % Initial values from the data
-            beta0 = yzc2fit(end);       beta1 = yzc2fit(1) - beta0;     beta2 = -beta1;
-            beta3 = beta2;             	tau1  = 1;                      tau2  = tau1;
-            paramsdata = [beta0 beta1 beta2 beta3 tau1 tau2];
-            
-            % Fit NS/S models
-            [yzcfitted,params,error] = fit_NS_S(yzc2fit,tnrsin,tnrsout,params,paramsdata);
-            yldszc(k1,:) = yzcfitted*100;                       % in percentages
-            rmse(k1)     = error*100;
-            
-            % Plot and compare
-            if tfplot
-            plot(tnrsin,yzc2fit*100,'b',tnrsout,yldszc(k1,:),'r',tnrsin,yldsCE(k1,fltry)*100,'mo')
-            title([LC '  ' datestr(settle(k1))])
-            H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for a frame
+            % Save zero-coupon CC yields
+            if tfnss
+                % Initial values from the data
+                beta0 = yzc2fit(end);       beta1 = yzc2fit(1) - beta0;     beta2 = -beta1;
+                beta3 = beta2;             	tau1  = 1;                      tau2  = tau1;
+                paramsdata = [beta0 beta1 beta2 beta3 tau1 tau2];
+
+                % Fit NS/S models
+                [yzcfitted,params,error] = fit_NS_S(yzc2fit,tnrsin,tnrsout,params,paramsdata);
+                yldszc(k1,:) = yzcfitted*100;                       % in percentages
+                rmse(k1)     = error*100;
+
+                % Plot and compare
+                if tfplot
+                plot(tnrsin,yzc2fit*100,'b',tnrsout,yldszc(k1,:),'r',tnrsin,yldsCE(k1,fltry)*100,'mo')
+                title([LC '  ' datestr(settle(k1))])
+                H(k1) = getframe(gcf);                              % imshow(H(2).cdata) for a frame
+                end
+            else
+                yldszc(k1,fltry) = yzc2fit'*100;                  	% in percentages
             end
         end
     end
     
     % Save and append data
-    secs2fit = toc;
-    fitrprt{k0,1} = LC; fitrprt{k0,2} = mean(rmse,'omitnan'); fitrprt{k0,3} = secs2fit/60;
-    name_ZC = strcat(LC,' NOMINAL LC YIELD CURVE',{' '},tnrshdr,' YR');
-    hdr_ZC  = construct_hdr(LC,'LCNOM','N/A',name_ZC,tnrshdr,' ',' ');
+    if tfnss                                                        % report fit if NSS
+        secs2fit = toc;
+        fitrprt{k0,1} = LC; fitrprt{k0,2} = mean(rmse,'omitnan'); fitrprt{k0,3} = secs2fit/60;
+        name_ZC = strcat(LC,' NOMINAL LC YIELD CURVE',{' '},tnrshdr,' YR');
+        hdr_ZC  = construct_hdr(LC,'LCNOM','N/A',name_ZC,tnrshdr,' ',' ');
+    else
+        name_ZC = strcat(LC,' NOMINAL LC YIELD CURVE',{' '},tnrscll,' YR');
+        hdr_ZC  = construct_hdr(LC,'LCNOM','N/A',name_ZC,tnrscll,' ',' ');
+    end
     hdr_zc  = [hdr_zc; hdr_ZC];
     data_zc = [data_zc, yldszc];
 end
