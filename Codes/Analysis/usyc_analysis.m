@@ -37,7 +37,6 @@ tpyldjsz  = (ylds_Qjsz - ylds_Pjsz)*100;                                    % in
 
 %% ATSM estimation: Yields and surveys
 matsS    = [0.25:0.25:1 10];                                                % survey maturities in years
-mats     = [matsY matsS];
 exitflag = 0;
 niter    = 2000;
 tic
@@ -56,7 +55,7 @@ while exitflag == 0
         if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
             x00 = zeros(p,1);       P00 = Ip;                               % in case state is non-stationary
         end
-        [mu_x0,mu_y0,Phi0,A0,Q0,R0] = atsm_params(par0,mats,dt);            % check initial values
+        [mu_x0,mu_y0,Phi0,A0,Q0,R0] = atsm_params(par0,matsY,matsS,dt);	% check initial values
         [loglk0,~,~,~,~,xs0]        = Kfs(y',mu_x0,mu_y0,Phi0,A0,Q0,R0,x00,P00);
     else
         par0 = parest;
@@ -65,14 +64,14 @@ while exitflag == 0
     % Estimate parameters (use yields and surveys: y)
     maxitr = length(par0)*niter;
     optns  = optimset('MaxFunEvals',maxitr,'MaxIter',maxitr);
-    llkhd  = @(x)llkfn(x,y',x00,P00,mats,dt);                             	% include vars in workspace
+    llkhd  = @(x)llkfn(x,y',x00,P00,matsY,matsS,dt);                       	% include vars in workspace
     [parest,fval,exitflag] = fminsearch(llkhd,par0,optns);                  % estimate parameters
     if ~isinf(fval) && exitflag == 0;   niter = niter + 1000;   end
 end
 toc
 
 % Estimate state vector based on estimated parameters
-[mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,mats,dt);                        % get model parameters
+[mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);               	% get model parameters
 [loglk,~,~,~,~,xs]    = Kfs(y',mu_x,mu_y,Phi,A,Q,R,x00,P00);                % smoothed state
 
 % Estimate the term premium
@@ -134,7 +133,6 @@ p      = 3;                                                     % number of fact
 dt     = 1/12;                                                  % time period in years
 matsY  = [0.25 1:5 7 10];
 matsS  = [0.25:0.25:1 10];                                      % survey maturities; 0.25:0.25:1 to exclude 10Y
-mats   = [matsY matsS];
 Ip     = eye(p);
 
 for k0 = 1:nsmpls
@@ -174,14 +172,14 @@ for k0 = 1:nsmpls
         % Estimate parameters (use yields and surveys)
         maxitr = length(par0)*niter;
         optns  = optimset('MaxFunEvals',maxitr,'MaxIter',maxitr);
-        llkhd  = @(x)llkfn(x,y',x00,P00,mats,dt);                         	% include vars in workspace
+        llkhd  = @(x)llkfn(x,y',x00,P00,matsY,matsS,dt);                  	% include vars in workspace
         [parest,fval,exitflag] = fminsearch(llkhd,par0,optns);             	% estimate parameters
         if ~isinf(fval) && exitflag == 0;   niter = niter + 1000;   end
     end
     toc
     
     % Estimate state vector based on estimated parameters
-    [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,mats,dt);                   	% get model parameters
+    [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);          	% get model parameters
     [loglk,~,~,~,~,xs]    = Kfs(y',mu_x,mu_y,Phi,A,Q,R,x00,P00);          	% smoothed state
     smplsllk{k0} = loglk; smplsparam{k0} = parest; smplsxs{k0} = xs';
 

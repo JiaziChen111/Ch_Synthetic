@@ -1,9 +1,9 @@
-function llk = llkfn(parest,y,x00,P00,maturities,dt)
-% LLKFN Return the negative log-likelihood computed after the Kalman filter
+function llk = llkfn(parest,y,x00,P00,matsY,matsS,dt)
+% LLKFN Return the negative log-likelihood computed by the Kalman filter
 
 % m-files called: atsm_params, Kfs
-% Pavel Solís (pavel.solis@gmail.com), May 2020
+% Pavel Solís (pavel.solis@gmail.com), June 2020
 %%
-[mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,maturities,dt);	% get model parameters
+[mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);	% get model parameters
 llk = Kfs(y,mu_x,mu_y,Phi,A,Q,R,x00,P00);                   % calculate the log-likelihood
 llk = -llk;                                                 % return minus log-likelihood

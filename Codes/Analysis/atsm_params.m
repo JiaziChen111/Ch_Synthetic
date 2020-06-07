@@ -1,15 +1,15 @@
-function [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,maturities,dt)
+function [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt)
 % ATSM_PARAMS Define parameters for affine term structure model
-% Parameters vectorized in parest: PhiP;Sgm;lmbd1;lmbd0;mu_xP;rho1;rho0;sgmY;sgmS
+% parest - vectorized parameters: PhiP;Sgm;lmbd1;lmbd0;mu_xP;rho1;rho0;sgmY;sgmS
+% matsY  - maturities of yields
+% matsS  - maturities of surveys
 
 % m-files called: parest2vars, loadings
-% Pavel Solís (pavel.solis@gmail.com), May 2020
+% Pavel Solís (pavel.solis@gmail.com), June 2020
 %%
-% Identify maturities of yields and surveys
-matsY = maturities(1:8);                                        % maturities of yields
-matsS = maturities(9:end);                                      % maturities of surveys
-q1    = length(matsY);                                          % q = q1 + q2
-q2    = length(matsS);
+% Identify number of yields and surveys
+q1 = length(matsY);                                             % q = q1 + q2
+q2 = length(matsS);
 
 [PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS] = parest2vars(parest);
 
@@ -45,8 +45,8 @@ Q    = Hcov;                                                    % p*p
 if     isempty(sgmY) && isempty(sgmS)                           % q*q
     R = zeros(q1);                                              % this case causes problems
 elseif isempty(sgmS)
-    R = diag([repmat(sgmY^2,q1,1); repmat(0.0075^2,q2,1)]);     % fixed sgmS case
     % R = diag(repmat(sgmY^2,q1,1));                            % yields only case
+    R = diag([repmat(sgmY^2,q1,1); repmat(0.0075^2,q2,1)]);     % fixed sgmS case
 else
     R = diag([repmat(sgmY^2,q1,1); repmat(sgmS^2,q2,1)]);
 end
