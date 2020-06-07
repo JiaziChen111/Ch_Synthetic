@@ -4,7 +4,7 @@
 % m-files called: daily2monthly.m, forecast_cbpol ts_estimation.m, compare_atsm_surveys
 % Pavel Solís (pavel.solis@gmail.com), June 2020
 % 
-%% Load data
+%% Load the data
 clear
 pathc = pwd;
 pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/June-2020';
@@ -13,19 +13,31 @@ load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
 cd(pathc)
 
-%% Estimate ATSM
+%% Process the data
 [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
-addpath(genpath('jsz_code'))
-nPCs = 3;  dt = 1/12;
-[S,corrPCnom] = ts_estimation(S,nPCs,dt,'LCNOM');
-[S,corrPCsyn] = ts_estimation(S,nPCs,dt,'LCSYNT');
+% [~,corrPC,pctmiss] = compare_pcs(S,nPCs,true);
+% save('struct_datamy_S.mat','corrPC','-append')
+% save('struct_datamy_S.mat','pctmiss','-append')
+S = forecast_cbpol(S,currEM);
+S = append_surveys(S,currEM);
 
+%% Estimate affine term structure model
+tic
+S = atsm_estimation(S,[1 5 10]);                                        % maturities to report after estimation
+toc
+
+% [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
+% addpath(genpath('jsz_code'))
+% nPCs = 3;  dt = 1/12;
+% [S,corrPCnom] = ts_estimation(S,nPCs,dt,'LCNOM');
+% [S,corrPCsyn] = ts_estimation(S,nPCs,dt,'LCSYNT');
+
+% S = forecast_cbpol(S,currEM);
+
+%% Store results
 cd(pathd)
 save struct_datamy_S.mat S
 cd(pathc)
-
-%% Survey data
-S = forecast_cbpol(S,currEM);
 [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
 
 %% Estimate ATSM for emerging markets with surveys
