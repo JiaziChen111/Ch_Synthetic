@@ -46,7 +46,8 @@ if     isempty(sgmY) && isempty(sgmS)                           % q*q
     R = zeros(q1);                                              % this case causes problems
 elseif isempty(sgmS)
     % R = diag(repmat(sgmY^2,q1,1));                            % yields only case
-    R = diag([repmat(sgmY^2,q1,1); repmat(0.0075^2,q2,1)]);     % fixed sgmS case
+    sgmS = 0.0075;                                              % same as in Kim & Orphanides (2012)
+    R = diag([repmat(sgmY^2,q1,1); repmat(sgmS^2,q2,1)]);       % fixed sgmS case
 else
     R = diag([repmat(sgmY^2,q1,1); repmat(sgmS^2,q2,1)]);
 end
