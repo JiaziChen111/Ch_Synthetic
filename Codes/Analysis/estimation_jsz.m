@@ -32,9 +32,9 @@ W    = pca(ylds,'NumComponents',p);                                         % W'
 [AnQ,BnQ] = loadings(matsout,K0Q_cP,K1Q_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
 [AnP,BnP] = loadings(matsout,K0P_cP,K1P_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
 % ylds_Q  = (ones(nobs,1)*AcP + cP_filtered*BcP)*100;                      	% same as yields_filtered
-ylds_Q  = (ones(nobs,1)*AnQ + cP_filtered*BnQ)*100;                        	% same cP for ylds_Q and ylds_P
-ylds_P  = (ones(nobs,1)*AnP + cP_filtered*BnP)*100;
-termprm = ylds_Q - ylds_P;                                                  % in percent
+ylds_Q    = ones(nobs,1)*AnQ + cP_filtered*BnQ;                           	% same cP for ylds_Q and ylds_P
+ylds_P    = ones(nobs,1)*AnP + cP_filtered*BnP;
+termprm   = ylds_Q - ylds_P;                                              	% in decimals
 
 % Report parameters
 mu_xP = K0P_cP;
