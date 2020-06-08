@@ -150,8 +150,6 @@
 \section{Analysis}
 \gototoc
 \begin{todolist}
-	\item Make sure all monthly data (yields, surveys, macro) has SAME end-of-month dates.
-	\item Add als in pca to be able to estimate JSZ for initial values. No need to construct balanced panels to estimate ATSM but leave them b/c already coded and might have some use in the future.
 	\item Estimate ATSM for AEs and EMs. Save TP w/ JSZ and w/ surveys for LCNOM and LCSYNT.
 	\item After estimating ATSM, generate yields (P, Q) and TP for ALL maturities to get balanced panels (output tenors vs input tenors).
 	\item Add policy rates data to macro data in structure of all countries.
@@ -161,6 +159,8 @@
 	\item Correct US YC for credit risk (Chernov, Schmidt, Song).
 	\item Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW.
 	\item Replicate Lloyd.
+	\item[\done] Make sure all monthly data (yields, surveys, macro) has SAME end-of-month dates.
+	\item[\wontdo] Add als in pca to be able to estimate JSZ for initial values. Need balanced panel to use JSZ.
 	\item[\done] Generate dataset w/o fitting NS to YCs.
 	\item[\done] Replicate Guimaraes but w/o including the survey maturity for 10Y to see how much that maturity helps pinning down the parameters of the model. It helps a lot, especially with shorter samples.
 	\item[\done] Explicit that longer series for AEs and surveys for EMs. Also, no surveys for AEs for comparison w/ other studies. % :)

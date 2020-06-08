@@ -105,14 +105,12 @@ auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
 In analysis folder
 run ts_analysis.m	-> generates structure w/ analyzed data
-	daily2monthly.m -> extract monthly data
-	forecast_cbpol.m-> add survey data for policy rate
+	daily2monthly	-> extract monthly data
+	forecast_cbpol	-> add survey data for policy rate
+	append_surveys 	-> combine yield and survey data
+	atsm_estimation -> estimate model w/ and w/o survey data, nominal & synthetic YCs
 
 
-	run tp_analysis.m	-> once using 'LCRF' and once using 'LC'
-
-	+run fit_NS.m 		-> default-free LC YCs (11 min or 15 if 4 initial values)
-	+run rp_estimation.m	-> estimates risk premia (seconds)
 	+run rp_plot.m		-> plots risk premia (seconds)
 	run rp_us.m		-> US TP (seconds) may require internet access
 	+run rp_correlations	-> EMs TPs with US TP, EPU (seconds)
@@ -122,11 +120,6 @@ run ts_analysis.m	-> generates structure w/ analyzed data
 
 	run rp_regressions.m	-> correlations
 
-*Ideal*: master file (rp_analysis) that calls functions fit_NS, rp_estimation, rp_plot
-give dataset (rf or risky) and special_cases (rf or risky) to fit_NS and get dataset_lcRF or dataset_lcRK
-give dataset_lcXX to rp_estimation and get dataset_monthly, header_monthly, statistics
-merge both datasets
-plot rf and risky
 
 'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified using (filtering in) header_daily
 
