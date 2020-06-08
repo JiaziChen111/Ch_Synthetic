@@ -46,9 +46,9 @@ if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || a
     x00 = zeros(p,1);       P00 = Ip;                                       % in case state is non-stationary
 end
 cSgm  = chol(Hcov,'lower'); mu_xQ = K0Q_cP; PhiQ  = K1Q_cP + Ip;
+params.cSgm  = cSgm;
 params.mu_xP = K0P_cP;                  params.PhiP  = K1P_cP + Ip;
 params.mu_xQ = K0Q_cP;                  params.PhiQ  = K1Q_cP + Ip;
-params.cSgm  = cSgm;
 params.rho0  = rho0_cP*dt;              params.rho1  = rho1_cP*dt;       	% rho0 & rho1 in per period units
 params.lmbd0 = cSgm\(mu_xP - mu_xQ);    params.lmbd1 = cSgm\(PhiP  - PhiQ);	% implied lambda0 & lambda1
 params.sgmY  = sigma_e;                 params.sgmS  = sigma_e;
