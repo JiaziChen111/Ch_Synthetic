@@ -22,7 +22,7 @@ fnames  = fieldnames(S);
 prefix  = {'n','s'};
 
 for k0 = 1:2
-    fldname = fnames{contains(fnames,[prefix{k0} '_y'])};
+    fldname = fnames{contains(fnames,[prefix{k0} '_ylds'])};
     for k1  = 1:ncntrs
         % Split yields & surveys
         dates  = S(k1).(fldname)(2:end,1);
@@ -49,12 +49,12 @@ for k0 = 1:2
         
         % Estimate the model using yields and surveys
         if ~isempty(matsS)                                                  % only for EMs w/ survey data
-            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,params0);
+            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,params0,true);
             
-            S(k1).([prefix{k0} 's_yQ']) = [nan matsout; dates ylds_Q];
-            S(k1).([prefix{k0} 's_yP']) = [nan matsout; dates ylds_P];
-            S(k1).([prefix{k0} 's_tp']) = [nan matsout; dates termprm];
-            S(k1).([prefix{k0} 's_pr']) = params;
+            S(k1).([prefix{k0} 'sf_yQ']) = [nan matsout; dates ylds_Q];
+            S(k1).([prefix{k0} 'sf_yP']) = [nan matsout; dates ylds_P];
+            S(k1).([prefix{k0} 'sf_tp']) = [nan matsout; dates termprm];
+            S(k1).([prefix{k0} 'sf_pr']) = params;
         end
         disp(['Estimation for ' S(k1).cty ' has finished.'])
     end
