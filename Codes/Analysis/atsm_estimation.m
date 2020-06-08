@@ -21,7 +21,7 @@ ncntrs  = length(S);
 fnames  = fieldnames(S);
 prefix  = {'n','s'};
 
-for k0 = 1%:2
+for k0 = 1:2
     fldname = fnames{contains(fnames,[prefix{k0} '_y'])};
     for k1  = 1:ncntrs
         % Split yields & surveys
