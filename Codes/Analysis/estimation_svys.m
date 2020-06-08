@@ -28,7 +28,7 @@ niter  = 2000;
 while fmflag == 0
     if niter == 2000                                                        % use initial values in 1st run
         par0 = [params0.PhiP(:);params0.cSgm(:);params0.lmbd1(:);params0.lmbd0(:);...
-                params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY];% sgmS fixed, defined in atsm_params
+                params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY;params0.sgmS];% sgmS fixed, defined in atsm_params
     else
         par0 = parest;
     end
@@ -51,8 +51,8 @@ mu_xQ = mu_xP - cSgm*lmbd0;
 PhiQ  = PhiP  - cSgm*lmbd1;
 [AnQ,BnQ] = loadings(matsout,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);
 [AnP,BnP] = loadings(matsout,mu_xP,PhiP,Hcov,rho0,rho1,dt);
-ylds_Q    = (ones(nobs,1)*AnQ + xs'*BnQ)*100;
-ylds_P    = (ones(nobs,1)*AnP + xs'*BnP)*100;
+ylds_Q    = ones(nobs,1)*AnQ + xs'*BnQ;
+ylds_P    = ones(nobs,1)*AnP + xs'*BnP;
 termprm   = ylds_Q - ylds_P;                                    % = ones(nobs,1)*(AnQ - AnP) + xs'*(BnQ - BnP);
 
 % Report parameters
