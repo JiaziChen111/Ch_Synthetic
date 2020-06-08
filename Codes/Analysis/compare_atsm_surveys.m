@@ -19,11 +19,10 @@ nEMs = length(currEM);
 if showfigs
     for k = 1:nEMs
         figure
-        plot(S(k).yS(2:end,1),S(k).yS(2:end,2:end))
+        plot(S(k).svys(2:end,1),S(k).svys(2:end,2:end))
         title(S(k).cty), ylabel('%'), datetick('x','YY')
-        legend(cellfun(@num2str,num2cell(S(k).yS(1,2:end)),'UniformOutput',false))
+        legend(cellfun(@num2str,num2cell(S(k).svys(1,2:end)),'UniformOutput',false))
     end
-    input([S(k).iso ' displayed. Press Enter key to continue.']);
 end
 
 %% Compare ATSM and surveys
