@@ -23,9 +23,9 @@ for k0 = 1:2
         TTy   = array2timetable(ylds,'RowTimes',datetime(datey,'ConvertFrom','datenum'));
         TTs   = array2timetable(svys,'RowTimes',datetime(datev,'ConvertFrom','datenum'));
         TT    = synchronize(TTy,TTs,'union');
-        S(k1).([prefix{k0} 'y']) = [hdry hdrv; datenum(TT.Time) TT{:,:}];
+        S(k1).([prefix{k0} 'ylds']) = [hdry hdrv; datenum(TT.Time) TT{:,:}];
     end
     for k2 = nEMs+1:ncntrs
-        S(k2).([prefix{k0} 'y']) = S(k2).(fnameb);
+        S(k2).([prefix{k0} 'ylds']) = S(k2).(fnameb);
     end
 end
