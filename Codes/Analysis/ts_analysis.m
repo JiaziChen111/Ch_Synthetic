@@ -38,6 +38,8 @@ toc
 cd(pathd)
 save struct_datamy_S.mat S
 cd(pathc)
+
+%% Compare results
 [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
 
 %% Estimate ATSM for emerging markets with surveys
