@@ -15,9 +15,6 @@ cd(pathc)
 
 %% Process the data
 [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
-% [~,corrPC,pctmiss] = compare_pcs(S,nPCs,true);
-% save('struct_datamy_S.mat','corrPC','-append')
-% save('struct_datamy_S.mat','pctmiss','-append')
 S = forecast_cbpol(S,currEM);
 S = append_surveys(S,currEM);
 
@@ -25,50 +22,16 @@ S = append_surveys(S,currEM);
 S = atsm_estimation(S,[1 5 10],true);   % report 1Y-5Y-10Y maturities, free sgmS case, running time 4.9 hrs
 S = atsm_estimation(S,[1 5 10],false); 	% report 1Y-5Y-10Y maturities, fixed sgmS case, running time 5.5 hrs
 
-
-% [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
-% addpath(genpath('jsz_code'))
-% nPCs = 3;  dt = 1/12;
-% [S,corrPCnom] = ts_estimation(S,nPCs,dt,'LCNOM');
-% [S,corrPCsyn] = ts_estimation(S,nPCs,dt,'LCSYNT');
-
-% S = forecast_cbpol(S,currEM);
-
 %% Store results
 cd(pathd)
 save struct_datamy_S.mat S
 cd(pathc)
+% [~,corrPC,pctmiss] = compare_pcs(S,nPCs,true);
+% save('struct_datamy_S.mat','corrPC','-append')
+% save('struct_datamy_S.mat','pctmiss','-append')
 
 %% Compare results
 [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
-
-%% Estimate ATSM for emerging markets with surveys
-
-% y,Phi,A,Q,R come from JSZ
-param0 = [1.03,.01,.01,.25];
-x00    = [.7;0;0;0];
-P00    = diag(repmat(.04,4,1));
-llkhd  = @(x)llkfn(x,y',x00,P00);                           % handle to include variables in workspace
-parest = fminsearch(llkhd,param0);                          % estimate parameters
-[Phi,A,Q,R,mu_x,mu_y] = atsm_params(parest);                % get model parameters
-[loglk,~,~,~,~,xs,Ps] = Kfs(y',Phi,A,Q,R,x00,P00,mu_x,mu_y);% smoothed state
-
-
-%% EM algorithm for emerging markets
-% 
-% for k0 = 1:nEMs
-%     % y,Phi,A,Q,R come from JSZ
-%     % Initialize recursion with unconditional moments assuming state is stationary x0 ~ N(xf0,Pf0)
-%     x00 = (Ip - Phi)\mu_x;                                         	% p*1
-%     P00 = reshape((eye(p^2)-kron(Phi,Phi))\reshape(Q,p^2,1),p,p);   % p*p
-%     if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
-%         x00 = zeros(p,1);       P00 = Ip;                           % in case the state is non-stationary
-%     end
-% 
-%     [Phi,A,Q,R,xs,Ps,llk,iter,cvg] = EM_algorithm(y,Phi,A,Q,R,x00,P00,max_iter,tol);
-%     [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare decompositions after surveys
-%                                                                 % save plots before and after surveys
-% end
 
 %% Store macro data in structure
 
