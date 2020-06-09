@@ -8,6 +8,7 @@
 		\item Review cases of actual default. Papers by Reinhart, database BoC-BoE, S\&P annual report on sovereign defaults.
 		\item Why doing this is useful/necessary? To improve the conduct of MP in EMEs: appropriately characterizing expectations, TP and credit risk.
 		\item Applications: portfolio allocation, MP, risk management.
+		\item Check: literature on other topics.
 	\end{boxeditems}}{}
 
 %No correction for credit risk: Blake et al, ACDM
@@ -119,7 +120,7 @@ Moreover, the paper extends the results in \citet*{GilchristYueZakrajsek:2019} b
 
 %Finally, on the relationship between affine term structure models and exchange rates this paper is related to \cite{AngChen:2010}.
 
-The rest of the paper proceeds as follows. Section \ref{sec:LCYCs} explains how to construct the local currency yield curves. Section \ref{sec:ATSM} describes the affine term structure model. Section \ref{sec:comovement} reports the yield decompositions and their analysis. Section \ref{sec:spillovers} studies U.S. monetary policy spillovers to the bond yields of emerging markets. The last section concludes.
+The rest of the paper proceeds as follows. Section \ref{sec:LCYCs} explains how to construct the local currency yield curves. Section \ref{sec:Methodology} describes the affine term structure model. Section \ref{sec:comovement} reports the yield decompositions and their analysis. Section \ref{sec:spillovers} studies U.S. monetary policy spillovers to the bond yields of emerging markets. The last section concludes.
 
 }{}	% Closes \iftoggle{fulldraft}
 
@@ -224,22 +225,23 @@ The countries are selected based on data availability.
 AEs are sometimes split into two groups to assess whether the type of country plays a role. 
 The first group (non-U.S. G3) is comprised by Germany, Japan and the United Kingdom, and the rest of the countries comprises the second group (A-SOE), which are basically advanced small open economies, arguably more directly comparable to emerging markets.
 
-Yields are observed at the end of each month from January 2000 to January 2019.\footnote{ Since the U.S. yield curve is the benchmark for the synthetic yield curves, these dates are the last business days of each month according to the U.S. calendar.}
+The dataset comprises nominal and synthetic yields obtained as explained in section \ref{sec:YCnom}.
+The yields are observed at the end of each month from January 2000 to January 2019.\footnote{ Since the U.S. yield curve is the benchmark for the synthetic yield curves, these dates are the last business days of each month according to the U.S. calendar.}
 Even though the sample ends on the same date for all countries, the starting dates 
 %for emerging markets 
-vary per country (between January 2000 and November 2006).
+vary per country.
+All the yields for advanced countries start no later than September 2001.
+The nominal yields of 9 and the synthetic yields of 7 emerging markets start before March 2004; both types of yields for the rest of the countries start no later than June 2007.
 %Although data for advanced countries is available earlier, their initial dates are set at January 2000. 
-There are, however, at least 10 years of data for each emerging market.
-In principle, it is a reasonable time period for the estimation of the affine term structure model presented in section \ref{sec:ATSM}, but in practice there may be too few interest rate cycles per country in the sample.
-This small sample problem is especially salient for emerging markets, an issue that is addressed with surveys of professional forecasters in section \ref{sec:Estimation}. 
+Therefore, there are at least 10 years of data for each emerging market.\footnote{ The only exception is Turkey for which its nominal yields with a maturity of up to 10 years start on June 2010. Nevertheless, its synthetic yields start on May 2005.}
+In principle, this is a reasonable time period for the estimation of the affine term structure model presented in section \ref{sec:ATSM}, but in practice there may be too few interest rate cycles per country in the sample.
+This small sample problem is thus salient for emerging markets, an issue that is addressed with surveys of professional forecasters in section \ref{sec:Estimation}. 
 
-The dataset includes yields with maturities of 3 and 6 months, and 1 through 10 years, ranging from a minimum of eight to a maximum of twelve maturities per country. 
-The maximum maturity considered is 10 years because bonds and swaps with larger maturities tend to have less history and be less liquid, especially for emerging markets.
+The yields have maturities of 3 and 6 months, and 1 through 10 years, ranging from a minimum of eight to a maximum of twelve maturities per country. 
+The maximum maturity considered is 10 years because bonds and swaps with larger maturities tend to have less history and be less liquid, especially for emerging markets who do not issue bonds for, say, 20 or 30 years as often as advanced countries.
 %Table \ref{tab:start_dates} shows the earliest end-of-month dates with available data for emerging countries.
 %	\input{../Tables/StartingDates}
-%The model presented in section \ref{sec:ATSMeqns} is estimated for each country separately.
-
-The nominal yield curves for all countries are obtained from the BFV and IYC curves, as explained in section \ref{sec:YCnom}. 
+%The model presented in section \ref{sec:ATSM} is estimated for each country separately. 
 
 The construction of the LC synthetic yield curves involves data from the U.S. yield curve and the forward premium for different maturities, as explained in section \ref{sec:YCsynt}. 
 Data for the U.S. zero-coupon yield curve is obtained from two sources. 
@@ -249,7 +251,7 @@ The estimates from the Center for Research in Security Prices (CRSP) are thought
 Specifically, the 3- and 6-month yields are the annualized 13- and 26-week rates (bid/ask average) in the CRSP Risk-Free Rates Series.\footnote{ The 3- and 6-month yields implied by the GSW fitted model are highly correlated with the CRSP yields (0.9985 and 0.9995, respectively) but the former are on average higher (by 16 and 10 basis points, respectively) using data since 1983.} 
 %Although the GSW dataset goes back to 1961, the main issue for the construction of the synthetic yield curves is the information needed to calculate the forward premium. 
 
-As mentioned before, how the forward premium is calculated depends on the maturity.
+As mentioned before, the calculation of the forward premium depends on maturity.
 %The calculation of the forward premium uses forward exchange rates for maturities of less than one year and XCS rates for longer maturities.
 To compute the forward premium for maturities of less than one year, I use data on the spot exchange rate along with 3- and 6-month forwards from Bloomberg for all but three countries; for Korea, Philippines and Thailand the data is obtained from Datastream.
 To construct the XCS rates, I use data on cross-currency basis swaps and interest rate swaps for each available maturity from one through ten years. 
@@ -263,7 +265,7 @@ For all the countries in the sample, the data for these swap curves comes from B
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Methodology} \label{sec:ATSM}
+\section{Methodology} \label{sec:Methodology}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -278,7 +280,7 @@ This section describes the discrete-time affine term structure model that is use
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
-\subsection{Term Structure Model} \label{sec:ATSMeqns}
+\subsection{Term Structure Model} \label{sec:ATSM}
 Let \(\Pzero\) be the price at time \(\idxt\) of a zero-coupon risk-free bond with maturity \(\tnr\). The continuously compounded yield on that bond is then \(\yZero = - \ln \Pzero/\tnr\). In particular, the one-period continuously compounded risk-free rate is \(\shortrate = \yld_{\idxt,1} = - \ln P_{t,1}\).
 
 %The no-arbitrage assumption implies the existence of 
@@ -323,7 +325,7 @@ The yields consistent with the expectations hypothesis of the yield curve---as i
 The expected yield over the life of an \(\tnr\)-period bond equals the conditional expectation under \(\Pmeasure\) of the average short rate over the period, thus:
 	\input{../Equations/uYaffineE}
 \noindent where \(\affineAe = - \frac{1}{\tnr} \affineA\), \(\affineBe = - \frac{1}{\tnr} \affineB\), where in turn \input{../Equations/functionAnE} and \input{../Equations/functionBnE} also satisfy the same recursions under \(\Pmeasure\) but setting \(\XSigma = 0\) (see Appendix C of \cite{Guimaraes:2014}).\footnote{ The difference between \(\yZeroP\) and \(\yZeroE\) is a convexity term due to Jensen's inequality, which increases with maturity. In practice, however, this term usually becomes relevant for maturities beyond ten years. Further, in homoskedastic models this term is constant across maturities.}
-In this sense, information about \(\yZeroE\) could help in identifying the parameters under the \(\Pmeasure\) measure, \{\(\XmuP, \XPhiP\)\}.
+In this sense, information about \(\yZeroE\) could help in identifying the parameters under the \(\Pmeasure\) measure, \{\(\XmuP, \XPhiP\)\}, as discussed in section \ref{sec:Estimation}.
 
 Finally, the term premium for maturity \(\tnr\) at time \(\idxt\), \(\termprm\), can then be estimated as the difference between the yields obtained under the \(\Qmeasure\) and \(\Pmeasure\) measures:\footnote{ Note that \(\termprm\) can also be written as \( (\affineAQ - \affineAP) + (\affineBQ  - \affineBP) \Xvars \); that is, the term premium is also an affine function of the pricing factors.}
 	\input{../Equations/nTPatsm}
@@ -392,7 +394,7 @@ The JSZ normalization allows for the near separation of the model's likelihood f
 The affine model can be estimated using the JSZ normalization following a two-step procedure. 
 First, the \(\Pmeasure\) parameters are estimated by OLS of the VAR in equation (\ref{eq:nXvarsP}) using the \(\Xdim\) principal components of the yield curve. This provides initial values for the maximum likelihood estimation of the matrix $\XSigma$. Then, taking \(\hat{\Xmu}^{\Pmeasure}\) and \(\hat{\XPhi}^{\Pmeasure}\) as given, the \(\Qmeasure\) parameters can be estimated by maximum likelihood. 
 
-As mentioned before, to estimate the model presented in section \ref{sec:ATSMeqns}, the relevant yield curve for advanced countries is the nominal one \(\yLCnom\), whereas for emerging markets it is the synthetic one \(\yLCsynt\).
+As mentioned before, to estimate the model presented in section \ref{sec:ATSM}, the relevant yield curve for advanced countries is the nominal one \(\yLCnom\), whereas for emerging markets it is the synthetic one \(\yLCsynt\).
 %\footnote{ When there is missing data on yields, the principal components are obtained by ALS.} No longer applies since JSZ needs balanced panels
 %The two-stage estimation is used to estimate the affine model for the advanced countries in the sample.
 In addition, the model for emerging markets is augmented with survey forecasts of the short rate.\footnote{ The model for advanced countries in the sample is not augmented with survey data because I do not have access to it. They are, however, not the main focus of this paper, the affine model is estimated for them just for comparison purposes. Moreover, the results reported later for them are more comparable with other studies that do not use survey data. Finally, there are less concerns about small sample sizes for advanced countries and, for some of them, even for a regime change during the sample period.} 
@@ -419,7 +421,7 @@ This reduces the number of parameters to be estimated.
 % That is, the standard deviation of the errors in yields is the same for all maturities, as is the the standard deviation of the errors in the surveys for all maturities. 
 
 Finally, although survey data helps to discipline the model, relying too much on it can be counterproductive due to, for instance, measurement error\footnote{ Consensus Economics does not report long-term forecasts for the short rate of emerging markets.} and overfitting. 
-To strike a balance between these two considerations, I follow \cite{KimOrphanides:2012} in fixing \(\sigma_s\) at a conservative level of 75 basis points. This essentially means that survey data is seen as a noisy measure of expectations for the short rate.\footnote{ Check: The estimates are similar though when \(\sigma_s\) is estimated.}
+To strike a balance between these two considerations, I follow \cite{KimOrphanides:2012} in fixing \(\sigma_s\) at a conservative level of 75 basis points. This essentially means that survey data is seen as a noisy measure of expectations for the short rate.\footnote{ When \(\sigma_s\) is estimated, it averages 24 basis points. In this case, for most of the countries in the sample, the estimated term premia remains largely the same.}
 
 
 %The model described above can be estimated in a few simple steps. First, equation (\ref{eq:nXvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:nShortRate}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:nNSzero}) and the yields implied by the affine model in equation (\ref{eq:nYaffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
@@ -473,7 +475,7 @@ Table \ref{tab:rmse_atsm} summarizes the fit of the models. The table shows the 
 %The implied yields obtained in this way are then used to estimate the term structure model as explained in section \ref{sec:Estimation}. For example, when data is not available to compute equation (\ref{eq:nLCsynt}) for $\tnr = 0.25$, equation (\ref{eq:nShortRate}) is estimated using the Nelson-Siegel implied 3-month yields.
 
 \subsection{Nominal Yield Curve Decomposition}
-Once the affine term structure model is estimated for each country, I can compute the term premia for each maturity (as explained in section \ref{sec:ATSMeqns}) and, in turn, decompose both the synthetic as well as the nominal yield curves.\footnote{Although term premia estimates are calculated for all maturities, only the $10$-year maturity is reported in what follows for the sake of brevity.} In particular, the synthetic yield curve is decomposed into the expectation of the future short-term interest rate and a term premium. In addition to those two, the third element in the decomposition of the nominal yield curve is the deviation from CIP.
+Once the affine term structure model is estimated for each country, I can compute the term premia for each maturity (as explained in section \ref{sec:ATSM}) and, in turn, decompose both the synthetic as well as the nominal yield curves.\footnote{Although term premia estimates are calculated for all maturities, only the $10$-year maturity is reported in what follows for the sake of brevity.} In particular, the synthetic yield curve is decomposed into the expectation of the future short-term interest rate and a term premium. In addition to those two, the third element in the decomposition of the nominal yield curve is the deviation from CIP.
 
 Table \ref{tab:decomp10yr} shows the simple average across countries of the decomposition of the $10$-year yields.\footnote{The numbers in the table do not add up exactly for two reasons: (1) the term premium is obtained using equation (\ref{eq:nTPatsm}), that is it uses the fitted synthetic yield curve, while the table reports the observed synthetic yield curve for the column `Synthetic', and (2) the sample period for the yield curves might differ slightly to that of the CIP deviations.} Several patterns emerge from the table. The values for the deviations from CIP (CIP Dev) are in line with the results reported by \cite{DuSchreger:2016JoF} and \cite{DuImSchreger:2018JIE} referred to as the LC credit spread (LCCS) for emerging markets and the convenience yield for advanced countries, respectively. Note that the estimated term premium is higher on average than the CIP dev for the three groups of countries; it is almost 90 basis points higher for emerging markets, almost 150 basis points higher for Germany, Japan and the United Kingdom and more than 200 basis points for the advanced small open economies. Thus, the term premium plays a relatively bigger role than CIP deviations in the dynamics of sovereign bond yields. %To assess whether the term premium and the CIP Dev are statistically different from each other, I perform a $t$-test for the equality of means (with unequal variances) between them. The null of equal means is rejected at the $5$\% significance level for all countries except Korea, Russia and Turkey.
 	\input{../Tables/temp_decomp10yr}
@@ -484,7 +486,7 @@ While the main component of the nominal yield curve of emerging markets is the e
 Finally, note that for the subset of small open economies it is cheaper to borrow directly in their own currency (since CIP Dev is negative), unlike what is seen for emerging markets.
 
 \subsection{Term Premia: Nominal or Synthetic Yield Curve?}
-Affine term structure models are usually estimated using nominal yield curves on the assumption that they are free of default risk. \cite{DuTepperVerdelhan:2018} show that deviations from covered interest parity are non-negligible. Therefore, there is a wedge between the nominal ($\yLCnom$) and synthetic ($\yLCsynt$) yield curves given by the LCCS in the case of emerging markets and by the convenience yield in the case of advanced economies. Does this wedge bias the estimation of term premia? Equivalently, does it matter which curve is used to estimate the term premia? We can answer these questions by fitting the model described in section \ref{sec:ATSMeqns} to both curves and compare the estimates.
+Affine term structure models are usually estimated using nominal yield curves on the assumption that they are free of default risk. \cite{DuTepperVerdelhan:2018} show that deviations from covered interest parity are non-negligible. Therefore, there is a wedge between the nominal ($\yLCnom$) and synthetic ($\yLCsynt$) yield curves given by the LCCS in the case of emerging markets and by the convenience yield in the case of advanced economies. Does this wedge bias the estimation of term premia? Equivalently, does it matter which curve is used to estimate the term premia? We can answer these questions by fitting the model described in section \ref{sec:ATSM} to both curves and compare the estimates.
 
 Table \ref{tab:tp_compare10yr} show the average term premia across groups of countries obtained by using the nominal and the synthetic yield curves. For advanced countries, the difference between the two is less than or equal to 10 basis points on average, while for emerging markets is more than 40 basis points. To assess whether the term premium estimates from the two curves are statistically different from each other, I perform a $t$-test for the equality of means (with unequal variances) between them for each country. The null of equal means is rejected at the $5$\% significance level for all emerging markets except Hungary and Malaysia. However, the null is only rejected for four advanced economies (Australia, Denmark, Japan and New Zealand). This shows that there are gains by using synthetic yield curves to account for credit risk when estimating the term premia, especially for emerging markets.
 	\input{../Tables/temp_tp_compare}
