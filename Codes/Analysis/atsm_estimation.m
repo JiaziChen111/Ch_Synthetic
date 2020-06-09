@@ -49,12 +49,12 @@ for k0 = 1:2
         
         % Estimate the model using yields and surveys
         if ~isempty(matsS)                                                  % only for EMs w/ survey data
-            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,params0,true);
+            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,params0,false);
             
-            S(k1).([prefix{k0} 'sf_yQ']) = [nan matsout; dates ylds_Q];
-            S(k1).([prefix{k0} 'sf_yP']) = [nan matsout; dates ylds_P];
-            S(k1).([prefix{k0} 'sf_tp']) = [nan matsout; dates termprm];
-            S(k1).([prefix{k0} 'sf_pr']) = params;
+            S(k1).([prefix{k0} 'sb_yQ']) = [nan matsout; dates ylds_Q];
+            S(k1).([prefix{k0} 'sb_yP']) = [nan matsout; dates ylds_P];
+            S(k1).([prefix{k0} 'sb_tp']) = [nan matsout; dates termprm];
+            S(k1).([prefix{k0} 'sb_pr']) = params;
         end
         disp(['Estimation for ' S(k1).cty ' has finished.'])
     end
