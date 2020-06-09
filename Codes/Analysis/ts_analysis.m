@@ -22,9 +22,9 @@ S = forecast_cbpol(S,currEM);
 S = append_surveys(S,currEM);
 
 %% Estimate affine term structure model
-tic
-S = atsm_estimation(S,[1 5 10]);                                        % maturities to report after estimation
-toc
+S = atsm_estimation(S,[1 5 10],true);   % report 1Y-5Y-10Y maturities, free sgmS case, running time 4.9 hrs
+S = atsm_estimation(S,[1 5 10],false); 	% report 1Y-5Y-10Y maturities, fixed sgmS case, running time 5.5 hrs
+
 
 % [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
 % addpath(genpath('jsz_code'))
