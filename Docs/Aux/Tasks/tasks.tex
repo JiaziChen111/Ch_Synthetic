@@ -147,18 +147,53 @@
 	\item Since 2016, CHF and DKK negative YC up to 10Y and 7Y, respectively. Before GFC, close to ZLB.
 \end{todolist}
 
-\section{Analysis}
+\section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Estimate ATSM for AEs and EMs. Save TP w/ JSZ and w/ surveys for LCNOM and LCSYNT.
-	\item After estimating ATSM, generate yields (P, Q) and TP for ALL maturities to get balanced panels (output tenors vs input tenors).
+	\item Read old version of results.
+	\item Review old code in Analysis folder.
+	\item function for synchronizing series.
+	
+	\item Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
+	\item Feeling of fit. Compare ylds vs yQ. RMSE. Averages per country. Nominal and synthetic.
+	\item Plot survey forecasts for short rate.
+	\item Plot inflation for each country.
+	\item Compare TP different versions: nominal vs synthetic, ylds only vs surveys, sgmS free vs fixed.
+	\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2.
+	\item Compare TP of Guimaraes vs KW and ACM.
+	\item Compare USTP against TP in AEs.
+	\item Compare ssb_yP vs surveys. Similar to comparing against model-free TPsvy.
+	\item PCA for yields synthetic and nominal. Variability explained by PC1-PC3. Mention explicitly that 3 factors.
+	\item PCA for TPsynt, LCCS and expectations. Common factor.
+	\item Compare yEsynt and yEnom (w/ and w/o surveys) to see if they are similar. If so, it supports TPnom = TPsynt+LCCS -> TP and RP are not the same thing for EMs. Hypothesis: yEsynt and yEnom  closer w/ surveys. Compare when sgmS free vs fixed.
+	\item Compare TPsynt, LCCS and TPnom.
+	\item Compare TPsynt, LCCS and yE against nominal yield to see drivers.
+	\item Decompose nominal yields. Averages per country
+	\item Discuss insights of yield decompositions. Read KW 2005 explanations for declining TP <-> Episodes of negative TP per country <-> Portfolio inflows <-> Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration.
+	\item Term structure of TP. Averages per country.
+	\item TP correlations with: USTP, Vix, EPU index, local inflation, debt flows from TIC, LCCS.
+	\item Save figures in different formats: eps, fig, pdf.
+	\item Notes for tables.
+	\item Annex for some descriptive tables and figures.
+	\item Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
+	\begin{todolist}
+		\item .
+	\end{todolist}
+\end{todolist}
+
+\section{Analysis: Medium Term}
+\gototoc
+\begin{todolist}
+	\item Compare my TPMX against Blake et al.
+	\item Stock and Watson inflation decomposition. Follow Wright 2011.
 	\item Add policy rates data to macro data in structure of all countries.
 	\item Replicate the analysis in Dahlquist \& Hasseltoft on time-varying bond risk premia.
-	\item Compare TP of Guimaraes vs KW and ACM.
 	\item Structure for the US YC. In daily2monthly for US extract LCNOM, OIS, FF. Add Guimaraes TP.
 	\item Correct US YC for credit risk (Chernov, Schmidt, Song).
 	\item Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW.
 	\item Replicate Lloyd.
+	\item[\done] Estimate ATSM for AEs and EMs. Save TP w/ JSZ and w/ surveys for LCNOM and LCSYNT.
+	\item[\done] After estimating ATSM, generate yields (P, Q) and TP for ALL maturities to get balanced panels (output tenors vs input tenors). Only report 1Y, 5Y, 10Y tenors in all cases.
 	\item[\done] Make sure all monthly data (yields, surveys, macro) has SAME end-of-month dates.
 	\item[\wontdo] Add als in pca to be able to estimate JSZ for initial values. Need balanced panel to use JSZ.
 	\item[\done] Generate dataset w/o fitting NS to YCs.
@@ -167,9 +202,6 @@
 	\item[\done] Decompose US YC.
 	\item[\done] Use surveys to decompose US YC and compare to Guimaraes.
 	\item[\done] Look for ST expectations in CE for EMs to complement LT ones.
-	\begin{todolist}
-		\item .
-	\end{todolist}
 \end{todolist}
 
 \section{Literature}
@@ -182,6 +214,8 @@
 		\item Hoffman Im and Shin (2020) for developments and references on LC bond markets. Emerging market economy exchange rates and local currency bond markets amid the Covid-19 pandemic.
 		\item Dollar funding costs during the Covid-19 crisis through the lens of the FX swap market.
 		\item Leverage and margin spirals in fixed income markets during the Covid-19 crisis.
+		\item Literature on sovereign default (real, nominal, current account behavior) --curvature in utility allows introduces risk aversion, imperfect financial markets --, currency denomination, original sin.
+		\item Risk premia in international macro-finance (Lustig).
 	\end{todolist}
 	
 	\item JHU alumni paper on the Journal of Banking using C-P regressions, implications for replicating Dahlquist \& Hasseltoft.
