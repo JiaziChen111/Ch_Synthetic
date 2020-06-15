@@ -382,7 +382,10 @@ The model-free estimate for the $\tnr$-period term premium \(\termprm\) is obtai
 %	\input{../Equations/nTPsurvey}
 
 %In principle, there is an alternative way to use the surveys from Consensus Economics to aid in the estimation of the affine model. 
-An alternative way to use the surveys from Consensus Economics is to assume that the emerging markets in the sample are small open economies, and so their real interest rate would be determined abroad. The forecast for the local short rate would then be equal to the forecast for the international short-term real interest rate plus the forecast for inflation at each of the available maturities. This, however, not only requires to define the international real short rate but also to rely on long-term forecasts for it.
+An alternative way to use the surveys from Consensus Economics is to assume that the emerging markets in the sample are small open economies, and so their real interest rate would be determined abroad. The forecast for the local short rate would then be equal to the forecast for the international short-term real interest rate plus the forecast for inflation at each of the available maturities. 
+This approach requires to define the international real short rate and to have long-term forecasts for it.
+As before, the U.S. can be the benchmark for all emerging markets. Long-term forecasts for it can be obtained as the difference between the respective forecasts for the short-term nominal interest rate and inflation.
+This approach will be included in a future version of this paper.
 
 
 \subsection{Estimation} \label{sec:Estimation}
@@ -447,20 +450,103 @@ To strike a balance between these two considerations, I follow \cite{KimOrphanid
 		\item When considering the spillover effects of the monetary policy in the U.S., use a better measure of shocks (e.g. changes in futures of the fed funds rate around monetary policy announcements) and differentiate conventional from unconventional monetary policy.
 	\end{boxeditems}}{}
 
-The aim of this paper is to decompose the synthetic yield curves of emerging markets, which in turn provides a decomposition of their nominal yield curves. I use two benchmarks to assess the relevance of the results. First, I compare the estimated term premia for emerging markets to those of advanced economies. Second, I compare the term premia obtained from both nominal and synthetic yield curves\footnote{In each case, assuming that the curve used is risk-free.} to assess the benefit of using synthetic curves.
-The macroeconomic and financial variables used in section \ref{sec:spillovers} are downloaded from Bloomberg. 
+This section shows the results of the decomposition of the nominal bond yields of emerging markets, and studies the dynamics of the components and their implications.
+The results are compared against those of advanced economies. 
+The analysis shows the benefits of using synthetic yield curves and survey data.
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
-\subsection{Emerging Markets Bond Risk Premia} \label{sec:results}
+\subsection{Descriptive Results} \label{sec:results}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+Assessment of the fit:
+3 first PCs explain more than 99.5\% and 99.9\% of the variation in synthetic and nominal yields for EMs and AEs respectively. However, level plays a relatively bigger role in AEs, while slope and curvature play a relatively bigger role in EMs.
+%	PC1				PC2			PC3			PC1-PC3
+%	88.1115    9.8313    1.5731   99.5159
+%	95.8896    3.7107    0.3016   99.9019
+Plot of 10Y yObs vs yQ.
+
+Assessment of the components:
+
+	LCCS vs CDS
+Mention explicitly.
+
+	Patterns
+- Global tendency of declining TPs for AEs and EMs. More pronounced for AEs. 
+- TPs related to local events.
+- Which country has the highest/lowest TP? Countries w/ largest positive TP: COP, IDR, PHP, RUB, TRY. Countries w/ lowest negative TP: BRL, KRW, PHP, PLN, THB.
+- For which countries TP decline more? HUF, IDR, KRW, PHP, PLN, THB. Reversals: MXN, RUB, TRY
+- Did those countries change their MP framework (IT, independence)? HUF, IDR and PHP adopted IT in Jun-2001, Jul-2005 and Jan-2002, KRW operationally independent since 2003. HUF and PLN accepted into the EU in Apr-2003.
+- For which country the decline is not justified by declining inflation? K flows role? For BRL and TRY, TP decline b/w 2008 and 2013 even when their inflation expectations were increasing.
+
+	yP vs surveyCBP
+Careful that CBP surveys was constructed and not relying on it too much. When there is differences bw sy-yP vs CBP surveys, there are differences in TPs (ssb-tp and sy-tp).
+ssb-yP tracks reasonably well CBP surveys, it does it much better than sy-yP. This is what explains the differences in TP (ssb-tp and sy-tp). Key differences for: HUF (now declining trend), MYR (now TP \(<\) 0), MXN (now yP reacts to TT not TP), PHP (now TP \(<\) 0), THB (now TP \(<\) 0), TRY (now TP \(>\) 0).
+Cases HUF, MXN, MYR, PHP: w/o surveys implied expectations of rate (yP) were too low and so TP too high. W/ surveys expectations were higher and so TP lower.
+
+	TPsynt vs TPsvy
+Similar to checking yP vs surveyCBP. TPsynt tracks TPsvy very closely.
+
+Implications of decomposition:
+	event dates (QE-TT), seems to be the reason why TP < 0 (timing)
+Phenomenon of TP < 0 is for EMs not AEs, especially after QE.
+The effects of US influencing local conditions abroad depend on the context. If the EM does not need the stimulus, it might need to resort to macro prudential tools. But if the stimulus is needed, it can benefit from it.
+TT had three effects in other countries: increase in TP, increase in short rate expectations (yP), decrease in yP. Plot ssb-yP-QE
+USTP reacted similarly to TPs of AEs and EMs.
+
+	Is there a trend in yP?
+There seems to be a downward trend in AEs but not in EMs.
+
+	is EM real rates similar? Is there a trend? Compare yP, svycpi, realrt
+For many countries it fluctuates around 0 and 1\%. BRL and MXN are the exception, their real rates fluctuate around 6 and 2.5\%.
+
+	bond risk premia = TP + CR
+yEsynt and yEnom w/ surveys are similar (closer than w/o surveys). 
+BRP is defined as TPsynt+LCCS. TPnom is highly correlated w/ BRP. Thus when estimate ATSM using nominal yields, the resulting `term premia' is actually a risk premia that mixes together a TP and a LCCS. TP and RP are not the same thing for EMs.
+Importance of LCCS and TP changed for: HUF, KRW (TP->LCCS)
+Both: MYR, PHP, PLN, THB
+LCCS is more important for: BRL
+TP is more important for: COP, IDR, ILS, MXN, PEN, RUB, TRY, ZAR
+Is regional (Asian and European) or global?
+
+	YC decomposition
+For most of the countries yP is the largest component and is relatively stable. Reflecting IT regime?
+
+	Correlations of components with alternative measures
+TPsynt correlates positively with the residual from 10Y on 2Y and yP correlates positively with 2Y.
+
+	TP correlations (reasonable TP estimate) vs BRP corrs
+In general, TPsynt correlates negatively with LCCS and positively with INF, USTP and the VIX.
+TPsynt of COP and MXN correlates positively with EPU. For KRW it comove negatively, its LCCS is what comoves positively with the EPU.
+Correlation of EM TP w/ USTP is 62\% and AE TP w/ USTP is 77\%.
+Correlation of EM TP w/ VIX is 32\% and AE TP w/ USTP is 37\%.
+
+	commonalities (TPs, yP, LCCS) all, ST vs LT.
+A global factor plays a role in the variation of both AEs and EMs to varying degrees.
+Yields and YC components are not as tightly connected in EMs as they are in AEs.
+Pooling all yields together, there is a global-level factor that explains around 50\% of the variation in EMs and 90\% in AEs. This is similar for the 1Y yields, whereas for the 10Y yields, a global factor explains around 95\% in AEs and 40\% in EMs. These percentages are largely the same after the GFC.
+A global factor explains around 40\% of the variation of all 3 components of yield in EMs. For AEs, yP 90\% and TP 80\%. After the GFC, the variability explained by a global factor increased for the TP in AEs and for yP and TP in EMs.
+The role of a global component for ST yields is larger than for the LT yields, but a global component is more relevant for the components of the LT yields than of the ST ones.
+
+	How much the US factor explains TP? Is there a non-US common factor?
+10Y USyP and USTP explain around 70\% of the variation in yP and TP in AEs; for EMs, they explain 30\% and 40\%, respectively. after the GFC, these numbers largely remained for the TP and decline for yP.
+
+A non-US common factor explains b/w 50 and 85\% of the variation in yP and TP both ST and LT. These percentages fluctuate b/w 35 and 50\%. The importance of a non-US factor slightly increase after the GFC.
+
+These results show that while the yields of EMs are globally connected, they are less so than the yields of AEs.
+Several factors can explain these patterns. Some of them include segmented markets, capital controls, home bias, regional differences.
+Local factors therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
+
+Kalemli-Ozcan argues that US spillovers work through changes in risk premia. In particular, expected rate in EMs react to changes in USTP. 
+On average, USTP10 explains around 40\% of the variation in yP in both EMs and AEs.
+For EMs, it explains more than USyP itself, unlike the case for AEs before GFC, but after GFC USTP10 explained more than USyP in both AEs and EMs.
+
+
+\subsection{Emerging Markets Bond Risk Premia, Yield Curve Decompositions}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 
-\subsection{Yield Curve Decompositions} \label{sec:results}
-\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
-
-
-\subsection{Assessment of Term Premia Estimates} \label{sec:results}
+\subsection{Assessment of Term Premia Estimates}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 \subsection{Sovereign Yield Comovement}
@@ -581,6 +667,7 @@ The term premia for Latin American countries show a positive correlation with th
 
 \subsection{Drivers of Term Premia}
 To study the cyclical properties of term premia in emerging markets formally, I run  panel data regressions with a variety of macroeconomic and financial variables as explanatory variables. The macroeconomic variables considered have a monthly frequency; for the financial variables considered (which are available daily) end-of-month values are used.
+The macroeconomic and financial variables used in section \ref{sec:spillovers} are downloaded from Bloomberg. 
 
 The panel data regressions have the form
 	\input {../Equations/panelTPreg}

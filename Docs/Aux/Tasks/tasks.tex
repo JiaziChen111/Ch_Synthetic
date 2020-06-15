@@ -47,6 +47,7 @@
 		\item NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
 		\item PHP: Since 29-Oct-2018 BFV data does not vary. In the dataset, the BFV series includes IYC (converted into CE par) yields since 1-Oct-2018. Update BFV series w/ BLP data when access to it is available.
 	\end{todolist}
+	\item Include variables in datasets: CDS, longest histories in consumption and inflation for EMS. Same macro-financial data for AEs than for EMs?
 \end{todolist}
 
 \section{Datasets: Daily}
@@ -150,41 +151,86 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Read old version of results.
-	\item Review old code in Analysis folder.
-	\item function for synchronizing series.
-	
-	\item Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
-	\item Feeling of fit. Compare ylds vs yQ. RMSE. Averages per country. Nominal and synthetic.
-	\item Plot survey forecasts for short rate.
-	\item Plot inflation for each country.
-	\item Compare TP different versions: nominal vs synthetic, ylds only vs surveys, sgmS free vs fixed.
-	\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2.
-	\item Compare TP of Guimaraes vs KW and ACM.
-	\item Compare USTP against TP in AEs.
-	\item Compare ssb_yP vs surveys. Similar to comparing against model-free TPsvy.
-	\item PCA for yields synthetic and nominal. Variability explained by PC1-PC3. Mention explicitly that 3 factors.
-	\item PCA for TPsynt, LCCS and expectations. Common factor.
-	\item Compare yEsynt and yEnom (w/ and w/o surveys) to see if they are similar. If so, it supports TPnom = TPsynt+LCCS -> TP and RP are not the same thing for EMs. Hypothesis: yEsynt and yEnom  closer w/ surveys. Compare when sgmS free vs fixed.
-	\item Compare TPsynt, LCCS and TPnom.
-	\item Compare TPsynt, LCCS and yE against nominal yield to see drivers.
-	\item Decompose nominal yields. Averages per country
-	\item Discuss insights of yield decompositions. Read KW 2005 explanations for declining TP <-> Episodes of negative TP per country <-> Portfolio inflows <-> Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration.
-	\item Term structure of TP. Averages per country.
-	\item TP correlations with: USTP, Vix, EPU index, local inflation, debt flows from TIC, LCCS.
-	\item Save figures in different formats: eps, fig, pdf.
-	\item Notes for tables.
-	\item Annex for some descriptive tables and figures.
-	\item Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
+	\item Tables
 	\begin{todolist}
-		\item .
+		\item TP synt EMs and TPnom AEs. Average. Compare w/ average YC slope. Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP.
+		\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2.
+		\item Compare ssb_yP vs CBP surveys. Similar to comparing against model-free TPsvy. Comment this in footnote.
+		\item Fit. RMSE. Averages per country. Nominal and synthetic.
+		\item Decompose nominal yields. Averages per country. Averages before and after the GFC to see if relative importance of the components changed.
+		\item Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
+		\item Term structure of TP. Averages per country.
+		\item Correlation of BRP and TPnom. Averages of components (relative importance) per country. Before and after the GFC.
+		\item Drivers of yields. Average and std of components (TPsynt, LCCS and yE).
+		\item t-test for LCCS = 0 and TPsynt = 0. LCCS = 0 is equivalent to test TPnom = TPsynt.
+		\item Average real interest rate to see if on average is the same across EMs.
+		\item Mention explicitly that 3 factors b/c they explain more than 99\% of the variation in yields.
+		\item Notes for tables.
+	\end{todolist}
+	\item Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP <-> Episodes of negative TP per country <-> Portfolio inflows <-> Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
+	\item Construct panel dataset to analyze results in Stata. Include: rho, CIPdev, svys (CBP, INF, GDP), LCNOM, LCSYNT, decompositions (yQ, yP, tp), macro-financial (US, CBP, STX, FX), EPU. Before dataset, construct a field with yQ, yP, tp for ALL countries (EMs/AEs), ssb for EM w/ surveys, sy for ILS and ZAR, ny for AEs. Same tenors (0.25-10Y).
+	\item Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
+	\item Annex for some descriptive tables and figures.
+	\item Save figures to be used in pdf.
+	\item What is the relationship b/w the YC components and the forward premium.
+	\item[\done] US factor + non-US factor in each one or only in some of them?
+	\item[\done] Download USTP01 USTP10, USYP01, USYP10 from KW, and construct USyP.
+	\item[\done] TP correlations of AEs with: USTP, Vix, CIPdev.
+	\item[\done] PCA for TPsynt, LCCS and expectations. Common factor, commonalities (TPs, yP, LCCS) all, ST vs LT. Not real rates b/c dates don't match.
+	\item[\done] PCA for yields synthetic and nominal. Variability explained by PC1-PC3. 
+	\item[\done] Correlations of LCNOM components w/ alternative measures. Similar to Table 1 in Curcuru et al (2018).
+	\item[\done] Plot TP vs LCCS, USTP, Vix, EPU, local inflation. Not debt flows from TIC b/c no data yet.
+	\item[\done] TP correlations of EMs with: USTP, Vix, EPU index, LCCS, local inflation. Previous odd results w/ correlations might be explained by differences in estimated TPs. Use figure ssb_ny_tp.eps.
+	\item[\done] Plot inflation vs 10Y yield. They tend to move together.
+	\item[\done] Compare TP of Guimaraes vs KW. Add QE-TT dates. Compare USTP against TP in AEs and EMs.
+	\item[\done] Plot TPsynt vs TPsvy. TPsynt follows TPsvy closely.
+	\item[\done] Drivers of yields. Compare TPsynt, LCCS and yE against nominal yield to see drivers of EM yields.
+	\item[\done] Bond risk premia. Compare TPnom vs TPsynt+LCCS. Construct BRP series. Plot its components. Compare against TPnom.
+	\item[\done] Term structure of TP. Averages per country. QE events added.
+	\item[\done] function for synchronizing series.
+	\item[\done] Compare yEsynt and yEnom (w/ and w/o surveys) to see if they are similar. If so, it supports TPnom = TPsynt+LCCS -> TP and RP are not the same thing for EMs. Hypothesis: yEsynt and yEnom  closer w/ surveys. Won't: Compare when sgmS free vs fixed.
+	\item[\done] Feeling of fit. Compare ylds vs yQ. They are very close for most countries.
+	\item[\done] Plot LT real interest rates = ssb_yP - INF surveys. Are LT real rates similar? It seems that for most countries it fluctuates b/w 0 and 1 pp.
+	\item[\done] Plot yP for EMs and AEs. Is there a trend? No a marked one.
+	\item[\done] Plot ssb_yP vs CBP surveys. 
+	\item[\done] Compare TPsynt in EMs vs TPnom in AEs.Declining trend more marked for AEs, in EMs TP < 0.
+	\item[\done] Compare TPnom vs TPsynt for AEs. How big is the difference? Similar for most. Differences for AUD, NZD, SEK.
+	\item[\done] Plot TPnom for AEs. Trends? Declining.
+	\item[\done] Analyze TP synt.
+	\item[\done] TP for AEs. Reaction to QE events.
+	\item[\done] Compare TP different versions: nominal vs synthetic, ylds only vs surveys, sgmS free vs fixed. 
+	\item[\done] Plot TP different versions individually. Add key dates when plotting TPs: target adopted/changed, QE announcements, local events (capital controls). 
+	\item[\done] Plot: inflation, policy rate, expectations of inflation.
+	\item[\done] Plot survey forecasts of inflation. See whether there is a trend. For some countries.
+	\item[\done] Read old version of results.
+	\item[\done] Review old code in Analysis folder.
+	\item Research questions:
+	\begin{todolist}
+		\item Upward sloping YCs? Averages.
+		\item Why TPs differ across EMs? Are they idiosyncratic or is there a common factor driving them? Average of TPsynt per country, is there a large variation among them? b/w them and AEs? PCA for all yields. PCA for ST rates. PCA for LT rates. No common component might imply segmented markets, capital controls, home bias.
+		\item International comparisons of expectations (yE). Subtract inflation expectations and see whether r* differs. Is there a single world real interest rate? Is the real interest rate the same for all EMs? Plot min-max intervals to see spread like Kalemli-Ozcan for policy rates.
+		\item Financial integration: Correlation b/w debt flows from TIC data and TP. FX reserves. The increase in inflows reflected in an increase in FX reserves, lower bond yields or both. Case of capital controls in Brazil.
+		\item Decompose the forward exchange premium into: an expectations part and a risk premium. Clarida-Taylor (1997), Burnside et al (2007), Backus et al (1995). If LT TP are more closely linked, then tau_rho is closer to zero and thus UIP holds more closely for LT rates than for shorter ones.
+		\item Why TP and CR move as they do? Which asset pricing model is consistent with the data (TP, CR)? What explanations of bond risk premia are supported? Compensation for disagreement (increases quantity of risk), for economic pain (increases price of risk), for economic uncertainty about GDP growth and/or inflation (increases price of risk), for volatility risk (increases quantity of risk)? \item High inflation uncertainty leads to high TP?
+		\item Has the importance of TP and CR changed after the GR? More role of CR after the GR since large fiscal debts?
+		\item Why TP \(<\) 0? Change in importance of AD relative to AS shocks? Change in correlation b/w consumption and inflation and b/w bonds and stocks (so bonds become hedges of stocks)? Gourio and Ngo (2016), Pericoli (2018), Campbell, Pflueger and Viceira (2018), Campbell, Sunderam and Viceira (2016). Or financial integration story?
+		\item Did UMP spread abroad? He and McCauley (2013) and Turner (2014). QE's purpose was to decrease TP in AE, did the same happen to EMs? TP \(<\) 0?
+		\item GFCy is different at the short than at the long end of the curve. Obstfeld (2015)
+		\item Is there a risk channel for monetary policy spillovers? Are LT rates more highly correlated than ST rates? Policy rate disconnect for ST and/or LT? US spillovers work through changes in risk premia? Expected rate in EMs react to changes in USTP?
 	\end{todolist}
 \end{todolist}
 
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
-	\item Compare my TPMX against Blake et al.
+	\item Save surveys in S as: svyinf, svygdp, svycbp. All maturities. Update append_surveys.m to use new field name (svycbp).
+	\item Add RHO to daily2monthly. Add 0.25 and 0.5 to matsout. Add RMSE to estimation_*
+	\item Treat first CPI 10Y forecast for PHP as missing?
+	\item Download EPU indexes for AEs.
+	\item Mention characteristics of sample: MYR doesn't have an IT regime.
+	\item Dates: Check whether the removal of CB governors in BRL and TRY had an effect on their TPs. Did TP decline in countries that adopted IT during the sample period?
+	\item Add 0.25 and 0.5 Y to matsout to test results from forward premium puzzle. Whether it holds at short but not at long maturities (Lingareddy 2008).
+	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
 	\item Stock and Watson inflation decomposition. Follow Wright 2011.
 	\item Add policy rates data to macro data in structure of all countries.
 	\item Replicate the analysis in Dahlquist \& Hasseltoft on time-varying bond risk premia.
