@@ -3,8 +3,8 @@ ncntrs  = length(S);
 nEMs    = length(currEM);
 nAEs    = length(currAE);
 
-[data_macro,hdr_macro]  = read_macrovars(S);                                % macro and policy rates
-[data_svys,hdr_svys]    = read_surveys();                                   % CPI and GDP forecasts
+[data_macro,hdr_macro]  = read_macrovars(S);          % macro and policy rates
+[data_svys,hdr_svys]    = read_surveys();             % CPI and GDP forecasts
 
 %% Store macro data in structure
 vars = {'INF','UNE','IP','GDP','CBP'};
@@ -16,7 +16,7 @@ for l = 1:length(vars)
         fltrCTY(1) = true;
         data_mvar  = data_macro(:,fltrCTY);
         if size(data_mvar,2) > 1
-            idxNaN     = isnan(data_mvar(:,2));             % Assumes once publication starts, it continues
+            idxNaN     = isnan(data_mvar(:,2));	% Assumes once publication starts, it continues
             S(k).(fnames{l}) = data_mvar(~idxNaN,:);
         end
     end
@@ -29,10 +29,12 @@ for l = 1:length(vars)
     figure
     for k0 = 1:nEMs
         if size(S(k0).(fnames{l}),2) > 1
-            date1 = datenum(S(k0).n_dateb,'mmm-yyyy'); date2 = datenum(S(k0).s_dateb,'mmm-yyyy');
+            date1 = datenum(S(k0).n_dateb,'mmm-yyyy'); 
+            date2 = datenum(S(k0).s_dateb,'mmm-yyyy');
             subplot(3,5,k0)
             plot(S(k0).(fnames{l})(:,1),S(k0).(fnames{l})(:,2))
-            title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0); if l ~= 6; ylabel('%'); end
+            title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0);
+            if l ~= 6; ylabel('%'); end
             xline(date1); xline(date2);
         end
     end
@@ -48,7 +50,8 @@ for l = 1:length(vars)
             fltrd = S(k0).(fnames{l})(:,1) >= dtmn;
             subplot(3,5,k0)
             plot(S(k0).(fnames{l})(fltrd,1),S(k0).(fnames{l})(fltrd,2))
-            title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0); if l ~= 6; ylabel('%'); end
+            title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0);
+            if l ~= 6; ylabel('%'); end
             xline(dtmx);
         end
     end
@@ -57,7 +60,7 @@ end
 
 %% Plot 10Y yields
 figdir  = 'Data'; formats = {'eps'}; figsave = true;
-fldname = {'n_data','inf'};
+fldname = {'n_data','inf','svycbp'};
 
 % Yield only
 figure
@@ -81,7 +84,20 @@ for k0 = 1:nEMs
     if k0 ==11; legend('10Y YLD','INF','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
 end
-figname = 'YLD10Y_INF'; save_figure(figdir,figname,formats,figsave)
+
+% Yield and survey interest rate forecast
+figure
+for k0 = 1:nEMs
+    if ~isempty(S(k0).(fldname{3}))
+        subplot(3,5,k0)
+        plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
+             S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end))
+        title([S(k0).iso]); 
+        if k0 ==11; legend('10Y YLD','CBP','AutoUpdate','off'); end
+        datetick('x','yy'); yline(0);
+    end
+end
+figname = 'YLD10Y_CBP'; save_figure(figdir,figname,formats,figsave)
 
 %% Plot CBP from surveys
 figdir = 'Surveys'; formats = {'eps'}; figsave = true;
@@ -111,16 +127,16 @@ figname = 'wnCBP'; save_figure(figdir,figname,formats,figsave)
 
 %% Plot INF GDP from surveys
 figdir  = 'Surveys'; formats = {'eps'}; figsave = true;
-tenors  = cellfun(@str2double,regexp(hdr_svys,'\d*','Match'),'UniformOutput',false); % tenors in hdr_svys
-fltrSVY = ~contains(hdr_svys,'00Y');                                        % exclude current year
+tenors  = cellfun(@str2double,regexp(hdr_svys,'\d*','Match'),'UniformOutput',false);%tnrs in hdr_svys
+fltrSVY = ~contains(hdr_svys,'00Y');                                	% exclude current year
 macrovr = {'CPI','GDP'};
 for k1 = 1:2
     figure
     for k0 = 1:nEMs
-        fltrCTY   = contains(hdr_svys,{S(k0).iso,'DATE'}) & fltrSVY;     	% include dates                                          
-        macrodata = data_svys(:,fltrCTY);                                	% extract variables
-        macroname = hdr_svys(fltrCTY);                                      % extract headers
-        macrotnr  = unique(cell2mat(tenors(fltrCTY)));                      % extract unique tenors as doubles
+        fltrCTY   = contains(hdr_svys,{S(k0).iso,'DATE'}) & fltrSVY; 	% include dates                                          
+        macrodata = data_svys(:,fltrCTY);                               % extract variables
+        macroname = hdr_svys(fltrCTY);                               	% extract headers
+        macrotnr  = unique(cell2mat(tenors(fltrCTY)));            	% extract unique tnrs as doubles
         macroVAR  = macrodata(:,contains(macroname,macrovr{k1}));
         
         dtmn  = datesmnmx(S,k0);
@@ -150,7 +166,7 @@ for k1 = 1:length(fldname)
         if ~isempty(S(k0).(fldname{k1}))
             subplot(3,5,k0)
             plot(S(k0).(fldname{k1})(2:end,1),S(k0).(fldname{k1})(2:end,end))
-            title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
+    title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
             datetick('x','yy'); yline(0);
         end
     end
@@ -165,7 +181,7 @@ for k1 = 1:length(fldnmAE)
             k2 = k2 + 1;
             subplot(2,5,k2)
             plot(S(k0).(fldnmAE{k1})(2:end,1),S(k0).(fldnmAE{k1})(2:end,end))
-            title([S(k0).iso ' ' num2str(S(k0).(fldnmAE{k1})(1,end)) 'Y ' fldnmAE{k1}(end-1:end)]); 
+   title([S(k0).iso ' ' num2str(S(k0).(fldnmAE{k1})(1,end)) 'Y ' fldnmAE{k1}(end-1:end)]); 
             datetick('x','yy'); yline(0);
         end
     end
@@ -180,10 +196,11 @@ for k1 = 1:length(fldname)
         if ~isempty(S(k0).(fldname{k1}))
             subplot(3,5,k0)
             plot(S(k0).(fldname{k1})(2:end,1),S(k0).(fldname{k1})(2:end,end))
-            title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
+  title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
             datetick('x','yy'); yline(0);
             xline(datenum('25-Nov-2008')); xline(datenum('3-Nov-2010')); 
-            xline(datenum('21-Sep-2011')); xline(datenum('13-Sep-2012')); xline(datenum('19-Jun-2013'));
+            xline(datenum('21-Sep-2011')); xline(datenum('13-Sep-2012')); 
+            xline(datenum('19-Jun-2013'));
         end
     end
     figname = [fldname{k1} '_QE']; save_figure(figdir,figname,formats,figsave)
@@ -197,10 +214,11 @@ for k1 = 1:length(fldnmAE)
             k2 = k2 + 1;
             subplot(2,5,k2)
             plot(S(k0).(fldnmAE{k1})(2:end,1),S(k0).(fldnmAE{k1})(2:end,end))
-            title([S(k0).iso ' ' num2str(S(k0).(fldnmAE{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
+       title([S(k0).iso ' ' num2str(S(k0).(fldnmAE{k1})(1,end)) 'Y ' fldnmAE{k1}(end-1:end)]); 
             datetick('x','yy'); yline(0);
             xline(datenum('25-Nov-2008')); xline(datenum('3-Nov-2010')); 
-            xline(datenum('21-Sep-2011')); xline(datenum('13-Sep-2012')); xline(datenum('19-Jun-2013'));
+            xline(datenum('21-Sep-2011')); xline(datenum('13-Sep-2012')); 
+            xline(datenum('19-Jun-2013'));
         end
     end
     figname = [fldnmAE{k1} '_QE_AE']; save_figure(figdir,figname,formats,figsave)
@@ -215,23 +233,27 @@ for k1 = 1:length(fldname)
             k2 = k2 + 1;
             subplot(2,4,k2)
             plot(S(k0).(fldname{k1})(2:end,1),S(k0).(fldname{k1})(2:end,end))
-            title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
+      title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
             datetick('x','yy'); yline(0);
             switch S(k0).iso
                 case 'BRL'
                     xline(datenum('19-Oct-2009')); xline(datenum('4-Oct-2010'));
-                    xline(datenum('4-Jun-2013')); %xline(datenum('6-Jan-2011')); xline(datenum('8-Jul-2011'));
+                    xline(datenum('4-Jun-2013')); 
+                    %xline(datenum('6-Jan-2011'));xline(datenum('8-Jul-2011'));
                 case 'COP'
-                    xline(datenum('1-Jun-2006')); xline(datenum('1-May-2007')); %xline(datenum('1-Dec-2004')); 
+                    xline(datenum('1-Jun-2006')); xline(datenum('1-May-2007'));
+                    %xline(datenum('1-Dec-2004')); 
                     xline(datenum('4-Oct-2008')); % xline(datenum('1-Jul-20007'));
-                case 'HUF';xline(datenum('16-Apr-2003'));xline(datenum('1-Aug-2005'));xline(datenum('1-Sep-2018'));
+                case 'HUF';xline(datenum('16-Apr-2003'));
+                    xline(datenum('1-Aug-2005'));xline(datenum('1-Sep-2018'));
                 case 'IDR'; xline(datenum('1-Jul-2005'));
                 case 'KRW'; xline(datenum('13-Jun-2010'));
                 case 'PHP'; xline(datenum('1-Jan-2002'));
-                case 'PLN'; xline(datenum('28-Jul-2017')); xline(datenum('16-Apr-2003'));
+                case 'PLN'; xline(datenum('16-Apr-2003')); xline(datenum('28-Jul-2017'));
 %                 case 'RUB'; xline(datenum('27-Sep-2013'));
 %                 case 'THB'; xline(datenum('1-Dec-2006'));
-                case 'TRY'; xline(datenum('1-Jan-2006')); %xline(datenum('27-Jan-2017'));
+                case 'TRY'; xline(datenum('1-Jan-2006')); %xline(datenum('24-Jun-2018'));
+                    xline(datenum('2-Oct-2018')); %xline(datenum('27-Jan-2017'));
             end
             end
         end
@@ -241,7 +263,7 @@ end
 
 %% Compare TP (different types, same variable): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
-% sgmS baseline vs free -  explanation for differences: convergence, fit is not good for BRL, COP, MYR
+% sgmS baseline vs free -  explanation for differences: convergence, fit not good for BRL-COP-MYR
 fldtype1 = 'ssb_';   fldvar = 'tp';
 fldtype2 = 'ssf_';   fldname = [fldtype2 fldvar];
 for k0 = 1:nEMs
@@ -252,7 +274,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == 2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -270,7 +293,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == 2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -288,7 +312,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == 2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -306,7 +331,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == 2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -324,7 +350,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == 2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -342,7 +369,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == 2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -362,7 +390,8 @@ for k0 = nEMs+1:nEMs+nAEs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TP'])
         if k0 == nEMs+2
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -370,50 +399,46 @@ end
 figname = [fldtype1 fldtype2 fldvar '_AE']; save_figure(figdir,figname,formats,figsave)
 
 %% Compare TP (different types, different variables): ny, ns, sy, ss
-figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
+figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = true;
 % Model fit to synthetic
-fldtype1 = 's_';	 fldvar1 = 'ylds';  fldname1 = [fldtype1 fldvar1];
-fldtype2 = 'ssb_';   fldvar2 = 'yQ';    fldname2 = [fldtype2 fldvar2];
+fldname = {'s_blncd','ssb_yQ'};
 for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname1)) && ~isempty(S(k0).(fldname2))
-        subplot(3,5,k0)
-        fltr = find(S(k0).(fldname1)(1,:) == 10,1,'first');
-        h = plot(S(k0).(fldname1)(2:end,1),S(k0).(fldname1)(2:end,fltr),...
-                 S(k0).(fldname2)(2:end,1),S(k0).(fldname2)(2:end,end));
-        title([S(k0).cty ' ' num2str(S(k0).(fldname1)(1,end)) 'Y'])
-        if k0 == 8
-            lh = legend(h,'location','best');
-            legend(fldname1,fldname2,'Orientation','horizontal','AutoUpdate','off')
-        end
-        datetick('x','yy');yline(0);
+    if isempty(S(k0).(fldname{2}))
+        fldname = {'s_blncd','sy_yQ'};
     end
+    subplot(3,5,k0)
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end),...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end));
+    title([S(k0).cty ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y'])
+    if k0 == 8
+        legend('Observed','Fitted','location','best','AutoUpdate','off')
+    end
+    datetick('x','yy');yline(0);
 end
 figname = [fldname1 '_' fldname2]; save_figure(figdir,figname,formats,figsave)
 
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
 figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
-% surveys_CBP vs ssb_yP
-fldtype1 = 'svycbp';   fldvar1 = '';    fldname1 = [fldtype1 fldvar1];
-fldtype2 = 'ssb_';   fldvar2 = 'yP';	fldname2 = [fldtype2 fldvar2];
+% surveys_CBP vs ssb_yP (surveys)
+fldname = {'svycbp','ssb_yP'};
 for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname1)) && ~isempty(S(k0).(fldname2))
+    if ~isempty(S(k0).(fldname{2}))
         dtmn  = datesmnmx(S,k0);
         subplot(3,5,k0)
-        fltrd = S(k0).(fldname1)(:,1) >= dtmn;
-        fltrt = find(S(k0).(fldname2)(1,:) == 10,1,'first');
-        h = plot(S(k0).(fldname1)(fltrd,1),S(k0).(fldname1)(fltrd,end)/100,'*',...
-                 S(k0).(fldname2)(2:end,1),S(k0).(fldname2)(2:end,fltrt));
-        title([S(k0).iso ' ' num2str(S(k0).(fldname1)(1,end)) 'Y'])
-        if k0 == 12
-            lh = legend(h,'location','best');
-            legend(fldname1,fldname2,'Orientation','horizontal','AutoUpdate','off')
+        fltrd = S(k0).(fldname{1})(:,1) >= dtmn;
+        fltrt = find(S(k0).(fldname{2})(1,:) == 10);
+        plot(S(k0).(fldname{1})(fltrd,1),S(k0).(fldname{1})(fltrd,end),'*',...
+             S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltrt)*100)
+        title([S(k0).iso ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y'])
+        if k0 == 14
+            legend('Surveys','Model','Orientation','horizontal','location','southoutside','AutoUpdate','off')
         end
         datetick('x','yy');yline(0);
     end
 end
-figname = [fldname1 '_' fldname2]; save_figure(figdir,figname,formats,figsave)
+figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)
 
-% surveys_CBP vs sy_yP
+% surveys_CBP vs sy_yP (yields only)
 fldtype1 = 'svycbp';   fldvar1 = '';    fldname1 = [fldtype1 fldvar1];
 fldtype2 = 'sy_';   fldvar2 = 'yP';     fldname2 = [fldtype2 fldvar2];
 for k0 = 1:nEMs
@@ -461,8 +486,8 @@ for k0 = 1:nEMs
         plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end))
         title([S(k0).iso ' ' fldname(1:4)]); 
         if k0 == 1
-            legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),'UniformOutput',false),...
-                'Orientation','horizontal','AutoUpdate','off')
+            legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
+                'UniformOutput',false),'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -540,7 +565,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y yP'])
         if k0 == 13
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -558,7 +584,8 @@ for k0 = 1:nEMs
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y yP'])
         if k0 == 13
             lh = legend(h,'location','best');
-            legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
+            legend([fldtype1 fldvar],[fldtype2 fldvar],...
+                'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -575,8 +602,8 @@ for k0 = 1:nEMs
         plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end))
         title([S(k0).iso ' ' fldname(end-1:end)]); 
         if k0 == 10
-            legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),'UniformOutput',false),...
-                'AutoUpdate','off')
+            legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
+                'UniformOutput',false),'AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
     end
@@ -591,7 +618,8 @@ for k0 = 1:nEMs
         plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end))
         title([S(k0).iso ' ' fldname(end-1:end)]); 
         if k0 == 10
-          legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),'UniformOutput',false),'AutoUpdate','off')
+          legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
+              'UniformOutput',false),'AutoUpdate','off')
         end
         xline(datenum('25-Nov-2008')); xline(datenum('19-Jun-2013'));
         datetick('x','yy'); yline(0);
@@ -651,7 +679,8 @@ for k0 = 1:nEMs
     plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,fltr3))
     hold off
     title([S(k0).iso '10Y'])
-    if k0 == 3; legend('BRP','TP','LCCS','AutoUpdate','off'); end
+    if k0 == 13; legend('BRP','TP','LCCS','Orientation','horizontal',...
+            'Location','south','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
 end
 figname = 'brp_dcmp'; save_figure(figdir,figname,formats,figsave)
@@ -680,27 +709,26 @@ end
 figname = 'brp_ntp'; save_figure(figdir,figname,formats,figsave)
 
 %% Nominal YC decomposition: Drivers of yields
-figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
+figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = true;
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_yP','ssb_tp'};
+        fldaux = {'ssb_yP','ssb_tp'};
     else
-        fldname = {'sy_yP','sy_tp'};
+        fldaux = {'sy_yP','sy_tp'};
     end
-    fldname = [fldname 'c_blncd'];
-    
-    subplot(3,5,k0)
+    fldname = [fldaux 'c_blncd'];
+    han1 = subplot(3,5,k0);
     fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
-    hold on
     fltr2 = find(S(k0).(fldname{2})(1,:) == 10);
-    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltr2))
     fltr3 = find(S(k0).(fldname{3})(1,:) == 10);
-    plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,fltr3))
-    hold off
+    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1)*100,...
+    	 S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltr2)*100,...
+    	 S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,fltr3)*100);
     title([S(k0).iso '10Y'])
-    if k0 == 12; legend('yP','TP','LCCS','Location','south','AutoUpdate','off'); end
+    if k0 == 13; legend(h1,{'Exp','TP','LCCS'},'Orientation','horizontal',...
+            'Location','southoutside','AutoUpdate','off');
+    end
     datetick('x','yy'); yline(0);
 end
 figname = 'ny_dcmp'; save_figure(figdir,figname,formats,figsave)
@@ -711,11 +739,13 @@ figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
 % load('svyyld.mat','smplsdate'); load('svyyld.mat', 'smplstpsvy')
 % ustpguim = [nan [0.25 1:5 7 10]; smplsdate{1,4} smplstpsvy{1,4}];
 
-KW10   = getFredData('THREEFYTP10',datestr(min(ustpguim(:,1)),29),datestr(datenum('1-Feb-2019'),29)); 
+KW10   = getFredData('THREEFYTP10',datestr(min(ustpguim(:,1)),29),...
+    datestr(datenum('1-Feb-2019'),29)); 
 KWtp10 = [nan 10; KW10.Data];                              	% 29: date format ID
 KWtp10(isnan(KWtp10(:,2)),:) = [];                        	% remove NaNs
 
-KW01   = getFredData('THREEFYTP1',datestr(min(ustpguim(:,1)),29),datestr(datenum('1-Feb-2019'),29)); 
+KW01   = getFredData('THREEFYTP1',datestr(min(ustpguim(:,1)),29),...
+    datestr(datenum('1-Feb-2019'),29)); 
 KWtp01 = [nan 1; KW01.Data];
 KWtp01(isnan(KWtp01(:,2)),:) = [];                        	% remove NaNs
 
@@ -723,11 +753,13 @@ KWtp = syncdtst(KWtp01,KWtp10);
 [~,~,uskwtp] = syncdtst(S(k0).s_ylds,KWtp);
 ustp10 = uskwtp(:,[1 end]);
 
-KW10   = getFredData('THREEFY10',datestr(min(ustpguim(:,1)),29),datestr(datenum('1-Feb-2019'),29)); 
+KW10   = getFredData('THREEFY10',datestr(min(ustpguim(:,1)),29),...
+    datestr(datenum('1-Feb-2019'),29)); 
 KWfy10 = [nan 10; KW10.Data];
 KWfy10(isnan(KWfy10(:,2)),:) = [];                        	% remove NaNs
 
-KW01   = getFredData('THREEFY1',datestr(min(ustpguim(:,1)),29),datestr(datenum('1-Feb-2019'),29)); 
+KW01   = getFredData('THREEFY1',datestr(min(ustpguim(:,1)),29),...
+    datestr(datenum('1-Feb-2019'),29)); 
 KWfy01 = [nan 1; KW01.Data];
 KWfy01(isnan(KWfy01(:,2)),:) = [];                        	% remove NaNs
 
@@ -874,8 +906,10 @@ figname = 'stp_inf'; save_figure(figdir,figname,formats,figsave)
 %% TP correlations: LCCS, INF, EPU, USTP, VIX
     % EMs
 corrTPem = cell(nEMs+1,13); corrBRP = cell(nEMs+1,13);
-corrTPem(1,:)  = {'' 'LCCS' 'pval' 'INF' 'pval' 'EPU' 'pval' 'EPULCCS' 'pval' 'USTP' 'pval' 'VIX' 'pval'};
-corrBRP(1,:) = {'' 'LCCS' 'pval' 'INF' 'pval' 'EPU' 'pval' 'EPULCCS' 'pval' 'USTP' 'pval' 'VIX' 'pval'};
+corrTPem(1,:)  = {'' 'LCCS' 'pval' 'INF' 'pval' 'EPU' 'pval',...
+    'EPULCCS' 'pval' 'USTP' 'pval' 'VIX' 'pval'};
+corrBRP(1,:) = {'' 'LCCS' 'pval' 'INF' 'pval' 'EPU' 'pval',...
+    'EPULCCS' 'pval' 'USTP' 'pval' 'VIX' 'pval'};
 hdrfk = [nan 10];
 for k0 = 1:nEMs
     corrTPem{k0+1,1} = S(k0).iso; corrBRP{k0+1,1} = S(k0).iso;
@@ -1023,7 +1057,7 @@ for k0 = 1:ncntrs
     pcexplnd{k0+1,2} = sum(explained(1));
     pcexplnd{k0+1,3} = sum(explained(2));
     pcexplnd{k0+1,4} = sum(explained(3));
-    pcexplnd{k0+1,5} = sum(explained(1:3));         % percent explained by first 3 PCs using balanced panel
+    pcexplnd{k0+1,5} = sum(explained(1:3)); % percent explained by first 3 PCs using balanced panel
 end
 
 [mean(cell2mat(pcexplnd(2:16,2))), mean(cell2mat(pcexplnd(2:16,3))),...
@@ -1039,11 +1073,11 @@ pc1yc(2:end,1) = {'Nominal' 'Expected' 'TP' 'LCCS'};
 grp = 'EM';                                         % 'EM' or 'AE'
 if strcmp(grp,'EM'); n1 = 1; nN = nEMs; else; n1 = nEMs+1; nN = ncntrs; end
 tnrspc = 10;                              % All: 0.25:0.25:10, ST: 1, LT: 10
-dateskey = {'1-Jan-2008','1-Jan-2000'};             % {'1-Jan-2008','1-Sep-2008'} all countries after GFC
-datestrt = datenum(dateskey{1});                    % select countries based on date of first observation
-datecmmn = datenum(dateskey{2});                    % select sample period for selected countries
+dateskey = {'1-Jan-2008','1-Jan-2000'};     % {'1-Jan-2008','1-Sep-2008'} all countries after GFC
+datestrt = datenum(dateskey{1});            % select countries based on date of first observation
+datecmmn = datenum(dateskey{2});           % select sample period for selected countries
 for k0 = n1:nN
-    if strcmp(grp,'EM')                             % for EMs synthetic, distinguish those w/ surveys
+    if strcmp(grp,'EM')                    % for EMs synthetic, distinguish those w/ surveys
         if ~isempty(S(k0).ssb_tp)
             fldname  = {'n_blncd','ssb_yP','ssb_tp','c_blncd'};
         else
@@ -1073,7 +1107,7 @@ for k0 = n1:nN
         end
     end
 end
-fltrbln = find(any(isnan(ttyld),2),1,'last') + 1;	% first date w/ balanced panel for selected countries
+fltrbln = find(any(isnan(ttyld),2),1,'last') + 1;	% first date w/ balanced panel
 ttyld = ttyld(fltrbln:end,:);                       % no headers, sample w/ no NaNs
 [~,~,~,~,explndemyld] = pca(ttyld(ttyld(:,1) >= datecmmn,2:end));   % factors after common date
 
@@ -1087,7 +1121,7 @@ tttp = tttp(fltrbln:end,:);
 
 fltrbln = find(any(isnan(ttcip),2),1,'last') + 1;
 ttcip = ttcip(fltrbln:end,:);
-[~,~,~,~,explndemlccs] = pca(ttcip(ttcip(:,1) >= datecmmn,2:end));%ttcip(fltrbln:end,2:end) before common date
+[~,~,~,~,explndemlccs] = pca(ttcip(ttcip(:,1) >= datecmmn,2:end));%ttcip(fltrbln:end,2:end)
 
 pc1yc(1,:) = {'' [num2str(k2) '-' datestr(datecmmn,'mm/yy')]};
 pc1yc(2:end,2) = {explndemyld(1); explndemyP(1); explndemtp(1); explndemlccs(1)};
@@ -1100,13 +1134,13 @@ pc1res = cell(6,2);
 pc1res(2:end,1) = {'yP1' 'yP10' 'TP1' 'TP10' 'yP10-USTP10'};
 grp = 'AE';                                         % 'EM' or 'AE'
 if strcmp(grp,'EM'); n1 = 1; nN = nEMs; else; n1 = nEMs+1; nN = ncntrs; end
-dateskey = {'1-Jan-2008','1-Sep-2008'};             % {'1-Jan-2008','1-Sep-2008'} all countries after GFC
-datestrt = datenum(dateskey{1});                    % select countries based on date of first observation
-datecmmn = datenum(dateskey{2});                    % select sample period for selected countries
+dateskey = {'1-Jan-2008','1-Sep-2008'};      % {'1-Jan-2008','1-Sep-2008'} all countries after GFC
+datestrt = datenum(dateskey{1});              % select countries based on date of first observation
+datecmmn = datenum(dateskey{2});            % select sample period for selected countries
 for k0 = n1:nN
     k2 = k2 + 1;
     r2TPyP{k2+1,1} = S(k0).iso;
-    if strcmp(grp,'EM')                             % for EMs synthetic, distinguish those w/ surveys
+    if strcmp(grp,'EM')                       % for EMs synthetic, distinguish those w/ surveys
         if ~isempty(S(k0).ssb_tp)
             fldname = {'ssb_yP','ssb_tp'};
         else
@@ -1117,8 +1151,8 @@ for k0 = n1:nN
     end
     
     if datenum(S(k0).s_dateb,'mmm-yyyy') <= datestrt
-%     if ismember(S(k0).iso,{'BRL','HUF','KRW','MXN','MYR','PHP','PLN','THB'})    % EM TP < 0
-%     if ismember(S(k0).iso,currEM(~contains(currEM,{'ILS','ZAR'})))              % EM w/ surveys
+%     if ismember(S(k0).iso,{'BRL','HUF','KRW','MXN','MYR','PHP','PLN','THB'}) % EM TP < 0
+%     if ismember(S(k0).iso,currEM(~contains(currEM,{'ILS','ZAR'})))           % EM w/ surveys
     
         [~,datayp,uskwypk0] = syncdtst(S(k0).(fldname{1}),uskwyp);
         [~,datatp,uskwtpk0] = syncdtst(S(k0).(fldname{2}),uskwtp);
@@ -1159,18 +1193,23 @@ for k0 = n1:nN
             tttp10 = [nan 10;datatp(datatp(:,1) >= datecmmn,1) restp10];
             ttyptp10 = [nan 10;datayp(datayp(:,1) >= datecmmn,1) resyptp10];
         else
-            ttyp01 = syncdtst(ttyp01,[nan 1; datayp(datayp(:,1) >= datecmmn,1) resyp01],'union');
-            ttyp10 = syncdtst(ttyp10,[nan 10;datayp(datayp(:,1) >= datecmmn,1) resyp10],'union');
-            tttp01 = syncdtst(tttp01,[nan 1; datatp(datatp(:,1) >= datecmmn,1) restp01],'union');
-            tttp10 = syncdtst(tttp10,[nan 10;datatp(datatp(:,1) >= datecmmn,1) restp10],'union');
-            ttyptp10 = syncdtst(ttyptp10,[nan 10;datayp(datayp(:,1) >= datecmmn,1) resyptp10],'union');
+            ttyp01 = syncdtst(ttyp01,...
+                [nan 1; datayp(datayp(:,1) >= datecmmn,1) resyp01],'union');
+            ttyp10 = syncdtst(ttyp10,...
+                [nan 10;datayp(datayp(:,1) >= datecmmn,1) resyp10],'union');
+            tttp01 = syncdtst(tttp01,...
+                [nan 1; datatp(datatp(:,1) >= datecmmn,1) restp01],'union');
+            tttp10 = syncdtst(tttp10,...
+                [nan 10;datatp(datatp(:,1) >= datecmmn,1) restp10],'union');
+            ttyptp10 = syncdtst(ttyptp10,...
+                [nan 10;datayp(datayp(:,1) >= datecmmn,1) resyptp10],'union');
         end
     end
 end
 
-fltrbln = find(any(isnan(ttyp01),2),1,'last') + 1;      % first date w/ balanced panel for selected countries
+fltrbln = find(any(isnan(ttyp01),2),1,'last') + 1; % first date w/ balanced panel
 ttyp01  = ttyp01(fltrbln:end,:);                        % no headers, sample w/ no NaNs
-[~,~,~,~,explndyp01] = pca(ttyp01(ttyp01(:,1) >= datecmmn,2:end));   % factors after common date
+[~,~,~,~,explndyp01] = pca(ttyp01(ttyp01(:,1) >= datecmmn,2:end)); % factors after common date
 
 fltrbln = find(any(isnan(ttyp10),2),1,'last') + 1;
 ttyp10  = ttyp10(fltrbln:end,:);
@@ -1182,7 +1221,7 @@ tttp01  = tttp01(fltrbln:end,:);
 
 fltrbln = find(any(isnan(tttp10),2),1,'last') + 1;
 tttp10  = tttp10(fltrbln:end,:);
-[~,~,~,~,explndtp10] = pca(tttp10(tttp10(:,1) >= datecmmn,2:end));%ttcip(fltrbln:end,2:end) before common date
+[~,~,~,~,explndtp10] = pca(tttp10(tttp10(:,1) >= datecmmn,2:end));
 
 
 fltrbln = find(any(isnan(ttyptp10),2),1,'last') + 1;
@@ -1204,14 +1243,15 @@ for k0 = 1:nEMs
 end
 
 %% US TP
-ynsvys = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),'USYCSVYdata.xlsx'),'Sheet',1);
-dates  = x2mdate(ynsvys(:,1));                                              % dates as datenum
-ynsvys = ynsvys(:,2:end)./100;                                              % data in decimals
-yonly  = ynsvys(:,1:8);                                                 	% yield data
-matsY  = [0.25 1:5 7 10];                                                   % yield maturities in years
+ynsvys = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),...
+    'USYCSVYdata.xlsx'),'Sheet',1);
+dates  = x2mdate(ynsvys(:,1));                                  	% dates as datenum
+ynsvys = ynsvys(:,2:end)./100;                                   	% data in decimals
+yonly  = ynsvys(:,1:8);                                          	% yield data
+matsY  = [0.25 1:5 7 10];                                           % yield maturities in years
 matsS  = [0.25:0.25:1 10];
-p      = 3;                                                               	% number of state vectors
-dt     = 1/12;                                                          	% monthly periods
+p      = 3;                                                       	% number of state vectors
+dt     = 1/12;                                                     	% monthly periods
 matout = [1 5 10];
 
 [ylds_Qjsz,ylds_Pjsz,tpjsz,params0] = estimation_jsz(yonly,matsY,matout,dt,p);
@@ -1234,8 +1274,10 @@ function [mrgd,dtst1,dtst2] = syncdtst(dtst1,dtst2,synctype)
 % Synchronize arrays (default is intersection)
 if nargin < 3; synctype = 'intersection'; end
 hdr1  = dtst1(1,2:end);  hdr2 = dtst2(1,2:end);  cols1 = size(dtst1,2);
-TT1   = array2timetable(dtst1(2:end,2:end),'RowTimes',datetime(dtst1(2:end,1),'ConvertFrom','datenum'));
-TT2   = array2timetable(dtst2(2:end,2:end),'RowTimes',datetime(dtst2(2:end,1),'ConvertFrom','datenum'));
+TT1   = array2timetable(dtst1(2:end,2:end),'RowTimes',...
+    datetime(dtst1(2:end,1),'ConvertFrom','datenum'));
+TT2   = array2timetable(dtst2(2:end,2:end),'RowTimes',...
+    datetime(dtst2(2:end,1),'ConvertFrom','datenum'));
 TT    = synchronize(TT1,TT2,synctype);
 mrgd  = [nan hdr1 hdr2; datenum(TT.Time) TT{:,:}];
 dtst1 = mrgd(:,1:cols1);
@@ -1246,4 +1288,5 @@ end
 % plot(S(k).(fnames{l})(:,1),S(k).(fnames{l})(:,2),'DisplayName',S(k).iso)
 % if k == 1; legend('-DynamicLegend'); hold all; else; hold all; end
 % Source: Hold on a legend in a plot
-% https://www.mathworks.com/matlabcentral/answers/9434-how-can-i-hold-the-previous-legend-on-a-plot
+% https://www.mathworks.com/matlabcentral/answers/...
+% 9434-how-can-i-hold-the-previous-legend-on-a-plot
