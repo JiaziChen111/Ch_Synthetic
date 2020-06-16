@@ -153,10 +153,12 @@
 \begin{todolist}
 	\item Tables
 	\begin{todolist}
-		\item TP synt EMs and TPnom AEs. Average. Compare w/ average YC slope. Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP.
+		\item Clean Tables folder.
+		\item TP synt EMs and TPnom AEs. Average. Compare w/ average YC slope. 
+		\item Fit. RMSE. Averages per country. Nominal AEs and synthetic EMs (incl. ILS and ZAR).
+		\item Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP.
 		\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2.
 		\item Compare ssb_yP vs CBP surveys. Similar to comparing against model-free TPsvy. Comment this in footnote.
-		\item Fit. RMSE. Averages per country. Nominal and synthetic.
 		\item Decompose nominal yields. Averages per country. Averages before and after the GFC to see if relative importance of the components changed.
 		\item Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
 		\item Term structure of TP. Averages per country.
@@ -223,6 +225,7 @@
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
+	\item After estimation, add fields to structure S: macro vars, svys, brp, epu, realrt. Needed for plots and tables.
 	\item Save surveys in S as: svyinf, svygdp, svycbp. All maturities. Update append_surveys.m to use new field name (svycbp).
 	\item Add RHO to daily2monthly. Add 0.25 and 0.5 to matsout. Add RMSE to estimation_*
 	\item Treat first CPI 10Y forecast for PHP as missing?
