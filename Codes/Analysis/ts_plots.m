@@ -501,7 +501,7 @@ for k0 = 1:nEMs
         subplot(3,5,k0)
         plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end))
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y ' fldname(1:4)]); 
-        datetick('x','yy'); yline(0);
+        datetick('x','yy'); yline(0); ylim([-0.02 0.08]);
     end
 end
 figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)
