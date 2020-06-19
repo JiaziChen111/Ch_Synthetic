@@ -108,6 +108,7 @@
 		\item[\done] Update AE_EM_Curves_BDH.xlsx.
 	\end{todolist}
 	\item[\done] Change name of files to US_Yield_Curve_Data.xlsx, IMF_Country_Codes.xlsx, ISO_Currency_Codes.xlsx, BIS_CB_Policy_rates.xlsx, CIP_Data.xlsx and CIP_data.dta (original_ removed).
+	\item[\done] Value for PHP CPI 10Y changed from 1.3 to 4.8 since it is unrealistically low.
 	\item[\done] Update CE_Forecasts.xlsx: change order of groups (APCF, LACF, EECF), correct dates for EECF.
 	\item[\done] Delete EUBS1-EUBS20 for PLN in both sheets (All, Tickers) of AE_EM_Curves_BDH.xlsx.
 \end{todolist}
@@ -165,7 +166,7 @@
 		\item Correlation of BRP and TPnom. Averages of components (relative importance) per country. Before and after the GFC.
 		\item Drivers of yields. Average and std of components (TPsynt, LCCS and yE).
 		\item t-test for LCCS = 0 and TPsynt = 0. LCCS = 0 is equivalent to test TPnom = TPsynt.
-		\item Average real interest rate to see if on average is the same across EMs.
+		\item Average and std of real interest rate to see if on average is the same across EMs and how much variability it has compared to nominal and synthetic yields.
 		\item Mention explicitly that 3 factors b/c they explain more than 99\% of the variation in yields.
 		\item Notes for tables.
 	\end{todolist}
@@ -225,6 +226,9 @@
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
+	\item Codes: move all parts in ts_plots that add variables to S into a function that can be called by ts_analysis. Leave only code for plotting in ts_plots.
+	\item Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield.
+	\item Prepare dataset to estimate i_survey using panel data instead of individually.
 	\item After estimation, add fields to structure S: macro vars, svys, brp, epu, realrt. Needed for plots and tables.
 	\item Save surveys in S as: svyinf, svygdp, svycbp. All maturities. Update append_surveys.m to use new field name (svycbp).
 	\item Add RHO to daily2monthly. Add 0.25 and 0.5 to matsout. Add RMSE to estimation_*
@@ -253,6 +257,18 @@
 	\item[\done] Look for ST expectations in CE for EMs to complement LT ones.
 \end{todolist}
 
+\section{Analysis: Long Term}
+\gototoc
+\begin{todolist}
+	\item Schedule: codes (ts_*), figures (ts_plots), tables (ts_tables), export dataset as dta, do-file w/ basic analysis, re-estimate the model w/ monthly data after all changes in codes (RMSE, matsout, etc.) and update figures-tables-dta-do, estimate the model w/ daily data (assess fit and test against results w/ monthly data), event study analysis.
+	\item Estimate model for daily data to study the effect of QE announcements and local events. Follow ACM (2013) to estimate and assess fit for daily yields. Prepare a new S structure to store the results.
+	\item All the analysis on spillovers can be dealt with in section 5 using daily data. Responses of EM components to US MPS. Changes in components around QE-TT announcements and local events. Regressions as in Curcuru or panel local projections as in ACDM. Asymmetric effects on different parts of the YC.
+	\item ATSM estimated with longer series for AEs.
+	\item Prepare slides.
+	\item Rename section 4 from Results to Yield Curve Decompositions. Section 5 would then addressed international spillovers
+\end{todolist}
+
+
 \section{Literature}
 \gototoc
 \begin{todolist}
@@ -272,6 +288,9 @@
 	\item IMF(2019): A Guide to Sovereign Debt Data.
 	\item G20(2020): Recent developments in EM LC bond markets.
 	\item Erce \& Mallucci (2018): Selective Sovereign Defaults
+	\item Banxico: What determines the neutral rate in an EM
+	\item Sekkel: C-P factor in international bond markets
+	\item Gagnon et al for effects of QE on TP.
 \end{todolist}
 
 \end{document}
