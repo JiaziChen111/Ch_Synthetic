@@ -4,7 +4,7 @@
 
 % m-files called: read_platforms, read_usyc, fwd_prm, zc_yields, spreads,
 % read_cip, plot_spreads, compare_cip, append_dataset, iso2names
-% Pavel Solís (pavel.solis@gmail.com), April 2020
+% Pavel Solís (pavel.solis@gmail.com), June 2020
 
 %% Data on yield curves and swap curves
 clear; clc; close all;
@@ -28,7 +28,7 @@ clear T*
 [dataset_daily,header_daily] = append_dataset(dataset_daily,data_fp,header_daily,hdr_fp);
 
 %% Data on nominal yield curves
-[data_zc,hdr_zc,fit_zc]      = zc_yields(dataset_daily,header_daily,curncs,false);
+[data_zc,hdr_zc] = zc_yields(dataset_daily,header_daily,curncs,false,false);
 [dataset_daily,header_daily] = append_dataset(dataset_daily,data_zc,header_daily,hdr_zc);
 
 %% Data on spreads (synthetic yield curves, interest rate differentials, CIP deviations)
@@ -49,6 +49,7 @@ corrDIS  = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave);
 S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
 clear data_* hdr_* fig* fltr types
 
-%% Save variables in mat files (in Dropbox not in Git directory due to size)
-% save struct_data_1_S.mat S fit_zc corr* cur* tnrs*
-% save struct_data_2_cells.mat dataset_daily header_daily
+%% Save variables in mat files (not in Git directory due to size limits)
+% cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/June-2020'
+% save struct_datady_S.mat S corr* cur* tnrs*
+% save struct_datady_cells.mat dataset_daily header_daily

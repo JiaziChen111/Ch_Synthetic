@@ -47,13 +47,13 @@
 		\item NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
 		\item PHP: Since 29-Oct-2018 BFV data does not vary. In the dataset, the BFV series includes IYC (converted into CE par) yields since 1-Oct-2018. Update BFV series w/ BLP data when access to it is available.
 	\end{todolist}
+	\item Include variables in datasets: CDS, longest histories in consumption and inflation for EMS. Same macro-financial data for AEs than for EMs?
 \end{todolist}
 
 \section{Datasets: Daily}
 \gototoc
 \begin{todolist}
 	\item For BRL RHO 2Y deviates from DIS starting in 2016. RHO 7Y is not available relative to DIS.
-	\item For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009.
 	\item For GBP RHO 7Y increases a lot relative to DIS in 2010.
 	\item For PEN RHO 7Y big decrease in 2018.
 	\item For PHP RHO 7Y big spike in 2010.
@@ -66,14 +66,7 @@
 		\item ILS 3M, 7Y.
 		\item MYR 2Y.
 	\end{todolist}
-\end{todolist}
-
-\section{Data: CRSP}
-\gototoc
-\begin{todolist}
-	\item[\done] Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months. Compare them.
-	\item[\done] Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
-	\item[\done] Compare results in LC spread and forward premium for 3M against DIS.
+	\item[\done] For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009. Reason: cutoff date of convention to compute IRS.
 \end{todolist}
 
 \section{Data: Codes}
@@ -87,15 +80,25 @@
 		\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
 		\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
 	\end{todolist}
+	\item[\done] In compute_fp_long.m address cases for HUF, PLN and NOK. If BS (HUF, PLN) and IRS (NOK) series are NaN, use zeros.
 	\item[\done] There are countries with BFV and IYC curves, transform BFV into ZC yields and compare the curves. BFV has CE par yields, IYC has CE ZC yields. Need to be converted into ZC continuously compounding.
 	\item[\wontdo] For countries for which DIS have a longer history than me, check whether it is b/c we use different LC YC (BFV vs. IYC) and one has a longer history. For HUF and PLN is b/c BS series start in 2007 in my sample.
 	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
+\end{todolist}
+
+\section{Data: CRSP}
+\gototoc
+\begin{todolist}
+	\item[\done] Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months. Compare them.
+	\item[\done] Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
+	\item[\done] Compare results in LC spread and forward premium for 3M against DIS.
 \end{todolist}
 
 \section{Data: Files}
 \gototoc
 \begin{todolist}
 	\item[\done] In the dataset, the BFV series for PHP includes IYC (converted into CE par) yields since 1-Oct-2018. 
+	\item[\done] In AE_EM_Curves_Tickers.xlsx change cutoff date for NOK. Official date 9/2/2008 only applies to 1Y, 5Y and 10Y tenors. New date 5/20/2009 applies to all tenors.
 	\item[\done] It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
 	\begin{todolist}
 		\item[\done] Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
@@ -104,16 +107,19 @@
 		\item[\done] Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx. Update Type columns in HUF and PLN sheets for EUBS1-EUBS20 from BS_EUR to BS.
 		\item[\done] Update AE_EM_Curves_BDH.xlsx.
 	\end{todolist}
-	\item[\done] Change name of file to IMF_Country_Codes.xlsx and ISO_Currency_Codes.xlsx (original_ removed).
-	\item[\done] Change name of file to CIP_Data.xlsx and CIP_data.dta (original_ removed).
-	\item[\done] Change name of file to US_Yield_Curve_Data.xlsx (original_ removed).
+	\item[\done] Change name of files to US_Yield_Curve_Data.xlsx, IMF_Country_Codes.xlsx, ISO_Currency_Codes.xlsx, BIS_CB_Policy_rates.xlsx, CIP_Data.xlsx and CIP_data.dta (original_ removed).
+	\item[\done] Value for PHP CPI 10Y changed from 1.3 to 4.8 since it is unrealistically low.
+	\item[\done] Update CE_Forecasts.xlsx: change order of groups (APCF, LACF, EECF), correct dates for EECF.
 	\item[\done] Delete EUBS1-EUBS20 for PLN in both sheets (All, Tickers) of AE_EM_Curves_BDH.xlsx.
 \end{todolist}
 
 \section{Codes}
 \gototoc
 \begin{todolist}
+	\item Updates to Kfs: remove commented nargin for mu_x and mu_y.
+	\item Move loadings4ylds to the temp folder.
 	\item Check if the formula for the CCS of HUF needs to be updated in compute_fp_long.m as indicated in the AE_EM_Curves_Tickers.xlsx file (check the sign ---plus or minus--- for TBS6v3).
+	\item[\done] Update loadings4ylds: help, round maturities so that input as [0.25 1:5:10]
 	\item[\done] Consider to include files as subfunctions.
 	\begin{todolist}
 		\item[\done] findNaN.m into remove_NaNcols.m.
@@ -131,23 +137,138 @@
 \gototoc
 \begin{todolist}
 	\item No EM was at the ZLB over the period.
-	\item Dates at which each EM started issuing 10Y bonds.
+	\item Countries w/ LCNOM YCs  of less than 10Y maturities:
 	\begin{todolist}
-		\item RUB issued 10Y bonds until 2007.
-		\item TRY  issued 10Y bonds until 2010.
+		\item IDR b/w 25-Feb-2003 and 15-Apr-2003 max tenor was 8Y.
+		\item KOR b/w 3-Jan-2000 and 30-Oct-2000 max tenor was 8Y.
+		\item RUB b/w 04-Apr-2006 and 19-Jun-2007 max tenor was 7Y.
+		\item TRY  b/w 17-Feb-2005 and 22-Feb-2005 max tenor was 3Y.
+		\item TRY  b/w 22-Feb-2005 and 28-Jun-2010 max tenor was 5Y.
 	\end{todolist}
+	\item Advantage of LCSYNT (longer history) instead of LCNOM for: BRL, IDR, PHP, RUB, TRY. Disadvantage for COP, HUF, ILS, MXN, MYR, PEN, PLN, THB, ZAR.
 	\item Since 2016, CHF and DKK negative YC up to 10Y and 7Y, respectively. Before GFC, close to ZLB.
 \end{todolist}
 
-\section{Analysis}
+\section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item[\done] Improve abstract.
-	\item Tables:
+	\item Tables
 	\begin{todolist}
-		\item Format changes.
+		\item Clean Tables folder.
+		\item TP synt EMs and TPnom AEs. Average. Compare w/ average YC slope. 
+		\item Fit. RMSE. Averages per country. Nominal AEs and synthetic EMs (incl. ILS and ZAR).
+		\item Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP.
+		\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2.
+		\item Compare ssb_yP vs CBP surveys. Similar to comparing against model-free TPsvy. Comment this in footnote.
+		\item Decompose nominal yields. Averages per country. Averages before and after the GFC to see if relative importance of the components changed.
+		\item Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
+		\item Term structure of TP. Averages per country.
+		\item Correlation of BRP and TPnom. Averages of components (relative importance) per country. Before and after the GFC.
+		\item Compare std of BRP vs std of AE TP. C-R (2002): risk premiums are far more volatile in emerging markets than in developed economies. Bech and Lengwiler (2011) find that central bank purchases of bonds not only reduced long-term interest rates, but also led to lower interest rate volatility. 
+		\item Drivers of yields. Average and std of components (TPsynt, LCCS and yE).
+		\item t-test for LCCS = 0 and TPsynt = 0. LCCS = 0 is equivalent to test TPnom = TPsynt.
+		\item Average and std of real interest rate to see if on average is the same across EMs and how much variability it has compared to nominal and synthetic yields.
+		\item Mention explicitly that 3 factors b/c they explain more than 99\% of the variation in yields.
+		\item Notes for tables.
+	\end{todolist}
+	\item Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP <-> Episodes of negative TP per country <-> Portfolio inflows <-> Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
+	\item Construct panel dataset to analyze results in Stata. Include: rho, CIPdev, svys (CBP, INF, GDP), LCNOM, LCSYNT, decompositions (yQ, yP, tp), macro-financial (US, CBP, STX, FX), EPU. Before dataset, construct a field with yQ, yP, tp for ALL countries (EMs/AEs), ssb for EM w/ surveys, sy for ILS and ZAR, ny for AEs. Same tenors (0.25-10Y).
+	\item Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
+	\item Annex for some descriptive tables and figures.
+	\item Save figures to be used in pdf.
+	\item What is the relationship b/w the YC components and the forward premium.
+	\item[\done] US factor + non-US factor in each one or only in some of them?
+	\item[\done] Download USTP01 USTP10, USYP01, USYP10 from KW, and construct USyP.
+	\item[\done] TP correlations of AEs with: USTP, Vix, CIPdev.
+	\item[\done] PCA for TPsynt, LCCS and expectations. Common factor, commonalities (TPs, yP, LCCS) all, ST vs LT. Not real rates b/c dates don't match.
+	\item[\done] PCA for yields synthetic and nominal. Variability explained by PC1-PC3. 
+	\item[\done] Correlations of LCNOM components w/ alternative measures. Similar to Table 1 in Curcuru et al (2018).
+	\item[\done] Plot TP vs LCCS, USTP, Vix, EPU, local inflation. Not debt flows from TIC b/c no data yet.
+	\item[\done] TP correlations of EMs with: USTP, Vix, EPU index, LCCS, local inflation. Previous odd results w/ correlations might be explained by differences in estimated TPs. Use figure ssb_ny_tp.eps.
+	\item[\done] Plot inflation vs 10Y yield. They tend to move together.
+	\item[\done] Compare TP of Guimaraes vs KW. Add QE-TT dates. Compare USTP against TP in AEs and EMs.
+	\item[\done] Plot TPsynt vs TPsvy. TPsynt follows TPsvy closely.
+	\item[\done] Drivers of yields. Compare TPsynt, LCCS and yE against nominal yield to see drivers of EM yields.
+	\item[\done] Bond risk premia. Compare TPnom vs TPsynt+LCCS. Construct BRP series. Plot its components. Compare against TPnom.
+	\item[\done] Term structure of TP. Averages per country. QE events added.
+	\item[\done] function for synchronizing series.
+	\item[\done] Compare yEsynt and yEnom (w/ and w/o surveys) to see if they are similar. If so, it supports TPnom = TPsynt+LCCS -> TP and RP are not the same thing for EMs. Hypothesis: yEsynt and yEnom  closer w/ surveys. Won't: Compare when sgmS free vs fixed.
+	\item[\done] Feeling of fit. Compare ylds vs yQ. They are very close for most countries.
+	\item[\done] Plot LT real interest rates = ssb_yP - INF surveys. Are LT real rates similar? It seems that for most countries it fluctuates b/w 0 and 1 pp.
+	\item[\done] Plot yP for EMs and AEs. Is there a trend? No a marked one.
+	\item[\done] Plot ssb_yP vs CBP surveys. 
+	\item[\done] Compare TPsynt in EMs vs TPnom in AEs.Declining trend more marked for AEs, in EMs TP < 0.
+	\item[\done] Compare TPnom vs TPsynt for AEs. How big is the difference? Similar for most. Differences for AUD, NZD, SEK.
+	\item[\done] Plot TPnom for AEs. Trends? Declining.
+	\item[\done] Analyze TP synt.
+	\item[\done] TP for AEs. Reaction to QE events.
+	\item[\done] Compare TP different versions: nominal vs synthetic, ylds only vs surveys, sgmS free vs fixed. 
+	\item[\done] Plot TP different versions individually. Add key dates when plotting TPs: target adopted/changed, QE announcements, local events (capital controls). 
+	\item[\done] Plot: inflation, policy rate, expectations of inflation.
+	\item[\done] Plot survey forecasts of inflation. See whether there is a trend. For some countries.
+	\item[\done] Read old version of results.
+	\item[\done] Review old code in Analysis folder.
+	\item Research questions:
+	\begin{todolist}
+		\item Upward sloping YCs? Averages.
+		\item Why TPs differ across EMs? Are they idiosyncratic or is there a common factor driving them? Average of TPsynt per country, is there a large variation among them? b/w them and AEs? PCA for all yields. PCA for ST rates. PCA for LT rates. No common component might imply segmented markets, capital controls, home bias.
+		\item International comparisons of expectations (yE). Subtract inflation expectations and see whether r* differs. Is there a single world real interest rate? Is the real interest rate the same for all EMs? Plot min-max intervals to see spread like Kalemli-Ozcan for policy rates.
+		\item Financial integration: Correlation b/w debt flows from TIC data and TP. FX reserves. The increase in inflows reflected in an increase in FX reserves, lower bond yields or both. Case of capital controls in Brazil.
+		\item Decompose the forward exchange premium into: an expectations part and a risk premium. Clarida-Taylor (1997), Burnside et al (2007), Backus et al (1995). If LT TP are more closely linked, then tau_rho is closer to zero and thus UIP holds more closely for LT rates than for shorter ones.
+		\item Why TP and CR move as they do? Which asset pricing model is consistent with the data (TP, CR)? What explanations of bond risk premia are supported? Compensation for disagreement (increases quantity of risk), for economic pain (increases price of risk), for economic uncertainty about GDP growth and/or inflation (increases price of risk), for volatility risk (increases quantity of risk)? \item High inflation uncertainty leads to high TP?
+		\item Has the importance of TP and CR changed after the GR? More role of CR after the GR since large fiscal debts?
+		\item Why TP \(<\) 0? Change in importance of AD relative to AS shocks? Change in correlation b/w consumption and inflation and b/w bonds and stocks (so bonds become hedges of stocks)? Gourio and Ngo (2016), Pericoli (2018), Campbell, Pflueger and Viceira (2018), Campbell, Sunderam and Viceira (2016). Or financial integration story?
+		\item Did UMP spread abroad? He and McCauley (2013) and Turner (2014). QE's purpose was to decrease TP in AE, did the same happen to EMs? TP \(<\) 0?
+		\item GFCy is different at the short than at the long end of the curve. Obstfeld (2015)
+		\item Is there a risk channel for monetary policy spillovers? Are LT rates more highly correlated than ST rates? Policy rate disconnect for ST and/or LT? US spillovers work through changes in risk premia? Expected rate in EMs react to changes in USTP?
 	\end{todolist}
 \end{todolist}
+
+\section{Analysis: Medium Term}
+\gototoc
+\begin{todolist}
+	\item Codes: move all parts in ts_plots that add variables to S into a function that can be called by ts_analysis. Leave only code for plotting in ts_plots.
+	\item Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield.
+	\item Prepare dataset to estimate i_survey using panel data instead of individually.
+	\item After estimation, add fields to structure S: macro vars, svys, brp, epu, realrt. Needed for plots and tables.
+	\item Save surveys in S as: svyinf, svygdp, svycbp. All maturities. Update append_surveys.m to use new field name (svycbp).
+	\item Add RHO to daily2monthly. Add 0.25 and 0.5 to matsout. Add RMSE to estimation_*
+	\item Treat first CPI 10Y forecast for PHP as missing?
+	\item Download EPU indexes for AEs.
+	\item Mention characteristics of sample: MYR doesn't have an IT regime.
+	\item Dates: Check whether the removal of CB governors in BRL and TRY had an effect on their TPs. Did TP decline in countries that adopted IT during the sample period?
+	\item Add 0.25 and 0.5 Y to matsout to test results from forward premium puzzle. Whether it holds at short but not at long maturities (Lingareddy 2008).
+	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
+	\item Stock and Watson inflation decomposition. Follow Wright 2011.
+	\item Add policy rates data to macro data in structure of all countries.
+	\item Replicate the analysis in Dahlquist \& Hasseltoft on time-varying bond risk premia.
+	\item Structure for the US YC. In daily2monthly for US extract LCNOM, OIS, FF. Add Guimaraes TP.
+	\item Correct US YC for credit risk (Chernov, Schmidt, Song).
+	\item Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW.
+	\item Replicate Lloyd.
+	\item[\done] Estimate ATSM for AEs and EMs. Save TP w/ JSZ and w/ surveys for LCNOM and LCSYNT.
+	\item[\done] After estimating ATSM, generate yields (P, Q) and TP for ALL maturities to get balanced panels (output tenors vs input tenors). Only report 1Y, 5Y, 10Y tenors in all cases.
+	\item[\done] Make sure all monthly data (yields, surveys, macro) has SAME end-of-month dates.
+	\item[\wontdo] Add als in pca to be able to estimate JSZ for initial values. Need balanced panel to use JSZ.
+	\item[\done] Generate dataset w/o fitting NS to YCs.
+	\item[\done] Replicate Guimaraes but w/o including the survey maturity for 10Y to see how much that maturity helps pinning down the parameters of the model. It helps a lot, especially with shorter samples.
+	\item[\done] Explicit that longer series for AEs and surveys for EMs. Also, no surveys for AEs for comparison w/ other studies. % :)
+	\item[\done] Decompose US YC.
+	\item[\done] Use surveys to decompose US YC and compare to Guimaraes.
+	\item[\done] Look for ST expectations in CE for EMs to complement LT ones.
+\end{todolist}
+
+\section{Analysis: Long Term}
+\gototoc
+\begin{todolist}
+	\item Schedule: codes (ts_*), figures (ts_plots), tables (ts_tables), export dataset as dta, do-file w/ basic analysis, re-estimate the model w/ monthly data after all changes in codes (RMSE, matsout, etc.) and update figures-tables-dta-do, estimate the model w/ daily data (assess fit and test against results w/ monthly data), event study analysis.
+	\item Estimate model for daily data to study the effect of QE announcements and local events. Follow ACM (2013) to estimate and assess fit for daily yields. Prepare a new S structure to store the results.
+	\item All the analysis on spillovers can be dealt with in section 5 using daily data. Responses of EM components to US MPS. Changes in components around QE-TT announcements and local events. Regressions as in Curcuru or panel local projections as in ACDM. Asymmetric effects on different parts of the YC.
+	\item ATSM estimated with longer series for AEs.
+	\item Prepare slides.
+	\item Rename section 4 from Results to Yield Curve Decompositions. Section 5 would then addressed international spillovers
+\end{todolist}
+
 
 \section{Literature}
 \gototoc
@@ -159,12 +280,18 @@
 		\item Hoffman Im and Shin (2020) for developments and references on LC bond markets. Emerging market economy exchange rates and local currency bond markets amid the Covid-19 pandemic.
 		\item Dollar funding costs during the Covid-19 crisis through the lens of the FX swap market.
 		\item Leverage and margin spirals in fixed income markets during the Covid-19 crisis.
+		\item Literature on sovereign default (real, nominal, current account behavior) --curvature in utility allows introduces risk aversion, imperfect financial markets --, currency denomination, original sin.
+		\item Risk premia in international macro-finance (Lustig).
 	\end{todolist}
 	
+	\item JHU alumni paper on the Journal of Banking using C-P regressions, implications for replicating Dahlquist \& Hasseltoft.
 	\item R\&R (2010): The Forgotten History of Domestic Debt.
 	\item IMF(2019): A Guide to Sovereign Debt Data.
 	\item G20(2020): Recent developments in EM LC bond markets.
 	\item Erce \& Mallucci (2018): Selective Sovereign Defaults
+	\item Banxico: What determines the neutral rate in an EM
+	\item Sekkel: C-P factor in international bond markets
+	\item Gagnon et al for effects of QE on TP.
 \end{todolist}
 
 \end{document}

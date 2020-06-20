@@ -5,48 +5,79 @@
 % Variable Definitions
 %-------------------------------------------------------------------
 \providecommand{\tnr}{n}
-\providecommand{\fInst}{f_{t,\tnr}}
-\providecommand{\yZero}{y_{t,\tnr}}
-\providecommand{\Pzero}{P_{t,\tnr}}
-\providecommand{\Pzerolag}{P_{t+1,\tnr-1}}
-\providecommand{\STrate}{r}								% Update in a later revision
-\providecommand{\rShort}{\STrate_{t}}
-\providecommand{\rShortlag}{\STrate_{t-1}}
-\providecommand{\SDF}{M_{t+1}}
-\providecommand{\SDFprod}{\Expec \left[\Pi_{j=1} ^\tnr M_{t+j}\right]}
-\providecommand{\Xvars}{X_{t}}
-\providecommand{\XvarsFwd}{X_{t+1}}
+\providecommand{\idxt}{t}
+\providecommand{\idxs}{\idxt,\tnr}
+\providecommand{\fInst}{f_{\idxs}}
+\providecommand{\yld}{y}
+\providecommand{\yZero}{\yld_{\idxs}}
+\providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
+\providecommand{\yZeroP}{\yZero^{\Pmeasure}}
+\providecommand{\yZeroE}{\yZero^{e}}
+\providecommand{\Pzero}{P_{\idxs}}
+\providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
+\providecommand{\srate}{i}
+\providecommand{\shortrate}{\srate_{\idxt}}
+\providecommand{\shortratelag}{\srate_{\idxt-1}}
+\providecommand{\rateSvy}{\srate_{\idxs}^{survey}}
+\providecommand{\SDF}{M_{\idxt+1}}
+\providecommand{\SDFprod}{\ExpP \left[\Pi_{j=1} ^\tnr M_{\idxt+j}\right]}
+\providecommand{\Xvars}{X_{\idxt}}
+\providecommand{\XvarsFwd}{X_{\idxt+1}}
 \providecommand{\affineA}{A_{\tnr}}
 \providecommand{\affineB}{B_{\tnr}}
 \providecommand{\affineAfwd}{A_{\tnr + 1}}
 \providecommand{\affineBfwd}{B_{\tnr + 1}}
-\providecommand{\yLCnom}{y_{t,\tnr} ^{LC}}
-\providecommand{\yLCsynt}{\widetilde{y}_{t,\tnr} ^{LC}}
-\providecommand{\yUS}{y_{t,\tnr} ^{US}}
-\providecommand{\yUSsynt}{\widetilde{y}_{t,\tnr} ^{US}}
-\providecommand{\TPatsm}{tp_{t,\tnr}}
+\providecommand{\affineAQ}{\affineA^{\Qmeasure}}
+\providecommand{\affineBQ}{\affineB^{\Qmeasure}}
+\providecommand{\affineAP}{\affineA^{\Pmeasure}}
+\providecommand{\affineBP}{\affineB^{\Pmeasure}}
+\providecommand{\affineAe}{\affineA^{e}}
+\providecommand{\affineBe}{\affineB^{e}}
+\providecommand{\yLCnom}{\yld_{\idxs} ^{LC}}
+\providecommand{\yLCsynt}{\widetilde{\yld}_{\idxs} ^{LC}}
+\providecommand{\yUS}{y_{\idxs} ^{US}}
+\providecommand{\yUSsynt}{\widetilde{\yld}_{\idxs} ^{US}}
 
 % Math fonts
-\providecommand{\Expec}{\mathrm{E}_{t}}
 \providecommand{\Xdim}{\mathrm{K}}
-\providecommand{\Normal}{\mathrm{N}}
+\providecommand{\Ydim}{\mathrm{N}}
+\providecommand{\Sdim}{\mathrm{S}}
+\providecommand{\Normal}{\mathcal{N}}
 \providecommand{\Pmeasure}{\mathbb{P}}
 \providecommand{\Qmeasure}{\mathbb{Q}}
+\providecommand{\Expec}{\mathrm{E}_{t}}
+\providecommand{\ExpP}{\mathrm{E}^{\Pmeasure}_{t}}
+\providecommand{\ExpQ}{\mathrm{E}^{\Qmeasure}_{t}}
+\providecommand{\Svy}{S}
+\providecommand{\yVec}{\mathbf{\yld}_{t}}
+\providecommand{\ySVec}{\yVec^{\Svy}}
+\providecommand{\Avec}{\mathbf{A}}
+\providecommand{\Bvec}{\mathbf{B}}
+\providecommand{\ASvec}{\mathbf{A}^{\Svy}}
+\providecommand{\BSvec}{\mathbf{B}^{\Svy}}
+\providecommand{\uVec}{\mathbf{u}_{t}}
+\providecommand{\uSVec}{\mathbf{u}_{t}^{\Svy}}
+\providecommand{\Svec}{\mathbf{\Sigma}}
+\providecommand{\SyVec}{\mathbf{\Svec}_{Y}}
+\providecommand{\SsVec}{\mathbf{\Svec}_{\Svy}}
 
 % Greeks
+\providecommand{\termprm}{\tau_{\idxs}}
 \providecommand{\riskprice}{\lambda_{t}}
 \providecommand{\lambdazero}{\lambda_{0}}
 \providecommand{\lambdaone}{\lambda_{1}}
-\providecommand{\fwdprm}{\rho_{t,\tnr}}
-\providecommand{\CIPdev}{\phi_{t,\tnr}}
+\providecommand{\fwdprm}{\rho_{\idxs}}
+\providecommand{\CIPdev}{\phi_{\idxs}}
 \providecommand{\deltazero}{\delta_{0}}
 \providecommand{\deltaone}{\delta_{1}}
 \providecommand{\error}{\nu_{t+1}}
-\providecommand{\Xmu}{\mu}
-\providecommand{\XmuStar}{\mu^{*}}
+\providecommand{\errorQ}{\error^{\Qmeasure}}
+\providecommand{\errorP}{\error^{\Pmeasure}}
+\providecommand{\XmuP}{\mu^{\Pmeasure}}
+\providecommand{\XmuQ}{\mu^{\Qmeasure}}
 \providecommand{\XSigma}{\Sigma}
-\providecommand{\XPhi}{\Phi}
-\providecommand{\XPhiStar}{\Phi^{*}}
+\providecommand{\XPhiP}{\Phi^{\Pmeasure}}
+\providecommand{\XPhiQ}{\Phi^{\Qmeasure}}
 \providecommand{\betaLT}{\beta_{0}}
 \providecommand{\betaST}{\beta_{1}}
 \providecommand{\betaMTns}{\beta_{2}}
@@ -67,12 +98,28 @@
 \providecommand{\loadMTnssZero}{\left( \loadSTnssZero - \loadSTnssFwd \right)}
 
 %\providecommand{\}{}
+% DELETE in a later revision
+\providecommand{\Xmu}{\mu}
+\providecommand{\XPhi}{\Phi}
+\providecommand{\XmuStar}{\mu^{*}}
+\providecommand{\XPhiStar}{\Phi^{*}}
+\providecommand{\STrate}{r}
+\providecommand{\rShort}{\STrate_{t}}
+\providecommand{\rShortlag}{\STrate_{t-1}}
+\providecommand{\ySvy}{\STrate_{\idxs}^{survey}}
+\providecommand{\TPatsm}{tp_{\idxs}}
 
 %-------------------------------------------------------------------
 % Equations
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{tp_{it} = \alpha_{i} + \beta' z_{it} + u_{it}}
+\newcommand{\eqySvy}{\rateSvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\srate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{g}}}{1-\hat{\beta}_{\srate}} g_{\idxs}^{survey} }
+
+\newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
+\newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
+
+
 
 %---------------------------------------------------------------
 % Table of Contents

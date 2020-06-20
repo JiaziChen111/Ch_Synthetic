@@ -29,6 +29,7 @@ switch LC
         types      = {'IRS','BS','BS','IRS_USD'};
         [vars,tnr] = extractvars(currencies,types,header,dataset);
         IRS = vars{1};  BS = vars{2};  BS_EUR = vars{3}; IRS_USD = vars{4};
+        BS(isnan(BS)) = 0;                          % allows it to compute CCS when BS is NaN
 
         CCS = IRS + BS./100 + BS_EUR./100 - IRS_USD;
 
@@ -92,6 +93,7 @@ if strcmp(LC,'JPY') || strcmp(LC,'NOK')
     types        = {'IRS','TBS','BS','IRS_USD'};
     [vars2,tnr2] = extractvars(currencies,types,header,dataset);
     IRS = vars2{1}; TBS = vars2{2}; BS = vars2{3}; IRS_USD = vars2{4};
+    TBS(isnan(TBS)) = 0;                                          % allows it to compute CCS when TBS is NaN
 
     CCS2 = IRS - TBS./100 + BS./100 - IRS_USD;
 

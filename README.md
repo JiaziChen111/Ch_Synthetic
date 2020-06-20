@@ -1,6 +1,6 @@
 # Ch_Synthetic
 
-The files in this folder are provided to facilitate the replication of the results in "Term Premia in Emerging Markets" by Pavel Solís
+The files in this folder are provided to facilitate the replication of the results in "Comovement of the Sovereign Yields of Emerging Markets" by Pavel Solís
 Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity.
 
 
@@ -90,15 +90,27 @@ On reproducibility of empirical research, see:
 All the data is stored in a Matlab structure array of countries with different fields. The information in the key fields (including lccs, tp, syn, nom) is stored as a timetable (a Matlab data type). Below are the details to facilitate following the workflow of the codes.
 
 In pre-analysis folder
-	run read_data.m 	-> generates dataset_daily (runtime ~ 75 min)
+run read_data.m 	-> generates dataset_daily (runtime: 30 min w/o NSS, o/w 75 min)
+	read_platforms	-> tickers from Bloomberg and Datastream
+	read_usyc	-> data from GSW and CRSP
+	fwd_prm		-> short and long term forward premia
+	zc_yields	-> par converted into zero-coupon yields, fit NS model
+	spreads		-> CIP deviations, yield spreads (LC, FC)
+	read_cip	-> load DIS dataset
+	plot_spreads	-> plot (term structure of) spreads
+	compare_cip	-> compare own spreads vs DIS
+variable types in header_daily: RHO,LCNOM,LCSYNT,LCSPRD,CIPDEV,FCSPRD
 read_data.m calls: read_platforms, read_usyc, fwd_prm, zc_yields, spreads, read_cip, plot_spreads, compare_cip, append_dataset, iso2names
 auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
 In analysis folder
-	run rp_analysis.m		-> once using 'LCRF' and once using 'LC'
+run ts_analysis.m	-> generates structure w/ analyzed data
+	daily2monthly	-> extract monthly data
+	forecast_cbpol	-> add survey data for policy rate
+	append_surveys 	-> combine yield and survey data
+	atsm_estimation -> estimate model w/ and w/o survey data, nominal & synthetic YCs
 
-	+run fit_NS.m 		-> default-free LC YCs (11 min or 15 if 4 initial values)
-	+run rp_estimation.m	-> estimates risk premia (seconds)
+
 	+run rp_plot.m		-> plots risk premia (seconds)
 	run rp_us.m		-> US TP (seconds) may require internet access
 	+run rp_correlations	-> EMs TPs with US TP, EPU (seconds)
@@ -108,11 +120,6 @@ In analysis folder
 
 	run rp_regressions.m	-> correlations
 
-*Ideal*: master file (rp_analysis) that calls functions fit_NS, rp_estimation, rp_plot
-give dataset (rf or risky) and special_cases (rf or risky) to fit_NS and get dataset_lcRF or dataset_lcRK
-give dataset_lcXX to rp_estimation and get dataset_monthly, header_monthly, statistics
-merge both datasets
-plot rf and risky
 
 'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified using (filtering in) header_daily
 
