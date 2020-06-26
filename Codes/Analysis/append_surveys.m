@@ -12,11 +12,11 @@ for k0 = 1:2
     fnameb = fnames{contains(fnames,[prefix{k0} 'blncd'])};
     for k1 = 1:nEMs
         hdry  = S(k1).(fnameb)(1,:);                                % yield maturities (include first column)
-        hdrv  = S(k1).svys(1,2:end);                                % survey maturities
+        hdrv  = S(k1).svycbp(1,2:end);                              % survey maturities
         ylds  = S(k1).(fnameb)(2:end,2:end);                        % yields already in decimals
-        svys  = S(k1).svys(2:end,2:end)/100;                        % survey forecasts in decimals
+        svys  = S(k1).svycbp(2:end,2:end)/100;                      % survey forecasts in decimals
         datey = S(k1).(fnameb)(2:end,1);                            % dates of yields
-        datev = S(k1).svys(2:end,1);                                % dates of surveys
+        datev = S(k1).svycbp(2:end,1);                              % dates of surveys
         fltrd = datev >= datey(1);                                  % survey data in sample period
         datev = datev(fltrd);                                       % keep survey data within sample period
         svys  = svys(fltrd,:);

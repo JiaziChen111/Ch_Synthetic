@@ -27,7 +27,7 @@ for k = 1:nEMs
     bINF = weightsTR(fltrINF,S(k).imf == weightsTR(1,:));
     bGDP = weightsTR(fltrGDP,S(k).imf == weightsTR(1,:));
     
-    fltrCTY   = contains(hdr_svys,{S(k).iso,'DATE'}) & fltrSVY;             % include dates                                          
+    fltrCTY   = contains(hdr_svys,{S(k).iso,'DATE'}) & fltrSVY;             % include dates
     macrodata = data_svys(:,fltrCTY);                                       % extract variables
     macroname = hdr_svys(fltrCTY);                                          % extract headers
     macrotnr  = unique(cell2mat(tenors(fltrCTY)));                          % extract unique tenors as doubles
@@ -36,6 +36,6 @@ for k = 1:nEMs
     macroGDP = macrodata(:,contains(macroname,'GDP'));                      % GDP for all survey tenors
     macroCBP = bCON + bINF*macroINF + bGDP*macroGDP;                        % policy rate for all survey tenors
     fltrMSS  = sum(isnan(macroCBP),2) == size(macroCBP,2);                  % rows w/ missing data
-    S(k).svys = [nan macrotnr;                                            	% add survey tenors in first row
+    S(k).svycbp = [nan macrotnr;                                            % add survey tenors in first row
                 macrodata(~fltrMSS,1) macroCBP(~fltrMSS,:)];                % keep dates w/ actual data
 end
