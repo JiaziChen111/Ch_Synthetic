@@ -16,6 +16,7 @@ cd(pathc)
 
 %% Process the data
 [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
+% S = daily2dymy(S,dataset_daily,header_daily,true);
 S = forecast_cbpol(S,currEM);
 S = append_surveys(S,currEM);
 
@@ -75,6 +76,13 @@ end
 ts_plots(S,currEM,currAE,ustp10,ustpguim,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,ustp10,vix);
 [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,uskwyp,uskwtp);
+
+
+%% Daily frequency estimation
+S = daily2dymy(S,dataset_daily,header_daily,false);
+
+
+
 
 
 %% US TP
