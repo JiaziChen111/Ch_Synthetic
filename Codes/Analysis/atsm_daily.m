@@ -5,7 +5,7 @@ mtxmae  = nan(ncntrs,length(matsall));  mtxsae = nan(ncntrs,length(matsall)); %f
 fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                    % field containing estimated parameters
 p       = 3;                                                    % number of pricing factors
-nolscts = setdiff(currEM,{'ILS','ZAR'});%{'HUF','MYR','PHP','THB','TRY'};                      % countries using W not from least squares
+intctrs = setdiff(currEM,{'ILS','ZAR'});                        % countries w/ intercept
 
 for k0 = 1:ncntrs
     % Prefixes for monthly and daily fields
@@ -26,35 +26,15 @@ for k0 = 1:ncntrs
     % Smoothed state
     xsM = S(k0).(fnameq).xs;
     if size(xsM,2) == nobsM; xsM = xsM'; end                    % ensure xs dimensions are the same as yields
-    % plot(yieldsM(:,1),xsM(:,1),'o') % relationship b/w short rate and PC1 is highly linear when no surveys
     
-    % Principal components of smoothed state
-    [xsMW,xsMPC,~,~,xsMpcaExp] = pca(xsM);
-    xsMPC2 = xsM*xsMW - repmat(mean(xsM),nobsM,1)*xsMW;         % xsMPC2 == xsMPC
-    xsM2   = xsMPC*xsMW' + repmat(mean(xsM),nobsM,1);           % xsM2   == xsM
-    xsMPCd = xsMPC*xsMW';                                       % demeaned
-    % subplot(3,1,1); plot(datesM,xsM2(:,1),datesM,xsM(:,1))
-    % subplot(3,1,2); plot(datesM,xsM2(:,2),datesM,xsM(:,2))
-    % subplot(3,1,3); plot(datesM,xsM2(:,3),datesM,xsM(:,3))
-    % plot(yieldsM(:,1),xsMPC(:,1),'o') % relationship b/w short rate and PCPC1 is linear when survey data
-    
-    % Implied weights from smoothed state
-    if ~ismember(S(k0).iso,nolscts)
-        % Wm2 = pinv(yieldsM)*xsM;                              % Moore-Penrose inverse, same as LS
-        % Wm2 = (yieldsM'*yieldsM)\yieldsM'*(xsMPC*xsMW'+repmat(mean(xsM),nobsM,1));%same as LS (xsM2==xsM)
-        Wm2 = (yieldsM'*yieldsM)\yieldsM'*xsM;                	% least-squares using smoothed state
+    % Implied weights from smoothed state using least-squares
+    if ~ismember(S(k0).iso,intctrs)
+        Wm   = (yieldsM'*yieldsM)\yieldsM'*xsM;                	% no intercept
     else
-        X = [ones(nobsM,1) yieldsM];
-        Wm2ls = (X'*X)\X'*xsMPCd;
-%         Wm2 = (yieldsM'*yieldsM)\yieldsM'*(xsMPC*xsMW');        % least-squares using PCs of smoothed state
-%         Wm21 = fitlm(yieldsM,xsMPCd(:,1));
-%         Wm22 = fitlm(yieldsM,xsMPCd(:,2));
-%         Wm23 = fitlm(yieldsM,xsMPCd(:,3));
-%         Wm2  = [Wm21.Coefficients{2:end,1} Wm22.Coefficients{2:end,1} Wm23.Coefficients{2:end,1}];
-%         Wm2c = [Wm21.Coefficients{1,1} Wm22.Coefficients{1,1} Wm23.Coefficients{1,1}]; % constants
-        Wm2 = Wm2ls(2:end,:);
-        Wm2c = Wm2ls(1,:);
-%         plot(f,yieldsM(:,1),xsMPC*xsMW'(:,1))
+        X    = [ones(nobsM,1) yieldsM];
+        Wmls = (X'*X)\X'*xsM;
+        Wmc  = Wmls(1,:);                                       % intercepts
+        Wm   = Wmls(2:end,:);
     end
     
     % Daily pricing factors
@@ -62,10 +42,10 @@ for k0 = 1:ncntrs
     datesD  = S(k0).(fldname)(2:end,1);                        	% daily dates
     yieldsD = S(k0).(fldname)(2:end,2:end);                     % daily yields
     nobsD   = size(yieldsD,1);                                	% #daily observations
-    if ~ismember(S(k0).iso,nolscts)
-        xsD2 = yieldsD*Wm2;
+    if ~ismember(S(k0).iso,intctrs)
+        xsD2 = yieldsD*Wm;
     else
-        xsD2 = repmat(Wm2c,nobsD,1) + yieldsD*Wm2 + repmat(mean(xsM),nobsD,1);
+        xsD2 = repmat(Wmc,nobsD,1) + yieldsD*Wm;
     end
     
     % Fitted yields
@@ -76,7 +56,7 @@ for k0 = 1:ncntrs
     yieldsQ   = (ones(nobsD,1)*AnQ + xsD2*BnQ)*100;          	% fitted daily yields in percent
     yieldsD   = yieldsD*100;                                    % observed daily yields in percent
     
-    % Fit of the model
+    % Assess fit of the model
     mtxmae(k0,ismember(matsall,mats)) = mean(abs(yieldsD - yieldsQ))*100;   % mean absolute errors in bp
     mtxsae(k0,ismember(matsall,mats)) = std(abs(yieldsD - yieldsQ))*100;    % std of absolute errors in bp
     S(k0).('db_rmse') = sqrt(mean(mean((yieldsD - yieldsQ).^2)));           % RMSE
@@ -160,6 +140,38 @@ end
 % need to find Wm2 so that reconstructed PCs == xsM
 % % when Wm2 is calculated using the PCs from xsM, reconstructed PCs == xsM
 
+
+% plot(yieldsM(:,1),xsM(:,1),'o') % relationship b/w short rate and PC1 is highly linear when no surveys
+    
+% % Principal components of smoothed state
+% [xsMW,xsMPC,~,~,xsMpcaExp] = pca(xsM);
+% xsMPC2 = xsM*xsMW - repmat(mean(xsM),nobsM,1)*xsMW;         % xsMPC2 == xsMPC
+% xsM2   = xsMPC*xsMW' + repmat(mean(xsM),nobsM,1);           % xsM2   == xsM
+% xsMPCd = xsMPC*xsMW';                                       % demeaned
+% % subplot(3,1,1); plot(datesM,xsM2(:,1),datesM,xsM(:,1))
+% % subplot(3,1,2); plot(datesM,xsM2(:,2),datesM,xsM(:,2))
+% % subplot(3,1,3); plot(datesM,xsM2(:,3),datesM,xsM(:,3))
+% % plot(yieldsM(:,1),xsMPC(:,1),'o') % relationship b/w short rate and PCPC1 is linear when survey data
+% 
+% % Implied weights from smoothed state
+% if ~ismember(S(k0).iso,nolscts)
+%     Wm2 = pinv(yieldsM)*xsM;                              % Moore-Penrose inverse, same as LS
+%     Wm2 = (yieldsM'*yieldsM)\yieldsM'*(xsMPC*xsMW'+repmat(mean(xsM),nobsM,1));%same as LS (xsM2==xsM)
+%     Wm2 = (yieldsM'*yieldsM)\yieldsM'*xsM;                	% least-squares using smoothed state
+% else
+%     Wm2 = (yieldsM'*yieldsM)\yieldsM'*(xsMPC*xsMW');        % least-squares using PCs of smoothed state
+%     Wm21 = fitlm(yieldsM,xsMPCd(:,1));
+%     Wm22 = fitlm(yieldsM,xsMPCd(:,2));
+%     Wm23 = fitlm(yieldsM,xsMPCd(:,3));
+%     Wm2  = [Wm21.Coefficients{2:end,1} Wm22.Coefficients{2:end,1} Wm23.Coefficients{2:end,1}];
+%     Wm2c = [Wm21.Coefficients{1,1} Wm22.Coefficients{1,1} Wm23.Coefficients{1,1}]; % constants
+%     X = [ones(nobsM,1) yieldsM];
+%     Wm2ls = (X'*X)\X'*xsMPCd;
+%     Wm2 = Wm2ls(2:end,:);
+%     Wm2c = Wm2ls(1,:);
+%     plot(f,yieldsM(:,1),xsMPC*xsMW'(:,1))
+% end
+
 % Daily estimates of pricing factors
 % mumtxD  = repmat(muM,nobsD,1);
 % xsD1     = yieldsD*Wm1 - mumtxD*Wm1;
@@ -168,3 +180,10 @@ end
     
 % Wpca = pca(yieldsD,'NumComponents',p);
 % xsD2 = yieldsD*Wpca;
+
+% when Wm2ls = (X'*X)\X'*xsMPCd; Wm2 = Wm2ls(2:end,:); Wm2c = Wm2ls(1,:);
+% if ~ismember(S(k0).iso,nolscts)
+%     xsD2 = yieldsD*Wm2;
+% else
+%     xsD2 = repmat(Wm2c,nobsD,1) + yieldsD*Wm2 + repmat(mean(xsM),nobsD,1);
+% end
