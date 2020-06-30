@@ -1,10 +1,11 @@
-function S = atsm_daily(S,matsout,currEM,plotfit)
+function [S,fitrprt] = atsm_daily(S,matsout,currEM,currAE,plotfit)
 % ATSM_DAILY Estimate affine term structure model with daily data
 % 
 %	INPUTS
 % S        - structure with fields bsl_pr, s, n, ds, dn
 % matsout  - bond maturities in years to be reported
 % currEM   - emerging market countries
+% currAE   - advanced countries
 % plotfit  - logical indicating whether to show a plot of the fit
 %
 %	OUTPUT
@@ -17,6 +18,7 @@ ncntrs  = length(S);
 nEMs    = length(currEM);
 matsall = [0.25 0.5 1:10];                                      % all possible maturities
 mtxmae  = nan(ncntrs,length(matsall));  mtxsae = nan(ncntrs,length(matsall)); %fit using absolute errors
+fitrprt = cell(2*ncntrs+1,length(matsall)+1);
 fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                    % field containing estimated parameters
 dt      = 1/12;                                                 % period length in years
@@ -98,3 +100,11 @@ for k0 = 1:ncntrs
         end 
     end
 end
+
+% Report means and standard deviations of absolute errors
+fitrprt(1,2:end) = num2cell(matsall);                                       % maturities
+fitrprt(2:2:2*nEMs+1,1) = currEM;                                           % names of EMs
+fitrprt(2*nEMs+2:2:2*ncntrs+1,1) = currAE;                                  % names of AEs
+fitrprt(2:2:2*ncntrs+1,2:end) = num2cell(mtxmae);                           % mean absolute errors
+fitrprt(3:2:2*ncntrs+1,2:end) = num2cell(mtxsae);                           % std of absolute errors
+fitrprt(:,[false,ismember(matsall,[6 8 9])]) = [];                          % delete maturities 6, 8 and 9Y
