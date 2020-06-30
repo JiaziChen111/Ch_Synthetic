@@ -209,31 +209,33 @@ for k1 = 1:length(fldname)
     figure; k2 = 0;
     for k0 = 1:nEMs
         if ~isempty(S(k0).(fldname{k1}))
-            if ismember(S(k0).iso,{'BRL','COP','HUF','IDR','KRW','PHP','PLN','TRY'})
+            if ismember(S(k0).iso,{'BRL','COP','HUF','IDR','KRW','PHP','PLN','RUB','THB','TRY'})
             k2 = k2 + 1;
-            subplot(2,4,k2)
+            subplot(2,5,k2)
             plot(S(k0).(fldname{k1})(2:end,1),S(k0).(fldname{k1})(2:end,end))
             title([S(k0).iso ' ' num2str(S(k0).(fldname{k1})(1,end)) 'Y ' fldname{k1}(end-1:end)]); 
             datetick('x','yy'); yline(0);
             switch S(k0).iso
                 case 'BRL'
                     xline(datenum('19-Oct-2009')); xline(datenum('4-Oct-2010'));
-                    xline(datenum('4-Jun-2013')); 
-                    % xline(datenum('6-Jan-2011')); xline(datenum('8-Jul-2011'));
+                    xline(datenum('6-Jan-2011')); xline(datenum('8-Jul-2011'));
+                    xline(datenum('4-Jun-2013'));
                 case 'COP'
-                    xline(datenum('1-Jun-2006')); xline(datenum('1-May-2007'));
-                    % xline(datenum('1-Dec-2004')); 
-                    xline(datenum('4-Oct-2008')); % xline(datenum('1-Jul-20007'));
-                case 'HUF';xline(datenum('16-Apr-2003'));
+                    xline(datenum('1-Dec-2004'));
+                    xline(datenum('1-Jun-2006'));  xline(datenum('1-May-2007')); 
+                    xline(datenum('1-Jul-2007')); xline(datenum('4-Oct-2008'));
+                case 'HUF'
+                    xline(datenum('16-Apr-2003'));
                     xline(datenum('1-Aug-2005'));xline(datenum('1-Sep-2018'));
                 case 'IDR'; xline(datenum('1-Jul-2005'));
                 case 'KRW'; xline(datenum('13-Jun-2010'));
                 case 'PHP'; xline(datenum('1-Jan-2002'));
                 case 'PLN'; xline(datenum('16-Apr-2003')); xline(datenum('28-Jul-2017'));
-                % case 'RUB'; xline(datenum('27-Sep-2013'));
-                % case 'THB'; xline(datenum('1-Dec-2006'));
-                case 'TRY'; xline(datenum('1-Jan-2006')); % xline(datenum('24-Jun-2018'));
-                    xline(datenum('2-Oct-2018')); % xline(datenum('27-Jan-2017'));
+                case 'RUB'; xline(datenum('27-Sep-2013'));
+                case 'THB'; xline(datenum('1-Dec-2006'));
+                case 'TRY'
+                    xline(datenum('1-Jan-2006'));  xline(datenum('27-Jan-2017'));
+                    xline(datenum('24-Jun-2018')); xline(datenum('2-Oct-2018')); 
             end
             end
         end
