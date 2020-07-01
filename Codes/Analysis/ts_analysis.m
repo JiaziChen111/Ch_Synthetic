@@ -22,9 +22,10 @@ S = append_surveys(S,currEM);
 
 %% Estimate affine term structure model
 
-% Cases (report 3M-6M-1Y-5Y-10Y tenors)
-S = atsm_estimation(S,[0.25 0.5 1 5 10],true);                              % free sgmS case, runtime 4.9 hrs
-S = atsm_estimation(S,[0.25 0.5 1 5 10],false);                             % fixed sgmS case, runtime 5.5 hrs
+% Cases
+matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
+S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
+S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
 
 % Baseline estimations for all countries
 fldname = {'ssb_','sy_','ny_'};
@@ -51,7 +52,8 @@ end
 cd(pathd)
 % save struct_datamy_S.mat S currAE currEM
 load('struct_datamy_S.mat')
-load('struct_datady_S.mat','currAE','currEM')
+load('struct_datady_S.mat','currAE')
+load('struct_datady_S.mat','currEM')
 cd(pathc)
 
 % Report estimated sgmS
@@ -80,9 +82,7 @@ ts_plots(S,currEM,currAE,ustp10,ustpguim,vix);
 
 %% Daily frequency estimation
 S = daily2dymy(S,dataset_daily,header_daily,false);
-
-
-
+[S,fitrprtdy] = atsm_daily(S,matsout,currEM,currAE,false);
 
 
 %% US TP
@@ -167,18 +167,7 @@ input.texName = filename;
 latexTable(input);
 
 
-%% Append TPdataset to data_macro
-
-hdr1_tp = construct_hdr(curncs,'TP','N/A','Term Premium from Synthetic Yields','N/A','Monthly');
-hdr2_cipdev = construct_hdr(curncs,'CIPDEV','N/A','Deviations from CIP','N/A','Monthly');
-hdr3_epu = construct_hdr({'BRL';'COP';'MXN';'KRW';'RUB'},'EPU','N/A','EPU Index','N/A','Monthly');
-hdr4_ustp = construct_hdr('USD','TPUS','N/A','KW US Term Premium','N/A','Monthly');
-hdr5_all = [hdr1_tp; hdr2_cipdev; hdr3_epu;hdr4_ustp];
-
-% Merge
-fltrMAC = ismembertol(data_macro(:,1),datesTP,4,'DataScale',1);
-data_macro = [data_macro(fltrMAC,:) TPdataset(:,2:end)];
-hdr_macro = [hdr_macro;hdr5_all];
+%%
 
 
 % %% Term Spread
