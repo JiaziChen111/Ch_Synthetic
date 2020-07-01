@@ -189,24 +189,10 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Codes: move all parts in ts_plots that add variables to S into a function that can be called by ts_analysis. Leave only code for plotting in ts_plots.
-	\begin{todolist}		
-		\item Update forecast_cbpol.m and append_surveys.m to use new field name (svycbp).
-		\item[\done] Split ts_plots into functions: plots: correlations, pca.
-		\item[\done] Call all functions from ts_analysis.
-		\item[\done] Take functions datesmnmx and syncdtst outside of ts_plots and test.
-		\item[\done] Create add_vars function.
-		\item[\done] After estimation, add fields to structure S: macro vars, svys, brp, epu, realrt. Needed for plots and tables.
-		\item[\done] Save surveys in S as: svyinf, svygdp, svycbp. All maturities. 
-		\item[\done] Add policy rates data to macro data in structure of all countries.
-\end{todolist}
-	\item Function to calculate RMSE. Not included in estimation* b/c it will be used after estimation w/ daily data.
-	\item Estimate model for daily data to study the effect of QE announcements and local events. Follow ACM (2013) to estimate and assess fit for daily yields. Prepare a new S structure to store the results.
-	\item Changes in components around QE-TT announcements and local events. Check whether the removal of CB governors in TRY had an effect on its TP. Did TP decline in countries that adopted IT during the sample period?
+	\item Compare monthly w/ daily fit and decompositions.
 	\item Read US MPS.
-	\item Create panel dataset for analysis in Stata.
-	\item Analysis on spillovers. Responses of EM components to US MPS. Regressions as in Curcuru or panel local projections as in ACDM. 
-	\item Asymmetric effects on different parts of the YC.
+	\item Create dataset for Stata analysis.
+	\item Analysis on spillovers: Responses of EM components to US MPS (regressions as in Curcuru or panel local projections as in ACDM); lags in response; asymmetric effects on different parts of the YC; changes in components around QE-TT announcements; local events.
 	\item Reorient paper based on results.
 	\item Schedule: codes (ts_*), figures (ts_plots), tables (ts_tables), export dataset as dta, do-file w/ basic analysis, re-estimate the model w/ monthly data after all changes in codes (RMSE, matsout, i_survey etc.) and update figures-tables-dta-do, estimate the model w/ daily data (assess fit and test against results w/ monthly data), event study analysis.
 \end{todolist}
@@ -214,6 +200,9 @@
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
+	\item Estimate Guimaraes w/ daily data for US and compare against KW.
+	\item Check whether functions in post-estimation analysis need to be updated after the bsl field added to the structure.
+	\item Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder.
 	\item Construct panel dataset to analyze results in Stata. Include: rho, CIPdev, svys (CBP, INF, GDP), LCNOM, LCSYNT, decompositions (yQ, yP, tp), macro-financial (US, CBP, STX, FX), EPU. Before dataset, construct a field with yQ, yP, tp for ALL countries (EMs/AEs), ssb for EM w/ surveys, sy for ILS and ZAR, ny for AEs. Same tenors (0.25-10Y).
 	\item Drivers (monthly): Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
 	\item Spillovers (event study): Panel regressions for TP, LCCS, yE for AEs and EMs.
@@ -225,8 +214,9 @@
 \begin{todolist}
 	\item Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield.
 	\item Prepare dataset to estimate i_survey using panel data instead of individually.
-	\item Add 0.25 and 0.5 to matsout.
-	\item Add RHO to daily2monthly. 
+	\item Re-estimate parameters after 0.25 and 0.5 in matsout, RHO in S.
+	\item Update all functions after daily2monthly (forecast_cbpol.m, append_surveys.m, atsm_estimation.m, assess_fit.m) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
+	\item Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed).
 	\item Download EPU indexes for AEs to see how it correlates w/ AE TPnom.
 	\item Mention characteristics of sample: MYR doesn't have an IT regime but similar characteristics (Pennings et al. 2015).
 	\item Use 0.25 and 0.5 Y to test results from forward premium puzzle. Whether it holds at short but not at long maturities (Lingareddy 2008).
@@ -241,12 +231,34 @@
 	\item Correct US YC for credit risk (Chernov, Schmidt, Song).
 	\item Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW.
 	\item Replicate Lloyd.
+	\item Check whether the removal of CB governors in TRY had an effect on its TP. Did TP decline in countries that adopted IT during the sample period? Need to know when it was announced (not when IT started).
 \end{todolist}
 
 
 \section{Analysis: Completed}
 \gototoc
 \begin{todolist}
+	\item[\done] Clean Analysis folder (rp_*).
+	\item[\done] Transform script for daily fit into a function.
+	\item[\done] Estimate model for daily data to study the effect of QE announcements and local events. Follow ACM (2013) to estimate and assess fit for daily yields - Use OLS. Prepare a new S structure to store the results - no need for new S.
+	\item[\done] Compare PCs from pca to smoothed state xs. They are not equal.
+	\item[\done] Add daily datasets to structure S.
+	\item[\wontdo] Eliminate yields in month after US end-of-month date. Not necessary, once parameters are estimated, only need yields observed.
+	\item[\done] Add 0.25 and 0.5 to matsout.
+	\item[\done] Add RHO to daily2monthly. In \textit{VarType} and in the \textit{switch} loop. Check whether in \textit{fields} too.
+	\item[\done] Function to calculate RMSE. Not included in estimation* b/c it will be used after estimation w/ daily data.
+	\item[\done] Fields in structure for baseline estimations for all countries (ssb for EM, sy for ILS and ZAR, ny for AEs).
+	\item[\done] Codes: move all parts in ts_plots that add variables to S into a function that can be called by ts_analysis. Leave only code for plotting in ts_plots.
+	\begin{todolist}		
+		\item[\done] Update forecast_cbpol.m and append_surveys.m to use new field name (svycbp).
+		\item[\done] Split ts_plots into functions: plots: correlations, pca.
+		\item[\done] Call all functions from ts_analysis.
+		\item[\done] Take functions datesmnmx and syncdtst outside of ts_plots and test.
+		\item[\done] Create add_vars function.
+		\item[\done] After estimation, add fields to structure S: macro vars, svys, brp, epu, realrt. Needed for plots and tables.
+		\item[\done] Save surveys in S as: svyinf, svygdp, svycbp. All maturities. 
+		\item[\done] Add policy rates data to macro data in structure of all countries.
+	\end{todolist}
 	\item[\done] Rename section 4 from Results to Yield Curve Decompositions. Section 5 would then addressed international spillovers.
 	\item[\done] Mention explicitly that 3 factors b/c they explain more than 99\% of the variation in yields.
 	\item[\done] US factor + non-US factor in each one or only in some of them?
@@ -304,6 +316,7 @@
 		\item Leverage and margin spirals in fixed income markets during the Covid-19 crisis.
 		\item Literature on sovereign default (real, nominal, current account behavior) --curvature in utility allows introduces risk aversion, imperfect financial markets --, currency denomination, original sin.
 		\item Risk premia in international macro-finance (Lustig).
+		\item Market segmentation: D'Amico et al., Vayanos. Theories may apply to EMs. Instead of market segmentation on different sectors of the US YC, on different EMs.
 	\end{todolist}
 	
 	\item JHU alumni paper on the Journal of Banking using C-P regressions, implications for replicating Dahlquist \& Hasseltoft.
@@ -314,6 +327,7 @@
 	\item Banxico: What determines the neutral rate in an EM
 	\item Sekkel: C-P factor in international bond markets
 	\item Gagnon et al for effects of QE on TP.
+	\item Caballero and Simsek (2020): A Model of Asset Price Spirals and Aggregate Demand Amplification of a Covid-19 Shock. UMP buys risk when investors become risk intolerant. Asset prices affect real economy w/ a lag (negative output gap w/ a positive asset gap b/c try to boost AD).
 \end{todolist}
 
 \end{document}

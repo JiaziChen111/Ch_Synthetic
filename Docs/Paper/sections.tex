@@ -29,6 +29,10 @@ used to issue bonds at short maturities and in foreign currency.
 % now it is more common for them to issue bonds with longer maturities and in local currency.
 
 % Research question
+Research questions: How EM bond yields respond to US MP? Does US MP affect expectations of future policy rates in EMs? Did US UMP reduce TP abroad? Is there a risk premium channel from US to EMs? Do ST and LT yields respond differently?
+
+Requirements to answer those questions: decompose EM yields, to adequately estimate TP: take into account credit risk and use surveys, methodology that enables event studies (estimation with daily frequency).
+
 This paper decomposes the local currency sovereign yields of emerging markets and provides new insights about their dynamics. 
 This bears relevance given
 %This paper asks whether and to what extent the local currency sovereign yields of emerging markets are interconnected. 
@@ -272,7 +276,7 @@ Thus, there are at least 10 years of data for each emerging market.\footnote{ Th
 In principle, this is a reasonable time period for the estimation of the affine term structure model presented in section \ref{sec:ATSM}, but in practice there may be too few interest rate cycles per country.
 This small sample problem is addressed with surveys of professional forecasters in section \ref{sec:Estimation}. 
 
-The yields have maturities of 3 and 6 months, and 1 through 10 years, ranging from a minimum of eight to a maximum of twelve maturities per country. 
+The yields have maturities of 3 and 6 months, and 1 through 10 years, ranging from a minimum of nine to a maximum of twelve maturities per country.\footnote{ All countries have data from 3 months to 5 years and 10 years. All countries except Brazil have data for the 7-year maturity. Data for 6, 8 and 9 years vary per country.} 
 The maximum maturity considered is 10 years because bonds and swaps with larger maturities tend to have less history and be less liquid, especially for emerging markets who do not issue bonds for, say, 20 or 30 years as often as advanced countries.
 %Table \ref{tab:start_dates} shows the earliest end-of-month dates with available data for emerging countries.
 %	\input{../Tables/StartingDates}
@@ -468,6 +472,18 @@ This reduces the number of parameters to be estimated.
 Finally, although survey data helps to discipline the model, relying too much on it can be counterproductive due to, for instance, measurement error\footnote{ Recall that Consensus Economics does not report long-term forecasts for the short rate of emerging markets.} and overfitting. 
 To strike a balance between these two considerations, I follow \cite{KimOrphanides:2012} in fixing \(\sigma_s\) at a conservative level of 75 basis points. This essentially means that survey data is seen as a noisy measure of expectations for the short rate.\footnote{ When \(\sigma_s\) is allowed to be estimated, its average value among all emerging markets is 24 basis points. For most of the countries in the sample, the estimated term premia remains largely the same.}
 
+\subsubsection{Estimation with Daily Data}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+The parameters of the model are estimated with end-of-month data because there is noise at the daily frequency that can undermine the estimation. 
+However, once the parameters have been estimated with monthly data, they can be used to estimate the model at the daily frequency \citep{ACM:2013}.
+
+The procedure explained above gives estimates for the parameters and the pricing factors.
+Principal component analysis on bond yields generates a matrix of weights or loadings for the different maturities to construct each principal component.
+However, the pricing factors for the survey-augmented model are not necessarily the same as the principal components.
+Therefore, I obtain the matrix of loadings implied by those pricing factors using OLS.
+I regress the monthly pricing factors on the end-of-month observed yields.
+The weights so obtained are then applied to the daily yields to estimate the daily pricing factors.
+Finally, the estimated parameters from monthly data along with the daily pricing factors are used to fit and decompose the yields at the daily frequency.
 
 %The model described above can be estimated in a few simple steps. First, equation (\ref{eq:nXvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:nShortRate}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:nNSzero}) and the yields implied by the affine model in equation (\ref{eq:nYaffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
 %
