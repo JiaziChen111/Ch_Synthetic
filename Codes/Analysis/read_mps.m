@@ -8,13 +8,18 @@ pathd  = fullfile(pathc,'..','..','Data','Raw','MPS');                      % pl
 namefl = 'wide_mar2019.xls';
 
 cd(pathd)
-opts  = detectImportOptions(namefl);
-opts  = setvartype(opts,opts.VariableNames(1),'datetime');
-opts  = setvartype(opts,opts.VariableNames(2:end),'double');
+opts   = detectImportOptions(namefl);
+opts   = setvartype(opts,opts.VariableNames(1),'datetime');
+opts   = setvartype(opts,opts.VariableNames(2:end),'double');
 opts.VariableNames{1} = 'Time';
 TT_mps = readtimetable(namefl,opts);
 cd(pathc)
 
+% Compute path and LSAP shocks
+T = timetable2table(TT_mps,'ConvertRowTimes',false);
+mdlPath     = fitlm(T,'ED8~MP1');
+TT_mps.PATH = mdlPath.Residuals.Raw;
 
-
-% path and TP shocks
+T = timetable2table(TT_mps,'ConvertRowTimes',false);
+mdlPath     = fitlm(T,'ONRUN10~MP1+PATH');
+TT_mps.LSAP = mdlPath.Residuals.Raw;

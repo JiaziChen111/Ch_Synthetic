@@ -39,7 +39,7 @@ finnms   = lower(hdr_finan(fltrUSD,2)');
 findates = data_finan(:,1);
 TT0      = array2timetable(findata,'RowTimes',datetime(findates,'ConvertFrom','datenum'),...
                 'VariableNames',finnms);
-fltrMPS  = contains(TT_mps.Properties.VariableNames,{'MP1','ED4','ED8','ONRUN10'});
+fltrMPS  = contains(TT_mps.Properties.VariableNames,{'MP1','ED4','ED8','ONRUN10','PATH','LSAP'});
 TT0      = synchronize(TT0,TT_mps(:,fltrMPS),'union');                      % add MP shocks
 
 for k0 = 1:ncntrs
