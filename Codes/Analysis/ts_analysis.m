@@ -85,6 +85,31 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 [S,fitrprtdy] = atsm_daily(S,matsout,currEM,currAE,false);
 
 
+%% Construct panel dataset
+
+% Read data
+[data_finan,hdr_finan] = read_financialvars();
+TT_mps = read_mps();
+addpath('../Pre-Analysis')                                        	% read_platforms.m in different folder
+warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')             	% suppress table warnings
+TTpltf = read_platforms();                                          % for exchange rate data
+
+% Read conventions to quote FX
+pathc    = pwd;
+pathd    = fullfile(pathc,'..','..','Data','Raw');                  % platform-specific file separators
+cd(pathd)
+filename = 'AE_EM_Curves_Tickers.xlsx';
+convfx   = readcell(filename,'Sheet','CONV','Range','H66:H90');     % update range as necessary
+cd(pathc)
+
+% Express all FX as LC per USD
+TTfx   = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
+fltrFX = ismember(TTfx.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
+TTfx{:,fltrFX} = 1./TTfx{:,fltrFX};
+
+TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TTfx,currEM);
+
+
 %% US TP
 ynsvys = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),...
     'USYCSVYdata.xlsx'),'Sheet',1);
