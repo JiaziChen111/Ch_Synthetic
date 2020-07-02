@@ -90,6 +90,7 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 % Read data
 [data_finan,hdr_finan] = read_financialvars();
 TT_mps = read_mps();
+TT_epu = read_epu_usdgbl();
 addpath('../Pre-Analysis')                                        	% read_platforms.m in different folder
 warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')             	% suppress table warnings
 TTpltf = read_platforms();                                          % for exchange rate data
@@ -103,11 +104,11 @@ convfx   = readcell(filename,'Sheet','CONV','Range','H66:H90');     % update ran
 cd(pathc)
 
 % Express all FX as LC per USD
-TTfx   = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
-fltrFX = ismember(TTfx.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
-TTfx{:,fltrFX} = 1./TTfx{:,fltrFX};
+TTccy  = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
+fltrFX = ismember(TTccy.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
+TTccy{:,fltrFX} = 1./TTccy{:,fltrFX};
 
-TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TTfx,currEM);
+TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TTccy,currEM);
 
 
 %% US TP
