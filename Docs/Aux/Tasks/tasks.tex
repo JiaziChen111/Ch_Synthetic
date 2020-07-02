@@ -190,8 +190,10 @@
 \gototoc
 \begin{todolist}
 	\item Compare monthly w/ daily fit and decompositions.
-	\item Read US MPS. Read Eberly, Stock and Wright.
-	\item Create dataset for Stata analysis.
+	\item Include path and tp shocks in TT_mps.
+	\item Include EPU US in dataset.
+	\item Include global activity index (Hamilton and Kilian). (https://sites.google.com/site/lkilian2019/research/data-sets) for GFCy and C-P global factor.
+	\item Include country-specific data for EMs in dataset: STX, surveys, real rates.
 	\item Analysis on spillovers: Responses of EM components to US MPS (regressions as in Curcuru or panel local projections as in ACDM); lags in response; asymmetric effects on different parts of the YC; changes in components around QE-TT announcements; local events.
 	\item Reorient paper based on results.
 	\item Schedule: codes (ts_*), figures (ts_plots), tables (ts_tables), export dataset as dta, do-file w/ basic analysis, re-estimate the model w/ monthly data after all changes in codes (RMSE, matsout, i_survey etc.) and update figures-tables-dta-do, estimate the model w/ daily data (assess fit and test against results w/ monthly data), event study analysis.
@@ -200,6 +202,7 @@
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
+	\item Why IDR has LCSYNT data before RHO data becomes available?
 	\item Create a structure for US data: Vix, USTP, USYP, SVEY, EPU, FFR, USMPS.
 	\item Estimate Guimaraes w/ daily data for US and compare against KW.
 	\item Check whether functions in post-estimation analysis need to be updated after the bsl field added to the structure.
@@ -225,7 +228,6 @@
 	\item ATSM estimated with longer series for AEs.
 	\item Replicate the analysis in Dahlquist \& Hasseltoft on time-varying bond risk premia.
 	\item Structure for the US YC. In daily2monthly for US extract LCNOM, OIS, FF. Add Guimaraes TP.
-	\item Hamilton `Measuring global economic activity' or Kilian (https://sites.google.com/site/lkilian2019/research/data-sets) for GFCy and C-P global factor.
 	\item Stock and Watson inflation decomposition. Follow Wright 2011.
 	\item Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
 	\item Save figures to be used in pdf.
@@ -240,6 +242,10 @@
 \section{Analysis: Completed}
 \gototoc
 \begin{todolist}
+	\item[\done] Include FX (expressed in LC per USD) in dataset.
+	\item[\wontdo] Include USTP, USYP, in dataset. No longer need the daily changes in the components since now using HF target, path and tp shocks.
+	\item[\done] Read US MPS. File of wide windows.
+	\item[\done] Create dataset for Stata analysis.
 	\item[\done] Clean Analysis folder (rp_*).
 	\item[\done] Transform script for daily fit into a function.
 	\item[\done] Estimate model for daily data to study the effect of QE announcements and local events. Follow ACM (2013) to estimate and assess fit for daily yields - Use OLS. Prepare a new S structure to store the results - no need for new S.
