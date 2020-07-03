@@ -116,9 +116,9 @@ TT.gdp(mod(month(TT.Time),3) ~= 0) = nan;                              	% only k
 TT.Time.Format = 'dd-MMM-yyyy';
 
 % Export the table to Excel
-% pathc = pwd;
-% filename = fullfile(pathc,'..','..','Data','Analytic','dataspillovers.xlsx');
-% writetimetable(TT,filename,'Sheet',1,'Range','A1')
+pathc = pwd;
+filename = fullfile(pathc,'..','..','Data','Analytic','dataspillovers.xlsx');
+writetimetable(TT,filename,'Sheet',1,'Range','A1')
 
 % cd(pathd)
 % save datasets T* rnkt*
