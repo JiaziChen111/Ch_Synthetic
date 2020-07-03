@@ -21,19 +21,20 @@ fldsall = fieldnames(S);
 flds1   = [strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yQ','yP','tp'}) ...
             strcat('bsl_',{'yQ','yP','tp'})];
 varnms1 = {'rho','phi','nom','syn','dyq','dyp','dtp','myq','myp','mtp'};
-flds2   = {'svycbp' 'svycpi' 'svygdp' 'svytp' 'realrt' 'inf' 'une' 'ip' 'gdp' 'cbp' 'epu'};
-varnms2 = {'scbp','scpi','sgdp','stp','real','inf','une','ip','gdp','cbp','epu'};
+
+flds2   = {'cbp','inf','une','ip','gdp','svycbp','svycpi','svygdp','svytp','realrt','epu'};
+varnms2 = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','real','epu'};
 nflds1  = length(flds1);    nflds2  = length(flds2);
 dtmx    = datetime('31-Jan-2019');                                          % end of the sample
 
+%% Read data
 % [data_finan,hdr_finan] = read_financialvars();
+
+
+%% Variables common to all countries
 hdr_finan(ismember(hdr_finan(:,1),'USD') & ismember(hdr_finan(:,2),'STX'),2) = {'SPX'};
 USDnames = {'VIX','FFR','SPX','OIL'};
-LCnames  = {'CCY','STX'};
 fltrUSD  = ismember(hdr_finan(:,2),USDnames);
-fltrLC   = ismember(hdr_finan(:,2),LCnames);
-
-% Global financial variables and monetary policy shocks
 findata  = data_finan(:,fltrUSD);
 finnms   = lower(hdr_finan(fltrUSD,2)');
 findates = data_finan(:,1);
@@ -44,6 +45,7 @@ TT0      = synchronize(TT0,TT_mps(:,fltrMPS),'union');                      % ad
 TT0      = synchronize(TT0,TT_epu,'union');                                 % add EPU indexes (US and global)
 TT0      = synchronize(TT0,TT_gbl,'union');                                 % add global activity indexes
 
+%% Country-specific variables
 for k0 = 1:ncntrs
     fltrFX   = strcmp(TTccy.Properties.VariableNames,S(k0).iso);
     TTfx     = TTccy(:,fltrFX);
@@ -77,9 +79,9 @@ for k0 = 1:ncntrs
     datesmonth = unique(lbusdate(year(TT3.Time),month(TT3.Time)));
     TT3.eomth  = ismember(TT3.Time,datetime(datesmonth,'ConvertFrom','datenum'));
     if ismember(S(k0).iso,currEM)
-        TT3.em = true(size(TT3,1),1);
+        TT3.em = true(height(TT3),1);
     else
-        TT3.em = false(size(TT3,1),1);
+        TT3.em = false(height(TT3),1);
     end
     
     % Stack panels
@@ -90,7 +92,9 @@ for k0 = 1:ncntrs
     end
 end
 
+%% EM-specific variables
 TT2 = [];
+fltrLC = ismember(hdr_finan(:,2),'STX');
 for k0 = 1:nEMs
     % Domestic financial variables
     fltrCTY = ismember(hdr_finan(:,1),S(k0).iso) & fltrLC;
@@ -128,7 +132,19 @@ for k0 = 1:nEMs
     TT2  = TT2(isbetween(TT2.Time,datetime(dtmn,'ConvertFrom','datenum'),dtmx),:);
     
     TT3  = synchronize(TT1,TT2,'intersection');
-    TTx(k0).vars = TT3;
+    
+    % Stack panels
+    if k0 == 1
+        TTx = TT3;
+    else
+        TTxcolsmiss = setdiff(TT3.Properties.VariableNames, TTx.Properties.VariableNames);
+        TT3colsmiss = setdiff(TTx.Properties.VariableNames, TT3.Properties.VariableNames);
+        TTx = [TTx array2table(nan(height(TTx), numel(TTxcolsmiss)), 'VariableNames', TTxcolsmiss)];
+        TT3 = [TT3 array2table(nan(height(TT3), numel(TT3colsmiss)), 'VariableNames', TT3colsmiss)];
+        TTx = [TTx;TT3];
+    end
+    
+%     TTx(k0).vars = TT3;
 end
 
 TT.Time.Format = 'dd-MMM-yyyy';
@@ -141,3 +157,7 @@ TT.Time.Format = 'dd-MMM-yyyy';
 % cd(pathd)
 % save datasets T* rnkt*
 % cd(pathc)
+
+% Source
+% Merge tables with different dimensions
+% https://www.mathworks.com/matlabcentral/answers/179290-merge-tables-with-different-dimensions
