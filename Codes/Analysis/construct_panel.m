@@ -1,4 +1,4 @@
-function [TT,TTx] = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TTccy,currEM)
+function [TT,TTx] = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TTccy,currEM)
 % CONSTRUCT_PANEL Construct panel dataset for regression analysis
 % 
 %	INPUTS
@@ -42,6 +42,7 @@ TT0      = array2timetable(findata,'RowTimes',datetime(findates,'ConvertFrom','d
 fltrMPS  = contains(TT_mps.Properties.VariableNames,{'MP1','ED4','ED8','ONRUN10','PATH','LSAP'});
 TT0      = synchronize(TT0,TT_mps(:,fltrMPS),'union');                      % add MP shocks
 TT0      = synchronize(TT0,TT_epu,'union');                                 % add EPU indexes (US and global)
+TT0      = synchronize(TT0,TT_gbl,'union');                                 % add global activity indexes
 
 for k0 = 1:ncntrs
     fltrFX   = strcmp(TTccy.Properties.VariableNames,S(k0).iso);
