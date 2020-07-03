@@ -74,15 +74,8 @@ for k0 = 1:ncntrs
     dtmn = datesminmax(S,k0);
     TT2  = TT2(isbetween(TT2.Time,datetime(dtmn,'ConvertFrom','datenum'),dtmx),:);
     
-    % Append field-specific variables to global variables and define dummies
-    TT3        = synchronize(TT1,TT2,'intersection');
-    datesmonth = unique(lbusdate(year(TT3.Time),month(TT3.Time)));
-    TT3.eomth  = ismember(TT3.Time,datetime(datesmonth,'ConvertFrom','datenum'));
-    if ismember(S(k0).iso,currEM)
-        TT3.em = true(height(TT3),1);
-    else
-        TT3.em = false(height(TT3),1);
-    end
+    % Append field-specific variables to global variables
+    TT3       = synchronize(TT1,TT2,'intersection');
     
     % Stack panels
     if k0 == 1
@@ -91,6 +84,12 @@ for k0 = 1:ncntrs
         TT = [TT;TT3];
     end
 end
+
+% Define dummies
+datesmth = unique(lbusdate(year(TT.Time),month(TT.Time)));
+TT.eomth = ismember(TT.Time,datetime(datesmth,'ConvertFrom','datenum'));  % end of month
+TT.eoqtr = (mod(month(TT.Time),3) == 0) & TT.eomth;                      % end of quarter
+TT.em    = ismember(TT.cty,currEM);
 
 %% EM-specific variables
 TT2 = [];
@@ -144,6 +143,7 @@ for k0 = 1:nEMs
         TTx = [TTx;TT3];
     end
     
+    TTx.gdp(mod(month(TTx.Time),3) ~= 0) = nan;     % only keep quarterly data for GDP
 %     TTx(k0).vars = TT3;
 end
 
