@@ -29,7 +29,7 @@ format date %td
 format datem %tmCCYY
 order date, first
 drop time
-order em cty, after(date)
+order cty, after(date)
 
 * Label variables that will be used in figures and tables
 #delimit ;
@@ -56,17 +56,22 @@ global t date
 sort $id $t
 xtset $id $t
 
-xtreg D.nom120m mp1 if em == 1
-xtreg D.syn120m mp1 if em == 1
-xtreg D.nom120m mp1 if em == 0
+* MP shocks
+pwcorr mp1 path lsap if cty == "GBP", sig // not statistically different from zero
+summ mp1 path lsap if cty == "GBP"
+line mp1 path lsap date if cty == "GBP"
 
-xtreg D.dyp120m mp1 if em == 1
-xtreg D.dyp120m mp1 if em == 0
+xtreg D.nom120m mp1 if em == 1, fe
+xtreg D.syn120m mp1 if em == 1, fe
+xtreg D.nom120m mp1 if em == 0, fe
 
-xtreg D.dtp120m mp1 if em == 1
-xtreg D.dtp120m mp1 if em == 0
+xtreg D.dyp120m mp1 if em == 1, fe
+xtreg D.dyp120m mp1 if em == 0, fe
 
-xtreg D.phi120m mp1 if em == 1
+xtreg D.dtp120m mp1 if em == 1, fe
+xtreg D.dtp120m mp1 if em == 0, fe
+
+xtreg D.phi120m mp1 if em == 1, fe
 
 
 
