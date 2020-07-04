@@ -1,0 +1,24 @@
+%  3 Jul 2020 19:04:09
+\documentclass{article}
+\begin{document}
+
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Mortgage LP - IV}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{Year 0}&\multicolumn{1}{c}{Year 1}&\multicolumn{1}{c}{Year 2}&\multicolumn{1}{c}{Year 3}&\multicolumn{1}{c}{Year 4}\\
+\hline
+Change in short term interest rate&       -1.21\sym{*}  &       -1.19         &       -1.14         &       -0.82         &       -0.55         \\
+                    &      (0.63)         &      (0.99)         &      (1.14)         &      (1.17)         &      (1.30)         \\
+\hline
+\(R^{2}\)           &       0.014         &       0.239         &       0.262         &       0.259         &       0.245         \\
+Observations        &        1383         &        1363         &        1339         &        1314         &        1289         \\
+\hline\hline
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}
+
+\end{document}
+
