@@ -52,7 +52,7 @@ gen zero = 0 	if _n <= `horizon' +1
 
 * LPs
 local j = 0
-foreach shock in mp1 path lsap {
+foreach shock in mp1 { //path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
@@ -63,11 +63,16 @@ foreach shock in mp1 path lsap {
 		else local grp "EM"
 		
 		foreach t in 120 { // 3 6 12 24 60 120  {
-			foreach v in nom syn dyp dtp phi {
+			foreach v in nom { //syn dyp dtp phi {
 
-				// variables to store the betas and standard errors
+				// variables to store the betas, standard errors and confidence intervals
 				capture gen b_`v'`t'm  = .
 				capture gen se_`v'`t'm = .
+				
+				capture gen ll1_`v'`t'm = .
+				capture gen ul1_`v'`t'm = .
+				capture gen ll2_`v'`t'm = .
+				capture gen ul2_`v'`t'm = .
 				
 				// controls
 				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
@@ -76,33 +81,45 @@ foreach shock in mp1 path lsap {
 					// response variables
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
-					// test for cross-sectional independence
-					if inlist(`i',0,30,60,90) { 
-						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11
-						xtcsd, pesaran abs
-					}
+// 					// test for cross-sectional independence
+// 					if inlist(`i',0,30,60,90) { 
+// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11	// regress, level(90)
+// 						xtcsd, pesaran abs
+// 					}
 					
 					// one regression for each horizon
-					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe cluster($id)
+					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe cluster($id) level(95)
+// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95)
 					capture{
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
 					replace se_`v'`t'm = _se[`shock'] if _n == `i'+1
-					drop `v'`t'm`i'
+					
+					// confidence intervals
+					matrix R = r(table)
+					replace ll1_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
+					replace ul1_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
+					quiet xtreg, level(90)	// to get 90% CI
+// 					quiet xtscc, level(90)	// to get 90% CI
+					matrix R = r(table)
+					replace ll2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
+					replace ul2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
+					
+					*drop `v'`t'm`i'
 					}
-				}
+				}			// horizon
 				
-				// confidence intervals
-				capture {
-				gen cih1_`v'`t'm = b_`v'`t'm + invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-				gen cil1_`v'`t'm = b_`v'`t'm - invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// 				// confidence intervals
+// 				capture {
+// 				gen cih1_`v'`t'm = b_`v'`t'm + invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// 				gen cil1_`v'`t'm = b_`v'`t'm - invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
 
-				gen cih2_`v'`t'm = b_`v'`t'm + invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-				gen cil2_`v'`t'm = b_`v'`t'm - invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-				}
+// 				gen cih2_`v'`t'm = b_`v'`t'm + invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// 				gen cil2_`v'`t'm = b_`v'`t'm - invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// 				}
 				
 				// graph
-				twoway 	(rarea cih1_`v'`t'm cil1_`v'`t'm days, fcolor(gs12) lcolor(white) lpattern(solid)) ///
-						(rarea cih2_`v'`t'm cil2_`v'`t'm days, fcolor(gs10) lcolor(white) lpattern(solid)) ///
+				twoway 	(rarea ll1_`v'`t'm ul1_`v'`t'm days, fcolor(gs12) lcolor(white) lpattern(solid)) ///
+						(rarea ll2_`v'`t'm ul2_`v'`t'm days, fcolor(gs10) lcolor(white) lpattern(solid)) ///
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
@@ -111,7 +128,7 @@ foreach shock in mp1 path lsap {
 				legend(off) name(`v'`t'm, replace)
 				graph export $pathfigs/`shk'/`grp'/`v'`t'm.eps, replace
 				
-				drop *_`v'`t'm				// b_, se_ and confidence intervals
+				*drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// yield component
 		graph drop _all
 		}				// tenor
