@@ -18,8 +18,15 @@ cd $pathdata
 
 use dataspillovers.dta, clear
 
+// Create a business calendar from the current dataset
+bcal create spillovers, from(date) generate(bizdate) purpose(Convert daily data into business calendar dates) replace
+// bcal load spillovers
+// format %tbspillovers bizdate
+
+
+// Declare panel dataset using business dates
 global id imf
-global t date
+global t bizdate
 sort $id $t
 xtset $id $t
 
@@ -34,7 +41,7 @@ foreach v in rho phi nom syn dyq dyp dtp myq myp mtp {
 }
 
 foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
-    replace `v' = 100*`v'
+    cap replace `v' = 100*`v'
 }
 
 * horizon in days, number of lags and forward
@@ -43,8 +50,8 @@ local maxlag  = 1
 local maxfwd  = 4
 
 * x-axis and zero line
-gen days = _n-1 if _n <= `horizon' +1
-gen zero = 0 	if _n <= `horizon' +1
+cap gen days = _n-1 if _n <= `horizon' +1
+cap gen zero = 0 	if _n <= `horizon' +1
 
 * LPs
 local j = 0
@@ -85,7 +92,7 @@ foreach shock in mp1 { //path lsap {
 // 					}
 					
 					// one regression for each horizon
-					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe cluster($id) level(95)
+					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id)
 // 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95)
 					capture{
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
@@ -141,8 +148,22 @@ graph export LP.pdf, replace
 */
 
 * Sources
+
+// Standard errors corrected for heteroskedasticity and autocorrelation
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/
 // 1475615-newey-regression-for-panel-data
+
+// Accesssing values of confidence intervals
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/
+// 1304264-quickly-accessing-p-values-and-confidence-interval-limits
+
+// Accessing values in a matrix identified by row name and column name
+// https://www.stata.com/statalist/archive/2009-03/msg01179.html
+
+// Handling gaps in time series using business calendars
+// https://blog.stata.com/2016/02/04/handling-gaps-in-time-series-using-business-calendars/
+// https://www.stata.com/statalist/archive/2005-08/msg00479.html
+
 
 * Packages
 // ssc install xtcsd, replace	// to perform the Pesaran’s CD test of cross-sectional independence in FE panel models
