@@ -38,13 +38,9 @@ foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
 }
 
 * horizon in days, number of lags and forward
-local horizon = 90
+local horizon = 10 // 90
 local maxlag  = 1
 local maxfwd  = 4
-
-* specify significance levels
-scalar sig1 = 0.05	 // 95% confidence interval
-scalar sig2 = 0.1	 // 90% confidence interval
 
 * x-axis and zero line
 gen days = _n-1 if _n <= `horizon' +1
@@ -66,13 +62,14 @@ foreach shock in mp1 { //path lsap {
 			foreach v in nom { //syn dyp dtp phi {
 
 				// variables to store the betas, standard errors and confidence intervals
-				capture gen b_`v'`t'm  = .
-				capture gen se_`v'`t'm = .
-				
-				capture gen ll1_`v'`t'm = .
-				capture gen ul1_`v'`t'm = .
-				capture gen ll2_`v'`t'm = .
-				capture gen ul2_`v'`t'm = .
+				capture {
+				gen b_`v'`t'm   = .
+				gen se_`v'`t'm  = .
+				gen ll1_`v'`t'm = .
+				gen ul1_`v'`t'm = .
+				gen ll2_`v'`t'm = .
+				gen ul2_`v'`t'm = .
+				}
 				
 				// controls
 				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
@@ -108,15 +105,6 @@ foreach shock in mp1 { //path lsap {
 					}
 				}			// horizon
 				
-// 				// confidence intervals
-// 				capture {
-// 				gen cih1_`v'`t'm = b_`v'`t'm + invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-// 				gen cil1_`v'`t'm = b_`v'`t'm - invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-
-// 				gen cih2_`v'`t'm = b_`v'`t'm + invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-// 				gen cil2_`v'`t'm = b_`v'`t'm - invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
-// 				}
-				
 				// graph
 				twoway 	(rarea ll1_`v'`t'm ul1_`v'`t'm days, fcolor(gs12) lcolor(white) lpattern(solid)) ///
 						(rarea ll2_`v'`t'm ul2_`v'`t'm days, fcolor(gs10) lcolor(white) lpattern(solid)) ///
@@ -134,6 +122,9 @@ foreach shock in mp1 { //path lsap {
 		}				// tenor
 	}					// AE or EM
 }						// shock
+
+
+
 
 
 
@@ -156,3 +147,20 @@ graph export LP.pdf, replace
 * Packages
 // ssc install xtcsd, replace	// to perform the Pesaran’s CD test of cross-sectional independence in FE panel models
 // ssc install xtscc, replace	// to get DK standard errors for FE panel models
+
+
+
+
+// * specify significance levels
+// scalar sig1 = 0.05	 // 95% confidence interval
+// scalar sig2 = 0.1	 // 90% confidence interval
+
+// after horizon loop
+// // confidence intervals
+// capture {
+// gen cih1_`v'`t'm = b_`v'`t'm + invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// gen cil1_`v'`t'm = b_`v'`t'm - invnormal(1-sig1/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+
+// gen cih2_`v'`t'm = b_`v'`t'm + invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// gen cil2_`v'`t'm = b_`v'`t'm - invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
+// }
