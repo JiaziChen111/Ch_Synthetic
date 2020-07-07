@@ -19,9 +19,10 @@ cd $pathdata
 use dataspillovers.dta, clear
 
 // Create a business calendar from the current dataset
-bcal create spillovers, from(date) generate(bizdate) purpose(Convert daily data into business calendar dates) replace
-// bcal load spillovers
-// format %tbspillovers bizdate
+// bcal create spillovers, from(date) generate(bizdate) purpose(Convert daily data into business calendar dates) replace
+bcal load spillovers
+gen bizdate = bofd("spillovers",date)
+format %tbspillovers bizdate
 
 
 // Declare panel dataset using business dates
@@ -45,7 +46,7 @@ foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
 }
 
 * horizon in days, number of lags and forward
-local horizon = 10 // 90
+local horizon = 90
 local maxlag  = 1
 local maxfwd  = 4
 
@@ -55,7 +56,7 @@ cap gen zero = 0 	if _n <= `horizon' +1
 
 * LPs
 local j = 0
-foreach shock in mp1 { //path lsap {
+foreach shock in mp1 path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
@@ -66,7 +67,7 @@ foreach shock in mp1 { //path lsap {
 		else local grp "EM"
 		
 		foreach t in 120 { // 3 6 12 24 60 120  {
-			foreach v in nom { //syn dyp dtp phi {
+			foreach v in nom syn dyp dtp phi {
 
 				// variables to store the betas, standard errors and confidence intervals
 				capture {
@@ -85,11 +86,11 @@ foreach shock in mp1 { //path lsap {
 					// response variables
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
-// 					// test for cross-sectional independence
-// 					if inlist(`i',0,30,60,90) { 
-// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11	// regress, level(90)
-// 						xtcsd, pesaran abs
-// 					}
+					// test for cross-sectional independence
+					if inlist(`i',0,30,60,90) { 
+						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11	// regress, level(90)
+						xtcsd, pesaran abs
+					}
 					
 					// one regression for each horizon
 					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id)
@@ -108,7 +109,7 @@ foreach shock in mp1 { //path lsap {
 					replace ll2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
 					replace ul2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
 					
-					*drop `v'`t'm`i'
+					drop `v'`t'm`i'
 					}
 				}			// horizon
 				
@@ -123,7 +124,7 @@ foreach shock in mp1 { //path lsap {
 				legend(off) name(`v'`t'm, replace)
 				graph export $pathfigs/`shk'/`grp'/`v'`t'm.eps, replace
 				
-				*drop *_`v'`t'm				// b_, se_ and confidence intervals
+				drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// yield component
 		graph drop _all
 		}				// tenor
@@ -162,13 +163,14 @@ graph export LP.pdf, replace
 
 // Handling gaps in time series using business calendars
 // https://blog.stata.com/2016/02/04/handling-gaps-in-time-series-using-business-calendars/
+// https://www.stata.com/manuals13/dbcal.pdf
+// https://www.stata.com/manuals13/tstsset.pdf
 // https://www.stata.com/statalist/archive/2005-08/msg00479.html
 
 
 * Packages
 // ssc install xtcsd, replace	// to perform the Pesaran’s CD test of cross-sectional independence in FE panel models
 // ssc install xtscc, replace	// to get DK standard errors for FE panel models
-
 
 
 
