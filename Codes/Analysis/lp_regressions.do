@@ -72,7 +72,7 @@ foreach shock in mp1 path lsap {
 			local vars nom syn rho dyp dtp phi
 		}
 		
-		foreach t in 12 120 { // 3 6 12 24 60 120  {
+		foreach t in 120 { // 3 6 12 24 60 120  {
 // 			foreach v in nom syn rho dyp dtp phi {
 			foreach v in `vars' {
 			
@@ -87,7 +87,7 @@ foreach shock in mp1 path lsap {
 				}
 				
 				// controls
-				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
+				local ctrl`v'`t'm  //l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
 				
 				forvalues i = 0/`horizon' {
 					// response variables
