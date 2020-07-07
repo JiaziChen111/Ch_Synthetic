@@ -63,12 +63,19 @@ foreach shock in mp1 path lsap {
 	if `j' == 3 local shk "LSAP"
 	
 	forvalues group = 0/1 {
-		if `group' == 0 local grp "AE"
-		else local grp "EM"
+		if `group' == 0 {
+			local grp "AE"
+			local vars nom dyp dtp
+		}
+		else {
+			local grp "EM"
+			local vars nom syn rho dyp dtp phi
+		}
 		
-		foreach t in 120 { // 3 6 12 24 60 120  {
-			foreach v in nom syn dyp dtp phi {
-
+		foreach t in 12 120 { // 3 6 12 24 60 120  {
+// 			foreach v in nom syn rho dyp dtp phi {
+			foreach v in `vars' {
+			
 				// variables to store the betas, standard errors and confidence intervals
 				capture {
 				gen b_`v'`t'm   = .
@@ -86,15 +93,17 @@ foreach shock in mp1 path lsap {
 					// response variables
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
-					// test for cross-sectional independence
-					if inlist(`i',0,30,60,90) { 
-						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11	// regress, level(90)
-						xtcsd, pesaran abs
-					}
+// 					// test for cross-sectional independence
+// 					if inlist(`i',0,30,60,90) { 
+// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11	// regress, level(90)
+// 						xtcsd, pesaran abs
+// 					}
 					
 					// one regression for each horizon
+					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id) 			// report on-impact effect
+// 					if `i' == 0 xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) lag(4)
 					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id)
-// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95)
+// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95)  lag(4)
 					capture{
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
 					replace se_`v'`t'm = _se[`shock'] if _n == `i'+1
