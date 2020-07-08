@@ -54,6 +54,16 @@ local maxfwd  = 4
 cap gen days = _n-1 if _n <= `horizon' +1
 cap gen zero = 0 	if _n <= `horizon' +1
 
+
+// generate lags for fx: l(0/`maxlag').fx
+// generate lags for d.`v'`t'm: l(1/`maxlag').d`v'`t'm  for all v and all t
+// generate response variables `v'`t'm`i' for all v and all t
+// linear time trend
+// drop if mp1 == .
+// bcal create fmocdts, from(date) generate(fmocdate) purpose(Convert business calendar dates into FMOC dates) replace
+// use as controls f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
+
+
 * LPs
 local j = 0
 foreach shock in mp1 path lsap {
@@ -72,7 +82,7 @@ foreach shock in mp1 path lsap {
 			local vars nom syn rho dyp dtp phi
 		}
 		
-		foreach t in 120 { // 3 6 12 24 60 120  {
+		foreach t in 12 120 { // 3 6 12 24 60 120  {
 // 			foreach v in nom syn rho dyp dtp phi {
 			foreach v in `vars' {
 			
@@ -87,7 +97,7 @@ foreach shock in mp1 path lsap {
 				}
 				
 				// controls
-				local ctrl`v'`t'm  //l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
+				local ctrl`v'`t'm c.$t l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
 				
 				forvalues i = 0/`horizon' {
 					// response variables
@@ -175,6 +185,9 @@ graph export LP.pdf, replace
 // https://www.stata.com/manuals13/dbcal.pdf
 // https://www.stata.com/manuals13/tstsset.pdf
 // https://www.stata.com/statalist/archive/2005-08/msg00479.html
+
+// Time trend in panel data
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/1317069-time-trend-in-panel-data
 
 
 * Packages
