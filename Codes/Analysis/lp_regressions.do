@@ -19,7 +19,7 @@ cd $pathdata
 use dataspillovers.dta, clear
 
 // Create a business calendar from the current dataset
-// bcal create spillovers, from(date) generate(bizdate) purpose(Convert daily data into business calendar dates) replace
+bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
 bcal load spillovers
 gen bizdate = bofd("spillovers",date)
 format %tbspillovers bizdate
@@ -48,21 +48,10 @@ foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
 * horizon in days, number of lags and forward
 local horizon = 90
 local maxlag  = 1
-local maxfwd  = 4
 
 * x-axis and zero line
 cap gen days = _n-1 if _n <= `horizon' +1
 cap gen zero = 0 	if _n <= `horizon' +1
-
-
-// generate lags for fx: l(0/`maxlag').fx
-// generate lags for d.`v'`t'm: l(1/`maxlag').d`v'`t'm  for all v and all t
-// generate response variables `v'`t'm`i' for all v and all t
-// linear time trend
-// drop if mp1 == .
-// bcal create fmocdts, from(date) generate(fmocdate) purpose(Convert business calendar dates into FMOC dates) replace
-// use as controls f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
-
 
 * LPs
 local j = 0
@@ -83,7 +72,6 @@ foreach shock in mp1 path lsap {
 		}
 		
 		foreach t in 12 120 { // 3 6 12 24 60 120  {
-// 			foreach v in nom syn rho dyp dtp phi {
 			foreach v in `vars' {
 			
 				// variables to store the betas, standard errors and confidence intervals
@@ -97,7 +85,7 @@ foreach shock in mp1 path lsap {
 				}
 				
 				// controls
-				local ctrl`v'`t'm c.$t l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx 	// f(1/`maxfwd').`shock' l(1/`maxlag').`shock'
+				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx
 				
 				forvalues i = 0/`horizon' {
 					// response variables
@@ -188,6 +176,10 @@ graph export LP.pdf, replace
 
 // Time trend in panel data
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/1317069-time-trend-in-panel-data
+
+// Country-specific time trends
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/1376523-country-specific-time-trends
+
 
 
 * Packages
