@@ -53,6 +53,17 @@ local maxlag  = 1
 cap gen days = _n-1 if _n <= `horizon' +1
 cap gen zero = 0 	if _n <= `horizon' +1
 
+
+// Create regional variable
+gen region = 1 * inlist(cty,"BRL","COP","MXN","PEN") + ///
+             2 * inlist(cty,"HUF","PLN","RUB","TRY") + ///
+             3 * inlist(cty,"IDR","MYR","PHP","THB") + ///
+			 4 * inlist(cty,"ILS","KRW","ZAR")
+label define rnames 1 "Latin America" 2 "Eastern Europe" 3 "Southeast Asia" 4 "Other"
+label values region rnames
+label variable region "Regions"
+
+
 * LPs
 local j = 0
 foreach shock in mp1 path lsap {
@@ -61,7 +72,7 @@ foreach shock in mp1 path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	forvalues group = 0/1 {
+	foreach group in 1 { // 0 1 {
 		if `group' == 0 {
 			local grp "AE"
 			local vars nom dyp dtp
@@ -91,18 +102,21 @@ foreach shock in mp1 path lsap {
 					// response variables
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
+					// conditions
+					local condition em == `group' & date != td(17sep2001) & region == 2
+					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
-// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe	// exclude meeting after 9/11	// regress, level(90)
+// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe	// exclude meeting after 9/11
 // 						xtcsd, pesaran abs
 // 					}
 					
 					// one regression for each horizon
-					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id) 			// report on-impact effect
-// 					if `i' == 0 xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) lag(4)
-					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id)
-// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95)  lag(4)
-					capture{
+					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) cluster($id) 			// report on-impact effect
+// 					if `i' == 0 xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) lag(4)
+					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) cluster($id)
+// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95)  lag(4)
+					capture {
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
 					replace se_`v'`t'm = _se[`shock'] if _n == `i'+1
 					
@@ -179,6 +193,12 @@ graph export LP.pdf, replace
 
 // Country-specific time trends
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/1376523-country-specific-time-trends
+
+// Create a group variable
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/
+// 1355976-how-can-i-create-groups-of-observations-in-a-panel-data
+
+
 
 
 
