@@ -15,11 +15,14 @@ opts.VariableNames{1} = 'Time';
 TT_mps = readtimetable(namefl,opts);
 cd(pathc)
 
+% Remove meeting following 9/11
+TT_mps(TT_mps.Time == '17-Sep-2001',:) = [];
+
 % Compute path and LSAP shocks
 T = timetable2table(TT_mps,'ConvertRowTimes',false);
 mdlPath     = fitlm(T,'ED8~MP1');
 TT_mps.PATH = mdlPath.Residuals.Raw;
 
 T = timetable2table(TT_mps,'ConvertRowTimes',false);
-mdlPath     = fitlm(T,'ONRUN10~MP1+PATH');
-TT_mps.LSAP = mdlPath.Residuals.Raw;
+mdlLSAP     = fitlm(T,'ONRUN10~MP1+PATH');
+TT_mps.LSAP = mdlLSAP.Residuals.Raw;
