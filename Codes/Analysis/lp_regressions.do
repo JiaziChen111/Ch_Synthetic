@@ -37,6 +37,12 @@ foreach v in rho phi nom syn dyq dyp dtp myq myp mtp {
 		capture {				// in case not all variables have same tenors
 		replace `v'`t'm = 10000*`v'`t'm
 		gen d`v'`t'm  = d.`v'`t'm
+		
+		if "`v'" == "phi" {		// censor the credit risk premium at zero
+			gen `v'cns`t'm = `v'`t'm
+			replace `v'cns`t'm = 0 if `v'`t'm < 0 & em == 1		// only for EMs
+			gen d`v'cns`t'm  = d.`v'cns`t'm
+			}
 		}
 	}
 }
@@ -72,14 +78,14 @@ foreach shock in mp1 path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 1 { // 0 1 {
+	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
 			local vars nom dyp dtp
 		}
 		else {
 			local grp "EM"
-			local vars nom syn rho dyp dtp phi
+			local vars nom dyp dtp phicns // syn rho phi
 		}
 		
 		foreach t in 12 120 { // 3 6 12 24 60 120  {
@@ -103,7 +109,7 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & date != td(17sep2001) & region == 2
+					local condition em == `group' & date != td(17sep2001) // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
@@ -140,17 +146,49 @@ foreach shock in mp1 path lsap {
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
-				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ///
+				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-1(1)5) xlabel(10(20)90) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
 				graph export $pathfigs/`shk'/`grp'/`v'`t'm.eps, replace
 				
+				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// yield component
+		
+		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon ///
+		title("`shock' `grp' `t'm")
+		graph export $pathfigs/`shk'/`grp'/`shk'`grp'`v'`t'm.eps, replace
+		
 		graph drop _all
 		}				// tenor
 	}					// AE or EM
 }						// shock
+
+
+
+// Extract US MPS
+// browse date mp1 path lsap if cty == "GBP" & mp1 != .
+
+// Assess censored LCCS
+// bysort region: summ phi120m phicns120m // compare phi uncensored and censored
+// sort $id $t
+// line phi120m phicns120m datem if cty == "RUB"
+
+// // Potential local events
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "BRL" & inlist(date,td(19oct2009),td(04oct2010),td(06jan2011),td(06jul2011),td(08jul2011),td(04jun2013))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "COP" & inlist(date,td(01dec2004),td(29jun2006),td(10may2007),td(19jul2007),td(06oct2008))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "HUF" & inlist(date,td(09apr2003),td(14apr2003),td(16apr2003),td(01aug2005),td(01sep2018))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "IDR" & inlist(date,td(01jul2005),td(01jun2010))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "KRW" & inlist(date,td(01jan2003),td(14jun2010))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "PHP" & inlist(date,td(01jan2002),td(28jul2017))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "PLN" & inlist(date,td(09apr2003),td(14apr2003),td(16apr2003),td(07jun2003),td(28jul2017),td(01dec2017),td(01mar2018))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "RUB" & inlist(date,td(27sep2013),td(01jan2014))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "THB" & inlist(date,td(01dec2006))
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "TRY" & inlist(date,td(02jan2006),td(27jan2017),td(25jun2018),td(02oct2018),td(08jul2019))
+
+
+// // Selected local events
+// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "TRY" & inlist(date,td(25jun2018),td(02oct2018),td(08jul2019))
 
 
 
