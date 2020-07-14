@@ -101,7 +101,7 @@ cap gen zero = 0 	if _n <= `horizon' +1
 
 * LPs
 local j = 0
-foreach shock in mp1 path lsap {
+foreach shock in mp1 { // path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
@@ -138,8 +138,8 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// one regression for each horizon
-					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id) 			// report on-impact effect
-					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001), fe level(95) cluster($id)
+					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001) & date < td(01jan2016), fe level(95) cluster($id) 			// report on-impact effect
+					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if em == `group' & date != td(17sep2001) & date < td(01jan2016), fe level(95) cluster($id)
 					capture{
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
 					replace se_`v'`t'm = _se[`shock'] if _n == `i'+1
