@@ -32,6 +32,7 @@ else
 end
 hdr_frq = header_daily(fltrTNR,:);                                          % header
 nobs    = size(data_frq,1);
+fltrUSD = ismember(hdr_frq(:,1),{'USD','Currency'}) & ismember(hdr_frq(:,2),{'LCNOM','Type'});
 
 for j0 = 1:ntypes
     switch VarType{j0}                                                      % prefix for field names
@@ -74,5 +75,11 @@ for j0 = 1:ntypes
         udataset = udataset(~idxRmv,:);                                     % remove rows w/ NaNs
         S(k0).(fnames{3}) = datestr(udataset(2,1),'mmm-yyyy');
         S(k0).(fnames{4}) = udataset;
+        
+        if strcmp(VarType{j0},'RHO')
+            fltrUSDx = fltrUSD & ismember(tnrsall,udataset(1,:));
+            data_usd = data_frq(ismember(data_frq(:,1),udataset(2:end,1)),fltrUSDx);
+            S(k0).([prfxfrq '_usd']) = [tnrsall(fltrUSDx)'; data_usd(:,1) data_usd(:,2:end)/100];  % decimals
+        end
     end
 end
