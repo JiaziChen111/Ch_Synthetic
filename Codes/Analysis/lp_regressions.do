@@ -19,7 +19,7 @@ cd $pathdata
 use dataspillovers.dta, clear
 
 // Create a business calendar from the current dataset
-bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
+// bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
 bcal load spillovers
 gen bizdate = bofd("spillovers",date)
 format %tbspillovers bizdate
@@ -32,7 +32,7 @@ sort $id $t
 xtset $id $t
 
 * Express variables and shocks in basis points
-foreach v in rho phi nom syn dyq dyp dtp myq myp mtp {
+foreach v in rho phi nom syn dyq dyp dtp { // myq myp mtp {
     foreach t in 3 6 12 24 60 120  {
 		capture {				// in case not all variables have same tenors
 		replace `v'`t'm = 10000*`v'`t'm
