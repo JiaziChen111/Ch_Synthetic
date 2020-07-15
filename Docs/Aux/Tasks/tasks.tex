@@ -189,10 +189,10 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Compare monthly w/ daily fit and decompositions.
-	\item Include global activity index (Hamilton and Kilian). (https://sites.google.com/site/lkilian2019/research/data-sets) for GFCy and C-P global factor.
-	\item Include country-specific data for EMs in dataset: STX, surveys, real rates.
-	\item Analysis on spillovers: Responses of EM components to US MPS (regressions as in Curcuru or panel local projections as in ACDM); lags in response; asymmetric effects on different parts of the YC; changes in components around QE-TT announcements; local events.
+	\item Add usyc. Compare response of usyc vs results in Brooks, Kratz and Lusting. Results of usyc across panels should be similar to usyc alone. Explain movements in ysynt due to rho and usyc.
+	\item Standard errors robust to heteroskedasticity, autocorrelation and cross-sectionally dependent. Number of lags = 4.
+	\item Analysis on spillovers: Responses of EM components to US MPS (regressions as in Curcuru or panel local projections as in ACDM); lags in response; asymmetric effects on different parts of the YC; changes in components around QE-TT announcements.
+	\item Interpret the results.
 	\item Reorient paper based on results.
 	\item Schedule: codes (ts_*), figures (ts_plots), tables (ts_tables), export dataset as dta, do-file w/ basic analysis, re-estimate the model w/ monthly data after all changes in codes (RMSE, matsout, i_survey etc.) and update figures-tables-dta-do, estimate the model w/ daily data (assess fit and test against results w/ monthly data), event study analysis.
 \end{todolist}
@@ -205,15 +205,18 @@
 	\item Estimate Guimaraes w/ daily data for US and compare against KW.
 	\item Check whether functions in post-estimation analysis need to be updated after the bsl field added to the structure.
 	\item Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder.
+	\item Use global activity indexes for GFCy and C-P global factor.
 	\item Construct panel dataset to analyze results in Stata. Include: rho, CIPdev, svys (CBP, INF, GDP), LCNOM, LCSYNT, decompositions (yQ, yP, tp), macro-financial (US, CBP, STX, FX), EPU. Before dataset, construct a field with yQ, yP, tp for ALL countries (EMs/AEs), ssb for EM w/ surveys, sy for ILS and ZAR, ny for AEs. Same tenors (0.25-10Y).
 	\item Drivers (monthly): Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
 	\item Spillovers (event study): Panel regressions for TP, LCCS, yE for AEs and EMs.
+	\item Include TIC data in dataset.
 	\item Annex for some descriptive tables and figures.
 \end{todolist}
 
 \section{Analysis: Long Term}
 \gototoc
 \begin{todolist}
+	\item Generate dta file with new US MPS (excluding Sept 2001 meeting).
 	\item Create folders (CRSP, etc.) within Data -> Raw folder to improve structure and facilitate updates.
 	\item Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield.
 	\item Prepare dataset to estimate i_survey using panel data instead of individually.
@@ -241,6 +244,22 @@
 \section{Analysis: Completed}
 \gototoc
 \begin{todolist}
+	\item Compare monthly w/ daily fit and decompositions. Very closely related, lowest correlation across all countries is 0.9953 followed by 0.9993.
+	\item[\done] Combine LP graphs per tenor-group-shock.
+	\item[\done] Compare target and path shocks against GSS (2005).
+	\item[\done] In Matlab, remove MP1 shock of September 2001 immediately after reading the file.
+	\item[\done] Table of local events. Only insightful for TRY.
+	\item[\done] LPs for phi after censoring phi \(>=\) 0.
+	\item Regional analysis. Do LPs change depending on the region? It doesn't seem to be large differences across regions.
+	\item[\done] Add rho as a dependent variable in LPs.
+	\item[\done] ACDM controls. Generate ALL variables (lags, forwards, differences). Delete observations for which mp1 = . . Define a business calendar for FOMC dates. Analyze autocorrelation of US MPS. Controls: past and future shocks. Conclusion: LPs are similar with shocks-only case. Small difference in responses when sample ends in 2015.
+	\item[\done] Identify why there are so many missing values when Stata calculates forward. Reason: Weekends. Need to define a business calendar to correctly obtain lags, forwards and differences.
+	\item[\done] Use CIs from generated output instead of calculated.
+	\item[\done] Remove 9/11 obs in regressions from US MPS. However, it needs to be removed since the shocks are generated.
+	\item[\done] Analyze LP codes.
+	\item[\done] Include country-specific data for EMs in dataset: STX, surveys, real rates.
+	\item[\done] Add an end of quarter dummy.
+	\item[\done] Include global activity indexes from Hamilton and Kilian.
 	\item[\done] Include EPU US and global in dataset.
 	\item[\done] Include path and tp shocks in TT_mps.
 	\item[\done] Include FX (expressed in LC per USD) in dataset.
@@ -337,6 +356,11 @@
 	\item Sekkel: C-P factor in international bond markets
 	\item Gagnon et al for effects of QE on TP.
 	\item Caballero and Simsek (2020): A Model of Asset Price Spirals and Aggregate Demand Amplification of a Covid-19 Shock. UMP buys risk when investors become risk intolerant. Asset prices affect real economy w/ a lag (negative output gap w/ a positive asset gap b/c try to boost AD).
+	\item Trend Inflation in Advanced Economies (Garnier, Mertens, Nelson). Multivariate version of UCSV from Stock and Watson (2007).
+	\item Bostanci, G., and Yilmaz, K. (2020),"How Connected is the Global Sovereign Credit Risk Network?", Journal of Banking and Finance, forthcoming, 2020.
+	\item Diebold-Yilmaz (2014). Book (Financial and Macroeconomic Connectedness) is available online in JHU library. Website: http://financialconnectedness.org/index.html.
+	\item Nyhom (2000): Regime shifts in the Danish term structure of interest rates.
+	\item Ilzetzki and Jin (2020). The puzzling change in the international transmission of US macroeconomic policy shocks. Important: monthly data.
 \end{todolist}
 
 \end{document}

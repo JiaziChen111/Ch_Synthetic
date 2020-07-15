@@ -726,8 +726,52 @@ At the same time, increases in the Vix are also positively associated with incre
 
 Finally, the term premia in EMs is positively correlated with the local inflation rate.
 
-\section{International Spillovers of U.S. Monetary Policy} \label{sec:USspillovers}
+\section{Spillovers of U.S. Monetary Policy to Emerging Market Bond Yields} \label{sec:USspillovers}
 %	commonalities (TPs, yP, LCCS) all, ST vs LT.
+
+This section analyze the reaction of the sovereign yields of emerging markets to U.S. monetary policy shocks. 
+
+\subsection{U.S. Monetary Policy Shocks}
+HF identification of MPS.
+
+Windows: 15 minutes before to 1 hour and 45 minutes after each monetary policy meeting since 1994.\footnote{ It is common to exclude from the analysis the meeting of September 2001 that followed the terrorist attacks earlier in the month. See \cite{GSS:2005a} and \cite{NakamuraSteinsson:2018JEP}.}
+
+Target: The change in the current federal funds rate future is a measure of surprises in the policy rate target (MP1). This are referred to as the target shocks. This is in line with the shocks described by \cite{Kuttner:2001}.
+
+Path: After 2008 the change target shocks became essentially zero. The change in the 8 quarters ahead eurodollar future contract (ED8) is a measure of surprises in the 2-year yield.\footnote{ The change in the 4 quarters ahead eurodollar future contract (ED4) could also be used to measure path shocks. However, after 2011 intraday changes in ED4 became essentially zero since market participants expected the policy rate to remain at zero for at least a year. That situation did not happen to ED8.} I regress the ED8 intraday change on MP1. The residuals from this regression are referred to as the path shocks. The target and path shocks are similar to the shocks described by \cite{GSS:2005a}.
+Correlation of shocks?
+
+LSAP. Following \cite{Swanson:2018}, I regress the intraday change in the 10-year yield on the target and path shocks the residual of this regression is referred to as the term premium of LSAP shock.
+
+Plot US MPS.
+
+\subsection{Timing}
+Fed announcements at 14 hours NY time.
+Nominal LC yield curves pull at 16 hours NY time.
+Libor is announced at 11:45 hours London time.
+To get the time right, it seems that \(ysyntLC_t = yUS_t + rho_{t+1}\)
+
+\subsection{Panel Local Projections}
+The effects of U.S. monetary policy shocks on the yields of emerging markets are estimated using panel local projections.
+The yield curve decompositions can be used to further analyze the effects of such shocks on each of the components, namely the expected short rate, the term premium and the credit risk premium.
+
+Following \cite{Jorda:2005}
+
+where ...
+
+controls.
+
+Clustered standard errors.
+
+
+\subsection{Spillovers}
+
+Categories of results: spillover index and PCA, inflation uncertainty and tp link, panel LPs.
+
+Results: delayed response, some responses are region-specific.
+
+
+
 Although a global factor plays a role in the variation of yields in both AEs and EMs, the bond yields in EMs are not as tightly connected as they are in AEs.
 Pooling all yields together, there is a global-level factor---associated with the first PC---that explains around 50\% of the variation in EMs but as high as 90\% in AEs. 
 When yields are separated by maturity, a similar pattern emerges for the 1-year yields, whereas for the 10-year yields, a global factor explains around 95\% in AEs and 40\% in EMs. 
