@@ -52,6 +52,7 @@ end
 cd(pathd)
 % save struct_datamy_S.mat S currAE currEM
 load('struct_datamy_S.mat')
+load('struct_datady_cells.mat')
 load('struct_datady_S.mat','currAE')
 load('struct_datady_S.mat','currEM')
 cd(pathc)
