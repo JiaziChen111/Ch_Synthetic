@@ -57,9 +57,15 @@ sort $id $t
 xtset $id $t
 
 * MP shocks
+// remember to exclude meeting after 9/11
 pwcorr mp1 path lsap if cty == "GBP", sig // not statistically different from zero
 summ mp1 path lsap if cty == "GBP"
 line mp1 path lsap date if cty == "GBP"
+
+corrgram mp1 if mp1 != . & cty == "GBP" & date != td(17sep2001), lags(4)
+ac mp1 if mp1 != . & cty == "GBP" & date != td(17sep2001), lags(4)
+
+
 
 xtreg D.nom120m mp1 if em == 1, fe
 xtreg D.syn120m mp1 if em == 1, fe
@@ -72,9 +78,4 @@ xtreg D.dtp120m mp1 if em == 1, fe
 xtreg D.dtp120m mp1 if em == 0, fe
 
 xtreg D.phi120m mp1 if em == 1, fe
-
-
-
-
-
 
