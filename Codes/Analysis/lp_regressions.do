@@ -72,13 +72,13 @@ label variable region "Regions"
 
 * LPs
 local j = 0
-foreach shock in mp1 path lsap {
+foreach shock in mp1 { // path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 0 1 {
+	foreach group in 1 { // 0 1 {
 		if `group' == 0 {
 			local grp "AE"
 			local vars nom dyp dtp
@@ -88,7 +88,7 @@ foreach shock in mp1 path lsap {
 			local vars nom dyp dtp phicns // syn rho phi
 		}
 		
-		foreach t in 12 120 { // 3 6 12 24 60 120  {
+		foreach t in 12 { // 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
 			
 				// variables to store the betas, standard errors and confidence intervals
@@ -191,6 +191,15 @@ foreach shock in mp1 path lsap {
 // list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "TRY" & inlist(date,td(25jun2018),td(02oct2018),td(08jul2019))
 
 
+// Large US MP shocks
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(17mar2009),td(18mar2009),td(19mar2009))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(15dec2008),td(16dec2008),td(17dec2008))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(08aug2011),td(09aug2011),td(10aug2011))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(17sep2013),td(18sep2013),td(19sep2013))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(27jan2004),td(28jan2004),td(29jan2004))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(05may2003),td(06may2003),td(07may2003))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(17mar2015),td(18mar2015),td(19mar2015))
+// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(14mar2017),td(15mar2017),td(16mar2017))
 
 
 
