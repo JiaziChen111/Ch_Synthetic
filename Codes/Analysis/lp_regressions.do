@@ -37,7 +37,19 @@ global t bizdate
 sort $id $t
 xtset $id $t
 
-* Express variables and shocks in basis points
+// Time shift
+cap gen byte sftcty = !inlist(cty,"CAD","BRL","COP","MXN","PEN")
+foreach v of varlist nom* {
+// 	clonevar sft`v' = `v'
+	cap replace `v' = f.`v' if sftcty
+	}
+
+	
+* Express shocks and variables in basis points
+foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
+    cap replace `v' = 100*`v'
+}
+
 foreach v in usyc rho phi nom syn dyq dyp dtp { // myq myp mtp {
     foreach t in 3 6 12 24 60 120  {
 		capture {				// in case not all variables have same tenors
@@ -53,9 +65,6 @@ foreach v in usyc rho phi nom syn dyq dyp dtp { // myq myp mtp {
 	}
 }
 
-foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
-    cap replace `v' = 100*`v'
-}
 
 * horizon in days, number of lags and forward
 local horizon = 90
@@ -87,14 +96,14 @@ foreach shock in mp1 path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 1 { // 0 1 {
+	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars nom dyp dtp
+			local vars nom // dyp dtp
 		}
 		else {
 			local grp "EM"
-			local vars usyc // nom dyp dtp phicns // syn usyc rho phi
+			local vars nom // dyp dtp phicns // usyc syn usyc rho phi
 		}
 		
 		foreach t in 24 120 { // 120 { // 3 6 12 24 60 120  {
@@ -175,6 +184,10 @@ foreach shock in mp1 path lsap {
 
 log close
 translate `file_ssn'.smcl `file_ssn'.pdf, replace
+
+
+
+
 
 
 // Extract US MPS
@@ -279,3 +292,8 @@ graph export LP.pdf, replace
 // gen cih2_`v'`t'm = b_`v'`t'm + invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
 // gen cil2_`v'`t'm = b_`v'`t'm - invnormal(1-sig2/2)*se_`v'`t'm if _n <= (`horizon' + 1)
 // }
+
+
+// clonevar sftnom120m = nom120m
+// replace sftnom120m = f.nom120m if sftcty
+// list nom120m if nom120m != sftnom120m
