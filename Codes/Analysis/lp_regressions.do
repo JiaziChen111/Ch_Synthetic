@@ -16,7 +16,13 @@ global pathfigs "`pathmain'/Docs/Figures/LPs"
 global pathfltx "`pathmain'/Docs/Figures/Latex"
 cd $pathdata
 
-use dataspillovers.dta, clear
+local  file_src "$pathdata/dataspillovers"
+local  file_dta "$pathdata/dataspillovers.dta"
+local  file_ssn "$pathtbls/impact_regs"
+global file_out "$pathtbls/impact_tbls"
+
+
+use `file_dta', clear
 
 // Create a business calendar from the current dataset
 // bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
@@ -32,7 +38,7 @@ sort $id $t
 xtset $id $t
 
 * Express variables and shocks in basis points
-foreach v in rho phi nom syn dyq dyp dtp { // myq myp mtp {
+foreach v in usyc rho phi nom syn dyq dyp dtp { // myq myp mtp {
     foreach t in 3 6 12 24 60 120  {
 		capture {				// in case not all variables have same tenors
 		replace `v'`t'm = 10000*`v'`t'm
@@ -70,9 +76,12 @@ label values region rnames
 label variable region "Regions"
 
 
+* Record session
+log using `file_ssn', replace
+
 * LPs
 local j = 0
-foreach shock in mp1 { // path lsap {
+foreach shock in mp1 path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
@@ -85,10 +94,10 @@ foreach shock in mp1 { // path lsap {
 		}
 		else {
 			local grp "EM"
-			local vars nom dyp dtp phicns // syn rho phi
+			local vars usyc // nom dyp dtp phicns // syn usyc rho phi
 		}
 		
-		foreach t in 12 { // 120 { // 3 6 12 24 60 120  {
+		foreach t in 24 120 { // 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
 			
 				// variables to store the betas, standard errors and confidence intervals
@@ -102,7 +111,7 @@ foreach shock in mp1 { // path lsap {
 				}
 				
 				// controls
-				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(0/`maxlag').fx
+				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
 				
 				forvalues i = 0/`horizon' {
 					// response variables
@@ -164,6 +173,8 @@ foreach shock in mp1 { // path lsap {
 	}					// AE or EM
 }						// shock
 
+log close
+translate `file_ssn'.smcl `file_ssn'.pdf, replace
 
 
 // Extract US MPS
@@ -192,14 +203,14 @@ foreach shock in mp1 { // path lsap {
 
 
 // Large US MP shocks
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(17mar2009),td(18mar2009),td(19mar2009))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(15dec2008),td(16dec2008),td(17dec2008))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(08aug2011),td(09aug2011),td(10aug2011))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(17sep2013),td(18sep2013),td(19sep2013))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(27jan2004),td(28jan2004),td(29jan2004))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(05may2003),td(06may2003),td(07may2003))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(17mar2015),td(18mar2015),td(19mar2015))
-// browse date cty dnom120m dsyn120m drho120m if inlist(date,td(14mar2017),td(15mar2017),td(16mar2017))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(17mar2009),td(18mar2009),td(19mar2009))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(15dec2008),td(16dec2008),td(17dec2008))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(08aug2011),td(09aug2011),td(10aug2011))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(17sep2013),td(18sep2013),td(19sep2013))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(27jan2004),td(28jan2004),td(29jan2004))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(05may2003),td(06may2003),td(07may2003))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(17mar2015),td(18mar2015),td(19mar2015))
+// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(14mar2017),td(15mar2017),td(16mar2017))
 
 
 
