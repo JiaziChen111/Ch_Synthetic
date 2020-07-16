@@ -39,10 +39,10 @@ xtset $id $t
 
 // Time shift
 cap gen byte sftcty = !inlist(cty,"CAD","BRL","COP","MXN","PEN")
-foreach v of varlist nom* {
+foreach v of varlist nom* dyp* dtp* {
 // 	clonevar sft`v' = `v'
 	cap replace `v' = f.`v' if sftcty
-	}
+}
 
 	
 * Express shocks and variables in basis points
@@ -56,11 +56,11 @@ foreach v in usyc rho phi nom syn dyq dyp dtp { // myq myp mtp {
 		replace `v'`t'm = 10000*`v'`t'm
 		gen d`v'`t'm  = d.`v'`t'm
 		
-		if "`v'" == "phi" {		// censor the credit risk premium at zero
-			gen `v'cns`t'm = `v'`t'm
-			replace `v'cns`t'm = 0 if `v'`t'm < 0 & em == 1		// only for EMs
-			gen d`v'cns`t'm  = d.`v'cns`t'm
-			}
+// 		if "`v'" == "phi" {		// censor the credit risk premium at zero
+// 			gen `v'cns`t'm = `v'`t'm
+// 			replace `v'cns`t'm = 0 if `v'`t'm < 0 & em == 1		// only for EMs
+// 			gen d`v'cns`t'm  = d.`v'cns`t'm
+// 			}
 		}
 	}
 }
@@ -90,20 +90,20 @@ log using `file_ssn', replace
 
 * LPs
 local j = 0
-foreach shock in mp1 path lsap {
+foreach shock in mp1 { // path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 0 1 {
+	foreach group in 0 { // 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars nom // dyp dtp
+			local vars nom dyp dtp
 		}
 		else {
 			local grp "EM"
-			local vars nom // dyp dtp phicns // usyc syn usyc rho phi
+			local vars nom dyp dtp // usyc syn usyc rho phi
 		}
 		
 		foreach t in 24 120 { // 120 { // 3 6 12 24 60 120  {
@@ -127,7 +127,7 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & date != td(17sep2001) // & region == 3
+					local condition em == `group' // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
