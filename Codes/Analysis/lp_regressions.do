@@ -40,15 +40,32 @@ xtset $id $t
 // Time shift
 cap gen byte sftcty = !inlist(cty,"CAD","BRL","COP","MXN","PEN")
 foreach v of varlist nom* dyp* dtp* {
-// 	clonevar sft`v' = `v'
-	cap replace `v' = f.`v' if sftcty
+	cap clonevar sft`v' = `v'
+	cap replace sft`v' = f.`v' //if sftcty
+// 	cap replace `v' = f.`v' if sftcty
 }
 
 foreach t in 3 6 12 24 60 120  {
-	cap gen sftrho`t'm = f.rho`t'm
-	cap gen sftsyn`t'm = usyc`t'm + sftrho`t'm
-	cap gen sftphi`t'm = nom`t'm - sftsyn`t'm
+	capture {
+	clonevar sftrho`t'm = rho`t'm
+	clonevar sftsyn`t'm = syn`t'm
+	clonevar sftphi`t'm = phi`t'm
+	replace sftrho`t'm = f.rho`t'm
+	replace sftsyn`t'm = usyc`t'm + sftrho`t'm
+	replace sftphi`t'm = sftnom`t'm - sftsyn`t'm
+// 	cap gen sftrho`t'm = f.rho`t'm
+// 	cap gen sftsyn`t'm = usyc`t'm + sftrho`t'm
+// 	cap gen sftphi`t'm = sftnom`t'm - sftsyn`t'm
+	}
 }
+
+// levelsof $id, local(levels) 
+// foreach l of local levels {
+// summ rho* if imf == `l'
+// 	corr sftnom* nom* usyc* if imf == `l'
+// 	corr sftsyn* syn* usyc* if imf == `l'
+// 	corr sftrho* rho* usyc* if imf == `l'
+// }
 
 	
 * Express shocks and variables in basis points
@@ -56,7 +73,7 @@ foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
     cap replace `v' = 100*`v'
 }
 
-foreach v in usyc rho phi nom syn dyq dyp dtp sftrho sftsyn sftphi { // myq myp mtp {
+foreach v in usyc rho phi nom syn dyp dtp sftnom sftdyp sftdtp sftrho sftsyn sftphi { // dyq myq myp mtp {
     foreach t in 3 6 12 24 60 120  {
 		capture {				// in case not all variables have same tenors
 		replace `v'`t'm = 10000*`v'`t'm
@@ -102,14 +119,14 @@ foreach shock in mp1 { // path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 1 { // 0 1 {
+	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars nom sftsyn // dyp dtp
+			local vars sftnom sftsyn sftdyp sftdtp // dyp dtp
 		}
 		else {
 			local grp "EM"
-			local vars nom sftsyn sftrho sftphi // dyp dtp usyc syn rho phi
+			local vars sftnom sftsyn sftrho sftphi // nom dyp dtp usyc syn rho phi
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
