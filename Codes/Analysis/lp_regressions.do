@@ -122,11 +122,11 @@ foreach shock in mp1 { // path lsap {
 	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars nom syn dyp dtp // sftnom sftsyn sftdyp sftdtp
+			local vars sftnom sftsyn sftdyp sftdtp // nom syn dyp dtp
 		}
 		else {
 			local grp "EM"
-			local vars nom syn rho phi // nom dyp dtp usyc syn rho phi sftnom sftsyn sftrho sftphi
+			local vars sftnom sftsyn sftrho sftphi // nom dyp dtp usyc syn rho phi
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
@@ -150,7 +150,7 @@ foreach shock in mp1 { // path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' // !inlist(cty,"AUD","NZD") // & region == 3
+					local condition em == `group' & date < td(1jan2009) // !inlist(cty,"AUD","NZD") // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
