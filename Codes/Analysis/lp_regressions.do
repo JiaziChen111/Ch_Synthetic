@@ -44,13 +44,19 @@ foreach v of varlist nom* dyp* dtp* {
 	cap replace `v' = f.`v' if sftcty
 }
 
+foreach t in 3 6 12 24 60 120  {
+	cap gen sftrho`t'm = f.rho`t'm
+	cap gen sftsyn`t'm = usyc`t'm + sftrho`t'm
+	cap gen sftphi`t'm = nom`t'm - sftsyn`t'm
+}
+
 	
 * Express shocks and variables in basis points
 foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
     cap replace `v' = 100*`v'
 }
 
-foreach v in usyc rho phi nom syn dyq dyp dtp { // myq myp mtp {
+foreach v in usyc rho phi nom syn dyq dyp dtp sftrho sftsyn sftphi { // myq myp mtp {
     foreach t in 3 6 12 24 60 120  {
 		capture {				// in case not all variables have same tenors
 		replace `v'`t'm = 10000*`v'`t'm
@@ -96,17 +102,17 @@ foreach shock in mp1 { // path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 0 { // 0 1 {
+	foreach group in 1 { // 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars nom dyp dtp
+			local vars nom sftsyn // dyp dtp
 		}
 		else {
 			local grp "EM"
-			local vars nom dyp dtp // usyc syn usyc rho phi
+			local vars nom sftsyn sftrho sftphi // dyp dtp usyc syn rho phi
 		}
 		
-		foreach t in 24 120 { // 120 { // 3 6 12 24 60 120  {
+		foreach t in 24 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
 			
 				// variables to store the betas, standard errors and confidence intervals
@@ -127,7 +133,7 @@ foreach shock in mp1 { // path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' // & region == 3
+					local condition em == `group' // !inlist(cty,"AUD","NZD") // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
