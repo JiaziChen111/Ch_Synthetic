@@ -122,11 +122,11 @@ foreach shock in mp1 { // path lsap {
 	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars sftnom sftsyn sftdyp sftdtp // dyp dtp
+			local vars nom syn dyp dtp // sftnom sftsyn sftdyp sftdtp
 		}
 		else {
 			local grp "EM"
-			local vars sftnom sftsyn sftrho sftphi // nom dyp dtp usyc syn rho phi
+			local vars nom syn rho phi // nom dyp dtp usyc syn rho phi sftnom sftsyn sftrho sftphi
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
