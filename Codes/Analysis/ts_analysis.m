@@ -97,6 +97,9 @@ TT_gbl = read_global_idxs();
 addpath('../Pre-Analysis')                                        	% read_platforms.m in different folder
 warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')             	% suppress table warnings
 TTpltf = read_platforms();                                          % for exchange rate data
+TTusyc = read_usyc();
+notradedays = TTusyc.Date(sum(ismissing(TTusyc),2) == size(TTusyc,2));
+tradingdays = TTusyc.Date(~ismember(TTusyc.Date,notradedays));      % trading days in the U.S.
 
 % Read conventions to quote FX
 pathc    = pwd;
@@ -111,7 +114,7 @@ TTccy  = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
 fltrFX = ismember(TTccy.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
 TTccy{:,fltrFX} = 1./TTccy{:,fltrFX};
 
-TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TTccy,currEM);
+TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TTccy,tradingdays,currEM);
 
 
 %% US TP
