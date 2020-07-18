@@ -1,4 +1,4 @@
-function TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TTccy,currEM)
+function TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TTccy,tradingdays,currEM)
 % CONSTRUCT_PANEL Construct panel dataset for regression analysis
 % 
 %	INPUTS
@@ -105,6 +105,7 @@ for k0 = 1:ncntrs
         TT  = [TT;TT3];
     end
 end
+TT(~ismember(TT.Time,tradingdays),:) = [];                              % remove non-trading days
 
 % Define dummies
 datesmth = unique(lbusdate(year(TT.Time),month(TT.Time)));
