@@ -13,7 +13,7 @@ levelsof cty, local(levels)
 foreach grp of local levels { // 	foreach group in "AUD" {
 // 		local grp "CHF" // `group'
 // 		local vars usyc
-		local vars nom sftnom syn sftsyn  
+		local vars nom sftnom syn sftsyn
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
