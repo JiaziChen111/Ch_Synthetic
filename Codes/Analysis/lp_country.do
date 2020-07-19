@@ -13,7 +13,7 @@ levelsof cty, local(levels)
 foreach grp of local levels { // 	foreach group in "AUD" {
 // 		local grp "CHF" // `group'
 // 		local vars usyc
-		local vars sftnom // sftsyn 
+		local vars nom sftnom syn sftsyn  
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
@@ -78,3 +78,30 @@ foreach grp of local levels { // 	foreach group in "AUD" {
 	}					// grp (AE, EM, CTY)
 }						// shock
 
+// twoway (line nom120m syn120m sftnom120m sftsyn120m datem if cty == "COP") (line usyc120m datem if cty == "COP", yaxis(2))
+// twoway (line nom120m sftsyn120m datem if cty == "COP") (line usyc120m datem if cty == "COP", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "MXN") (line usyc120m datem if cty == "MXN", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "PEN") (line usyc120m datem if cty == "PEN", yaxis(2))
+// twoway (line nom120m sftsyn120m datem if cty == "CAD") (line usyc120m datem if cty == "CAD", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "BRL") (line usyc120m datem if cty == "BRL", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "GBP") (line usyc120m datem if cty == "GBP", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "HUF") (line usyc120m datem if cty == "HUF", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "PLN") (line usyc120m datem if cty == "PLN", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "ZAR") (line usyc120m datem if cty == "ZAR", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "CHF") (line usyc120m datem if cty == "CHF", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "DKK") (line usyc120m datem if cty == "DKK", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "EUR") (line usyc120m datem if cty == "EUR", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "NOK") (line usyc120m datem if cty == "NOK", yaxis(2))
+// twoway (line sftnom120m sftnom60m datem if cty == "NOK") (line usyc120m datem if cty == "NOK", yaxis(2))
+// twoway (line sftnom120m sftnom60m datem if cty == "SEK") (line usyc120m datem if cty == "SEK", yaxis(2))
+// twoway (line sftnom120m sftnom60m datem if cty == "ILS") (line usyc120m datem if cty == "ILS", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "RUB") (line usyc120m datem if cty == "RUB", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "TRY") (line usyc120m datem if cty == "TRY", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "IDR") (line usyc120m datem if cty == "IDR", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "THB") (line usyc120m datem if cty == "THB", yaxis(2))
+// twoway (line nom120m sftsyn120m datem if cty == "MYR") (line usyc120m datem if cty == "MYR", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "PHP") (line usyc120m datem if cty == "PHP", yaxis(2))
+// twoway (line sftnom120m sftsyn120m datem if cty == "KRW") (line usyc120m datem if cty == "KRW", yaxis(2))
+// twoway (line nom120m sftsyn120m datem if cty == "JPY") (line usyc120m datem if cty == "JPY", yaxis(2))
+// twoway (line nom120m sftsyn120m datem if cty == "AUD") (line usyc120m datem if cty == "AUD", yaxis(2))
+// twoway (line nom120m sftsyn120m datem if cty == "NZD") (line usyc120m datem if cty == "NZD", yaxis(2))
