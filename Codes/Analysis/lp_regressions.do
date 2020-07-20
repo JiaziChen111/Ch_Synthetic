@@ -38,10 +38,10 @@ sort $id $t
 xtset $id $t
 
 // Time shift
-cap gen byte sftcty = !inlist(cty,"CAD","BRL","COP","MXN","PEN")
+cap gen byte sftcty = !inlist(cty,"AUD","CAD","JPY","NZD","COP","MYR") // "CAD","BRL","COP","MXN","PEN"
 foreach v of varlist nom* dyp* dtp* {
 	cap clonevar sft`v' = `v'
-	cap replace sft`v' = f.`v' //if sftcty
+	cap replace sft`v' = f.`v' if sftcty
 // 	cap replace `v' = f.`v' if sftcty
 }
 
@@ -119,14 +119,14 @@ foreach shock in mp1 { // path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 0 1 {
+	foreach group in 1 { // 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars sftnom sftsyn sftdyp sftdtp // nom syn dyp dtp
+			local vars sftnom sftsyn sftrho sftphi // nom syn dyp dtp sftdyp sftdtp
 		}
 		else {
 			local grp "EM"
-			local vars sftnom sftsyn sftrho sftphi // nom dyp dtp usyc syn rho phi
+			local vars usyc // sftnom sftsyn sftrho sftphi // nom dyp dtp  syn rho phi
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
@@ -150,7 +150,7 @@ foreach shock in mp1 { // path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & date < td(1jan2009) // !inlist(cty,"AUD","NZD") // & region == 3
+					local condition date > td(1jan2004) & date < td(1jan2016) // em == `group' & !inlist(cty,"AUD","NZD") // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
@@ -292,6 +292,9 @@ graph export LP.pdf, replace
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/
 // 1355976-how-can-i-create-groups-of-observations-in-a-panel-data
 
+// Use -inlist- with local list
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/
+// 1315256-use-inlist-with-local-list
 
 
 
