@@ -36,7 +36,7 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition cty == "`grp'" & date > td(1jan2004) & date < td(1jan2016)
+					local condition cty == "`grp'" & date > td(1jan2000) & date < td(1jan2020)
 					
 					// one regression for each horizon
 					if `i' == 0 reg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', level(95) robust 			// report on-impact effect
