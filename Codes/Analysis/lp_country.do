@@ -3,7 +3,7 @@ local maxlag  = 1
 
 * LPs
 local j = 0
-foreach shock in mp1 { // path lsap {
+foreach shock in mp1 path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
@@ -67,9 +67,8 @@ foreach grp of local levels { // 	foreach group in "AUD" {
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-1(1)5) xlabel(10(20)90) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
-				graph export $pathfigs/`shk'/CTY/`grp'`v'`t'm.eps, replace
+				graph export $pathfigs/`shk'/CTY/`shk'`grp'`v'`t'm.eps, replace
 				
-				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// yield component
 		
