@@ -113,20 +113,20 @@ log using `file_ssn', replace
 
 * LPs
 local j = 0
-foreach shock in mp1 { // path lsap {
+foreach shock in mp1 path lsap {
 	local ++j
 	if `j' == 1 local shk "Target"
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 	
-	foreach group in 1 { // 0 1 {
+	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
 			local vars sftnom sftsyn sftrho sftphi // nom syn dyp dtp sftdyp sftdtp
 		}
 		else {
 			local grp "EM"
-			local vars usyc // sftnom sftsyn sftrho sftphi // nom dyp dtp  syn rho phi
+			local vars sftnom sftsyn sftrho sftphi // nom dyp dtp usyc syn rho phi
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
@@ -150,7 +150,7 @@ foreach shock in mp1 { // path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition date > td(1jan2004) & date < td(1jan2016) // em == `group' & !inlist(cty,"AUD","NZD") // & region == 3
+					local condition em == `group' & date > td(1jan2004) & date < td(1jan2016) // !inlist(cty,"AUD","NZD") // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
