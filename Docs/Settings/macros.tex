@@ -6,7 +6,12 @@
 %-------------------------------------------------------------------
 \providecommand{\tnr}{n}
 \providecommand{\idxt}{t}
+\providecommand{\idxi}{i}
+\providecommand{\idxh}{h}
 \providecommand{\idxs}{\idxt,\tnr}
+\providecommand{\idxspnl}{\idxi,\idxt}
+\providecommand{\idxspnlfwd}{\idxi,{\idxt+\idxh}}
+\providecommand{\idxspnllag}{\idxi,{\idxt-1}}
 \providecommand{\fInst}{f_{\idxs}}
 \providecommand{\yld}{y}
 \providecommand{\yZero}{\yld_{\idxs}}
@@ -37,6 +42,7 @@
 \providecommand{\yLCsynt}{\widetilde{\yld}_{\idxs} ^{LC}}
 \providecommand{\yUS}{y_{\idxs} ^{US}}
 \providecommand{\yUSsynt}{\widetilde{\yld}_{\idxs} ^{US}}
+\providecommand{\fx}{f}
 
 % Math fonts
 \providecommand{\Xdim}{\mathrm{K}}
@@ -113,11 +119,13 @@
 % Equations
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
-\newcommand{\eqpanelTPreg}{tp_{it} = \alpha_{i} + \beta' z_{it} + u_{it}}
+\newcommand{\eqpanelTPreg}{tp_{\idxspnl} = \alpha_{\idxi} + \beta' z_{\idxspnl} + u_{\idxspnl}}
 \newcommand{\eqySvy}{\rateSvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\srate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{g}}}{1-\hat{\beta}_{\srate}} g_{\idxs}^{survey} }
 
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
 \newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
+
+\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxi} + \beta_{\idxh} \epsilon_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}}
 
 
 
