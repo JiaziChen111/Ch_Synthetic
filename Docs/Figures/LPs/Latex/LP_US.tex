@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+
+% trim = {<left> <lower> <right> <upper>}
+
+\begin{figure}[tbph]
+	\caption{Response of 2Y U.S. Yield to U.S. Monetary Policy Shocks}
+	\label{fig:LPUS2Y}
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/US/usyc24m00-08target.eps} \\
+			\caption{Target Shock: 2000-2008} \label{subfig:LPUS2Ytarget}
+%			\vspace{.5cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/US/usyc24m00-19path.eps} \\
+			\caption{Path Shock: 2000-2019} \label{subfig:LPUS2Ypath}
+%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/US/usyc24m09-19lsap.eps} \\
+			\caption{LSAP Shock: 2009-2019} \label{subfig:LPUS2Ylsap}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+
+%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\pagebreak[4]
+
+\begin{figure}[tbph]
+	\caption{Response of 10Y U.S. Yield to U.S. Monetary Policy Shocks}
+	\label{fig:LPUS10Y}
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/US/usyc120m00-08target.eps} \\
+			\caption{Target Shock: 2000-2008} \label{subfig:LPUS10Ytarget}
+			%			\vspace{.5cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/US/usyc120m00-19path.eps} \\
+			\caption{Path Shock: 2000-2019} \label{subfig:LPUS10Ypath}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/US/usyc120m09-19lsap.eps} \\
+			\caption{LSAP Shock: 2009-2019} \label{subfig:LPUS10Ylsap}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\end{document}

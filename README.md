@@ -109,16 +109,9 @@ run ts_analysis.m	-> generates structure w/ analyzed data
 	forecast_cbpol	-> add survey data for policy rate
 	append_surveys 	-> combine yield and survey data
 	atsm_estimation -> estimate model w/ and w/o survey data, nominal & synthetic YCs
-
-
-	+run rp_plot.m		-> plots risk premia (seconds)
-	run rp_us.m		-> US TP (seconds) may require internet access
-	+run rp_correlations	-> EMs TPs with US TP, EPU (seconds)
-		run read_epu_idx.m -> loads EPU indexes (seconds)
-	+run rp_common_factors	-> common factors for orthogonal part of EMs TPs
-		run read_macro_vars.m 	-> load macro data (seconds)
-
-	run rp_regressions.m	-> correlations
+	post-estimation -> assess_fit, add_vars, ts_plots, ts_correlations, ts_pca
+	atsm_daily	-> estimate mode w/ daily data
+	construct_panel -> construct panel dataset
 
 
 'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified using (filtering in) header_daily

@@ -49,6 +49,7 @@ end
 % Estimate state vector based on estimated parameters
 [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);               	% get model parameters
 [~,~,~,~,~,xs] = Kfs(yldsvy',mu_x,mu_y,Phi,A,Q,R,x00,P00);               	% smoothed state
+xs = xs';                                                                   % same dimensions as yldsvy 
 
 % Estimate the term premium
 [PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS] = parest2vars(parest);
@@ -56,9 +57,9 @@ Hcov      = cSgm*cSgm';             cSgm = chol(Hcov,'lower');              % cr
 mu_xQ     = mu_xP - cSgm*lmbd0;     PhiQ = PhiP  - cSgm*lmbd1;
 [AnQ,BnQ] = loadings(matsout,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);
 [AnP,BnP] = loadings(matsout,mu_xP,PhiP,Hcov,rho0,rho1,dt);
-ylds_Q    = ones(nobs,1)*AnQ + xs'*BnQ;
-ylds_P    = ones(nobs,1)*AnP + xs'*BnP;
-termprm   = ylds_Q - ylds_P;                                    % = ones(nobs,1)*(AnQ - AnP) + xs'*(BnQ - BnP);
+ylds_Q    = ones(nobs,1)*AnQ + xs*BnQ;
+ylds_P    = ones(nobs,1)*AnP + xs*BnP;
+termprm   = ylds_Q - ylds_P;                                    % = ones(nobs,1)*(AnQ - AnP) + xs*(BnQ - BnP);
 
 % Report parameters
 params.mu_xP = mu_xP;   params.PhiP  = PhiP;
