@@ -33,8 +33,8 @@ order cty, after(date)
 
 * Label variables that will be used in figures and tables
 #delimit ;
-local oldlabels mp1;
-local newlabels `" "US MPS" "';
+local oldlabels mp1 path lsap;
+local newlabels `" "Target" "Path" "LSAP" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {
@@ -58,9 +58,10 @@ xtset $id $t
 
 * MP shocks
 // remember to exclude meeting after 9/11
-pwcorr mp1 path lsap if cty == "GBP", sig // not statistically different from zero
-summ mp1 path lsap if cty == "GBP"
-line mp1 path lsap date if cty == "GBP"
+pwcorr mp1 path lsap if cty == "CHF", sig // not statistically different from zero
+summ mp1 path lsap if cty == "CHF"
+line mp1 path lsap date if cty == "CHF"
+twoway (line mp1 datem if cty == "CHF" & date < td(1jan2009), lpattern("-")) (line path datem if cty == "CHF", lpattern("l")) (line lsap datem if cty == "CHF" & date >= td(1jan2009), lpattern("-.")), ytitle("Basis Points", size(medsmall)) xtitle("")
 
 corrgram mp1 if mp1 != . & cty == "GBP" & date != td(17sep2001), lags(4)
 ac mp1 if mp1 != . & cty == "GBP" & date != td(17sep2001), lags(4)
