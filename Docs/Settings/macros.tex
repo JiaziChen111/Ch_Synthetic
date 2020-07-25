@@ -125,7 +125,7 @@
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
 \newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
 
-\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxi} + \beta_{\idxh} \epsilon_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}}
+\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxi} + \beta_{\idxh} \epsilon_{\idxt} + \gamma_{\idxh} \yld_{\idxi,{\idxt-2}} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}}
 
 
 
