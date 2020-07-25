@@ -55,7 +55,8 @@ foreach t in 24 120 { // 3 6 12 24 60 120  {
 	foreach v in usyc nom sftnom syn sftsyn { // nom syn rho dyp dtp phi
 	
 	forvalues j = 1/5 {
-		cap gen lag`j'_d`v'`t'm = l`j'.d`v'`t'm
+// 		cap gen lag`j'_d`v'`t'm = l`j'.d`v'`t'm
+		cap gen lag`j'_`v'`t'm = l`j'.`v'`t'm
 		}
 	
 	forvalues i = 0/`horizon' {
@@ -106,7 +107,8 @@ foreach grp of local levels { // 	foreach group in "AUD" {
 				}
 				
 				// controls
-				local ctrl`v'`t'm lag1_d`v'`t'm lag2_d`v'`t'm lag3_d`v'`t'm lag4_d`v'`t'm lag5_d`v'`t'm f(1/4).`shock' l(1/4).`shock'
+// 				local ctrl`v'`t'm lag1_d`v'`t'm lag2_d`v'`t'm lag3_d`v'`t'm lag4_d`v'`t'm lag5_d`v'`t'm f(1/4).`shock' l(1/4).`shock'
+				local ctrl`v'`t'm lag2_`v'`t'm lag3_`v'`t'm lag4_`v'`t'm lag5_`v'`t'm f(1/4).`shock' l(1/4).`shock'
 				
 				forvalues i = 0/`horizon' {
 					

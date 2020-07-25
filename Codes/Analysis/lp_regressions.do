@@ -143,7 +143,7 @@ foreach shock in mp1 path lsap {
 				}
 				
 				// controls
-				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
+				local ctrl`v'`t'm l(2).`v'`t'm l(1).fx 	// l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
 				
 				forvalues i = 0/`horizon' {
 					// response variables
@@ -187,7 +187,7 @@ foreach shock in mp1 path lsap {
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
-				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-1(1)5) xlabel(10(20)90) ///
+				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
 				graph export $pathfigs/`shk'/`grp'/`v'`t'm.eps, replace

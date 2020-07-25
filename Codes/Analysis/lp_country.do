@@ -9,11 +9,11 @@ foreach shock in mp1 path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 
-levelsof cty, local(levels)
-foreach grp of local levels { // 	foreach group in "AUD" {
-// 		local grp "CHF" // `group'
-// 		local vars usyc
-		local vars nom sftnom syn sftsyn
+// levelsof cty, local(levels)
+// foreach grp of local levels { // 	foreach group in "AUD" {
+		local grp "CHF" // `group'
+		local vars usyc
+// 		local vars nom sftnom syn sftsyn
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
@@ -29,14 +29,14 @@ foreach grp of local levels { // 	foreach group in "AUD" {
 				}
 				
 				// controls
-				local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm // l(1/`maxlag').fx
+				local ctrl`v'`t'm l(2).`v'`t'm // l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
 				
 				forvalues i = 0/`horizon' {
 					// response variables
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition cty == "`grp'" & date > td(1jan2004) & date < td(1jan2016)
+					local condition cty == "`grp'" & date > td(1jan2000) & date < td(1jan2020)
 					
 					// one regression for each horizon
 					if `i' == 0 reg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', level(95) robust 			// report on-impact effect
@@ -64,7 +64,7 @@ foreach grp of local levels { // 	foreach group in "AUD" {
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
-				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-1(1)5) xlabel(10(20)90) ///
+				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-3(1)3) xlabel(0 15 30 45 60 75 90) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
 				graph export $pathfigs/`shk'/CTY/`shk'`grp'`v'`t'm.eps, replace
@@ -74,7 +74,7 @@ foreach grp of local levels { // 	foreach group in "AUD" {
 		
 		graph drop _all
 		}				// tenor
-	}					// grp (AE, EM, CTY)
+// 	}					// grp (AE, EM, CTY)
 }						// shock
 
 // twoway (line nom120m syn120m sftnom120m sftsyn120m datem if cty == "COP") (line usyc120m datem if cty == "COP", yaxis(2))
