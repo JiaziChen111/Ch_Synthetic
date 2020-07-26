@@ -191,11 +191,14 @@
 \begin{todolist}
 	\item Update code for LPs:
 	\begin{todolist}
-		\item Correct lag of dependent variable for LPs.
-		\item LPs for 3 shocks for the respective sample periods.
-		\item Create blocks for AEs as regions for EMs.
-		\item LPs for regions of EM and blocks of AE.
+		\item[\done] Correct lag of dependent variable for LPs.
+		\item[\done] Update LPs for US for all subsamples. Adjust y-axis. 
+		\item[\wontdo] Update individual LPs. Used to decide about the shifting. For US LPs were similar.
+		\item[\done] Update LPs for AE/EM same sample as before for comparison.
+		\item[\done] Update LPs for AE/EM for all subsamples. Define local for subsamples. There is a change in some LPs due to different samples.
 		\item DK standard errors robust to heteroskedasticity, autocorrelation and cross-sectionally dependent. Number of lags = 4. Last b/c they will take more time.
+		\item Update LPs for AE/EM for all subsamples after DK and compare vs pre-DK.
+		\item LPs for regions of EM and blocks of AE. Create blocks for AEs as EM regions.
 	\end{todolist}
 	\item TP regressions. 
 	\begin{todolist}
@@ -225,6 +228,7 @@
 	\item Shift time for variables in Matlab.
 	\begin{todolist}
 		\item Why IDR has LCSYNT data before RHO data becomes available?
+		\item Shift RHO only for maturities \(>= 1\).
 		\item Calculate LCSYNT in Matlab and compare against sftsyn in Stata.
 		\item Compare shift RHO, LCNOM in Matlab vs sftrho,sftnom.
 	\end{todolist}
