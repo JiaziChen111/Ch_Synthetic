@@ -98,14 +98,20 @@ cap gen days = _n-1 if _n <= `horizon' +1
 cap gen zero = 0 	if _n <= `horizon' +1
 
 
-// Create regional variable
-gen region = 1 * inlist(cty,"BRL","COP","MXN","PEN") + ///
-             2 * inlist(cty,"HUF","PLN","RUB","TRY") + ///
-             3 * inlist(cty,"IDR","MYR","PHP","THB") + ///
-			 4 * inlist(cty,"ILS","KRW","ZAR")
+// Create regional and block variables
+gen regionem = 1 * inlist(cty,"BRL","COP","MXN","PEN") + ///
+               2 * inlist(cty,"HUF","PLN","RUB","TRY") + ///
+               3 * inlist(cty,"IDR","MYR","PHP","THB") + ///
+			   4 * inlist(cty,"ILS","KRW","ZAR")
 label define rnames 1 "Latin America" 2 "Eastern Europe" 3 "Southeast Asia" 4 "Other"
-label values region rnames
-label variable region "Regions"
+label values regionem rnames
+label variable regionem "EM Regions"
+
+gen regionae = 1 * inlist(cty,"GBP","EUR","JPY") + ///
+               2 * (!inlist(cty,"GBP","EUR","JPY") & em == 0)
+label define bnames 1 "Non-US G3" 2 "A-SOE"
+label values regionae bnames
+label variable regionae "AE Blocks"
 
 
 * Record session
@@ -115,9 +121,18 @@ log using `file_ssn', replace
 local j = 0
 foreach shock in mp1 path lsap {
 	local ++j
-	if `j' == 1 local shk "Target"
-	if `j' == 2 local shk "Path"
-	if `j' == 3 local shk "LSAP"
+	if `j' == 1 {
+		local shk "Target"
+		local datecond date > td(1jan2000) & date < td(1jan2009)
+	}
+	if `j' == 2 {
+		local shk "Path"
+		local datecond date > td(1jan2000) & date < td(1jan2020)
+	}
+	if `j' == 3 {
+		local shk "LSAP"
+		local datecond date > td(1jan2009) & date < td(1jan2020)
+	}
 	
 	foreach group in 0 1 {
 		if `group' == 0 {
@@ -150,7 +165,7 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & date > td(1jan2004) & date < td(1jan2016) // !inlist(cty,"AUD","NZD") // & region == 3
+					local condition em == `group' & `datecond' // & region == 3
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0,30,60,90) { 
@@ -190,7 +205,7 @@ foreach shock in mp1 path lsap {
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
-				graph export $pathfigs/`shk'/`grp'/`v'`t'm.eps, replace
+// 				graph export $pathfigs/`shk'/`grp'/`v'`t'm.eps, replace
 				
 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
