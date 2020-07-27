@@ -170,7 +170,7 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & `datecond' & `region' == 4
+					local condition em == `group' & `datecond' // & `region' == 4
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0) { 

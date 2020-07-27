@@ -1,5 +1,5 @@
-* Code for 'Emerging Markets Sovereign Yields and U.S. Monetary Policy' 
-* by Pavel Solís, June 2020
+* Code for 'Spillovers of U.S. Monetary Policy to Emerging Market Sovereign Yields' 
+* by Pavel Solís, July 2020
 * \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\//////////////////////////////////////////
 
 
