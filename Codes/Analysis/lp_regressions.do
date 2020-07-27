@@ -25,11 +25,12 @@ global file_out "$pathtbls/impact_tbls"
 use `file_dta', clear
 
 // Create a business calendar from the current dataset
+capture {
 // bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
 bcal load spillovers
 gen bizdate = bofd("spillovers",date)
 format %tbspillovers bizdate
-
+}
 
 // Declare panel dataset using business dates
 global id imf
@@ -38,7 +39,7 @@ sort $id $t
 xtset $id $t
 
 // Time shift
-cap gen byte sftcty = !inlist(cty,"AUD","CAD","JPY","NZD","COP","MYR") // "CAD","BRL","COP","MXN","PEN"
+cap gen byte sftcty = !inlist(cty,"AUD","CAD","COP","JPY","NZD","MYR") // "CAD","BRL","COP","MXN","PEN"
 foreach v of varlist nom* dyp* dtp* {
 	cap clonevar sft`v' = `v'
 	cap replace sft`v' = f.`v' if sftcty
@@ -67,17 +68,19 @@ foreach t in 3 6 12 24 60 120  {
 // 	corr sftrho* rho* usyc* if imf == `l'
 // }
 
-	
+cap gen byte fomc = mp1 != .
+
 * Express shocks and variables in basis points
 foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
     cap replace `v' = 100*`v'
+	cap replace `v' = 0 if `v' == .
 }
 
 foreach v in usyc rho phi nom syn dyp dtp sftnom sftdyp sftdtp sftrho sftsyn sftphi { // dyq myq myp mtp {
     foreach t in 3 6 12 24 60 120  {
 		capture {				// in case not all variables have same tenors
 		replace `v'`t'm = 10000*`v'`t'm
-		gen d`v'`t'm  = d.`v'`t'm
+		gen d`v'`t'm  = d.`v'`t'm	// remove
 		
 // 		if "`v'" == "phi" {		// censor the credit risk premium at zero
 // 			gen `v'cns`t'm = `v'`t'm
@@ -91,7 +94,7 @@ foreach v in usyc rho phi nom syn dyp dtp sftnom sftdyp sftdtp sftrho sftsyn sft
 
 * horizon in days, number of lags and forward
 local horizon = 90
-local maxlag  = 1
+local maxlag  = 1	// remove
 
 * x-axis and zero line
 cap gen days = _n-1 if _n <= `horizon' +1
@@ -138,10 +141,12 @@ foreach shock in mp1 path lsap {
 		if `group' == 0 {
 			local grp "AE"
 			local vars sftnom sftsyn sftrho sftphi // nom syn dyp dtp sftdyp sftdtp
+			local region regionae
 		}
 		else {
 			local grp "EM"
 			local vars sftnom sftsyn sftrho sftphi // nom dyp dtp usyc syn rho phi
+			local region regionem
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
@@ -165,11 +170,11 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & `datecond' // & region == 3
+					local condition em == `group' & `datecond' & `region' == 4
 					
 // 					// test for cross-sectional independence
-// 					if inlist(`i',0,30,60,90) { 
-// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe	// exclude meeting after 9/11
+// 					if inlist(`i',0) { 
+// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition' & fomc, fe
 // 						xtcsd, pesaran abs
 // 					}
 					
@@ -177,7 +182,7 @@ foreach shock in mp1 path lsap {
 					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) cluster($id) 			// report on-impact effect
 // 					if `i' == 0 xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) lag(4)
 					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) cluster($id)
-// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95)  lag(4)
+// 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) lag(4)
 					capture {
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
 					replace se_`v'`t'm = _se[`shock'] if _n == `i'+1
@@ -229,7 +234,7 @@ translate `file_ssn'.smcl `file_ssn'.pdf, replace
 
 
 // Extract US MPS
-// browse date mp1 path lsap if cty == "GBP" & mp1 != .
+// browse date mp1 path lsap if cty == "CHF" & mp1 != .
 
 // Assess censored LCCS
 // bysort region: summ phi120m phicns120m // compare phi uncensored and censored
