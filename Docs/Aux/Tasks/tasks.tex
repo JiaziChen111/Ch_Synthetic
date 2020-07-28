@@ -189,22 +189,6 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Update code for LPs:
-	\begin{todolist}
-		\item[\done] Correct lag of dependent variable for LPs.
-		\item[\done] Update LPs for US for all subsamples. Adjust y-axis. 
-		\item[\wontdo] Update individual LPs. Used to decide about the shifting. For US LPs were similar.
-		\item[\done] Update LPs for AE/EM same sample as before for comparison.
-		\item[\done] Update LPs for AE/EM for all subsamples. Define local for subsamples. There is a change in some LPs due to different samples.
-		\item DK standard errors robust to heteroskedasticity, autocorrelation and cross-sectionally dependent. Number of lags = 4. Last b/c they will take more time.
-		\item Update LPs for AE/EM for all subsamples after DK and compare vs pre-DK.
-		\item LPs for regions of EM and blocks of AE. Create blocks for AEs as EM regions.
-	\end{todolist}
-	\item TP regressions. 
-	\begin{todolist}
-		\item Drivers (monthly): Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
-	\end{todolist}
-	\item Correlations using monthly data (EPU, surveys).
 	\item Panel to compute the real interest rates.
 	\begin{todolist}
 		\item Run regressions.
@@ -240,7 +224,7 @@
 	\item Update dataset in Matlab.
 	\begin{todolist}
 		\item Update ts_analysis file to generate dataset.
-		\item Include KW decomposition for USYC.
+		\item Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
 		\item Include 3 PCs and estimated pricing factors per country.
 		\item Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item Include global PC and non-US common factor.
@@ -303,6 +287,27 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] TP regressions. Drivers (monthly): Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
+	\item[\done] Cross-check analyses in Stata using monthly/daily data.
+	\begin{todolist}
+		\item[\done] Check calculation of path and LSAP shocks. Not exact but highly correlated (Path shocks 0.9995, LSAP shocks 0.9946).
+		\item[\done] Correlation b/w yP and svyCBP, yP and 2Y yield (70).
+		\item[\done] Correlation b/w yTP and svyTP, yTP and synthetic residual10Yon3M (70). Good against svyTP, not good against residual.
+		\item[\done] Correlation b/w yTP and RHO/PHI, yTP/PHI and EPU/Vix.
+	\end{todolist}
+	\item[\done] Update code for LPs:
+	\begin{todolist}
+		\item[\done] Correct lag of dependent variable for LPs.
+		\item[\done] Update LPs for US for all subsamples. Adjust y-axis. 
+		\item[\wontdo] Update individual LPs. Used to decide about the shifting. For US LPs were similar.
+		\item[\done] Update LPs for AE/EM same sample as before for comparison.
+		\item[\done] Update LPs for AE/EM for all subsamples. Define local for subsamples. There is a change in some LPs due to different samples.
+		\item[\wontdo] DK standard errors robust to heteroskedasticity, autocorrelation and cross-sectionally dependent. Number of lags = 4. Last b/c they will take more time. too many values error when running xtscc.
+		\item[\wontdo] Update LPs for AE/EM for all subsamples after DK and compare vs pre-DK.
+		\item[\done] Create blocks for AEs as EM regions.
+		\item[\done] LPs for regions of EM and blocks of AE. Use shocks after replace missing values with zeros to increase the number of observations; when calculating LPs for AE/EM using shocks w/ zeros (no missing) values yields essentially the same LPs.
+		\item[\done] Merge codes in lp_spillovers and lp_regressions. Codes renamed starting w/ spov and disaggregated per blocks of tasks.
+	\end{todolist}
 	\item[\done] Mention characteristics of sample: MYR doesn't have an IT regime but similar characteristics (Pennings et al. 2015).
 	\item[\done] Reorient paper based on results.
 	\item[\done] Identify why LCNOM is not responding to US MPS. Conclusion: After time shift they respond on impact.
