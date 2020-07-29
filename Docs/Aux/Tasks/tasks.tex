@@ -191,11 +191,17 @@
 \begin{todolist}
 	\item Panel to compute the real interest rates.
 	\begin{todolist}
-		\item Run regressions.
-		\item Compute embedded yE using iteration.
-		\item Compare against current values.
-		\item Data for r* and compute expectation for EM policy rate.
-		\item Contrast real rates: panel vs with Duffee's suggestion.
+		\item[\done] Replicate country regressions in Stata.
+		\item[\done] Run pooling regression and compute embedded yE using iteration. 
+		\item[\done] Compare against current values. New forecasts similar to CBP, more plausible than current values for some countries.
+		\item[\done] Collect data for r* from SFP.
+		\item[\done] Compute expectation for EM policy rate using r* and survey_cpi.
+		\item[\done] Contrast real rates: stationarity, recursive vs SOE. SOE is a reasonable assumption. Recursive for 1Y and stationarity for 10Y. Conclusion: use SOE.
+		\item Matlab code for getting SOE.
+	\end{todolist}
+	\item Correctly implement computation of real rates.
+	\begin{todolist}
+		\item Tenors in months.
 	\end{todolist}
 	\item Update do files to be ready when updated dataset is generated in Matlab.
 	\item Update Matlab codes.
@@ -208,6 +214,7 @@
 		\item Update all functions after daily2monthly (forecast_cbpol.m, append_surveys.m, atsm_estimation.m, assess_fit.m) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
 		\item Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed).
 		\item Read EPU indexes for AEs and update those for EMs.
+		\item Plots for CE forecasts: include 1Y, 5Y and 10Y for each country to compare short vs long horizon forecasts for each variable.
 	\end{todolist}
 	\item Shift time for variables in Matlab.
 	\begin{todolist}
@@ -228,6 +235,7 @@
 		\item Include 3 PCs and estimated pricing factors per country.
 		\item Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item Include global PC and non-US common factor.
+		\item Include surveys for ALL tenors, currently construct_panel makes no exception for matsout.
 	\end{todolist}
 	\item Reproduce LPs.
 	\begin{todolist}
