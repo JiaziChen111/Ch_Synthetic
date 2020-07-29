@@ -335,7 +335,7 @@ global x6 logvix ffr usyc120m epugbl globalip inf une ip rtfx rtstx
 
 * Panel regressions
 foreach t in 24 120 {
-	foreach v in dyp dtp phi {
+	foreach v in dyp dtp sftphi {
 // 		quietly xtreg `v'`t'm $x1, fe cluster($id)
 // 		eststo m1
 // 		quietly xtreg `v'`t'm $x2, fe cluster($id)
