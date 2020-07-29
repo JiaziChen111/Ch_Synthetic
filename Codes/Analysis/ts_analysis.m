@@ -23,7 +23,8 @@ S = append_surveys(S,currEM);
 %% Estimate affine term structure model
 
 % Cases
-matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
+% matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
+matsout = [1 2 3 4 5 10];
 S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
 
@@ -94,6 +95,7 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 TT_mps = read_mps();
 TT_epu = read_epu_usdgbl();
 TT_gbl = read_global_idxs();
+[~,~,TT_rr] = read_spf();
 addpath('../Pre-Analysis')                                        	% read_platforms.m in different folder
 warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')             	% suppress table warnings
 TTpltf = read_platforms();                                          % for exchange rate data
@@ -114,7 +116,7 @@ TTccy  = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
 fltrFX = ismember(TTccy.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
 TTccy{:,fltrFX} = 1./TTccy{:,fltrFX};
 
-TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TTccy,tradingdays,currEM);
+TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TT_rr,TTccy,tradingdays,currEM);
 
 
 %% US TP
