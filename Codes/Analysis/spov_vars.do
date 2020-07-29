@@ -64,16 +64,16 @@ foreach v in usyc rho phi nom syn dyp dtp sftnom sftdyp sftdtp sftrho sftsyn sft
 	}
 }
 
-* Compute monthly returns
+* Compute monthly returns (in basis points)
 gen logspx = ln(spx)
 gen logvix = ln(vix)
 gen logoil = ln(oil)
 gen logccy = ln(fx)
 gen logstx = ln(stx)
-by $id: gen rtspx = (logspx - logspx[_n-1])*100
-by $id: gen rtoil = (logoil - logoil[_n-1])*100
-by $id: gen rtfx  = (logccy - logccy[_n-1])*100
-by $id: gen rtstx = (logstx - logstx[_n-1])*100
+by $id: gen rtspx = (logspx - logspx[_n-1])*10000
+by $id: gen rtoil = (logoil - logoil[_n-1])*10000
+by $id: gen rtfx  = (logccy - logccy[_n-1])*10000
+by $id: gen rtstx = (logstx - logstx[_n-1])*10000
 
 * x-axis and zero line
 global horizon = 90	// in days
