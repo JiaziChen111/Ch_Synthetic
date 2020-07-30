@@ -44,28 +44,31 @@ quiet regress nom12mpct l.nom12mpct inf gdp
 // quiet xtreg cbp l.cbp inf gdp
 // predict cbpfit3, xb
 
+// scalar betai = _b[l.cbp]
+scalar betai = _b[l.nom12mpct]
+
 * Stationarity
-gen scbp12m1  = _b[_cons]/(1-_b[l.nom12mpct]) + _b[inf]*scpi12m/(1-_b[l.nom12mpct])  + _b[gdp]*sgdp12m/(1-_b[l.nom12mpct])
-gen scbp24m1  = _b[_cons]/(1-_b[l.nom12mpct]) + _b[inf]*scpi24m/(1-_b[l.nom12mpct])  + _b[gdp]*sgdp24m/(1-_b[l.nom12mpct])
-gen scbp36m1  = _b[_cons]/(1-_b[l.nom12mpct]) + _b[inf]*scpi36m/(1-_b[l.nom12mpct])  + _b[gdp]*sgdp36m/(1-_b[l.nom12mpct])
-gen scbp48m1  = _b[_cons]/(1-_b[l.nom12mpct]) + _b[inf]*scpi48m/(1-_b[l.nom12mpct])  + _b[gdp]*sgdp48m/(1-_b[l.nom12mpct])
-gen scbp60m1  = _b[_cons]/(1-_b[l.nom12mpct]) + _b[inf]*scpi60m/(1-_b[l.nom12mpct])  + _b[gdp]*sgdp60m/(1-_b[l.nom12mpct])
-gen scbp120m1 = _b[_cons]/(1-_b[l.nom12mpct]) + _b[inf]*scpi120m/(1-_b[l.nom12mpct]) + _b[gdp]*sgdp120m/(1-_b[l.nom12mpct])
+gen scbp12m1  = _b[_cons]/(1-betai) + _b[inf]*scpi12m/(1-betai)  + _b[gdp]*sgdp12m/(1-betai)
+gen scbp24m1  = _b[_cons]/(1-betai) + _b[inf]*scpi24m/(1-betai)  + _b[gdp]*sgdp24m/(1-betai)
+gen scbp36m1  = _b[_cons]/(1-betai) + _b[inf]*scpi36m/(1-betai)  + _b[gdp]*sgdp36m/(1-betai)
+gen scbp48m1  = _b[_cons]/(1-betai) + _b[inf]*scpi48m/(1-betai)  + _b[gdp]*sgdp48m/(1-betai)
+gen scbp60m1  = _b[_cons]/(1-betai) + _b[inf]*scpi60m/(1-betai)  + _b[gdp]*sgdp60m/(1-betai)
+gen scbp120m1 = _b[_cons]/(1-betai) + _b[inf]*scpi120m/(1-betai) + _b[gdp]*sgdp120m/(1-betai)
 
 * Recursive
 // gen scbp12m2  = _b[_cons] + _b[l.cbp]*cbp      + _b[inf]*scpi12m  + _b[gdp]*sgdp12m
-gen scbp12m2  = _b[_cons] + _b[l.nom12mpct]*nom12mpct+ _b[inf]*scpi12m  + _b[gdp]*sgdp12m
-gen scbp24m2  = _b[_cons] + _b[l.nom12mpct]*scbp12m2 + _b[inf]*scpi24m  + _b[gdp]*sgdp24m
-gen scbp36m2  = _b[_cons] + _b[l.nom12mpct]*scbp24m2 + _b[inf]*scpi36m  + _b[gdp]*sgdp36m
-gen scbp48m2  = _b[_cons] + _b[l.nom12mpct]*scbp36m2 + _b[inf]*scpi48m  + _b[gdp]*sgdp48m
-gen scbp60m2  = _b[_cons] + _b[l.nom12mpct]*scbp48m2 + _b[inf]*scpi60m  + _b[gdp]*sgdp60m
-gen scbp120m2 = _b[_cons] + _b[l.nom12mpct]*scbp60m2 + _b[inf]*scpi120m + _b[gdp]*sgdp120m
+gen scbp12m2  = _b[_cons] + betai*nom12mpct+ _b[inf]*scpi12m  + _b[gdp]*sgdp12m
+gen scbp24m2  = _b[_cons] + betai*scbp12m2 + _b[inf]*scpi24m  + _b[gdp]*sgdp24m
+gen scbp36m2  = _b[_cons] + betai*scbp24m2 + _b[inf]*scpi36m  + _b[gdp]*sgdp36m
+gen scbp48m2  = _b[_cons] + betai*scbp36m2 + _b[inf]*scpi48m  + _b[gdp]*sgdp48m
+gen scbp60m2  = _b[_cons] + betai*scbp48m2 + _b[inf]*scpi60m  + _b[gdp]*sgdp60m
+gen scbp120m2 = _b[_cons] + betai*scbp60m2 + _b[inf]*scpi120m + _b[gdp]*sgdp120m
 
 * SOE assumption
 gen scbp12m3  = rr1y + scpi12m
-gen scbp24m3  = rr3y + scpi24m
-gen scbp36m3  = rr3y + scpi36m
-gen scbp48m3  = rr3y + scpi48m
+// gen scbp24m3  = rr3y + scpi24m
+// gen scbp36m3  = rr3y + scpi36m
+// gen scbp48m3  = rr3y + scpi48m
 gen scbp60m3  = rr5y + scpi60m
 gen scbp120m3 = rr10y + scpi120m
 
