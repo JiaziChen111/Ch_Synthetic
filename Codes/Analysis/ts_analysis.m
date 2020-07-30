@@ -19,7 +19,7 @@ cd(pathc)
 % S = forecast_cbpol(S,currEM);
 S = daily2dymy(S,dataset_daily,header_daily,true);
 S = add_macroNsvys(S,currEM);
-S = append_surveys(S,currEM);
+S = append_svys2ylds(S,currEM);
 
 %% Estimate affine term structure model
 
