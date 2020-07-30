@@ -1,62 +1,15 @@
 function [S,uskwfy,uskwyp,uskwtp,ustp10,ustpguim,vix] = add_vars(S,currEM)
-% ADD_VARS Add variables to structure S (macro, surveys, real rates, 
-% survey-based term premia, bond risk premia, EPU indexes)
+% ADD_VARS Add variables to structure S (estimated real rates, 
+% survey-based term premia, EPU indexes)
 
-% m-files called: read_macrovars, read_surveys, datesminmax, syncdatasets,
-% getFredData, read_epu_idx
+% m-files called: read_macrovars, datesminmax, syncdatasets, getFredData, read_epu_idx
 % Pavel Solís (pavel.solis@gmail.com), June 2020
 %%
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
-[data_svys,hdr_svys]   = read_surveys();                    % CPI and GDP forecasts
 nEMs = length(currEM);
 
-%% Store macro data
-vars   = {'INF','UNE','IP','GDP','CBP'};
-fnames = lower(vars);
-for l  = 1:length(vars)
-    fltrMAC = ismember(hdr_macro(:,2),vars{l});
-    for k = 1:nEMs
-        fltrCTY    = ismember(hdr_macro(:,1),S(k).iso) & fltrMAC;
-        fltrCTY(1) = true;                                  % include dates
-        data_mvar  = data_macro(:,fltrCTY);
-        if size(data_mvar,2) > 1
-            idxNaN = isnan(data_mvar(:,2));                 % assumes once publication starts, it continues
-            S(k).(fnames{l}) = data_mvar(~idxNaN,:);
-        end
-    end
-end
-
-%% Store CBP from surveys
-fldname = 'svys';
-for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname))
-        S(k0).svycbp = S(k0).(fldname);
-    end
-end
-
-%% Store INF and GDP from surveys
-tenors  = cellfun(@str2double,regexp(hdr_svys,'\d*','Match'),'UniformOutput',false);%tnrs in hdr_svys
-fltrSVY = ~contains(hdr_svys,'00Y');                                	% exclude current year
-macrovr = {'CPI','GDP'};
-for k1  = 1:2
-    for k0 = 1:nEMs
-        fltrCTY   = contains(hdr_svys,{S(k0).iso,'DATE'}) & fltrSVY; 	% include dates
-        macrodata = data_svys(:,fltrCTY);                               % extract variables
-        macroname = hdr_svys(fltrCTY);                               	% extract headers
-        macrotnr  = unique(cell2mat(tenors(fltrCTY)));                  % extract unique tnrs as doubles
-        macroVAR  = macrodata(:,contains(macroname,macrovr{k1}));
-        
-        dtmn = datesminmax(S,k0);
-        if sum(fltrCTY) > 1
-            fltrDT = any(~isnan(macroVAR),2) & macrodata(:,1) >= dtmn;  % svy obs after first yld obs
-            S(k0).(['svy' lower(macrovr{k1})]) = [nan macrotnr;
-                                                  macrodata(fltrDT,1) macroVAR(fltrDT,:)];
-        end
-    end
-end
-
 %% Calculate and store the real rate for EMs
-fldname = {'ssb_yP','svycpi'};
+fldname = {'ssb_yP','scpi'};
 for k0  = 1:nEMs
     if ~isempty(S(k0).(fldname{1}))
         dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});        % extract data
@@ -66,13 +19,13 @@ for k0  = 1:nEMs
         fltr1(1) = true;    fltr2(1) = true;                            % include dates
         [~,yP,inf] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      	% synchronize arrays
         realr = yP;                                                     % copy dates and headers
-        realr(2:end,2:end) = yP(2:end,2:end) - inf(2:end,2:end)/100;    % real rate in decimals
+        realr(2:end,2:end) = yP(2:end,2:end) - inf(2:end,2:end)/100;    % real rate in decimals, use svycpi
         S(k0).realrt = realr;
     end
 end
 
 %% Calculate and store TP from surveys
-fldname = {'s_blncd','svycbp'};
+fldname = {'s_blncd','scbp'};
 for k0  = 1:nEMs
     if ~isempty(S(k0).(fldname{2}))
         dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});        % extract data
@@ -87,23 +40,23 @@ for k0  = 1:nEMs
     end
 end
 
-%% Calculate and store bond risk premia
-for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp','c_data'};
-    else
-        fldname = {'sy_tp','c_data'};
-    end
-    dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});            % extract data
-    hdr1   = dtst1(1,:);  hdr2 = dtst2(1,:);                            % record headers
-    tnrcmn = intersect(hdr1,hdr2,'stable');                             % identify common tenors
-    fltr1  = ismember(hdr1,tnrcmn);  fltr2 = ismember(hdr2,tnrcmn);     % find common tenors
-    fltr1(1) = true;    fltr2(1) = true;                                % include dates
-    [~,tpsynt,lccs] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      % synchronize arrays
-    brp = tpsynt;                                                       % copy dates and headers
-    brp(2:end,2:end) = tpsynt(2:end,2:end) + lccs(2:end,2:end);         % brp rate in decimals
-    S(k0).brp = brp;
-end
+% %% Calculate and store bond risk premia
+% for k0 = 1:nEMs
+%     if ~isempty(S(k0).ssb_tp)
+%         fldname = {'ssb_tp','c_data'};
+%     else
+%         fldname = {'sy_tp','c_data'};
+%     end
+%     dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});            % extract data
+%     hdr1   = dtst1(1,:);  hdr2 = dtst2(1,:);                            % record headers
+%     tnrcmn = intersect(hdr1,hdr2,'stable');                             % identify common tenors
+%     fltr1  = ismember(hdr1,tnrcmn);  fltr2 = ismember(hdr2,tnrcmn);     % find common tenors
+%     fltr1(1) = true;    fltr2(1) = true;                                % include dates
+%     [~,tpsynt,lccs] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      % synchronize arrays
+%     brp = tpsynt;                                                       % copy dates and headers
+%     brp(2:end,2:end) = tpsynt(2:end,2:end) + lccs(2:end,2:end);         % brp rate in decimals
+%     S(k0).brp = brp;
+% end
 
 %% Load US YC components: Guimaraes, KW
 pathc = pwd;
