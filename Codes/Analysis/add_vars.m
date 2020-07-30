@@ -19,7 +19,7 @@ for k0  = 1:nEMs
         fltr1(1) = true;    fltr2(1) = true;                            % include dates
         [~,yP,inf] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      	% synchronize arrays
         realr = yP;                                                     % copy dates and headers
-        realr(2:end,2:end) = yP(2:end,2:end) - inf(2:end,2:end)/100;    % real rate in decimals, use svycpi
+        realr(2:end,2:end) = yP(2:end,2:end) - inf(2:end,2:end)/100;    % real rate in decimals, use scpi
         S(k0).realrt = realr;
     end
 end
@@ -36,7 +36,7 @@ for k0  = 1:nEMs
         [~,sylds,svycb] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));	% synchronize arrays
         svytp = sylds;                                                  % copy dates and headers
         svytp(2:end,2:end) = sylds(2:end,2:end) - svycb(2:end,2:end)/100;% tp in decimals
-        S(k0).svytp = svytp;
+        S(k0).stp = svytp;
     end
 end
 
