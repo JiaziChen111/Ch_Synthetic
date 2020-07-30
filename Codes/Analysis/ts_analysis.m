@@ -1,7 +1,7 @@
 %% Term Structure Analysis: Nominal and Synthetic for EM and AE
 % This code calls functions to estimate and analyze affine term structure models
 
-% m-files called: daily2monthly, forecast_cbpol, append_surveys, atsm_estimation, compare_atsm_surveys
+% m-files called: daily2dymy, add_macroNsvys, append_surveys, atsm_estimation, compare_atsm_surveys
 % add_vars, ts_plots, ts_correlations, ts_pca
 % Pavel Solís (pavel.solis@gmail.com), June 2020
 % 
@@ -15,16 +15,17 @@ load('struct_datady_cells.mat')
 cd(pathc)
 
 %% Process the data
-[S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
-% S = daily2dymy(S,dataset_daily,header_daily,true);
-S = forecast_cbpol(S,currEM);
+% [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
+% S = forecast_cbpol(S,currEM);
+S = daily2dymy(S,dataset_daily,header_daily,true);
+S = add_macroNsvys(S,currEM);
 S = append_surveys(S,currEM);
 
 %% Estimate affine term structure model
 
 % Cases
-% matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
-matsout = [1 2 3 4 5 10];
+matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
+% matsout = [1 2 3 4 5 10];
 S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
 
