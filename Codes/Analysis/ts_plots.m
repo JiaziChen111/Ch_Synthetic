@@ -48,7 +48,7 @@ close all
 
 %% Plot 10Y yields
 figdir  = 'Data'; formats = {'eps'}; figsave = false;
-fldname = {'n_data','inf','svycbp'};
+fldname = {'n_data','inf','scbp'};
 
 % Yield only
 figure
@@ -79,7 +79,7 @@ for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname{3}))
         subplot(3,5,k0)
         plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-             S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end))
+             S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end),'-.')
         title([S(k0).iso]); 
         if k0 == 11; legend('10Y YLD','CBP','AutoUpdate','off'); end
         datetick('x','yy'); yline(0);
@@ -88,49 +88,27 @@ end
 figname = 'YLD10Y_CBP'; save_figure(figdir,figname,formats,figsave)
 close all
 
-%% Plot CBP from surveys
-figdir = 'Surveys'; formats = {'eps'}; figsave = false;
-% whole period
-figure
-for k0 = 1:nEMs
-    if ~isempty(S(k0).svycbp)
-        subplot(3,5,k0)
-        plot(S(k0).svycbp(2:end,1),S(k0).svycbp(2:end,end))
-        title(S(k0).cty); datetick('x','yy'); yline(0);
-    end
-end
-figname = 'whCBP'; save_figure(figdir,figname,formats,figsave)
-
-% within sample period
-figure
-for k0 = 1:nEMs
-    if ~isempty(S(k0).svycbp)
-        dtmn  = datesminmax(S,k0);
-        fltrd = S(k0).svycbp(:,1) >= dtmn;
-        subplot(3,5,k0)
-        plot(S(k0).svycbp(fltrd,1),S(k0).svycbp(fltrd,end))
-        title(S(k0).cty); datetick('x','yy'); yline(0);
-    end
-end
-figname = 'wnCBP'; save_figure(figdir,figname,formats,figsave)
-close all
-
-%% Plot INF GDP from surveys
+%% Plot survey data
 figdir  = 'Surveys'; formats = {'eps'}; figsave = false;
-macrovr = {'CPI','GDP'};
-for k1 = 1:2
-    fldname = ['svy' lower(macrovr{k1})];
+macrovr = {'CPI','GDP','CBP'};
+for k0 = 1:length(macrovr)
+    fldname = ['s' lower(macrovr{k0})];
     figure
-    for k0 = 1:nEMs
-        if ~isempty(S(k0).(fldname))
-            dtmn  = datesminmax(S,k0);
-            fltrd = S(k0).(fldname)(:,1) >= dtmn;
-            subplot(3,5,k0)
-            plot(S(k0).(fldname)(fltrd,1),S(k0).(fldname)(fltrd,end))
-            title([S(k0).cty ' ' macrovr{k1}]); datetick('x','yy'); yline(0);
+    for k1 = 1:nEMs
+        if ~isempty(S(k1).(fldname))
+            dtmn  = datesminmax(S,k1);
+            fltrd = S(k1).(fldname)(:,1) >= dtmn;
+            subplot(3,5,k1)
+            plot(S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end),...
+                S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end-1),'-.')
+            title(S(k1).cty);
+            if k1 == 13; legend({'10Y','5Y'},'Location','southwest','AutoUpdate','off'); end
+            datetick('x','yy'); yline(0);
+            L = get(gca,'XLim');
+            set(gca,'XTick',linspace(L(1),L(2),4))                      % sets number of ticks to 4
         end
     end
-    figname = ['wn' macrovr{k1}]; save_figure(figdir,figname,formats,figsave)
+    figname = ['wn' macrovr{k0}]; save_figure(figdir,figname,formats,figsave)
 end
 close all
 
@@ -400,7 +378,7 @@ close all
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 % surveys_CBP vs ssb_yP (surveys)
-fldname = {'svycbp','ssb_yP'};
+fldname = {'scbp','ssb_yP'};
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname{2}))
@@ -420,7 +398,7 @@ end
 figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)
 
 % surveys_CBP vs sy_yP (yields only)
-fldname = {'svycbp','sy_yP'};
+fldname = {'scbp','sy_yP'};
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname{1})) && ~isempty(S(k0).(fldname{2}))
@@ -478,7 +456,7 @@ close all
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 
     % Long-term
-fldname = 'svytp';
+fldname = 'stp';
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -491,7 +469,7 @@ end
 figname = fldname; save_figure(figdir,figname,formats,figsave)
 
     % Compare TPsvy vs TPsynt
-fldname = {'svytp','ssb_tp'};
+fldname = {'stp','ssb_tp'};
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname{2}))
