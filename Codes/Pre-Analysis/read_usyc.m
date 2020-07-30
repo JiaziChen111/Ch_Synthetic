@@ -40,8 +40,8 @@ function TTcrsp = read_crsp()
 %   TTcrsp: stores historical daily data in a timetable
 %%
 pathc  = pwd;
-pathd  = fullfile(pathc,'..','..','Data','Raw');                            % platform-specific file separators
-namefl = 'CRSP_TFZ_DLY_RF2.xlsx';                                       	% risk-free daily
+pathd  = fullfile(pathc,'..','..','Data','Raw','CRSP');                     % platform-specific file separators
+namefl = 'CRSP_TFZ_DLY_RF2.xlsx';                                           % risk-free daily
 
 cd(pathd)
 opts  = detectImportOptions(namefl);

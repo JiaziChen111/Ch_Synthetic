@@ -9,7 +9,7 @@ function [TTm,TTd,TTbill] = compare_tbills()
 % Pavel Solís (pavel.solis@gmail.com), April 2020
 %%
 pathc   = pwd;
-pathd   = fullfile(pathc,'..','..','Data','Raw');
+pathd   = fullfile(pathc,'..','..','Data','Raw','CRSP');
 namefl  = {'TFZ_MTH_RF','TFZ_DLY_RF2','TFZ_MTH_TS','TRZ_DLY_TS2'};
 namefl  = strcat('CRSP_',namefl,'.xlsx');
 namefl  = [namefl,'US_Yield_Curve_Data.xlsx'];
