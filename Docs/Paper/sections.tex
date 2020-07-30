@@ -510,6 +510,15 @@ This approach requires to define the international real short rate and to have l
 As before, the U.S. can be the benchmark for all emerging markets. Long-term forecasts for its real rate can be obtained as the difference between the respective forecasts for the nominal short rate and inflation.
 This approach will be considered in a future version of this paper.
 
+%Linear interpolation for the BILL10 since available annually on the first quarter.
+%Real rates:
+%10Y expected real rate = 10YTBILL - 10YCPI
+%5Y expected real rate = TBILL in next 4 years - 5YCPI
+%
+%Implied CBP forecasts are obtained as the sum of the expected real interest rate for the U.S. and the expected inflation rate for the same horizon.
+%For implied CBP forecasts use the most recently available survey for the implied US real interest rate.
+%5Y and 10Y horizon because the plausibility of the SOE assumption is more reasonable in the long term.
+
 
 \subsection{Estimation} \label{sec:Estimation}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
@@ -991,6 +1000,9 @@ In particular, the path and LSAP shocks have a larger and longer effect on EM yi
 %Figures: response of US, EM and AE yields to each of the shocks.
 %Results: delayed response, some responses are region-specific.
 %The decomposition of the nominal yields can be used to see the effects of the 
+
+%Plausibility of direction of effects. Stories for direction of effects.
+%Magnitudes are reasonable?
 
 
 
