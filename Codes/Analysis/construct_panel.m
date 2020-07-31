@@ -15,11 +15,11 @@ function TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gb
 % S(5).stp = []; S(15).stp = []; % S(5).scbp = []; S(15).scbp = []; 
 ncntrs  = length(S);
 fldsall = fieldnames(S);
-flds1   = ['d_usd' strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yQ','yP','tp'}) ...
-            strcat('bsl_',{'yQ','yP','tp'})];
-varnms1 = {'usyc','rho','phi','nom','syn','dyq','dyp','dtp','myq','myp','mtp'};    % common variables
+flds1   = ['d_usd' strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yP','tp'}) ...
+            strcat('bsl_',{'yP','tp'})];
+varnms1 = {'usyc','rho','phi','nom','syn','dyp','dtp','myp','mtp'};                 % common variables
 flds2   = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','epu'};
-varnms2 = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','epu'};   % EM-specific variables
+varnms2 = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','epu'};    % EM-specific variables
 flds    = [flds1 flds2];
 varnms  = [varnms1 varnms2];
 nflds  = length(flds); 
