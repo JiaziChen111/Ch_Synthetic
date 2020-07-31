@@ -16,7 +16,7 @@ for k = 1:length(ctrsEPU)
         case ctrsBMR
             filename = ['import_EPU_Index_' ctrsEPU{k} '.xlsx'];
         otherwise
-            filename = ['EPU_Index_' ctrsEPU{k} '.xlsx']; 
+            filename = ['EPU_Index_' ctrsEPU{k} 'o.xlsx']; 
     end 
     [data,txt] = xlsread(filename,1);                   % read data
     epu_data   = data(:,end);                           % for all countries, EPU index is in last column
