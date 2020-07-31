@@ -28,9 +28,9 @@ intctrs = setdiff(currEM,{'ILS','ZAR'});                        % countries w/ i
 for k0 = 1:ncntrs
     % Prefixes for monthly and daily fields
     if ismember(S(k0).iso,currEM)
-        prfxM  = 's';   prfxD  = 'ds';
+        prfxM  = 'ms';   prfxD  = 'ds';
     else
-        prfxM  = 'n';   prfxD  = 'dn';
+        prfxM  = 'mn';   prfxD  = 'dn';
     end
     
     % Monthly data
