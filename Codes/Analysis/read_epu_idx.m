@@ -10,7 +10,7 @@ ctrsBMR = {'BRL','MXN','RUB'};
 nctrs   = length(S);
 
 path = pwd;
-cd(fullfile(path,'..','..','Data','Raw','EPU'))         % use platform-specific file separators
+cd(fullfile(path,'..','..','Data','Aux','Temp'))         % use platform-specific file separators
 for k = 1:length(ctrsEPU)
     switch ctrsEPU{k}                                   % use appropriate filename
         case ctrsBMR
