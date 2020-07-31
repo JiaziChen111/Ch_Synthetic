@@ -84,6 +84,8 @@ On reproducibility of empirical research, see:
 - Gentzkow & Shapiro, 2014. Code and Data for the Social Sciences: A Practitioner’s Guide
 - Chang & Li, 2017. A Pre-analysis Plan to Replicate Sixty Economics Research Papers That Worked Half of the Time
 
+The Matlab Datafeed toolbox is only needed to use the fetch function. The fetch function is used to retrieve data from FRED (US yield curve decomposition based on the Kim-Wright model). Instead of the fetch function, the getFredData function available in Matlab Central can be used.
+
 
 ## CODE WORKFLOW (OPTIONAL)
 -------------------------------------------------------------------------------------
