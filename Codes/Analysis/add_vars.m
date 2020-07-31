@@ -8,7 +8,7 @@ function [S,uskwfy,uskwyp,uskwtp,ustp10,ustpguim,vix] = add_vars(S,currEM)
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
 nEMs = length(currEM);
 
-%% Calculate and store the real rate for EMs
+%% Calculate and store the ex-ante real rate for EMs
 fldname = {'ssb_yP','scpi'};
 for k0  = 1:nEMs
     if ~isempty(S(k0).(fldname{1}))
@@ -17,9 +17,9 @@ for k0  = 1:nEMs
         tnrcmn = intersect(hdr1,hdr2,'stable');                         % identify common tenors
         fltr1  = ismember(hdr1,tnrcmn);  fltr2 = ismember(hdr2,tnrcmn); % find common tenors
         fltr1(1) = true;    fltr2(1) = true;                            % include dates
-        [~,yP,inf] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      	% synchronize arrays
+        [~,yP,sinf] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      % synchronize arrays
         realr = yP;                                                     % copy dates and headers
-        realr(2:end,2:end) = yP(2:end,2:end) - inf(2:end,2:end)/100;    % real rate in decimals, use scpi
+        realr(2:end,2:end) = yP(2:end,2:end) - sinf(2:end,2:end)/100;   % real rate in decimals
         S(k0).rrt = realr;
     end
 end
