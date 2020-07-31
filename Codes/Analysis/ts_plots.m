@@ -48,7 +48,7 @@ close all
 
 %% Plot 10Y yields
 figdir  = 'Data'; formats = {'eps'}; figsave = false;
-fldname = {'mn_data','inf','scbp'};
+fldname = {'ms_data','inf','scbp'};
 
 % Yield only
 figure
@@ -81,7 +81,7 @@ for k0 = 1:nEMs
         plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
              S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end),'-.')
         title([S(k0).iso]); 
-        if k0 == 11; legend('10Y YLD','CBP','AutoUpdate','off'); end
+        if k0 == 11; legend('10Y YLD','10Y CBP','AutoUpdate','off'); end
         datetick('x','yy'); yline(0);
     end
 end
