@@ -13,13 +13,13 @@ fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                     % field containing estimated parameters
 for k0  = 1:ncntrs
     if ismember(S(k0).iso,currEM)
-        prefix = 'ms_'; 
+        prefix = 'ms'; 
     else
-        prefix = 'mn_'; 
+        prefix = 'mn'; 
     end
     
     % Observed yields
-    fnameb = fnames{contains(fnames,[prefix 'blncd'])};         % field containing observed yields
+    fnameb = fnames{contains(fnames,[prefix '_blncd'])};        % field containing observed yields
     yields = S(k0).(fnameb)(2:end,2:end)*100;                   % yields in percent
     nobs   = size(yields,1);                                    % number of observations
     dates  = S(k0).(fnameb)(2:end,1);                           % dates
@@ -35,9 +35,9 @@ for k0  = 1:ncntrs
     yieldsQ   = (ones(nobs,1)*AnQ + xs*BnQ)*100;                % fitted yields in percent
     
     % Fit of the model
-    mtxmae(k0,ismember(matsall,mats)) = mean(abs(yields - yieldsQ))*100;	% mean absolute errors in bp
-    mtxsae(k0,ismember(matsall,mats)) = std(abs(yields - yieldsQ))*100;  	% std of absolute errors in bp
-    S(k0).('b_rmse') = sqrt(mean(mean((yields - yieldsQ).^2)));            	% RMSE
+    mtxmae(k0,ismember(matsall,mats)) = mean(abs(yields - yieldsQ))*100;    % mean absolute errors in bp
+    mtxsae(k0,ismember(matsall,mats)) = std(abs(yields - yieldsQ))*100;     % std of absolute errors in bp
+    S(k0).('m_rmse') = sqrt(mean(mean((yields - yieldsQ).^2)));             % RMSE
     
     if plotfit
         if ismember(S(k0).iso,currEM)
