@@ -423,7 +423,7 @@ close all
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 
     % All tenors
-fldname = 'realrt';
+fldname = 'rrt';
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))

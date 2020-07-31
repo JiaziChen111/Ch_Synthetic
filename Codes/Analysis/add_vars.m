@@ -20,7 +20,7 @@ for k0  = 1:nEMs
         [~,yP,inf] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      	% synchronize arrays
         realr = yP;                                                     % copy dates and headers
         realr(2:end,2:end) = yP(2:end,2:end) - inf(2:end,2:end)/100;    % real rate in decimals, use scpi
-        S(k0).realrt = realr;
+        S(k0).rrt = realr;
     end
 end
 
