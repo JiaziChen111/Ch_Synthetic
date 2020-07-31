@@ -13,9 +13,9 @@ fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                     % field containing estimated parameters
 for k0  = 1:ncntrs
     if ismember(S(k0).iso,currEM)
-        prefix = 's_'; 
+        prefix = 'ms_'; 
     else
-        prefix = 'n_'; 
+        prefix = 'mn_'; 
     end
     
     % Observed yields

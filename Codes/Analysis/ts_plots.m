@@ -16,8 +16,8 @@ for l = 1:length(vars)
     figure
     for k0 = 1:nEMs
         if size(S(k0).(fnames{l}),2) > 1
-            date1 = datenum(S(k0).n_dateb,'mmm-yyyy'); 
-            date2 = datenum(S(k0).s_dateb,'mmm-yyyy');
+            date1 = datenum(S(k0).mn_dateb,'mmm-yyyy'); 
+            date2 = datenum(S(k0).ms_dateb,'mmm-yyyy');
             subplot(3,5,k0)
             plot(S(k0).(fnames{l})(:,1),S(k0).(fnames{l})(:,2))
             title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0);
@@ -48,7 +48,7 @@ close all
 
 %% Plot 10Y yields
 figdir  = 'Data'; formats = {'eps'}; figsave = false;
-fldname = {'n_data','inf','scbp'};
+fldname = {'mn_data','inf','scbp'};
 
 % Yield only
 figure
@@ -358,10 +358,10 @@ close all
 %% Compare TP (different types, different variables): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
 % Model fit to synthetic
-fldname = {'s_blncd','ssb_yQ'};
+fldname = {'ms_blncd','ssb_yQ'};
 for k0 = 1:nEMs
     if isempty(S(k0).(fldname{2}))
-        fldname = {'s_blncd','sy_yQ'};
+        fldname = {'ms_blncd','sy_yQ'};
     end
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end),...

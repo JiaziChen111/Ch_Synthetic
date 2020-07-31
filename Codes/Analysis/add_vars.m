@@ -76,7 +76,7 @@ KWtp01 = [nan 1; KW01.Data];
 KWtp01(isnan(KWtp01(:,2)),:) = [];
 
 KWtp   = syncdatasets(KWtp01,KWtp10);
-[~,~,uskwtp] = syncdatasets(S(k0).s_ylds,KWtp);
+[~,~,uskwtp] = syncdatasets(S(k0).ms_ylds,KWtp);
 ustp10 = uskwtp(:,[1 end]);
 
 KW10   = getFredData('THREEFY10',datemn,datemx); 

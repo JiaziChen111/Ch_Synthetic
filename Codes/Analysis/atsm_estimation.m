@@ -20,7 +20,7 @@ p       = 3;                                                               	% nu
 dt      = 1/12;                                                          	% monthly periods
 ncntrs  = length(S);
 fnames  = fieldnames(S);
-prefix  = {'n','s'};
+prefix  = {'mn','ms'};
 if sgmSfree; sgmtype = 'f'; else; sgmtype = 'b'; end                        % free vs baseline case
 
 for k0 = 1:2
