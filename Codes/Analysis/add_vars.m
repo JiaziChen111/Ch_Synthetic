@@ -40,23 +40,23 @@ for k0  = 1:nEMs
     end
 end
 
-% %% Calculate and store bond risk premia
-% for k0 = 1:nEMs
-%     if ~isempty(S(k0).ssb_tp)
-%         fldname = {'ssb_tp','c_data'};
-%     else
-%         fldname = {'sy_tp','c_data'};
-%     end
-%     dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});            % extract data
-%     hdr1   = dtst1(1,:);  hdr2 = dtst2(1,:);                            % record headers
-%     tnrcmn = intersect(hdr1,hdr2,'stable');                             % identify common tenors
-%     fltr1  = ismember(hdr1,tnrcmn);  fltr2 = ismember(hdr2,tnrcmn);     % find common tenors
-%     fltr1(1) = true;    fltr2(1) = true;                                % include dates
-%     [~,tpsynt,lccs] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      % synchronize arrays
-%     brp = tpsynt;                                                       % copy dates and headers
-%     brp(2:end,2:end) = tpsynt(2:end,2:end) + lccs(2:end,2:end);         % brp rate in decimals
-%     S(k0).brp = brp;
-% end
+%% Calculate and store bond risk premia
+for k0 = 1:nEMs
+    if ~isempty(S(k0).ssb_tp)
+        fldname = {'ssb_tp','c_data'};
+    else
+        fldname = {'sy_tp','c_data'};
+    end
+    dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});            % extract data
+    hdr1   = dtst1(1,:);  hdr2 = dtst2(1,:);                            % record headers
+    tnrcmn = intersect(hdr1,hdr2,'stable');                             % identify common tenors
+    fltr1  = ismember(hdr1,tnrcmn);  fltr2 = ismember(hdr2,tnrcmn);     % find common tenors
+    fltr1(1) = true;    fltr2(1) = true;                                % include dates
+    [~,tpsynt,lccs] = syncdatasets(dtst1(:,fltr1),dtst2(:,fltr2));      % synchronize arrays
+    brp = tpsynt;                                                       % copy dates and headers
+    brp(2:end,2:end) = tpsynt(2:end,2:end) + lccs(2:end,2:end);         % brp rate in decimals
+    S(k0).brp = brp;
+end
 
 %% Load US YC components: Guimaraes, KW
 pathc = pwd;
