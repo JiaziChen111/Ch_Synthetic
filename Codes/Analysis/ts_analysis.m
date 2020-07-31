@@ -1,9 +1,9 @@
 %% Term Structure Analysis: Nominal and Synthetic for EM and AE
 % This code calls functions to estimate and analyze affine term structure models
 
-% m-files called: daily2dymy, add_macroNsvys, append_surveys, atsm_estimation, compare_atsm_surveys
-% add_vars, ts_plots, ts_correlations, ts_pca
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation,
+% compare_atsm_surveys, add_vars, ts_plots, ts_correlations, ts_pca
+% Pavel Solís (pavel.solis@gmail.com), July 2020
 % 
 %% Load the data
 clear
@@ -15,8 +15,6 @@ load('struct_datady_cells.mat')
 cd(pathc)
 
 %% Process the data
-% [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
-% S = forecast_cbpol(S,currEM);
 S = daily2dymy(S,dataset_daily,header_daily,true);
 S = add_macroNsvys(S,currEM);
 S = append_svys2ylds(S,currEM);
@@ -25,11 +23,19 @@ S = append_svys2ylds(S,currEM);
 
 % Cases
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
-% matsout = [1 2 3 4 5 10];
 S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
 
-% Baseline estimations for all countries
+% Report estimated sgmS
+fldname = 'ssf_pr';
+aux = [];
+for k0 = 1:nEMs
+    if ~isempty(S(k0).(fldname))
+        aux = [aux; k0 S(k0).(fldname).sgmS];
+    end
+end
+
+% Baseline estimations
 fldname = {'ssb_','sy_','ny_'};
 fldtype = {'yQ','yP','tp','pr'};
 ncntrs  = length(S);
@@ -38,17 +44,18 @@ for k0  = 1:ncntrs
     for k1 = 1:ntypes
         switch S(k0).iso
             case setdiff(currEM,{'ILS','ZAR'})
-                S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{1} fldtype{k1}]); % synthetic,surveys,fixed sgmS
+                fldaux = fldname{1};                                % synthetic yields, surveys,fixed sgmS
             case {'ILS','ZAR'}
-                S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{2} fldtype{k1}]); % synthetic, yields
+                fldaux = fldname{2};                                % synthetic yields
             case currAE
-                S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{3} fldtype{k1}]); % nominal, yields
+                fldaux = fldname{3};                                % nominal yields
         end
+        S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldaux fldtype{k1}]);
     end
 end
 
 % Assess fit of the model
-[S,fitrprt] = assess_fit(S,currEM,currAE,false);
+[S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
 
 %% Store/load results
 cd(pathd)
@@ -60,34 +67,15 @@ load('struct_datady_S.mat','currAE')
 load('struct_datady_S.mat','currEM')
 cd(pathc)
 
-% Report estimated sgmS
-fldname = 'ssf_pr';
-aux = [];
-for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname))
-        aux = [aux; k0 S(k0).(fldname).sgmS];
-    end
-end
-
-% [~,corrPC,pctmiss] = compare_pcs(S,nPCs,true);
-% save('struct_datamy_S.mat','corrPC','-append')
-% save('struct_datamy_S.mat','pctmiss','-append')
-
-% %% Compare results
-% [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
-
 %% Post-estimation analysis
-
 [S,uskwfy,uskwyp,uskwtp,ustp10,ustpguim,vix] = add_vars(S,currEM);
 ts_plots(S,currEM,currAE,ustp10,ustpguim,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,ustp10,vix);
 [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,uskwyp,uskwtp);
 
-
 %% Daily frequency estimation
 S = daily2dymy(S,dataset_daily,header_daily,false);
 [S,fitrprtdy] = atsm_daily(S,matsout,currEM,currAE,false);
-
 
 %% Construct panel dataset
 
@@ -96,6 +84,7 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 TT_mps = read_mps();
 TT_epu = read_epu_usdgbl();
 TT_gbl = read_global_idxs();
+TT_kw  = read_kw(matsout);
 [~,~,TT_rr] = read_spf();
 addpath('../Pre-Analysis')                                        	% read_platforms.m in different folder
 warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')             	% suppress table warnings
@@ -119,6 +108,34 @@ TTccy{:,fltrFX} = 1./TTccy{:,fltrFX};
 
 TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TT_rr,TTccy,tradingdays,currEM);
 
+%%
+% [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
+% S = forecast_cbpol(S,currEM);
+
+% % Baseline estimations
+% fldname = {'ssb_','sy_','ny_'};
+% fldtype = {'yQ','yP','tp','pr'};
+% ncntrs  = length(S);
+% ntypes  = length(fldtype);
+% for k0  = 1:ncntrs
+%     for k1 = 1:ntypes
+%         switch S(k0).iso
+%             case setdiff(currEM,{'ILS','ZAR'})
+%                 S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{1} fldtype{k1}]); % synthetic,surveys,fixed sgmS
+%             case {'ILS','ZAR'}
+%                 S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{2} fldtype{k1}]); % synthetic, yields
+%             case currAE
+%                 S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{3} fldtype{k1}]); % nominal, yields
+%         end
+%     end
+% end
+
+% [~,corrPC,pctmiss] = compare_pcs(S,nPCs,true);
+% save('struct_datamy_S.mat','corrPC','-append')
+% save('struct_datamy_S.mat','pctmiss','-append')
+
+% %% Compare results
+% [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
 
 %% US TP
 ynsvys = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),...
