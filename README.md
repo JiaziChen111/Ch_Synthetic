@@ -9,7 +9,7 @@ Alternative title: International Bond Risk Premia Implications of Deviations fro
 The results in the paper were generated using the following:
 - Operating system: macOS 10.14.6
 - Software: Matlab R2019b, Stata 15
-- Add-ons. Matlab: Financial Toolbox. Stata: regsave, texsave.
+- Add-ons. Matlab: Financial, Datafeed. Stata: regsave, texsave.
 - Restricted data sources: Bloomberg, Refinitv
 - Expected running time: Pre-Analysis (XX min/hr), only if replicated from scratch (i.e. using data directly downloaded from Bloomberg and Refinitv); Analysis (XX min/hr)
 
