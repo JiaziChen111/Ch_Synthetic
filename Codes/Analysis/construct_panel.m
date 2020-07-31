@@ -18,8 +18,8 @@ fldsall = fieldnames(S);
 flds1   = ['d_usd' strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yQ','yP','tp'}) ...
             strcat('bsl_',{'yQ','yP','tp'})];
 varnms1 = {'usyc','rho','phi','nom','syn','dyq','dyp','dtp','myq','myp','mtp'};    % common variables
-flds2   = {'cbp','inf','une','ip','gdp','svycbp','svycpi','svygdp','svytp','realrt','epu'};
-varnms2 = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','real','epu'};   % EM-specific variables
+flds2   = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','epu'};
+varnms2 = {'cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','epu'};   % EM-specific variables
 flds    = [flds1 flds2];
 varnms  = [varnms1 varnms2];
 nflds  = length(flds); 
