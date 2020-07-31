@@ -12,7 +12,7 @@ function TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gb
 % m-files called: none
 % Pavel Solís (pavel.solis@gmail.com), June 2020
 %%
-S(5).stp = []; S(15).stp = []; % S(5).scbp = []; S(15).scbp = []; 
+% S(5).stp = []; S(15).stp = []; % S(5).scbp = []; S(15).scbp = []; 
 ncntrs  = length(S);
 fldsall = fieldnames(S);
 flds1   = ['d_usd' strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yQ','yP','tp'}) ...
