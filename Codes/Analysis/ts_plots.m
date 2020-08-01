@@ -1,4 +1,4 @@
-function ts_plots(S,currEM,currAE,ustp10,ustpguim,vix)
+function ts_plots(S,currEM,currAE,ustp10,vix)
 % TS_PLOTS Plot different series after estimation of affine model
 
 % m-files called: datesminmax, syncdatasets, save_figure
@@ -80,9 +80,10 @@ for k0 = 1:nEMs
         subplot(3,5,k0)
         plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
              S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end),'-.')
-        title([S(k0).iso]); 
+        title(S(k0).cty); 
         if k0 == 11; legend('10Y YLD','10Y CBP','AutoUpdate','off'); end
         datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
 figname = 'YLD10Y_CBP'; save_figure(figdir,figname,formats,figsave)
@@ -104,8 +105,7 @@ for k0 = 1:length(macrovr)
             title(S(k1).cty);
             if k1 == 13; legend({'10Y','5Y'},'Location','southwest','AutoUpdate','off'); end
             datetick('x','yy'); yline(0);
-            L = get(gca,'XLim');
-            set(gca,'XTick',linspace(L(1),L(2),4))                      % sets number of ticks to 4
+            L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))     % sets #ticks to 4
         end
     end
     figname = ['wn' macrovr{k0}]; save_figure(figdir,figname,formats,figsave)
@@ -224,7 +224,7 @@ close all
 
 %% Compare TP (different types, same variable): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-% sgmS baseline vs free -  explanation for differences: convergence problem, fit not good for BRL-COP-MYR
+% sgmS baseline vs free: differences due to convergence, check fit for BRL-COP-MYR
 fldtype1 = 'ssb_';   fldvar  = 'tp';
 fldtype2 = 'ssf_';   fldname = [fldtype2 fldvar];
 figure
@@ -358,63 +358,61 @@ close all
 %% Compare TP (different types, different variables): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
 % Model fit to synthetic
-fldname = {'ms_blncd','ssb_yQ'};
+fldname = {'ms_blncd','bsl_yQ'};
 for k0 = 1:nEMs
-    if isempty(S(k0).(fldname{2}))
-        fldname = {'ms_blncd','sy_yQ'};
-    end
     subplot(3,5,k0)
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end),...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end));
-    title([S(k0).cty ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y'])
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100);    % 10Y
+    title(S(k0).cty)
     if k0 == 8
         legend('Observed','Fitted','location','best','AutoUpdate','off')
     end
-    datetick('x','yy');yline(0);
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = 's_ylds_ssb_yQ'; save_figure(figdir,figname,formats,figsave)
+figname = 's_ylds_bsl_yQ'; save_figure(figdir,figname,formats,figsave)      % update reference to figure
 close all
 
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 % surveys_CBP vs ssb_yP (surveys)
-fldname = {'scbp','ssb_yP'};
+fldname = {'bsl_yP','scbp'};
 figure
 for k0 = 1:nEMs
+    dtmn  = datesminmax(S,k0);
+    subplot(3,5,k0)
+    fltrt = S(k0).(fldname{1})(1,:) == 10;
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrt)*100);
     if ~isempty(S(k0).(fldname{2}))
-        dtmn  = datesminmax(S,k0);
-        subplot(3,5,k0)
-        fltrd = S(k0).(fldname{1})(:,1) >= dtmn;
-        fltrt = find(S(k0).(fldname{2})(1,:) == 10);
-        plot(S(k0).(fldname{1})(fltrd,1),S(k0).(fldname{1})(fltrd,end),'*',...
-             S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltrt)*100)
-        title([S(k0).iso ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y'])
-        if k0 == 14
-            legend('Surveys','Model','Orientation','horizontal','location','southoutside','AutoUpdate','off')
-        end
-        datetick('x','yy');yline(0);
+        fltrd = S(k0).(fldname{2})(:,1) >= dtmn;
+        hold on; plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'*');  % 10Y
     end
+    title(S(k0).cty)
+    if k0 == 14
+        legend('Model','Surveys','Orientation','horizontal','location','southoutside','AutoUpdate','off')
+    end
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)
+figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)  % update reference to figure
 
 % surveys_CBP vs sy_yP (yields only)
-fldname = {'scbp','sy_yP'};
+fldname = {'sy_yP','scbp'};
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname{1})) && ~isempty(S(k0).(fldname{2}))
-        dtmn  = datesminmax(S,k0);
-        subplot(3,5,k0)
-        fltrd = S(k0).(fldname{1})(:,1) >= dtmn;
-        fltrt = find(S(k0).(fldname{2})(1,:) == 10,1,'first');
-        h = plot(S(k0).(fldname{1})(fltrd,1),S(k0).(fldname{1})(fltrd,end)/100,'*',...
-                 S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltrt));
-        title([S(k0).iso ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y'])
-        if k0 == 12
-            lh = legend(h,'location','best');
-            legend(fldname{1},fldname{2},'Orientation','horizontal','AutoUpdate','off')
-        end
-        datetick('x','yy');yline(0);
+    dtmn  = datesminmax(S,k0);
+    subplot(3,5,k0)
+    fltrt = S(k0).(fldname{1})(1,:) == 10;
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrt)*100);
+    if ~isempty(S(k0).(fldname{2}))
+        fltrd = S(k0).(fldname{2})(:,1) >= dtmn;
+        hold on; plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'*');  % 10Y
     end
+    title(S(k0).cty)
+    if k0 == 12
+        legend('Model w/o S','Surveys','Orientation','horizontal','location','best','AutoUpdate','off')
+    end
+    datetick('x','yy');yline(0);
 end
 figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)
 close all
@@ -428,13 +426,14 @@ figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end))
-        title([S(k0).iso ' ' fldname(1:4)]); 
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end)*100)
+        title(S(k0).cty);
         if k0 == 1
             legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
                 'UniformOutput',false),'Orientation','horizontal','AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
 figname = [fldname '_all']; save_figure(figdir,figname,formats,figsave)
@@ -444,47 +443,50 @@ figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end))
-        title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y ' fldname(1:4)]); 
-        datetick('x','yy'); yline(0); ylim([-0.02 0.08]);
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)       % 10Y
+        title(S(k0).cty);
+        datetick('x','yy'); yline(0); ylim([-2 8]);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
-figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)
+figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)      % update reference to figure
 close all
 
-%% TP survey = sy - svyCBP
+%% TP survey = sy - sCBP
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 
-    % Long-term
+    % Long-term TPsvy
 fldname = 'stp';
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end))
-        title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y TPsvy']); 
-        datetick('x','yy'); yline(0);
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)
+        title(S(k0).cty); 
+        datetick('x','yy'); yline(0); ylim([-2 10]);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
-figname = fldname; save_figure(figdir,figname,formats,figsave)
+figname = fldname; save_figure(figdir,figname,formats,figsave)              % update reference to figure
 
-    % Compare TPsvy vs TPsynt
-fldname = {'stp','ssb_tp'};
+    % Compare TPsynt vs TPsvy: robustness check of TP estimates
+fldname = {'bsl_tp','stp'};
 figure
 for k0 = 1:nEMs
+    subplot(3,5,k0)
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100);    % 10Y
     if ~isempty(S(k0).(fldname{2}))
-        subplot(3,5,k0)
-        plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end),...
-             S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end))
-        title([S(k0).iso ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y']);
-        if k0 == 14; legend('TPsvy','TPsynt','Orientation','horizontal','AutoUpdate','off'); end
-        datetick('x','yy'); yline(0);
+        hold on; plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100);
     end
+    title(S(k0).cty);
+    if k0 == 14; legend('TPsynt','TPsvy','Orientation','horizontal','AutoUpdate','off'); end
+    datetick('x','yy'); yline(0); ylim([-2 10]);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = ['svy_' fldname{2}]; save_figure(figdir,figname,formats,figsave)
+figname = [fldname{1} '_svy']; save_figure(figdir,figname,formats,figsave)  % update reference to figure
 close all
 
-%% Synthetic vs nominal yP (to define BRP = TP + CR)
+%% Synthetic vs nominal yP: if yP similar, supports BRP  = TP + CR
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
     % Surveys
 fldtype1 = 'ssb_';   fldvar = 'yP';
@@ -494,7 +496,7 @@ for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
         plot(S(k0).([fldtype1 fldvar])(2:end,1),S(k0).([fldtype1 fldvar])(2:end,end),...
-             S(k0).([fldtype2 fldvar])(2:end,1),S(k0).([fldtype2 fldvar])(2:end,end));
+             S(k0).([fldtype2 fldvar])(2:end,1),S(k0).([fldtype2 fldvar])(2:end,end));  % 10Y
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y yP'])
         if k0 == 13
             legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
@@ -504,7 +506,7 @@ for k0 = 1:nEMs
 end
 figname = [fldtype1 fldtype2 fldvar]; save_figure(figdir,figname,formats,figsave)
 
-    % Yields only
+    % Yields only: if differ wrt surveys, supports using surveys
 fldtype1 = 'sy_';   fldvar  = 'yP';
 fldtype2 = 'ny_';   fldname = [fldtype2 fldvar];
 figure
@@ -512,7 +514,7 @@ for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
         plot(S(k0).([fldtype1 fldvar])(2:end,1),S(k0).([fldtype1 fldvar])(2:end,end),...
-             S(k0).([fldtype2 fldvar])(2:end,1),S(k0).([fldtype2 fldvar])(2:end,end));
+             S(k0).([fldtype2 fldvar])(2:end,1),S(k0).([fldtype2 fldvar])(2:end,end));  % 10Y
         title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y yP'])
         if k0 == 13
             legend([fldtype1 fldvar],[fldtype2 fldvar],'Orientation','horizontal','AutoUpdate','off')
@@ -525,260 +527,191 @@ close all
 
 %% Term structure of term premia
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-fldname = 'ssb_tp';
+fldname = 'bsl_tp';
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end))
-        title([S(k0).iso ' ' fldname(end-1:end)]); 
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end)*100)
+        title(S(k0).cty); 
         if k0 == 10
             legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
                 'UniformOutput',false),'AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
-figname = [fldname '_ts']; save_figure(figdir,figname,formats,figsave)
-
-% QE events
-figure
-for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname))
-        subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end))
-        title([S(k0).iso ' ' fldname(end-1:end)]); 
-        if k0 == 10
-          legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
-              'UniformOutput',false),'AutoUpdate','off')
-        end
-        xline(datenum('25-Nov-2008')); xline(datenum('19-Jun-2013'));
-        datetick('x','yy'); yline(0);
-    end
-end
-figname = [fldname '_ts_QE']; save_figure(figdir,figname,formats,figsave)
+figname = [fldname '_ts']; save_figure(figdir,figname,formats,figsave)      % update reference to figure
 close all
 
 %% Plot bond risk premia
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-% BRP
+% BRP: compensation for risk in EMs
 fldname = 'brp';
 figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
-    plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end))
-    title([S(k0).iso ' ' num2str(S(k0).(fldname)(1,end)) 'Y ' fldname]); 
-    datetick('x','yy'); yline(0);
+    plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)           % 10Y
+    title(S(k0).cty); 
+    datetick('x','yy'); yline(0); ylim([-2 10]);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = fldname; save_figure(figdir,figname,formats,figsave)
 
-% BRP components
+% BRP components: relative importance
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'brp','ssb_tp'};
-    else
-        fldname = {'brp','sy_tp'};
-    end
-    fldname = [fldname 'c_blncd'];
-    
+    fldname = {'brp','bsl_tp','c_blncd'};
     subplot(3,5,k0)
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
-    hold on
-    fltr2 = find(S(k0).(fldname{2})(1,:) == 10);
-    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltr2))
-    fltr3 = find(S(k0).(fldname{3})(1,:) == 10);
-    plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,fltr3))
-    hold off
-    title([S(k0).iso '10Y'])
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,...
+         S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100)   % 10Y
+    title(S(k0).cty)
     if k0 == 13
         legend('BRP','TP','LCCS','Orientation','horizontal','Location','south','AutoUpdate','off'); 
     end
-    datetick('x','yy'); yline(0);
+    datetick('x','yy'); yline(0);% ylim([-2 10]);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = 'brp_dcmp'; save_figure(figdir,figname,formats,figsave)
 
-% Compare BRP vs TPnom
+% Compare BRP vs TPnom: if similar, supports LCNOM gives biased estimates of TP
 figure
 for k0 = 1:nEMs
-    fldname = 'brp';
     if ~isempty(S(k0).ssb_tp)
-        fldname = [fldname {'nsb_tp'}];
+        fldname = {'brp','nsb_tp'};
     else
-        fldname = [fldname {'ny_tp'}];
+        fldname = {'brp','ny_tp'};
     end
-    
     subplot(3,5,k0)
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
-    hold on
-    fltr2 = find(S(k0).(fldname{2})(1,:) == 10);
-    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltr2))
-    hold off
-    title([S(k0).iso '10Y'])
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100)   % 10Y
+    title(S(k0).cty)
     if k0 == 14; legend('BRP','TPnom','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = 'brp_ntp'; save_figure(figdir,figname,formats,figsave)
 close all
 
-%% Nominal YC decomposition: Drivers of yields
+%% Nominal YC decomposition: drivers of yields
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldaux = {'ssb_yP','ssb_tp'};
-    else
-        fldaux = {'sy_yP','sy_tp'};
-    end
-    fldname = [fldaux 'c_blncd'];
+    fldname = {'bsl_yP','bsl_tp','c_blncd'};
     han1 = subplot(3,5,k0);
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
-    fltr2 = find(S(k0).(fldname{2})(1,:) == 10);
-    fltr3 = find(S(k0).(fldname{3})(1,:) == 10);
-    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1)*100,...
-    	 S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltr2)*100,...
-    	 S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,fltr3)*100);
-    title([S(k0).iso '10Y'])
+    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
+              S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
+              S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--');% 10Y
+    title(S(k0).cty)
     if k0 == 13; legend(h1,{'Exp','TP','LCCS'},'Orientation','horizontal',...
             'Location','southoutside','AutoUpdate','off');
     end
     datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = 'ny_dcmp'; save_figure(figdir,figname,formats,figsave)
 close all
 
-%% Plot US TP: Guimaraes, KW
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-figure
-plot(ustpguim(2:end,1),ustpguim(2:end,end),ustp10(2:end,1),ustp10(2:end,2))
-datetick('x','yy'); legend('Guimaraes','KW')
-figname = 'ustp'; save_figure(figdir,figname,formats,figsave)
-
-figure
-plot(ustp10(2:end,1),ustp10(2:end,2))
-xline(datenum('25-Nov-2008')); xline(datenum('3-Nov-2010')); xline(datenum('21-Sep-2011')); 
-xline(datenum('13-Sep-2012')); xline(datenum('19-Jun-2013')); yline(0); datetick('x','yy')
-figname = 'ustp_QE'; save_figure(figdir,figname,formats,figsave)
-close all
-
 %% Plot TP against LCCS, USTP, VIX, EPU, INF
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-% TP vs LCCS
+% TP vs LCCS: negative relationship
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp'};
-    else
-        fldname = {'sy_tp'};
-    end
-    fldname = [fldname 'c_blncd'];
-    
+    fldname = {'bsl_tp','c_blncd'};
     subplot(3,5,k0)
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
-    fltr2 = find(S(k0).(fldname{2})(1,:) == 10);
     yyaxis left
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100)
     set(gca,'ytick',[])
     yyaxis right
-    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,fltr2))
+    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100) % 10Y
     set(gca,'ytick',[])
-    title([S(k0).iso '10Y'])
+    title(S(k0).cty)
     if k0 == 2; legend('TP','LCCS','Orientation','horizontal','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = 'stp_lccs'; save_figure(figdir,figname,formats,figsave)
+figname = 'tp_lccs'; save_figure(figdir,figname,formats,figsave)            % update reference to figure
 
-% TP vs USTP
+% TP vs USTP: US TP as potential driver of EM TP
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp'};
-    else
-        fldname = {'sy_tp'};
-    end
+    fldname = {'bsl_tp'};
     subplot(3,5,k0)
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
     yyaxis left
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100)   % 10Y
     set(gca,'ytick',[])
     yyaxis right
     plot(ustp10(2:end,1),ustp10(2:end,2))
     set(gca,'ytick',[])
-    title([S(k0).iso '10Y'])
+    title(S(k0).cty)
     if k0 == 13; legend('TP','USTP','Orientation','horizontal','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = 'stp_ustp'; save_figure(figdir,figname,formats,figsave)
+figname = 'tp_ustp'; save_figure(figdir,figname,formats,figsave)            % update reference to figure
 
-% TP vs VIX
+% TP vs VIX: relationship w/ measures of risk and uncertainty
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp'};
-    else
-        fldname = {'sy_tp'};
-    end
+    fldname = {'bsl_tp'};
     subplot(3,5,k0)
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
     yyaxis left
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100) % 10Y
     set(gca,'ytick',[])
     yyaxis right
     plot(vix(:,1),vix(:,2))
     set(gca,'ytick',[])
-    title([S(k0).iso '10Y'])
+    title(S(k0).cty)
     if k0 == 6; legend('TP','VIX','Orientation','horizontal','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = 'stp_vix'; save_figure(figdir,figname,formats,figsave)
+figname = 'tp_vix'; save_figure(figdir,figname,formats,figsave)             % update reference to figure
 
-% TP vs EPU
+% TP vs EPU: relationship w/ measures of uncertainty
 figure; k2 = 0;
 for k0 = 1:nEMs
     if ~isempty(S(k0).epu)
         k2 = k2 + 1;
-        fldname = {'ssb_tp','epu'};
+        fldname = {'bsl_tp','epu'};
+        [~,dtmx] = datesminmax(S,k0);
+        fltrd = S(k0).(fldname{2})(:,1) > dtmx;
         subplot(3,2,k2)
-        fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
-        fltrd = S(k0).(fldname{2})(:,1) > datenum('1-Jan-2000');
         yyaxis left
-        plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
+        plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100) % 10Y
         set(gca,'ytick',[])
         yyaxis right
         plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,2))
         set(gca,'ytick',[])
-        title([S(k0).iso '10Y'])
+        title(S(k0).cty)
         if k2 == 5; legend('TP','EPU','Orientation','horizontal','AutoUpdate','off'); end
         datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
-figname = 'stp_epu'; save_figure(figdir,figname,formats,figsave)
+figname = 'tp_epu'; save_figure(figdir,figname,formats,figsave)             % update reference to figure
 
 % TP vs INF
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp'};
-    else
-        fldname = {'sy_tp'};
-    end
-    fldname = [fldname 'inf'];
-    
+    fldname = {'bsl_tp','inf'};
+    [~,dtmx] = datesminmax(S,k0);
+    fltrd = S(k0).(fldname{2})(:,1) > dtmx;
     subplot(3,5,k0)
-    fltr1 = find(S(k0).(fldname{1})(1,:) == 10);
     yyaxis left
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltr1))
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100) % 10Y
     set(gca,'ytick',[])
     yyaxis right
-    plot(S(k0).(fldname{2})(:,1),S(k0).(fldname{2})(:,2))
+    plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,2))
     set(gca,'ytick',[])
-    title([S(k0).iso '10Y'])
+    title(S(k0).cty)
     if k0 == 2; legend('TP','INF','Orientation','horizontal','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-figname = 'stp_inf'; save_figure(figdir,figname,formats,figsave)
+figname = 'tp_inf'; save_figure(figdir,figname,formats,figsave)             % update reference to figure
 close all
 
 %% Sources
