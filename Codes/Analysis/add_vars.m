@@ -42,11 +42,7 @@ end
 
 %% Calculate and store bond risk premia
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp','c_data'};
-    else
-        fldname = {'sy_tp','c_data'};
-    end
+    fldname = {'bsl_tp','c_data'};
     dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});            % extract data
     hdr1   = dtst1(1,:);  hdr2 = dtst2(1,:);                            % record headers
     tnrcmn = intersect(hdr1,hdr2,'stable');                             % identify common tenors
