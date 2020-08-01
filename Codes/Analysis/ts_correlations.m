@@ -4,7 +4,7 @@ function [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,
 % and correlations of yield curve components (yP, TP) with emprical measures
 
 % m-files called: syncdatasets
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% Pavel Solís (pavel.solis@gmail.com), July 2020
 %%
 ncntrs = length(S);
 nEMs   = length(currEM);
@@ -18,17 +18,13 @@ corrBRP(1,:)  = {'' 'LCCS' 'pval' 'INF' 'pval' 'EPU' 'pval','EPULCCS' 'pval' 'US
 hdrfk = [nan 10];
 for k0 = 1:nEMs
     corrTPem{k0+1,1} = S(k0).iso; corrBRP{k0+1,1} = S(k0).iso;
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp'};
-    else
-        fldname = {'sy_tp'};
-    end
-    fldname = [fldname 'c_blncd' 'inf' 'epu' 'brp'];
+    fldname = {'bsl_tp','c_blncd','inf','epu','brp'};
     fltr1   = find(S(k0).(fldname{1})(1,:) == 10);
     fltr2   = find(S(k0).(fldname{2})(1,:) == 10);
     fltr5   = find(S(k0).(fldname{5})(1,:) == 10);
     datatp  = S(k0).(fldname{1})(:,[1 fltr1]);
     databrp = S(k0).(fldname{5})(:,[1 fltr5]);
+    
     % LCCS
     mrgd = syncdatasets(datatp,S(k0).(fldname{2})(:,[1 fltr2]));
     [correl,pval] = corr(mrgd(2:end,2),mrgd(2:end,3));
@@ -63,6 +59,7 @@ for k0 = 1:nEMs
         [correl,pval] = corr(mrgd(2:end,2),mrgd(2:end,3),'rows','complete');
         corrBRP(k0+1,6:7) = {correl,round(pval,4)};
     end
+    
     % USTP
     mrgd = syncdatasets(datatp,ustp10);
     [correl,pval] = corr(mrgd(2:end,2),mrgd(2:end,3));
@@ -92,6 +89,7 @@ for k0 = nEMs+1:ncntrs
     fltr1   = find(S(k0).(fldname{1})(1,:) == 10);
     fltr2   = find(S(k0).(fldname{2})(1,:) == 10);
     datatp  = S(k0).(fldname{1})(:,[1 fltr1]);
+    
     % CIP deviations
     mrgd = syncdatasets(datatp,S(k0).(fldname{2})(:,[1 fltr2]));
     [correl,pval] = corr(mrgd(2:end,2),mrgd(2:end,3));
@@ -108,33 +106,27 @@ for k0 = nEMs+1:ncntrs
     corrTPae(k0-14,6:7) = {correl,round(pval,4)};
 end
 
-mean(cell2mat(corrTPem(2:end,10)))
-[mean(cell2mat(corrTPae(2:end,4))), mean(cell2mat(corrTPae(2:end,6)))] % USTP
+% Report averages
+sprintf('Average correlation of EMTP w/ LCCS, INF, USTP, Vix: %1.4f, %1.4f, %1.4f, %1.4f, ',...
+    mean(cell2mat(corrTPem(2:end,2))),mean(cell2mat(corrTPem(2:end,4))),...
+    mean(cell2mat(corrTPem(2:end,10))),mean(cell2mat(corrTPem(2:end,12))))
+sprintf('Average correlation of AETP w/ USTP, Vix: %1.4f, %1.4f',...
+    mean(cell2mat(corrTPae(2:end,4))),mean(cell2mat(corrTPae(2:end,6))))
 
 %% Correlations of YC components with alternative measures
 corrTPyP = cell(nEMs+1,5);
 corrTPyP(1,:) = {'' 'TP-Slope' 'Res-Slope' 'TP-Res' 'yP-2Y'};
 for k0 = 1:nEMs
     corrTPyP{k0+1,1} = S(k0).iso;
-    if ~isempty(S(k0).ssb_tp)
-        fldname = {'ssb_tp','ssb_yP'};
-    else
-        fldname = {'sy_tp','sy_yP'};
-    end
-    fldname = [fldname 's_blncd'];
+    fldname = {'bsl_tp','bsl_yP','s_blncd'};
     [~,datatps,datayld] = syncdatasets(S(k0).(fldname{1}),S(k0).(fldname{3}));
     [~,datayp] = syncdatasets(S(k0).(fldname{2}),datatps);
     
-    fltr11  = find(datatps(1,:) == 10);
-    fltr21  = find(datayp(1,:) == 10);
-    fltr31  = find(datayld(1,:) == 10);
-    fltr32  = find(datayld(1,:) == 2);
-    fltr33  = find(datayld(1,:) == 0.25);
-    datatps = datatps(2:end,fltr11);
-    datayp  = datayp(2:end,fltr21);
-    datas10 = datayld(2:end,fltr31);
-    datas02 = datayld(2:end,fltr32);
-    datas3M = datayld(2:end,fltr33);
+    datatps = datatps(2:end,datatps(1,:) == 10);
+    datayp  = datayp(2:end, datayp(1,:)  == 10);
+    datas10 = datayld(2:end,datayld(1,:) == 10);
+    datas02 = datayld(2:end,datayld(1,:) == 2);
+    datas3M = datayld(2:end,datayld(1,:) == 0.25);
     slopes  = datas10 - datas3M;
     corrTPyP{k0+1,2} = corr(datatps,slopes);
     
@@ -144,3 +136,7 @@ for k0 = 1:nEMs
     corrTPyP{k0+1,4} = corr(datarss,datatps);
     corrTPyP{k0+1,5} = corr(datayp,datas02);
 end
+
+sprintf('Average correlation of EMTP w/ slope and residual: %1.4f and %1.4f',...
+    mean(cell2mat(corrTPyP(2:end,2))),mean(cell2mat(corrTPyP(2:end,4))))
+sprintf('Average correlation of yP w/ 2Y: %1.4f',mean(cell2mat(corrTPyP(2:end,end))))
