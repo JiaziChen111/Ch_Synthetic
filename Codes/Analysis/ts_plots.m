@@ -600,7 +600,7 @@ figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
 figure
 for k0 = 1:nEMs
     fldname = {'bsl_yP','bsl_tp','c_blncd'};
-    han1 = subplot(3,5,k0);
+    subplot(3,5,k0)
     h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
               S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
               S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--');% 10Y
