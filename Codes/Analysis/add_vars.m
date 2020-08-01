@@ -2,7 +2,7 @@ function [S,vix] = add_vars(S,currEM)
 % ADD_VARS Add variables to structure S (estimated real rates, 
 % survey-based term premia, EPU indexes)
 
-% m-files called: read_macrovars, datesminmax, syncdatasets, read_epu_idx
+% m-files called: read_macrovars, datesminmax, syncdatasets, read_epu_idxs
 % Pavel Solís (pavel.solis@gmail.com), July 2020
 %%
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
@@ -59,5 +59,5 @@ for k0 = 1:nEMs
 end
 
 %% Load data for EPU and VIX
-S   = read_epu_idx(S);
+S   = read_epu_idxs(S);
 vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
