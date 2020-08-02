@@ -79,7 +79,7 @@ for j0 = 1:ntypes
         if strcmp(VarType{j0},'RHO')
             fltrUSDx = fltrUSD & ismember(tnrsall,udataset(1,:));
             data_usd = data_frq(ismember(data_frq(:,1),udataset(2:end,1)),fltrUSDx);
-            S(k0).([prfxfrq '_usd']) = [tnrsall(fltrUSDx)'; data_usd(:,1) data_usd(:,2:end)/100];  % decimals
+            S(k0).([prfxfrq '_gsw']) = [tnrsall(fltrUSDx)'; data_usd(:,1) data_usd(:,2:end)/100];  % decimals
         end
     end
 end
