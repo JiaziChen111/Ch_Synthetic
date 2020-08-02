@@ -1,11 +1,9 @@
-% fldsall = fieldnames(S);
+usycnms = TTusyc.Properties.VariableNames;
+fltrMTH = contains(usycnms,'M');
+tenors  = cell2mat(cellfun(@str2double,regexp(usycnms,'\d*','Match'),'UniformOutput',false));
+tenors  = [tenors(fltrMTH),tenors(~fltrMTH)*12];
+fltrGSW = ismember(tenors,matsout*12);
+TTgsw   = TTusyc(:,fltrGSW);
+TTgsw.Properties.VariableNames = strcat('usyc',tenors(fltrGSW),'m');
 
-%fldsall{ismember(fldsall,flds{k1})};
-
-%     % Domestic financial variables
-%     fltrCTY = ismember(hdr_finan(:,1),S(k0).iso) & fltrLC;
-%     findata = data_finan(:,fltrCTY);
-%     finnms  = lower(hdr_finan(fltrCTY,2)');
-%     TTstx   = array2timetable(findata,'RowTimes',datetime(findts,'ConvertFrom','datenum'),...
-%                 'VariableNames',finnms);
-%     TT3     = synchronize(TT3,TTstx,'intersection');
+TT_kw = array2timetable(TT_kw{:,:}/100,'RowTimes',TT_kw.Time,'VariableNames',TT_kw.Properties.VariableNames);
