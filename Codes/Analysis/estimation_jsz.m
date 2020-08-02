@@ -4,8 +4,8 @@ function [ylds_Q,ylds_P,termprm,params] = estimation_jsz(ylds,matsin,matsout,dt,
 % 
 %	INPUTS
 % ylds    - bond yields (rows: obs, cols: maturities)
-% matsin  - bond maturities in years in the data
-% matsout - bond maturities in years to be reported
+% matsin  - bond maturities (in years) in the data
+% matsout - bond maturities (in years) to be reported
 % dt      - length of period in years (eg. 1/12 for monthly data)
 % p       - number of pricing factors
 %
@@ -32,9 +32,9 @@ W    = pca(ylds,'NumComponents',p);                                         % W'
 [AnQ,BnQ] = loadings(matsout,K0Q_cP,K1Q_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
 [AnP,BnP] = loadings(matsout,K0P_cP,K1P_cP+Ip,Sigma_cP,rho0_cP*dt,rho1_cP*dt,dt);
 % ylds_Q  = ones(nobs,1)*AcP + cP_filtered*BcP;                             % same as yields_filtered
-ylds_Q    = ones(nobs,1)*AnQ + cP_filtered*BnQ;                           	% same cP for ylds_Q and ylds_P
+ylds_Q    = ones(nobs,1)*AnQ + cP_filtered*BnQ;                             % same cP for ylds_Q and ylds_P
 ylds_P    = ones(nobs,1)*AnP + cP_filtered*BnP;
-termprm   = ylds_Q - ylds_P;                                              	% in decimals
+termprm   = ylds_Q - ylds_P;                                                % in decimals
 
 % Report parameters
 mu_xP = K0P_cP;
@@ -45,11 +45,11 @@ P00   = reshape((eye(p^2)-kron(PhiP,PhiP))\reshape(Hcov,p^2,1),p,p);        % p*
 if any(isnan(P00),'all') || any(isinf(P00),'all') || any(~isreal(eig(P00))) || any(eig(P00) < 0)
     x00 = zeros(p,1);       P00 = Ip;                                       % in case state is non-stationary
 end
-cSgm  = chol(Hcov,'lower'); mu_xQ = K0Q_cP; PhiQ  = K1Q_cP + Ip;
-params.mu_xP = K0P_cP;                  params.PhiP  = K1P_cP + Ip;
-params.mu_xQ = K0Q_cP;                  params.PhiQ  = K1Q_cP + Ip;
-params.rho0  = rho0_cP*dt;              params.rho1  = rho1_cP*dt;       	% rho0 & rho1 in per period units
-params.lmbd0 = cSgm\(mu_xP - mu_xQ);    params.lmbd1 = cSgm\(PhiP  - PhiQ);	% implied lambda0 & lambda1
+mu_xQ = K0Q_cP; PhiQ  = K1Q_cP + Ip;    cSgm = chol(Hcov,'lower');
+params.mu_xP = mu_xP;                   params.PhiP  = PhiP;
+params.mu_xQ = mu_xQ;                   params.PhiQ  = PhiQ;
+params.rho0  = rho0_cP*dt;              params.rho1  = rho1_cP*dt;          % rho0 & rho1 in per period units
+params.lmbd0 = cSgm\(mu_xP - mu_xQ);    params.lmbd1 = cSgm\(PhiP  - PhiQ); % implied lambda0 & lambda1
 params.sgmY  = sigma_e;                 params.sgmS  = sigma_e;
 params.cSgm  = cSgm;                    params.xs    = cP_filtered;
 params.x00   = x00;                     params.P00   = P00;
