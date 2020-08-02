@@ -189,32 +189,25 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Panel to compute the real interest rates.
-	\begin{todolist}
-		\item[\done] Replicate country regressions in Stata.
-		\item[\done] Run pooling regression and compute embedded yE using iteration. 
-		\item[\done] Compare against current values. New forecasts similar to CBP, more plausible than current values for some countries.
-		\item[\done] Collect data for r* from SFP.
-		\item[\done] Compute expectation for EM policy rate using r* and survey_cpi.
-		\item[\done] Contrast real rates: stationarity, recursive vs SOE. SOE is a reasonable assumption. Recursive for 1Y and stationarity for 10Y. Conclusion: use SOE.
-		\item Matlab code for getting SOE.
-	\end{todolist}
-	\item Correctly implement computation of real rates.
-	\begin{todolist}
-		\item Tenors in months.
-	\end{todolist}
-	\item Update do files to be ready when updated dataset is generated in Matlab.
 	\item Update Matlab codes.
 	\begin{todolist}
-		\item Create folders (CRSP, etc.) within Data \(->\) Raw folder to improve structure and facilitate updates.
-		\item Check whether functions in post-estimation analysis need to be updated (simplified) after the bsl field added to the structure.
-		\item Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder.
+		\item[\done] Create folder for CRSP files within Data \(->\) Raw folder to improve structure and facilitate updates. EPU subfolder already done.
+		\item[\done] Plots for CE forecasts: include 5Y for each country to compare w/ 10Y for each variable. 1Y not included b/c less applicable for CBP.
+		\item[\done] Plot comparing 10Y yield vs 10Y CBP forecast: use synthetic rather than nominal. Explicit about: synthetic, 10Y implied CBP forecast. 
+		\item[\done] Change file name from append_surveys to append_svys2ylds.
+		\item[\done] Only include 5Y and 10Y forecasts for CBP in estimation.
+		\item[\wontdo] Remove references to brp. Variable serves to confirm that the TP obtained w/ LCNOM is actually a combination of TP+LCCS.
+		\item[\done] Exclude yQ from dataset, not used.
+		\item[\done] Update all functions after daily2monthly (forecast_cbpol, append_svys2ylds, atsm_estimation, assess_fit, add_vars, construct_panel, ts_plots, atsm_daily) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
+		\item[\done] Read KW decomposition of US YC from FRED and remove it from add_vars.
+		\item[\done] Read EPU indexes for AEs and update those for EMs. COP index now starts in 2000 not 1994. EUR index starts in 2001 since code deletes rows w/ NaNs and data for Spain starts in 2001. SEK index repeats 1976 twice. Japan starts months later b/c of text next to data. Indexes of AEs are more correlated than those of EMs.
+		\item[\done] Update ts_plots. Remove code plotting US TP (Guimaraes vs KW, TP QE).
+		\item[\done] Update functions in post-estimation analysis (simplified, no reference to ssb, ssf, etc) after the bsl field added to the structure or if can be done easier in Stata. Note: no need to use ssb in add_vars but leave it to be explicit about what yP is being used to calculate the real rates. In ts_plots needed when comparing different versions of the model. Otherwise bsl fields are used.
+		\item Update construct_panel.
 		\item Update ts_analysis file to generate dataset.
 		\item Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield.
-		\item Update all functions after daily2monthly (forecast_cbpol.m, append_surveys.m, atsm_estimation.m, assess_fit.m) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
 		\item Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed).
-		\item Read EPU indexes for AEs and update those for EMs.
-		\item Plots for CE forecasts: include 1Y, 5Y and 10Y for each country to compare short vs long horizon forecasts for each variable.
+		\item Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder.
 	\end{todolist}
 	\item Shift time for variables in Matlab.
 	\begin{todolist}
@@ -222,11 +215,18 @@
 		\item Shift RHO only for maturities \(>= 1\).
 		\item Calculate LCSYNT in Matlab and compare against sftsyn in Stata.
 		\item Compare shift RHO, LCNOM in Matlab vs sftrho,sftnom.
+		\item Restrict sample for RUB to start in July 2009. Explain in paper.
 	\end{todolist}
-	\item Re-estimate parameters using best yE (panel or Duffee).
+	\item Re-estimate parameters using implied forecasts for CBP.
+	\begin{todolist}
+		\item Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y.
+	\end{todolist}
 	\item Post-estimation analysis.
 	\begin{todolist}
 		\item Use global activity indexes for GFCy and C-P global factor.
+		\item Compare yP vs scbp for 1Y (not used in estimation).
+		\item Update references to figures due to changes in names (4 - fit, 6 yP vs scbp).
+		\item Improve location of legend in figures w/ subplots.
 	\end{todolist}
 	\item Update dataset in Matlab.
 	\begin{todolist}
@@ -236,10 +236,13 @@
 		\item Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item Include global PC and non-US common factor.
 		\item Include surveys for ALL tenors, currently construct_panel makes no exception for matsout.
+		\item Ensure all tenors in months and all yields in decimals.
 	\end{todolist}
-	\item Reproduce LPs.
+	\item Reproduce LPs in Stata.
 	\begin{todolist}
+		\item Express variables in basis points.
 		\item Save figures to be used in pdf.
+		\item Are big changes in TP related to local events?
 	\end{todolist}
 	\item Additional stuff: TIC data, S-W inflation decomposition, EPU.
 	\begin{todolist}
@@ -248,11 +251,14 @@
 		\item Stock and Watson inflation decomposition. Follow Wright 2011.
 		\item Skim through Warnock papers on TIC data.
 		\item Include TIC data for each country (inflows and outflows) in dataset.
+		\item Variable of financial openness (Chinn-Ito index).
 		\item Diebold-Yilmaz spillover index.
 	\end{todolist}
-	\item Read literature.
+	\item Interpret the results.
 	\begin{todolist}
-		\item Interpret the results. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
+		\item Possible interpretation from panel regressions on determinants of the components. What drives the negative correlation b/w TP and LCCS? Effect of USMP on components?
+		\item Question on why opposite effect on LCCS is equivalent to asking why nominal yields don't respond as much?
+		\item Read literature. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
 	\end{todolist}
 	
 	\item Tables.
@@ -295,6 +301,23 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Implement computation of implied CBP forecasts based on SOE.
+	\begin{todolist}
+		\item[\done] Understand forecast_cbpol.m
+		\item[\done] Modify read_spf.m to calculate real rates.
+		\item[\done] Describe calculation in paper.
+		\item[\done] Add forecasts of real rates to CE survey data.
+	\end{todolist}
+	\item[\done] Update do files to be ready when updated dataset is generated in Matlab.
+	\item[\done] Panel to compute the real interest rates.
+	\begin{todolist}
+		\item[\done] Replicate country regressions in Stata.
+		\item[\done] Run pooling regression and compute embedded yE using iteration. 
+		\item[\done] Compare against current values. New forecasts similar to CBP, more plausible than current values for some countries.
+		\item[\done] Collect data for r* from SFP.
+		\item[\done] Compute expectation for EM policy rate using r* and survey_cpi.
+		\item[\done] Contrast real rates: stationarity, recursive vs SOE. SOE is a reasonable assumption. Recursive for 1Y and stationarity for 10Y. Conclusion: use SOE.
+	\end{todolist}
 	\item[\done] TP regressions. Drivers (monthly): Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
 	\item[\done] Cross-check analyses in Stata using monthly/daily data.
 	\begin{todolist}
