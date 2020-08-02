@@ -78,7 +78,7 @@ for k0 = 1:ncntrs
     TTfx.Properties.VariableNames = {'fx'};                                 % ensure same variable name
     TTstx.Properties.VariableNames = {'stx'};    
     TT1     = synchronize(TT0,TTfx,'union');                                % add FX
-    TT1     = synchronize(TT1,TTstx,'intersection');                        % add stock index
+    TT1     = synchronize(TT1,TTstx,'union');                               % add stock index
     TT1.cty = repmat(S(k0).iso,size(TT1,1),1);                              % add currency code
     TT1.imf = repmat(S(k0).imf,size(TT1,1),1);                              % add IMF code
     
@@ -110,7 +110,7 @@ for k0 = 1:ncntrs
     dtmn = datesminmax(S,k0);
     TT2  = TT2(isbetween(TT2.Time,datetime(dtmn,'ConvertFrom','datenum'),dtmx),:);
     
-    % Add field-specific variables
+    % Add field-specific variables (intersect datasets)
     TT3  = synchronize(TT1,TT2,'intersection');
     
     % Stack panels
