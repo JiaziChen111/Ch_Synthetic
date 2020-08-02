@@ -2,7 +2,7 @@
 % This code calls functions to estimate and analyze affine term structure models
 
 % m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation,
-% compare_atsm_surveys, add_vars, ts_plots, ts_correlations, ts_pca
+% compare_atsm_surveys, add_vars, ts_plots, ts_correlations, ts_pca, read_macrovars
 % Pavel Solís (pavel.solis@gmail.com), July 2020
 % 
 %% Load the data
@@ -20,20 +20,9 @@ S = add_macroNsvys(S,currEM);
 S = append_svys2ylds(S,currEM);
 
 %% Estimate affine term structure model
-
-% Cases
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
-
-% Report estimated sgmS
-fldname = 'ssf_pr';
-aux = [];
-for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname))
-        aux = [aux; k0 S(k0).(fldname).sgmS];
-    end
-end
 
 % Baseline estimations
 fldname = {'ssb_','sy_','ny_'};
@@ -57,20 +46,33 @@ end
 % Assess fit of the model
 [S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
 
+% Report estimated sgmS
+fldname = 'ssf_pr';
+aux = [];
+for k0 = 1:nEMs
+    if ~isempty(S(k0).(fldname))
+        aux = [aux; k0 S(k0).(fldname).sgmS];
+    end
+end
+
 %% Store/load results
 cd(pathd)
 % save struct_datamy_S.mat S currAE currEM
 load('struct_datamy_S.mat')
 load('struct_datady_cells.mat')
-load('struct_datady_S.mat','curncs')
 load('struct_datady_S.mat','currAE')
 load('struct_datady_S.mat','currEM')
 cd(pathc)
 
 %% Post-estimation analysis
-[S,uskwfy,uskwyp,uskwtp,ustp10,ustpguim,vix] = add_vars(S,currEM);
-ts_plots(S,currEM,currAE,ustp10,ustpguim,vix);
-[corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,ustp10,vix);
+S = add_vars(S,currEM);
+
+[data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
+vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
+[TT_kw,uskwtp,uskwyp] = read_kw(matsout);
+
+ts_plots(S,currEM,currAE,uskwtp,vix);
+[corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,uskwtp,vix);
 [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,uskwyp,uskwtp);
 
 %% Daily frequency estimation
@@ -78,35 +80,7 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 [S,fitrprtdy] = atsm_daily(S,matsout,currEM,currAE,false);
 
 %% Construct panel dataset
-
-% Read data
-[data_finan,hdr_finan] = read_financialvars();
-TT_mps = read_mps();
-TT_epu = read_epu_usdgbl();
-TT_gbl = read_global_idxs();
-TT_kw  = read_kw(matsout);
-[~,~,TT_rr] = read_spf();
-addpath('../Pre-Analysis')                                        	% read_platforms.m in different folder
-warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')             	% suppress table warnings
-TTpltf = read_platforms();                                          % for exchange rate data
-TTusyc = read_usyc();
-notradedays = TTusyc.Date(sum(ismissing(TTusyc),2) == size(TTusyc,2));
-tradingdays = TTusyc.Date(~ismember(TTusyc.Date,notradedays));      % trading days in the U.S.
-
-% Read conventions to quote FX
-pathc    = pwd;
-pathd    = fullfile(pathc,'..','..','Data','Raw');                  % platform-specific file separators
-cd(pathd)
-filename = 'AE_EM_Curves_Tickers.xlsx';
-convfx   = readcell(filename,'Sheet','CONV','Range','H66:H90');     % update range as necessary
-cd(pathc)
-
-% Express all FX as LC per USD
-TTccy  = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
-fltrFX = ismember(TTccy.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
-TTccy{:,fltrFX} = 1./TTccy{:,fltrFX};
-
-TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TT_rr,TTccy,tradingdays,currEM);
+TT = construct_panel(S,matsout,currEM,currAE);
 
 %%
 % [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
@@ -136,6 +110,10 @@ TT = construct_panel(S,matsout,data_finan,hdr_finan,TT_mps,TT_epu,TT_gbl,TT_rr,T
 
 % %% Compare results
 % [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
+
+% addpath('../Pre-Analysis')
+% notradedays = TTusyc.Date(sum(ismissing(TTusyc),2) == size(TTusyc,2));
+% tradingdays = TTusyc.Date(~ismember(TTusyc.Date,notradedays));      % trading days in the U.S.
 
 %% US TP
 ynsvys = readmatrix(fullfile(fullfile(pwd,'..','..','Data','Aux','USYCSVY'),...
@@ -195,11 +173,11 @@ input.tableRowLabels = labelcty;
 input.tableColLabels = {'Nominal','Synthetic','Expected','Term Premium','CIP Dev'};
 input.dataFormat = {'%.2f'};
 input.fontSize = 'tiny';
-filename   = fullfile('..','..','Docs','Tables','temp_decomp10yr');
+namefl   = fullfile('..','..','Docs','Tables','temp_decomp10yr');
 input.data = AvgDecomp;
 input.tableCaption = '10-Year Yield Decomposition (\%).';
 input.tableLabel = 'decomp10yr';
-input.texName = filename;
+input.texName = namefl;
 latexTable(input);
 
 
@@ -211,11 +189,11 @@ input.tableRowLabels = labelcty;
 input.tableColLabels = {'Nominal','Synthetic'};
 input.dataFormat = {'%.2f'};
 input.fontSize = 'tiny';
-filename   = fullfile('..','..','Docs','Tables','temp_tp_compare');
+namefl   = fullfile('..','..','Docs','Tables','temp_tp_compare');
 input.data = AvgTPnomvssyn;
 input.tableCaption = '10-Year Term Premium Comparison (\%).';
 input.tableLabel = 'tp_compare10yr';
-input.texName = filename;
+input.texName = namefl;
 latexTable(input);
 
 
@@ -277,10 +255,10 @@ input.tableRowLabels = labelcty;
 input.tableColLabels = {'Nominal','Synthetic'};
 input.dataFormat = {'%.2f'};
 input.fontSize = 'tiny';
-filename   = fullfile('..','..','Docs','Tables','temp_RMSE_ATSM');
+namefl   = fullfile('..','..','Docs','Tables','temp_RMSE_ATSM');
 input.data = AvgEM_AE;
 input.tableCaption = 'Fit of Affine Term Structure Models.';
 input.tableLabel = 'rmse_atsm';
-input.texName = filename;
+input.texName = namefl;
 latexTable(input);
 
