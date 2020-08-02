@@ -36,7 +36,7 @@ sprintf('Average pct explained by PC1, PC2, PC3 and sum for AE: %2.2f, %2.2f, %2
         mean(cell2mat(pcexplnd(17:end,4))), mean(cell2mat(pcexplnd(17:end,5))))
 
 %% Common factors affecting YC components
-% TPs, real rates, yP, LCCS, BRP for all, ST vs LT
+% yP, TPs, LCCS, ST vs LT
 k2 = 0;
 pc1yc = cell(5,2);
 pc1yc(2:end,1) = {'Nominal' 'Expected' 'TP' 'LCCS'};
