@@ -1,4 +1,4 @@
-function TT_kw = read_kw(maturities)
+function [TT_kw,kwtp,kwyp] = read_kw(maturities)
 % READ_KW Read the Kim-Wright decomposition of the US yield curve from FRED
 
 % m-files called: getFredData, syncdatasets
@@ -30,5 +30,8 @@ KW = [KW yP];                                                       % append to 
 
 tnrs  = cellfun(@num2str,num2cell(mats*12),'UniformOutput',false);	% tenors as strings
 tnrs  = strcat(tnrs,'M');                                           % tenors are in months 
-names = [strcat('USyQ',tnrs) strcat('UStp',tnrs) strcat('USyP',tnrs)];
+names = [strcat('USyQ',tnrs) strcat('USTP',tnrs) strcat('USyP',tnrs)];
 TT_kw = array2timetable(KW(:,2:end),'RowTimes',datetime(KW(:,1),'ConvertFrom','datenum'),'VariableNames',names);
+
+kwtp = [nan mats; datenum(TT_kw.Time) TT_kw{:,contains(TT_kw.Properties.VariableNames,'TP')}];
+kwyp = [nan mats; datenum(TT_kw.Time) TT_kw{:,contains(TT_kw.Properties.VariableNames,'yP')}];
