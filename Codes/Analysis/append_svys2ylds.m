@@ -26,6 +26,8 @@ for k0 = 1:2
             TTs   = array2timetable(svys,'RowTimes',datetime(datev,'ConvertFrom','datenum'));
             TT    = synchronize(TTy,TTs,'union');
             S(k1).([prefix{k0} 'ylds']) = [hdry hdrv; datenum(TT.Time) TT{:,:}];
+        else                                                        % countries w/ no survey data
+            S(k1).([prefix{k0} 'ylds']) = S(k1).(fnameb);
         end
     end
     for k2 = nEMs+1:ncntrs                                         	% advanced countries
