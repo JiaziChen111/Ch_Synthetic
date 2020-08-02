@@ -1,4 +1,4 @@
-function [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,uskwtp,vix)
+function [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix)
 % TS_CORRELATIONS Report correlations and p-values of estimated TP with other
 % variables (LC credit spread, inflation, EPU index, US term premium, VIX),
 % and correlations of yield curve components (yP, TP) with emprical measures
@@ -9,7 +9,7 @@ function [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,
 ncntrs = length(S);
 nEMs   = length(currEM);
 nAEs   = length(currAE);
-ustp10 = [uskwtp(:,1) uskwtp(:,uskwtp(1,:) == 10)];
+ustp10 = [kwtp(:,1) kwtp(:,kwtp(1,:) == 10)];
 
 %% TP correlations: LCCS, INF, EPU, USTP, VIX
     % EMs

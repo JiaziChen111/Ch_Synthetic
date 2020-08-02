@@ -69,11 +69,11 @@ S = add_vars(S,currEM);
 
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
 vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
-[TT_kw,uskwtp,uskwyp] = read_kw(matsout);
+[TT_kw,kwtp,kwyp] = read_kw(matsout);
 
-ts_plots(S,currEM,currAE,uskwtp,vix);
-[corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,uskwtp,vix);
-[pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,uskwyp,uskwtp);
+ts_plots(S,currEM,currAE,kwtp,vix);
+[corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
+[pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,kwyp,kwtp);
 
 %% Daily frequency estimation
 S = daily2dymy(S,dataset_daily,header_daily,false);

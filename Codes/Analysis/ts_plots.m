@@ -1,4 +1,4 @@
-function ts_plots(S,currEM,currAE,uskwtp,vix)
+function ts_plots(S,currEM,currAE,kwtp,vix)
 % TS_PLOTS Plot different series after estimation of affine model
 
 % m-files called: datesminmax, syncdatasets, save_figure
@@ -643,7 +643,7 @@ for k0 = 1:nEMs
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100)   % 10Y
     set(gca,'ytick',[])
     yyaxis right
-    plot(uskwtp(2:end,1),uskwtp(2:end,end))
+    plot(kwtp(2:end,1),kwtp(2:end,end))
     set(gca,'ytick',[])
     title(S(k0).cty)
     if k0 == 13; legend('TP','USTP','Orientation','horizontal','AutoUpdate','off'); end

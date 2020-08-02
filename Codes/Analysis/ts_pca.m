@@ -1,4 +1,4 @@
-function [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,uskwyp,uskwtp)
+function [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,kwyp,kwtp)
 % TS_PCA Report results from principal component analysis on yields,
 % components, and residuals of regressing EM components on US components;
 % R2 of those regressions are also reported
@@ -111,8 +111,8 @@ for k0 = n1:nN
 %     if ismember(S(k0).iso,{'BRL','HUF','KRW','MXN','MYR','PHP','PLN','THB'}) % EM TP < 0
 %     if ismember(S(k0).iso,currEM(~contains(currEM,{'ILS','ZAR'})))           % EM w/ surveys
     
-        [~,datayp,uskwypk0] = syncdatasets(S(k0).(fldname{1}),uskwyp);
-        [~,datatp,uskwtpk0] = syncdatasets(S(k0).(fldname{2}),uskwtp);
+        [~,datayp,uskwypk0] = syncdatasets(S(k0).(fldname{1}),kwyp);
+        [~,datatp,uskwtpk0] = syncdatasets(S(k0).(fldname{2}),kwtp);
        
         datayp10 = datayp(datayp(:,1) >= datecmmn,datayp(1,:) == 10);
         datayp01 = datayp(datayp(:,1) >= datecmmn,datayp(1,:) == 1);
