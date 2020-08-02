@@ -2,7 +2,8 @@
 % This code calls functions to estimate and analyze affine term structure models
 
 % m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation,
-% compare_atsm_surveys, add_vars, ts_plots, ts_correlations, ts_pca, read_macrovars
+% assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
+% auxiliary: read_macrovars, read_kw
 % Pavel Solís (pavel.solis@gmail.com), July 2020
 % 
 %% Load the data
