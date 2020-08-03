@@ -22,18 +22,18 @@ PhiQ  = PhiP  - chol(Hcov,'lower')*lmbd1;
 if ~isempty(matsS)                                              % applies forward rate to last tenor
     % Define start and ending dates of forward rate
     nmatsS = length(matsS);
-    matM = max(matsS);                                          % ending date of forward rate
+    matM   = max(matsS);                                        % ending date of forward rate
     if nmatsS == 1                                              % starting date of forward rate
-        matN = 5;                                               % assumes max(matsS) = 10
-        matsS = [matN matM];                                    % matsS has at least 5Y and 10Y
+        matN  = 5;                                              % assumes max(matsS) = 10
+        matsS = [matN matM];                                    % ensure matsS has at least 5Y and 10Y
     else
-        matN = matsS(end-1);                                    % starting date of forward rate
+        matN  = matsS(end-1);                                 	% starting date of forward rate
     end
     
     % Loadings for survey yields and forward rate for last tenor
     [AS,BS] = loadings(matsS,mu_xP,PhiP,zeros(size(Hcov)),rho0,rho1,dt);
-    Am = AS(end);   Bm = BS(:,end);                             % loadings for last maturity
-    An = AS(end-1); Bn = BS(:,end-1);
+    Am  = AS(end);      Bm = BS(:,end);                     	% loadings for last maturity
+    An  = AS(end-1);	Bn = BS(:,end-1);
     Anm = (matM*Am - matN*An)/(matM - matN);                    % loadings for forward rate
     Bnm = (matM*Bm - matN*Bn)/(matM - matN);
     if nmatsS == 1                                              % replace loadings for last tenor
