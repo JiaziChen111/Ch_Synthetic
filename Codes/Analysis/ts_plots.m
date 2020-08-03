@@ -112,7 +112,7 @@ for k0 = 1:length(macrovr)
 end
 close all
 
-%% Plot TP: ny, ns, sy, ss
+%% Compare results (different versions, different variables): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 fldname = [strcat({'ny','sy','nsf','nsb','ssf','ssb'},'_tp') 'ssb_yP'];
 fldnmAE = [strcat({'ny','sy'},'_tp') 'ny_yP'];
@@ -222,7 +222,7 @@ for k1 = 1:length(fldname)
 end
 close all
 
-%% Compare TP (different types, same variable): ny, ns, sy, ss
+%% Compare TP (different versions, same variable): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 % sgmS baseline vs free: differences due to convergence, check fit for BRL-COP-MYR
 fldtype1 = 'ssb_';   fldvar  = 'tp';
@@ -355,10 +355,9 @@ end
 figname = [fldtype1 fldtype2 fldvar '_AE']; save_figure(figdir,figname,formats,figsave)
 close all
 
-%% Compare TP (different types, different variables): ny, ns, sy, ss
+%% Model fit to synthetic
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
-% Model fit to synthetic
-fldname = {'ms_blncd','bsl_yQ'};
+fldname = {'ms_blncd','bsl_yQ'}; % fldname = {'s_blncd','ssb_yQ'};
 for k0 = 1:nEMs
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
@@ -480,7 +479,7 @@ for k0 = 1:nEMs
     end
     title(S(k0).cty);
     if k0 == 14; legend('TPsynt','TPsvy','Orientation','horizontal','AutoUpdate','off'); end
-    datetick('x','yy'); yline(0); ylim([-2 10]);
+    datetick('x','yy'); yline(0); % ylim([-2 10]);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = [fldname{1} '_svy']; save_figure(figdir,figname,formats,figsave)  % update reference to figure
