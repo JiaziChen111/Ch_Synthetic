@@ -67,7 +67,7 @@ foreach shock in mp1 path lsap {
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-3(1)3) xlabel(0 15 30 45 60 75 90) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
-				graph export $pathfigs/`shk'/CTY/`shk'`grp'`v'`t'm.eps, replace
+				graph export $pathfigs/LPs/`shk'/CTY/`shk'`grp'`v'`t'm.eps, replace
 				
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// yield component
