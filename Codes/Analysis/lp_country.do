@@ -9,11 +9,11 @@ foreach shock in mp1 path lsap {
 	if `j' == 2 local shk "Path"
 	if `j' == 3 local shk "LSAP"
 
-// levelsof cty, local(levels)
-// foreach grp of local levels { // 	foreach group in "AUD" {
-		local grp "CHF" // `group'
-		local vars usyc
-// 		local vars nom sftnom syn sftsyn
+levelsof cty, local(levels)
+foreach grp of local levels { 
+// 	foreach group in "AUD" {
+// 		local grp `group'
+		local vars nom sftnom // syn sftsyn
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
 			foreach v in `vars' {
@@ -74,7 +74,7 @@ foreach shock in mp1 path lsap {
 		
 		graph drop _all
 		}				// tenor
-// 	}					// grp (AE, EM, CTY)
+	}					// grp (AE, EM, CTY)
 }						// shock
 
 // twoway (line nom120m syn120m sftnom120m sftsyn120m datem if cty == "COP") (line usyc120m datem if cty == "COP", yaxis(2))
