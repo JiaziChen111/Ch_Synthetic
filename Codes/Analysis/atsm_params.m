@@ -1,8 +1,8 @@
 function [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt)
 % ATSM_PARAMS Define parameters for affine term structure model
 % parest - vectorized parameters: PhiP;Sgm;lmbd1;lmbd0;mu_xP;rho1;rho0;sgmY;sgmS
-% matsY  - maturities of yields
-% matsS  - maturities of surveys
+% matsY  - maturities of yields in years
+% matsS  - maturities of surveys in years
 
 % m-files called: parest2vars, loadings
 % Pavel Solís (pavel.solis@gmail.com), June 2020
@@ -45,9 +45,9 @@ Q    = Hcov;                                                    % p*p
 if     isempty(sgmY) && isempty(sgmS)                           % q*q
     R = zeros(q1);                                              % this case causes problems
 elseif isempty(sgmS)
-    % R = diag(repmat(sgmY^2,q1,1));                            % yields only case
     sgmS = 0.0075;                                              % same as in Kim & Orphanides (2012)
     R = diag([repmat(sgmY^2,q1,1); repmat(sgmS^2,q2,1)]);       % fixed sgmS case
+    % R = diag(repmat(sgmY^2,q1,1));                            % yields only case
 else
     R = diag([repmat(sgmY^2,q1,1); repmat(sgmS^2,q2,1)]);
 end
