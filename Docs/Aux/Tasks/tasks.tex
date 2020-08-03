@@ -203,40 +203,49 @@
 		\item[\done] Read EPU indexes for AEs and update those for EMs. COP index now starts in 2000 not 1994. EUR index starts in 2001 since code deletes rows w/ NaNs and data for Spain starts in 2001. SEK index repeats 1976 twice. Japan starts months later b/c of text next to data. Indexes of AEs are more correlated than those of EMs.
 		\item[\done] Update ts_plots. Remove code plotting US TP (Guimaraes vs KW, TP QE).
 		\item[\done] Update functions in post-estimation analysis (simplified, no reference to ssb, ssf, etc) after the bsl field added to the structure or if can be done easier in Stata. Note: no need to use ssb in add_vars but leave it to be explicit about what yP is being used to calculate the real rates. In ts_plots needed when comparing different versions of the model. Otherwise bsl fields are used.
-		\item Update construct_panel.
-		\item Update ts_analysis file to generate dataset.
-		\item Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield.
-		\item Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed).
-		\item Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder.
+		\item[\wontdo] Update construct_panel: Use usyc instead of d_gsw, tenors in months. It can be implemented but requires several lines of code; the way it is currently implemented (in daily2dymy) works fine and in a few lines.
+		\item[\done] Update datesminmax to allow for daily data to start as soon as it is available. Until now, data for all countries always starts at the end of a month (even daily data) .
+		\item[\done] Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder. Code relocated, usyc_analysis to a folder in Aux, others in Temp.
+		\item[\done] Update ts_analysis file to generate dataset. Delete code after construct panel dataset: relocate code for estimation of ATSM for US YC, remove old code comparing TPnom vs TPsyn, calculated term spread and compare AE vs EM nom/syn/TP.
+		\item[\done] Correct append_svys2ylds b/c fields mn_ylds and ms_ylds are empty for ILS and ZAR. Condition is based on emptiness of the field and previously the entry for those countries was not empty (it was NaN).
+		\item[\done] Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield. Explain how to get forward rates in the paper.
+		\item Test implementation of forward rates.
+		\item[\wontdo] Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed). Don't remember the rationale for this nor how to implement it.
 	\end{todolist}
 	\item Shift time for variables in Matlab.
 	\begin{todolist}
+		\item Re-check comparison of nom/syn vs sft versions.
 		\item Why IDR has LCSYNT data before RHO data becomes available?
 		\item Shift RHO only for maturities \(>= 1\).
 		\item Calculate LCSYNT in Matlab and compare against sftsyn in Stata.
 		\item Compare shift RHO, LCNOM in Matlab vs sftrho,sftnom.
 		\item Restrict sample for RUB to start in July 2009. Explain in paper.
 	\end{todolist}
+	\item Generate daily dataset.
+	\begin{todolist}
+		\item Save new mat files in folder August in Dropbox.
+	\end{todolist}
 	\item Re-estimate parameters using implied forecasts for CBP.
 	\begin{todolist}
-		\item Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y.
+		\item Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
 	\end{todolist}
 	\item Post-estimation analysis.
 	\begin{todolist}
 		\item Use global activity indexes for GFCy and C-P global factor.
 		\item Compare yP vs scbp for 1Y (not used in estimation).
-		\item Update references to figures due to changes in names (4 - fit, 6 yP vs scbp).
+		\item Update references to figures in Latex files due to changes in names (4 - fit, 6 yP vs scbp).
 		\item Improve location of legend in figures w/ subplots.
 	\end{todolist}
 	\item Update dataset in Matlab.
 	\begin{todolist}
-		\item Update ts_analysis file to generate dataset.
-		\item Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
+		\item[\done] Update ts_analysis file to generate dataset.
+		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
 		\item Include 3 PCs and estimated pricing factors per country.
-		\item Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
+		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item Include global PC and non-US common factor.
 		\item Include surveys for ALL tenors, currently construct_panel makes no exception for matsout.
-		\item Ensure all tenors in months and all yields in decimals.
+		\item Ensure all tenors are in months: TT_kw, TT_rr.
+		\item Ensure all yields generated are in decimals. Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
 	\end{todolist}
 	\item Reproduce LPs in Stata.
 	\begin{todolist}
