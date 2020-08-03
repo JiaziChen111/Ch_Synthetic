@@ -5,19 +5,24 @@
 % Variable Definitions
 %-------------------------------------------------------------------
 \providecommand{\tnr}{n}
+\providecommand{\tnrfwd}{m}
 \providecommand{\idxt}{t}
 \providecommand{\idxi}{i}
 \providecommand{\idxh}{h}
 \providecommand{\idxs}{\idxt,\tnr}
+\providecommand{\idxsfwd}{\idxt,\tnr | \tnrfwd}
 \providecommand{\idxspnl}{\idxi,\idxt}
 \providecommand{\idxspnlfwd}{\idxi,{\idxt+\idxh}}
 \providecommand{\idxspnllag}{\idxi,{\idxt-1}}
 \providecommand{\fInst}{f_{\idxs}}
 \providecommand{\yld}{y}
+\providecommand{\xpc}{e}
 \providecommand{\yZero}{\yld_{\idxs}}
 \providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
 \providecommand{\yZeroP}{\yZero^{\Pmeasure}}
-\providecommand{\yZeroE}{\yZero^{e}}
+\providecommand{\yZeroE}{\yZero^{\xpc}}
+\providecommand{\yZeroFwd}{\yld_{\idxsfwd}}
+\providecommand{\yZeroEfwd}{\yZeroFwd^{\xpc}}
 \providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
 \providecommand{\srate}{i}
@@ -36,8 +41,10 @@
 \providecommand{\affineBQ}{\affineB^{\Qmeasure}}
 \providecommand{\affineAP}{\affineA^{\Pmeasure}}
 \providecommand{\affineBP}{\affineB^{\Pmeasure}}
-\providecommand{\affineAe}{\affineA^{e}}
-\providecommand{\affineBe}{\affineB^{e}}
+\providecommand{\affineAe}{\affineA^{\xpc}}
+\providecommand{\affineBe}{\affineB^{\xpc}}
+\providecommand{\affineAeFwd}{A_{\idxsfwd}^{\xpc}}
+\providecommand{\affineBeFwd}{B_{\idxsfwd}^{\xpc}}
 \providecommand{\yLCnom}{\yld_{\idxs} ^{LC}}
 \providecommand{\yLCsynt}{\widetilde{\yld}_{\idxs} ^{LC}}
 \providecommand{\yUS}{y_{\idxs} ^{US}}
@@ -121,6 +128,10 @@
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{tp_{\idxspnl} = \alpha_{\idxi} + \beta' z_{\idxspnl} + u_{\idxspnl}}
 \newcommand{\eqySvy}{\rateSvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\srate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{g}}}{1-\hat{\beta}_{\srate}} g_{\idxs}^{survey} }
+
+\newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqBeFwd}{\affineAeFwd = \left( \tnrfwd B_{\tnrfwd}^{\xpc}  - \tnr \affineBe \right)/ \left( \tnrfwd - \tnr \right) }
 
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
 \newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
