@@ -3,7 +3,7 @@
 * ==============================================================================
 
 local j = 0
-foreach shock in mp1 { // path lsap {
+foreach shock in mp1 path lsap {
 	local ++j
 	if `j' == 1 {
 		local shk "Target"
@@ -18,7 +18,7 @@ foreach shock in mp1 { // path lsap {
 		local datecond date > td(1jan2009) & date < td(1jan2020)
 	}
 	
-	foreach group in 0 { // 1 {
+	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
 			local vars sftnom sftsyn sftrho sftphi // nom syn dyp dtp sftdyp sftdtp
@@ -51,7 +51,7 @@ foreach shock in mp1 { // path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & `datecond' // & `region' == 4
+					local condition em == `group' & `datecond' // & `region' == 1
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0) { 
