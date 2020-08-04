@@ -27,29 +27,10 @@ sort  $id $t
 xtset $id $t
 
 
-capture {
+// capture {
 
 gen byte fomc = mp1 != .
-gen byte sftcty = !inlist(cty,"AUD","CAD","COP","JPY","NZD","MYR") // "CAD","BRL","COP","MXN","PEN"
-
-* Time shift
-foreach v of varlist nom* dyp* dtp* {
-	clonevar sft`v' = `v'
-	replace sft`v' = f.`v' if sftcty
-	// 	replace `v' = f.`v' if sftcty
-}
-
-foreach t in 3 6 12 24 60 120  {
-	clonevar sftrho`t'm = rho`t'm
-	clonevar sftsyn`t'm = syn`t'm
-	clonevar sftphi`t'm = phi`t'm
-	replace sftrho`t'm = f.rho`t'm
-	replace sftsyn`t'm = usyc`t'm + sftrho`t'm
-	replace sftphi`t'm = sftnom`t'm - sftsyn`t'm
-	// 	gen sftrho`t'm = f.rho`t'm
-	// 	gen sftsyn`t'm = usyc`t'm + sftrho`t'm
-	// 	gen sftphi`t'm = sftnom`t'm - sftsyn`t'm
-}
+gen byte westhem = inlist(cty,"CAD","BRL","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
 
 * Express shocks and variables in basis points
 foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
@@ -57,12 +38,40 @@ foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
 	// 	replace `v' = 0 if `v' == .
 }
 
-foreach v in usyc rho phi nom syn dyp dtp sftnom sftdyp sftdtp sftrho sftsyn sftphi { // dyq myq myp mtp {
-    foreach t in 3 6 12 24 60 120  {	// no problem if not all variables have same tenors since capture
+foreach v in usyc rho phi nom syn dyp dtp { // dyq myq myp mtp {
+    foreach t in 12 24 60 120  { // 3 6 	// no problem if not all variables have same tenors since capture
 		replace `v'`t'm = 10000*`v'`t'm
 		// 	gen d`v'`t'm  = d.`v'`t'm
 	}
 }
+
+* Time shift
+foreach v of varlist nom* dyp* dtp* {
+	clonevar sft`v' = `v'
+	replace sft`v' = f.`v' // if !westhem
+	// 	replace `v' = f.`v' if !westhem
+}
+
+foreach t in 12 24 60 120  { // 3 6 
+	clonevar sftrho`t'm = rho`t'm
+	clonevar sftsyn`t'm = syn`t'm
+	clonevar sftphi`t'm = phi`t'm
+	replace  sftrho`t'm = f.rho`t'm
+	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
+	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
+	
+	clonevar sftnomx`t'm = nom`t'm
+	clonevar sftrhox`t'm = rho`t'm
+	clonevar sftsynx`t'm = syn`t'm
+	clonevar sftphix`t'm = phi`t'm
+	
+	replace  sftnomx`t'm = f.nom`t'm if !westhem
+	replace  sftrhox`t'm = f.rho`t'm if westhem
+	replace  sftsynx`t'm = usyc`t'm + f.rho`t'm if westhem
+	replace  sftsynx`t'm = f.usyc`t'm + rho`t'm if !westhem
+	replace  sftphix`t'm = sftnomx`t'm - sftsynx`t'm
+}
+
 
 * Compute monthly returns (in basis points)
 gen logspx = ln(spx)
@@ -96,7 +105,7 @@ label define bnames 1 "Non-US G3" 2 "A-SOE"
 label values regionae bnames
 label variable regionae "AE Blocks"
 
-}	// capture
+// }	// capture
 
 
 * Label variables that will be used in figures and tables

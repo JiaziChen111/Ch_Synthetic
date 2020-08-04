@@ -9,7 +9,7 @@ Alternative title: International Bond Risk Premia Implications of Deviations fro
 The results in the paper were generated using the following:
 - Operating system: macOS 10.14.6
 - Software: Matlab R2019b, Stata 15
-- Add-ons. Matlab: Financial, Datafeed. Stata: regsave, texsave.
+- Add-ons. Matlab toolboxes: Financial. Stata: regsave, texsave.
 - Restricted data sources: Bloomberg, Refinitv
 - Expected running time: Pre-Analysis (XX min/hr), only if replicated from scratch (i.e. using data directly downloaded from Bloomberg and Refinitv); Analysis (XX min/hr)
 
@@ -84,7 +84,6 @@ On reproducibility of empirical research, see:
 - Gentzkow & Shapiro, 2014. Code and Data for the Social Sciences: A Practitioner’s Guide
 - Chang & Li, 2017. A Pre-analysis Plan to Replicate Sixty Economics Research Papers That Worked Half of the Time
 
-The Matlab Datafeed toolbox is only needed to use the fetch function. The fetch function is used to retrieve data from FRED (US yield curve decomposition based on the Kim-Wright model). Instead of the fetch function, the getFredData function available in Matlab Central can be used.
 
 
 ## CODE WORKFLOW (OPTIONAL)
