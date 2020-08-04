@@ -29,10 +29,8 @@ xtset $id $t
 
 // capture {
 
-gen byte fomc = mp1 != .
-gen byte westhem = inlist(cty,"CAD","BRL","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
-
 * Express shocks and variables in basis points
+gen byte fomc = mp1 != .
 foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
     replace `v' = 100*`v'
 	// 	replace `v' = 0 if `v' == .
@@ -46,9 +44,11 @@ foreach v in usyc rho phi nom syn dyp dtp { // dyq myq myp mtp {
 }
 
 * Time shift
+gen byte westhem = inlist(cty,"BRL","CAD","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
+
 foreach v of varlist nom* dyp* dtp* {
 	clonevar sft`v' = `v'
-	replace sft`v' = f.`v' // if !westhem
+	replace sft`v' = f.`v' if !westhem	// condition when EM/AE LPs, no condition for individual LPs
 	// 	replace `v' = f.`v' if !westhem
 }
 
@@ -56,20 +56,13 @@ foreach t in 12 24 60 120  { // 3 6
 	clonevar sftrho`t'm = rho`t'm
 	clonevar sftsyn`t'm = syn`t'm
 	clonevar sftphi`t'm = phi`t'm
+
 	replace  sftrho`t'm = f.rho`t'm
 	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
 	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
 	
-	clonevar sftnomx`t'm = nom`t'm
-	clonevar sftrhox`t'm = rho`t'm
-	clonevar sftsynx`t'm = syn`t'm
-	clonevar sftphix`t'm = phi`t'm
-	
-	replace  sftnomx`t'm = f.nom`t'm if !westhem
-	replace  sftrhox`t'm = f.rho`t'm if westhem
-	replace  sftsynx`t'm = usyc`t'm + f.rho`t'm if westhem
-	replace  sftsynx`t'm = f.usyc`t'm + rho`t'm if !westhem
-	replace  sftphix`t'm = sftnomx`t'm - sftsynx`t'm
+// 	clonevar sftnom`t'm = nom`t'm
+// 	replace  sftnom`t'm = f.nom`t'm if !westhem
 }
 
 
