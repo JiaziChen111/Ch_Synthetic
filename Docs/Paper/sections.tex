@@ -187,7 +187,7 @@ On the spillover effects of U.S. monetary policy, this paper extends the work of
 
 The rest of the paper proceeds as follows. 
 Section \ref{sec:LCYCs} explains how to construct the local currency yield curves. Section \ref{sec:Methodology} presents the affine term structure model.
-Section \ref{sec:analysisYCdcmp} analyzes the yield decompositions.
+Section \ref{sec:analysisYCdcmp} analyzes the decompositions of yields.
 %shows that provide several new insights about their dynamics.
 Section \ref{sec:USspillovers} studies the U.S. monetary policy spillovers to the yields of emerging markets.
 The last section concludes.
@@ -349,19 +349,21 @@ For all the countries in the sample, the data for these swap curves comes from B
 % CRSP data monthly and daily data fixed-rate and risk-free series are very close to each other once they are annualized. The `biggest' differences are in the 1-month interest rate and before 1980.
 
 \subsubsection{Timing}
-As explained in section \ref{sec:Estimation}, the parameters of the affine term structure models are estimated using end-of-month data.
-Since the U.S. yield curve is the benchmark for the synthetic yield curves, these dates are the last business days of each month according to the U.S. calendar.
+The parameters of the affine term structure models are estimated using end-of-month data, as explained in section \ref{sec:Estimation}.
+Since the U.S. yield curve is the benchmark for the synthetic yield curves, those dates are the last business days of each month according to the U.S. calendar.
 
-As explained in section \ref{sec:LPs}, the analysis on monetary policy spillovers requires daily data.
-To correctly measure the responses of the emerging market yields to the U.S. monetary policy shocks it is key to have the timing right. 
-In particular, changes in both nominal and synthetic yields need to correctly capture the Fed announcements.
-Due to differences in time zones and in the timing of the announcements of U.S. monetary policy (14 hours New York time) and the Libor (11:45 hours London time), the forward premium for maturities equal or larger than one year is shifted one day forward for all countries.\footnote{ That is, the time subscript for the forward premium \(\rho\) in equation (\ref{eq:nLCsynt}) is \(\idxt + 1\) when \(\tnr \geq 1\).}
-Similarly, the nominal yields of most countries are shifted forward by one day.\footnote{ The nominal yields Australia, Canada, Colombia, Japan, Malaysia, New Zealand are not shifted.}
+Getting the timing right is key to adequately measure the responses of the emerging market yields to the U.S. monetary policy shocks.
+The analysis of monetary policy spillovers in section \ref{sec:LPs} uses daily changes in nominal and synthetic yields, which need to correctly capture the surprises in Fed announcements.
+Due to differences in time zones across countries and in the timing of the Fed announcements (14 hours New York time) and the publication of the Libor (11:55 hours London time), the forward premium for maturities equal or larger than one year (which are based on the Libor) is shifted one day forward for all countries. 
+This is because the Libor on day \(\idxt\) will be published around noon in London, before any Fed announcement; any surprises in Fed communications will be reflected in the Libor on day \(\idxt + 1\).\footnote{ The time subscript for the forward premium \(\rho\) in equation (\ref{eq:nLCsynt}) is thus \(\idxt + 1\) when \(\tnr \geq 1\).}
+Similarly, since the nominal yields reported by Bloomberg are pulled at around 16 hours New York time, the nominal yields of countries not in the Western Hemisphere are shifted one day forward so that their daily changes adequately capture surprises in Fed announcements.
 
 %Fed announcements at 14 hours NY time.
 %Nominal LC yield curves pull at 16 hours NY time.
 %Libor is announced at 11:45 hours London time.
 %To get the time right, it seems that \(ysyntLC_t = yUS_t + rho_{t+1}\)
+
+% LIBOR reflects the average interest rate major banks charge each other to borrow. LIBOR is produced once each day, although there are 35 different LIBOR rates posted—which includes seven different maturities (ON,1W,1M,2M,3M,6M,1Y) across five currencies (USD, GBP, EUR, CHF and JPY).
 
 }{}	% Closes \iftoggle{fulldraft}
 
