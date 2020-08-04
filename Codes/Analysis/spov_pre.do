@@ -47,6 +47,24 @@ corr myp120m nom24m syn24m if em
 corr mtp12m mtp60m mtp120m stp12m stp60m stp120m
 	// obs=302; 12m 0.9384; 60m 0.9601; 120m 0.9468
 
+
+* ------------------------------------------------------------------------------
+* Check daily changes after time shift on days w/ large shocks
+* ------------------------------------------------------------------------------	
+foreach v of varlist sft* usyc* {
+  gen d`v' = d.`v'
+  }
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(18mar2009))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(18mar2009))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(16dec2008))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(9aug2011))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(18sep2013))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(28jan2004))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(6may2003))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(18mar2015))
+browse date cty dsftnom120m dsftsyn120m dsftrho120m dusyc120m dsftphi120m if inlist(date,td(15mar2007))
+
+
 * ------------------------------------------------------------------------------
 * Assess TP estimates against empirical measures
 * ------------------------------------------------------------------------------
