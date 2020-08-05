@@ -25,7 +25,7 @@ end
 
 % Shift data forward one day due to time difference
 if timeshift
-    geq1y = ~ismember(hdr_fp(:,5),{'0.25','0.5','0.75'});                   % tenors < 1Y don't use Libor
+    geq1y = [false; ~ismember(hdr_fp(:,5),{'0.25','0.5','0.75'})];          % tenors < 1Y don't use Libor
     data_fp(1:end-1,geq1y) = data_fp(2:end,geq1y);
 end
 
