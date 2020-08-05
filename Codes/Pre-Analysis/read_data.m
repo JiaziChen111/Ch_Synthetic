@@ -36,8 +36,8 @@ clear T*
 %% Clean dataset
 types = {'Type','RHO','LCNOM','LCSYNT','LCSPRD','CIPDEV','FCSPRD'};
 fltr  = ~ismember(header_daily(:,2),types);
-dataset_daily(:,fltr) = [];
-header_daily(fltr,:)  = [];
+dataset_daily(:,fltr) = [];     header_daily(fltr,:)  = [];
+dataset_daily(dataset_daily(:,1) < datenum('1-Jul-2009'),ismember(header_daily(:,1),'RUB')) = [];
 
 %% Assess series
 [TTcip,currEM,currAE] = read_cip();
