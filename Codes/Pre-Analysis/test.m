@@ -6,7 +6,9 @@ TTfp(:,69:75);
 TTzc(:,1:12);
 
 %  append_dataset
-TT1 = array2timetable(dataset1(:,2:end),'RowTimes',dataset1(:,1));
-TT2 = array2timetable(dataset2(:,2:end),'RowTimes',dataset2(:,1));
+dataset1 = z1; %dataset_daily;
+dataset2 = data_zc; %data_fp;
+TT1 = array2timetable(dataset1(:,2:end),'RowTimes',datetime(dataset1(:,1),'ConvertFrom','datenum'));
+TT2 = array2timetable(dataset2(:,2:end),'RowTimes',datetime(dataset2(:,1),'ConvertFrom','datenum'));
 TT3 = synchronize(TT1,TT2,'union');
-dataset = [datenum(TT3.Time) TT3{:,:}];
+z1 = [datenum(TT3.Time) TT3{:,:}];
