@@ -4,12 +4,12 @@
 % m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation,
 % assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
 % auxiliary: read_macrovars, read_kw
-% Pavel Solís (pavel.solis@gmail.com), July 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 % 
 %% Load the data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/June-2020';
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2020';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
@@ -22,8 +22,11 @@ S = append_svys2ylds(S,currEM);
 
 %% Estimate affine term structure model
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
+datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
+datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
+datetime(now(),'ConvertFrom','datenum')
 
 % Baseline estimations
 fldname = {'ssb_','sy_','ny_'};
