@@ -120,7 +120,7 @@ end
 
 % Shift data forward one day due to time difference
 if timeshift
-    westhem = ismember(hdr_zc(:,1),{'BRL','CAD','COP','MXN','PEN'});
+    westhem = [true; ismember(hdr_zc(:,1),{'BRL','CAD','COP','MXN','PEN'})];% consider 1st column of dates
     data_zc(1:end-1,~westhem) = data_zc(2:end,~westhem);                    % shift non-WH nominal yields
 end
 
