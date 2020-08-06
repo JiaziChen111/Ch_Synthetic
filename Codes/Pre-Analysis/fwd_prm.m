@@ -23,6 +23,11 @@ end
 % Remove columns w/ no data
 [data_fp,hdr_fp] = remove_NaNcols(hdr_fp,data_fp);
 
+% timeshift needed as an input
+if timeshift
+    data_fp(1:end-1,2:end) = data_fp(2:end,2:end);
+end
+
 %% Report FP Tenors per Currency
 tnrsLCfp = {};                      % count only after remove_NaNcols.m is called
 LC_once = unique(hdr_fp(:,1),'stable');
