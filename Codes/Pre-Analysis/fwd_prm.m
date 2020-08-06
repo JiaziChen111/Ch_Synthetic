@@ -1,7 +1,6 @@
 function [data_fp,hdr_fp,tnrsLCfp] = fwd_prm(dataset_daily,header_daily,curncs)
 % FWD_PRM Calculate the market-implied forward premium using forward/spot
 % exchange rates (<1Y maturities) and cross-currency swaps (>=1Y maturities)
-% Optional: shift time forward for CCS if desired
 %   data_fp: stores historical data
 %   hdr_fp: stores headers (note: row 1 has no titles, i.e. ready to be appended)
 %   tnrsLCfp: reports FP tenors per currency
@@ -22,11 +21,6 @@ end
 
 % Remove columns w/ no data
 [data_fp,hdr_fp] = remove_NaNcols(hdr_fp,data_fp);
-
-% timeshift needed as an input
-if timeshift
-    data_fp(1:end-1,2:end) = data_fp(2:end,2:end);
-end
 
 %% Report FP Tenors per Currency
 tnrsLCfp = {};                      % count only after remove_NaNcols.m is called
