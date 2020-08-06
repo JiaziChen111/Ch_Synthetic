@@ -21,8 +21,8 @@ dataset_daily = [datenum(TTdy.Date) TTdy{:,:}];
 curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
 clear T*
 
-%% Data on forward premiums 
-[data_fp,hdr_fp,tnrs_fp]     = fwd_prm(dataset_daily,header_daily,curncs,true);         % make time shift
+%% Data on forward premiums
+[data_fp,hdr_fp,tnrs_fp]     = fwd_prm(dataset_daily,header_daily,curncs);              % no time shift
 [dataset_daily,header_daily] = append_dataset(dataset_daily,data_fp,header_daily,hdr_fp);
 
 %% Data on nominal yield curves
