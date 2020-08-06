@@ -14,23 +14,15 @@ function [dataset,headers] = append_dataset(dataset1,dataset2,hdrs1,hdrs2)
 %
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
-% dates1 = dataset1(:,1);
-% dates2 = dataset2(:,1);
-
-% if ~isempty(setdiff(dates1,dates2))     % If dates are not equal, error
-%     error('The two datasets must have the same dates.')
-% end
-
-if size(hdrs1,2) ~= size(hdrs2,2)       % If columns of headers differ, error
+% Number of columns of headers must be the same
+if size(hdrs1,2) ~= size(hdrs2,2)
     error('The two headers must have the same number of columns.')
 end
 
-% The number of variables and headers must match (recall dataset2 col 1 has dates)
+% Number of variables and headers must match (recall dataset2 col 1 has dates)
 if (size(hdrs1,1) + size(hdrs2,1)) ~= (size(dataset1,2) + size(dataset2,2) - 1)
     error('The variables and the headers must match.')
 end
-
-% dataset = [dataset1, dataset2(:,2:end)]; % Col 1 of dataset2 (dates) not included
 
 TT1 = array2timetable(dataset1(:,2:end),'RowTimes',datetime(dataset1(:,1),'ConvertFrom','datenum'));
 TT2 = array2timetable(dataset2(:,2:end),'RowTimes',datetime(dataset2(:,1),'ConvertFrom','datenum'));
