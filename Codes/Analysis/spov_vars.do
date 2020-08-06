@@ -53,13 +53,14 @@ foreach v of varlist nom* dyp* dtp* {
 }
 
 foreach t in 12 24 60 120  { // 3 6 
-	clonevar sftrho`t'm = rho`t'm
-	clonevar sftsyn`t'm = syn`t'm
+// 	clonevar sftrho`t'm = rho`t'm
+// 	clonevar sftsyn`t'm = syn`t'm
 	clonevar sftphi`t'm = phi`t'm
 
-	replace  sftrho`t'm = f.rho`t'm
-	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
-	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
+// 	replace  sftrho`t'm = f.rho`t'm
+// 	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
+// 	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
+	replace  sftphi`t'm = sftnom`t'm - syn`t'm
 	
 // 	clonevar sftnom`t'm = nom`t'm
 // 	replace  sftnom`t'm = f.nom`t'm if !westhem
@@ -113,4 +114,4 @@ forvalues i = 1/`nlbls' {
 	label variable `a' "`b'"
 }
 
-save $file_dta2, replace
+// save $file_dta2, replace
