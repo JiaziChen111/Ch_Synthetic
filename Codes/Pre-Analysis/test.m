@@ -5,10 +5,15 @@ TTzc = array2timetable(data_zc(:,2:end),'RowTimes',datetime(data_zc(:,1),'Conver
 TTfp(:,69:75);
 TTzc(:,1:12);
 
-%  append_dataset
-dataset1 = z1; %dataset_daily;
-dataset2 = data_zc; %data_fp;
-TT1 = array2timetable(dataset1(:,2:end),'RowTimes',datetime(dataset1(:,1),'ConvertFrom','datenum'));
-TT2 = array2timetable(dataset2(:,2:end),'RowTimes',datetime(dataset2(:,1),'ConvertFrom','datenum'));
-TT3 = synchronize(TT1,TT2,'union');
-z1 = [datenum(TT3.Time) TT3{:,:}];
+
+% add PCs
+% add it in ts_pca
+fldname = {'s_blncd','n_blncd'};
+for k0 = 1:length(S)
+    if ismember(S(k0).cty,currEM)
+        dtst = S(k0).(fldname{1});
+    else
+        dtst = S(k0).(fldname{2});
+    end
+    ylds = dtst(2:end,2:end);
+end
