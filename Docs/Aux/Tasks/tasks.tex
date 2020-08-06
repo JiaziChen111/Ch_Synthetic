@@ -189,45 +189,21 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Update Matlab codes.
-	\begin{todolist}
-		\item[\done] Create folder for CRSP files within Data \(->\) Raw folder to improve structure and facilitate updates. EPU subfolder already done.
-		\item[\done] Plots for CE forecasts: include 5Y for each country to compare w/ 10Y for each variable. 1Y not included b/c less applicable for CBP.
-		\item[\done] Plot comparing 10Y yield vs 10Y CBP forecast: use synthetic rather than nominal. Explicit about: synthetic, 10Y implied CBP forecast. 
-		\item[\done] Change file name from append_surveys to append_svys2ylds.
-		\item[\done] Only include 5Y and 10Y forecasts for CBP in estimation.
-		\item[\wontdo] Remove references to brp. Variable serves to confirm that the TP obtained w/ LCNOM is actually a combination of TP+LCCS.
-		\item[\done] Exclude yQ from dataset, not used.
-		\item[\done] Update all functions after daily2monthly (forecast_cbpol, append_svys2ylds, atsm_estimation, assess_fit, add_vars, construct_panel, ts_plots, atsm_daily) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
-		\item[\done] Read KW decomposition of US YC from FRED and remove it from add_vars.
-		\item[\done] Read EPU indexes for AEs and update those for EMs. COP index now starts in 2000 not 1994. EUR index starts in 2001 since code deletes rows w/ NaNs and data for Spain starts in 2001. SEK index repeats 1976 twice. Japan starts months later b/c of text next to data. Indexes of AEs are more correlated than those of EMs.
-		\item[\done] Update ts_plots. Remove code plotting US TP (Guimaraes vs KW, TP QE).
-		\item[\done] Update functions in post-estimation analysis (simplified, no reference to ssb, ssf, etc) after the bsl field added to the structure or if can be done easier in Stata. Note: no need to use ssb in add_vars but leave it to be explicit about what yP is being used to calculate the real rates. In ts_plots needed when comparing different versions of the model. Otherwise bsl fields are used.
-		\item[\wontdo] Update construct_panel: Use usyc instead of d_gsw, tenors in months. It can be implemented but requires several lines of code; the way it is currently implemented (in daily2dymy) works fine and in a few lines.
-		\item[\done] Update datesminmax to allow for daily data to start as soon as it is available. Until now, data for all countries always starts at the end of a month (even daily data) .
-		\item[\done] Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder. Code relocated, usyc_analysis to a folder in Aux, others in Temp.
-		\item[\done] Update ts_analysis file to generate dataset. Delete code after construct panel dataset: relocate code for estimation of ATSM for US YC, remove old code comparing TPnom vs TPsyn, calculated term spread and compare AE vs EM nom/syn/TP.
-		\item[\done] Correct append_svys2ylds b/c fields mn_ylds and ms_ylds are empty for ILS and ZAR. Condition is based on emptiness of the field and previously the entry for those countries was not empty (it was NaN).
-		\item[\done] Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield. Explain how to get forward rates in the paper.
-		\item Test implementation of forward rates.
-		\item[\wontdo] Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed). Don't remember the rationale for this nor how to implement it.
-	\end{todolist}
-	\item Shift time for variables in Matlab.
-	\begin{todolist}
-		\item Re-check comparison of nom/syn vs sft versions.
-		\item Why IDR has LCSYNT data before RHO data becomes available?
-		\item Shift RHO only for maturities \(>= 1\).
-		\item Calculate LCSYNT in Matlab and compare against sftsyn in Stata.
-		\item Compare shift RHO, LCNOM in Matlab vs sftrho,sftnom.
-		\item Restrict sample for RUB to start in July 2009. Explain in paper.
-	\end{todolist}
 	\item Generate daily dataset.
 	\begin{todolist}
+		\item[\done] Update append_dataset to use synchronize instead of concatenate.
+		\item[\done] Restrict sample for RUB to start in July 2009. Already explained in paper.
+		\item[\done] Compare RHO calculated in Matlab against Stata.
+		\item[\done] Correct error in time shift of fwd_prm. Need to include name of column in filter to properly account for position before the shift.
+		\item[\done] Check whether RHO 0.25-0.75Y needs to be shifted and verify that RHO 1-10Y needs to be shifted. Do exercise using rho vs sftrho, do they react to US MPS at time t or tp1? Is there a difference b/w WH and non-WH (due to time difference)? Conclusion: no shift needed, it reacts at time t for all countries.
+		\item[\done] Remove time shift in RHO.
+		\item[\done] Check time shift in LCNOM is correctly done.
+		\item Compare LCNOM and LCSYNT calculated in Matlab against sftnom and sftsyn in Stata. LCSYNT and PHI are not the old ones shifted b/c only one component changed/shifted (not both).
 		\item Save new mat files in folder August in Dropbox.
 	\end{todolist}
 	\item Re-estimate parameters using implied forecasts for CBP.
 	\begin{todolist}
-		\item Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
+		\item[\done] Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
 	\end{todolist}
 	\item Post-estimation analysis.
 	\begin{todolist}
@@ -240,15 +216,16 @@
 	\begin{todolist}
 		\item[\done] Update ts_analysis file to generate dataset.
 		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
-		\item Include 3 PCs and estimated pricing factors per country.
 		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
-		\item Include global PC and non-US common factor.
-		\item Include surveys for ALL tenors, currently construct_panel makes no exception for matsout.
+		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
+		\item Include 3 PCs and estimated pricing factors per country. Maybe in add_vars.
+		\item Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Relate them to US YC components, global activity indexes, local conditions.
 		\item Ensure all tenors are in months: TT_kw, TT_rr.
 		\item Ensure all yields generated are in decimals. Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
 	\end{todolist}
 	\item Reproduce LPs in Stata.
 	\begin{todolist}
+		\item How much the shift in LCNOM affects LPs? Use nom and sftnom.
 		\item Express variables in basis points.
 		\item Save figures to be used in pdf.
 		\item Are big changes in TP related to local events?
@@ -265,9 +242,11 @@
 	\end{todolist}
 	\item Interpret the results.
 	\begin{todolist}
+		\item If counterintuitive, what the results suggest? Negative: Financial frictions, is LCCS interpretation adequate? Positive: signaling (favorable conditions in US).
 		\item Possible interpretation from panel regressions on determinants of the components. What drives the negative correlation b/w TP and LCCS? Effect of USMP on components?
 		\item Question on why opposite effect on LCCS is equivalent to asking why nominal yields don't respond as much?
 		\item Read literature. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
+		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
 	\end{todolist}
 	
 	\item Tables.
@@ -281,6 +260,12 @@
 	\begin{todolist}
 		\item Descriptive tables: summary of YCs as in Guimaraes, US MPS.
 		\item Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
+	\end{todolist}
+	
+	\item Paper.
+	\begin{todolist}
+		\item Read Cochrane shared by Moffitt.
+		\item Follow Sahm's recommendations and Hollerstein tweet.
 	\end{todolist}
 	
 \end{todolist}
@@ -310,6 +295,39 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Shift time for variables in Matlab.
+	\begin{todolist}
+		\item[\done] Review comparison of nom/syn vs sft versions for ALL shocks to really identify countries for shift: look for responses similar to US YC (target for 2Y, path and LSAP for 10Y); compare against decision based on large shocks; compare to the currently used countries for sftnom. Guiding patterns: on-impact response (same direction), response over time to each shock (similar pattern), effect of large surprises (consistent w/ LPs). Note: LPs for individual countries confirm that LCNOM tP1 for non-WH countries.
+		\item[\done] Determine timing of rho. For which countries is rho_t and for which it is rho_tp1? All same time index or separate b/w WH and non-WH? Essentially where is the Libor recorded, NY or LDN? Conclusion: rho_tp1 for all countries, it is determined at noon in London so the rate at tp1 will reflect the on-impact effect. Note: LPs for individual countries confirm this.
+		\item[\done] Try w/o controlling for FX. Conclusion: essentially no change in LPs.
+		\item[\done] Check LPs for regions. After correcting for sftnom, they don't differ much from previous version. Response of AEs mainly driven by A-SOE.
+		\item[\done] Shift RHO only for maturities \(>= 1\). It seems weird to shift one part of the curve (1Y-10Y) and not the other (0.25-0.75Y) but the first part is based on the Libor and the second on forward rates which in principle would reflect to US MPS at tp1 and t, respectively. Plus autocorrelation of rho3m is 0.9917.
+		\item[\done] Make time shift. No need to use timetables in Matlab. Right at the end of the codes generating RHO (fwd_prm) and LCNOM (zc_yields) manually make the shift.
+		\item[\done] Why IDR has LCSYNT data before RHO data becomes available? RHO is available since 2001 when LCSYNT starts but is not stored in the dataset until later.
+	\end{todolist}
+	\item[\done] Update Matlab codes.
+	\begin{todolist}
+		\item[\done] Create folder for CRSP files within Data \(->\) Raw folder to improve structure and facilitate updates. EPU subfolder already done.
+		\item[\done] Plots for CE forecasts: include 5Y for each country to compare w/ 10Y for each variable. 1Y not included b/c less applicable for CBP.
+		\item[\done] Plot comparing 10Y yield vs 10Y CBP forecast: use synthetic rather than nominal. Explicit about: synthetic, 10Y implied CBP forecast. 
+		\item[\done] Change file name from append_surveys to append_svys2ylds.
+		\item[\done] Only include 5Y and 10Y forecasts for CBP in estimation.
+		\item[\wontdo] Remove references to brp. Variable serves to confirm that the TP obtained w/ LCNOM is actually a combination of TP+LCCS.
+		\item[\done] Exclude yQ from dataset, not used.
+		\item[\done] Update all functions after daily2monthly (forecast_cbpol, append_svys2ylds, atsm_estimation, assess_fit, add_vars, construct_panel, ts_plots, atsm_daily) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
+		\item[\done] Read KW decomposition of US YC from FRED and remove it from add_vars.
+		\item[\done] Read EPU indexes for AEs and update those for EMs. COP index now starts in 2000 not 1994. EUR index starts in 2001 since code deletes rows w/ NaNs and data for Spain starts in 2001. SEK index repeats 1976 twice. Japan starts months later b/c of text next to data. Indexes of AEs are more correlated than those of EMs.
+		\item[\done] Update ts_plots. Remove code plotting US TP (Guimaraes vs KW, TP QE).
+		\item[\done] Update functions in post-estimation analysis (simplified, no reference to ssb, ssf, etc) after the bsl field added to the structure or if can be done easier in Stata. Note: no need to use ssb in add_vars but leave it to be explicit about what yP is being used to calculate the real rates. In ts_plots needed when comparing different versions of the model. Otherwise bsl fields are used.
+		\item[\wontdo] Update construct_panel: Use usyc instead of d_gsw, tenors in months. It can be implemented but requires several lines of code; the way it is currently implemented (in daily2dymy) works fine and in a few lines.
+		\item[\done] Update datesminmax to allow for daily data to start as soon as it is available. Until now, data for all countries always starts at the end of a month (even daily data) .
+		\item[\done] Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder. Code relocated, usyc_analysis to a folder in Aux, others in Temp.
+		\item[\done] Update ts_analysis file to generate dataset. Delete code after construct panel dataset: relocate code for estimation of ATSM for US YC, remove old code comparing TPnom vs TPsyn, calculated term spread and compare AE vs EM nom/syn/TP.
+		\item[\done] Correct append_svys2ylds b/c fields mn_ylds and ms_ylds are empty for ILS and ZAR. Condition is based on emptiness of the field and previously the entry for those countries was not empty (it was NaN).
+		\item[\done] Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield. Explain how to get forward rates in the paper.
+		\item[\done] Test implementation of forward rates. In atsm_estimation, change prefix w/o m and fix k1 = 1. Check with BRL: more reasonable dcmp than before, yP close to scbp, real rate now fluctuates around zero not 6, model-TP is in line w/ svy-TP.
+		\item[\wontdo] Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed). Don't remember the rationale for this nor how to implement it.
+	\end{todolist}
 	\item[\done] Implement computation of implied CBP forecasts based on SOE.
 	\begin{todolist}
 		\item[\done] Understand forecast_cbpol.m
