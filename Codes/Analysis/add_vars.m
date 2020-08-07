@@ -3,12 +3,12 @@ function S = add_vars(S,currEM)
 % survey-based term premia, EPU indexes)
 
 % m-files called: datesminmax, syncdatasets, read_epu_idxs
-% Pavel Solís (pavel.solis@gmail.com), July 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
 nEMs = length(currEM);
 
 %% Calculate and store the ex-ante real rate for EMs
-fldname = {'ssb_yP','scpi'};
+fldname = {'mssb_yP','scpi'};
 for k0  = 1:nEMs
     if ~isempty(S(k0).(fldname{1}))
         dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});        % extract data
@@ -24,7 +24,7 @@ for k0  = 1:nEMs
 end
 
 %% Calculate and store the survey-based TP
-fldname = {'s_blncd','scbp'};
+fldname = {'ms_blncd','scbp'};
 for k0  = 1:nEMs
     if ~isempty(S(k0).(fldname{2}))
         dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});        % extract data
@@ -41,7 +41,7 @@ end
 
 %% Calculate and store bond risk premia
 for k0 = 1:nEMs
-    fldname = {'bsl_tp','c_data'};
+    fldname = {'bsl_tp','mc_data'};
     dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});            % extract data
     hdr1   = dtst1(1,:);  hdr2 = dtst2(1,:);                            % record headers
     tnrcmn = intersect(hdr1,hdr2,'stable');                             % identify common tenors
