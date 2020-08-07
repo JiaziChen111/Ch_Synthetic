@@ -352,11 +352,14 @@ For all the countries in the sample, the data for these swap curves comes from B
 The parameters of the affine term structure models are estimated using end-of-month data, as explained in section \ref{sec:Estimation}.
 Since the U.S. yield curve is the benchmark for the synthetic yield curves, those dates are the last business days of each month according to the U.S. calendar.
 
-Getting the timing right is key to adequately measure the responses of the emerging market yields to the U.S. monetary policy shocks.
+Getting the timing right is key to adequately measure the responses of emerging market yields to the U.S. monetary policy shocks.
 The analysis of monetary policy spillovers in section \ref{sec:LPs} uses daily changes in nominal and synthetic yields, which need to correctly capture the surprises in Fed announcements.
-Due to differences in time zones across countries and in the timing of the Fed announcements (14 hours New York time) and the publication of the Libor (11:55 hours London time), the forward premium for maturities equal or larger than one year (which are based on the Libor) is shifted one day forward for all countries. 
-This is because the Libor on day \(\idxt\) will be published around noon in London, before any Fed announcement; any surprises in Fed communications will be reflected in the Libor on day \(\idxt + 1\).\footnote{ The time subscript for the forward premium \(\rho\) in equation (\ref{eq:nLCsynt}) is thus \(\idxt + 1\) when \(\tnr \geq 1\).}
-Similarly, since the nominal yields reported by Bloomberg are pulled at around 16 hours New York time, the nominal yields of countries not in the Western Hemisphere are shifted one day forward so that their daily changes adequately capture surprises in Fed announcements.
+%Due to differences in time zones 
+%across countries and in the timing of the Fed announcements (14 hours New York time) and the publication of the Libor (11:55 hours London time), the forward premium for maturities equal or larger than one year (which are based on the Libor) is shifted one day forward for all countries. 
+%This is because the Libor on day \(\idxt\) will be published around noon in London, before any Fed announcement; any surprises in Fed communications will be reflected in the Libor on day \(\idxt + 1\).\footnote{ The time subscript for the forward premium \(\rho\) in equation (\ref{eq:nLCsynt}) is thus \(\idxt + 1\) when \(\tnr \geq 1\).}
+%Similarly, 
+Since the nominal yields reported by Bloomberg are pulled at around 16 hours New York time, they are shifted one day forward for the non-Western Hemisphere countries so that their daily changes adequately capture surprises in Fed announcements.
+The credit risk premium for those countries is thus calculated using the shifted nominal yields.
 
 %Fed announcements at 14 hours NY time.
 %Nominal LC yield curves pull at 16 hours NY time.
@@ -491,35 +494,49 @@ Although surveys have good forecasting properties, it is important to acknowledg
 \subsection{Survey Data} \label{sec:SurveyData}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-Unfortunately, there is no source for long-term forecasts for the short rate of emerging markets. They can be inferred, however, from existing data and Taylor rule-type regressions, in the spirit of \cite{Wright:2011} for advanced countries.
-
-Twice a year Consensus Economics provides 1- through 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample. This data is available from March 2001 to October 2017.\footnote{ The availability of data varies by country; for example, data for the Philippines starts in 2009, whereas data for Latin American countries ends in October 2013. Survey data for Israel and South Africa is not available.}
+Long-term forecasts are particularly helpful to pin down the parameters under the \(\Pmeasure\) measure.
+Twice a year Consensus Economics provides 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample. 
+This data is available from March 2001 to October 2017.\footnote{ Data availability varies by country; for example, data for the Philippines starts in 2009, whereas it ends in October 2013 for Latin American countries. Data for Israel and South Africa is not available.}
+Figures \ref{fig:wnCPI} and \ref{fig:wnGDP} respectively plot the long-horizon forecasts for inflation and real GDP growth.
+With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining.
+%Meanwhile, for half of the EMs in the sample, there is a declining trend in their expected real GDP growth. 
 %on survey forecasts for emerging markets 
 %surveys professional forecasters 
 
-To obtain the embedded expectations for the policy rate in the survey responses, I first estimate the following model with quarterly data for each emerging market:
-	\input{../Equations/nTaylorRule}
-\noindent where \(\shortrate\) is the policy rate, \(\pi_{t}\) is the year-on-year consumer price inflation and \(g_{t}\) is the year-on-year real GDP growth; 
-\(\beta_{\srate}\) is a smoothing parameter that improves the fit of the model to the data. 
-The information for \(\shortrate\) is obtained from the policy rate statistics of the Bank for International Settlements, and the data for inflation and real GDP growth comes from Bloomberg.
-
-I then assume that the estimated parameters from equation (\ref{eq:nTaylorRule}) apply to each of the survey maturities \(\tnr = 1, 2 \ldots, 5, 10\) for inflation and real GDP growth.\footnote{ The long-term forecasts are allocated to the 10-year maturity.}
-The expected future policy rate is then calculated as:\footnote{ Under stationarity, \(\mathrm{E}(\shortrate) = \mathrm{E}(\shortratelag)\).}
-	\input{../Equations/nYsurvey}
-I account for the uncertainty in the estimation of \(\rateSvy\) when estimating the survey-augmented affine model.
-The model-free estimate for the \(\tnr\)-period term premium \(\termprm\) is obtained as the difference between \(\yLCnom\) and \(\rateSvy\).
-%	\input{../Equations/nTPsurvey}
-
-Figures \ref{fig:wnCPI} and \ref{fig:wnGDP} respectively plot the long-horizon forecasts for inflation and real GDP growth from Consensus Economics.
-Only Brazil and Turkey show an upward trend in their inflation expectations; for the rest of the countries, those expectations have been stable or even declining.
-Meanwhile, for half of the EMs in the sample, there is a declining trend in their expected real GDP growth. 
-Figure \ref{fig:YLD10Y_CBP} shows the estimated long-horizon forecasts for the short rate. The estimates are sensible, they have magnitudes in line with the nominal 10-year yield in each country.
+Although there is no source for long-term forecasts for the short rate of emerging markets, they can be inferred from existing data. 
+Since emerging markets are small open economies, I assume that the real interest rate is determined abroad. 
+The implied forecast for the domestic nominal short-term rate is then equal to the forecast for the international real short-term rate plus the domestic inflation forecast for the same maturity. 
+This approach requires to define the international real interest rate and long-term forecasts for it.
+As with synthetic yields, the U.S. is taken as the benchmark for emerging markets. 
+Forecasts for the U.S. real interest rate are obtained as the difference between the forecast for the three-month Treasury bill (T-bill) rate and the inflation forecast for the same maturity.
+%, namely 5 and 10 years ahead.
+The required data is available quarterly from the Survey of Professional Forecasters.
+Specifically, I use the 5- and 10-Year CPI inflation forecasts and, for the T-bill rate, the 10-year forecast and the second longest available one
+%for the 5-year tenor 
+since there is no 5-year forecast for the T-bill rate.\footnote{ The specific the series are CPI5YR, CPI10, BILL10 and TBILLD. The BILL10 series is released in the first-quarter surveys only so I use linear interpolation for the second to fourth quarters in the respective year. Consensus Economics forecasts are considered at the end of the month in which they are published, at that time the most recent value for the U.S. real interest rate forecast is used to calculate the implied forecast for the domestic short rate.}
+Figure \ref{fig:YLD10Y_CBP} shows the implied forecasts for the domestic short-term rates. 
+The estimates are sensible, they have magnitudes in line with the synthetic 10-year yield in each country.
 
 %In principle, there is an alternative way to use the surveys from Consensus Economics to aid in the estimation of the affine model. 
-An alternative way to use the surveys from Consensus Economics is to assume that the emerging markets in the sample are small open economies, and so their real interest rate would be determined abroad. The forecast for the local short rate would then be equal to the forecast for the international real short rate plus the forecast for inflation at each of the available maturities. 
-This approach requires to define the international real short rate and to have long-term forecasts for it.
-As before, the U.S. can be the benchmark for all emerging markets. Long-term forecasts for its real rate can be obtained as the difference between the respective forecasts for the nominal short rate and inflation.
-This approach will be considered in a future version of this paper.
+An alternative way to infer the embedded expectations for the policy rate is to use Taylor rule-type regressions, and assume that the estimated parameters for inflation and real GDP growth apply at each of the survey maturities.\footnote{ I estimate a panel data model for the policy rate on its lag, the year-on-year consumer price inflation and the year-on-year real GDP growth. The coefficient for the lag of the policy rate is a smoothing parameter that improves the fit of the model to the data. A potential drawback of this approach is precisely that it requires to know the expectation of the policy rate for the previous forecast horizon. Nevertheless, it is not required under stationarity, a reasonable assumption for long-term forecasts (5 and 10 years), in which case only survey data for inflation and GDP growth are needed. Data from the policy rate statistics of the Bank for International Settlements is used for the dependent variable.}
+The two approaches yield similar values for the implied forecasts for the domestic short-term rates. 
+The correlation 
+%under the two approaches 
+is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
+
+
+%I use quarterly data 
+%	\input{../Equations/nTaylorRule}
+%\noindent where \(\shortrate\) is the policy rate, \(\pi_{t}\) is the year-on-year consumer price inflation and \(g_{t}\) is the year-on-year real GDP growth; 
+%\(\beta_{\srate}\) is a smoothing parameter that improves the fit of the model to the data. 
+%The information for \(\shortrate\) is obtained from the policy rate statistics of the Bank for International Settlements, and the data for inflation and real GDP growth comes from Bloomberg.
+%I then assume that the estimated parameters from equation (\ref{eq:nTaylorRule}) apply to each of the survey maturities \(\tnr = 1, 2 \ldots, 5, 10\) for inflation and real GDP growth.\footnote{ The long-term forecasts are allocated to the 10-year maturity.}
+%The expected future policy rate is then calculated as:\footnote{ Under stationarity, \(\mathrm{E}(\shortrate) = \mathrm{E}(\shortratelag)\).}
+%	\input{../Equations/nYsurvey}
+%I account for the uncertainty in the estimation of \(\rateSvy\) when estimating the survey-augmented affine model.
+%The model-free estimate for the \(\tnr\)-period term premium \(\termprm\) is obtained as the difference between \(\yLCnom\) and \(\rateSvy\).
+%	\input{../Equations/nTPsurvey}
+
 
 %Linear interpolation for the BILL10 since available annually on the first quarter.
 %Real rates:
@@ -534,7 +551,7 @@ This approach will be considered in a future version of this paper.
 \subsection{Estimation} \label{sec:Estimation}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 Affine term structure models can be estimated by maximum likelihood, but the convergence to the global optimum has been traditionally subject to computational challenges and multiple local optima.
-\citet*{JSZ:2011} (hence JSZ) propose a normalization of the affine model that improves the convergence to the global optimum of the likelihood function.\footnote{ \cite{ACM:2013} estimate the model using linear regressions but leads to overidentification. \cite{GolinskiSpencer:2019} correct for this based on JSZ.} 
+\citet*{JSZ:2011} (hence JSZ) propose a normalization of the affine model that improves the convergence to the global optimum of the likelihood function.\footnote{ \cite{ACM:2013} estimate the model using linear regressions. This approach leads to overidentification. \cite{GolinskiSpencer:2019} correct for it based on JSZ.} 
 
 The JSZ normalization allows for the near separation of the model's likelihood function into the product of the \(\Pmeasure\) and \(\Qmeasure\) likelihood functions, and reduces the dimension of the parameter space from \((\deltazero, \deltaone, \XmuQ, \XPhiQ, \XSigma)\) to \((\srate^{\Qmeasure}_{\infty}, \lambda^{\Qmeasure},\XSigma)\), where \(\srate^{\Qmeasure}_{\infty}\) is the short rate under \(\Qmeasure\) in the long-run and \(\lambda^{\Qmeasure}\) is a \(\Xdim \times 1\) vector of ordered eigenvalues of \(\XPhiQ\).
 
