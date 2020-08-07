@@ -114,8 +114,8 @@ close all
 
 %% Compare results (different versions, different variables): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-fldname = [strcat({'ny','sy','nsf','nsb','ssf','ssb'},'_tp') 'ssb_yP'];
-fldnmAE = [strcat({'ny','sy'},'_tp') 'ny_yP'];
+fldname = [strcat({'mny','msy','mnsf','mnsb','mssf','mssb'},'_tp') 'mssb_yP'];
+fldnmAE = [strcat({'mny','msy'},'_tp') 'mny_yP'];
 % Simple
     % EM
 for k1 = 1:length(fldname)
@@ -225,8 +225,8 @@ close all
 %% Compare TP (different versions, same variable): ny, ns, sy, ss
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 % sgmS baseline vs free: differences due to convergence, check fit for BRL-COP-MYR
-fldtype1 = 'ssb_';   fldvar  = 'tp';
-fldtype2 = 'ssf_';   fldname = [fldtype2 fldvar];
+fldtype1 = 'mssb_';   fldvar  = 'tp';
+fldtype2 = 'mssf_';   fldname = [fldtype2 fldvar];
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -261,8 +261,8 @@ end
 figname = [fldtype1 fldtype2 fldvar]; save_figure(figdir,figname,formats,figsave)
 
 % Synthetic vs nominal: surveys (gains from synthetic)
-fldtype1 = 'ssb_';   fldvar  = 'tp';
-fldtype2 = 'nsb_';   fldname = [fldtype2 fldvar];
+fldtype1 = 'mssb_';   fldvar  = 'tp';
+fldtype2 = 'mnsb_';   fldname = [fldtype2 fldvar];
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -298,8 +298,8 @@ end
 figname = [fldtype1 fldtype2 fldvar]; save_figure(figdir,figname,formats,figsave)
 
 % Synthetic: surveys vs yields (gains from surveys)
-fldtype1 = 'ssb_';	fldvar  = 'tp';
-fldtype2 = 'sy_';   fldname = [fldtype1 fldvar];
+fldtype1 = 'mssb_';	fldvar  = 'tp';
+fldtype2 = 'msy_';   fldname = [fldtype1 fldvar];
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -316,8 +316,8 @@ end
 figname = [fldtype1 fldtype2 fldvar]; save_figure(figdir,figname,formats,figsave)
 
 % Synthetic surveys vs nominal yields (gains from both)
-fldtype1 = 'ssb_';	fldvar  = 'tp';
-fldtype2 = 'ny_';   fldname = [fldtype1 fldvar];
+fldtype1 = 'mssb_';	fldvar  = 'tp';
+fldtype2 = 'mny_';   fldname = [fldtype1 fldvar];
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -357,7 +357,7 @@ close all
 
 %% Model fit to synthetic
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
-fldname = {'ms_blncd','bsl_yQ'}; % fldname = {'s_blncd','ssb_yQ'};
+fldname = {'ms_blncd','bsl_yQ'};
 for k0 = 1:nEMs
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
@@ -374,7 +374,7 @@ close all
 
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
-% surveys_CBP vs ssb_yP (surveys)
+% mssb_yP (surveys) vs surveys_CBP 
 fldname = {'bsl_yP','scbp'};
 figure
 for k0 = 1:nEMs
@@ -395,8 +395,8 @@ for k0 = 1:nEMs
 end
 figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)  % update reference to figure
 
-% surveys_CBP vs sy_yP (yields only)
-fldname = {'sy_yP','scbp'};
+% msy_yP (yields only) vs surveys_CBP
+fldname = {'msy_yP','scbp'};
 figure
 for k0 = 1:nEMs
     dtmn  = datesminmax(S,k0);
@@ -444,7 +444,7 @@ for k0 = 1:nEMs
         subplot(3,5,k0)
         plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)       % 10Y
         title(S(k0).cty);
-        datetick('x','yy'); yline(0); ylim([-2 8]);
+        datetick('x','yy'); yline(0); ylim([-4 4]);
         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
@@ -488,8 +488,8 @@ close all
 %% Synthetic vs nominal yP: if yP similar, supports BRP  = TP + CR
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
     % Surveys
-fldtype1 = 'ssb_';   fldvar = 'yP';
-fldtype2 = 'nsb_';   fldname = [fldtype2 fldvar];
+fldtype1 = 'mssb_';   fldvar = 'yP';
+fldtype2 = 'mnsb_';   fldname = [fldtype2 fldvar];
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -561,7 +561,7 @@ figname = fldname; save_figure(figdir,figname,formats,figsave)
 % BRP components: relative importance
 figure
 for k0 = 1:nEMs
-    fldname = {'brp','bsl_tp','c_blncd'};
+    fldname = {'brp','bsl_tp','mc_blncd'};
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,...
          S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,...
@@ -578,7 +578,7 @@ figname = 'brp_dcmp'; save_figure(figdir,figname,formats,figsave)
 % Compare BRP vs TPnom: if similar, supports LCNOM gives biased estimates of TP
 figure
 for k0 = 1:nEMs
-    if ~isempty(S(k0).ssb_tp)
+    if ~isempty(S(k0).mssb_tp)
         fldname = {'brp','nsb_tp'};
     else
         fldname = {'brp','ny_tp'};
@@ -598,7 +598,7 @@ close all
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
 figure
 for k0 = 1:nEMs
-    fldname = {'bsl_yP','bsl_tp','c_blncd'};
+    fldname = {'bsl_yP','bsl_tp','mc_blncd'};
     subplot(3,5,k0)
     h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
               S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
@@ -618,7 +618,7 @@ figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 % TP vs LCCS: negative relationship
 figure
 for k0 = 1:nEMs
-    fldname = {'bsl_tp','c_blncd'};
+    fldname = {'bsl_tp','mc_blncd'};
     subplot(3,5,k0)
     yyaxis left
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100)
