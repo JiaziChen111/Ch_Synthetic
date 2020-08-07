@@ -1,11 +1,19 @@
 function S = add_vars(S,currEM)
-% ADD_VARS Add variables to structure S (estimated real rates, 
+% ADD_VARS Add variables to structure S (std of survey errors, real rates, 
 % survey-based term premia, EPU indexes)
 
 % m-files called: datesminmax, syncdatasets, read_epu_idxs
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
 nEMs = length(currEM);
+
+%% Add estimated sgmS
+fldname = 'mssf_pr';
+for k0  = 1:nEMs
+    if ~isempty(S(k0).(fldname))
+        S(k0).sgmS = S(k0).(fldname).sgmS;
+    end
+end
 
 %% Calculate and store the ex-ante real rate for EMs
 fldname = {'mssb_yP','scpi'};
