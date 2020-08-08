@@ -16,7 +16,7 @@ for k0  = 1:nEMs
 end
 
 %% Calculate and store the ex-ante real rate for EMs
-fldname = {'mssb_yP','scpi'};
+fldname = {'bsl_yP','scpi'};
 for k0  = 1:nEMs
     if ~isempty(S(k0).(fldname{1}))
         dtst1  = S(k0).(fldname{1}); dtst2 = S(k0).(fldname{2});        % extract data
