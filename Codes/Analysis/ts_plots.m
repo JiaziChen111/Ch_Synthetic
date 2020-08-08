@@ -1,7 +1,7 @@
 function ts_plots(S,currEM,currAE,kwtp,vix)
 % TS_PLOTS Plot different series after estimation of affine model
 
-% m-files called: datesminmax, syncdatasets, save_figure
+% m-files called: datesminmax, syncdatasets, inflation_target, save_figure
 % Pavel Solís (pavel.solis@gmail.com), June 2020
 %%
 nEMs = length(currEM);
@@ -101,11 +101,15 @@ for k0 = 1:length(macrovr)
             fltrd = S(k1).(fldname)(:,1) >= dtmn;
             subplot(3,5,k1)
             plot(S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end),...
-                S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end-1),'-.')
+                S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end-1),'-.');
             title(S(k1).cty);
-            if k1 == 13; legend({'10Y','5Y'},'Location','southwest','AutoUpdate','off'); end
-            datetick('x','yy'); yline(0);
+            if k1 == 12; legend({'10Y','5Y'},'Location','southwest','AutoUpdate','off'); end
+            datetick('x','yy');
             L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))     % sets #ticks to 4
+            [ld,lu] = inflation_target(S(k1).iso);
+            if ~isempty(ld); yline(ld,'--'); yline(lu,'--'); end
+            ylim([0 8]); % yline(0);
+            
         end
     end
     figname = ['wn' macrovr{k0}]; save_figure(figdir,figname,formats,figsave)
