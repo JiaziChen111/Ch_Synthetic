@@ -23,15 +23,15 @@ S = append_svys2ylds(S,currEM);
 %% Estimate affine term structure model
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.9 hrs
+S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4 hrs
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
+S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 4.1 hrs
 datetime(now(),'ConvertFrom','datenum')
 
 % Baseline estimations
-fldname = {'ssb_','sy_','ny_'};
-fldtype = {'yQ','yP','tp','pr'};
 ncntrs  = length(S);
+fldname = {'mssb_','msy_','mny_'};
+fldtype = {'yQ','yP','tp','pr'};
 ntypes  = length(fldtype);
 for k0  = 1:ncntrs
     for k1 = 1:ntypes
@@ -50,27 +50,16 @@ end
 % Assess fit of the model
 [S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
 
-% Report estimated sgmS
-fldname = 'ssf_pr';
-aux = [];
-for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname))
-        aux = [aux; k0 S(k0).(fldname).sgmS];
-    end
-end
+S = add_vars(S,currEM);
 
 %% Store/load results
 cd(pathd)
 % save struct_datamy_S.mat S currAE currEM
 load('struct_datamy_S.mat')
 load('struct_datady_cells.mat')
-load('struct_datady_S.mat','currAE')
-load('struct_datady_S.mat','currEM')
 cd(pathc)
 
 %% Post-estimation analysis
-S = add_vars(S,currEM);
-
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
 vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 [TT_kw,kwtp,kwyp] = read_kw(matsout);
