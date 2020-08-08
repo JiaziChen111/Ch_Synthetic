@@ -1,4 +1,4 @@
-function trendinf = trend_inflation(S,currEM,cntrs,tfplot,tfsave)
+function S = trend_inflation(S,currEM,trndcntrs,tfplot,tfsave)
 % TREND_INFLATION Return the trend (within the inflation target) generated
 % by the HP filter on the months in which Consensus Economics generally
 % publish forecasts for emerging markets
@@ -46,8 +46,8 @@ end
 
 % Annual, semiannual or quarterly data
 TTfreq = TTinf(ismember(month(TTinf.Time),[4 10]),:);                      % annual: 12; quarterly: [3 6 9 12]
-HPfreq = array2timetable(hpfilter(TTfreq{:,:},1600),'RowTimes',TTfreq.Time,...   % annual: lambda = 100
-                          'VariableNames',TTfreq.Properties.VariableNames);
+isocds = TTfreq.Properties.VariableNames;
+HPfreq = array2timetable(hpfilter(TTfreq{:,:},1600),'RowTimes',TTfreq.Time,'VariableNames',isocds);% annual:100
 
 % Shorten sample to range of survey data for other countries
 HPfreq = HPfreq(isbetween(HPfreq.Time,min(TTsvy.Time),max(TTsvy.Time)),:);
@@ -56,20 +56,19 @@ HPfreq = HPfreq(isbetween(HPfreq.Time,min(TTsvy.Time),max(TTsvy.Time)),:);
 for k1 = 1:nEMs
     [ld,lu] = inflation_target(S(k1).iso);
     if ~isempty(ld)
-        fltrCTY = strcmp(HPfreq.Properties.VariableNames,S(k1).iso);
+        fltrCTY = strcmp(isocds,S(k1).iso);
         fltrTGT = HPfreq{:,fltrCTY} > ld & HPfreq{:,fltrCTY} < lu;
         HPfreq{~fltrTGT,fltrCTY} = nan;
     end
 end
 
 %% Report trend
-trendinf = struct([]);
-for k4 = 1:length(cntrs)
-    fltrTRN = ismember(HPfreq.Properties.VariableNames,cntrs{k4});
+for k4 = 1:length(trndcntrs)
+    fltrTRN = ismember(isocds,trndcntrs{k4});
     dates   = datenum(HPfreq.Time);
     HPtrend = HPfreq{:,fltrTRN};
     fltrNAN = isnan(HPtrend);
-    trendinf(k4).hp = [nan 1 5 10;
+    S(fltrTRN).scpi = [nan 1 5 10;
                        dates(~fltrNAN) nan(size(HPtrend(~fltrNAN),1),1) repmat(HPtrend(~fltrNAN),1,2)];
 end
 
@@ -92,5 +91,5 @@ if tfplot
         end
     end
     figdir  = 'Surveys'; formats = {'eps'}; figsave = tfsave;
-    figname = ['CPI_' [cntrs{:}]]; save_figure(figdir,figname,formats,figsave)
+    figname = ['CPI_' [trndcntrs{:}]]; save_figure(figdir,figname,formats,figsave)
 end
