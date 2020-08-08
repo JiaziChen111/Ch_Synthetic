@@ -189,21 +189,12 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Generate daily dataset.
-	\begin{todolist}
-		\item[\done] Update append_dataset to use synchronize instead of concatenate.
-		\item[\done] Restrict sample for RUB to start in July 2009. Already explained in paper.
-		\item[\done] Compare RHO calculated in Matlab against Stata.
-		\item[\done] Correct error in time shift of fwd_prm. Need to include name of column in filter to properly account for position before the shift.
-		\item[\done] Check whether RHO 0.25-0.75Y needs to be shifted and verify that RHO 1-10Y needs to be shifted. Do exercise using rho vs sftrho, do they react to US MPS at time t or tp1? Is there a difference b/w WH and non-WH (due to time difference)? Conclusion: no shift needed, it reacts at time t for all countries.
-		\item[\done] Remove time shift in RHO.
-		\item[\done] Check time shift in LCNOM is correctly done.
-		\item Compare LCNOM and LCSYNT calculated in Matlab against sftnom and sftsyn in Stata. LCSYNT and PHI are not the old ones shifted b/c only one component changed/shifted (not both).
-		\item Save new mat files in folder August in Dropbox.
-	\end{todolist}
 	\item Re-estimate parameters using implied forecasts for CBP.
 	\begin{todolist}
 		\item[\done] Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
+		\item Compare results against previous ones. IDR : fit is bad, yP is far from scbp, TP seems too high. TRY: TP seems to high. ILS: TP seems to high.
+		\item[\done] Solution for ILS: inflation highly correlated w/ IDR, KRW, PHP, THB. How good SCPI vs INF.
+		\item HP for the inflation of ILS and ZAR as SCPI.
 	\end{todolist}
 	\item Post-estimation analysis.
 	\begin{todolist}
@@ -218,6 +209,7 @@
 		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
 		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
+		\item Ensure scbp for 1Y is included to verify yP vs scbp for 1Y.
 		\item Include 3 PCs and estimated pricing factors per country. Maybe in add_vars.
 		\item Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Relate them to US YC components, global activity indexes, local conditions.
 		\item Ensure all tenors are in months: TT_kw, TT_rr.
@@ -226,6 +218,9 @@
 	\item Reproduce LPs in Stata.
 	\begin{todolist}
 		\item How much the shift in LCNOM affects LPs? Use nom and sftnom.
+		\item Redefine regions as in Hofmann, Shim and Shin and see LPs. If not regional, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs.
+		\item Substitute . by zeros in US MPS.
+		\item Try lag of depvar as in Hofmann, Shim and Shin and see LPs.
 		\item Express variables in basis points.
 		\item Save figures to be used in pdf.
 		\item Are big changes in TP related to local events?
@@ -237,7 +232,7 @@
 		\item Stock and Watson inflation decomposition. Follow Wright 2011.
 		\item Skim through Warnock papers on TIC data.
 		\item Include TIC data for each country (inflows and outflows) in dataset.
-		\item Variable of financial openness (Chinn-Ito index).
+		\item Variable of financial openness (Chinn-Ito index). Linear interpolation for monthly frequency.
 		\item Diebold-Yilmaz spillover index.
 	\end{todolist}
 	\item Interpret the results.
@@ -295,6 +290,20 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Generate daily dataset and verify time shift.
+	\begin{todolist}
+		\item[\done] Update append_dataset to use synchronize instead of concatenate.
+		\item[\done] Restrict sample for RUB to start in July 2009. Already explained in paper.
+		\item[\done] Compare RHO calculated in Matlab against Stata.
+		\item[\done] Correct error in time shift of fwd_prm. Need to include name of column in filter to properly account for position before the shift.
+		\item[\done] Check whether RHO 0.25-0.75Y needs to be shifted and verify that RHO 1-10Y needs to be shifted. Do exercise using rho vs sftrho, do they react to US MPS at time t or tp1? Is there a difference b/w WH and non-WH (due to time difference)? Conclusion: no shift needed, it reacts at time t for all countries.
+		\item[\done] Remove time shift in RHO.
+		\item[\done] Check time shift in LCNOM is correctly done.
+		\item[\done] Determine what variables need to be shifted. Note: Only LCNOM for non-WH countries. That will be reflected in PHI.
+		\item[\done] Compare LCNOM calculated in Matlab against sftnom in Stata.
+		\item[\done] Compare PHI calculated in Matlab against sftphi in Stata. For non-WH countries, PHI is not the old one shifted b/c only one component (LCNOM) changed/shifted (not both).
+		\item[\done] Save new mat files in folder August in Dropbox. Very high correlation of RHO w/ DS, high correlation of CIP up to 9Y, 0.5-0.9 correlation of CIP 10Y. In general, correlation w/ CIP of DS declines slightly due to time shift.
+	\end{todolist}
 	\item[\done] Shift time for variables in Matlab.
 	\begin{todolist}
 		\item[\done] Review comparison of nom/syn vs sft versions for ALL shocks to really identify countries for shift: look for responses similar to US YC (target for 2Y, path and LSAP for 10Y); compare against decision based on large shocks; compare to the currently used countries for sftnom. Guiding patterns: on-impact response (same direction), response over time to each shock (similar pattern), effect of large surprises (consistent w/ LPs). Note: LPs for individual countries confirm that LCNOM tP1 for non-WH countries.
