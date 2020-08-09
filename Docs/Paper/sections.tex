@@ -61,6 +61,8 @@ In fact, to better understand how the yields of emerging markets respond to U.S.
 %Conveniently, this
 This last component is characteristic of emerging markets and, to the best of my knowledge, it has not been accounted for in the literature that decomposes the bond yields of emerging markets.%\footnote{ Examples include \citep*{BlakeRuleRummel:2015}.}
 
+% Second Q: Does the response of EM yields is different to that of AE yields?
+% Third Q: how important is it to correct for credit risk? How conclusions change if ignored?
 
 %The credit risk premium is characteristic of emerging markets.
 The credit risk premium acknowledges that not all sovereign bonds are equal.
@@ -494,14 +496,17 @@ Although surveys have good forecasting properties, it is important to acknowledg
 \subsection{Survey Data} \label{sec:SurveyData}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-Long-term forecasts are particularly helpful to pin down the parameters under the \(\Pmeasure\) measure.
+Long-term forecasts are particularly helpful for the model to pin down the parameters under the \(\Pmeasure\) measure.
 Twice a year Consensus Economics provides 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample. 
-This data is available from March 2001 to October 2017.\footnote{ Data availability varies by country; for example, data for the Philippines starts in 2009, whereas it ends in October 2013 for Latin American countries. Data for Israel and South Africa is not available.}
+For this paper, the data is available from March 2001 to October 2017.\footnote{ Data availability varies by country; for example, data for the Philippines starts in 2009, whereas it ends in October 2013 for Latin American countries.}
 Figures \ref{fig:wnCPI} and \ref{fig:wnGDP} respectively plot the long-horizon forecasts for inflation and real GDP growth.
-With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining.
+With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see below for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band corresponds to the highest and lowest bounds since 2009.}
+Notice that the 5-year ahead and long-term forecasts are highly correlated for both inflation and GDP growth.
 %Meanwhile, for half of the EMs in the sample, there is a declining trend in their expected real GDP growth. 
 %on survey forecasts for emerging markets 
 %surveys professional forecasters 
+
+% Korhonen and Nuutilainen (2017) - Breaking monetary policy rules in Russia: Fig. 1 shows the inflation targets (or target ranges) of the Bank of Russia, as well as the realized inflation from 2000 to 2017. (It should be noted that, especially during earlier periods, it was sometimes difficult to discern inflation targets from forecasts, although these ranges were called inflation targets in the Bank of Russia's annual monetary policy guidelines.) One can see that the realized inflation overshot inflation targets on several occasions, and that the largest deviations from the inflation target have happened in the aftermath of large currency depreciations, such as in 2008 and 2015.
 
 Although there is no source for long-term forecasts for the short rate of emerging markets, they can be inferred from existing data. 
 Since emerging markets are small open economies, I assume that the real interest rate is determined abroad. 
@@ -513,16 +518,35 @@ Forecasts for the U.S. real interest rate are obtained as the difference between
 The required data is available quarterly from the Survey of Professional Forecasters.
 Specifically, I use the 5- and 10-Year CPI inflation forecasts and, for the T-bill rate, the 10-year forecast and the second longest available one
 %for the 5-year tenor 
-since there is no 5-year forecast for the T-bill rate.\footnote{ The specific the series are CPI5YR, CPI10, BILL10 and TBILLD. The BILL10 series is released in the first-quarter surveys only so I use linear interpolation for the second to fourth quarters in the respective year. Consensus Economics forecasts are considered at the end of the month in which they are published, at that time the most recent value for the U.S. real interest rate forecast is used to calculate the implied forecast for the domestic short rate.}
-Figure \ref{fig:YLD10Y_CBP} shows the implied forecasts for the domestic short-term rates. 
-The estimates are sensible, they have magnitudes in line with the synthetic 10-year yield in each country.
+since there is no 5-year forecast for the T-bill rate.\footnote{ The specific series are CPI5YR, CPI10, BILL10 and TBILLD. The BILL10 series is released in the first-quarter surveys only, so I use linear interpolation for the second to fourth quarters in the respective year. Consensus Economics forecasts are considered at the end of the month in which they are published, at that time the most recent value for the U.S. real interest rate forecast is used to calculate the implied forecast for the domestic short rate.}
+Figure \ref{fig:YLD10Y_CBP} shows the implied long-term forecasts for the domestic short-term rates. 
+The estimates are sensible, their level is in line with the synthetic 10-year yield in each country.
 
 %In principle, there is an alternative way to use the surveys from Consensus Economics to aid in the estimation of the affine model. 
-An alternative way to infer the embedded expectations for the policy rate is to use Taylor rule-type regressions, and assume that the estimated parameters for inflation and real GDP growth apply at each of the survey maturities.\footnote{ I estimate a panel data model for the policy rate on its lag, the year-on-year consumer price inflation and the year-on-year real GDP growth. The coefficient for the lag of the policy rate is a smoothing parameter that improves the fit of the model to the data. A potential drawback of this approach is precisely that it requires to know the expectation of the policy rate for the previous forecast horizon. Nevertheless, it is not required under stationarity, a reasonable assumption for long-term forecasts (5 and 10 years), in which case only survey data for inflation and GDP growth are needed. Data from the policy rate statistics of the Bank for International Settlements is used for the dependent variable.}
+An alternative way to infer the embedded expectations for the policy rate is to use Taylor rule-type regressions, and assume that the estimated parameters for inflation and real GDP growth apply at each of the survey maturities.\footnote{ I regress the policy rate on its lag, the year-on-year consumer price inflation and the year-on-year real GDP growth for all the countries except Israel and South Africa. The coefficient for the lag of the policy rate is a smoothing parameter that improves the fit of the model to the data. A potential drawback of this approach is precisely that it requires to know the expectation of the policy rate for the previous forecast horizon. Nevertheless, it is reasonable to assume stationarity for the long-term forecasts (5 and 10 years), in which case only survey data for inflation and GDP growth are needed after dividing their coefficients by 1 minus the coefficient for the lag of the policy rate (due to stationarity). Data from the policy rate statistics of the Bank for International Settlements is used for the dependent variable.}
 The two approaches yield similar values for the implied forecasts for the domestic short-term rates. 
-The correlation 
-%under the two approaches 
-is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
+The correlation  between the two approaches is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
+
+An advantage of the small open economy approach is that it only requires forecasts for inflation or a proxy in the case of countries with no long-term forecasts available, namely Israel and South Africa.
+Inflation expectations are hoped to match measures of inflation that exclude unexpected shocks and better reflect the inflation environment.
+Different measures of core inflation exist.
+I use the inflation trend obtained by applying the Hodrick-Prescott filter to the series of realized inflation of each country.
+Of course, the filter is sensitive to the sample period used.
+The resulting trend can also be outside of the target inflation band due to the innate dynamics of the series, which would be at odds with survey data (see figure \ref{fig:wnCPI}).
+Fortunately, unlike other countries, there is no marked upward or downward trend in the inflation of the two countries during the sample period.
+For each country, trend inflation is calculated for the whole period but only considered within the time range for which survey data is available for the rest of the countries, and as long as the trend is within the inflation target band.
+Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa, and compares them with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked trend) and for which survey data is available.
+%It supports that t
+Trend inflation seems to be a good proxy for the long-term inflation forecasts of Israel and South Africa.
+Finally, since the 5-year and long-term forecasts closely follow each other (see figure \ref{fig:wnCPI}), I use trend inflation for both tenors.
+
+% Sigal Ribon (2009). Core Inflation Indices for Israel: 
+%For the purpose of examining the appropriateness of monetary policy ex post, and also to help determine policy for the future, it is important to focus on core inflation, i.e., inflation excluding unexpected shocks that are not affected by monetary policy.
+%The core indices are supposed to better reflect the inflation environment, and therefore we would expect that the expectations of inflation would be better matched to them. 
+%The major importance of a core index is that it enables us to identify the inflation environment and changes in it, for the purpose of setting monetary policy. 
+%the ability of monetary policy to have an influence does not necessarily refer to the development of the overall index which also has noises and fluctuations that are independent of monetary policy.
+% assessing the expected inflation environment and are likely to help in conducting monetary policy.
+
 
 
 %I use quarterly data 
@@ -588,20 +612,22 @@ This reduces the number of parameters to be estimated.
 % That is, the standard deviation of the errors in yields is the same for all maturities, as is the the standard deviation of the errors in the surveys for all maturities. 
 
 Finally, although survey data helps to discipline the model, relying too much on it can be counterproductive due to, for instance, measurement error\footnote{ Recall that Consensus Economics does not report long-term forecasts for the short rate of emerging markets.} and overfitting. 
-To strike a balance between these two considerations, I follow \cite{KimOrphanides:2012} in fixing \(\sigma_s\) at a conservative level of 75 basis points. This essentially means that survey data is seen as a noisy measure of expectations for the short rate.\footnote{ When \(\sigma_s\) is allowed to be estimated, its average value among all emerging markets is 24 basis points. In this case, the estimated term premia remains largely the same for most of the countries in the sample.}
+To strike a balance between these two considerations, I follow \cite{KimOrphanides:2012} in fixing \(\sigma_s\) at a conservative level of 75 basis points. 
+In essence, survey data is seen as a noisy measure of expectations for the short rate.\footnote{ When \(\sigma_s\) is allowed to be estimated, its average value among all emerging markets is 41 % 24 before SOE
+basis points.%\footnote{ 24 bp excluding IDR.} 
+In this case, the estimated term premia remains largely the same for most of the countries in the sample.}
 
 \subsubsection{Estimation with Daily Data}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
-The parameters of the model are estimated using end-of-month data because there is noise at the daily frequency that can undermine the estimation. 
-However, once the parameters are estimated, they can be used to estimate the model at the daily frequency \citep{ACM:2013}.
+The parameters of the model are estimated using end-of-month data because at the daily frequency there is noise that can undermine the estimation. 
+However, once the parameters are estimated with monthly data, they can be used to estimate the model at the daily frequency \citep{ACM:2013}.
 
 The estimation procedure explained above gives estimates for both the parameters and the pricing factors.
 Principal component analysis on the bond yields generates a matrix of weights or loadings for the different maturities to construct each principal component, which could be used to estimate the daily pricing factors.
-However, the pricing factors for the survey-augmented model are not necessarily the same as the principal components.
-Therefore, I obtain the matrix of loadings implied by those pricing factors using OLS.
+However, the pricing factors for the survey-augmented model are not necessarily the same as the principal components, so I obtain the matrix of loadings implied by those pricing factors using OLS.
 I regress the monthly pricing factors on the end-of-month observed yields.
 The weights so obtained are then applied to the daily yields to estimate the daily pricing factors.
-Finally, the parameters estimated with monthly data along with the daily pricing factors are used to fit and decompose the yields at the daily frequency.
+Finally, the parameters estimated with monthly data along with the daily pricing factors are used to fit---and decompose---the yields at the daily frequency.
 
 %The model described above can be estimated in a few simple steps. First, equation (\ref{eq:nXvarsP}) is estimated by OLS to obtain estimates of $\Xmu$, $\XPhi$ and $\XSigma$. The estimates of $\deltazero$ and $\deltaone$ can be obtained by estimating equation (\ref{eq:nShortRate}) also by OLS. Finally, the estimates of $\lambdazero$ and $\lambdaone$ are obtained by minimizing the distance between the fitted yields from equation (\ref{eq:nNSzero}) and the yields implied by the affine model in equation (\ref{eq:nYaffine}). More robust methods to estimate the model are available,\footnote{For example, \citet*{JSZ:2011} and \cite{HamiltonWu:2012} use maximum likelihood, \cite{Duffee:2011b} uses the Kalman filter, while \citet*{ACM:2013} use linear regressions.\label{fn:est_methods}} and one of them will be used in future versions of this paper.
 %
@@ -1194,6 +1220,7 @@ For instance, since U.S. monetary policy drives a repricing of interest and cred
 	\input{../Figures/Surveys/wnCPI}
 	\input{../Figures/Surveys/wnGDP}
 	\input{../Figures/Data/YLD10Y_CBP}
+	\input{../Figures/Surveys/CPI_ILSZAR}
 	\input{../Figures/Estimation/s_ylds_ssb_yQ}	% \ref{fig:s_ylds_ssb_yQ}
 	\input{../Figures/Estimation/ny_dcmp}
 	\input{../Figures/Estimation/svycbp_ssb_yP}
