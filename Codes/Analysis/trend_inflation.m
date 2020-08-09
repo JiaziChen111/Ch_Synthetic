@@ -3,44 +3,15 @@ function S = trend_inflation(S,currEM,trndcntrs,tfplot,tfsave)
 % by the HP filter on the months in which Consensus Economics generally
 % publish forecasts for emerging markets
 % 
-% m-files called: inflation_target
+% m-files called: inflation_target, emtimetable
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %% 
 nEMs = length(currEM);
-if nargin < 4
-    tfplot = false; tfsave = false;
-end
+if nargin < 4;  tfplot = false;	tfsave = false; end
 
 %% Collect data
-datehld = datetime(lbusdate(2001,3),'ConvertFrom','datenum');
-for k0  = 1:nEMs
-    % Inflation data
-    datesINF = S(k0).inf(:,1);
-    dataINF  = S(k0).inf(:,2);
-    TTaux1   = array2timetable(dataINF,'RowTimes',datetime(datesINF,'ConvertFrom','datenum'),...
-                               'VariableNames',{S(k0).iso});
-    if k0 == 1
-        TTinf = TTaux1;
-    else
-        TTinf = synchronize(TTinf,TTaux1,'union');
-    end
-    
-    % Survey data
-    if ~isempty(S(k0).scpi)
-        datesSVY = S(k0).scpi(2:end,1);
-        dataSVY  = S(k0).scpi(2:end,end);                                   % 10Y tenor
-        TTaux2   = array2timetable(dataSVY,'RowTimes',datetime(datesSVY,'ConvertFrom','datenum'),...
-                                   'VariableNames',{S(k0).iso});
-    else                                                                    % placeholder
-        TTaux2 = array2timetable(nan,'RowTimes',datehld,'VariableNames',{S(k0).iso});
-    end
-    
-    if k0 == 1
-        TTsvy = TTaux2;
-    else
-        TTsvy = synchronize(TTsvy,TTaux2,'union');
-    end
-end
+TTinf = emtimetable(S,currEM,'inf');
+TTsvy = emtimetable(S,currEM,'scpi',10);
 
 %% HP filter (whole sample)
 
