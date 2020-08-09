@@ -1,17 +1,18 @@
-function TTvar = emtimetable(S,currEM,fldname,tenor)
-% EM_TIMETABLE Return a timetable with variable fldname for all emerging markets
+function TTvar = emtimetable(S,cntrs,fldname,tenor)
+% EM_TIMETABLE Return a timetable with variable fldname for countries in cntrs
+% generally cntrs = currEM, but cntrs = curncs also works (b/c loop starts at 1)
 % 
 % m-files called: none
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %% 
-nEMs    = length(currEM);
+nctrs   = length(cntrs);
 datehld = datetime(lbusdate(2001,3),'ConvertFrom','datenum');               % based on 1st obs of survey data
-for k0  = 1:nEMs
+for k0  = 1:nctrs
     % Extract variable in a timetable
     if ~isempty(S(k0).(fldname))                                            % country w/ no data
         ctymtrx = S(k0).(fldname);                                          % extract information
         [nrows,ncols] = size(ctymtrx);
-        if isnan(ctymtrx(1,1))                                              % identify whether tenors in 1st row
+        if isnan(ctymtrx(1,1)) || ctymtrx(1,1) == 0                         % identify whether tenors in 1st row
             fltrROW = [false; true(nrows-1,1)];                             % if so, start in 2nd row
             if nargin < 4; tenor = 10; end                                  % default tenor is 10Y
             fltrCOL = ctymtrx(1,:) == tenor;
