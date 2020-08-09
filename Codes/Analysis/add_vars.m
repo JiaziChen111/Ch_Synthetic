@@ -1,8 +1,8 @@
 function S = add_vars(S,currEM)
 % ADD_VARS Add variables to structure S (std of survey errors, real rates, 
-% survey-based term premia, EPU indexes)
+% survey-based term premia, EPU indexes, inflation volatility)
 
-% m-files called: datesminmax, syncdatasets, read_epu_idxs
+% m-files called: datesminmax, syncdatasets, read_epu_idxs, stockwatson
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
 nEMs = length(currEM);
@@ -62,4 +62,14 @@ for k0 = 1:nEMs
 end
 
 %% Add data for EPU indexes
-S   = read_epu_idxs(S);
+S = read_epu_idxs(S);
+
+%% Add (trend and cyclical) inflation volatility (Stock-Watson 2007)
+TTinf  = emtimetable(S,currEM,'inf');
+TTqtr  = TTinf(ismember(month(TTinf.Time),[3 6 9 12]),:);
+dtsqtr = datenum(TTqtr.Time);
+for k0 = 1:nEMs
+    [sdprm,sdcyc] = stockwatson(TTqtr{:,k0});
+    S(k0).sdprm   = [dtsqtr sdprm];
+    S(k0).sdcyc   = [dtsqtr sdcyc];
+end
