@@ -23,26 +23,31 @@ S = append_svys2ylds(S,currEM);
 %% Estimate affine term structure model
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4 hrs
-datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 4.1 hrs
 datetime(now(),'ConvertFrom','datenum')
+S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4 hrs
+datetime(now(),'ConvertFrom','datenum')
 
-% Baseline estimations
+%% Baseline estimations
 ncntrs  = length(S);
-fldname = {'mssb_','msy_','mny_'};
+fldname = {'mssb_','mny_'};  % fldname = {'mssb_','msy_','mny_'};
 fldtype = {'yQ','yP','tp','pr'};
 ntypes  = length(fldtype);
 for k0  = 1:ncntrs
     for k1 = 1:ntypes
-        switch S(k0).iso
-            case setdiff(currEM,{'ILS','ZAR'})
-                fldaux = fldname{1};                                % synthetic yields, surveys,fixed sgmS
-            case {'ILS','ZAR'}
-                fldaux = fldname{2};                                % synthetic yields
-            case currAE
-                fldaux = fldname{3};                                % nominal yields
+        if ismember(S(k0).iso,currEM)
+            fldaux = fldname{1};                                    % synthetic yields, surveys,fixed sgmS
+        else
+            fldaux = fldname{2};                                    % nominal yields
         end
+%         switch S(k0).iso
+%             case setdiff(currEM,{'ILS','ZAR'})
+%                 fldaux = fldname{1};                                % synthetic yields, surveys,fixed sgmS
+%             case {'ILS','ZAR'}
+%                 fldaux = fldname{2};                                % synthetic yields
+%             case currAE
+%                 fldaux = fldname{3};                                % nominal yields
+%         end
         S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldaux fldtype{k1}]);
     end
 end
