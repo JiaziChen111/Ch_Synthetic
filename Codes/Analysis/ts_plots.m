@@ -44,6 +44,24 @@ for l = 1:length(vars)
     end
     figname = ['wn' vars{l}]; save_figure(figdir,figname,formats,figsave)
 end
+
+% Inflation volatility: permanent vs cyclical
+figure
+for k0 = 1:nEMs
+    fldname = {'sdprm','sdcyc'};                                            % std of permanent and cyclical
+    subplot(3,5,k0)
+    yyaxis left
+    plot(S(k0).(fldname{1})(:,1),S(k0).(fldname{1})(:,2))
+    set(gca,'ytick',[])
+    yyaxis right
+    plot(S(k0).(fldname{2})(:,1),S(k0).(fldname{2})(:,2))
+    set(gca,'ytick',[])
+    title(S(k0).cty)
+    if k0 == 2; legend('SDPRM','SDCYC','Orientation','horizontal','AutoUpdate','off'); end
+    datetick('x','yy'); %yline(0);
+end
+figname = 'INF_vol'; save_figure(figdir,figname,formats,figsave)
+
 close all
 
 %% Plot 10Y yields
@@ -715,6 +733,27 @@ for k0 = 1:nEMs
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = 'tp_inf'; save_figure(figdir,figname,formats,figsave)             % update reference to figure
+
+% TP vs inflation volatility
+figure
+for k0 = 1:nEMs
+    fldname = {'stp','sdprm'};  % use bsl_tp % std of permanent component
+    [~,dtmx] = datesminmax(S,k0);
+    fltrd = S(k0).(fldname{2})(:,1) > dtmx;
+    subplot(3,5,k0)
+    yyaxis left
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100) % 10Y
+    set(gca,'ytick',[])
+    yyaxis right
+    plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,2))
+    set(gca,'ytick',[])
+    title(S(k0).cty)
+    if k0 == 2; legend('TP','SDPRM','Orientation','horizontal','AutoUpdate','off'); end
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
+
 close all
 
 %% Sources
