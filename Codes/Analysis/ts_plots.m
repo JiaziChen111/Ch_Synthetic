@@ -793,6 +793,16 @@ figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
 
 close all
 
+%% DY index (daily frequency)
+fldname = {'dn_data','d_yP','d_tp','dc_data'};  tenor = 10;
+figure
+for k0 = 1:length(fldname)
+    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
+    disp(DYtable)
+    plot(DYindex(:,1),DYindex(:,2)); hold on
+end
+datetick('x','yy'); hold off
+
 %% Sources
 
 % Hold on a legend in a plot
