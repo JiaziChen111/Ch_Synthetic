@@ -1,11 +1,10 @@
-function TTvar = emtimetable(S,cntrs,fldname,tenor)
-% EM_TIMETABLE Return a timetable with variable fldname for countries in cntrs
-% generally cntrs = currEM, but cntrs = curncs also works (b/c loop starts at 1)
+function TTvar = cntrstimetable(S,cntrs,fldname,tenor)
+% CNTRSTIMETABLE Return timetable w/ variable fldname for countries in cntrs
 % 
 % m-files called: none
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %% 
-nctrs   = length(cntrs);
+nctrs   = length(S);
 datehld = datetime(lbusdate(2001,3),'ConvertFrom','datenum');               % based on 1st obs of survey data
 for k0  = 1:nctrs
     % Extract variable in a timetable
@@ -35,3 +34,5 @@ for k0  = 1:nctrs
         TTvar = synchronize(TTvar,TTaux,'union');
     end
 end
+
+TTvar = TTvar(:,ismember(TTvar.Properties.VariableNames,cntrs));
