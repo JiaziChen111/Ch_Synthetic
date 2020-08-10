@@ -15,7 +15,7 @@ load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
 cd(pathc)
 
-%% Process the data
+%% Process data
 S = daily2dymy(S,dataset_daily,header_daily,true);
 S = add_macroNsvys(S,currEM);
 S = append_svys2ylds(S,currEM);
@@ -40,14 +40,6 @@ for k0  = 1:ncntrs
         else
             fldaux = fldname{2};                                    % nominal yields
         end
-%         switch S(k0).iso
-%             case setdiff(currEM,{'ILS','ZAR'})
-%                 fldaux = fldname{1};                                % synthetic yields, surveys,fixed sgmS
-%             case {'ILS','ZAR'}
-%                 fldaux = fldname{2};                                % synthetic yields
-%             case currAE
-%                 fldaux = fldname{3};                                % nominal yields
-%         end
         S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldaux fldtype{k1}]);
     end
 end
@@ -57,6 +49,10 @@ end
 
 S = add_vars(S,currEM);
 
+%% Daily frequency estimation
+S = daily2dymy(S,dataset_daily,header_daily,false);
+[S,fitrprtdy] = atsm_daily(S,matsout,currEM,currAE,false);
+
 %% Store/load results
 cd(pathd)
 % save struct_datamy_S.mat S currAE currEM
@@ -65,6 +61,8 @@ load('struct_datady_cells.mat')
 cd(pathc)
 
 %% Post-estimation analysis
+
+% Monthly frequency
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
 vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 [TT_kw,kwtp,kwyp] = read_kw(matsout);
@@ -73,9 +71,14 @@ ts_plots(S,currEM,currAE,kwtp,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,kwyp,kwtp);
 
-%% Daily frequency estimation
-S = daily2dymy(S,dataset_daily,header_daily,false);
-[S,fitrprtdy] = atsm_daily(S,matsout,currEM,currAE,false);
+% Daily frequency
+fldname = {'mn_data','bsl_yP','bsl_tp','mc_data'};
+figure
+for k0 = 1:length(fldname)
+    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},10);
+    plot(DYindex(:,1),DYindex(:,2)); hold on
+end
+datetick('x','yy'); hold off
 
 %% Construct panel dataset
 TT = construct_panel(S,matsout,currEM,currAE);
