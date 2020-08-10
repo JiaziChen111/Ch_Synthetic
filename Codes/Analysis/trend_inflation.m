@@ -3,15 +3,15 @@ function S = trend_inflation(S,currEM,trndcntrs,tfplot,tfsave)
 % by the HP filter on the months in which Consensus Economics generally
 % publish forecasts for emerging markets
 % 
-% m-files called: inflation_target, emtimetable
+% m-files called: inflation_target, cntrstimetable
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %% 
 nEMs = length(currEM);
 if nargin < 4;  tfplot = false;	tfsave = false; end
 
 %% Collect data
-TTinf = emtimetable(S,currEM,'inf');
-TTsvy = emtimetable(S,currEM,'scpi',10);
+TTinf = cntrstimetable(S,currEM,'inf');
+TTsvy = cntrstimetable(S,currEM,'scpi',10);
 
 %% HP filter (whole sample)
 
