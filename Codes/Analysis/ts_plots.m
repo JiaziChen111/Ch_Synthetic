@@ -460,8 +460,21 @@ close all
 %% Real rate = yP - svyINF
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 
-    % All tenors
+    % Long-term
 fldname = 'rrt';
+figure
+for k0 = 1:nEMs
+    if ~isempty(S(k0).(fldname))
+        subplot(3,5,k0)
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)       % 10Y
+        title(S(k0).cty);
+        datetick('x','yy'); yline(0); ylim([-4 5]);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+    end
+end
+figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)      % update reference to figure
+
+    % All tenors
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -478,18 +491,6 @@ for k0 = 1:nEMs
 end
 figname = [fldname '_all']; save_figure(figdir,figname,formats,figsave)
 
-    % Long-term
-figure
-for k0 = 1:nEMs
-    if ~isempty(S(k0).(fldname))
-        subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)       % 10Y
-        title(S(k0).cty);
-        datetick('x','yy'); yline(0); ylim([-4 4]);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
-    end
-end
-figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)      % update reference to figure
 close all
 
 %% TP survey = sy - sCBP
@@ -806,6 +807,7 @@ for k0 = 1:length(fldname)
     plot(DYindex(:,1),DYindex(:,2)); hold on
 end
 datetick('x','yy'); hold off
+title('Emerging Market Sovereign Yield Connectedness: 10-Year Yields')
 figname = 'dy_index'; save_figure(figdir,figname,formats,figsave)
 
     % AE
