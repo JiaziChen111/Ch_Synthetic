@@ -618,9 +618,10 @@ close all
 
 %% Nominal YC decomposition: drivers of yields
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
+    % EM
+fldname = {'bsl_yP','bsl_tp','mc_blncd'};
 figure
 for k0 = 1:nEMs
-    fldname = {'bsl_yP','bsl_tp','mc_blncd'};
     subplot(3,5,k0)
     h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
               S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
@@ -633,6 +634,24 @@ for k0 = 1:nEMs
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = 'ny_dcmp'; save_figure(figdir,figname,formats,figsave)
+
+    % AE
+fldname = {'bsl_yP','bsl_tp'};  k1 = 0;
+figure
+for k0 = nEMs+1:nEMs+nAEs
+    k1 = k1 + 1;
+    subplot(2,5,k1)
+    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
+              S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.');% 10Y
+    title(S(k0).cty)
+    if k0 == 13; legend(h1,{'Exp','TP'},'Orientation','horizontal',...
+            'Location','southoutside','AutoUpdate','off');
+    end
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+figname = 'ny_dcmp_AE'; save_figure(figdir,figname,formats,figsave)
+
 close all
 
 %% Plot TP against LCCS, USTP, VIX, EPU, INF
@@ -737,7 +756,7 @@ figname = 'tp_inf'; save_figure(figdir,figname,formats,figsave)             % up
 % TP vs inflation volatility
 figure
 for k0 = 1:nEMs
-    fldname = {'stp','sdprm'};  % use bsl_tp % std of permanent component
+    fldname = {'bsl_tp','sdprm'};                                           % std of permanent component
     [~,dtmx] = datesminmax(S,k0);
     fltrd = S(k0).(fldname{2})(:,1) > dtmx;
     subplot(3,5,k0)
