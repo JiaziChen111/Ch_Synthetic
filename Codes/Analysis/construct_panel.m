@@ -11,17 +11,17 @@ function TT = construct_panel(S,matsout,currEM,currAE)
 
 % m-files called: read_mps, read_kw, read_spf, read_global_idxs, read_epu_usdgbl,
 % read_financialvars, read_platforms, read_usyc, datesminmax
-% Pavel Solís (pavel.solis@gmail.com), July 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 % 
 %% Define variables
-dtmx    = datetime('31-Jan-2019');                                                  % end of the sample
-flds1   = {'epu','cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt'};    % EM-specific variables
-varnms1 = flds1;                                                                    % names in new dataset
+dtend   = datetime('31-Jan-2019');                                          % end of sample
+flds1   = {'epu','cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','sdprm','sdcyc'};
+varnms1 = flds1;
 flds2   = ['d_gsw' strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yP','tp'}) ...
-            strcat('bsl_',{'yP','tp'})];                                            % common variables
-varnms2 = {'usyc','rho','phi','nom','syn','dyp','dtp','myp','mtp'};                 % names in new dataset
-flds    = [flds1 flds2];
-varnms  = [varnms1 varnms2];
+            strcat('bsl_',{'yP','tp'})];
+varnms2 = {'usyc','rho','phi','nom','syn','dyp','dtp','myp','mtp'};
+flds    = [flds1 flds2];                                                    % EM-specific + common variables
+varnms  = [varnms1 varnms2];                                                % names in new dataset
 nflds   = length(flds); 
 ncntrs  = length(S);
 
@@ -108,7 +108,7 @@ for k0 = 1:ncntrs
         end
     end
     dtmn = datesminmax(S,k0);
-    TT2  = TT2(isbetween(TT2.Time,datetime(dtmn,'ConvertFrom','datenum'),dtmx),:);
+    TT2  = TT2(isbetween(TT2.Time,datetime(dtmn,'ConvertFrom','datenum'),dtend),:);
     
     % Add field-specific variables (intersect datasets)
     TT3  = synchronize(TT1,TT2,'intersection');
@@ -125,7 +125,7 @@ for k0 = 1:ncntrs
     end
 end
 
-% Clean dataset
+%% Clean dataset
 TT(~ismember(TT.Time,trddys),:) = [];                                       % remove non-trading days in US
 TT.gdp(mod(month(TT.Time),3) ~= 0) = nan;                                   % only keep quarterly data for GDP
 TT.Time.Format = 'dd-MMM-yyyy';
@@ -136,7 +136,7 @@ TT.eomth = ismember(TT.Time,datetime(datesmth,'ConvertFrom','datenum'));    % en
 TT.eoqtr = (mod(month(TT.Time),3) == 0) & TT.eomth;                         % end of quarter
 TT.em    = ismember(TT.cty,currEM);                                         % emerging markets
 
-% Export the table to Excel
+%% Export table to Excel
 filename = fullfile(pathc,'..','..','Data','Analytic','dataspillovers.xlsx');
 writetimetable(TT,filename,'Sheet',1,'Range','A1')
 
