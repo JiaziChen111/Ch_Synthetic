@@ -28,7 +28,7 @@ global file_tbl  "$pathtbls/impact_tbls"
 * ------------------------------------------------------------------------------
 * Dataset
 * ------------------------------------------------------------------------------
-do "$pathcode/spov_data"
+do "$pathcode/spov_read"
 do "$pathcode/spov_vars"
 use $file_dta2, clear
 
