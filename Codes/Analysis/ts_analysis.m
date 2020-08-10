@@ -61,8 +61,6 @@ load('struct_datady_cells.mat')
 cd(pathc)
 
 %% Post-estimation analysis
-
-% Monthly frequency
 [data_macro,hdr_macro] = read_macrovars(S);                 % macro and policy rates
 vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 [TT_kw,kwtp,kwyp] = read_kw(matsout);
@@ -70,15 +68,6 @@ vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 ts_plots(S,currEM,currAE,kwtp,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,kwyp,kwtp);
-
-% Daily frequency
-fldname = {'mn_data','bsl_yP','bsl_tp','mc_data'};
-figure
-for k0 = 1:length(fldname)
-    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},10);
-    plot(DYindex(:,1),DYindex(:,2)); hold on
-end
-datetick('x','yy'); hold off
 
 %% Construct panel dataset
 TT = construct_panel(S,matsout,currEM,currAE);
