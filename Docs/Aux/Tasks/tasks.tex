@@ -200,18 +200,24 @@
 		\item[\done] Explain IT bands of countries, in particular for Russia.
 		\item[\done] Incorporate trend_inflation into ts_analysis before estimation.
 		\item[\wontdo] Load daily dataset and run pre-estimation functions. Note: if reload from scratch, would need to reestimate the models for all countries. However, I can run the pre-estimation functions w/ current structure.
-		\item Re-estimate the models for HUF (0.16), IDR (0.39), ILS (0.10), MYR (0.17), PHP (0.37), THB (0.135), TRY (0.12), ZAR (0.07). RMSE in parenthesis.
-		\item After estimation: redefine baseline estimations (for ILS and ZAR), assess_fit and add_vars.
+		\item[\done] Swap order of fixed and free version of the model. Fixed is the baseline and needs to go first to get results earlier.
+		\item[\done] Stock and Watson inflation decomposition. Compare trend component vs HP filter trend for ILS and ZAR.  S-W trend component looks very similar to actual series, so keep HP trend for ILS and ZAR.
+		\item Re-estimate baseline models (mnsb, mssb) for HUF (0.16), IDR (0.39), ILS (0.10), MYR (0.17), THB (0.135), TRY (0.12), ZAR (0.07). 
+		\item Re-estimate baseline models (mnsb, mssb) for PHP (0.37).
+		\item Redefine baseline estimations (for ILS and ZAR), assess_fit and add_vars.
 		\item Compare results against previous ones.
-		\item Stock and Watson inflation decomposition. Compare trend component vs HP filter trend for ILS and ZAR.
 		\item Link to recession shaded areas: https://www.mathworks.com/matlabcentral/answers/243194-shade-an-area-in-a-plot-between-two-y-values
 	\end{todolist}
 	\item Post-estimation analysis.
 	\begin{todolist}
+		\item[\done] Include Stock-Watson volatility in add_vars.
+		\item[\done] Include TP vs inflation volatility and permanent-cyclical volatility in ts_plots.
+		\item[\done] Move daily estimation upwards, before post-estimation analysis.
+		\item[\done] Implement Diebold-Yilmaz spillover index.
+		\item Include in ts_pca PCs for: real rates (global RR), inflation (global inflation factor 81\%), inflation expectations (PC1: 51\%, PC2: 24\%) and growth (common trends in interest rates), inflation volatility S-W (93\%), inflation trend S-W (81\%), inflation trend HP (93\%).
 		\item Use global activity indexes for GFCy and C-P global factor.
 		\item Compare yP vs scbp for 1Y (not used in estimation).
 		\item Update references to figures in Latex files due to changes in names (4 - fit, 6 yP vs scbp).
-		\item Diebold-Yilmaz spillover index.
 	\end{todolist}
 	\item Update dataset in Matlab.
 	\begin{todolist}
@@ -219,13 +225,15 @@
 		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
 		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
+		\item[\done] Ensure all yields generated are in decimals (daily2dymy makes yields in decimals, append_svys2ylds makes surveys in decimals, thus yields in all versions of model are in decimals).
+		\item In construct_panel include sdprm and spcyc in variables to pull.
 		\item Ensure all tenors are in months: TT_kw, TT_rr.
-		\item Ensure all yields generated are in decimals (daily2dymy makes yields in decimals, append_svys2ylds makes surveys in decimals, thus yields in all versions of model are in decimals).
 		\item Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
 		\item Ensure scbp for 1Y is included to verify yP vs scbp for 1Y.
-		\item SD of permanent component from Stock-Watson.
 		\item Include daily 3 PCs and estimated pricing factors for each country. Maybe in add_vars.
 		\item Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Relate them to US YC components, global activity indexes, local conditions.
+		\item Re-estimate flexible models (mnsf, mssf): HUF, IDR, ILS, MYR, THB, TRY, ZAR.
+		\item Re-estimate  flexible models (mnsf, mssf): PHP.
 	\end{todolist}
 	\item Reproduce LPs in Stata.
 	\begin{todolist}
@@ -250,7 +258,8 @@
 		\item Possible interpretation from panel regressions on determinants of the components. What drives the negative correlation b/w TP and LCCS? Effect of USMP on components?
 		\item Question on why opposite effect on LCCS is equivalent to asking why nominal yields don't respond as much?
 		\item If inflation expectations are well-anchored, TP should be relatively low.
-		\item PCs for: real rates (global RR), inflation (global inflation factor), inflation and growth expectations (common trends in interest rates). Use the code from trend_inflation to get a common table of the variable of interest.
+		\item[\done] Use the code from trend_inflation to get a common table of the variable of interest.
+		\item PCs of macro variables and inflation volatility.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
 		\item Read literature. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
 		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
