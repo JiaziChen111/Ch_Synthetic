@@ -12,7 +12,7 @@ emerging markets to a 1 basis point change in the the target, path and LSAP shoc
 cd "/Users/Pavel/Documents/GitHub/Book/Ch_Synthetic"	// Update as necessary
 local pathmain `c(pwd)'
 
-global pathdlfs "/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/June-2020"
+global pathdlfs "/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2020"
 global pathdata "`pathmain'/Data/Analytic"
 global pathcode "`pathmain'/Codes/Analysis"
 global pathtbls "`pathmain'/Docs/Tables"
@@ -21,7 +21,7 @@ cd $pathdata
 
 global file_src  "$pathdata/dataspillovers.xlsx"
 global file_dta1 "$pathdlfs/dataspillovers1.dta"	// original dataset
-global file_dta2 "$pathdlfs/dataspillovers2.dta"	// dataset after housekeeping
+global file_dta2 "$pathdlfs/dataspillovers2.dta"	// dataset for analysis
 global file_log  "$pathtbls/impact_regs"
 global file_tbl  "$pathtbls/impact_tbls"
 
