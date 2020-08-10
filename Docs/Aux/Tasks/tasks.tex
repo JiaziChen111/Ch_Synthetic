@@ -189,34 +189,17 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Re-estimate parameters using implied forecasts for CBP.
-	\begin{todolist}
-		\item[\done] Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
-		\item[\done] Compare results against previous ones. IDR : fit is bad, yP is far from scbp, TP seems too high. TRY: TP seems to high. ILS: TP seems to high.
-		\item[\done] Solution for ILS: inflation highly correlated w/ IDR, KRW, PHP, THB. How good SCPI vs INF.
-		\item[\done] HP for the inflation of ILS and ZAR as SCPI.
-		\item[\done] Update figures for inflation forecasts.
-		\item[\done] Explain methodology for ILS and ZAR in paper.
-		\item[\done] Explain IT bands of countries, in particular for Russia.
-		\item[\done] Incorporate trend_inflation into ts_analysis before estimation.
-		\item[\wontdo] Load daily dataset and run pre-estimation functions. Note: if reload from scratch, would need to reestimate the models for all countries. However, I can run the pre-estimation functions w/ current structure.
-		\item[\done] Swap order of fixed and free version of the model. Fixed is the baseline and needs to go first to get results earlier.
-		\item[\done] Stock and Watson inflation decomposition. Compare trend component vs HP filter trend for ILS and ZAR.  S-W trend component looks very similar to actual series, so keep HP trend for ILS and ZAR.
-		\item Re-estimate baseline models (mnsb, mssb) for HUF (0.16), IDR (0.39), ILS (0.10), MYR (0.17), THB (0.135), TRY (0.12), ZAR (0.07). 
-		\item Re-estimate baseline models (mnsb, mssb) for PHP (0.37).
-		\item Redefine baseline estimations (for ILS and ZAR), assess_fit and add_vars.
-		\item Compare results against previous ones.
-		\item Link to recession shaded areas: https://www.mathworks.com/matlabcentral/answers/243194-shade-an-area-in-a-plot-between-two-y-values
-	\end{todolist}
 	\item Post-estimation analysis.
 	\begin{todolist}
 		\item[\done] Include Stock-Watson volatility in add_vars.
 		\item[\done] Include TP vs inflation volatility and permanent-cyclical volatility in ts_plots.
 		\item[\done] Move daily estimation upwards, before post-estimation analysis.
 		\item[\done] Implement Diebold-Yilmaz spillover index.
+		\item Update figures.
 		\item Include in ts_pca PCs for: real rates (global RR), inflation (global inflation factor 81\%), inflation expectations (PC1: 51\%, PC2: 24\%) and growth (common trends in interest rates), inflation volatility S-W (93\%), inflation trend S-W (81\%), inflation trend HP (93\%).
 		\item Use global activity indexes for GFCy and C-P global factor.
 		\item Compare yP vs scbp for 1Y (not used in estimation).
+		\item Update emtimetable to emaetimetable and include option to generate TT for AE (to be used by ts_plots for AEs). Update call for it in trend_inflation.
 		\item Update references to figures in Latex files due to changes in names (4 - fit, 6 yP vs scbp).
 	\end{todolist}
 	\item Update dataset in Matlab.
@@ -226,19 +209,21 @@
 		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
 		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
 		\item[\done] Ensure all yields generated are in decimals (daily2dymy makes yields in decimals, append_svys2ylds makes surveys in decimals, thus yields in all versions of model are in decimals).
-		\item In construct_panel include sdprm and spcyc in variables to pull.
+		\item[\done] In construct_panel include sdprm and spcyc in variables to pull.
+		\item Check that variables w/ and w/o header are correctly stored.
 		\item Ensure all tenors are in months: TT_kw, TT_rr.
 		\item Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
 		\item Ensure scbp for 1Y is included to verify yP vs scbp for 1Y.
 		\item Include daily 3 PCs and estimated pricing factors for each country. Maybe in add_vars.
-		\item Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Relate them to US YC components, global activity indexes, local conditions.
-		\item Re-estimate flexible models (mnsf, mssf): HUF, IDR, ILS, MYR, THB, TRY, ZAR.
-		\item Re-estimate  flexible models (mnsf, mssf): PHP.
+		\item Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Compare the common PC in EM and AE b/w them and to US YC components, global activity indexes, local conditions.
+		\item Re-estimate flexible model mssf for: HUF, IDR, ILS, MYR, THB, TRY, ZAR.
+		\item Re-estimate  flexible model mssf for: PHP.
 	\end{todolist}
 	\item Reproduce LPs in Stata.
 	\begin{todolist}
 		\item[\done] How much the shift in LCNOM affects LPs? Use nom and sftnom. There is an on-impact effect relative to shift for any country.
-		\item Redefine regions as in Hofmann, Shim and Shin and see LPs. If not regional, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs.
+		\item[\done] Redefine regions as in Hofmann, Shim and Shin and see LPs. 
+		\item If not regional response, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs.
 		\item Substitute . by zeros in US MPS.
 		\item Try lag of depvar as in Hofmann, Shim and Shin and see LPs.
 		\item Express all variables in basis points.
@@ -319,6 +304,25 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Re-estimate parameters using implied forecasts for CBP.
+	\begin{todolist}
+		\item[\done] Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
+		\item[\done] Compare results against previous ones. IDR : fit is bad, yP is far from scbp, TP seems too high. TRY: TP seems to high. ILS: TP seems to high.
+		\item[\done] Solution for ILS: inflation highly correlated w/ IDR, KRW, PHP, THB. How good SCPI vs INF.
+		\item[\done] HP for the inflation of ILS and ZAR as SCPI.
+		\item[\done] Update figures for inflation forecasts.
+		\item[\done] Explain methodology for ILS and ZAR in paper.
+		\item[\done] Explain IT bands of countries, in particular for Russia.
+		\item[\done] Incorporate trend_inflation into ts_analysis before estimation.
+		\item[\wontdo] Load daily dataset and run pre-estimation functions. Note: if reload from scratch, would need to reestimate the models for all countries. However, I can run the pre-estimation functions w/ current structure.
+		\item[\done] Swap order of fixed and free version of the model. Fixed is the baseline and needs to go first to get results earlier.
+		\item[\done] Stock and Watson inflation decomposition. Compare trend component vs HP filter trend for ILS and ZAR.  S-W trend component looks very similar to actual series, so keep HP trend for ILS and ZAR.
+		\item[\done] Re-estimate baseline models (mnsb, mssb) for HUF (0.16), IDR (0.39), ILS (0.10), MYR (0.17), THB (0.135), TRY (0.12), ZAR (0.07). 
+		\item[\done] Redefine baseline estimations (for ILS and ZAR), assess_fit and add_vars.
+		\item[\wontdo] Re-estimate baseline models (mnsb, mssb) for BRL (0.27), IDR (0.47), MYR THB, TRY, ZAR. Run code for all those countries takes time and is prone to freeze. So I better estimate individually and only the mssb version.
+		\item[\done] Compare results against previous ones.
+		\item[\done] Re-do: assess_fit, add_vars, daily_estimation, save mat files.
+	\end{todolist}
 	\item[\done] Generate daily dataset and verify time shift.
 	\begin{todolist}
 		\item[\done] Update append_dataset to use synchronize instead of concatenate.

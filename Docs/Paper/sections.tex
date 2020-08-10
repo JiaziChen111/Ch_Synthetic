@@ -652,8 +652,10 @@ Finally, the parameters estimated with monthly data along with the daily pricing
 		\item When considering the spillover effects of the monetary policy in the U.S., use a better measure of shocks (e.g. changes in futures of the fed funds rate around monetary policy announcements) and differentiate conventional from unconventional monetary policy.
 \end{boxeditems}}{}
 
-This section analyzes the yield decompositions and shows that they provide several new insights about the dynamics of EM yields.
-This highlights the benefits of using synthetic yields and survey data when analyzing the yields of emerging markets.
+This section 
+%analyzes the yield decompositions and 
+shows that the yield decompositions provide several new insights about the dynamics of emerging market yields.
+This highlights the benefits of using synthetic curves and survey data when analyzing the yields of emerging markets.
 %Categories of results: spillover index and PCA, inflation uncertainty and tp link.
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
@@ -663,19 +665,24 @@ This highlights the benefits of using synthetic yields and survey data when anal
 
 %\subsubsection{Fitter Bond Yields}
 %The affine model is estimated separately for each country.
-The results for EMs are assessed against those of advanced countries.
-The survey-augmented model uses the synthetic yields of emerging markets, whereas the yields-only model uses the nominal yields of advanced countries.\footnote{ For Israel and South Africa, for which no survey data is available, the yields-only model is estimated using their synthetic yield curves.} 
+%The results for EMs are assessed against those of advanced countries.
+%The survey-augmented model uses the synthetic yields of emerging markets, whereas the yields-only model uses the nominal yields of advanced countries.
+%\footnote{ For Israel and South Africa, for which no survey data is available, the yields-only model is estimated using their synthetic yield curves.} 
 
-In all cases, the pricing factors are the first three principal components (PCs) of the respective yield curves, which are commonly known as level, slope and curvature \citep{LittermanScheinkman:1991} .
-On average, the first three PCs explain more than 99.5 and 99.9\% of the variation in the synthetic yields of EMs and the nominal yields of AEs, respectively.
-Interestingly, the level factor plays a relatively bigger role in AEs than in EMs (96\% vs 88\%), so that the slope (4 vs 10\%) and curvature (0 vs 2\%) factors play a relatively bigger role in EMs.
+For all countries, the pricing factors are the first three principal components (PCs) of the respective yield curves, they are commonly known as level, slope and curvature \citep{LittermanScheinkman:1991}.
+On average, they explain more than 99.5\% of the variation in the synthetic yields of emerging markets and in the nominal yields of advanced countries. %99.5 and 99.9\% 
+Interestingly, the level factor plays a relatively bigger role in advanced countries than in emerging markets (96\% vs 88\%), so that the slope (4 vs 10\%) and curvature (0 vs 2\%) factors are relatively more important in EMs.
 %	\input{../Figures/Estimation/s_ylds_ssb_yQ}
 %	\input{../Tables/PC_explained}
 %	PC1				PC2			PC3			PC1-PC3
 %	88.1115    9.8313    1.5731   99.5159
 %	95.8896    3.7107    0.3016   99.9019
 
-Figure \ref{fig:s_ylds_ssb_yQ} exemplifies the fit of the model for the 10-year synthetic yields of EMs. As it can be seen, fitting errors are small, indicating that the affine model successfully captures the dynamics of emerging market yields.
+Figure \ref{fig:s_ylds_ssb_yQ} illustrates the fit of the model for the 10-year synthetic yields of emerging markets. 
+The squared root of the average (across months and maturities) squared difference between the actual and the fitted yields is commonly used to summarize the fitting errors.% how well the model fits the data.
+For advanced countries, those fitting errors are small, at 5 basis points, in line with previous studies \citep{Wright:2011,ACDM:2019}.
+The dynamics of emerging market yields, however, are relatively harder to capture; fitting errors average 16 basis points.\footnote{ The short end of the yield curves of Indonesia and Philippines are particularly hard to model; at some months, the short-term yields (3 and 6 months) fluctuate comparatively more than the rest.}
+% indicating that the affine model successfully captures the .
 % Fit for monthly and daily data.
 
 %Table \ref{tab:rmse_atsm} summarizes the fit of the models. The table shows the average root mean square fitting error in annualized percentage points of nominal and synthetic yields for emerging markets and advanced economies.\footnote{For each country, the root mean square fitting error is calculated as the square root of the average (across months and maturities) squared difference between the observed yields and the fitted yields from the estimated affine term structure model.} 
@@ -770,6 +777,19 @@ This shows the relevance of incorporating survey data in the estimation of the m
 %For some countries, for instance, the yields-only model-implied expectations of the short rate were low relative to the survey forecasts and, thus, the estimated term premium was relatively high. 
 %Once survey data was incorporated into the estimation, the model-implied expectations increased in line with the interest rate forecasts and the estimated term premium decreased, and even became negative for some countries.
 
+The long-term expectation for the short rate implied by the model can also be assessed in terms of real interest rates.
+The implied long-term forecast for the short rates of emerging markets are based on the long-term U.S. real interest rate (see section \ref{sec:SurveyData}).
+Therefore, the expected long-term real interest rate---the difference between the model-implied long-term expectation for the short rate and the long-term inflation forecast from Consensus Economics---should be similar.
+Figure \ref{fig:realrt_LT} verifies that this is the case.
+They all fluctuate in a range around zero.
+Estimates for advanced countries show that real interest rates have converged and declined toward zero over the past years \citep*{HolstonLaubachWilliams:2017}, a phenomenon that is partly explained by the increase in savings from East Asian countries following the regional crises of the late-1990s \citep{Obstfeld:2020}.
+After correcting for credit risk and inflation, the real interest rates of emerging markets behave similarly to those of advanced countries.
+%The neutral real interest rate is a key reference for inflation-targeting central banks. It is an important concept in monetary economics. However, it is an unobserved variable. Estimates of it generally focus on AEs.
+%The decomposition of the nominal yields of EMs opens the door to glimpse the long-term real interest rates of EMs.
+%It is remarkable that for all the emerging markets in the sample their real rates 
+%This evidence shows that, 
+% discusses the global determinants of real interest rates, including 
+
 \subsubsection{Term Premium}
 While the (bond) risk premium is usually associated with the term premium in AEs, for emerging markets they are two different concepts.
 %Incorporating survey data in the model estimated with nominal yields produces an expected short rate similar to the one obtained using synthetic yields.
@@ -850,7 +870,7 @@ At the same time, increases in the Vix are also positively associated with incre
 Finally, the term premia in EMs is positively correlated with the local inflation rate.
 
 
-\subsection{Is There A Global Factor in EM Yields?} \label{sec:globalPC}
+\subsection{Connectedness} \label{sec:globalPC}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 % Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
@@ -879,7 +899,7 @@ On average, the 10-year U.S. term premium explains around 40\% of the variation 
 Moreover, for EMs, the 10-year U.S. term premium explains more of the variation of the expected short rate than the U.S. expected rate itself. % unlike the case for AEs before GFC
 After the GFC, the 10-year U.S. term premium explained more than the U.S. expected rate in both AEs and EMs.
 
-\subsubsection{Is There A Non-U.S. Common Factor?}
+Is There A Non-U.S. Common Factor?
 %How much the US factor explains TP? Is there a non-US common factor?
 To assess whether the global factor is associated with U.S. variables, I regress the components of the yield curves of AEs and EMs on the respective components of the U.S. yield curve based on the methodology of \cite{KimWright:2005}.
 I then perform a PC analysis on the residuals (i.e. the part of a country's term premium orthogonal to the U.S. term premium) to see whether there is a common non-U.S. factor.
@@ -945,23 +965,6 @@ Local factors therefore seem to play a bigger role in the yields of EMs, and its
 %	\input{../Figures/Latex/temp_tp10yrSvy}
 %
 %With the exception of Brazil during 2012-13, the term premia estimated using survey data are in line with the model-based term premia. In fact, the average correlation between the two is $80.4\%$.\footnote{Even for the term premia calculated using the nominal yield curve, the correlation with the survey-based term premia is equal to $85\%$.} This is reassuring and supports the idea of supplementing the term structure model with survey data to better pin down the term premia in emerging markets, which will in turn provide a more robust decomposition of the nominal yield curve. This will be done in future versions of this paper.
-
-
-\subsection{Is There a Global Neutral Real Interest Rate?}
-\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
-The neutral real interest rate is an important concept in monetary economics.
-It is a key reference for inflation-targeting central banks.
-However, it is an unobserved variable.
-Estimates of it generally focus on AEs.
-
-The decomposition of the nominal yields of EMs opens the door to glimpse the long-term real interest rates of EMs.
-The expected long-term real interest rate can be obtained as the difference between the long-term expectation for the short rate implied by the model and the long-term inflation forecast from Consensus Economics.
-
-Figure \ref{fig:realrt_LT} plots the expected real rates of the EMs. 
-The evidence for AEs shows that real interest rates have converged across countries and that they have declined to zero over the past years \citep*{HolstonLaubachWilliams:2017}.
-It is remarkable that for all but one of the EMs their real rates fluctuate around similar levels of 0 and 2\%.\footnote{ The real rate of Brazil fluctuates around 6\%.}
-This evidence shows that, after correcting for credit risk and inflation, the real interest rates of EMs behave similarly to the real rates documented for AEs.
-\cite{Obstfeld:2020} discusses the global determinants of real interest rates, including the increase in savings from East Asian countries following the regional crises of the late-1990s.
 
 	
 }{}	% Closes \iftoggle{fulldraft}
