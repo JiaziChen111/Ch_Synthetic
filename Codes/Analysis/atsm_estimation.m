@@ -19,12 +19,12 @@ addpath(genpath('jsz_code'))
 p       = 3;                                                                % number of state vectors
 dt      = 1/12;                                                             % time period in years
 ncntrs  = length(S);
-prefix  = {'mn','ms'};
+prefix  = {'ms'};  % {'mn','ms'};
 if sgmSfree; sgmtype = 'f'; else; sgmtype = 'b'; end                        % free vs baseline case
 
-for k0 = 1:2
+for k0 = 1:length(prefix)
     fldname = [prefix{k0} '_ylds'];
-    for k1  = 1:ncntrs
+    for k1  = [1 4 8 13 14 15] %[3 4 5 8 13 14 15] % 10  1:ncntrs
         % Split yields & surveys
         dates  = S(k1).(fldname)(2:end,1);
         ynsvys = S(k1).(fldname)(2:end,2:end);
