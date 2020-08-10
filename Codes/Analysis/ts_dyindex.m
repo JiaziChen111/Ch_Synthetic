@@ -2,12 +2,12 @@ function [DYindex,DYtable] = ts_dyindex(S,cntrs,fldname,tenor)
 % TS_DYINDEX Report the Diebold-Yilmaz (2014) connectedness index and table
 % as implemented by Binh Thai Pham (2020)
 %
-% m-files called: computeDYtable, computeDYRolling
+% m-files called: cntrstimetable, computeDYtable, computeDYRolling
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 % 
 %% Load data
 addpath(genpath('dy_code'))
-TTy = emtimetable(S,cntrs,fldname,tenor);                                   % extract information
+TTy = cntrstimetable(S,cntrs,fldname,tenor);                                   % extract information
 hdr = char(TTy.Properties.VariableNames');                                  % extract header
 dts = datenum(TTy.Time);                                                    % extract dates
 y   = TTy{:,:};                                                             % extract data
