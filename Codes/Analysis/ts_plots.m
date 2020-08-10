@@ -379,6 +379,8 @@ close all
 
 %% Model fit to synthetic
 figdir  = 'Estimation'; formats = {'eps','pdf'}; figsave = false;
+
+    % Monthly data
 fldname = {'ms_blncd','bsl_yQ'};
 for k0 = 1:nEMs
     subplot(3,5,k0)
@@ -392,6 +394,22 @@ for k0 = 1:nEMs
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 figname = 's_ylds_bsl_yQ'; save_figure(figdir,figname,formats,figsave)      % update reference to figure
+
+    % Daily data
+fldname = {'ds_blncd','d_yQ'};
+for k0 = 1:nEMs
+    subplot(3,5,k0)
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100);    % 10Y
+    title(S(k0).cty)
+    if k0 == 8
+        legend('Observed','Fitted','location','best','AutoUpdate','off')
+    end
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+figname = 's_ylds_d_yQ'; save_figure(figdir,figname,formats,figsave)
+
 close all
 
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
