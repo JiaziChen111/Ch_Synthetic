@@ -12,6 +12,7 @@ hdr = char(TTy.Properties.VariableNames');                                  % ex
 dts = datenum(TTy.Time);                                                    % extract dates
 y   = TTy{:,:};                                                             % extract data
 dy  = y(2:end,:) - y(1:end-1,:);                                            % daily changes
+% dy(isnan(dy)) = 0;
 idx = all(~isnan(dy),2);
 dy  = dy(idx,:);                                                            % balanced panel
 dts = dts(idx);
