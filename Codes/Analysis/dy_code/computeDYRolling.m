@@ -82,7 +82,7 @@ for step=rstart:jump:(rend-window+1)
         isStability = 1;
     end
     
-    fprintf('Start = %d ; End = %d ; VAR stability = %d \n', step,step+window-1,isStability);
+    %fprintf('Start = %d ; End = %d ; VAR stability = %d \n', step,step+window-1,isStability);
     
     if ~isStability
         estMdl = estimate(Mdl, dataset(step-error_window:(step+window-1),:));
