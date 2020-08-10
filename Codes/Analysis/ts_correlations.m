@@ -19,7 +19,7 @@ corrBRP(1,:)  = {'' 'LCCS' 'pval' 'INF' 'pval' 'EPU' 'pval','EPULCCS' 'pval' 'US
 hdrfk = [nan 10];
 for k0 = 1:nEMs
     corrTPem{k0+1,1} = S(k0).iso; corrBRP{k0+1,1} = S(k0).iso;
-    fldname = {'bsl_tp','c_blncd','inf','epu','brp'};
+    fldname = {'bsl_tp','mc_blncd','inf','epu','brp'};
     fltr1   = find(S(k0).(fldname{1})(1,:) == 10);
     fltr2   = find(S(k0).(fldname{2})(1,:) == 10);
     fltr5   = find(S(k0).(fldname{5})(1,:) == 10);
@@ -86,7 +86,7 @@ corrTPae = cell(nAEs+1,7);
 corrTPae(1,:) = {'' 'CIPdev' 'pval' 'USTP' 'pval' 'VIX' 'pval'};
 for k0 = nEMs+1:ncntrs
     corrTPae{k0-14,1} = S(k0).iso;
-    fldname = {'ny_tp','c_blncd'};
+    fldname = {'mny_tp','mc_blncd'};
     fltr1   = find(S(k0).(fldname{1})(1,:) == 10);
     fltr2   = find(S(k0).(fldname{2})(1,:) == 10);
     datatp  = S(k0).(fldname{1})(:,[1 fltr1]);
@@ -119,7 +119,7 @@ corrTPyP = cell(nEMs+1,5);
 corrTPyP(1,:) = {'' 'TP-Slope' 'Res-Slope' 'TP-Res' 'yP-2Y'};
 for k0 = 1:nEMs
     corrTPyP{k0+1,1} = S(k0).iso;
-    fldname = {'bsl_tp','bsl_yP','s_blncd'};
+    fldname = {'bsl_tp','bsl_yP','ms_blncd'};
     [~,datatps,datayld] = syncdatasets(S(k0).(fldname{1}),S(k0).(fldname{3}));
     [~,datayp] = syncdatasets(S(k0).(fldname{2}),datatps);
     
