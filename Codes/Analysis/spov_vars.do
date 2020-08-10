@@ -4,21 +4,25 @@
 
 use $file_dta1, clear
 
+
+* Dates in Stata format
 gen date  = dofc(time)
 gen datem = mofd(dofc(time))					// used to label graphs
 format date %td
 format datem %tmCCYY
-order date, first
-drop  time
-order cty, after(date)
+order  date, first
+drop   time
+order  cty, after(date)
 
-* Create a business calendar from the current dataset
+
+* Business calendar based on current dataset
 capture {
-// bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
-bcal load spillovers
-gen bizdate = bofd("spillovers",date)
-format %tbspillovers bizdate
+	// bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
+	bcal load spillovers
+	gen bizdate = bofd("spillovers",date)
+	format %tbspillovers bizdate
 }
+
 
 * Declare panel dataset using business dates
 global id imf
@@ -27,44 +31,59 @@ sort  $id $t
 xtset $id $t
 
 
-// capture {
+* Compute monetary policy shocks
+rename path pathold
+rename lsap lsapold
+reg ed8 mp1 
+predict path, r
+corr path pathold if cty == "CHF"
+reg onrun10 mp1 path 
+predict lsap, r
+corr lsap lsapold if cty == "CHF"
+browse date cty path pathold lsap lsapold if cty == "CHF" & mp1 != .
+drop pathold lsapold ed4 ed8 onrun10
+order path lsap, after(mp1)
 
-* Express shocks and variables in basis points
+
+* Express variables from percent to basis points
 gen byte fomc = mp1 != .
-foreach v of varlist mp1 ed4 ed8 onrun10 path lsap {
+foreach v of varlist mp1 path lsap {
     replace `v' = 100*`v'
-	// 	replace `v' = 0 if `v' == .
+	replace `v' = 0 if `v' == .
 }
 
-foreach v in usyc rho phi nom syn dyp dtp { // dyq myq myp mtp {
-    foreach t in 12 24 60 120  { // 3 6 	// no problem if not all variables have same tenors since capture
+
+* Express variables from decimals to basis points
+foreach v in usyc rho phi nom syn dyp dtp myp mtp {
+    foreach t in 3 6 12 24 60 120 {
 		replace `v'`t'm = 10000*`v'`t'm
 		// 	gen d`v'`t'm  = d.`v'`t'm
 	}
 }
 
-* Time shift
-gen byte westhem = inlist(cty,"BRL","CAD","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
 
-foreach v of varlist nom* dyp* dtp* {
-	clonevar sft`v' = `v'
-	replace sft`v' = f.`v' if !westhem	// condition when EM/AE LPs, no condition for individual LPs
-	// 	replace `v' = f.`v' if !westhem
-}
+// * Time shift
+// gen byte westhem = inlist(cty,"BRL","CAD","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
 
-foreach t in 12 24 60 120  { // 3 6 
-// 	clonevar sftrho`t'm = rho`t'm
-// 	clonevar sftsyn`t'm = syn`t'm
-	clonevar sftphi`t'm = phi`t'm
+// foreach v of varlist nom* dyp* dtp* {
+// 	clonevar sft`v' = `v'
+// 	replace sft`v' = f.`v' if !westhem	// condition when EM/AE LPs, no condition for individual LPs
+// 	// 	replace `v' = f.`v' if !westhem
+// }
 
-// 	replace  sftrho`t'm = f.rho`t'm
-// 	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
-// 	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
-	replace  sftphi`t'm = sftnom`t'm - syn`t'm
+// foreach t in 3 6 12 24 60 120 {
+// // 	clonevar sftrho`t'm = rho`t'm
+// // 	clonevar sftsyn`t'm = syn`t'm
+// 	clonevar sftphi`t'm = phi`t'm
+
+// // 	replace  sftrho`t'm = f.rho`t'm
+// // 	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
+// // 	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
+// 	replace  sftphi`t'm = sftnom`t'm - syn`t'm
 	
-// 	clonevar sftnom`t'm = nom`t'm
-// 	replace  sftnom`t'm = f.nom`t'm if !westhem
-}
+// // 	clonevar sftnom`t'm = nom`t'm
+// // 	replace  sftnom`t'm = f.nom`t'm if !westhem
+// }
 
 
 * Compute monthly returns (in basis points)
@@ -78,18 +97,19 @@ by $id: gen rtoil = (logoil - logoil[_n-1])*10000
 by $id: gen rtfx  = (logccy - logccy[_n-1])*10000
 by $id: gen rtstx = (logstx - logstx[_n-1])*10000
 
+
 * x-axis and zero line
 global horizon = 90	// in days
 gen days = _n-1 if _n <= $horizon +1
 gen zero = 0 	if _n <= $horizon +1
 
 
-* Create regional and block variables
+* Define regions and groups
 gen regionem = 1 * inlist(cty,"BRL","COP","MXN","PEN") + ///
-               2 * inlist(cty,"HUF","PLN","RUB","TRY") + ///
-               3 * inlist(cty,"IDR","MYR","PHP","THB") + ///
-			   4 * inlist(cty,"ILS","KRW","ZAR")
-label define rnames 1 "Latin America" 2 "Eastern Europe" 3 "Southeast Asia" 4 "Other"
+               2 * inlist(cty,"HUF","PLN","RUB") + ///
+               3 * inlist(cty,"IDR","KRW","MYR","PHP","THB") + ///
+			   4 * inlist(cty,"ILS","TRY","ZAR")
+label define rnames 1 "Latin America" 2 "Emerging Europe" 3 "Emerging Asia" 4 "MEA"
 label values regionem rnames
 label variable regionem "EM Regions"
 
@@ -99,10 +119,8 @@ label define bnames 1 "Non-US G3" 2 "A-SOE"
 label values regionae bnames
 label variable regionae "AE Blocks"
 
-// }	// capture
 
-
-* Label variables that will be used in figures and tables
+* Label variables for use in figures and tables
 #delimit ;
 local oldlabels mp1 path lsap;
 local newlabels `" "Target" "Path" "LSAP" "';
