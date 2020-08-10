@@ -1,8 +1,9 @@
 function ts_plots(S,currEM,currAE,kwtp,vix)
 % TS_PLOTS Plot different series after estimation of affine model
 
-% m-files called: datesminmax, syncdatasets, inflation_target, save_figure
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% m-files called: datesminmax, syncdatasets, inflation_target, save_figure,
+% ts_dyindex
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
 nEMs = length(currEM);
 nAEs = length(currAE);
@@ -794,6 +795,9 @@ figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% DY index (daily frequency)
+figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+
+    % EM
 fldname = {'dn_data','d_yP','d_tp','dc_data'};  tenor = 10;
 figure
 for k0 = 1:length(fldname)
@@ -802,6 +806,12 @@ for k0 = 1:length(fldname)
     plot(DYindex(:,1),DYindex(:,2)); hold on
 end
 datetick('x','yy'); hold off
+figname = 'dy_index'; save_figure(figdir,figname,formats,figsave)
+
+    % AE
+[DYindex,DYtable] = ts_dyindex(S,curncs,'dn_data',tenor);   % update emtimetable
+disp(DYtable)
+plot(DYindex(:,1),DYindex(:,2))
 
 %% Sources
 
@@ -814,3 +824,6 @@ datetick('x','yy'); hold off
 % Set the subplot position without worrying about the outside legends
 % https://www.mathworks.com/matlabcentral/answers/...
 % 300188-how-do-i-set-the-subplot-position-without-worrying-about-the-outside-legends
+
+% Recession shaded areas
+% https://www.mathworks.com/matlabcentral/answers/243194-shade-an-area-in-a-plot-between-two-y-values
