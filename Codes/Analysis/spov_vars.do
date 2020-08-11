@@ -36,11 +36,11 @@ rename path pathold
 rename lsap lsapold
 reg ed8 mp1 
 predict path, r
-corr path pathold if cty == "CHF"
 reg onrun10 mp1 path 
 predict lsap, r
-corr lsap lsapold if cty == "CHF"
-browse date cty path pathold lsap lsapold if cty == "CHF" & mp1 != .
+corr path pathold // if cty == "CHF"
+corr lsap lsapold // if cty == "CHF"
+	// very highly correlated, path 0.9995 and lsap 0.9943
 drop pathold lsapold ed4 ed8 onrun10
 order path lsap, after(mp1)
 
@@ -48,19 +48,26 @@ order path lsap, after(mp1)
 * Express variables from percent to basis points
 gen byte fomc = mp1 != .
 foreach v of varlist mp1 path lsap {
-    replace `v' = 100*`v'
+    replace `v' = `v'*100
 	replace `v' = 0 if `v' == .
+}
+
+foreach v of varlist ustp* usyp* usrr* { // scbp* scpi* sgdp* 
+    replace `v' = `v'*100
 }
 
 
 * Express variables from decimals to basis points
-foreach v in usyc rho phi nom syn dyp dtp myp mtp {
-    foreach t in 3 6 12 24 60 120 {
-		replace `v'`t'm = 10000*`v'`t'm
-		// 	gen d`v'`t'm  = d.`v'`t'm
-	}
+foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
+    replace `v' = `v'*10000
 }
 
+// foreach v in usyc nom syn rho phi dyp dtp myp mtp stp rrt {
+//     foreach t in 3 6 12 24 60 120 {
+// 		replace `v'`t'm = 10000*`v'`t'm
+// 		// 	gen d`v'`t'm  = d.`v'`t'm
+// 	}
+// }
 
 // * Time shift
 // gen byte westhem = inlist(cty,"BRL","CAD","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
@@ -87,15 +94,21 @@ foreach v in usyc rho phi nom syn dyp dtp myp mtp {
 
 
 * Compute monthly returns (in basis points)
-gen logspx = ln(spx)
-gen logvix = ln(vix)
-gen logoil = ln(oil)
-gen logccy = ln(fx)
-gen logstx = ln(stx)
-by $id: gen rtspx = (logspx - logspx[_n-1])*10000
-by $id: gen rtoil = (logoil - logoil[_n-1])*10000
-by $id: gen rtfx  = (logccy - logccy[_n-1])*10000
-by $id: gen rtstx = (logstx - logstx[_n-1])*10000
+foreach v of varlist spx vix oil fx stx {
+    gen log`v' = ln(`v')
+	by $id: gen rt`v' = (log`v' - log`v'[_n-1])*10000
+}
+
+// gen logspx = ln(spx)
+// gen logvix = ln(vix)
+// gen logoil = ln(oil)
+// gen logccy = ln(fx)
+// gen logstx = ln(stx)
+// by $id: gen rtspx = (logspx - logspx[_n-1])*10000
+// by $id: gen rtoil = (logoil - logoil[_n-1])*10000
+// by $id: gen rtfx  = (logccy - logccy[_n-1])*10000
+// by $id: gen rtstx = (logstx - logstx[_n-1])*10000
+drop log*
 
 
 * x-axis and zero line
@@ -132,4 +145,4 @@ forvalues i = 1/`nlbls' {
 	label variable `a' "`b'"
 }
 
-// save $file_dta2, replace
+save $file_dta2, replace
