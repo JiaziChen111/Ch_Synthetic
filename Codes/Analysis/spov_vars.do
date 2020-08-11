@@ -62,52 +62,12 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
     replace `v' = `v'*10000
 }
 
-// foreach v in usyc nom syn rho phi dyp dtp myp mtp stp rrt {
-//     foreach t in 3 6 12 24 60 120 {
-// 		replace `v'`t'm = 10000*`v'`t'm
-// 		// 	gen d`v'`t'm  = d.`v'`t'm
-// 	}
-// }
-
-// * Time shift
-// gen byte westhem = inlist(cty,"BRL","CAD","COP","MXN","PEN") // "AUD","CAD","COP","JPY","NZD","MYR"
-
-// foreach v of varlist nom* dyp* dtp* {
-// 	clonevar sft`v' = `v'
-// 	replace sft`v' = f.`v' if !westhem	// condition when EM/AE LPs, no condition for individual LPs
-// 	// 	replace `v' = f.`v' if !westhem
-// }
-
-// foreach t in 3 6 12 24 60 120 {
-// // 	clonevar sftrho`t'm = rho`t'm
-// // 	clonevar sftsyn`t'm = syn`t'm
-// 	clonevar sftphi`t'm = phi`t'm
-
-// // 	replace  sftrho`t'm = f.rho`t'm
-// // 	replace  sftsyn`t'm = usyc`t'm + sftrho`t'm
-// // 	replace  sftphi`t'm = sftnom`t'm - sftsyn`t'm
-// 	replace  sftphi`t'm = sftnom`t'm - syn`t'm
-	
-// // 	clonevar sftnom`t'm = nom`t'm
-// // 	replace  sftnom`t'm = f.nom`t'm if !westhem
-// }
-
 
 * Compute monthly returns (in basis points)
 foreach v of varlist spx vix oil fx stx {
     gen log`v' = ln(`v')
 	by $id: gen rt`v' = (log`v' - log`v'[_n-1])*10000
 }
-
-// gen logspx = ln(spx)
-// gen logvix = ln(vix)
-// gen logoil = ln(oil)
-// gen logccy = ln(fx)
-// gen logstx = ln(stx)
-// by $id: gen rtspx = (logspx - logspx[_n-1])*10000
-// by $id: gen rtoil = (logoil - logoil[_n-1])*10000
-// by $id: gen rtfx  = (logccy - logccy[_n-1])*10000
-// by $id: gen rtstx = (logstx - logstx[_n-1])*10000
 drop log*
 
 
