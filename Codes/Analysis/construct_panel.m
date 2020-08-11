@@ -16,11 +16,10 @@ function TT = construct_panel(S,matsout,currEM,currAE)
 % 
 %% Define variables
 dtend   = datetime('31-Jan-2019');                                          % end of sample
-flds1   = {'epu','cbp','inf','une','ip','gdp','scbp','scpi','sgdp','stp','rrt','sdprm','sdcyc'};
-varnms1 = flds1;
-flds2   = ['d_gsw' strcat({'dr','dc','dn','ds'},'_blncd') strcat('d_',{'yP','tp'}) ...
-            strcat('bsl_',{'yP','tp'})];
-varnms2 = {'usyc','rho','phi','nom','syn','dyp','dtp','myp','mtp'};
+flds1   = ['d_gsw' strcat({'dn','ds','dr','dc'},'_blncd') strcat('d_',{'yP','tp'}) strcat('bsl_',{'yP','tp'})];
+varnms1 = {'usyc','nom','syn','rho','phi','dyp','dtp','myp','mtp'};
+flds2   = {'scbp','scpi','sgdp','stp','rrt','cbp','inf','une','ip','gdp','sdprm','sdcyc','epu'};
+varnms2 = flds2;
 flds    = [flds1 flds2];                                                    % EM-specific + common variables
 varnms  = [varnms1 varnms2];                                                % names in new dataset
 nflds   = length(flds); 
@@ -90,13 +89,13 @@ for k0 = 1:ncntrs
     for k1 = 1:nflds
         fldnm = flds{k1};
         if ~isempty(S(k0).(fldnm))                                          % fields with data
-            tnrs  = S(k0).(fldnm)(1,:);
-            fltrT = ismember(tnrs,matsout);
-            if sum(fltrT) < 2                                               % single variable case
+            if ~isnan(S(k0).(fldnm)(1,1)) && S(k0).(fldnm)(1,1) ~= 0        % single variable case
                 dates = S(k0).(fldnm)(:,1);
-                data  = S(k0).(fldnm)(:,2);                                 % choose first appearance if needed
+                data  = S(k0).(fldnm)(:,2);                                 % select first appearance
                 varnm = varnms(k1);
-            else                                                            % variables w/ more than one tenor
+            else                                                            % variables w/ tenors
+                tnrs  = S(k0).(fldnm)(1,:);
+                fltrT = ismember(tnrs,matsout);
                 dates = S(k0).(fldnm)(2:end,1);
                 data  = S(k0).(fldnm)(2:end,fltrT);
                 tnrst = cellfun(@num2str,num2cell(tnrs(fltrT)*12),'UniformOutput',false); % tenors in months
@@ -104,7 +103,7 @@ for k0 = 1:ncntrs
             end
             TTaux = array2timetable(data,'RowTimes',datetime(dates,'ConvertFrom','datenum'),...
                     'VariableNames',varnm);
-            if k1 == 1
+            if k1 == 1                                                      % 1st variable must be *common*
                 TT2 = TTaux;
             else
                 TT2 = synchronize(TT2,TTaux,'union');
