@@ -26,18 +26,6 @@ graph export $pathfigs/MPS/USmps.eps, replace
 
 
 * ------------------------------------------------------------------------------
-* Check MPS
-* ------------------------------------------------------------------------------
-reg ed8 mp1 
-predict pathalt, r
-corr path pathalt if cty == "CHF"
-reg onrun10 mp1 path 
-predict lsapalt, r
-corr lsap lsapalt if cty == "CHF"
-browse date cty path pathalt lsap lsapalt if cty == "CHF" & mp1 != .
-	// not exact but very highly correlated, path 0.9995 and lsap 0.9946
-
-* ------------------------------------------------------------------------------
 * Assess estimates against surveys
 * ------------------------------------------------------------------------------
 corr myp12m myp60m myp120m scbp12m scbp60m scbp120m 
