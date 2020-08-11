@@ -56,6 +56,7 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 %% Store/load results
 cd(pathd)
 % save struct_datamy_S.mat S currAE currEM
+% save struct_datamy_S.mat S currAE currEM corrTPem corrTPae corrTPyP pcexplnd pc1yc pc1em pc1ae
 load('struct_datamy_S.mat')
 load('struct_datady_cells.mat')
 cd(pathc)
