@@ -16,9 +16,9 @@ pcexplnd(1,:) = {'' 'PC1' 'PC2' 'PC3' 'PC1-PC3'};
 for k0 = 1:ncntrs
     pcexplnd{k0+1,1} = S(k0).iso;
     if ismember(S(k0).iso,currEM)
-        fnameb = 's_blncd';
+        fnameb = 'ms_blncd';
     else
-        fnameb = 'n_blncd';
+        fnameb = 'mn_blncd';
     end
     yields = S(k0).(fnameb)(2:end,2:end);
     [~,~,~,~,explained] = pca(yields);
@@ -49,8 +49,8 @@ datecmmn = datenum(dateskey{2});                    % select sample period for s
 
 % Construct panel
 for k0 = n1:nN
-    fldname = {'n_blncd','bsl_yP','bsl_tp','c_blncd'};
-    if datenum(S(k0).s_dateb,'mmm-yyyy') <= datestrt
+    fldname = {'mn_blncd','bsl_yP','bsl_tp','mc_blncd'};
+    if datenum(S(k0).ms_dateb,'mmm-yyyy') <= datestrt
 %     if ismember(S(k0).iso,{'BRL','HUF','KRW','MXN','MYR','PHP','PLN','THB'})    % EM TP < 0
 %     if ismember(S(k0).iso,currEM(~contains(currEM,{'ILS','ZAR'})))              % EM w/ surveys
         k2 = k2 + 1;
@@ -107,7 +107,7 @@ for k0 = n1:nN
     k2 = k2 + 1;
     r2TPyP{k2+1,1} = S(k0).iso;
     fldname = {'bsl_yP','bsl_tp'};
-    if datenum(S(k0).s_dateb,'mmm-yyyy') <= datestrt
+    if datenum(S(k0).ms_dateb,'mmm-yyyy') <= datestrt
 %     if ismember(S(k0).iso,{'BRL','HUF','KRW','MXN','MYR','PHP','PLN','THB'}) % EM TP < 0
 %     if ismember(S(k0).iso,currEM(~contains(currEM,{'ILS','ZAR'})))           % EM w/ surveys
     
