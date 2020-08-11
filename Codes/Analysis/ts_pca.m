@@ -1,10 +1,10 @@
-function [pcexplnd,pc1yc,pc1res,r2TPyP] = ts_pca(S,currEM,kwyp,kwtp)
+function [pcexplnd,pc1em,pc1ae,pc1res,r2TPyP] = ts_pca(S,currEM,currAE,kwyp,kwtp)
 % TS_PCA Report results from principal component analysis on yields,
 % components, and residuals of regressing EM components on US components;
 % R2 of those regressions are also reported
 
-% m-files called: syncdatasets
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% m-files called: syncdatasets, cntrstimetable
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
 ncntrs = length(S);
 nEMs   = length(currEM);
@@ -36,61 +36,37 @@ sprintf('Average pct explained by PC1, PC2, PC3 and sum for AE: %2.2f, %2.2f, %2
         mean(cell2mat(pcexplnd(17:end,4))), mean(cell2mat(pcexplnd(17:end,5))))
 
 %% Common factors affecting YC components
-% yP, TPs, LCCS, ST vs LT
-k2 = 0;
-pc1yc = cell(5,2);
-pc1yc(2:end,1) = {'Nominal' 'Expected' 'TP' 'LCCS'};
-grp = 'EM';                                         % 'EM' or 'AE'
-if strcmp(grp,'EM'); n1 = 1; nN = nEMs; else; n1 = nEMs+1; nN = ncntrs; end
-tnrspc = 10;                                        % All: 0.25:0.25:10, ST: 1, LT: 10
-dateskey = {'1-Jan-2008','1-Jan-2000'};             % {'1-Jan-2008','1-Sep-2008'} all countries after GFC
-datestrt = datenum(dateskey{1});                    % select countries based on date of first observation
-datecmmn = datenum(dateskey{2});                    % select sample period for selected countries
 
-% Construct panel
-for k0 = n1:nN
-    fldname = {'mn_blncd','bsl_yP','bsl_tp','mc_blncd'};
-    if datenum(S(k0).ms_dateb,'mmm-yyyy') <= datestrt
-%     if ismember(S(k0).iso,{'BRL','HUF','KRW','MXN','MYR','PHP','PLN','THB'})    % EM TP < 0
-%     if ismember(S(k0).iso,currEM(~contains(currEM,{'ILS','ZAR'})))              % EM w/ surveys
-        k2 = k2 + 1;
-        fltrtnr1 = [true ismember(S(k0).(fldname{1})(1,2:end),tnrspc)];  % include dates
-        fltrtnr2 = [true ismember(S(k0).(fldname{2})(1,2:end),tnrspc)];
-        fltrtnr3 = [true ismember(S(k0).(fldname{3})(1,2:end),tnrspc)];
-        fltrtnr4 = [true ismember(S(k0).(fldname{4})(1,2:end),tnrspc)];
-        if k2 == 1
-            ttyld = S(k0).(fldname{1})(:,fltrtnr1);
-            ttyP  = S(k0).(fldname{2})(:,fltrtnr2);
-            tttp  = S(k0).(fldname{3})(:,fltrtnr3);
-            ttcip = S(k0).(fldname{4})(:,fltrtnr4);
-        else
-            ttyld = syncdatasets(ttyld,S(k0).(fldname{1})(:,fltrtnr1),'union');
-            ttyP  = syncdatasets(ttyP, S(k0).(fldname{2})(:,fltrtnr2),'union');
-            tttp  = syncdatasets(tttp, S(k0).(fldname{3})(:,fltrtnr3),'union');
-            ttcip = syncdatasets(ttcip,S(k0).(fldname{4})(:,fltrtnr4),'union');
-        end
-    end
+% AE
+fldname = {'dn_blncd','d_yP','d_tp','dc_blncd','mn_blncd','bsl_yP','bsl_tp','mc_blncd'};
+pc1ae   = fldname';
+for k1 = 1:length(fldname)
+    TTaux = cntrstimetable(S,currAE,fldname{k1});
+    [~,~,~,~,xplnAUX] = pca(TTaux{:,:});
+    pc1ae{k1,2} = xplnAUX(1);
 end
 
-% Principal component analysis
-fltrbln = find(any(isnan(ttyld),2),1,'last') + 1;                   % first date w/ balanced panel
-ttyld   = ttyld(fltrbln:end,:);                                     % no headers, sample w/ no NaNs
-[~,~,~,~,explndemyld] = pca(ttyld(ttyld(:,1) >= datecmmn,2:end));   % factors after common date
+% EM
+fldname = [fldname {'inf','sdprm','sdcyc'}];
+pc1em   = fldname';
+for k1 = 1:length(fldname)
+    TTaux = cntrstimetable(S,currEM,fldname{k1});
+    [~,~,~,~,xplnAUX] = pca(TTaux{:,:});
+    pc1em{k1,2} = xplnAUX(1);
+end
 
-fltrbln = find(any(isnan(ttyP),2),1,'last') + 1;
-ttyP    = ttyP(fltrbln:end,:);
-[~,~,~,~,explndemyP] = pca(ttyP(ttyP(:,1) >= datecmmn,2:end));
-
-fltrbln = find(any(isnan(tttp),2),1,'last') + 1;
-tttp    = tttp(fltrbln:end,:);
-[~,~,~,~,explndemtp] = pca(tttp(tttp(:,1) >= datecmmn,2:end));
-
-fltrbln = find(any(isnan(ttcip),2),1,'last') + 1;
-ttcip   = ttcip(fltrbln:end,:);
-[~,~,~,~,explndemlccs] = pca(ttcip(ttcip(:,1) >= datecmmn,2:end));  % ttcip(fltrbln:end,2:end)
-
-pc1yc(1,:)     = {'' [num2str(k2) '-' datestr(datecmmn,'mm/yy')]};  % #countries included plus start date
-pc1yc(2:end,2) = {explndemyld(1); explndemyP(1); explndemtp(1); explndemlccs(1)};   % PC1 only
+% hptrend = hpfilter(TTqtr{:,:},1600);
+% [~,~,~,~,xplnHPTR] = pca(hptrend);                  % PC1: 93%
+% 
+% TTsvy = cntrstimetable(S,currEM,'scpi',10);
+% z1 = rmmissing(TTsvy(:,[4 5 6 8 13 15]));
+% z2 = rmmissing(TTsvy(TTsvy.Time <= datetime('31-Oct-2014') & TTsvy.Time ~= datetime('30-Sep-2004'),[3 11]));
+% [~,~,~,~,xplnSCPI] = pca([z1{:,:} z2{:,:}]);        % PC1: 51%, PC2: 24%
+% 
+% TTrrt = cntrstimetable(S,currEM,'rrt');
+% z1 = rmmissing(TTrrt(:,[4 5 6 8 13 15]));
+% z2 = rmmissing(TTrrt(TTrrt.Time <= datetime('31-Oct-2014') & TTrrt.Time ~= datetime('30-Sep-2004'),[3 11]));
+% [~,~,~,~,xplnRRT] = pca([z1{:,:} z2{7:end,:}]);    	% PC1: 62%, PC2: 16%
 
 %% US and non-US common factors
 k2 = 0;
