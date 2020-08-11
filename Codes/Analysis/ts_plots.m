@@ -796,24 +796,32 @@ figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% DY index (daily frequency)
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
 
     % EM
-fldname = {'dn_data','d_yP','d_tp','dc_data'};  tenor = 10;
+tenor = 2;
+fldname = {'dn_data','d_yP','d_tp','dc_data'};
 figure
 for k0 = 1:length(fldname)
     [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
     disp(DYtable)
     plot(DYindex(:,1),DYindex(:,2)); hold on
 end
-datetick('x','yy'); hold off
-title('Emerging Market Sovereign Yield Connectedness: 10-Year Yields')
-figname = 'dy_index'; save_figure(figdir,figname,formats,figsave)
+datetick('x','yy'); hold off    % title('10-Year Yield Connectedness: Emerging Markets')
+legend({'Nominal Yield','Exp. Short Rate','Term Premium','Credit Premium'},'Location','best','AutoUpdate','off');
+figname = ['dy_index' num2str(tenor) 'y']; save_figure(figdir,figname,formats,figsave)
 
     % AE
-[DYindex,DYtable] = ts_dyindex(S,curncs,'dn_data',tenor);   % update emtimetable
-disp(DYtable)
-plot(DYindex(:,1),DYindex(:,2))
+fldname = {'dn_data','d_yP','d_tp'};
+figure
+for k0 = 1:length(fldname)
+    [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
+    disp(DYtable)
+    plot(DYindex(:,1),DYindex(:,2)); hold on
+end
+datetick('x','yy'); hold off    % title('10-Year Yield Connectedness: Advanced Countries')
+legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
+figname = ['dy_index' num2str(tenor) 'y_AE']; save_figure(figdir,figname,formats,figsave)
 
 %% Sources
 
