@@ -71,7 +71,9 @@ ts_plots(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1em,pc1ae,pc1res,r2TPyP] = ts_pca(S,currEM,currAE,kwyp,kwtp);
 
 %% Construct panel dataset
+datetime(now(),'ConvertFrom','datenum')
 TT = construct_panel(S,matsout,currEM,currAE);
+datetime(now(),'ConvertFrom','datenum')
 
 %%
 % [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
