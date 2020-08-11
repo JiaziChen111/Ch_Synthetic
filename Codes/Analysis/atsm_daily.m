@@ -84,6 +84,7 @@ for k0 = 1:ncntrs
     S(k0).([prefix '_yQ']) = [nan matsout; datesD ylds_Q(:,fltr)];
     S(k0).([prefix '_yP']) = [nan matsout; datesD ylds_P(:,fltr)];
     S(k0).([prefix '_tp']) = [nan matsout; datesD termprm(:,fltr)];
+%     S(k0).([prefix '_xs']) = [nan 1:size(xsD,2); datesD xsD];
     S(k0).([prefix '_rmse']) = sqrt(mean(mean(10000*(yieldsD - ylds_Q).^2)));% RMSE
     
     if plotfit
