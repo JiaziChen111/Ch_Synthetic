@@ -23,7 +23,7 @@ fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                    % field containing estimated parameters
 dt      = 1/12;                                                 % period length in years
 prefix  = 'd';                                                  % prefix for fields storing the results
-intctrs = setdiff(currEM,{'ILS','ZAR'});                        % countries w/ intercept
+intctrs = setdiff(currEM,'AUD');                                % countries w/ intercept (previously ILS & ZAR)
 
 for k0 = 1:ncntrs
     % Prefixes for monthly and daily fields
