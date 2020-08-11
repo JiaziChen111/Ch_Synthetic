@@ -823,6 +823,21 @@ datetick('x','yy'); hold off
 legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
 figname = ['dy_index' num2str(tenor) 'y_AE']; save_figure(figdir,figname,formats,figsave)
 
+% Term structure of DY index
+
+%% Plot yield curve
+k0 = 1;                                                                     % country
+matrix = S(k0).ms_blncd;                                                    % synthetic
+dates  = matrix(2:end,1);
+tenors = matrix(1,2:end);
+ylds   = matrix(2:end,2:end);
+for k1 = 1:length(dates)
+    plot(tenors,ylds(k1,:)*100,'b')
+    title(datestr(dates(k1)))
+    H(k1) = getframe(gcf);                                  % play: movie(H,1,2); one frame: imshow(H(2).cdata)
+end
+
+
 %% Sources
 
 % Hold on a legend in a plot
