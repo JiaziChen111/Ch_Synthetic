@@ -1,13 +1,14 @@
 function TT = construct_panel(S,matsout,currEM,currAE)
-% CONSTRUCT_PANEL Construct panel dataset for regression analysis
+% CONSTRUCT_PANEL Generate dataset for regression analysis
 % 
 %	INPUTS
-% S       - structure with fields bsl_pr, s, n, ds, dn
-% matsout - bond maturities in years to be reported
+% S       - structure with fields bsl_pr, ms, mn, ds, dn
+% matsout - maturities (in years) to be reported
 % currEM  - emerging market countries in the sample
+% currAE  - advanced countries in the sample
 %
 %	OUTPUT
-% TT - panel dataset
+% TT - dataset in a time table
 
 % m-files called: read_mps, read_kw, read_spf, read_global_idxs, read_epu_usdgbl,
 % read_financialvars, read_platforms, read_usyc, datesminmax
@@ -29,6 +30,7 @@ ncntrs  = length(S);
 TT_mps = read_mps();
 TT_kw  = read_kw(matsout);
 TT_rr  = read_spf();
+TT_rr.Properties.VariableNames = strrep(TT_rr.Properties.VariableNames,{'01Y','05Y','10Y'},{'12M','60M','120M'});
 TT_gbl = read_global_idxs();
 TT_epu = read_epu_usdgbl();
 [data_finan,hdr_finan] = read_financialvars();
@@ -47,7 +49,8 @@ convfx = readcell(namefl,'Sheet','CONV','Range','H66:H90');                 % up
 cd(pathc)
 
 % Express all FX as LC per USD
-TTccy  = TTpltf(:,ismember(TTpltf.Properties.VariableNames,[currEM;currAE]));
+curncs = [currEM;currAE];
+TTccy  = TTpltf(:,ismember(TTpltf.Properties.VariableNames,curncs));
 fltrFX = ismember(TTccy.Properties.VariableNames,curncs(~startsWith(convfx,'USD')));
 TTccy{:,fltrFX} = 1./TTccy{:,fltrFX};
 
@@ -74,8 +77,9 @@ for k0 = 1:ncntrs
     TTfx    = TTccy(:,fltrFX);
     fltrCTY = ismember(hdr_finan(:,1),S(k0).iso) & fltrLC;
     findata = data_finan(:,fltrCTY);
+    if isempty(findata); findata = nan(size(findts)); end                   % in case no stock market data
     TTstx   = array2timetable(findata,'RowTimes',datetime(findts,'ConvertFrom','datenum'));
-    TTfx.Properties.VariableNames = {'fx'};                                 % ensure same variable name
+    TTfx.Properties.VariableNames  = {'fx'};                                % ensure same variable name
     TTstx.Properties.VariableNames = {'stx'};    
     TT1     = synchronize(TT0,TTfx,'union');                                % add FX
     TT1     = synchronize(TT1,TTstx,'union');                               % add stock index
