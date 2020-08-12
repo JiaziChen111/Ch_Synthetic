@@ -727,14 +727,101 @@ the relative importance of the two premia varies by country and can even change 
 %For several countries,\footnote{ COP, IDR, ILS, MXN, PEN, RUB, TRY, ZAR.} the term premium plays a bigger role; the exception is Brazil, for which the credit risk premium is more salient.
 %For the rest of the countries,\footnote{ MYR, PHP, PLN, THB.} both components are important.
 
-Third, the literature for advanced countries documents a downward trend in their term premia, which is consistent with a decline in inflation uncertainty \citep{Wright:2011}.
+
+\subsubsection{Expected Future Short Rate} 
+Figure \ref{fig:bsl_yP_scbp} shows that the model-implied expectation of the short rate for the 10-year maturity tracks the interest rate forecasts reasonably well, even though the model does not rely too much on them given the conservative value of \(\sigma_s\).
+%Surveys help the model 
+An alternative model-free measure of the expectation of the future short-term interest rate is the (synthetic) 2-year yield, the correlation between the two is 93\%.
+%Incorporating survey data in the estimation helps the model pinning down the parameters under the \(\Pmeasure\) measure, and to address the small sample problem characteristic in emerging market data.
+
+%as explained in section \ref{sec:SurveyData}
+%The model acknowledges that the survey forecasts are estimated by treating them as noisy measures of the expected short rate, it therefore 
+%Figure \ref{fig:bsl_yP_scbp} displays both measures.
+%	\input{../Figures/Estimation/bsl_yP_scbp}
+
+%Careful that CBP surveys was constructed and not relying on it too much. When there is differences bw sy-yP vs CBP surveys, there are differences in TPs (ssb-tp and sy-tp).
+%ssb-yP tracks reasonably well CBP surveys, it does it much better than sy-yP. This is what explains the differences in TP (ssb-tp and sy-tp). Key differences for: HUF (now declining trend), MYR (now TP \(<\) 0), MXN (now yP reacts to TT not TP), PHP (now TP \(<\) 0), THB (now TP \(<\) 0), TRY (now TP \(>\) 0).
+%Cases HUF, MXN, MYR, PHP: w/o surveys implied expectations of rate (yP) were too low and so TP too high. W/ surveys expectations were higher and so TP lower.
+
+%Indeed, when no survey data is used in the estimation, the model-implied expectations are weakly connected to the forecasts.
+%For some countries, for instance, the yields-only model-implied expectations of the short rate were low relative to the survey forecasts and, thus, the estimated term premium was relatively high. 
+%Once survey data was incorporated into the estimation, the model-implied expectations increased in line with the interest rate forecasts and the estimated term premium decreased, and even became negative for some countries.
+
+The long-term expectation for the short rate implied by the model can also be assessed in terms of real interest rates.
+Since the implied long-term forecast for the short rates of emerging markets are based on the long-term U.S. real interest rate (see section \ref{sec:SurveyData}), the expected long-term \textit{real} interest rate---the difference between the model-implied long-term expected short rate and the long-term inflation forecast---should be similar.
+Figure \ref{fig:rrt_LT} verifies this.
+Estimates for advanced countries show that real interest rates have converged toward zero over the past years \citep*{HolstonLaubachWilliams:2017}, a phenomenon that is partly explained by the increase in savings from East Asian countries following the regional crises of the late-1990s \citep{Obstfeld:2020}.
+After correcting for credit risk and inflation, the real interest rates of emerging markets also fluctuate around zero.
+%The neutral real interest rate is a key reference for inflation-targeting central banks. It is an important concept in monetary economics. However, it is an unobserved variable. Estimates of it generally focus on AEs.
+%The decomposition of the nominal yields of EMs opens the door to glimpse the long-term real interest rates of EMs.
+%It is remarkable that for all the emerging markets in the sample their real rates 
+%This evidence shows that, 
+% discusses the global determinants of real interest rates, including 
+
+\subsubsection{Term Premium}
+While the (bond) risk premium is usually associated with the term premium in advanced countries, they are two different concepts for emerging markets.
+%Incorporating survey data in the model estimated with nominal yields produces an expected short rate similar to the one obtained using synthetic yields.
+%% correlation?
+%Therefore, the difference between the nominal yields and the expected short rate obtained with the survey-augmented model is actually capturing bond risk premia not a term premia in EMs.
+By estimating the model using synthetic yields (and surveys), I am able to estimate a genuine term premium.
+%As a result, I define the bond risk premia in EMs as the sum of a term premium and a credit risk premium.\footnote{ This measure of the bond risk premia is highly correlated with the residual obtained by estimating the survey-augmented model with nominal yields.}
+
+Two model-free measures are commonly used to assess the model-implied term premium.
+One is the survey-based term premium.\footnote{ The difference between the synthetic yield and the survey forecast for the short rate over the same maturity.}
+Since the model-implied expectations track the interest rate forecasts closely (see figure \ref{fig:bsl_yP_scbp}), the model-implied and the survey-based term premia are highly correlated as well.
+An alternative measure is the residual from regressing the 10-year yield on the 3-month yield (both synthetic); on average, its correlation with the model-implied term premium is 72\%.
+
+The literature for advanced countries documents a downward trend in their term premia, which owes in part to a decline in inflation uncertainty \citep{Wright:2011}.
 \cite{ACDM:2019} find a similar decline for emerging markets but without taking into account credit risk.
 Figure \ref{fig:ny_dcmp} shows that their term premia indeed decreased over the sample period even after correcting for credit risk, although not equally widespread since a few exceptions can be seen; for instance, the term premium for Malaysia, Turkey and South Africa did decline earlier in the sample but increased again afterwards.
+%The term premia in EMs is generally higher than the term premia in AEs.
+%Nevertheless, in addition to the declining trend in the term premia of both AEs and EMs since the start of the QE program, figure \ref{fig:ny_dcmp} also shows that for some EMs,\footnote{HUF, IDR, KRW, MXN, PHP, PLN} a declining trend in their term premia can be perceived even before the GFC; this is consistent with the evidence for AEs documented by \cite{Wright:2011} with data going back to 1990.
+%He argues that this downward trend reflects a reduction in inflation uncertainty.
+%The largest declines can be seen in Asian and European countries.\footnote{ HUF, IDR, KRW, PHP, PLN, THB.}
+%Interestingly, Mexico, Russia and Turkey experienced reversals in their term premia, they increased after declining to historic lows.
+
+It is noteworthy that the phenomenon of a negative term premia---when investors considered bonds as hedges and are therefore willing to give up some investment return---is not restricted to advanced countries.
+Figure \ref{fig:ny_dcmp} shows that some countries in emerging Asia experienced episodes of negative term premia after the global financial crisis.
+%---unlike the term premia in AEs.
+Similarly, since mid-2011 the U.S. term premium based on the methodology of \cite{KimWright:2005} has been negative most of the time, fluctuating between \(-1\) and \(0\)\%, as is the case for other advanced countries, which is documented by \cite{Wright:2011}.
+%In addition, that the 5-to-10-year forward term premium for six of the AEs considered here turned negative even before the GFC.
+%\footnote{ The estimates of the term premia for AEs obtained here, however, do not turn negative. In his estimation, \cite{Wright:2011} augments the affine model with data from macroeconomic variables. This might support the case of supplementing the estimation of the affine model of AEs either with macro or survey data.} 
+%Moreover, for the EMs with a negative term premia, the phenomenon can be seen during and after the GFC, in some cases it coincided with the QE announcements.
+%Interestingly, for Brazil and Turkey the decline in their term premia between 2008 and 2013 happened even when their inflation expectations were increasing (see figure \ref{fig:wnCPI}).
+%	event dates (QE-TT), seems to be the reason why TP < 0 (timing)	
+%Phenomenon of TP < 0 is for EMs not AEs, especially after QE.
+%The effects of US influencing local conditions abroad depend on the context. If the EM does not need the stimulus, it might need to resort to macro prudential tools. But if the stimulus is needed, it can benefit from it.
+%TT had three effects in other countries: increase in TP, increase in short rate expectations (yP), decrease in yP. Plot ssb-yP-QE
+%USTP reacted similarly to TPs of AEs and EMs.
+%- For which country the decline is not justified by declining inflation? K flows role? For BRL and TRY, TP decline b/w 2008 and 2013 even when their inflation expectations were increasing.
+
+Finally, 
+%in addition to comparing the term premia across countries, 
+comparing the term premia across maturities per country
+%, known as the term structure of term premia, 
+indicates that they generally increase with maturity. 
+Investors require a higher compensation for holding long-term bonds when they are seen as riskier than short-term bonds.
+This term structure of term premia actually sheds more light 
+%provides a more refined perspective 
+on the issue of negative term premia just discussed.
+Figure \ref{fig:bsl_tp_ts} shows that whereas countries in emerging Asia experienced negative term premia on the long end of their yield curves, different countries experienced it on the short end.
+International investors seem to have had a preference for short-term LC bonds after the global financial crisis.
+
+%\subsection{Effects of Local Conditions}
+%The estimated term premia also seems to be related to local conditions.
+%Figure \ref{fig:ssb_tp_local} plots the term premium of some EMs along with the dates of relevant local events.\footnote{ For Brazil, the events highlighted are the announcements of capital controls in response to UMP announcements by central banks in AEs. 
+%	For Colombia, the events are announcements of capital controls before the GFC. 
+%	For Hungary, the events are the approval of the treaty to join the European Union, the adoption of an explicit medium-term inflation target by the central bank,  and a demand by the European parliament to prevent the Hungarian authorities from breaching the EU’s founding values. 
+%	For Indonesia, the event is the adoption of inflation targeting. 
+%	For South Korea, the event is the announcement of measures to limit financial firms’ positions in foreign exchange derivatives to control currency flows. 
+%	For Poland, the event is the approval of the treaty to join the European Union and the publication of a law threatening the independence of the judiciary. 
+%	For Turkey, the events are the adoption of inflation targeting by the central bank and the killing of the journalist Jamal Khashoggi who disappeared after he visited the consulate of Saudi Arabia in Istanbul.}
 
 
 \subsubsection{Credit Risk Premium}
 The dynamics of the credit risk premium are in line with the results reported by \cite{DuSchreger:2016JoF} who, in particular, show that it is highly correlated with the CDS of the respective country.
 Unlike the term premium, no clear trend is visible for the credit risk premium.
+Also, no clear pattern is observed for it when looking across maturities.
 
 The role of the credit risk premium in explaining yield variation is non-negligible in general.
 On average, it is positive for all the countries. 
@@ -766,100 +853,18 @@ Therefore, it does matter which curve is used (nominal or synthetic) when decomp
 %TP is more important for: COP, IDR, ILS, MXN, PEN, RUB, TRY, ZAR
 %Is regional (Asian and European) or global?
 
-\subsubsection{Expected Future Short Rate} 
-Incorporating survey data in the estimation helps the model pinning down the parameters under the \(\Pmeasure\) measure, and in addressing the small sample problem characteristic in emerging market data.
-Figure \ref{fig:bsl_yP_scbp} shows that the model-implied expectation of the short rate for the 10-year maturity tracks the interest rate forecasts reasonably well, even though the model does not rely too much on them given the conservative value of \(\sigma_s\).
-%Surveys help the model 
-An alternative model-free measure of the expectation of the future short-term interest rate is the 2-year yield, the correlation between the two is 93\%.
-%as explained in section \ref{sec:SurveyData}
-%The model acknowledges that the survey forecasts are estimated by treating them as noisy measures of the expected short rate, it therefore 
-%Figure \ref{fig:bsl_yP_scbp} displays both measures.
-%	\input{../Figures/Estimation/bsl_yP_scbp}
 
-%Careful that CBP surveys was constructed and not relying on it too much. When there is differences bw sy-yP vs CBP surveys, there are differences in TPs (ssb-tp and sy-tp).
-%ssb-yP tracks reasonably well CBP surveys, it does it much better than sy-yP. This is what explains the differences in TP (ssb-tp and sy-tp). Key differences for: HUF (now declining trend), MYR (now TP \(<\) 0), MXN (now yP reacts to TT not TP), PHP (now TP \(<\) 0), THB (now TP \(<\) 0), TRY (now TP \(>\) 0).
-%Cases HUF, MXN, MYR, PHP: w/o surveys implied expectations of rate (yP) were too low and so TP too high. W/ surveys expectations were higher and so TP lower.
-
-%Indeed, when no survey data is used in the estimation, the model-implied expectations are weakly connected to the forecasts.
-%For some countries, for instance, the yields-only model-implied expectations of the short rate were low relative to the survey forecasts and, thus, the estimated term premium was relatively high. 
-%Once survey data was incorporated into the estimation, the model-implied expectations increased in line with the interest rate forecasts and the estimated term premium decreased, and even became negative for some countries.
-
-The long-term expectation for the short rate implied by the model can also be assessed in terms of real interest rates.
-The implied long-term forecast for the short rates of emerging markets are based on the long-term U.S. real interest rate (see section \ref{sec:SurveyData}).
-Therefore, the expected long-term real interest rate---the difference between the model-implied long-term expectation for the short rate and the long-term inflation forecast from Consensus Economics---should be similar.
-Figure \ref{fig:rrt_LT} verifies that this is the case.
-They all fluctuate in a range around zero.
-Estimates for advanced countries show that real interest rates have converged and declined toward zero over the past years \citep*{HolstonLaubachWilliams:2017}, a phenomenon that is partly explained by the increase in savings from East Asian countries following the regional crises of the late-1990s \citep{Obstfeld:2020}.
-After correcting for credit risk and inflation, the real interest rates of emerging markets behave similarly to those of advanced countries.
-%The neutral real interest rate is a key reference for inflation-targeting central banks. It is an important concept in monetary economics. However, it is an unobserved variable. Estimates of it generally focus on AEs.
-%The decomposition of the nominal yields of EMs opens the door to glimpse the long-term real interest rates of EMs.
-%It is remarkable that for all the emerging markets in the sample their real rates 
-%This evidence shows that, 
-% discusses the global determinants of real interest rates, including 
-
-\subsubsection{Term Premium}
-While the (bond) risk premium is usually associated with the term premium in AEs, for emerging markets they are two different concepts.
-%Incorporating survey data in the model estimated with nominal yields produces an expected short rate similar to the one obtained using synthetic yields.
-%% correlation?
-%Therefore, the difference between the nominal yields and the expected short rate obtained with the survey-augmented model is actually capturing bond risk premia not a term premia in EMs.
-By estimating the model using synthetic yields and surveys, I am able to estimate a genuine term premium.
-%As a result, I define the bond risk premia in EMs as the sum of a term premium and a credit risk premium.\footnote{ This measure of the bond risk premia is highly correlated with the residual obtained by estimating the survey-augmented model with nominal yields.}
-
-
-There are two model-free measures commonly used to assess the model-implied term premium.
-One of them is the survey-based term premium obtained as the difference between the synthetic yield and the survey-expectation of the short rate for the same maturity.
-Since the model-implied expectations track the interest rate forecasts very closely, as mentioned above, the model-implied and the survey-based term premia are highly correlated as well.
-The other alternative measure is the residual from the regression of the 10-year yield on the 3-month yield (both synthetic).
-The model-implied term premium is also closely related to this residual, the average correlation between the two measures among all EMs is close to 70\%.
-
-
-The term premia in EMs is generally higher than the term premia in AEs.
-Nevertheless, in addition to the declining trend in the term premia of both AEs and EMs since the start of the QE program, figure \ref{fig:ny_dcmp} also shows that for some EMs,\footnote{HUF, IDR, KRW, MXN, PHP, PLN} a declining trend in their term premia can be perceived even before the GFC; this is consistent with the evidence for AEs documented by \cite{Wright:2011} with data going back to 1990.
-He argues that this downward trend reflects a reduction in inflation uncertainty.
-The largest declines can be seen in Asian and European countries.\footnote{ HUF, IDR, KRW, PHP, PLN, THB.}
-Interestingly, Mexico, Russia and Turkey experienced reversals in their term premia, they increased after declining to historic lows.
-
-
-It is noteworthy that more than half of the EMs in the sample experienced negative term premia---which implies that investors considered EM bond yields as hedges and were therefore willing to give up some return in their EM bond investments.
-%---unlike the term premia in AEs.
-For comparison, the U.S. term premium estimated by \cite{KimWright:2005} has been negative for most of the time since mid-2011, fluctuating between \(-1\) and \(0\)\%.
-In addition, \cite{Wright:2011} reports that the 5-to-10-year forward term premium for six of the AEs considered here turned negative even before the GFC.
-\footnote{ The estimates of the term premia for AEs obtained here, however, do not turn negative. In his estimation, \cite{Wright:2011} augments the affine model with data from macroeconomic variables. This might support the case of supplementing the estimation of the affine model of AEs either with macro or survey data.} 
-Moreover, for the EMs with a negative term premia, the phenomenon can be seen during and after the GFC, in some cases it coincided with the QE announcements.
-Interestingly, for Brazil and Turkey the decline in their term premia between 2008 and 2013 happened even when their inflation expectations were increasing (see figure \ref{fig:wnCPI}).
-%	event dates (QE-TT), seems to be the reason why TP < 0 (timing)	
-%Phenomenon of TP < 0 is for EMs not AEs, especially after QE.
-%The effects of US influencing local conditions abroad depend on the context. If the EM does not need the stimulus, it might need to resort to macro prudential tools. But if the stimulus is needed, it can benefit from it.
-%TT had three effects in other countries: increase in TP, increase in short rate expectations (yP), decrease in yP. Plot ssb-yP-QE
-%USTP reacted similarly to TPs of AEs and EMs.
-%- For which country the decline is not justified by declining inflation? K flows role? For BRL and TRY, TP decline b/w 2008 and 2013 even when their inflation expectations were increasing.
-
-Finally, 
-%in addition to comparing the term premia across countries, 
-one can also compare the term premia across maturities per country, known as the term structure of term premia. In general, the term premium increases with maturity. As one would expect, when long-term bonds are seen as riskier than short-term bonds, investors would require a higher compensation for holding long-term bonds.
-
-%\subsection{Effects of Local Conditions}
-%The estimated term premia also seems to be related to local conditions.
-%Figure \ref{fig:ssb_tp_local} plots the term premium of some EMs along with the dates of relevant local events.\footnote{ For Brazil, the events highlighted are the announcements of capital controls in response to UMP announcements by central banks in AEs. 
-%	For Colombia, the events are announcements of capital controls before the GFC. 
-%	For Hungary, the events are the approval of the treaty to join the European Union, the adoption of an explicit medium-term inflation target by the central bank,  and a demand by the European parliament to prevent the Hungarian authorities from breaching the EU’s founding values. 
-%	For Indonesia, the event is the adoption of inflation targeting. 
-%	For South Korea, the event is the announcement of measures to limit financial firms’ positions in foreign exchange derivatives to control currency flows. 
-%	For Poland, the event is the approval of the treaty to join the European Union and the publication of a law threatening the independence of the judiciary. 
-%	For Turkey, the events are the adoption of inflation targeting by the central bank and the killing of the journalist Jamal Khashoggi who disappeared after he visited the consulate of Saudi Arabia in Istanbul.}
-
-
-\subsubsection{Risk Premia in EM Yields}
+\subsubsection{Risk Premia in Emerging Market Yields}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 %The components of the bond risk premium capture different risks. Indeed, 
-Given that the two premia play an important role in the dynamics of EM yields, a natural question is whether and how they are related.
+Given that the two premia help explain yield variation in emerging markets, a natural question is whether and how they are related.
 
-For all EMs their estimated term premium correlates negatively with their credit risk premium.\footnote{ The correlation is not statistically significant only in the case of Indonesia.} 
-When EMs face difficulties servicing their debt, they can either default or inflate away their debt, which can be referred to as explicit and implicit default. % Galli  (2020) 
+The term premium correlates negatively with the credit risk premium for 11 out of the 15 emerging markets with an average of \(-0.38\).\footnote{ The correlation is not statistically significant for Colombia, Indonesia, Poland and Russia at the 10\% level.} 
+When emerging markets face difficulties servicing their bond payments, they can either default or inflate away their debt, which can be referred to as explicit and implicit default. % Galli  (2020) 
 The first option would increase the credit risk premium, whereas the second essentially generates inflation risk that would be reflected in a higher term premium.
 Choosing one of the two options reduces the need for the other, which would explain the negative correlation.
-The evidence for EMs thus shows a trade-off between explicit and implicit defaults.
+This evidence points to a trade-off between explicit and implicit defaults for most emerging markets.
 
 Term premia captures the uncertainty risk of investing in bond yields.
 It is expected then for the term premium to be related to risk and uncertainty measures.
@@ -1240,6 +1245,7 @@ For instance, since U.S. monetary policy drives a repricing of interest and cred
 %	\input{../Figures/Estimation/ny_yP_QE_AE}
 %	\input{../Figures/Estimation/ssb_tp_local}
 	\input{../Figures/Estimation/rrt_LT}
+	\input{../Figures/Estimation/bsl_tp_ts}
 %	\input{../Figures/Estimation/brp_dcmp}
 	\input{../Figures/MPS/USmps}
 \end{landscape}
