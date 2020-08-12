@@ -817,7 +817,7 @@ figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
 
 close all
 
-%% DY index (daily frequency)
+%% DY index (daily frequency): Yield Components
 figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
 
     % EM
@@ -845,7 +845,40 @@ datetick('x','yy'); hold off
 legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
 figname = ['dy_index' num2str(tenor) 'y_AE']; save_figure(figdir,figname,formats,figsave)
 
-% Term structure of DY index
+%% DY index (daily frequency): Term structure
+figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
+
+    % EM
+fldname = {'dn_data','d_tp'};
+tenor   = [0.25 1 5 10];
+for k0 = 1:length(fldname)
+    figure
+    for k1 = 1:length(tenor)
+        [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor(k1));
+        disp([fldname{k0} ' ' num2str(tenor(k1))])
+        disp(DYtable)
+        plot(DYindex(:,1),DYindex(:,2)); hold on
+    end
+    datetick('x','yy'); hold off
+    legend({'3M','1Y','5Y','10Y'},'Location','best','AutoUpdate','off');
+    figname = ['dy_index' fldname{k0}]; save_figure(figdir,figname,formats,figsave)
+end
+
+    % AE
+fldname = {'dn_data','d_tp'};
+tenor   = [0.25 1 5 10];
+for k0 = 1:length(fldname)
+    figure
+    for k1 = 1:length(tenor)
+        [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor(k1));
+        disp([fldname{k0} ' ' num2str(tenor(k1))])
+        disp(DYtable)
+        plot(DYindex(:,1),DYindex(:,2)); hold on
+    end
+    datetick('x','yy'); hold off
+    legend({'3M','1Y','5Y','10Y'},'Location','best','AutoUpdate','off');
+    figname = ['dy_index' fldname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
+end
 
 %% Plot yield curve
 k0 = 1;                                                                     % country
