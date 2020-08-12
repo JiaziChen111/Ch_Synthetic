@@ -95,8 +95,11 @@ label variable regionae "AE Blocks"
 
 * Label variables for use in figures and tables
 #delimit ;
-local oldlabels mp1 path lsap;
-local newlabels `" "Target" "Path" "LSAP" "';
+unab oldlabels : mp1 path lsap nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
+local newlabels `" "Target" "Path" "LSAP" "YLD" "YLD" "YLD" "YLD" "YLD" "YLD" "SYNT" "SYNT" "SYNT" 
+	"SYNT" "SYNT" "SYNT" "FWD" "FWD" "FWD" "FWD" "FWD" "FWD" "CRP" "CRP" "CRP" "CRP" "CRP" "CRP" 
+	"ER" "ER" "ER" "ER" "ER" "ER" "TP" "TP" "TP" "TP" "TP" "TP" "US YLD" "US YLD" "US YLD" 
+	 "US YLD" "US YLD" "US YLD" "US TP" "US TP" "US TP" "US TP" "US ER" "US ER" "US ER" "US ER" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {
