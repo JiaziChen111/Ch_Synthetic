@@ -332,30 +332,56 @@ corr phi* globalsc if em
 * ------------------------------------------------------------------------------
 
 * Define variables
-global x1 logvix ffr rtspx rtoil
-global x2 logvix ffr usyc120m epugbl globalip rtspx rtoil
-global x3 inf une ip rtfx rtstx
-global x4 logvix ffr rtspx rtoil inf une ip rtfx rtstx
-global x5 logvix ffr usyc120m epugbl globalip rtspx inf une ip rtfx rtstx
-global x6 logvix ffr usyc120m epugbl globalip inf une ip rtfx rtstx
+// global x1 logvix ffr rtspx rtoil
+// global x2 logvix ffr usyc120m epugbl globalip rtspx rtoil
+// global x3 inf une ip rtfx rtstx
+// global x4 logvix ffr rtspx rtoil inf une ip rtfx rtstx
+// global x5 logvix ffr usyc120m epugbl globalip rtspx inf une ip rtfx rtstx
+// global x6 logvix ffr usyc120m epugbl globalip inf une ip rtfx rtstx
+
+global x1 usyp`v'm epugbl globalip logvix ffr inf gdp
+global x2 ustp`v'm epugbl globalip logvix ffr inf gdp
+
+global x3 sdprm
+global x4 sdprm ustp`v'm
+global x5 sdprm ustp`v'm epugbl globalip logvix ffr inf gdp
+global x6       ustp`v'm epugbl globalip logvix ffr inf gdp
+global x7       usyp`v'm epugbl globalip logvix ffr inf gdp
+
 
 * Panel regressions
 foreach t in 24 120 {
-	foreach v in dyp dtp sftphi {
-// 		quietly xtreg `v'`t'm $x1, fe cluster($id)
-// 		eststo m1
-// 		quietly xtreg `v'`t'm $x2, fe cluster($id)
-// 		eststo m2
-// 		quietly xtreg `v'`t'm $x3, fe cluster($id)
-// 		eststo m3
-// 		quietly xtreg `v'`t'm $x4, fe cluster($id)
-// 		eststo m4
+	foreach v in dyp {
+		quietly xtreg `v'`t'm $x1, fe cluster($id)
+		eststo m1
+		quietly xtreg `v'`t'm $x2, fe cluster($id)
+		eststo m2
+		esttab m1 m2
+	}
+}
+
+foreach t in 24 120 {
+	foreach v in dtp {
+		quietly xtreg `v'`t'm $x3, fe cluster($id)
+		eststo m3
+		quietly xtreg `v'`t'm $x4, fe cluster($id)
+		eststo m4
 		quietly xtreg `v'`t'm $x5, fe cluster($id)
-// 		quietly xtscc `v'`t'm $x5, fe
 		eststo m5
 		quietly xtreg `v'`t'm $x6, fe cluster($id)
-// 		quietly xtscc `v'`t'm $x6, fe
 		eststo m6
-		esttab m5 m6
+		quietly xtreg `v'`t'm $x7, fe cluster($id)
+		eststo m7
+		esttab m3 m4 m5 m6 m7
+	}
+}
+
+foreach t in 24 120 {
+	foreach v in phi {
+		quietly xtreg `v'`t'm $x2, fe cluster($id)
+		eststo m8
+		quietly xtreg `v'`t'm $x5, fe cluster($id)
+		eststo m9
+		esttab m8 m9
 	}
 }
