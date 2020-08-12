@@ -189,48 +189,26 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Post-estimation analysis.
-	\begin{todolist}
-		\item[\done] Include Stock-Watson volatility in add_vars.
-		\item[\done] Include TP vs inflation volatility and permanent-cyclical volatility in ts_plots.
-		\item[\done] Move daily estimation upwards, before post-estimation analysis.
-		\item[\done] Implement Diebold-Yilmaz spillover index.
-		\item Update figures.
-		\item Include in ts_pca PCs for: real rates (global RR), inflation (global inflation factor 81\%), inflation expectations (PC1: 51\%, PC2: 24\%) and growth (common trends in interest rates), inflation volatility S-W (93\%), inflation trend S-W (81\%), inflation trend HP (93\%).
-		\item Use global activity indexes for GFCy and C-P global factor.
-		\item Compare yP vs scbp for 1Y (not used in estimation).
-		\item Update emtimetable to emaetimetable and include option to generate TT for AE (to be used by ts_plots for AEs). Update call for it in trend_inflation.
-		\item Update references to figures in Latex files due to changes in names (4 - fit, 6 yP vs scbp).
-	\end{todolist}
-	\item Update dataset in Matlab.
-	\begin{todolist}
-		\item[\done] Update ts_analysis file to generate dataset.
-		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
-		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
-		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
-		\item[\done] Ensure all yields generated are in decimals (daily2dymy makes yields in decimals, append_svys2ylds makes surveys in decimals, thus yields in all versions of model are in decimals).
-		\item[\done] In construct_panel include sdprm and spcyc in variables to pull.
-		\item Check that variables w/ and w/o header are correctly stored.
-		\item Ensure all tenors are in months: TT_kw, TT_rr.
-		\item Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
-		\item Ensure scbp for 1Y is included to verify yP vs scbp for 1Y.
-		\item Include daily 3 PCs and estimated pricing factors for each country. Maybe in add_vars.
-		\item Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Compare the common PC in EM and AE b/w them and to US YC components, global activity indexes, local conditions.
-		\item Re-estimate flexible model mssf for: HUF, IDR, ILS, MYR, THB, TRY, ZAR.
-		\item Re-estimate  flexible model mssf for: PHP.
-	\end{todolist}
-	\item Reproduce LPs in Stata.
+	\item LPs in Stata.
 	\begin{todolist}
 		\item[\done] How much the shift in LCNOM affects LPs? Use nom and sftnom. There is an on-impact effect relative to shift for any country.
-		\item[\done] Redefine regions as in Hofmann, Shim and Shin and see LPs. 
-		\item If not regional response, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs.
-		\item Substitute . by zeros in US MPS.
-		\item Try lag of depvar as in Hofmann, Shim and Shin and see LPs.
-		\item Express all variables in basis points.
-		\item Are big changes in TP related to local events?
+		\item[\done] Redefine regions as in Hofmann, Shim and Shin and see LPs.
+		\item[\done] Convert variables in percent (MPS, TT_kw, TT_rr) to basis points.
+		\item[\done] Substitute . by zeros in US MPS.
+		\item[\done] Express all variables in basis points.
+		\item[\done] Correction to construct_panel b/c repeating column names. EPU as first field name caused errors, it needs to be a variable common to all countries.
+		\item[\done] Delete previous file of dataspillovers b/c it keeps previous data outside current range.
+		\item[\done] Reproduce previous LPs. Decomposition of nominal yields: synthetic + phi.
+		\item[\done] Decomposition of synthetic: yP + TP.
+		\item Re-label variables, title graph and file name.
+		\item Decomposition of nominal: yP + TP + phi.
 	\end{todolist}
 	\item Additional stuff: TIC data, S-W inflation decomposition, EPU.
 	\begin{todolist}
+		\item Try lag of depvar as in Hofmann, Shim and Shin and see LPs.
+		\item If not regional response, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs.
+		\item Are big changes in TP related to local events?
+		\item Re-estimate flexible model mssf for: IDR, ILS, ZAR.
 		\item Correlation of YC components with the 3 PCs and estimated pricing factors.
 		\item LPs for effects of US MPS on the 3 pricing factors of EMs.
 		\item Skim through Warnock papers on TIC data.
@@ -263,6 +241,7 @@
 		\item Update legends, labels, axis, titles.
 		\item Improve location of legend in figures w/ subplots.
 		\item Save figures to be used in pdf.
+		\item Term structure connectedness for AEs and EMs: 3m, 1Y, 5Y, 10Y.
 	\end{todolist}
 
 	\item Annex.
@@ -304,6 +283,36 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Update dataset in Matlab.
+	\begin{todolist}
+		\item[\done] Update ts_analysis file to generate dataset.
+		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
+		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
+		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
+		\item[\done] Ensure all yields generated are in decimals (daily2dymy makes yields in decimals, append_svys2ylds makes surveys in decimals, thus yields in all versions of model are in decimals).
+		\item[\done] In construct_panel include sdprm and spcyc in variables to pull.
+		\item[\done] Check that variables w/ and w/o header are correctly stored. Yes: single variables use (:,X) whereas variables w/ tenors use (2:end,X) b/w line 93 and 98.
+		\item[\done] Ensure all tenors are in months: TT_kw, TT_rr. Careful: USRR is a quarterly variable.
+		\item[\done] Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
+		\item[\wontdo] Ensure scbp for 1Y is included to verify yP vs scbp for 1Y. Already done using ts_plots, saved in Estimation folder.
+		\item[\wontdo] Include daily 3 PCs and estimated pricing factors for each country. Maybe in add_vars. Note: PCs and pricing factors differ by a level shift. Relevant analysis would require daily factors, which would make the dataset very heavy. The change was introduced in atsm_daily but commented.
+		\item[\done] Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Compare the common PC in EM and AE b/w them and to US YC components, global activity indexes, local conditions. Note: analysis done but variables not included in dataset.
+	\end{todolist}
+	\item[\done] Post-estimation analysis.
+	\begin{todolist}
+		\item[\done] Include Stock-Watson volatility in add_vars.
+		\item[\done] Include TP vs inflation volatility and permanent-cyclical volatility in ts_plots.
+		\item[\done] Move daily estimation upwards, before post-estimation analysis.
+		\item[\done] Implement Diebold-Yilmaz spillover index.
+		\item[\done] Update emtimetable to emaetimetable and include option to generate TT for AE (to be used by ts_plots for AEs). Update call for it in trend_inflation. It is now called cntrstimetable.
+		\item[\done] Compare yP vs scbp for 1Y (not used in estimation). Close but differs for some countries.
+		\item[\done] Update figures.
+		\item[\done] Update references to figures in Latex files due to changes in names (6 yP vs scbp).
+		\item[\done] Include in ts_pca PCs for: real rates (global RR 62\%), inflation (global inflation factor 81\%), inflation expectations (PC1: 51\%, PC2: 24\%) and growth (common trends in interest rates), inflation volatility S-W (93\%), inflation trend S-W (81\%), inflation trend HP (93\%).
+		\item[\done] Use global activity indexes for GFCy and C-P global factor. Seems weakly connected to common factor in yields.
+		\item[\done] Compare common factors (level) in AE and EM 10Y. They closely follow each other, they have a downward trend.
+		\item[\done] Compare pricing factors vs principal components. They are very similar, the main difference is a level shift (up or down). That is why an intercept is needed in atsm_daily.
+	\end{todolist}
 	\item[\done] Re-estimate parameters using implied forecasts for CBP.
 	\begin{todolist}
 		\item[\done] Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
@@ -319,7 +328,7 @@
 		\item[\done] Stock and Watson inflation decomposition. Compare trend component vs HP filter trend for ILS and ZAR.  S-W trend component looks very similar to actual series, so keep HP trend for ILS and ZAR.
 		\item[\done] Re-estimate baseline models (mnsb, mssb) for HUF (0.16), IDR (0.39), ILS (0.10), MYR (0.17), THB (0.135), TRY (0.12), ZAR (0.07). 
 		\item[\done] Redefine baseline estimations (for ILS and ZAR), assess_fit and add_vars.
-		\item[\wontdo] Re-estimate baseline models (mnsb, mssb) for BRL (0.27), IDR (0.47), MYR THB, TRY, ZAR. Run code for all those countries takes time and is prone to freeze. So I better estimate individually and only the mssb version.
+		\item[\wontdo] Re-estimate baseline models (mnsb, mssb) for BRL (0.27), IDR (0.47), PEN, MYR THB, TRY, ZAR. Run code for all those countries takes time and is prone to freeze. So I better estimate individually and only the mssb version.
 		\item[\done] Compare results against previous ones.
 		\item[\done] Re-do: assess_fit, add_vars, daily_estimation, save mat files.
 	\end{todolist}
