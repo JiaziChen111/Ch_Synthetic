@@ -21,12 +21,12 @@ foreach shock in mp1 path lsap {
 	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars rho	// nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
+			local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
 			local region regionae
 		}
 		else {
 			local grp "EM"
-			local vars rho	// nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi
+			local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi	// rho
 			local region regionem
 		}
 		
@@ -82,25 +82,25 @@ foreach shock in mp1 path lsap {
 						(line ul1_`v'`t'm days, lcolor(black) lpattern(dash)) ///
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
-				title(`t'm, color(black) size(medium)) ///
+				title(`: variable label `v'`t'm', color(black) size(medium)) ///
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
 // 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
 				
-// 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
-				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm
+				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
+// 				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// `v' yield component
 		
-// 		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-// 		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
-// 		graph drop _all
-		}				// `t' tenor
-		graph combine `graphs`shock'`grp'', rows(1) ycommon
-		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
+		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
+		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
 		graph drop _all
+		}				// `t' tenor
+// 		graph combine `graphs`shock'`grp'', rows(1) ycommon					// for rho version
+// 		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
+// 		graph drop _all
 	}					// `group' AE or EM
 }						// `shock'
 
-// title(`: variable label `v'`t'm', color(black) size(medium))
+// title(`t'm, color(black) size(medium))									// for version
