@@ -72,11 +72,6 @@ foreach shock in mp1 path lsap {
 					matrix R = r(table)
 					replace ll1_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
 					replace ul1_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
-// 					quiet xtreg, level(90)	// to get 90% CI
-// // 					quiet xtscc, level(90)	// to get 90% CI
-// 					matrix R = r(table)
-// 					replace ll2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
-// 					replace ul2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
 					
 					drop `v'`t'm`i'
 					}
@@ -103,8 +98,3 @@ foreach shock in mp1 path lsap {
 		}				// tenor
 	}					// AE or EM
 }						// shock
-
-
-// (rarea ll1_`v'`t'm ul1_`v'`t'm days, fcolor(gs12) lcolor(white) lpattern(solid)) ///
-// (rarea ll2_`v'`t'm ul2_`v'`t'm days, fcolor(gs10) lcolor(white) lpattern(solid)) ///
-// 		title("`shock' `grp' `t'm")
