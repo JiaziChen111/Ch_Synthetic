@@ -64,11 +64,12 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
 
 
 * Compute monthly returns (in basis points)
-foreach v of varlist spx vix oil fx stx {
+foreach v of varlist spx oil fx stx {
     gen log`v' = ln(`v')
 	by $id: gen rt`v' = (log`v' - log`v'[_n-1])*10000
 }
 drop log*
+gen logvix = ln(vix)
 
 
 * x-axis and zero line
