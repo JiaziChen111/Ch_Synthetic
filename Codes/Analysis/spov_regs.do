@@ -1,7 +1,7 @@
 * ==============================================================================
 * Local projections
 * ==============================================================================
-
+global horizon = 90
 local j = 0
 foreach shock in mp1 path lsap {
 	local ++j
@@ -21,12 +21,12 @@ foreach shock in mp1 path lsap {
 	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars syn dyp dtp	// nom syn rho phi // 
+			local vars nom usyc rho phi	//  nom syn dyp dtp rho phi // 
 			local region regionae
 		}
 		else {
 			local grp "EM"
-			local vars syn dyp dtp	// nom syn rho phi // 
+			local vars nom usyc rho phi	// nom syn dyp dtp rho phi // 
 			local region regionem
 		}
 		
@@ -60,9 +60,9 @@ foreach shock in mp1 path lsap {
 // 					}
 					
 					// one regression for each horizon
-					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) cluster($id) 			// report on-impact effect
+					if `i' == 0 xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(90) cluster($id) 			// report on-impact effect
 // 					if `i' == 0 xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) lag(4)
-					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) cluster($id)
+					quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(90) cluster($id)
 // 					quiet xtscc `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(95) lag(4)
 					capture {
 					replace b_`v'`t'm  = _b[`shock'] if _n == `i'+1
@@ -72,23 +72,23 @@ foreach shock in mp1 path lsap {
 					matrix R = r(table)
 					replace ll1_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
 					replace ul1_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
-					quiet xtreg, level(90)	// to get 90% CI
-// 					quiet xtscc, level(90)	// to get 90% CI
-					matrix R = r(table)
-					replace ll2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
-					replace ul2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
+// 					quiet xtreg, level(90)	// to get 90% CI
+// // 					quiet xtscc, level(90)	// to get 90% CI
+// 					matrix R = r(table)
+// 					replace ll2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ll"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
+// 					replace ul2_`v'`t'm = el(matrix(R),rownumb(matrix(R),"ul"),colnumb(matrix(R),"`shock'")) if _n == `i'+1
 					
 					drop `v'`t'm`i'
 					}
 				}			// horizon
 				
 				// graph
-				twoway 	(rarea ll1_`v'`t'm ul1_`v'`t'm days, fcolor(gs12) lcolor(white) lpattern(solid)) ///
-						(rarea ll2_`v'`t'm ul2_`v'`t'm days, fcolor(gs10) lcolor(white) lpattern(solid)) ///
+				twoway 	(line ll1_`v'`t'm days, lcolor(black) lpattern(dash)) ///
+						(line ul1_`v'`t'm days, lcolor(black) lpattern(dash)) ///
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
-				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90) ///
+				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
 // 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
@@ -97,11 +97,14 @@ foreach shock in mp1 path lsap {
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
 			}			// yield component
 		
-		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon ///
-		title("`shock' `grp' `t'm")
-		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`v'`t'm.eps, replace
-		
+		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
+		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'nomusrhophi`t'm.eps, replace
 		graph drop _all
 		}				// tenor
 	}					// AE or EM
 }						// shock
+
+
+// (rarea ll1_`v'`t'm ul1_`v'`t'm days, fcolor(gs12) lcolor(white) lpattern(solid)) ///
+// (rarea ll2_`v'`t'm ul2_`v'`t'm days, fcolor(gs10) lcolor(white) lpattern(solid)) ///
+// 		title("`shock' `grp' `t'm")
