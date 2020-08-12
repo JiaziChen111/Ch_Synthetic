@@ -1,7 +1,7 @@
 * ==============================================================================
 * Local projections
 * ==============================================================================
-global horizon = 90
+global horizon = 4
 local j = 0
 foreach shock in mp1 path lsap {
 	local ++j
@@ -18,15 +18,15 @@ foreach shock in mp1 path lsap {
 		local datecond date > td(1jan2009) & date < td(1jan2020)
 	}
 	
-	foreach group in 1 { // 0 1 {
+	foreach group in 0 1 {
 		if `group' == 0 {
 			local grp "AE"
-			local vars nom usyc rho phi	//  nom syn dyp dtp rho phi // 
+			local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
 			local region regionae
 		}
 		else {
 			local grp "EM"
-			local vars nom dyp dtp phi // nom usyc rho phi	// nom syn dyp dtp rho phi // 
+			local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi
 			local region regionem
 		}
 		
@@ -51,7 +51,7 @@ foreach shock in mp1 path lsap {
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
 					// conditions
-					local condition em == `group' & `datecond' & `region' == 4
+					local condition em == `group' & `datecond' //	& `region' == 4
 					
 // 					// test for cross-sectional independence
 // 					if inlist(`i',0) { 
@@ -93,7 +93,7 @@ foreach shock in mp1 path lsap {
 			}			// yield component
 		
 		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'_MEA`t'm.eps, replace
+		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
 		graph drop _all
 		}				// tenor
 	}					// AE or EM
