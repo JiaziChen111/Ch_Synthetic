@@ -566,24 +566,46 @@ end
 figname = [fldtype1 fldtype2 fldvar]; save_figure(figdir,figname,formats,figsave)
 close all
 
-%% Term structure of term premia
+%% Term structure
+% Term premia
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 fldname = 'bsl_tp';
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end)*100)
+        fltrTNR = ismember(S(k0).(fldname)(1,:),[1 5 10]);
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,fltrTNR)*100)
         title(S(k0).cty); 
         if k0 == 10
-            legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
-                'UniformOutput',false),'AutoUpdate','off')
+            legend(strcat(cellfun(@num2str,num2cell(S(k0).(fldname)(1,fltrTNR)),...
+                'UniformOutput',false),'Y'),'AutoUpdate','off')
         end
         datetick('x','yy'); yline(0);
         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
 figname = [fldname '_ts']; save_figure(figdir,figname,formats,figsave)
+
+% Credit risk  premia
+fldname = 'mc_blncd';
+figure
+for k0 = 1:nEMs
+    if ~isempty(S(k0).(fldname))
+        subplot(3,5,k0)
+        fltrTNR = ismember(S(k0).(fldname)(1,:),[1 5 10]);
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,fltrTNR)*100)
+        title(S(k0).cty); 
+        if k0 == 14
+            legend(strcat(cellfun(@num2str,num2cell(S(k0).(fldname)(1,fltrTNR)),...
+                'UniformOutput',false),'Y'),'Location','southwest','AutoUpdate','off')
+        end
+        datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+    end
+end
+figname = [fldname '_ts']; save_figure(figdir,figname,formats,figsave)
+
 close all
 
 %% Plot bond risk premia
