@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+
+% trim = {<left> <lower> <right> <upper>}
+
+\begin{figure}[tbph]
+	\caption{Response of the Forward Premium to U.S. Monetary Policy Shocks: EM}
+	\label{fig:LPEMRHO}
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMrho.eps} \\
+			\caption{Target Shock: 2000-2008} \label{subfig:LPEMRHOtarget}
+%			\vspace{.5cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/EM/PathEMrho.eps} \\
+			\caption{Path Shock: 2000-2019} \label{subfig:LPEMRHOpath}
+%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/EM/LSAPEMrho.eps} \\
+			\caption{LSAP Shock: 2009-2019} \label{subfig:LPEMRHOlsap}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+
+%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\pagebreak[4]
+
+\begin{figure}[tbph]
+	\caption{Response of the Forward Premium to U.S. Monetary Policy Shocks: AE}
+	\label{fig:LPAERHO}
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/AE/TargetAErho.eps} \\
+			\caption{Target Shock: 2000-2008} \label{subfig:LPAERHOtarget}
+			%			\vspace{.5cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/AE/PathAErho.eps} \\
+			\caption{Path Shock: 2000-2019} \label{subfig:LPAERHOpath}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/AE/LSAPAErho.eps} \\
+			\caption{LSAP Shock: 2009-2019} \label{subfig:LPAERHOlsap}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\end{document}
