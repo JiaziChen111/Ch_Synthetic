@@ -74,10 +74,22 @@ figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100)
-    title([S(k0).iso ' ' num2str(S(k0).(fldname{1})(1,end)) 'Y YLD']); 
+    title(S(k0).iso); 
     datetick('x','yy'); yline(0);
 end
 figname = 'YLD10Y'; save_figure(figdir,figname,formats,figsave)
+
+% All yields (term structure)
+figure
+for k0 = 1:nEMs
+    subplot(3,5,k0)
+    fltrYLD = ismember(S(k0).(fldname{1})(1,:),[0.25 1 5 10]);
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrYLD)*100)
+    title(S(k0).iso);
+    if k0 == 10; legend({'3M','1Y','5Y','10Y'},'AutoUpdate','off'); end
+    datetick('x','yy'); yline(0);
+end
+figname = 'syntTSIR'; save_figure(figdir,figname,formats,figsave)
 
 % Yield and inflation
 figure
@@ -87,10 +99,11 @@ for k0 = 1:nEMs
     fltrd = S(k0).(fldname{2})(:,1) >= dtmn;
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
          S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end))
-    title([S(k0).iso]); 
+    title(S(k0).iso); 
     if k0 == 11; legend('10Y YLD','INF','AutoUpdate','off'); end
     datetick('x','yy'); yline(0);
 end
+figname = 'YLD10Y_INF'; save_figure(figdir,figname,formats,figsave)
 
 % Yield and survey interest rate forecast
 figure
