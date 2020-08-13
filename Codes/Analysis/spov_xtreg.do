@@ -23,15 +23,22 @@ foreach v of varlist spx oil fx stx {
 drop log*
 gen logvix = ln(vix)
 
+label variable logvix "Log(Vix)"
+label variable rtfx "FX Return"
+label variable rtoil "Oil Return"
+label variable rtspx "SP500 Return"
+label variable rtstx "Stock Return"
+
 
 * Define variables
 global x01 sdprm
 global x02 sdcyc
-global x1  logvix epugbl globalip rtfx rtoil rtspx
-global x2  $x1 inf une
+global x1  logvix epugbl globalip rtspx rtfx
+global x2  inf une $x1
 
 
 * Panel regressions
+local tbllbl "tpucsv"
 local j = 0
 foreach t in 3 12 24 60 120 {
 	local ++j
@@ -41,12 +48,18 @@ foreach t in 3 12 24 60 120 {
 	quietly xtreg dtp`t'm $x01 gdp if em, fe cluster($idm)
 	eststo mtp`j'
 }
-esttab mtp*
+esttab mtp* using x.tex, b(a2) se r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
+title(Term Premia and Inflation Volatility)	///
+mtitles("3M" "3M" "1Y" "1Y" "2Y" "2Y" "5Y" "5Y" "10Y" "10Y") ///
+addnote("Note: Variables in basis points.")
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{`tbllbl'}\n\BSbegin{tabular) replace
 eststo clear
+erase x.tex
 
 
-foreach t in 120 { // 24 
-	foreach group in 0 1 {
+local tbllbl "ycdcmp"
+foreach t in 120 { // 24
+	foreach group in 1 { // 0
 		local condition em == `group'
 		local j = 0
 		foreach v in dyp dtp phi rho {
@@ -57,11 +70,16 @@ foreach t in 120 { // 24
 			}
 			
 			if `group' == 1 {
-				quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x2 inf une if `condition', fe cluster($idm)
+				quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if `condition', fe cluster($idm)
 				eststo mdl`j'
 			}
 		}	// `v' variables
-		esttab mdl*
+		esttab mdl* using $pathtbls/`tbllbl'.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
+		title(Drivers of Components of the 10-Year Yield)	///
+		mtitles("ER" "TP" "CRP" "FWD")  ///
+		addnote("Note: Variables in basis points.")
+// 		filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{`tbllbl'}\n\BSbegin{tabular) replace
 		eststo clear
+// 		erase x.tex
 	}	// `group'
 }	// `t'
