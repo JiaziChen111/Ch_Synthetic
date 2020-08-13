@@ -52,7 +52,7 @@ foreach v of varlist mp1 path lsap {
 	replace `v' = 0 if `v' == .
 }
 
-foreach v of varlist ustp* usyp* usrr* { // scbp* scpi* sgdp* 
+foreach v of varlist ffr ustp* usyp* usrr* { // scbp* scpi* sgdp* 
     replace `v' = `v'*100
 }
 
@@ -63,17 +63,7 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
 }
 
 
-* Compute monthly returns (in basis points)
-foreach v of varlist spx oil fx stx {
-    gen log`v' = ln(`v')
-	by $id: gen rt`v' = (log`v' - log`v'[_n-1])*10000
-}
-drop log*
-gen logvix = ln(vix)
-
-
 * x-axis and zero line
-global horizon = 90	// in days
 gen days = _n-1 if _n <= $horizon +1
 gen zero = 0 	if _n <= $horizon +1
 
