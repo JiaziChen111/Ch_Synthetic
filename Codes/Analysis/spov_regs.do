@@ -1,7 +1,7 @@
 * ==============================================================================
 * Local projections
 * ==============================================================================
-global horizon = 90
+local horizon = 90	// in days
 local j = 0
 foreach shock in mp1 path lsap {
 	local ++j
@@ -46,7 +46,7 @@ foreach shock in mp1 path lsap {
 				// controls
 				local ctrl`v'`t'm l(2).`v'`t'm l(1).fx 	// l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
 				
-				forvalues i = 0/$horizon {
+				forvalues i = 0/`horizon' {
 					// response variables
 					capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 					
