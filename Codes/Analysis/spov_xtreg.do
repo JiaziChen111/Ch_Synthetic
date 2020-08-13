@@ -26,7 +26,7 @@ gen logvix = ln(vix)
 label variable logvix "Log(Vix)"
 label variable rtfx "FX Return"
 label variable rtoil "Oil Return"
-label variable rtspx "SP500 Return"
+label variable rtspx "S\&P Return"
 label variable rtstx "Stock Return"
 
 
@@ -52,7 +52,7 @@ esttab mtp* using x.tex, b(a2) se r2(2) nocons nonumbers nonotes label booktabs 
 title(Term Premia and Inflation Volatility)	///
 mtitles("3M" "3M" "1Y" "1Y" "2Y" "2Y" "5Y" "5Y" "10Y" "10Y") ///
 addnote("Note: Variables in basis points.")
-filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{`tbllbl'}\n\BSbegin{tabular) replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{tab:`tbllbl'}\n\BSbegin{tabular) replace
 eststo clear
 erase x.tex
 
@@ -62,7 +62,7 @@ foreach t in 120 { // 24
 	foreach group in 1 { // 0
 		local condition em == `group'
 		local j = 0
-		foreach v in dyp dtp phi rho {
+		foreach v in nom dyp dtp phi rho {
 			local ++j
 			if `group' == 0 {
 				quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', fe cluster($idm)
@@ -74,12 +74,13 @@ foreach t in 120 { // 24
 				eststo mdl`j'
 			}
 		}	// `v' variables
-		esttab mdl* using $pathtbls/`tbllbl'.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
+		esttab mdl* using x.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
 		title(Drivers of Components of the 10-Year Yield)	///
-		mtitles("ER" "TP" "CRP" "FWD")  ///
+		mtitles("YLD" "ER" "TP" "CRP" "FWD")  ///
 		addnote("Note: Variables in basis points.")
-// 		filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{`tbllbl'}\n\BSbegin{tabular) replace
 		eststo clear
-// 		erase x.tex
 	}	// `group'
 }	// `t'
+
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{tab:`tbllbl'}\n\BSbegin{tabular) replace
+erase x.tex
