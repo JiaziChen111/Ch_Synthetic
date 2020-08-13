@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+
+% trim = {<left> <lower> <right> <upper>}
+
+\begin{figure}[tbph]
+	\caption{Connectedness of the Term Structure}
+	\label{fig:dy_index_ts}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.42\textheight,width=1\textwidth]{../Figures/Estimation/dy_index_ts.eps} \\
+			\caption{Emerging Markets} \label{subfig:dyindexTSEM}
+%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.42\textheight,width=1\textwidth]{../Figures/Estimation/dy_index_ts_AE.eps} \\
+			\caption{Advanced Countries} \label{subfig:dyindexTSAE}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+
+%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\end{document}
