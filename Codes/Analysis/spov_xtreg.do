@@ -31,10 +31,10 @@ label variable rtstx "Stock Return"
 
 
 * Define variables
-global x01 sdprm
-global x02 sdcyc
-global x1  logvix epugbl globalip rtspx rtfx
-global x2  inf une $x1
+global x0 sdprm
+global x1 logvix epugbl rtspx globalip rtoil         rtfx rtstx
+// global x2 logvix epugbl rtspx globalip rtoil inf une rtfx rtstx
+global x2 logvix epugbl rtspx globalip rtoil inf une rtfx
 
 
 * Panel regressions
@@ -42,10 +42,10 @@ local tbllbl "tpucsv"
 local j = 0
 foreach t in 3 12 24 60 120 {
 	local ++j
-	quietly xtreg dtp`t'm $x01 if em, fe cluster($idm)
+	quietly xtreg dtp`t'm $x0 if em, fe cluster($idm)
 	eststo mtp`j'
 	local ++j
-	quietly xtreg dtp`t'm $x01 gdp if em, fe cluster($idm)
+	quietly xtreg dtp`t'm $x0 gdp if em, fe cluster($idm)
 	eststo mtp`j'
 }
 esttab mtp* using x.tex, b(a2) se r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
@@ -58,7 +58,8 @@ erase x.tex
 
 
 local tbllbl "ycdcmp"
-foreach t in 120 { // 24
+foreach t in 24 120 {
+	local ty = `t'/12
 	foreach group in 1 { // 0
 		local condition em == `group'
 		local j = 0
@@ -75,12 +76,11 @@ foreach t in 120 { // 24
 			}
 		}	// `v' variables
 		esttab mdl* using x.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
-		title(Drivers of Components of the 10-Year Yield)	///
+		title(Drivers of the `ty'-Year Nominal Yield and Its Components)	///
 		mtitles("YLD" "ER" "TP" "CRP" "FWD")  ///
 		addnote("Note: Variables in basis points.")
 		eststo clear
 	}	// `group'
+	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(\BSbegin{tabular*}) to(\BSlabel{tab:`tbllbl'`ty'y}\n\BSbegin{tabular*}) replace
 }	// `t'
-
-filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{tab:`tbllbl'}\n\BSbegin{tabular) replace
 erase x.tex
