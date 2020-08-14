@@ -67,9 +67,9 @@ predict tpresem10y3m, resid
 reg syn120m syn24m if em
 predict tpresem10y2y, resid
 
-corr mtp120m tpresae10y3m tpresae10y2y if em == 0
+corr dtp120m tpresae10y3m tpresae10y2y if !em
 	// tpresae10y3m 0.7504; tpresae10y2y 0.6938
-corr mtp120m tpresem10y3m tpresem10y2y if em
+corr dtp120m tpresem10y3m tpresem10y2y if em
 	// tpresem10y3m 0.3811; tpresem10y2y 0.1739
 
 gen tpsynr10y3m = .
@@ -327,64 +327,15 @@ corr phi* globalsc if em
 // positive and turn negative
 
 
-* ------------------------------------------------------------------------------
-* Panel regressions
-* ------------------------------------------------------------------------------
 
-* Define variables
-// global x1 logvix ffr rtspx rtoil
-// global x2 logvix ffr usyc120m epugbl globalip rtspx rtoil
-// global x3 inf une ip rtfx rtstx
-// global x4 logvix ffr rtspx rtoil inf une ip rtfx rtstx
-// global x5 logvix ffr usyc120m epugbl globalip rtspx inf une ip rtfx rtstx
-// global x6 logvix ffr usyc120m epugbl globalip inf une ip rtfx rtstx
 
-global x0 epugbl logvix
-global x1 epugbl globalip logvix ffr inf une
-global x2 epugbl globalip logvix     inf une
-global x3 epugbl globalip logvix ffr     une
-global x4 epugbl globalip logvix         une
-global x5 sdprm
-
-* Panel regressions
-foreach t in 24 120 {
-	foreach v in dyp {
-		quietly xtreg `v'`t'm $x1 if em, fe cluster($id)
-		eststo m0
-		quietly xtreg `v'`t'm usyp`t'm $x2 if em, fe cluster($id)
-		eststo m1
-		quietly xtreg `v'`t'm ustp`t'm $x1 if em, fe cluster($id)
-		eststo m2
-		quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if em, fe cluster($id)
-		eststo m3
-		esttab m0 m1 m2 m3
+levelsof $id, local(levels)
+// foreach t in 3 24 {
+	foreach l of local levels {
+		di "`l'"
+// 		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) pwcorr dtp`t'm phi`t'm if imf == `l', sig
+		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) summ dtp* if imf == `l'
+	// 	if !inlist(`l',233,536,922,964) corr dtp120m phi120m if imf == `l'
 	}
-}
+// }
 
-foreach t in 24 120 {
-	foreach v in dtp {
-		quietly xtreg `v'`t'm $x5 if em, fe cluster($id)
-		eststo m4
-		quietly xtreg `v'`t'm $x5 gdp if em, fe cluster($id)
-		eststo m5
-		quietly xtreg `v'`t'm ustp`t'm $x3 if em, fe cluster($id)
-		eststo m6
-		quietly xtreg `v'`t'm ustp`t'm $x1 if em, fe cluster($id)
-		eststo m7
-		quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if em, fe cluster($id)
-		eststo m8
-		esttab m4 m5 m6 m7 m8
-	}
-}
-
-foreach t in 24 120 {
-	foreach v in phi {
-		quietly xtreg `v'`t'm $x0 if em, fe cluster($id)
-		eststo m9
-		quietly xtreg `v'`t'm ustp`t'm $x0 if em, fe cluster($id)
-		eststo m10
-		quietly xtreg `v'`t'm ustp`t'm $x1 if em, fe cluster($id)
-		eststo m11
-		esttab m9 m10 m11
-	}
-}
