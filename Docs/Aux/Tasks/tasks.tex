@@ -189,33 +189,17 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item LPs in Stata.
-	\begin{todolist}
-		\item[\done] How much the shift in LCNOM affects LPs? Use nom and sftnom. There is an on-impact effect relative to shift for any country.
-		\item[\done] Redefine regions as in Hofmann, Shim and Shin and see LPs.
-		\item[\done] Convert variables in percent (MPS, TT_kw, TT_rr) to basis points.
-		\item[\done] Substitute . by zeros in US MPS.
-		\item[\done] Express all variables in basis points.
-		\item[\done] Correction to construct_panel b/c repeating column names. EPU as first field name caused errors, it needs to be a variable common to all countries.
-		\item[\done] Delete previous file of dataspillovers b/c it keeps previous data outside current range.
-		\item[\done] Reproduce previous LPs. Decomposition of nominal yields: synthetic + phi.
-		\item[\done] Decomposition of synthetic: yP + TP.
-		\item[\done] Work graph: Re-label variables, no grid, title graph and file name.
-		\item[\done] Decomposition of nominal: yP + TP + phi.
-		\item[\done] Decomposition of nominal: USYC + rho + phi.
-		\item LPs for USYC components.
-		\item Regional LPs for EMs. If not regional response, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs.
-		\item Update figures in Latex.
-	\end{todolist}
 	\item Additional stuff.
 	\begin{todolist}
 		\item[\done] Term structure of term premia. TP \(<\) 0 more frequent at shorter maturities.
 		\item[\done] Term structure of credit risk premia? No clear pattern.
-		\item Term structure connectedness for AEs and EMs: 3m, 1Y, 5Y, 10Y.
-		\item Panel regressions for yP, TP and LCCS.
+		\item[\done] Term structure connectedness for AEs and EMs: 3m, 1Y, 5Y, 10Y.
+		\item[\done] Regress TP on sdprm. It works w/ dtp but not w/ stp (less than 75 obs). sdprm also explains yP and RHO.
+		\item[\done] Panel regressions for yP, TP and LCCS.
+		\item[\done] Latex files for panel regressions.
+		\item[\done] Re-estimate flexible model mssf for: IDR, ILS, ZAR.
 		\item Are big changes in TP related to local events?
 		\item Try lag of depvar as in Hofmann, Shim and Shin and see LPs.
-		\item Re-estimate flexible model mssf for: IDR, ILS, ZAR.
 		\item Correlation of YC components with the 3 PCs and estimated pricing factors.
 		\item LPs for effects of US MPS on the 3 pricing factors of EMs.
 		\item Skim through Warnock papers on TIC data.
@@ -231,12 +215,16 @@
 		\item[\done] Use the code from trend_inflation to get a common table of the variable of interest.
 		\item PCs of macro variables and inflation volatility.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
+		\item If lag brief response regionally: slow moving reallocation portfolios.
+		\item How the size of the rolling window influence the DY index for EMs?
 		\item Read literature. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
 		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
 	\end{todolist}
 	
 	\item Tables.
 	\begin{todolist}
+		\item Descriptive tables: summary of YCs as in Guimaraes, US MPS. Highlight the higher std of the short end of their curves! Are yields and components more volatile in EM than in AEs?
+		\item Table for US MPS similar to Ferrari et al. and/or Hofmann-Shim-Shin.
 		\item Table on statistics of YCs (nominal and synthetic) to see if upward sloping.
 		\item Table: report fit of the model for monthly and daily data in the same table.
 		\item Table: correlations of YC components w/ model-free measures.
@@ -252,7 +240,7 @@
 
 	\item Annex.
 	\begin{todolist}
-		\item Descriptive tables: summary of YCs as in Guimaraes, US MPS.
+		
 		\item Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
 	\end{todolist}
 	
@@ -289,6 +277,26 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] LPs in Stata.
+	\begin{todolist}
+		\item[\done] How much the shift in LCNOM affects LPs? Use nom and sftnom. There is an on-impact effect relative to shift for any country.
+		\item[\done] Redefine regions as in Hofmann, Shim and Shin and see LPs.
+		\item[\done] Convert variables in percent (MPS, TT_kw, TT_rr) to basis points.
+		\item[\done] Substitute . by zeros in US MPS.
+		\item[\done] Express all variables in basis points.
+		\item[\done] Correction to construct_panel b/c repeating column names. EPU as first field name caused errors, it needs to be a variable common to all countries.
+		\item[\done] Delete previous file of dataspillovers b/c it keeps previous data outside current range.
+		\item[\done] Reproduce previous LPs. Decomposition of nominal yields: synthetic + phi.
+		\item[\done] Decomposition of synthetic: yP + TP.
+		\item[\done] Work graph: Re-label variables, no grid, title graph and file name.
+		\item[\done] Decomposition of nominal: yP + TP + phi.
+		\item[\done] Decomposition of nominal: USYC + rho + phi.
+		\item[\done] LPs for USYC components.
+		\item[\done] Update figures in Latex.
+		\item[\done] LPs for RHO 2Y and 10Y for all shocks to explain the response of synthetic yields.
+		\item[\done] Regional LPs for EMs.
+		\item[\wontdo] If not regional response, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs. It doesn't seem to be a group of countries that respond similarly to shocks.
+	\end{todolist}
 	\item[\done] Update dataset in Matlab.
 	\begin{todolist}
 		\item[\done] Update ts_analysis file to generate dataset.
