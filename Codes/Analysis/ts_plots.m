@@ -862,7 +862,7 @@ figname = ['dy_index' num2str(tenor) 'y_AE']; save_figure(figdir,figname,formats
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
 
     % EM
-fldname = {'dn_data','d_tp'};
+fldname = {'d_yP','dc_data'}; % {'dn_data','d_tp'};
 tenor   = [0.25 1 5 10];
 for k0 = 1:length(fldname)
     figure
@@ -874,11 +874,11 @@ for k0 = 1:length(fldname)
     end
     datetick('x','yy'); hold off
     legend({'3M','1Y','5Y','10Y'},'Location','best','AutoUpdate','off');
-    figname = ['dy_index' fldname{k0}]; save_figure(figdir,figname,formats,figsave)
+    figname = ['dy_index_' fldname{k0}]; save_figure(figdir,figname,formats,figsave)
 end
 
     % AE
-fldname = {'dn_data','d_tp'};
+fldname = {'d_yP','dc_data'};
 tenor   = [0.25 1 5 10];
 for k0 = 1:length(fldname)
     figure
@@ -890,7 +890,7 @@ for k0 = 1:length(fldname)
     end
     datetick('x','yy'); hold off
     legend({'3M','1Y','5Y','10Y'},'Location','best','AutoUpdate','off');
-    figname = ['dy_index' fldname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
+    figname = ['dy_index_' fldname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
 end
 
 %% Plot yield curve
