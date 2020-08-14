@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+
+% trim = {<left> <lower> <right> <upper>}
+
+\begin{figure}[tbph]
+	\caption{Response of 2Y EM Yields to U.S. Monetary Policy Shocks: AE}
+	\label{fig:LPAE2Y}
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/AE/TargetAEnomyptpphi24m.eps} \\
+			\caption{Target Shock: 2000-2008} \label{subfig:LPAE2Ytarget}
+%			\vspace{.5cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/AE/PathAEnomyptpphi24m.eps} \\
+			\caption{Path Shock: 2000-2019} \label{subfig:LPAE2Ypath}
+%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/AE/LSAPAEnomyptpphi24m.eps} \\
+			\caption{LSAP Shock: 2009-2019} \label{subfig:LPAE2Ylsap}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+
+%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\pagebreak[4]
+
+\begin{figure}[tbph]
+	\caption{Response of 10Y EM Yields to U.S. Monetary Policy Shocks: AE}
+	\label{fig:LPAE10Y}
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/AE/TargetAEnomyptpphi120m.eps} \\
+			\caption{Target Shock: 2000-2008} \label{subfig:LPAE10Ytarget}
+			%			\vspace{.5cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/AE/PathAEnomyptpphi120m.eps} \\
+			\caption{Path Shock: 2000-2019} \label{subfig:LPAE10Ypath}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	\begin{subfigure}[t]{\textwidth}
+		\begin{center}
+			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/AE/LSAPAEnomyptpphi120m.eps} \\
+			\caption{LSAP Shock: 2009-2019} \label{subfig:LPAE10Ylsap}
+			%			\vspace{.4cm}
+		\end{center}
+	\end{subfigure}
+	
+	%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+\end{figure}
+
+\end{document}
