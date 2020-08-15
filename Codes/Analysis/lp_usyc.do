@@ -68,7 +68,7 @@ foreach shock in mp1 path lsap {
 						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
-				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-3(1)3) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
+				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-2(1)2) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
 				graphregion(color(white)) plotregion(color(white)) ///
 				legend(off) name(`v'`t'm, replace)
 // 				graph export $pathfigs/LPs/`shk'/CTY/`shk'`grp'`v'`t'm.eps, replace
