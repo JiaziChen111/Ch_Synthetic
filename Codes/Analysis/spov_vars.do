@@ -64,8 +64,8 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
 
 
 * x-axis and zero line
-gen days = _n-1 if _n <= $horizon +1
-gen zero = 0 	if _n <= $horizon +1
+gen days = _n-1 if _n <= 90 +1
+gen zero = 0 	if _n <= 90 +1
 
 
 * Define regions and groups
