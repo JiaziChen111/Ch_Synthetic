@@ -42,7 +42,7 @@ log using $file_log, replace
 do "$pathcode/lp_usyc"
 log close
 translate $file_log.smcl $file_log.pdf, replace
-
+erase $file_log.smcl
 
 * ------------------------------------------------------------------------------
 * Additional
