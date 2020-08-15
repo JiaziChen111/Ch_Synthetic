@@ -937,7 +937,8 @@ Similarly, the connectedness of the components of emerging market yields do not 
 %Unlike the rise in the connectedness of the term premium among advanced countries, 
 These results are consistent with the global financial cycle in which the global bond markets follow operate under a core-periphery structure, in which the bond markets of advanced countries constitute the (highly interconnected) core and those of emerging markets represent the (less connected) periphery.
 Countries in the periphery are mainly connected to the network through countries in the core.\footnote{ The core-periphery structure has been shown to be a good description of different networks in economics and finance. For example, \cite{CvP:2014} show that the interbank market operates under such a structure.}
-Therefore, what matters for emerging market yields are generally not spillovers originating in other emerging markets but in advanced countries, which makes the argument of a global financial cycle stronger, not weaker.
+According to this, figures \ref{subfig:dyindex10yEM} and \ref{subfig:dyindex10yAE} are measuring the connectedness of the periphery and the core, respectively.
+Therefore, what matters for emerging market yields are not spillovers originating in other emerging markets but in advanced countries, which makes the argument of a global financial cycle stronger, not weaker.
 
 %Are the short and long end equally connected?
 %Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
@@ -1041,6 +1042,7 @@ It shows that each component of the yields reacts to the news but that the respo
 \subsection{Drivers of Yields}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
+%To what extent US YC is related to EM yield components?
 I start by studying the cyclical properties of the nominal yields and each of its components.
 To understand their potential drivers, I run the following regressions 
 \input{../Equations/nPanelDCMP}
@@ -1148,52 +1150,98 @@ As a result, target shocks are considered from 2000 to 2008, LSAP shocks are con
 Figure \ref{fig:USmps} shows all three monetary policy shocks.
 
 
-\subsection{Response of Yields to U.S. Monetary Policy} \label{sec:LPs}
+\subsection{The Response of Yields to U.S. Monetary Policy} \label{sec:LPs}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-The impact of the U.S. monetary policy shocks on emerging market yields is estimated using panel local projections.
-These regressions are useful to understand not only how the yields respond to the policy surprise at the time of the shock but over time.
-To have a better understanding of the monetary policy spillovers, the regressions are performed for the daily changes in yields and their components.
+The impact of U.S. monetary policy on emerging market yields is estimated using panel local projections for the daily changes in the yields and their components.
+These regressions are useful to understand not only how the yields respond to the policy surprise at the time of the shock but over time, see \cite{HofmannShimShin:2019} and \cite{ACDM:2019} for recent applications.
 
-The panel local projections follow \cite{Jorda:2005}:
-\input{../Equations/nPanelLP}	% \ref{eq:nPanelLP}
+Following \cite{Jorda:2005} and \cite{ACDM:2019}, the panel local projections are:
+	\input{../Equations/nPanelLP}	% \ref{eq:nPanelLP}
 \noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 90\),  \(\alpha_{\idxi}\) is a country fixed effect, \(\epsilon_{\idxt}\) represents a type of monetary policy shock, \(\fx_{\idxspnllag}\) is a one-day lag of the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
 The regressions are run for the 2- and 10-year yields and each of their components (the expected short rate, the term premium and the credit risk premium) for every type of monetary policy shock.\footnote{ By definition, the shocks are unanticipated by the market and thus there is no need to control for past or future shocks. Also, by construction, the shocks are not correlated among themselves so, there is no need to control for the other types of shocks.}
 
-The parameters of interest are \(\beta_{\idxh}\). They measure the average response of the yield or one of its components to a monetary policy shock at horizon \(\idxh\).
-These contemporaneous effects of the shocks are obtained when \(\idxh = 0\) in equation (\ref{eq:nPanelLP}).
+The parameters of interest are \(\beta_{\idxh}\). 
+They measure the average response of the yield or one of its components to a monetary policy shock at horizon \(\idxh\).
+The contemporaneous effects of the shocks are obtained by setting \(\idxh = 0\) in equation (\ref{eq:nPanelLP}).
+All responses are assessed relative to a one basis point increase in any of the shocks, a monetary tightening.
 
-The Pesaran test of cross-sectional independence is rejected at any significance level.
-Therefore, standard errors are computed following Driscoll and Kraay (1994), so that they are robust to heteroskedasticity, autocorrelation and cross-sectional dependence.
+%The Pesaran test of cross-sectional independence is rejected at any significance level.
+%Therefore, standard errors are computed following Driscoll and Kraay (1994), so that they are robust to heteroskedasticity, autocorrelation and cross-sectional dependence.
 
-on-impact response: direction, magnitude, plausibility
-regional effects, relation to AEs and US
-explanation
-relation to literature: Bustanci-Yilmaz, Hofmann-Shim-Shin, UIP
-To what extent US YC is related to EM yield components?
+The responses of the U.S. yields and its components to the shocks are used as the benchmark to assess the responses of the yields of emerging markets.\footnote{ The yields are from the dataset by \cite{GSW:2007}, the components come from the decomposition proposed by \cite{KimWright:2005}.}
+The first column of figures \ref{fig:LPUS2Y} and \ref{fig:LPUS10Y} show the responses of the 2- and 10-year U.S. yields, respectively, to all three shocks.
+All three shocks have a similar on-impact effect on the 2-year yield of around half a basis point increase.
+By contrast, the 10-year yield only increases in response to path and LSAP shocks contemporaneously, with LSAP shocks having a more than one-to-one impact.
+The magnitudes are in line with previous literature.
+The effects last ranging from a couple of days up to a few days more than a month, where the delayed response can be larger that initial one, consistent with the evidence in \cite{BrooksKatzLustig:2019} for the U.S.
+The decomposition provides information to better characterize the reaction of the yields.
+For instance, one of the goals of the unconventional monetary policy tools was to influence (decrease) long-term bond yields and, in particular, the term premium \citep{Kuttner:2018}.
+%\footnote{ \cite{Kuttner:2018} discusses the effects of the QE announcements on U.S. bond yields.}
+The right hand panels in figures \ref{subfig:LPUS10Ypath} and \ref{subfig:LPUS10Ylsap} confirm this.
+Meanwhile, the main effects of target shocks are seen on the expected short rate, especially at the 2-year maturity (middle panel of figure \ref{LPUS2Ytarget}).
+Fed's decisions therefore impact both expectations about its policy rate in the future and the compensation required for investors to hold long-term bonds.
+%Target shocks did not influence the 10-year yield.
 
-The response of U.S. yields to U.S. monetary policy shocks is used as a benchmark to assess the responses of the yields of emerging markets.
-Figures \ref{fig:LPUS2Y} and \ref{fig:LPUS10Y} show the responses of the 2- and 10-year U.S. yields, respectively, to all three shocks.
-All shocks have a similar on-impact effect on the 2-year yield.
-Nevertheless, target shocks did not influence the 10-year yield.
-Path and LSAP shocks do indeed influence the 10-year yield.
-In fact, one of the goals of those policies was to lower long-term bond yields and, in particular, the term premium.\footnote{ \cite{Kuttner:2018} discusses the effects of the QE announcements on U.S. bond yields.}
-LSAP shocks, however, have larger effects than path shocks.
-Moreover, the effects of these shocks last for about a month.
+I now turn to analyze whether and, if so, how the sovereign yields of emerging markets respond to U.S. monetary policy.
+%The main finding of this paper is reported in f
+The first column of figures \ref{fig:LPEM2Y} and \ref{fig:LPEM10Y} show the responses of their 2- and 10-year nominal yields, respectively, to all three shocks.
+Those yields go up by about 2 basis points on-impact for a 10 basis point increase in any of the shocks.
+More importantly, the response increases over time, it can last for up to 2 months and intensify to such an extent as to become a one-to-one response, or even more in the case of LSAP shocks.
+%In particular, the path and LSAP shocks have a larger and longer effect on EM yields. 
+The response of the yields of emerging market therefore lasts relatively longer than the response of U.S. yields.
+\cite{ACDM:2019} documents a similar finding for a sample comprised mostly by advanced countries.
+For the U.S., \cite{BrooksKatzLustig:2019} attribute this delayed response to a portfolio rebalancing channel.
 
-The main finding of this paper is reported in figures \ref{fig:LPEM2Y} and \ref{fig:LPEM10Y}.
-They show the responses of the 2- and 10-year EM yields, respectively, to all three shocks.
+To better understand the spillover effects of the Fed's decisions on emerging markets, I leverage on the yield decompositions at the daily frequency.
+The responses of each component are displayed in the second to last column of figures \ref{fig:LPEM2Y} and \ref{fig:LPEM10Y}.
+Interestingly, no shock impacts the term premium nor the credit risk premium at the 2-year maturity.
+In addition, the expected short rate only responds on-impact to LSAP shocks.
+It has, however, a delayed response to target and path shocks.
+
+Before analyzing the response of the 10-year yield decomposition, it is helpful to look first at the responses of the forward premium to the shocks.
+Remember that synthetic yields add a forward premium to the U.S. yield curve.
+Since exchange rates are expressed in LC per USD, a decrease in the premium implies that the forward exchange rate is lower than the spot.
+Figures \ref{fig:LPEMRHO} and \ref{fig:LPAERHO} show the responses of the forward premium for emerging and advanced countries, respectively.
+In response to all three shocks, the forward premium declines (sometimes even one-to-one) on impact in all cases but it remains low only for advanced countries, whereas there is essentially only an on-impact response for emerging markets.
+It is well documented that following a monetary tightening the dollar appreciates
+\citep{FerrariKearnsSchrimpf:2017}.
+This is consistent with a decline in the forward premium, which implies a future expected appreciation of the domestic currency.
+
+It can now be seen how the responses of the components of the 10-year yield shed light on how the yields respond to monetary policy decisions by the Fed.
+The effects on synthetic yields are linked to the responses of the U.S. yield curve and the forward premium for corresponding maturities.
+Such responses have already been discussed above (see figures \ref{fig:LPUS10Y} and \ref{fig:LPEMRHO}).
+The response of the synthetic yields is the net result of those two individual effects.
+The on-impact effect on all the components for the target and path shocks is zero but they point in the right directions.
+%This information can nevertheless be used to the effects, the results of the exercise 
+Qualitatively understanding the mechanism, however, will help to appreciate the non-zero on-impact response to path shocks below.
+Following target and path tightening shocks, synthetic yields would \textit{decline} on-impact.
+The reason is that a lower forward premium means a lower compensation for a future currency depreciation, reducing the cost of borrowing in LC at the risk-free rate.
+Finally, since the nominal yield increases in response to a monetary tightening, the credit risk premium would go up (see the right panels of figures \ref{subfig:LPEM2Ytarget} and \ref{subfig:LPEM2Ypath}).\footnote{ The exchange rate risk channel proposed by \cite{HofmannShimShin:2019} can be indirectly seen here. A monetary tightening in the U.S. would appreciate the dollar and depreciate the domestic currency. A currency appreciation would associated with an increase in the credit risk premium and vice versa.}
+That is, target and path shocks have opposite effects on the synthetic yield and on the credit risk premium on impact.
+Given that the forward premium for emerging markets only reacts on-impact, the effects on the nominal yields in the subsequent days are essentially driven by the responses of the expected short rate and the term premium.
+In line with a previous discussion above, there is a delayed response in the expected rate and the term premium
+
+Even though nominal yields have a zero on-impact response to path shocks, the on-impact response of their components is not zero.
+Although the forward premium for emerging markets decline following a path shock (see figure \ref{subfig:LPEMRHOlsap}), the U.S. yield increase by more and so the synthetic yield increases on-impact.
+The credit risk premium decreases by the same amount leaving nominal yields unchanged on impact.
+Again, the expected short rate and the term premium respond with a lag for up to one month after the shock.
+
+The responses of the yields and their components have several implications.
 U.S. monetary policy influences each of the components of emerging market yields.
-This means that surprises in Fed's policy decisions give rise to a reassessment of policy rate expectations in emerging markets and a repricing in their interest and credit risks.
-This evidence is consistent with a portfolio rebalancing channel.
-
-Interestingly, the shocks have an opposite effect on the synthetic yields and on the credit risk premium.
-Whereas a tightening shock in the U.S. increases synthetic yields in emerging markets, it decreases the credit risk premia.
+Although contemporaneous impact seems moderate, the response is sluggish and the spillover effects are substantial.
+From effect in yP, investors expect domestic central banks to mirror the U.S. monetary stance (loosening or tightening) in their economies in response to decisions by the Fed.
+Furthermore, surprises in Fed's policy decisions not only give rise to a reassessment of policy rate expectations in emerging markets, they also lead to a repricing in their interest and credit risks.
 These results have both monetary and fiscal implications for those countries.
-Affects financing costs for the government.
+Affects financing costs for the government and domestic financial conditions.
+%monetary policy shocks therefore lead to a reassessment of 
+%on-impact response: direction, magnitude, plausibility, duration
+%impact on components, 
+%effects of each type of shocks
+%explanation
+%relation to literature: Bustanci-Yilmaz, Hofmann-Shim-Shin, UIP
+%the yields of emerging markets are less globally connected than those of advanced economies (see section \ref{sec:globalPC}), 
 
-Figures \ref{fig:LPEM2Y} and \ref{fig:LPEM10Y} also show that although the yields of emerging markets are less globally connected than those of advanced economies (see section \ref{sec:globalPC}), the response of emerging market yields to U.S. monetary policy lasts longer than those of advanced countries.
-In particular, the path and LSAP shocks have a larger and longer effect on EM yields. 
 
 %Contemporaneous event study regressions capture the on-impact response of yields to the shocks.
 %Figures: response of US, EM and AE yields to each of the shocks.
@@ -1391,6 +1439,6 @@ For instance, since U.S. monetary policy drives a repricing of interest and cred
 \input{../Figures/MPS/USmps}
 \input{../Figures/LPs/Latex/LP_US}
 \input{../Figures/LPs/Latex/LP_EM}
-\input{../Figures/LPs/Latex/LP_AE}
+%\input{../Figures/LPs/Latex/LP_AE}
 \input{../Figures/LPs/Latex/LP_RHO}
 \newpage
