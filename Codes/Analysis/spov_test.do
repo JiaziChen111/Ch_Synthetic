@@ -116,3 +116,56 @@ foreach l of local levels {
 	line syn12mpct scbp12m3 scbp60m3 scbp120m3 datem if $id == `l'
 	graph export $pathfigs/Surveys/CBP/SOE`l'.eps, replace
 }
+
+
+
+
+* ------------------------------------------------------------------------------
+* On impact regressions
+log using $file_log, replace
+local horizon = 1	// in days
+foreach t in 24 120 {
+	foreach group in 1 { // 0
+		if `group' == 0 local grp "AE"
+		if `group' == 1 local grp "EM"
+		
+		foreach v in nom dyp dtp phi rho {
+			local j = 0
+			foreach shock in mp1 path lsap {
+				local ++j
+				if `j' == 1 {
+					local shk "Target"
+					local datecond date > td(1jan2000) & date < td(1jan2009)
+				}
+				if `j' == 2 {
+					local shk "Path"
+					local datecond date > td(1jan2000) & date < td(1jan2020)
+				}
+				if `j' == 3 {
+					local shk "LSAP"
+					local datecond date > td(1jan2009) & date < td(1jan2020)
+				}
+			
+			// controls
+			local ctrl`v'`t'm l(2).`v'`t'm l(1).fx 	// l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
+			
+			// conditions
+			local condition em == `group' & `datecond' //	& `region' == 4
+			
+			forvalues i = 0/`horizon' {
+				// response variables
+				capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
+				
+				// regression
+				xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe level(90) cluster($id)
+				drop `v'`t'm`i'
+				} // `i' horizon
+			} // `shock'
+		}	// `v' variables
+// 		esttab mdl* using x.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
+	}	// `group'
+// 	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(\BSbegin{tabular*}) to(\BSlabel{tab:`tbllbl'`ty'y}\n\BSbegin{tabular*}) replace
+}	// `t'
+log close
+translate $file_log.smcl $file_log.pdf, replace
+erase $file_log.smcl
