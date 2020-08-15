@@ -37,8 +37,9 @@ use $file_dta2, clear
 * Analysis
 * ------------------------------------------------------------------------------
 log using $file_log, replace
-do "$pathcode/spov_pre"
-do "$pathcode/spov_regs"
+// do "$pathcode/spov_pre"
+// do "$pathcode/spov_regs"
+do "$pathcode/lp_usyc"
 log close
 translate $file_log.smcl $file_log.pdf, replace
 
