@@ -63,7 +63,7 @@ foreach t in 24 120 {
 	foreach group in 1 { // 0
 		local condition em == `group'
 		local j = 0
-		foreach v in nom dyp dtp phi rho {
+		foreach v in nom syn dyp dtp phi rho {
 			local ++j
 			if `group' == 0 {
 				quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', fe cluster($idm)
@@ -77,7 +77,7 @@ foreach t in 24 120 {
 		}	// `v' variables
 		esttab mdl* using x.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
 		title(Drivers of the `ty'-Year Nominal Yield and Its Components)	///
-		mtitles("YLD" "ER" "TP" "CRP" "FWD")  ///
+		mtitles("YLD" "SYN" "ER" "TP" "CRP" "FWD")  ///
 		addnote("Note: Variables in basis points.")
 		eststo clear
 	}	// `group'
