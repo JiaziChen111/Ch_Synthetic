@@ -75,7 +75,7 @@ foreach shock in mp1 path lsap {
 					
 					drop `v'`t'm`i'
 					}
-				}			// horizon
+				}			// `i' horizon
 				
 				// graph
 				twoway 	(line ll1_`v'`t'm days, lcolor(black) lpattern(dash)) ///
