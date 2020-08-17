@@ -24,10 +24,10 @@ drop log*
 gen logvix = ln(vix)
 
 label variable logvix "Log(Vix)"
-label variable rtfx "FX Return"
-label variable rtoil "Oil Return"
-label variable rtspx "S\&P Return"
-label variable rtstx "Stock Return"
+label variable rtfx "FX"
+label variable rtoil "Oil"
+label variable rtspx "S\&P"
+label variable rtstx "Stock"
 
 
 * Define variables
@@ -78,9 +78,11 @@ foreach t in 24 120 {
 		esttab mdl* using x.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
 		title(Drivers of the `ty'-Year Nominal Yield and Its Components)	///
 		mtitles("YLD" "SYN" "ER" "TP" "CRP" "FWD")  ///
-		addnote("Note: Variables in basis points.")
+		addnote("Note: Dependent variables in basis points. EPU Global, returns for: S\&P, oil, FX.")
 		eststo clear
 	}	// `group'
-	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(\BSbegin{tabular*}) to(\BSlabel{tab:`tbllbl'`ty'y}\n\BSbegin{tabular*}) replace
+	filefilter x.tex y.tex, from(\BSbegin{tabular*}) to(\BSlabel{tab:`tbllbl'`ty'y}\n\BSbegin{tabular*}) replace
+	filefilter y.tex "$pathtbls/`tbllbl'`ty'y.tex", from(Observations) to(Obs.) replace
 }	// `t'
 erase x.tex
+erase y.tex
