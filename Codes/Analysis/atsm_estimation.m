@@ -24,7 +24,7 @@ if sgmSfree; sgmtype = 'f'; else; sgmtype = 'b'; end                        % fr
 
 for k0 = 1:length(prefix)
     fldname = [prefix{k0} '_ylds'];
-    for k1  = [1 4 8 13 14 15] %[3 4 5 8 13 14 15] % 10  1:ncntrs
+    for k1  = [5 15 4] %9 %4 %8 %14 %13 %[1 4 8 13 14] %[1 4 8 13 14 15] %[3 4 5 8 13 14 15] % 10  1:ncntrs
         % Split yields & surveys
         dates  = S(k1).(fldname)(2:end,1);
         ynsvys = S(k1).(fldname)(2:end,2:end);
