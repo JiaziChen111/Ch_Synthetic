@@ -1,15 +1,15 @@
-function [data_zc,hdr_zc,fitrprt] = zc_yields(dataset,header,curncs,tfnss,tfplot)
-% ZC_YIELDS Zero-coupon continuosly compounded local currency (LC) yield curves
-% BFV and IYC LC curves report coupon-equivalent (CE) par and zero-coupon yields,
-% they are converted to zero-coupon continuosly compounded (CC) yields
-% Optionally, Nelson-Siegel-Svensson model can be fitted to those yields
-% IYC curves used for BRL and ILS, BFV curves used for all other countries
+function [data_zc,hdr_zc,fitrprt] = zc_yields(dataset,header,curncs,tfnss,tfplot,timeshift)
+% ZC_YIELDS Return zero-coupon continuosly compounded (CC) local currency (LC)
+% yield curves from BFV and IYC LC curves which report coupon-equivalent (CE)
+% par and zero-coupon yields. IYC for BRL & ILS, BFV for all other countries
+% Optional: fit Nelson-Siegel-Svensson model to yields
+% Optional: shift time forward one day due to the time difference
 %   data_zc: stores historical data
 %   hdr_zc: stores headers (note: no title row, i.e. ready to be appended)
 %   fitrprt: reports NSS fit (country, average RMSE in %, minutes to fit)
 
 % m-files called: fltr4tickers, construct_hdr; y_NS, y_NSS
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 
 %% Zero-coupon continuosly compounded yield curves for advanced and emerging economies
 hdr_zc  = {};                                                   % no title row (ie. ready to be appended)
@@ -117,6 +117,13 @@ for k0  = 1:numel(curncs)
     hdr_zc  = [hdr_zc; hdr_ZC];
     data_zc = [data_zc, yldszc];
 end
+
+% Shift data forward one day due to time difference
+if timeshift
+    westhem = [true; ismember(hdr_zc(:,1),{'BRL','CAD','COP','MXN','PEN'})];% consider 1st column of dates
+    data_zc(1:end-1,~westhem) = data_zc(2:end,~westhem);                    % shift non-WH nominal yields
+end
+
 end
 
 function [yldszc,params1model,rmse] = fit_NS_S(yzc2fit,tnrsin,tnrsout,params0model,params1data)

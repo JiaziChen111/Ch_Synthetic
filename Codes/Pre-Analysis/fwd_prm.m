@@ -1,12 +1,12 @@
 function [data_fp,hdr_fp,tnrsLCfp] = fwd_prm(dataset_daily,header_daily,curncs)
-% FWD_PRM Calculate the market-implied forward premium (FP)
-% Use forward/spot exchange rates (<1Y maturities) and cross-currency swaps (>1Y maturities)
+% FWD_PRM Calculate the market-implied forward premium using forward/spot
+% exchange rates (<1Y maturities) and cross-currency swaps (>=1Y maturities)
 %   data_fp: stores historical data
 %   hdr_fp: stores headers (note: row 1 has no titles, i.e. ready to be appended)
 %   tnrsLCfp: reports FP tenors per currency
 
 % m-files called: compute_fp_short, compute_fp_long, remove_NaNcols
-% Pavel Solís (pavel.solis@gmail.com), April 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2020
 %% Construct the FP Database
 % LCs  = ['BRL2'; curncs]';         % there are two formulas for Brazil
 hdr_fp  = {};                       % no row 1 with titles (i.e. ready to be appended)
@@ -19,6 +19,7 @@ for k = 1:numel(curncs)
     data_fp    = [data_fp, FP, CCS];
 end
 
+% Remove columns w/ no data
 [data_fp,hdr_fp] = remove_NaNcols(hdr_fp,data_fp);
 
 %% Report FP Tenors per Currency

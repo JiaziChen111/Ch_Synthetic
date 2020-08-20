@@ -3,10 +3,10 @@ function S = atsm_estimation(S,matsout,sgmSfree)
 % and 3 pricing factors
 % 
 %	INPUTS
-% S        - structure with fields n_y and s_y containing nominal and 
-%            synthetic bond yields (and survey forecasts)
-% matsout  - bond maturities in years to be reported
-% sgmSfree - logical variable for whether to estimate sgmS
+% S        - structure with fields mn_ylds and ms_ylds containing nominal 
+%            and synthetic bond yields and survey forecasts if available
+% matsout  - bond maturities (in years) to be reported
+% sgmSfree - logical for whether to estimate sgmS (o/w fixed at 75 bp)
 %
 %	OUTPUT
 % S - structure includes estimated yields under Q and P measures, estimated
@@ -16,15 +16,14 @@ function S = atsm_estimation(S,matsout,sgmSfree)
 % Pavel Solís (pavel.solis@gmail.com), June 2020
 %%
 addpath(genpath('jsz_code'))
-p       = 3;                                                               	% number of state vectors
-dt      = 1/12;                                                          	% monthly periods
+p       = 3;                                                                % number of state vectors
+dt      = 1/12;                                                             % time period in years
 ncntrs  = length(S);
-fnames  = fieldnames(S);
-prefix  = {'n','s'};
+prefix  = {'mn','ms'};
 if sgmSfree; sgmtype = 'f'; else; sgmtype = 'b'; end                        % free vs baseline case
 
-for k0 = 1:2
-    fldname = fnames{contains(fnames,[prefix{k0} '_ylds'])};
+for k0 = 1:length(prefix)
+    fldname = [prefix{k0} '_ylds'];
     for k1  = 1:ncntrs
         % Split yields & surveys
         dates  = S(k1).(fldname)(2:end,1);
@@ -37,11 +36,11 @@ for k0 = 1:2
             yonly = ynsvys;
         else
             matsY = mats(1:startS-1);                                       % yield maturities in years
-            matsS = mats(startS:end);                                   	% survey maturities in years
+            matsS = mats(startS:end);                                       % survey maturities in years
             yonly = ynsvys(:,1:startS-1);                                   % extract yields
         end
         
-        % Estimate the model using yields only
+        % Estimate the model using yields only (all countries)
         [ylds_Q,ylds_P,termprm,params0] = estimation_jsz(yonly,matsY,matsout,dt,p);
         
         S(k1).([prefix{k0} 'y_yQ']) = [nan matsout; dates ylds_Q];

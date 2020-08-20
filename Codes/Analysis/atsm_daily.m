@@ -23,14 +23,14 @@ fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                    % field containing estimated parameters
 dt      = 1/12;                                                 % period length in years
 prefix  = 'd';                                                  % prefix for fields storing the results
-intctrs = setdiff(currEM,{'ILS','ZAR'});                        % countries w/ intercept
+intctrs = setdiff(currEM,'AUD');                                % countries w/ intercept (previously ILS & ZAR)
 
 for k0 = 1:ncntrs
     % Prefixes for monthly and daily fields
     if ismember(S(k0).iso,currEM)
-        prfxM  = 's';   prfxD  = 'ds';
+        prfxM  = 'ms';   prfxD  = 'ds';
     else
-        prfxM  = 'n';   prfxD  = 'dn';
+        prfxM  = 'mn';   prfxD  = 'dn';
     end
     
     % Monthly data
@@ -71,7 +71,7 @@ for k0 = 1:ncntrs
     rho0  = S(k0).(fnameq).rho0;    rho1  = S(k0).(fnameq).rho1;
     [AnQ,BnQ] = loadings(mats,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);	% loadings using original maturities 
     [AnP,BnP] = loadings(mats,mu_xP,PhiP,Hcov,rho0,rho1,dt);
-    ylds_Q    = ones(nobsD,1)*AnQ + xsD*BnQ;                    % fitted daily yields in percent
+    ylds_Q    = ones(nobsD,1)*AnQ + xsD*BnQ;                    % fitted daily yields in decimals
     ylds_P    = ones(nobsD,1)*AnP + xsD*BnP;                    % risk neutral yields
     termprm   = ylds_Q - ylds_P;                                % in decimals
     
@@ -84,6 +84,7 @@ for k0 = 1:ncntrs
     S(k0).([prefix '_yQ']) = [nan matsout; datesD ylds_Q(:,fltr)];
     S(k0).([prefix '_yP']) = [nan matsout; datesD ylds_P(:,fltr)];
     S(k0).([prefix '_tp']) = [nan matsout; datesD termprm(:,fltr)];
+%     S(k0).([prefix '_xs']) = [nan 1:size(xsD,2); datesD xsD];
     S(k0).([prefix '_rmse']) = sqrt(mean(mean(10000*(yieldsD - ylds_Q).^2)));% RMSE
     
     if plotfit
@@ -107,4 +108,4 @@ fitrprt(2:2:2*nEMs+1,1) = currEM;                                           % na
 fitrprt(2*nEMs+2:2:2*ncntrs+1,1) = currAE;                                  % names of AEs
 fitrprt(2:2:2*ncntrs+1,2:end) = num2cell(mtxmae);                           % mean absolute errors
 fitrprt(3:2:2*ncntrs+1,2:end) = num2cell(mtxsae);                           % std of absolute errors
-fitrprt(:,[false,ismember(matsall,[6 8 9])]) = [];                          % delete maturities 6, 8 and 9Y
+fitrprt(:,[false,ismember(matsall,[6 8 9])]) = [];                          % delete maturities 6Y-8Y-9Y

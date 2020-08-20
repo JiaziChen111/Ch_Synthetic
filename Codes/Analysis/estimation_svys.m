@@ -5,10 +5,10 @@ function [ylds_Q,ylds_P,termprm,params] = estimation_svys(yldsvy,matsY,matsS,mat
 % yldsvy   - bond yields and survey forecasts (rows: obs, cols: maturities)
 % matsY    - maturities of yields in years
 % matsS    - maturities of surveys in years
-% matsout  - bond maturities in years to be reported
+% matsout  - bond maturities (in years) to be reported
 % dt       - length of period in years (eg. 1/12 for monthly data)
 % params0  - initial values of parameters
-% sgmSfree - logical variable for whether to estimate sgmS
+% sgmSfree - logical whether to estimate sgmS (o/w fixed at 75 bp)
 %
 %	OUTPUT
 % ylds_Q  - estimated yields under Q measure
@@ -31,9 +31,9 @@ while fmflag == 0
         if sgmSfree
             par0 = [params0.PhiP(:);params0.cSgm(:);params0.lmbd1(:);params0.lmbd0(:);...
                     params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY;params0.sgmS];
-        else
+        else                                                                % sgmS fixed in atsm_params
             par0 = [params0.PhiP(:);params0.cSgm(:);params0.lmbd1(:);params0.lmbd0(:);...
-                    params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY]; % sgmS fixed in atsm_params
+                    params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY];
         end
     else
         par0 = parest;
@@ -41,14 +41,14 @@ while fmflag == 0
     
     maxitr = length(par0)*niter;
     optns  = optimset('MaxFunEvals',maxitr,'MaxIter',maxitr);
-    llkhd  = @(x)llkfn(x,yldsvy',x00,P00,matsY,matsS,dt);                  	% include vars in workspace
+    llkhd  = @(x)llkfn(x,yldsvy',x00,P00,matsY,matsS,dt);                   % include vars in workspace
     [parest,fval,fmflag] = fminsearch(llkhd,par0,optns);                    % estimate parameters
     if ~isinf(fval) && fmflag == 0;   niter = niter + 1000;   end
 end
 
 % Estimate state vector based on estimated parameters
-[mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);               	% get model parameters
-[~,~,~,~,~,xs] = Kfs(yldsvy',mu_x,mu_y,Phi,A,Q,R,x00,P00);               	% smoothed state
+[mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);                 % get model parameters
+[~,~,~,~,~,xs] = Kfs(yldsvy',mu_x,mu_y,Phi,A,Q,R,x00,P00);                  % smoothed state
 xs = xs';                                                                   % same dimensions as yldsvy 
 
 % Estimate the term premium
@@ -59,7 +59,7 @@ mu_xQ     = mu_xP - cSgm*lmbd0;     PhiQ = PhiP  - cSgm*lmbd1;
 [AnP,BnP] = loadings(matsout,mu_xP,PhiP,Hcov,rho0,rho1,dt);
 ylds_Q    = ones(nobs,1)*AnQ + xs*BnQ;
 ylds_P    = ones(nobs,1)*AnP + xs*BnP;
-termprm   = ylds_Q - ylds_P;                                    % = ones(nobs,1)*(AnQ - AnP) + xs*(BnQ - BnP);
+termprm   = ylds_Q - ylds_P;        % = ones(nobs,1)*(AnQ - AnP) + xs*(BnQ - BnP);
 
 % Report parameters
 params.mu_xP = mu_xP;   params.PhiP  = PhiP;
