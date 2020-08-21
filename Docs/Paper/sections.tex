@@ -528,8 +528,11 @@ Although surveys have good forecasting properties, it is important to acknowledg
 Long-term forecasts are particularly helpful for the model to pin down the parameters under the \(\Pmeasure\) measure.
 Twice a year Consensus Economics provides 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample. 
 For this paper, the data is available from March 2001 to October 2017.\footnote{ Data availability varies by country; for example, data for the Philippines starts in 2009, whereas it ends in October 2013 for Latin American countries.}
-Figures \ref{fig:wnCPI} and \ref{fig:wnGDP} respectively plot the long-horizon forecasts for inflation and real GDP growth.
-With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see below for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band are the highest and lowest bounds since 2009.}
+Figure \ref{fig:wnCPI} 
+%and \ref{fig:wnGDP} respectively 
+plots the long-horizon forecasts for inflation.
+% and real GDP growth.
+With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see appendix \ref{sec:trendinf} for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band are the highest and lowest bounds since 2009.}
 Notice that the 5-year ahead and long-term forecasts are highly correlated.
 % for both inflation and GDP growth.
 %Meanwhile, for half of the EMs in the sample, there is a declining trend in their expected real GDP growth. 
@@ -556,18 +559,8 @@ An alternative way to infer the embedded expectations for the policy rate is to 
 The two approaches yield similar values for the implied forecasts for the domestic short-term rates. 
 The correlation  between the two approaches is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
 
-An advantage of the small open economy approach is that it only requires forecasts for inflation, or a proxy in the case of countries with no long-term forecasts available as is the case for Israel and South Africa.
-Inflation expectations are hoped to match measures of inflation that exclude unexpected shocks and better reflect the inflation environment.
-Different measures of core inflation exist.
-I use the inflation trend obtained by applying the Hodrick-Prescott filter to the series of realized inflation of each country.
-Of course, the filter is sensitive to the sample period used.
-The resulting trend can also be outside of the target inflation band due to the innate dynamics of the series, which would be at odds with survey data (see figure \ref{fig:wnCPI}).
-Fortunately, unlike other countries, there is no marked upward or downward trend in the inflation of the two countries during the sample period.
-For each country, trend inflation is calculated for the whole period but only considered within the time range for which survey data is available for the rest of the countries, and as long as the trend is within the inflation target band.
-Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa, and compares them with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked trend) and for which survey data is available.
-%It supports that t
-Trend inflation seems to be a good proxy for the long-term inflation forecasts of Israel and South Africa.
-Finally, since the 5-year and long-term forecasts closely follow each other (see figure \ref{fig:wnCPI}), I use trend inflation for both tenors.
+Since there is no survey data on long-term inflation forecasts for Israel and South Africa, appendix \ref{sec:trendinf} shows that trend inflation is a good proxy.
+%for the long-term inflation forecasts of Israel and South Africa.
 
 % Sigal Ribon (2009). Core Inflation Indices for Israel: 
 %For the purpose of examining the appropriateness of monetary policy ex post, and also to help determine policy for the future, it is important to focus on core inflation, i.e., inflation excluding unexpected shocks that are not affected by monetary policy.
@@ -1434,7 +1427,7 @@ Investors also adjust the compensation they demand to hold long-term bonds as we
 U.S. monetary policy has therefore not only monetary but also fiscal implications for emerging markets.
 %It affects financing costs for the government and domestic financial conditions.
 
-
+Future research paths. Structure of the sovereign bond yield market: core-periphery? MPS from other advanced countries (e.g. ECB from Gurkaynak).
 
 %Several new insights about the dynamics of bond yields in emerging markets were also discussed.
 %There is a negative relationship between the credit risk premium and the term premium reflecting a trade-off between explicit and implicit default.
@@ -1484,9 +1477,8 @@ U.S. monetary policy has therefore not only monetary but also fiscal implication
 
 \begin{landscape}
 	\input{../Figures/Surveys/wnCPI}
-	\input{../Figures/Surveys/wnGDP}
+%	\input{../Figures/Surveys/wnGDP}
 	\input{../Figures/Data/YLD10Y_CBP}
-	\input{../Figures/Surveys/CPI_ILSZAR}
 	\input{../Figures/Estimation/s_ylds_bsl_yQ}	% \ref{fig:s_ylds_bsl_yQ}
 	\input{../Figures/Estimation/ny_dcmp}
 	\input{../Figures/Estimation/bsl_yP_scbp}
@@ -1504,9 +1496,9 @@ U.S. monetary policy has therefore not only monetary but also fiscal implication
 %\newpage
 \input{../Figures/Estimation/dyindex10y}
 \input{../Figures/Estimation/dy_index_ts}
-\begin{landscape}
-	\input{../Figures/MPS/USmps}
-\end{landscape}
+%\begin{landscape}
+%	\input{../Figures/MPS/USmps}
+%\end{landscape}
 \input{../Figures/LPs/Latex/LP_US}
 \input{../Figures/LPs/Latex/LP_EM}
 %\input{../Figures/LPs/Latex/LP_AE}

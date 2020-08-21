@@ -8,33 +8,31 @@
 	\end{boxeditems}}{}
 
 
-%	\begin{figure}[!htbp]
-%		\begin{centering}
-%			
-%			\includegraphics[width=0.9\textwidth,height=0.31\textheight]{../Figures/risk_premia_5yr_2}
-%			\newline
-%
-%			\includegraphics[width=0.92\textwidth,height=0.46\textheight]{../Figures/risk_premia_5yr_1}
-%			\par\end{centering}
-%		\caption{Estimated 5-Year Risk Premium.}\label{fig:5yr_rp}
-%	\end{figure}
-	\input{../Figures/Latex/temp_ts_tp}
+\section{Trend Inflation as a Proxy for Long-Term Inflation Forecasts} \label{sec:trendinf}
 
+An advantage of the small open economy approach is that it only requires forecasts for inflation, or a proxy in the case of countries with no long-term forecasts available as is the case for Israel and South Africa.
+Inflation expectations are hoped to match measures of inflation that exclude unexpected shocks and better reflect the inflation environment.
+Different measures of core inflation exist.
+I use the inflation trend obtained by applying the Hodrick-Prescott filter to the series of realized inflation of each country.
+Of course, the filter is sensitive to the sample period used.
+The resulting trend can also be outside of the target inflation band due to the innate dynamics of the series, which would be at odds with survey data (see figure \ref{fig:wnCPI}).
+Fortunately, unlike other countries, there is no marked upward or downward trend in the inflation of the two countries during the sample period.
+For each country, trend inflation is calculated for the whole period but only considered within the time range for which survey data is available for the rest of the countries, and as long as the trend is within the inflation target band.
+Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa, and compares them with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked trend) and for which survey data is available.
+%It supports that t
+Trend inflation seems to be a good proxy for the long-term inflation forecasts of Israel and South Africa.
+Finally, since the 5-year and long-term forecasts closely follow each other (see figure \ref{fig:wnCPI}), I use trend inflation for both tenors.
+
+\begin{landscape}
+	\input{../Figures/Surveys/CPI_ILSZAR}
+\end{landscape}
+
+%	\input{../Figures/Latex/temp_ts_tp}
 
 %\newgeometry{top=4cm, left=5.5cm}	% Modify this if more space is needed
 %%\newgeometry{margin=1cm}  % To make the table fit your landscape
 %\begin{landscape}
-%
 %	\input{../Tables/rp_reg_lvix}
-%	
-%	\input{../Tables/rp_reg_ffr}
-%	
-%	\input{../Tables/rp_reg_rfx}
-%	
-%	\input{../Tables/rp_reg_stx}
-%	
-%	\input{../Tables/rp_reg_macro}
-%	
 %\end{landscape}
 %\restoregeometry
 
