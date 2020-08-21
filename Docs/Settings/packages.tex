@@ -65,6 +65,16 @@
 \usepackage{multirow}			   % To add entries with multiple rows
 \usepackage{bigstrut} 			 	 % Needed for \bigstrut
 \usepackage{siunitx}				 % To align the decimal points
+	\sisetup{
+		detect-mode,
+		tight-spacing		= true,
+		group-digits		= false ,
+		input-signs		= ,
+		input-symbols		= ( ) [ ] - + *,
+		input-open-uncertainty	= ,
+		input-close-uncertainty	= ,
+		table-align-text-post	= false
+	}
 
 %---------------------------------------------------------------
 % Hyperlinks and References
