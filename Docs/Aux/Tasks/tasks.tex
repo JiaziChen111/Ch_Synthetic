@@ -189,35 +189,10 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Additional stuff.
+		\item Remaining stuff.
 	\begin{todolist}
-		\item[\done] Term structure of term premia. TP \(<\) 0 more frequent at shorter maturities.
-		\item[\done] Term structure of credit risk premia? No clear pattern.
-		\item[\done] Term structure connectedness for AEs and EMs: 3m, 1Y, 5Y, 10Y.
-		\item[\done] Regress TP on sdprm. It works w/ dtp but not w/ stp (less than 75 obs). sdprm also explains yP and RHO.
-		\item[\done] Panel regressions for yP, TP and LCCS.
-		\item[\done] Latex files for panel regressions.
-		\item[\done] Re-estimate flexible model mssf for: IDR, ILS, ZAR.
-		\item Are big changes in TP related to local events?
 		\item Try lag of depvar as in Hofmann, Shim and Shin and see LPs.
-		\item Correlation of YC components with the 3 PCs and estimated pricing factors.
-		\item LPs for effects of US MPS on the 3 pricing factors of EMs.
-		\item Skim through Warnock papers on TIC data.
-		\item Include TIC data for each country (inflows and outflows) in dataset.
-		\item Variable of financial openness (Chinn-Ito index). Linear interpolation.
-	\end{todolist}
-	\item Interpret the results.
-	\begin{todolist}
-		\item[\done] Use the code from trend_inflation to get a common table of the variable of interest.
-		\item[\done] On impact effects for EMs and US. Saved in Tables folder.
-		\item[\wontdo] All shocks in one regression? No, because different periods per shock.
-		\item[\wontdo] If counterintuitive, what the results suggest? Negative: Financial frictions, is LCCS interpretation adequate? Positive: signaling (favorable conditions in US). Once the timing is right, results are not counterintuitive.
-		\item[\wontdo] Question on why opposite effect on LCCS is equivalent to asking why nominal yields don't respond as much? Once the timing is right, results are not counterintuitive.
-		\item[\wontdo] If lag brief response regionally: slow moving reallocation portfolios. There does not seem to be a regional distinction. Regional LPs don't provide much information.
-		\item Possible interpretation from panel regressions on determinants of the components. Yes.
-		\item What drives the negative correlation b/w TP and LCCS? Effect of USMP on components? Partially yes.
-		\item If inflation expectations are well-anchored, TP should be relatively low.
-		\item PCs of macro variables and inflation volatility.
+		
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
 		\item How the size of the rolling window influence the DY index for EMs?
 		\item Read literature. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
@@ -226,16 +201,17 @@
 	
 	\item Tables.
 	\begin{todolist}
-		\item Descriptive tables: summary of YCs as in Guimaraes, US MPS. Highlight the higher std of the short end of their curves! Are yields and components more volatile in EM than in AEs?
-		\item Table for US MPS similar to Ferrari et al. and/or Hofmann-Shim-Shin.
+		\item Descriptive table of YCs as in Guimaraes. Highlight the higher std of the short end of their curves! Are yields and components more volatile in EM than in AEs?
 		\item Table on statistics of YCs (nominal and synthetic) to see if upward sloping.
-		\item Table: report fit of the model for monthly and daily data in the same table.
-		\item Table: correlations of YC components w/ model-free measures.
+		\item Table for US MPS similar to Ferrari et al. and/or Hofmann-Shim-Shin.
+		\item Table: report fit of the model for monthly and daily data in the same table. One w/ RMSE (Wright) and other w/ abs error (Guimaraes).
+		\item Table: correlations of YC components w/ model-free measures (Curcuru et al).
 		\item Table: on-impact responses. Event study for TP, LCCS, yE for AEs and EMs.
 	\end{todolist}
 	
 	\item Figures.
 	\begin{todolist}
+		\item[\done] Determine which figures to cut: GDP forecasts, US MPS, ILS-ZAR in appendix.
 		\item Update legends, labels, axis, titles.
 		\item Improve location of legend in figures w/ subplots.
 		\item Save figures to be used in pdf.
@@ -243,7 +219,7 @@
 
 	\item Annex.
 	\begin{todolist}
-		
+		\item[\done] Trend inflation and figures for ILS-ZAR.
 		\item Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
 	\end{todolist}
 	
@@ -260,6 +236,12 @@
 \begin{todolist}
 	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
 	\item Update slides.
+	\item Are big changes in TP related to local events?
+	\item Correlation of YC components with the 3 PCs and estimated pricing factors.
+	\item LPs for effects of US MPS on the 3 pricing factors of EMs.
+	\item Skim through Warnock papers on TIC data.
+	\item Include TIC data for each country (inflows and outflows) in dataset.
+	\item Variable of financial openness (Chinn-Ito index). Linear interpolation.
 \end{todolist}
 
 \section{Analysis: Long Term}
@@ -280,6 +262,29 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Additional stuff.
+	\begin{todolist}
+		\item[\done] Term structure of term premia. TP \(<\) 0 more frequent at shorter maturities.
+		\item[\done] Term structure of credit risk premia? No clear pattern.
+		\item[\done] Term structure connectedness for AEs and EMs: 3m, 1Y, 5Y, 10Y.
+		\item[\done] Regress TP on sdprm. It works w/ dtp but not w/ stp (less than 75 obs). sdprm also explains yP and RHO.
+		\item[\done] Panel regressions for yP, TP and LCCS.
+		\item[\done] Latex files for panel regressions.
+		\item[\done] Re-estimate flexible model mssf for: IDR, ILS, ZAR.
+	\end{todolist}
+	\item[\done] Interpret the results.
+	\begin{todolist}
+		\item[\done] Use the code from trend_inflation to get a common table of the variable of interest.
+		\item[\done] On impact effects for EMs and US. Saved in Tables folder.
+		\item[\wontdo] All shocks in one regression? No, because different periods per shock.
+		\item[\wontdo] If counterintuitive, what the results suggest? Negative: Financial frictions, is LCCS interpretation adequate? Positive: signaling (favorable conditions in US). Once the timing is right, results are not counterintuitive.
+		\item[\wontdo] Question on why opposite effect on LCCS is equivalent to asking why nominal yields don't respond as much? Once the timing is right, results are not counterintuitive.
+		\item[\wontdo] If lag brief response regionally: slow moving reallocation portfolios. There does not seem to be a regional distinction. Regional LPs don't provide much information.
+		\item[\done] Possible interpretation from panel regressions on determinants of the components. Yes.
+		\item[\done] What drives the negative correlation b/w TP and LCCS? Effect of USMP on components? Partially yes.
+		\item[\wontdo] If inflation expectations are well-anchored, TP should be relatively low. Note: Don't remember where it came from. Might think in terms of DePootere t al (2014).
+		\item[\wontdo] PCs of macro variables and inflation volatility. Note: Don't remember where it came from.
+	\end{todolist}
 	\item[\done] LPs in Stata.
 	\begin{todolist}
 		\item[\done] How much the shift in LCNOM affects LPs? Use nom and sftnom. There is an on-impact effect relative to shift for any country.
