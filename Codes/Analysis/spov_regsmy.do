@@ -32,9 +32,8 @@ label variable rtstx "Stock"
 
 * Define variables
 global x0 sdprm
-global x1 logvix epugbl rtspx globalip rtoil         rtfx rtstx
-// global x2 logvix epugbl rtspx globalip rtoil inf une rtfx rtstx
-global x2 logvix epugbl rtspx globalip rtoil inf une rtfx
+global x1 logvix epugbl globalip rtfx rtspx rtoil
+global x2 inf une $x1
 
 
 * Panel regressions
@@ -56,15 +55,14 @@ esttab mtp* using "$pathtbls/`tbllbl'.tex", replace fragment cells(b(fmt(a2) sta
 r2(2) keep($x0 gdp) nomtitles nonumbers nonotes nolines label booktabs collabels(none) ///
 mgroups("3M" "1Y" "2Y" "5Y" "10Y", pattern(1 0 1 0 1 0 1 0 1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
 varlabels(, elist(gdp \midrule))
-// mtitles("3M" "3M" "1Y" "1Y" "2Y" "2Y" "5Y" "5Y" "10Y" "10Y")
 // filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BS\BS\n) to(\BStabularnewline\n) replace
 // erase x.tex
-
 * ------------------------------------------------------------------------------
 
 * ------------------------------------------------------------------------------
 * Table: Drivers
-local tbllbl "ycdcmp"
+local tbllbl "f_ycdcmp"
+eststo clear
 foreach t in 24 120 {
 	local ty = `t'/12
 	foreach group in 1 { // 0
@@ -82,15 +80,12 @@ foreach t in 24 120 {
 				eststo mdl`j'
 			}
 		}	// `v' variables
-		esttab mdl* using x.tex, b(2) se(3) r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
-		title(Drivers of the `ty'-Year Nominal Yield and Its Components)	///
-		mtitles("YLD" "SYN" "ER" "TP" "CRP" "FWD")  ///
-		addnote("Note: Dependent variables in basis points. EPU Global, returns for: S\&P, oil, FX.")
-		eststo clear
+		esttab mdl* using x.tex, replace fragment cells(b(fmt(2) star) se(fmt(2) par)) ///
+		r2(2) nocons nomtitles nonumbers nonotes nolines label booktabs collabels(none) ///
+		mgroups("Nominal" "Synth." "ESR" "TP" "CRP" "FP", pattern(1 1 1 1 1 1) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
+		varlabels(, elist(rtoil \midrule))
 	}	// `group'
-	filefilter x.tex y.tex, from(\BSbegin{tabular*}) to(\BSlabel{tab:`tbllbl'`ty'y}\n\BSbegin{tabular*}) replace
-	filefilter y.tex "$pathtbls/`tbllbl'`ty'y.tex", from(Observations) to(Obs.) replace
+	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(Observations) to(Obs.) replace
 }	// `t'
 erase x.tex
-erase y.tex
 * ------------------------------------------------------------------------------
