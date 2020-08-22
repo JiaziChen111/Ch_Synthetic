@@ -114,3 +114,7 @@ erase $file_log.smcl
 // Use -inlist- with local list
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/
 // 1315256-use-inlist-with-local-list
+
+// Tables Stata to Latex
+// https://asjadnaqvi.com/stata-to-latex-part-1/
+// https://www.jwe.cc/2012/03/stata-latex-tables-estout/
