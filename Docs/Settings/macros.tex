@@ -189,14 +189,15 @@
 %---------------------------------------------------------------
 % Subcaptions
 %---------------------------------------------------------------
-% Notes after figures by Jörg Weber
+% Notes after figures following Jörg Weber
 \newcommand{\figtext}[1]{
 	\vspace{-1.9ex}
-	\captionsetup{justification=justified,font=footnotesize}
+	\captionsetup{justification=raggedright,singlelinecheck=false,font=footnotesize}
 	\caption*{\hspace{6pt}\hangindent=1.5em #1}
 }
 
-\newcommand{\fignote}[1]{\figtext{\emph{Notes:~}~#1}}
+\newcommand{\fignote}[1]{\figtext{\emph{Note:~}~#1}}
+\newcommand{\fignotes}[1]{\figtext{\emph{Notes:~}~#1}}
 
 % Notes after tables
 \newcommand{\tabnote}[1]{
