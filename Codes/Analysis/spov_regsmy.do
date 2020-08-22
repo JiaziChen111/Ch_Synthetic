@@ -38,7 +38,11 @@ global x2 logvix epugbl rtspx globalip rtoil inf une rtfx
 
 
 * Panel regressions
-local tbllbl "tpucsv"
+
+* ------------------------------------------------------------------------------
+* Table: TP and UCSV
+local tbllbl "f_tpucsv"
+eststo clear
 local j = 0
 foreach t in 3 12 24 60 120 {
 	local ++j
@@ -48,15 +52,18 @@ foreach t in 3 12 24 60 120 {
 	quietly xtreg dtp`t'm $x0 gdp if em, fe cluster($idm)
 	eststo mtp`j'
 }
-esttab mtp* using x.tex, b(a2) se r2(2) nocons nonumbers nonotes label booktabs replace width(0.8\hsize) ///
-title(Term Premia and Inflation Volatility)	///
-mtitles("3M" "3M" "1Y" "1Y" "2Y" "2Y" "5Y" "5Y" "10Y" "10Y") ///
-addnote("Note: Variables in basis points.")
-filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BSbegin{tabular) to(\BSlabel{tab:`tbllbl'}\n\BSbegin{tabular) replace
-eststo clear
-erase x.tex
+esttab mtp* using "$pathtbls/`tbllbl'.tex", replace fragment cells(b(fmt(a2) star) se(fmt(a2) par)) ///
+r2(2) keep($x0 gdp) nomtitles nonumbers nonotes nolines label booktabs collabels(none) ///
+mgroups("3M" "1Y" "2Y" "5Y" "10Y", pattern(1 0 1 0 1 0 1 0 1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
+varlabels(, elist(gdp \midrule))
+// mtitles("3M" "3M" "1Y" "1Y" "2Y" "2Y" "5Y" "5Y" "10Y" "10Y")
+// filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BS\BS\n) to(\BStabularnewline\n) replace
+// erase x.tex
 
+* ------------------------------------------------------------------------------
 
+* ------------------------------------------------------------------------------
+* Table: Drivers
 local tbllbl "ycdcmp"
 foreach t in 24 120 {
 	local ty = `t'/12
@@ -86,3 +93,4 @@ foreach t in 24 120 {
 }	// `t'
 erase x.tex
 erase y.tex
+* ------------------------------------------------------------------------------
