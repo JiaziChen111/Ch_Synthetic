@@ -212,9 +212,9 @@ On the spillover effects of U.S. monetary policy, this paper extends the work of
 
 The rest of the paper proceeds as follows. 
 Section \ref{sec:LCYCs} explains how the LC yield curves are constructed. Section \ref{sec:Methodology} presents the affine term structure model used to decompose them.
-Section \ref{sec:analysisYCdcmp} assesses the yield decompositions.
+Section \ref{sec:decomposition} assesses the yield decompositions.
 %shows that provide several new insights about their dynamics.
-Section \ref{sec:spillovers} analyzes the U.S. monetary policy spillovers to the yields of emerging markets.
+Section \ref{sec:analysis} analyzes the U.S. monetary policy spillovers to the yields of emerging markets.
 The last section concludes.
 
 }{}	% Closes \iftoggle{fulldraft}
@@ -638,7 +638,7 @@ To strike a balance between these two considerations, I follow \cite{KimOrphanid
 In this sense, survey data is seen as a noisy measure of expectations for the short rate.\footnote{ When \(\sigma_s\) is allowed to be estimated, its average value among all emerging markets is 29 basis points.
 In this case, the estimated term premia remains largely the same for most of the countries in the sample.}
 
-\subsubsection{Estimation with Daily Data}
+\subsubsection{Daily Frequency Estimation}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 The parameters of the model are estimated using end-of-month data because at the daily frequency there is noise that can undermine the estimation. 
 However, once the parameters are estimated with monthly data, they can be used to estimate the model at the daily frequency \citep{ACM:2013}.
@@ -661,7 +661,7 @@ Finally, the parameters estimated with monthly data along with the daily pricing
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Decomposing the Yields of Emerging Markets} \label{sec:analysisYCdcmp}
+\section{Decomposing the Yields of Emerging Markets} \label{sec:decomposition}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -718,7 +718,7 @@ In general, emerging market yield curves are not as smooth as those of advanced 
 %%	\input{../Tables/RMSE_NelsonSiegel}
 
 
-\subsection{Assessing the Decomposition}
+\subsection{Decomposition Assessment}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 %Once the affine model is estimated, the nominal yields of 
@@ -753,7 +753,7 @@ the relative importance of the two premia varies by country and can even change 
 %For the rest of the countries,\footnote{ MYR, PHP, PLN, THB.} both components are important.
 
 
-\subsubsection{Expected Future Short Rate}
+\subsubsection{Expected Short Rate}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 Figure \ref{fig:bsl_yP_scbp} shows that the model-implied expectation of the short rate for the 10-year maturity tracks the interest rate forecasts reasonably well, even though the model does not rely too much on them given the conservative value used for \(\sigma_s\).
@@ -920,6 +920,84 @@ Notwithstanding, the data is limited to reach meaningful conclusions.\footnote{ 
 %Is regional (Asian and European) or global?
 
 
+
+%Is There A Non-U.S. Common Factor?
+%%How much the US factor explains TP? Is there a non-US common factor?
+%To assess whether the global factor is associated with U.S. variables, I regress the components of the yield curves of AEs and EMs on the respective components of the U.S. yield curve based on the methodology of \cite{KimWright:2005}.
+%I then perform a PC analysis on the residuals (i.e. the part of a country's term premium orthogonal to the U.S. term premium) to see whether there is a common non-U.S. factor.
+%The expectation of the short rate and the term premium in the U.S. explain around 70\% of the variation---measured by the \(R^2\) statistic---in the respective components of the yield curves in AEs, and around 30\% and 40\%, respectively, for the components of the yields in EMs. 
+%After the GFC, these numbers largely remained for the term premia but declined for expected part.
+%There seems to be a non-U.S. common factor.
+%Again, its relevance is lower for EMs than for AEs.
+%It explains up to 85\% of the variation in the yields of AEs and up to 50\% in the yields of EMs.
+%% explains b/w 50 and 85\% of the variation in yP and TP both ST and LT. These percentages fluctuate b/w 35 and 50\%. 
+%The importance of a non-US factor slightly increased after the GFC.
+
+%\subsection{Term Premia: Nominal or Synthetic Yield Curve?}
+%Affine term structure models are usually estimated using nominal yield curves on the assumption that they are free of default risk. \cite{DuTepperVerdelhan:2018} show that deviations from covered interest parity are non-negligible. Therefore, there is a wedge between the nominal ($\yLCnom$) and synthetic ($\yLCsynt$) yield curves given by the LCCS in the case of emerging markets and by the convenience yield in the case of advanced economies. Does this wedge bias the estimation of term premia? Equivalently, does it matter which curve is used to estimate the term premia? We can answer these questions by fitting the model described in section \ref{sec:ATSM} to both curves and compare the estimates.
+%
+%Table \ref{tab:tp_compare10yr} show the average term premia across groups of countries obtained by using the nominal and the synthetic yield curves. For advanced countries, the difference between the two is less than or equal to 10 basis points on average, while for emerging markets is more than 40 basis points. To assess whether the term premium estimates from the two curves are statistically different from each other, I perform a $t$-test for the equality of means (with unequal variances) between them for each country. The null of equal means is rejected at the $5$\% significance level for all emerging markets except Hungary and Malaysia. However, the null is only rejected for four advanced economies (Australia, Denmark, Japan and New Zealand). This shows that there are gains by using synthetic yield curves to account for credit risk when estimating the term premia, especially for emerging markets.
+%	\input{../Tables/temp_tp_compare}
+%
+%The evidence in tables \ref{tab:decomp10yr} and \ref{tab:tp_compare10yr} shows that, although sometimes used interchangeably, the terms `risk premium' and `term premium' are not the same thing, at least not for emerging markets, since \textit{both} the term premium and the LC credit spread play an important role in the dynamics of the risk premium in the bond yields of emerging economies.
+%
+%\subsection{Stylized Facts of EM Term Premia}
+%I use the U.S. term premium as a benchmark to compare the behavior of the term premia in emerging markets. Two frequently cited estimates of the U.S. term premium are \cite{KimWright:2005} (hence KW) and \cite*{ACM:2013}. Analysis of the estimates of the U.S. term premium shows that: (1) it is time-varying; (2) it has declined over time; (3) its sign changed from positive to negative in recent years; and (4) increases during periods of uncertainty and vice versa. Common explanations for the decline in the U.S. term premium include an increased demand of U.S. assets by global investors, and the effects of the the large-scale asset purchases conducted by the the Federal Reserve in response to the Great Recession. Regarding the change in the sign of the term premium, \cite*{CampbellSunderamViceira:2017} argue that it is explained by a flip in the sign of the correlation between stocks and bonds; when investors changed their perception of bonds as hedges of stock investments, the correlation between the two assets turns negative which drives down the term premium. Finally, the U.S. term premium increased around the onset of the Great Recession (September 2008), the taper tantrum (June 2013), and the 2016 U.S. presidential election (November 2016), while it declined after the first unexpected announcement of the quantitative easing program by the Fed (March 2009) -which was seen as helping to reduce some of the uncertainty at the time-.
+%
+%The 10-year term premia estimates for emerging markets are plotted in Figure \ref{fig:temp_tp10yrEM}. It is worth highlighting some regularities observed in the figure: (1) term premia in emerging markets are time-varying; (2) the estimates are sensible, i.e. they fluctuate between $-1$\% and $+6$\%; (3) there appears to be co-movement in the term premia of some countries; (4) they behave similar to the U.S. term premium around key dates; (5) there is a slight downward trend in the term premia of some countries; (6) the term premia in emerging markets can be negative during some periods, but not to the level seen for the U.S.
+%%\footnote{In fact, inverted yield curves, which may explain this, are common for some of the countries considered.}
+%	\input{../Figures/Latex/temp_tp10yrEM}
+%
+%Special cases include that of Brazil whose term premium turn negative around the Great Recession and that of Russia whose term premium declined considerably. These cases might be reflecting local conditions and deserve further analysis. Consider, for example, the case of Turkey towards the end of the sample, where relevant events in 2018\footnote{On June 24, 2018, Recep Tayyip Erdogan won the presidential election. On October 2, 2018, the journalist Jamal Khashoggi disappeared after he visited the consulate of Saudi Arabia in Istanbul.} translated into a higher term premium.
+%
+% In addition to Brazil, Russia and Turkey, the term premia of most Asian countries has been in negative territory for some period of time. Moreover, with the exception of Brazil and South Africa, the term premia of emerging markets being negative is a phenomenon observed after the Great Recession.
+%
+%%To summarize the figure, Table \ref{tab:rp_stats} shows the mean of the 5-year synthetic yields and summary statistics for the estimated 5-year term premia. The means of the synthetic yields fluctuate between $2.3\%$ and $10.5\%$, while the means of the risk premia fluctuate between $-36$ basis points to $150$ basis points. On average, the term premium represents around $12\%$ of the synthetic 5-year yield. For Indonesia, Russia, South Africa and Turkey the standard deviation of their term premia is relatively high compared to their mean. Philippines and Russia had periods with a really negative term premia in October 2000 and the first half of 2015, respectively; excluding those episodes, the term premium has fluctuated between $-3.5\%$ and $5.5\%$.
+%%	\input{../Tables/rp_5yr_stats}
+%
+%For comparison purposes, Figure \ref{fig:temp_tp10yrAE} shows the 10-year term premia estimates for advanced economies using synthetic yield curves. A clear downward trend is observed for all countries. This is consistent with the empirical evidence that uses nominal yield curves; \cite{Wright:2011} shows a declining trend in term premia for most of these countries going back to the 1990s and argues that it reflects a reduction in inflation uncertainty.
+%	\input{../Figures/Latex/temp_tp10yrAE}
+%
+%Note that although the term premia of most advanced countries seem to reflect a common factor, that of Japan behaves differently probably reflecting the fact that Japan was at the zero lower bound before the other countries.
+%
+%According to KW, the 10-year term premium estimate for the U.S. has been negative for most of the time since mid-2011, fluctuating between $-1$\% and $0$. Of the advanced countries considered, only Switzerland and Japan have experienced more than one month with a negative term premium, compared to several emerging markets, mainly Korea, Russia and Turkey. In particular, before the taper tantrum there was a tendency of declining term premia for emerging markets, which for some countries actually turned out negative.
+%
+%\subsubsection{Term Structure of Term Premia}
+%In addition to comparing the term premia across countries, one can also compare them across maturities per country. In general, the term premium increases with maturity. As one would expect, when long-term bonds are seen as riskier than short-term bonds, investors would require a higher compensation for holding long-term bonds. This pattern, however, is not universal as can be seen in Figure \ref{fig:temp_ts_tp} in the Appendix, which shows two examples of this, namely Korea and Mexico. Therefore, the exceptions for the general pattern are observed in both emerging and advanced countries since the KW estimates also show that after the Great Recession, the 1-year U.S. term premium has been above the 5- and 10-year term premia at some points.
+%%\footnote{Sometimes, the standard deviation of the term premia increases with maturity.}
+%%	\input{../Figures/Latex/temp_ts_tp}
+%
+%\subsubsection{Common Factors in Term Premia}
+%To see whether there are common factors influencing the term premia in emerging markets, Table \ref{tab:temp_tp_common} shows the proportion of the total variation in the 10-year term premia explained by their first three PCs. To consider all countries, the starting date is December 2006. The first three PCs explain more than $80\%$ of the variation in the term premia of emerging markets and more than $98\%$ for advanced countries. This evidence highlights the importance of considering global factors as drivers of the term premia. But at the same time, the evidence for emerging markets shows that both domestic and common factors seem to be at play as drivers of their term premia.
+%%	\input{../Tables/PC_common_factors}
+%%	\input{../Tables/rp_cmnfctrs}
+%	\input{../Tables/temp_tp_common}
+%
+%\subsubsection{Survey-Based Term Premia}
+%As already mentioned, one way to check the term premia estimates obtained from affine term structure models is to use survey data since long-term surveys of professional forecasters can be used to obtain a model-free estimate of the long-term term premium. Using this approach, the term premium is calculated as the difference between the long-term interest rate and the survey-expectation of the future short-term interest rate over the same horizon. Since the long-term expectations of the policy rate for emerging markets are not provided by Consensus Economics, they are approximated as explained in section \ref{sec:SurveyData}. As it is also explained in that section, given the persistence of bond yields, surveys can also provide information to help in the identification of the term premium.
+% It is important to acknowledge, however, that surveys might not represent the market expectations or the expectations of the marginal investor.
+%
+%Figure \ref{fig:temp_tp10yrSvy} displays the 10-year (long-term) term premium estimated in this way for most of the emerging markets considered in Figure \ref{fig:temp_tp10yrEM}.
+%	\input{../Figures/Latex/temp_tp10yrSvy}
+%
+%With the exception of Brazil during 2012-13, the term premia estimated using survey data are in line with the model-based term premia. In fact, the average correlation between the two is $80.4\%$.\footnote{Even for the term premia calculated using the nominal yield curve, the correlation with the survey-based term premia is equal to $85\%$.} This is reassuring and supports the idea of supplementing the term structure model with survey data to better pin down the term premia in emerging markets, which will in turn provide a more robust decomposition of the nominal yield curve. This will be done in future versions of this paper.
+
+	
+}{}	% Closes \iftoggle{fulldraft}
+
+
+\section{Understanding the Yields of Emerging Markets} \label{sec:analysis}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+\iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
+	\begin{boxeditems}
+		\item Commonalities (TPs, yP, LCCS) all, ST vs LT.
+\end{boxeditems}}{}
+
+This section documents a strong and persistent response of the sovereign yields of emerging markets to U.S. monetary policy shocks. 
+It  also analyzes how each component of the yields reacts to the news, and highlights that the response depends on the type of shock. %information conveyed.
+
+\iftoggle{fulldraft}{					% Turn it on/off in packages.tex
+
 \subsection{Comovement} \label{sec:globalPC}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
@@ -997,84 +1075,7 @@ and are therefore more responsive to local factors.
 %therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
 
 
-%Is There A Non-U.S. Common Factor?
-%%How much the US factor explains TP? Is there a non-US common factor?
-%To assess whether the global factor is associated with U.S. variables, I regress the components of the yield curves of AEs and EMs on the respective components of the U.S. yield curve based on the methodology of \cite{KimWright:2005}.
-%I then perform a PC analysis on the residuals (i.e. the part of a country's term premium orthogonal to the U.S. term premium) to see whether there is a common non-U.S. factor.
-%The expectation of the short rate and the term premium in the U.S. explain around 70\% of the variation---measured by the \(R^2\) statistic---in the respective components of the yield curves in AEs, and around 30\% and 40\%, respectively, for the components of the yields in EMs. 
-%After the GFC, these numbers largely remained for the term premia but declined for expected part.
-%There seems to be a non-U.S. common factor.
-%Again, its relevance is lower for EMs than for AEs.
-%It explains up to 85\% of the variation in the yields of AEs and up to 50\% in the yields of EMs.
-%% explains b/w 50 and 85\% of the variation in yP and TP both ST and LT. These percentages fluctuate b/w 35 and 50\%. 
-%The importance of a non-US factor slightly increased after the GFC.
-
-%\subsection{Term Premia: Nominal or Synthetic Yield Curve?}
-%Affine term structure models are usually estimated using nominal yield curves on the assumption that they are free of default risk. \cite{DuTepperVerdelhan:2018} show that deviations from covered interest parity are non-negligible. Therefore, there is a wedge between the nominal ($\yLCnom$) and synthetic ($\yLCsynt$) yield curves given by the LCCS in the case of emerging markets and by the convenience yield in the case of advanced economies. Does this wedge bias the estimation of term premia? Equivalently, does it matter which curve is used to estimate the term premia? We can answer these questions by fitting the model described in section \ref{sec:ATSM} to both curves and compare the estimates.
-%
-%Table \ref{tab:tp_compare10yr} show the average term premia across groups of countries obtained by using the nominal and the synthetic yield curves. For advanced countries, the difference between the two is less than or equal to 10 basis points on average, while for emerging markets is more than 40 basis points. To assess whether the term premium estimates from the two curves are statistically different from each other, I perform a $t$-test for the equality of means (with unequal variances) between them for each country. The null of equal means is rejected at the $5$\% significance level for all emerging markets except Hungary and Malaysia. However, the null is only rejected for four advanced economies (Australia, Denmark, Japan and New Zealand). This shows that there are gains by using synthetic yield curves to account for credit risk when estimating the term premia, especially for emerging markets.
-%	\input{../Tables/temp_tp_compare}
-%
-%The evidence in tables \ref{tab:decomp10yr} and \ref{tab:tp_compare10yr} shows that, although sometimes used interchangeably, the terms `risk premium' and `term premium' are not the same thing, at least not for emerging markets, since \textit{both} the term premium and the LC credit spread play an important role in the dynamics of the risk premium in the bond yields of emerging economies.
-%
-%\subsection{Stylized Facts of EM Term Premia}
-%I use the U.S. term premium as a benchmark to compare the behavior of the term premia in emerging markets. Two frequently cited estimates of the U.S. term premium are \cite{KimWright:2005} (hence KW) and \cite*{ACM:2013}. Analysis of the estimates of the U.S. term premium shows that: (1) it is time-varying; (2) it has declined over time; (3) its sign changed from positive to negative in recent years; and (4) increases during periods of uncertainty and vice versa. Common explanations for the decline in the U.S. term premium include an increased demand of U.S. assets by global investors, and the effects of the the large-scale asset purchases conducted by the the Federal Reserve in response to the Great Recession. Regarding the change in the sign of the term premium, \cite*{CampbellSunderamViceira:2017} argue that it is explained by a flip in the sign of the correlation between stocks and bonds; when investors changed their perception of bonds as hedges of stock investments, the correlation between the two assets turns negative which drives down the term premium. Finally, the U.S. term premium increased around the onset of the Great Recession (September 2008), the taper tantrum (June 2013), and the 2016 U.S. presidential election (November 2016), while it declined after the first unexpected announcement of the quantitative easing program by the Fed (March 2009) -which was seen as helping to reduce some of the uncertainty at the time-.
-%
-%The 10-year term premia estimates for emerging markets are plotted in Figure \ref{fig:temp_tp10yrEM}. It is worth highlighting some regularities observed in the figure: (1) term premia in emerging markets are time-varying; (2) the estimates are sensible, i.e. they fluctuate between $-1$\% and $+6$\%; (3) there appears to be co-movement in the term premia of some countries; (4) they behave similar to the U.S. term premium around key dates; (5) there is a slight downward trend in the term premia of some countries; (6) the term premia in emerging markets can be negative during some periods, but not to the level seen for the U.S.
-%%\footnote{In fact, inverted yield curves, which may explain this, are common for some of the countries considered.}
-%	\input{../Figures/Latex/temp_tp10yrEM}
-%
-%Special cases include that of Brazil whose term premium turn negative around the Great Recession and that of Russia whose term premium declined considerably. These cases might be reflecting local conditions and deserve further analysis. Consider, for example, the case of Turkey towards the end of the sample, where relevant events in 2018\footnote{On June 24, 2018, Recep Tayyip Erdogan won the presidential election. On October 2, 2018, the journalist Jamal Khashoggi disappeared after he visited the consulate of Saudi Arabia in Istanbul.} translated into a higher term premium.
-%
-% In addition to Brazil, Russia and Turkey, the term premia of most Asian countries has been in negative territory for some period of time. Moreover, with the exception of Brazil and South Africa, the term premia of emerging markets being negative is a phenomenon observed after the Great Recession.
-%
-%%To summarize the figure, Table \ref{tab:rp_stats} shows the mean of the 5-year synthetic yields and summary statistics for the estimated 5-year term premia. The means of the synthetic yields fluctuate between $2.3\%$ and $10.5\%$, while the means of the risk premia fluctuate between $-36$ basis points to $150$ basis points. On average, the term premium represents around $12\%$ of the synthetic 5-year yield. For Indonesia, Russia, South Africa and Turkey the standard deviation of their term premia is relatively high compared to their mean. Philippines and Russia had periods with a really negative term premia in October 2000 and the first half of 2015, respectively; excluding those episodes, the term premium has fluctuated between $-3.5\%$ and $5.5\%$.
-%%	\input{../Tables/rp_5yr_stats}
-%
-%For comparison purposes, Figure \ref{fig:temp_tp10yrAE} shows the 10-year term premia estimates for advanced economies using synthetic yield curves. A clear downward trend is observed for all countries. This is consistent with the empirical evidence that uses nominal yield curves; \cite{Wright:2011} shows a declining trend in term premia for most of these countries going back to the 1990s and argues that it reflects a reduction in inflation uncertainty.
-%	\input{../Figures/Latex/temp_tp10yrAE}
-%
-%Note that although the term premia of most advanced countries seem to reflect a common factor, that of Japan behaves differently probably reflecting the fact that Japan was at the zero lower bound before the other countries.
-%
-%According to KW, the 10-year term premium estimate for the U.S. has been negative for most of the time since mid-2011, fluctuating between $-1$\% and $0$. Of the advanced countries considered, only Switzerland and Japan have experienced more than one month with a negative term premium, compared to several emerging markets, mainly Korea, Russia and Turkey. In particular, before the taper tantrum there was a tendency of declining term premia for emerging markets, which for some countries actually turned out negative.
-%
-%\subsubsection{Term Structure of Term Premia}
-%In addition to comparing the term premia across countries, one can also compare them across maturities per country. In general, the term premium increases with maturity. As one would expect, when long-term bonds are seen as riskier than short-term bonds, investors would require a higher compensation for holding long-term bonds. This pattern, however, is not universal as can be seen in Figure \ref{fig:temp_ts_tp} in the Appendix, which shows two examples of this, namely Korea and Mexico. Therefore, the exceptions for the general pattern are observed in both emerging and advanced countries since the KW estimates also show that after the Great Recession, the 1-year U.S. term premium has been above the 5- and 10-year term premia at some points.
-%%\footnote{Sometimes, the standard deviation of the term premia increases with maturity.}
-%%	\input{../Figures/Latex/temp_ts_tp}
-%
-%\subsubsection{Common Factors in Term Premia}
-%To see whether there are common factors influencing the term premia in emerging markets, Table \ref{tab:temp_tp_common} shows the proportion of the total variation in the 10-year term premia explained by their first three PCs. To consider all countries, the starting date is December 2006. The first three PCs explain more than $80\%$ of the variation in the term premia of emerging markets and more than $98\%$ for advanced countries. This evidence highlights the importance of considering global factors as drivers of the term premia. But at the same time, the evidence for emerging markets shows that both domestic and common factors seem to be at play as drivers of their term premia.
-%%	\input{../Tables/PC_common_factors}
-%%	\input{../Tables/rp_cmnfctrs}
-%	\input{../Tables/temp_tp_common}
-%
-%\subsubsection{Survey-Based Term Premia}
-%As already mentioned, one way to check the term premia estimates obtained from affine term structure models is to use survey data since long-term surveys of professional forecasters can be used to obtain a model-free estimate of the long-term term premium. Using this approach, the term premium is calculated as the difference between the long-term interest rate and the survey-expectation of the future short-term interest rate over the same horizon. Since the long-term expectations of the policy rate for emerging markets are not provided by Consensus Economics, they are approximated as explained in section \ref{sec:SurveyData}. As it is also explained in that section, given the persistence of bond yields, surveys can also provide information to help in the identification of the term premium.
-% It is important to acknowledge, however, that surveys might not represent the market expectations or the expectations of the marginal investor.
-%
-%Figure \ref{fig:temp_tp10yrSvy} displays the 10-year (long-term) term premium estimated in this way for most of the emerging markets considered in Figure \ref{fig:temp_tp10yrEM}.
-%	\input{../Figures/Latex/temp_tp10yrSvy}
-%
-%With the exception of Brazil during 2012-13, the term premia estimated using survey data are in line with the model-based term premia. In fact, the average correlation between the two is $80.4\%$.\footnote{Even for the term premia calculated using the nominal yield curve, the correlation with the survey-based term premia is equal to $85\%$.} This is reassuring and supports the idea of supplementing the term structure model with survey data to better pin down the term premia in emerging markets, which will in turn provide a more robust decomposition of the nominal yield curve. This will be done in future versions of this paper.
-
-	
-}{}	% Closes \iftoggle{fulldraft}
-
-
-\section{U.S. Monetary Policy Spillovers} \label{sec:spillovers}
-\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
-\iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
-	\begin{boxeditems}
-		\item Commonalities (TPs, yP, LCCS) all, ST vs LT.
-\end{boxeditems}}{}
-
-This section documents a strong and persistent response of the sovereign yields of emerging markets to U.S. monetary policy shocks. 
-It  also analyzes how each component of the yields reacts to the news, and highlights that the response depends on the type of shock. %information conveyed.
-
-\iftoggle{fulldraft}{					% Turn it on/off in packages.tex
-
-\subsection{Drivers of Yields} \label{sec:Drivers}
+\subsection{Drivers} \label{sec:Drivers}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 %To what extent US YC is related to EM yield components?
@@ -1158,8 +1159,9 @@ In closing, the yield decompositions provide valuable information on the driving
 Nevertheless, it is important to acknowledge that the model in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as endogeneity as well as the use of persistent the variables.
 These issues are addressed next.
 
+\subsection{Response to U.S. Monetary Policy} %\label{sec:spillovers}
 
-\subsection{U.S. Monetary Policy Shocks}
+\subsubsection{Shocks}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 \cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension since asset prices respond to different types of news about monetary policy.
@@ -1194,7 +1196,7 @@ As a result, target shocks are considered from 2000 to 2008, LSAP shocks are con
 Figure \ref{fig:USmps} plots all three monetary policy shocks.
 
 
-\subsection{The Response of Yields to U.S. Monetary Policy} \label{sec:LPs}
+\subsubsection{Spillovers} \label{sec:LPs}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 The impact of U.S. monetary policy on emerging market yields is estimated using panel local projections for the daily changes in the yields and their components.
@@ -1468,10 +1470,7 @@ Future research paths. Structure of the sovereign bond yield market: core-periph
 %---------------------------------------------------------------
 
 %\newpage
-\begin{landscape}
-	\input{../Tables/tpucsv}
-\end{landscape}
-
+\input{../Tables/tpucsv}
 \input{../Tables/ycdcmp2y}
 \input{../Tables/ycdcmp10y}
 
