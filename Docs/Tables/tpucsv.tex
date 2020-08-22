@@ -1,20 +1,25 @@
-\begin{table}[htbp]\centering
-\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\caption{Term Premia and Inflation Volatility}
-\label{tab:tpucsv}
-\begin{tabular*}{0.8\hsize}{@{\hskip\tabcolsep\extracolsep\fill}l*{10}{c}}
-\toprule
-                    &\multicolumn{1}{c}{3M}&\multicolumn{1}{c}{3M}&\multicolumn{1}{c}{1Y}&\multicolumn{1}{c}{1Y}&\multicolumn{1}{c}{2Y}&\multicolumn{1}{c}{2Y}&\multicolumn{1}{c}{5Y}&\multicolumn{1}{c}{5Y}&\multicolumn{1}{c}{10Y}&\multicolumn{1}{c}{10Y}\\
-\midrule
-UCSV-Perm           &        91.6         &        63.6         &        85.7         &        83.2         &        88.7\sym{*}  &        97.8\sym{**} &       103.1\sym{*}  &       124.2\sym{***}&       121.9\sym{*}  &       151.3\sym{***}\\
-                    &      (62.3)         &      (37.1)         &      (43.4)         &      (38.6)         &      (34.5)         &      (31.7)         &      (35.1)         &      (23.5)         &      (41.5)         &      (23.0)         \\
-\addlinespace
-GDP Growth          &                     &       -1.73         &                     &       -2.62         &                     &       -1.91         &                     &       -2.14         &                     &       -3.97         \\
-                    &                     &      (1.56)         &                     &      (3.06)         &                     &      (3.16)         &                     &      (2.90)         &                     &      (3.23)         \\
-\midrule
-Observations        &         870         &         796         &         870         &         796         &         870         &         796         &         870         &         796         &         870         &         796         \\
-\(R^{2}\)           &        0.04         &        0.02         &        0.04         &        0.03         &        0.05         &        0.05         &        0.10         &        0.11         &        0.11         &        0.15         \\
-\bottomrule
-\multicolumn{11}{l}{\footnotesize Note: Variables in basis points.}\\
-\end{tabular*}
-\end{table}
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+%\usepackage[margin=1in]{geometry}
+%\input{../Settings/macros}
+
+\begin{document}
+	\begin{normalsize}
+		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Term Premia and Inflation Volatility} \label{tab:tpucsv}
+					\begin{threeparttable}
+						\estauto{../Tables/f_tpucsv.tex}{10}
+						\tabnote{This table reports the slope coefficients of panel data regressions of the model-implied term premia for different maturities on the standard deviation of the permanent component of inflation according to the UCSV model (UCSV-Perm) and GDP growth. The frequency of the data is quarterly. The sample period goes from 2000:I to 2018:IV. The term premia is expressed in basis points. GDP growth is expressed in percent. All cases include country fixed effects. Heteroskedasticity and autocorrelation consistent standard errors are in parenthesis. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+		\end{landscape}
+	\end{normalsize}
+\end{document}
