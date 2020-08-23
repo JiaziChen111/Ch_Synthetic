@@ -532,7 +532,8 @@ Figure \ref{fig:wnCPI}
 %and \ref{fig:wnGDP} respectively 
 plots the long-horizon forecasts for inflation.
 % and real GDP growth.
-With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see appendix \ref{sec:trendinf} for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band are the highest and lowest bounds since 2009.}
+With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.
+%\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see appendix \ref{sec:trendinf} for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band are the highest and lowest bounds since 2009.}
 Notice that the 5-year ahead and long-term forecasts are highly correlated.
 % for both inflation and GDP growth.
 %Meanwhile, for half of the EMs in the sample, there is a declining trend in their expected real GDP growth. 
@@ -1023,10 +1024,11 @@ A more formal way to answer the question is to measure the degree of connectedne
 %based on forecast error variance decompositions.
 %Their methodology 
 that assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere.
-Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I obtain the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the 10-year nominal yields 
+Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I obtain the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of the 10-year nominal yields 
 %of the emerging markets in the sample 
-and each of its components.
-Figure \ref{fig:dyindex10y} displays the connectedness index for emerging and advanced countries.\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
+and each of their components.
+Figure \ref{fig:dyindex10y} displays the connectedness index for emerging and advanced countries.
+%\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
 The index for emerging markets (figure \ref{subfig:dyindex10yEM}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
 Notably, it spiked above 55\% around the taper tantrum episode in 2013.\footnote{ During the episode, financial markets feared an earlier than expected withdrawal of the Fed's unconventional stimulus measures.} %and remained elevated for about a year.
 The second biggest spike %in the index 
@@ -1161,7 +1163,7 @@ These issues are addressed next.
 
 \subsection{Response to U.S. Monetary Policy} %\label{sec:spillovers}
 
-\subsubsection{Shocks}
+\subsubsection{Shocks} \label{sec:USMPS}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 \cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension since asset prices respond to different types of news about monetary policy.
@@ -1193,7 +1195,7 @@ After 2008 the target shocks are essentially zero, since then there was no surpr
 By contrast, the meaning of LSAP shocks is unclear before 2008.
 Path shocks, nevertheless, have been relevant before and after the GFC.
 As a result, target shocks are considered from 2000 to 2008, LSAP shocks are considered starting in 2009, and path shocks span the whole sample period.
-Figure \ref{fig:USmps} plots all three monetary policy shocks.
+%Figure \ref{fig:USmps} plots all three monetary policy shocks.
 
 
 \subsubsection{Spillovers} \label{sec:LPs}
