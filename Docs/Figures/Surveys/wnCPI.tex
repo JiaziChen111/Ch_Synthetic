@@ -6,15 +6,30 @@
 %\usepackage{subcaption}
 
 \begin{document}
-
 \begin{figure}[tbph]
-	\begin{center}
-		\caption{Long-Horizon Forecasts of Inflation}
-		\label{fig:wnCPI}
-		\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=1\textheight,width=1.4\textwidth]{../Figures/Surveys/wnCPI.eps} \\
+\caption{Long-Horizon Forecasts of Inflation} \label{fig:wnCPI}
+\begin{center}								% center the minipage on the line
+	\begin{minipage}{0.9\linewidth}
+	\begin{center}							% center the figure inside the minipage
+	\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.9\textheight,width=\linewidth]{../Figures/Surveys/wnCPI.eps} \\
 	\end{center}
-	% trim = {<left> <lower> <right> <upper>}
-%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
+	\fignotes{details.}
+	\end{minipage}
+\end{center}
 \end{figure}
-
 \end{document}
+% trim = {<left> <lower> <right> <upper>}
+
+%
+%\begin{document}
+%	\begin{figure}[tbph]
+%		\begin{center}
+%			\caption{Long-Horizon Forecasts of Inflation} \label{fig:wnCPI}
+%			%		\begin{minipage}{\textwidth}
+%			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.9\textheight,width=1.4\textwidth]{../Figures/Surveys/wnCPI.eps} \\
+%			%		\fignotes{details.}
+%			%		\end{minipage}
+%		\end{center}
+%		\fignotes{details.}
+%	\end{figure}
+%\end{document}
