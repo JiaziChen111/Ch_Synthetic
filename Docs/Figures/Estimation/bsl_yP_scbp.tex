@@ -6,15 +6,16 @@
 %\usepackage{subcaption}
 
 \begin{document}
-
-\begin{figure}[tbph]
-	\begin{center}
-		\caption{Interest Rate Forecasts vs Model-Implied Expectation: 10-Year Yields}
-		\label{fig:bsl_yP_scbp}
-		\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=1\textheight,width=1.4\textwidth]{../Figures/Estimation/bsl_yP_scbp.eps} \\
-	\end{center}
-	% trim = {<left> <lower> <right> <upper>}
-%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
-\end{figure}
-
+	\begin{figure}[tbph]
+		\caption{Long Horizon Forecasts vs Model-Implied 10-Year Expectation of the Short Rate} \label{fig:bsl_yP_scbp}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.86\textheight,width=\linewidth]{../Figures/Estimation/bsl_yP_scbp.eps} \\
+				\end{center}
+				\fignotes{This figure plots the long-horizon forecast of the domestic short-term interest rate (asterisk) and the model-implied 10-year expectation of the short-term interest rate (solid line).}
+			\end{minipage}
+		\end{center}
+	\end{figure}
 \end{document}
+% trim = {<left> <lower> <right> <upper>}

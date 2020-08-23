@@ -6,15 +6,16 @@
 %\usepackage{subcaption}
 
 \begin{document}
-
-\begin{figure}[tbph]
-	\begin{center}
-		\caption{Term Structure of Term Premia}
-		\label{fig:bsl_tp_ts}
-		\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=1\textheight,width=1.4\textwidth]{../Figures/Estimation/bsl_tp_ts.eps} \\
-	\end{center}
-	% trim = {<left> <lower> <right> <upper>}
-%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
-\end{figure}
-
+	\begin{figure}[tbph]
+		\caption{Term Structure of Term Premia} \label{fig:bsl_tp_ts}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.86\textheight,width=\linewidth]{../Figures/Estimation/bsl_tp_ts.eps} \\
+				\end{center}
+				\fignotes{This figure plots the estimated term premia for 1 year (solid line), 5 years (dashed line) and 10 years (dash-dotted line).}
+			\end{minipage}
+		\end{center}
+	\end{figure}
 \end{document}
+% trim = {<left> <lower> <right> <upper>}
