@@ -192,8 +192,10 @@
 % Notes after figures following Jörg Weber
 \newcommand{\figtext}[1]{
 	\vspace{-1ex}
-	\captionsetup{justification=raggedright,singlelinecheck=false,font=footnotesize}
-	\caption*{\hspace{6pt}\hangindent=1.5em #1}
+	\captionsetup{justification=justified,font=footnotesize}
+	\caption*{#1}
+%	\captionsetup{justification=raggedright,singlelinecheck=false,font=footnotesize}
+%	\caption*{\hspace{6pt}\hangindent=1.5em #1}
 }
 
 \newcommand{\fignote}[1]{\figtext{\emph{Note:~}~#1}}
