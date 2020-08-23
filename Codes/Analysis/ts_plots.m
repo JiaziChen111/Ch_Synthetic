@@ -135,7 +135,7 @@ for k0 = 1:length(macrovr)
             plot(S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end),...
                 S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end-1),'-.');
             title(S(k1).cty);
-            if k1 == 13; legend({'10Y','5Y'},'Location','southwest','AutoUpdate','off'); end
+            if k1 == 12; legend({'LT','5Y'},'Location','southwest','AutoUpdate','off'); end
             datetick('x','yy'); ylim([0 8]);
             L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))     % sets #ticks to 4
             if strcmp(macrovr{k0},'CPI')
@@ -399,7 +399,7 @@ fldname = {'ms_blncd','bsl_yQ'};
 for k0 = 1:nEMs
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100);    % 10Y
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'-.');    % 10Y
     title(S(k0).cty)
     if k0 == 15
         legend('Actual','Fitted','location','southeast','AutoUpdate','off')
@@ -414,7 +414,7 @@ fldname = {'ds_blncd','d_yQ'};
 for k0 = 1:nEMs
     subplot(3,5,k0)
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100);    % 10Y
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'-.');    % 10Y
     title(S(k0).cty)
     if k0 == 8
         legend('Observed','Fitted','location','best','AutoUpdate','off')
