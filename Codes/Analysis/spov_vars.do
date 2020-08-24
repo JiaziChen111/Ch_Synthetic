@@ -63,6 +63,12 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
 }
 
 
+* Generate first differences
+foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
+	gen d`v' = d.`v'
+}
+
+
 * x-axis and zero line
 gen days = _n-1 if _n <= 90 +1
 gen zero = 0 	if _n <= 90 +1
