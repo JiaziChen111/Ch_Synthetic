@@ -63,9 +63,9 @@ foreach shock in mp1 path lsap {
 				}			// horizon
 				
 				// graph
-				twoway 	(line ll1_`v'`t'm days, lcolor(black) lpattern(dash)) ///
-						(line ul1_`v'`t'm days, lcolor(black) lpattern(dash)) ///
-						(line b_`v'`t'm days, lcolor(black) lpattern(solid) lwidth(thick)) /// 
+				twoway 	(line ll1_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
+						(line ul1_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
+						(line b_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
 				title(`: variable label `v'`t'm', color(black) size(medium)) ///
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) ylabel(-2(1)2) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
