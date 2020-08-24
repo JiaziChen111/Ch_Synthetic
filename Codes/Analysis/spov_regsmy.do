@@ -36,7 +36,18 @@ global x1 logvix epugbl globalip rtfx rtspx rtoil
 global x2 inf une $x1
 
 
-* Panel regressions
+* Label variables for use in figures and tables
+#delimit ;
+unab oldlabels : ustp* usyp*;
+local newlabels `" "US TP" "US TP" "US TP" "US TP" "US ER" "US ER" "US ER" "US ER" "';
+#delimit cr
+local nlbls : word count `oldlabels'
+forvalues i = 1/`nlbls' {
+	local a : word `i' of `oldlabels'
+	local b : word `i' of `newlabels'
+	label variable `a' "`b'"
+}
+
 
 * ------------------------------------------------------------------------------
 * Table: TP and UCSV

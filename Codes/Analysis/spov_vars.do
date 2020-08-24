@@ -95,10 +95,14 @@ label variable regionae "AE Blocks"
 unab oldlabels : mp1 path lsap sdprm gdp inf une 
 				 epugbl globalip nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
 local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." 
-	"EPU" "Global IP" "YLD" "YLD" "YLD" "YLD" "YLD" "YLD" "SYNT" "SYNT" "SYNT" 
-	"SYNT" "SYNT" "SYNT" "FWD" "FWD" "FWD" "FWD" "FWD" "FWD" "CRP" "CRP" "CRP" "CRP" "CRP" "CRP" 
-	"ER" "ER" "ER" "ER" "ER" "ER" "TP" "TP" "TP" "TP" "TP" "TP" "US YLD" "US YLD" "US YLD" 
-	 "US YLD" "US YLD" "US YLD" "US TP" "US TP" "US TP" "US TP" "US ER" "US ER" "US ER" "US ER" "';
+	"Global EPU" "Global IP" "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
+	"Synthetic" "Synthetic" "Synthetic" "Synthetic" "Forward Premium" "Forward Premium" "Forward Premium" 
+	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk P." "Credit Risk P." 
+	"Credit Risk P." "Credit Risk P." "Credit Risk P." "E. Short Rate" "E. Short Rate" "E. Short Rate" 
+	"E. Short Rate" "E. Short Rate" "E. Short Rate" "Term Premium" "Term Premium" "Term Premium" 
+	"Term Premium" "Term Premium" "Term Premium" "Yield" "Yield" "Yield" 
+	"Yield" "Yield" "Yield" "Term Premium" "Term Premium" "Term Premium" "Term Premium" 
+	"Expected Short Rate" "Expected Short Rate" "Expected Short Rate" "Expected Short Rate" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {
