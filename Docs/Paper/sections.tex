@@ -1204,9 +1204,9 @@ As a result, target shocks are considered from 2000 to 2008, LSAP shocks are con
 The impact of U.S. monetary policy on emerging market yields is estimated using panel local projections for the daily changes in the yields and their components.
 These regressions are useful to understand not only how the yields respond to the policy surprise at the time of the shock but over subsequent periods, see \cite{HofmannShimShin:2019} and \cite{ACDM:2019} for recent applications.
 
-Following \cite{Jorda:2005} and \cite{ACDM:2019}, the panel local projections are:
+Following \cite{Jorda:2005}, the panel local projections are:
 	\input{../Equations/nPanelLP}	% \ref{eq:nPanelLP}
-\noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 90\),  \(\alpha_{\idxi}\) is a country fixed effect, \(\epsilon_{\idxt}\) represents a type of monetary policy shock, \(\fx_{\idxspnllag}\) is a one-day lag of the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
+\noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 90\),  \(\alpha_{\idxh,\idxi}\) is a country fixed effect, \(\epsilon_{\idxt}\) represents a type of monetary policy shock, \(\fx_{\idxspnllag}\) is a one-day lag of the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
 The regressions are done for the 2- and 10-year yields and each of their components (the expected short rate, the term premium and the credit risk premium) for every type of monetary policy shock.\footnote{ By definition, the shocks are unanticipated by the market and thus there is no need to control for past or future shocks. Also, by construction, the shocks are not correlated among themselves so, there is no need to control for the other types of shocks.}
 
 The parameters of interest, \(\beta_{\idxh}\), measure the average response of the yield (or one of its components) to a monetary policy shock at a particular horizon.
