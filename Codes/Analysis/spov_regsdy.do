@@ -32,6 +32,7 @@ foreach shock in mp1 path lsap {
 		}
 		
 		foreach t in 24 120 { // 3 6 12 24 60 120  {
+			local ty = `t'/12
 			foreach v in `vars' {
 			
 				// variables to store the betas, standard errors and confidence intervals
@@ -104,4 +105,4 @@ foreach shock in mp1 path lsap {
 	}					// `group' AE or EM
 }						// `shock'
 
-// title(`t'm, color(black) size(medium))									// for version
+// title(`ty'Y, color(black) size(medium))									// for rho version
