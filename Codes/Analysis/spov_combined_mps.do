@@ -12,7 +12,7 @@ replace lsap = 0 if date <  td(1jan2009)
 local horizon = 90	// in days
 local maxlag  = 1
 
-foreach group in 0 1 {
+foreach group in 1 { // 0 1 {
 	if `group' == 0 {
 		local grp "AE"
 		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
@@ -33,7 +33,6 @@ foreach group in 0 1 {
 			
 			foreach shock in mp1 path lsap {
 				gen b_`shock'_`v'`t'm   = .
-				gen se_`shock'_`v'`t'm  = .
 				gen ll1_`shock'_`v'`t'm = .
 				gen ul1_`shock'_`v'`t'm = .
 			}	// `shock'
@@ -65,7 +64,6 @@ foreach group in 0 1 {
 				
 				foreach shock in mp1 path lsap {
 					replace b_`shock'_`v'`t'm  = _b[`shock'] if _n == `i'+1
-					replace se_`shock'_`v'`t'm = _se[`shock'] if _n == `i'+1
 					
 					// confidence intervals
 					matrix R = r(table)
@@ -77,8 +75,13 @@ foreach group in 0 1 {
 				}
 			}			// `i' horizon
 
-			
+			local j = 0
 			foreach shock in mp1 path lsap {
+				local ++j
+				if `j' == 1 local shk "Target"
+				if `j' == 2 local shk "Path"
+				if `j' == 3 local shk "LSAP"
+			
 				// graph
 				twoway 	(line ll1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
 						(line ul1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
@@ -89,14 +92,16 @@ foreach group in 0 1 {
 				title(`: variable label `v'`t'm', color(black) size(medium))
 // 				title(`ty'Y, color(black) size(medium))						// for rho version
 
-// 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
+				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
 
 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
 // 				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
 			}	// `shock'
 
-			drop *_`v'`t'm				// b_, se_ and confidence intervals
+			drop *_`v'`t'm				// b_ and confidence intervals
 		}			// `v' yield component
+	
+	
 	
 	local j = 0
 	foreach shock in mp1 path lsap {
@@ -108,6 +113,10 @@ foreach group in 0 1 {
 		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
 	}	// `shock'
 	graph drop _all
+	
+	
+	
+	
 	}				// `t' tenor
 
 // 		local j = 0															// for rho version
@@ -120,4 +129,5 @@ foreach group in 0 1 {
 // 			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
 // 		}	// `shock'
 // 		graph drop _all
+
 }					// `group' AE or EM
