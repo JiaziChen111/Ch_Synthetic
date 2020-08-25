@@ -15,12 +15,12 @@ local maxlag  = 1
 foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
-		local vars rho // nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
+		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
 		local region regionae
 	}
 	else {
 		local grp "EM"
-		local vars rho // nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi	// rho
+		local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi	// rho
 		local region regionem
 	}
 	
@@ -86,38 +86,38 @@ foreach group in 0 1 {
 						(line zero days, lcolor(black)), ///
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
 				graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
-				title(`ty'Y, color(black) size(medium))						// for rho version
-				// 				title(`: variable label `v'`t'm', color(black) size(medium))
+				title(`: variable label `v'`t'm', color(black) size(medium))
+// 				title(`ty'Y, color(black) size(medium))						// for rho version
 
 // 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
 
-// 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
-				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
+				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
+// 				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
 			}	// `shock'
 
 			drop *_`v'`t'm				// b_, se_ and confidence intervals
 		}			// `v' yield component
 	
-// 	local j = 0
-// 	foreach shock in mp1 path lsap {
-// 		local ++j
-// 		if `j' == 1 local shk "Target"
-// 		if `j' == 2 local shk "Path"
-// 		if `j' == 3 local shk "LSAP"
-// 		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-// 		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
-// 	}	// `shock'
-// 	graph drop _all
+	local j = 0
+	foreach shock in mp1 path lsap {
+		local ++j
+		if `j' == 1 local shk "Target"
+		if `j' == 2 local shk "Path"
+		if `j' == 3 local shk "LSAP"
+		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
+		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
+	}	// `shock'
+	graph drop _all
 	}				// `t' tenor
 
-		local j = 0															// for rho version
-		foreach shock in mp1 path lsap {
-			local ++j
-			if `j' == 1 local shk "Target"
-			if `j' == 2 local shk "Path"
-			if `j' == 3 local shk "LSAP"
-			graph combine `graphs`shock'`grp'', rows(1) ycommon
-			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
-		}	// `shock'
-		graph drop _all
+// 		local j = 0															// for rho version
+// 		foreach shock in mp1 path lsap {
+// 			local ++j
+// 			if `j' == 1 local shk "Target"
+// 			if `j' == 2 local shk "Path"
+// 			if `j' == 3 local shk "LSAP"
+// 			graph combine `graphs`shock'`grp'', rows(1) ycommon
+// 			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
+// 		}	// `shock'
+// 		graph drop _all
 }					// `group' AE or EM
