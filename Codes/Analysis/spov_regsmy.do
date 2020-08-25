@@ -20,16 +20,11 @@ foreach v of varlist vix spx oil fx stx epugbl globalip {
     gen log`v' = ln(`v')
 	by $idm: gen rt`v' = (log`v' - log`v'[_n-1])*10000
 }
-// drop log*
 
 
 * Define variables
 global x0 sdprm
-// global x1 vix epugbl globalip rtfx rtspx rtoil
-// global x1 vix epugbl rtglobalip rtfx rtspx rtoil
-// global x1 rtvix rtepugbl rtglobalip rtfx rtspx rtoil
-// global x1 logvix epugbl globalip rtfx rtspx rtoil
-global x1 logvix logepugbl globalip rtfx rtspx rtoil
+global x1 logvix logepugbl globalip rtfx rtspx rtoil	// vix epugbl globalip	// vix epugbl rtglobalip	// rtvix rtepugbl rtglobalip
 global x2 inf une $x1
 
 
