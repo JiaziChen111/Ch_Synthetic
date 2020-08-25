@@ -84,12 +84,13 @@ foreach shock in mp1 path lsap {
 						(line ul1_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
 						(line b_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
-				title(`: variable label `v'`t'm', color(black) size(medium)) ///
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
-				graphregion(color(white)) plotregion(color(white)) ///
-				legend(off) name(`v'`t'm, replace)
-// 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
+				graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
+				title(`: variable label `v'`t'm', color(black) size(medium))
+// 				title(`ty'Y, color(black) size(medium))						// for rho version
 				
+// 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
+
 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
 // 				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
 				drop *_`v'`t'm				// b_, se_ and confidence intervals
@@ -104,5 +105,3 @@ foreach shock in mp1 path lsap {
 // 		graph drop _all
 	}					// `group' AE or EM
 }						// `shock'
-
-// title(`ty'Y, color(black) size(medium))									// for rho version
