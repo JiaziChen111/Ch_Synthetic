@@ -118,3 +118,6 @@ erase $file_log.smcl
 // Tables Stata to Latex
 // https://asjadnaqvi.com/stata-to-latex-part-1/
 // https://www.jwe.cc/2012/03/stata-latex-tables-estout/
+
+// Driscoll-Kray standard errors
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/1566497-xtscc-error-too-many-values-r-134
