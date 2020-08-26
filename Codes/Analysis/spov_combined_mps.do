@@ -12,7 +12,7 @@ replace lsap = 0 if date <  td(1jan2009)
 local horizon = 90	// in days
 local maxlag  = 1
 
-foreach group in 1 { // 0 1 {
+foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
 		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
@@ -75,14 +75,18 @@ foreach group in 1 { // 0 1 {
 				}
 			}			// `i' horizon
 
-			local j = 0
-			foreach shock in mp1 path lsap {
-				local ++j
-				if `j' == 1 local shk "Target"
-				if `j' == 2 local shk "Path"
-				if `j' == 3 local shk "LSAP"
-			
-				// graph
+		}			// `v' yield component
+	
+		// graphs
+		local j = 0
+		foreach shock in mp1 path lsap {
+			local ++j
+			if `j' == 1 local shk "Target"
+			if `j' == 2 local shk "Path"
+			if `j' == 3 local shk "LSAP"
+		
+			foreach v in `vars' {
+				
 				twoway 	(line ll1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
 						(line ul1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
 						(line b_`shock'_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
@@ -92,32 +96,20 @@ foreach group in 1 { // 0 1 {
 				title(`: variable label `v'`t'm', color(black) size(medium))
 // 				title(`ty'Y, color(black) size(medium))						// for rho version
 
-				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
+// 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
 
 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
 // 				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
-			}	// `shock'
+				drop *_`shock'_`v'`t'm				// b_ and confidence intervals
+			}	// `v' yield component
 
-			drop *_`v'`t'm				// b_ and confidence intervals
-		}			// `v' yield component
+			graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
+			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
+			graph drop _all
+			
+		}		// `shock'
 	
-	
-	
-	local j = 0
-	foreach shock in mp1 path lsap {
-		local ++j
-		if `j' == 1 local shk "Target"
-		if `j' == 2 local shk "Path"
-		if `j' == 3 local shk "LSAP"
-		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
-	}	// `shock'
-	graph drop _all
-	
-	
-	
-	
-	}				// `t' tenor
+	}			// `t' tenor
 
 // 		local j = 0															// for rho version
 // 		foreach shock in mp1 path lsap {
@@ -130,4 +122,4 @@ foreach group in 1 { // 0 1 {
 // 		}	// `shock'
 // 		graph drop _all
 
-}					// `group' AE or EM
+}				// `group' AE or EM
