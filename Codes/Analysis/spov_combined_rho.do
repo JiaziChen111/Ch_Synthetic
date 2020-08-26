@@ -8,8 +8,8 @@ replace mp1  = 0 if date >= td(1jan2009)
 replace lsap = 0 if date <  td(1jan2009)
 
 * Define local variables
-local xtcmd xtreg			// xtscc
-local xtopt fe level(90) cluster($id)	// fe level(90) lag(4)
+local xtcmd xtscc				// xtreg
+local xtopt fe level(90) lag(4)	// fe level(90) cluster($id)
 local horizon = 90	// in days
 local maxlag  = 1
 local vars rho
