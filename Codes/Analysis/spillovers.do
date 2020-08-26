@@ -1,8 +1,8 @@
-/* Code for 'Spillovers of U.S. Monetary Policy to Emerging Market Sovereign Yields' 
-by Pavel Solís, July 2020
+/* Code for 'Sovereign Yields with Credit Risk and U.S. Monetary Policy' 
+by Pavel Solís, August 2020
 
-This code uses local projections to estimate the reponse of the bond yields of
-emerging markets to a 1 basis point change in the the target, path and LSAP shocks */
+This code uses local projections to estimate the reponse of emerging market bond
+yields to a 1 basis point change in the the target, path and LSAP shocks */
 * ==============================================================================
 
 
@@ -32,15 +32,15 @@ do "$pathcode/spov_read"
 do "$pathcode/spov_vars"
 use $file_dta2, clear
 
-
 * ------------------------------------------------------------------------------
 * Analysis
 * ------------------------------------------------------------------------------
 log using $file_log, replace
-// do "$pathcode/spov_pre"
-// do "$pathcode/spov_regsdy"
-// do "$pathcode/spov_regsmy"
-do "$pathcode/lp_usyc"
+do "$pathcode/spov_pre"
+do "$pathcode/spov_combined_group"
+do "$pathcode/spov_combined_rho"
+do "$pathcode/spov_combined_usyc"
+do "$pathcode/spov_drivers"
 log close
 translate $file_log.smcl $file_log.pdf, replace
 erase $file_log.smcl
