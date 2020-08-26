@@ -1,13 +1,13 @@
 * ==============================================================================
 * Local projections
 * ==============================================================================
-
 use $file_dta2, clear
 
 * Adjust target and LSAP shocks
 replace mp1  = 0 if date >= td(1jan2009)
 replace lsap = 0 if date <  td(1jan2009)
 
+* Define local variables
 local xtcmd xtreg			// xtscc
 local xtopt cluster($id)	//lag(4)
 local horizon = 90	// in days
@@ -16,12 +16,12 @@ local maxlag  = 1
 foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
-		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
+		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
 		local region regionae
 	}
 	else {
 		local grp "EM"
-		local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi	// rho
+		local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi
 		local region regionem
 	}
 	
@@ -38,7 +38,7 @@ foreach group in 0 1 {
 			}
 			
 			// controls
-			local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx	// l(2).`v'`t'm l(1).fx
+			local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
 			
 			forvalues i = 0/`horizon' {
 				// response variables
@@ -89,9 +89,7 @@ foreach group in 0 1 {
 				title(`: variable label `v'`t'm', color(black) size(medium))
 
 // 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
-
 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
-				
 				drop *_`shock'_`v'`t'm				// b_ and confidence intervals
 			}	// `v' yield component
 
