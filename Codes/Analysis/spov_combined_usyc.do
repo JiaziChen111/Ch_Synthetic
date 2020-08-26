@@ -13,18 +13,7 @@ local xtopt robust level(90)	// fe level(90) cluster($id)	// fe level(90) lag(4)
 local horizon = 90	// in days
 local maxlag  = 1
 
-// foreach group in 0 1 {
-// 	if `group' == 0 {
-// 		local grp "AE"
-// 		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
-// 		local region regionae
-// 	}
-// 	else {
-// 		local grp "EM"
-// 		local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi
-// 		local region regionem
-// 	}
-local grp "CHF" // `group'
+local grp "CHF"
 local vars usyc usyp ustp
 	
 	foreach t in 24 120 { // 3 6 12 24 60 120  {
@@ -49,12 +38,6 @@ local vars usyc usyp ustp
 				
 				// conditions
 				local condition cty == "`grp'"
-				
-// 					// test for cross-sectional independence
-// 					if inlist(`i',0) { 
-// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe	//  & fomc
-// 						xtcsd, pesaran abs
-// 					}
 				
 				// one regression for each horizon
 				if `i' == 0 `xtcmd' `v'`t'm`i' mp1 path lsap `ctrl`v'`t'm' if `condition', `xtopt' 			// report on-impact effect
@@ -100,6 +83,4 @@ local vars usyc usyp ustp
 			graph export $pathfigs/LPs/`shk'/CTY/`shk'USDnomyptp`t'm.eps, replace
 			graph drop _all
 		}		// `shock'
-		
 	}			// `t' tenor
-// }				// `group' AE or EM
