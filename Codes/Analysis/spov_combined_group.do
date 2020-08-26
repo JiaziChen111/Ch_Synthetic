@@ -1,5 +1,5 @@
 * ==============================================================================
-* Local projections
+* Local projections: AE and EM
 * ==============================================================================
 use $file_dta2, clear
 
@@ -26,9 +26,10 @@ foreach group in 0 1 {
 	}
 	
 	foreach t in 24 120 { // 3 6 12 24 60 120  {
+		// regressions
 		foreach v in `vars' {
 		
-			// variables to store the betas, standard errors and confidence intervals
+			// variables to store the betas and confidence intervals
 			capture {
 			foreach shock in mp1 path lsap {
 				gen b_`shock'_`v'`t'm   = .
@@ -97,5 +98,6 @@ foreach group in 0 1 {
 			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
 			graph drop _all
 		}		// `shock'
+		
 	}			// `t' tenor
 }				// `group' AE or EM

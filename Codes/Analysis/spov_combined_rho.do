@@ -1,34 +1,34 @@
 * ==============================================================================
-* Local projections
+* Local projections: Forward premium
 * ==============================================================================
-
 use $file_dta2, clear
 
 * Adjust target and LSAP shocks
 replace mp1  = 0 if date >= td(1jan2009)
 replace lsap = 0 if date <  td(1jan2009)
 
+* Define local variables
 local xtcmd xtreg			// xtscc
 local xtopt cluster($id)	//lag(4)
 local horizon = 90	// in days
 local maxlag  = 1
+local vars rho
 
 foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
-		local vars rho
 		local region regionae
 	}
 	else {
 		local grp "EM"
-		local vars rho
 		local region regionem
 	}
 	
+	// regressions
 	foreach t in 24 120 { // 3 6 12 24 60 120  {
 		foreach v in `vars' {
 		
-			// variables to store the betas, standard errors and confidence intervals
+			// variables to store the betas and confidence intervals
 			capture {
 			foreach shock in mp1 path lsap {
 				gen b_`shock'_`v'`t'm   = .
@@ -64,58 +64,37 @@ foreach group in 0 1 {
 				}
 			}			// `i' horizon
 		}			// `v' yield component
-	
 	}			// `t' tenor
 	
-	
-			// graphs
-		local j = 0
-		foreach shock in mp1 path lsap {
-			local ++j
-			if `j' == 1 local shk "Target"
-			if `j' == 2 local shk "Path"
-			if `j' == 3 local shk "LSAP"
+	// graphs
+	local j = 0
+	foreach shock in mp1 path lsap {
+		local ++j
+		if `j' == 1 local shk "Target"
+		if `j' == 2 local shk "Path"
+		if `j' == 3 local shk "LSAP"
 		
-
-			foreach t in 24 120 { // 3 6 12 24 60 120  {
-				local ty = `t'/12
-				foreach v in `vars' {
-				twoway 	(line ll1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
-						(line ul1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
-						(line b_`shock'_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
-						(line zero days, lcolor(black)), ///
-				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
-				graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
-				title(`ty' Years, color(black) size(medium))				// for rho version
+		foreach t in 24 120 { // 3 6 12 24 60 120  {
+			local ty = `t'/12
+			foreach v in `vars' {
+			twoway 	(line ll1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
+					(line ul1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
+					(line b_`shock'_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
+					(line zero days, lcolor(black)), ///
+			ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
+			graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
+			title(`ty' Years, color(black) size(medium))				// for rho version
 
 // 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
-
-// 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
-				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
-				
-				drop *_`shock'_`v'`t'm				// b_ and confidence intervals
-				}	// `v' yield component
-			}	// `t' tenor
-
-// 			graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-// 			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'`t'm.eps, replace
-			graph combine `graphs`shock'`grp'', rows(1) ycommon				// for rho version
-			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
+			local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
 			
-			graph drop _all
-			
-		}		// `shock'
+			drop *_`shock'_`v'`t'm				// b_ and confidence intervals
+			}	// `v' yield component
+		}	// `t' tenor
+
+		graph combine `graphs`shock'`grp'', rows(1) ycommon				// for rho version
+		graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
+		graph drop _all
+	}		// `shock'
 	
-
-// 		local j = 0															// for rho version
-// 		foreach shock in mp1 path lsap {
-// 			local ++j
-// 			if `j' == 1 local shk "Target"
-// 			if `j' == 2 local shk "Path"
-// 			if `j' == 3 local shk "LSAP"
-// 			graph combine `graphs`shock'`grp'', rows(1) ycommon
-// 			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'rho.eps, replace
-// 		}	// `shock'
-// 		graph drop _all
-
 }				// `group' AE or EM
