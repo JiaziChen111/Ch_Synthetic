@@ -9,7 +9,7 @@ replace lsap = 0 if date <  td(1jan2009)
 
 * Define local variables
 local xtcmd xtreg			// xtscc
-local xtopt cluster($id)	//lag(4)
+local xtopt fe level(90) cluster($id)	// fe level(90) lag(4)
 local horizon = 90	// in days
 local maxlag  = 1
 local vars rho
@@ -48,8 +48,8 @@ foreach group in 0 1 {
 				local condition em == `group' //	& `datecond' & `region' == 4
 				
 				// one regression for each horizon
-				if `i' == 0 `xtcmd' `v'`t'm`i' mp1 path lsap `ctrl`v'`t'm' if `condition', fe level(90) `xtopt' 			// report on-impact effect
-				quiet `xtcmd' `v'`t'm`i' mp1 path lsap `ctrl`v'`t'm' if `condition', fe level(90) `xtopt'
+				if `i' == 0 `xtcmd' `v'`t'm`i' mp1 path lsap `ctrl`v'`t'm' if `condition', `xtopt'	// on-impact effect
+				quiet `xtcmd' `v'`t'm`i' mp1 path lsap `ctrl`v'`t'm' if `condition', `xtopt'
 
 				capture {				
 				foreach shock in mp1 path lsap {
