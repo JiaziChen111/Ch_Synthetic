@@ -88,12 +88,10 @@ foreach group in 1 { // 0 1 {
 				ytitle("Basis Points", size(medsmall)) xtitle("Days", size(medsmall)) xlabel(0 15 30 45 60 75 90, nogrid) ylabel(, nogrid) ///
 				graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
 				title(`: variable label `v'`t'm', color(black) size(medium))
-// 				title(`ty' Years, color(black) size(medium))				// for rho version
 
 // 				graph export $pathfigs/LPs/`shk'/`grp'/`v'`t'm.eps, replace
 
 				local graphs`shock'`grp'`t' `graphs`shock'`grp'`t'' `v'`t'm
-// 				local graphs`shock'`grp' `graphs`shock'`grp'' `v'`t'm		// for rho version
 				
 				drop *_`shock'_`v'`t'm				// b_ and confidence intervals
 			}	// `v' yield component
