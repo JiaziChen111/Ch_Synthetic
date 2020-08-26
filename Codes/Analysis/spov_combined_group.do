@@ -13,7 +13,7 @@ local xtopt cluster($id)	//lag(4)
 local horizon = 90	// in days
 local maxlag  = 1
 
-foreach group in 1 { // 0 1 {
+foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
 		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi	// rho
@@ -26,7 +26,6 @@ foreach group in 1 { // 0 1 {
 	}
 	
 	foreach t in 24 120 { // 3 6 12 24 60 120  {
-		local ty = `t'/12
 		foreach v in `vars' {
 		
 			// variables to store the betas, standard errors and confidence intervals
