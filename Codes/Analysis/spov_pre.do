@@ -87,16 +87,16 @@ pwcorr path lsap if cty == "CHF" & fomc & date >= td(1jan2009) & date != td(18ma
 * ------------------------------------------------------------------------------
 
 local tbllbl "f_yldcrvs"
-foreach v in nom { // syn {
+foreach v in nom syn {
 	local ycs = ""
 	foreach t in 3 6 12 24 60 120 {
 		capture gen pct`v'`t'm = `v'`t'm/100
 		local ycs `ycs' pct`v'`t'm
 	}
-	foreach group in 0 { // 1 {
+	foreach group in 1 0 {
 		estpost tabstat `ycs' if em == `group' & eomth, stat(mean sd)	// statistics(mean sd min max N)
 	}
-	estout using "$pathtbls/`tbllbl'.tex", replace cells("mean(fmt(2)) sd(par)")
+// 	estout using "$pathtbls/`tbllbl'.tex", replace cells("mean(fmt(2)) sd(par)")
 // 	esttab using "$pathtbls/`tbllbl'.tex", replace fragment cells(`ycs') booktabs
 }
 drop pct*
@@ -114,6 +114,67 @@ filefilter x.tex y.tex, from(mean) to(Average) replace
 filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
 erase x.tex
 erase y.tex
+
+
+
+
+
+
+local tbllbl "f_yldcrvs"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+foreach v in nom { // syn {
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
+	esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+	filefilter x.tex y.tex, from(mean) to(Average) replace
+	filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
+	erase x.tex
+	erase y.tex
+}
+drop pct*
+
+
+
+
+
+local tbllbl "f_yldcrvs"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+local repapp replace
+local j = 0
+foreach v in nom syn {
+	local ++j
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
+	if `j' == 1 {
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+	}
+	else {
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
+	}
+}
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
+erase x.tex
+erase y.tex
+drop pct*
+
+
+
+
 
 
 // nom120m(fmt(1)) nom12m
