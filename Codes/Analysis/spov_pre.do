@@ -16,13 +16,118 @@ line mp1 path lsap datem if cty == "CHF"
 twoway (line mp1 datem if cty == "CHF" & date < td(1jan2009), lpattern("-")) (line path datem if cty == "CHF", lpattern("l")) (line lsap datem if cty == "CHF" & date >= td(1jan2009), lpattern("-.")), ytitle("Basis Points", size(medsmall)) xtitle("")
 graph export $pathfigs/MPS/USmps.eps, replace
 
-// levelsof $id, local(levels) 
-// foreach l of local levels {
-// summ rho* if imf == `l'
-// 	corr sftnom* nom* usyc* if imf == `l'
-// 	corr sftsyn* syn* usyc* if imf == `l'
-// 	corr sftrho* rho* usyc* if imf == `l'
-// }
+use $file_dta2, clear
+
+replace mp1  = 0 if date >= td(1jan2009)
+replace lsap = 0 if date <  td(1jan2009)
+
+foreach shock in mp1 path lsap {
+	gen  abs`shock' = abs(`shock')
+	summ abs`shock' if cty == "CHF" & fomc & abs`shock' != 0
+	summ `shock' if cty == "CHF" & fomc & `shock' > 0
+	summ `shock' if cty == "CHF" & fomc & `shock' < 0
+// 	hist abs`shock' if cty == "CHF" & fomc & abs`shock' != 0
+}
+
+// summary statistics in monetary policy announcement days (absolute values)
+// main messages: magnitude of shocks is generally less than 10 basis points
+// shocks are not correlated, but on Mar 18, 2009 large easing path and lsap shocks
+// easing shocks are more common than tightening ones
+
+
+//     Variable |        Obs        Mean    Std. Dev.       Min        Max
+// -------------+---------------------------------------------------------
+//       absmp1 |         60    6.634633    9.781944       .001     46.501
+
+//     Variable |        Obs        Mean    Std. Dev.       Min        Max
+// -------------+---------------------------------------------------------
+//      abspath |        162    6.003316    6.497144     .00873   54.61488
+
+//     Variable |        Obs        Mean    Std. Dev.       Min        Max
+// -------------+---------------------------------------------------------
+//      abslsap |         81    2.226131    3.620153   .0529064    29.9438
+
+
+summ abs* if cty == "CHF" & fomc
+//     Variable |        Obs        Mean    Std. Dev.       Min        Max
+// -------------+---------------------------------------------------------
+//       absmp1 |        162    2.457272    6.737498          0     46.501
+//      abspath |        162    6.003316    6.497144     .00873   54.61488
+//      abslsap |        162    1.113065    2.785438          0    29.9438
+
+summ abs* if cty == "CHF"
+//     Variable |        Obs        Mean    Std. Dev.       Min        Max
+// -------------+---------------------------------------------------------
+//       absmp1 |      4,773    .0834021    1.315123          0     46.501
+//      abspath |      4,773    .2037581    1.614358          0   54.61488
+//      abslsap |      4,773    .0377785    .5499061          0    29.9438
+
+
+pwcorr mp1 path if cty == "CHF" & fomc & date <  td(1jan2009), sig
+//              |      mp1 
+// -------------+----------
+//         path |  -0.0163 
+//              |   0.8854
+
+pwcorr path lsap if cty == "CHF" & fomc & date >= td(1jan2009), sig
+//              |     path 
+// -------------+----------
+//         lsap |   0.2602 
+//              |   0.0190
+
+pwcorr path lsap if cty == "CHF" & fomc & date >= td(1jan2009) & date != td(18mar2009), sig
+//              |     path 
+// -------------+----------
+//         lsap |   0.0130 
+//              |   0.9091
+
+
+* ------------------------------------------------------------------------------
+* Yield curves
+* ------------------------------------------------------------------------------
+
+local tbllbl "f_yldcrvs"
+foreach v in nom { // syn {
+	local ycs = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+	}
+	foreach group in 0 { // 1 {
+		estpost tabstat `ycs' if em == `group' & eomth, stat(mean sd)	// statistics(mean sd min max N)
+	}
+	estout using "$pathtbls/`tbllbl'.tex", replace cells("mean(fmt(2)) sd(par)")
+// 	esttab using "$pathtbls/`tbllbl'.tex", replace fragment cells(`ycs') booktabs
+}
+drop pct*
+
+
+
+local tbllbl "f_yldcrvs"
+local ycs nom120m nom12m
+local fmt nom120m(fmt(1)) nom12m(fmt(1))
+local clbl 10Y 1Y
+eststo clear
+estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
+esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
+erase x.tex
+erase y.tex
+
+
+// nom120m(fmt(1)) nom12m
+// cells(mean(fmt(2) label(Average)) sd(fmt(2) label(Std. Dev.) ) ) nonum collabels(none) 
+// summ `ycs' if em == `group' & eomth
+// eqlabels(Mean StdDev)
+
+
+
+
+
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/
+// 5559-using-estpost-estout-esttab-to-format-summary-stats
+
 
 
 * ------------------------------------------------------------------------------
@@ -339,3 +444,9 @@ levelsof $id, local(levels)
 	}
 // }
 
+
+// levelsof $id, local(levels)
+// foreach l of local levels {
+// 	di "`l'"
+// 	summ `ycs' if imf == `l' & eomth
+// }
