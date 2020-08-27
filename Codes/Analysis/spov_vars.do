@@ -89,6 +89,10 @@ label define bnames 1 "Non-US G3" 2 "A-SOE"
 label values regionae bnames
 label variable regionae "AE Blocks"
 
+gen byte ae = em == 0
+label define grpnames 0 "Emerging Markets" 1 "Advanced Countries"
+label values ae grpnames
+
 
 * Label variables for use in figures and tables
 #delimit ;
