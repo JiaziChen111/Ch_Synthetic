@@ -4,12 +4,11 @@
 use $file_dta2, clear
 
 * Adjust target and LSAP shocks
-replace mp1  = mp1*1
 replace mp1  = 0 if date >= td(1jan2009)
 replace lsap = 0 if date <  td(1jan2009)
 
 * Define local variables
-local xtcmd xtscc			// xtreg
+local xtcmd xtscc				// xtreg
 local xtopt fe level(90) lag(4)	// fe level(90) cluster($id)
 local horizon = 90	// in days
 local maxlag  = 1
@@ -47,13 +46,7 @@ foreach group in 0 1 {
 				capture gen `v'`t'm`i' = (f`i'.`v'`t'm - l.`v'`t'm)
 				
 				// conditions
-				local condition em == `group' //	& `datecond' & `region' == 4
-				
-// 					// test for cross-sectional independence
-// 					if inlist(`i',0) { 
-// 						quiet xtreg `v'`t'm`i' `shock' `ctrl`v'`t'm' if `condition', fe	//  & fomc
-// 						xtcsd, pesaran abs
-// 					}
+				local condition em == `group'	// & `region' == 4
 				
 				// one regression for each horizon
 				if `i' == 0 `xtcmd' `v'`t'm`i' mp1 path lsap `ctrl`v'`t'm' if `condition', `xtopt'	// on-impact effect
