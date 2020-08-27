@@ -26,15 +26,6 @@ foreach group in 0 1 {
 	foreach t in 24 120 { // 3 6 12 24 60 120  {
 		// regressions
 		foreach v in `vars' {
-		
-			// variables to store the betas and confidence intervals
-			capture {
-			foreach shock in mp1 path lsap {
-				gen b_`shock'_`v'`t'm   = .
-				gen ll1_`shock'_`v'`t'm = .
-				gen ul1_`shock'_`v'`t'm = .
-			}	// `shock'
-			}
 			
 			// controls
 			local ctrl`v'`t'm l(1/`maxlag').d`v'`t'm l(1/`maxlag').fx
