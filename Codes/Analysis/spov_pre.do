@@ -87,64 +87,6 @@ pwcorr path lsap if cty == "CHF" & fomc & date >= td(1jan2009) & date != td(18ma
 * ------------------------------------------------------------------------------
 
 local tbllbl "f_yldcrvs"
-foreach v in nom syn {
-	local ycs = ""
-	foreach t in 3 6 12 24 60 120 {
-		capture gen pct`v'`t'm = `v'`t'm/100
-		local ycs `ycs' pct`v'`t'm
-	}
-	foreach group in 1 0 {
-		estpost tabstat `ycs' if em == `group' & eomth, stat(mean sd)	// statistics(mean sd min max N)
-	}
-// 	estout using "$pathtbls/`tbllbl'.tex", replace cells("mean(fmt(2)) sd(par)")
-// 	esttab using "$pathtbls/`tbllbl'.tex", replace fragment cells(`ycs') booktabs
-}
-drop pct*
-
-
-
-local tbllbl "f_yldcrvs"
-local ycs nom120m nom12m
-local fmt nom120m(fmt(1)) nom12m(fmt(1))
-local clbl 10Y 1Y
-eststo clear
-estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
-esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
-filefilter x.tex y.tex, from(mean) to(Average) replace
-filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
-erase x.tex
-erase y.tex
-
-
-
-
-
-
-local tbllbl "f_yldcrvs"
-local clbl 3M 6M 1Y 2Y 5Y 10Y
-foreach v in nom { // syn {
-	local ycs = ""
-	local fmt = ""
-	foreach t in 3 6 12 24 60 120 {
-		capture gen pct`v'`t'm = `v'`t'm/100
-		local ycs `ycs' pct`v'`t'm
-		local fmt `fmt' pct`v'`t'm(fmt(1))
-	}
-	eststo clear
-	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
-	esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
-	filefilter x.tex y.tex, from(mean) to(Average) replace
-	filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
-	erase x.tex
-	erase y.tex
-}
-drop pct*
-
-
-
-
-
-local tbllbl "f_yldcrvs"
 local clbl 3M 6M 1Y 2Y 5Y 10Y
 local repapp replace
 local j = 0
@@ -158,7 +100,7 @@ foreach v in nom syn {
 		local fmt `fmt' pct`v'`t'm(fmt(1))
 	}
 	eststo clear
-	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
+	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd min max) nototal
 	if `j' == 1 {
 		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
 	}
@@ -167,25 +109,30 @@ foreach v in nom syn {
 	}
 }
 filefilter x.tex y.tex, from(mean) to(Average) replace
-filefilter y.tex "$pathtbls/`tbllbl'.tex", from(sd) to("Std. Dev.") replace
+filefilter y.tex x.tex, from(sd) to("Std. D.") replace
+filefilter x.tex y.tex, from(min) to(Minimum) replace
+filefilter y.tex x.tex, from(max) to(Maximum) replace
+filefilter x.tex y.tex, from(\BS\BS\n) to(\BS\BS\n&) replace
+filefilter y.tex x.tex, from(&\BShline\nEmerging) to(\BShline\nEmerging) replace
+filefilter x.tex y.tex, from(Emerging) to(Synthetic&Emerging) replace
+filefilter y.tex x.tex, from(Advanced) to(&Advanced) replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nSynthetic&Emerging) to(Y\BS\BS\n\BShline\nNominal&Emerging) replace
+
+filefilter y.tex x.tex, from(&\BShline) to(\BScmidrule(lr){2-8}) replace
+filefilter x.tex y.tex, from("Emerging Markets&            &") to("\BSmulticolumn{3}{c}{Emerging Markets}") replace
+filefilter y.tex x.tex, from("Advanced Countries&            &") to("\BSmulticolumn{3}{c}{Advanced Countries}") replace
+filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{10}{*}{Nominal Yields}") replace
+filefilter y.tex x.tex, from(Synthetic) to("\BSmultirow{10}{*}{Synthetic Yields}") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(3M&) to("  & 3M&") replace
 erase x.tex
 erase y.tex
 drop pct*
-
-
-
-
-
-
-// nom120m(fmt(1)) nom12m
-// cells(mean(fmt(2) label(Average)) sd(fmt(2) label(Std. Dev.) ) ) nonum collabels(none) 
-// summ `ycs' if em == `group' & eomth
 // eqlabels(Mean StdDev)
+// filefilter x.tex y.tex, from() to() replace
+// filefilter y.tex x.tex, from() to() replace
 
 
-
-
-
+// Save in esttab table as in tabstat (post #4)
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/
 // 5559-using-estpost-estout-esttab-to-format-summary-stats
 
