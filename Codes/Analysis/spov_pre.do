@@ -108,28 +108,25 @@ foreach v in nom syn {
 		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
 	}
 }
+drop pct*
 filefilter x.tex y.tex, from(mean) to(Average) replace
-filefilter y.tex x.tex, from(sd) to("Std. D.") replace
+filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
 filefilter x.tex y.tex, from(min) to(Minimum) replace
 filefilter y.tex x.tex, from(max) to(Maximum) replace
 filefilter x.tex y.tex, from(\BS\BS\n) to(\BS\BS\n&) replace
 filefilter y.tex x.tex, from(&\BShline\nEmerging) to(\BShline\nEmerging) replace
-filefilter x.tex y.tex, from(Emerging) to(Synthetic&Emerging) replace
-filefilter y.tex x.tex, from(Advanced) to(&Advanced) replace
+filefilter x.tex y.tex, from("Emerging Markets") to("Synthetic&Emerging Markets\n%") replace
+filefilter y.tex x.tex, from("Advanced Countries") to("&Advanced Countries\n%") replace
 filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nSynthetic&Emerging) to(Y\BS\BS\n\BShline\nNominal&Emerging) replace
-
 filefilter y.tex x.tex, from(&\BShline) to(\BScmidrule(lr){2-8}) replace
-filefilter x.tex y.tex, from("Emerging Markets&            &") to("\BSmulticolumn{3}{c}{Emerging Markets}") replace
-filefilter y.tex x.tex, from("Advanced Countries&            &") to("\BSmulticolumn{3}{c}{Advanced Countries}") replace
-filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{10}{*}{Nominal Yields}") replace
-filefilter y.tex x.tex, from(Synthetic) to("\BSmultirow{10}{*}{Synthetic Yields}") replace
-filefilter x.tex "$pathtbls/`tbllbl'.tex", from(3M&) to("  & 3M&") replace
+filefilter x.tex y.tex, from("Emerging Markets") to("\BSmulticolumn{7}{c}{Emerging Markets}\t\BS\BS") replace
+filefilter y.tex x.tex, from("Advanced Countries") to("\BSmulticolumn{7}{c}{Advanced Countries}\t\BS\BS") replace
+filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{11}{*}{Nominal Yields}") replace
+filefilter y.tex x.tex, from(Synthetic) to("\BSmultirow{11}{*}{Synthetic Yields}") replace
+filefilter x.tex y.tex, from(3M&) to("  & 3M&") replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(%&) to(\BScmidrule(lr){2-8}\n%&) replace
 erase x.tex
 erase y.tex
-drop pct*
-// eqlabels(Mean StdDev)
-// filefilter x.tex y.tex, from() to() replace
-// filefilter y.tex x.tex, from() to() replace
 
 
 // Save in esttab table as in tabstat (post #4)
