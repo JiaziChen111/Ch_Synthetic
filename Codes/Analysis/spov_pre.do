@@ -139,25 +139,23 @@ foreach v in nom syn {
 		local fmt `fmt' pct`v'`t'm(fmt(1))
 	}
 	eststo clear
-	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd min max) nototal
+	estpost tabstat `ycs' if eomth, by(ae) statistics(mean sd) nototal
 	if `j' == 1 {
-		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber booktabs
 	}
 	else {
-		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber booktabs
 	}
 }
 drop pct*
 filefilter x.tex y.tex, from(mean) to(Average) replace
 filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
-filefilter x.tex y.tex, from(min) to(Minimum) replace
-filefilter y.tex x.tex, from(max) to(Maximum) replace
 filefilter x.tex y.tex, from(\BS\BS\n) to(\BS\BS\n&) replace
-filefilter y.tex x.tex, from(&\BShline\nEmerging) to(\BShline\nEmerging) replace
+filefilter y.tex x.tex, from(&\BSmidrule\nEmerging) to(\BSmidrule\nEmerging) replace
 filefilter x.tex y.tex, from("Emerging Markets") to("Synthetic&Emerging Markets\n%") replace
 filefilter y.tex x.tex, from("Advanced Countries") to("&Advanced Countries\n%") replace
-filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nSynthetic&Emerging) to(Y\BS\BS\n\BShline\nNominal&Emerging) replace
-filefilter y.tex x.tex, from(&\BShline) to(\BScmidrule(lr){2-8}) replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nSynthetic&Emerging) to(Y\BS\BS\n\BSmidrule\nNominal&Emerging) replace
+filefilter y.tex x.tex, from(&\BSmidrule) to(\BScmidrule(lr){2-8}) replace
 filefilter x.tex y.tex, from("Emerging Markets") to("\BSmulticolumn{7}{c}{Emerging Markets}\t\BS\BS") replace
 filefilter y.tex x.tex, from("Advanced Countries") to("\BSmulticolumn{7}{c}{Advanced Countries}\t\BS\BS") replace
 filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{11}{*}{Nominal Yields}") replace
@@ -170,7 +168,7 @@ erase y.tex
 
 
 * ------------------------------------------------------------------------------
-* Table: Summary statistics for components of nominal yields: Emerging markets
+* Table: Summary statistics for components of nominal yields - Emerging markets
 local tbllbl "f_dcmpstats"
 local clbl 3M 6M 1Y 2Y 5Y 10Y
 local repapp replace
@@ -185,29 +183,27 @@ foreach v in dyp dtp phi {
 		local fmt `fmt' pct`v'`t'm(fmt(1))
 	}
 	eststo clear
-	estpost tabstat `ycs' if em & eomth, statistics(mean sd min max)
+	estpost tabstat `ycs' if em & eomth, statistics(mean sd)
 	if `j' == 1 {
-		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber booktabs
 	}
 	else {
-		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber booktabs
 	}
 }
 drop pct*
 filefilter x.tex y.tex, from(mean) to(Average) replace
 filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
-filefilter x.tex y.tex, from(min) to(Minimum) replace
-filefilter y.tex x.tex, from(max) to(Maximum) replace
-filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nAverage) to("Y\BS\BS\n\BShline\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
-filefilter y.tex x.tex, from(1\BS\BS\n\BShline\nAverage) to("1\BS\BS\n\BShline\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
-filefilter x.tex "$pathtbls/`tbllbl'.tex", from(4\BS\BS\n\BShline\nAverage) to("4\BS\BS\n\BShline\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nAverage) to("Y\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex x.tex, from(8\BS\BS\n\BSmidrule\nAverage) to("8\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(7\BS\BS\n\BSmidrule\nAverage) to("7\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
 erase x.tex
 erase y.tex
 * ------------------------------------------------------------------------------
 
 
 * ------------------------------------------------------------------------------
-* Table: Summary statistics for components of nominal yields: Advanced countries
+* Table: Summary statistics for components of nominal yields - Advanced countries
 local tbllbl "f_dcmpstats_AE"
 local clbl 3M 6M 1Y 2Y 5Y 10Y
 local repapp replace
@@ -222,21 +218,19 @@ foreach v in dyp dtp {
 		local fmt `fmt' pct`v'`t'm(fmt(1))
 	}
 	eststo clear
-	estpost tabstat `ycs' if !em & eomth, statistics(mean sd min max)
+	estpost tabstat `ycs' if !em & eomth, statistics(mean sd)
 	if `j' == 1 {
-		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber booktabs
 	}
 	else {
-		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber booktabs
 	}
 }
 drop pct*
 filefilter x.tex y.tex, from(mean) to(Average) replace
 filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
-filefilter x.tex y.tex, from(min) to(Minimum) replace
-filefilter y.tex x.tex, from(max) to(Maximum) replace
-filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nAverage) to("Y\BS\BS\n\BShline\n&\BSmulticolumn{5}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
-filefilter y.tex "$pathtbls/`tbllbl'.tex", from(5\BS\BS\n\BShline\nAverage) to("5\BS\BS\n\BShline\n&\BSmulticolumn{5}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nAverage) to("Y\BS\BS\n\BSmidrule\n&\BSmulticolumn{5}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(4\BS\BS\n\BSmidrule\nAverage) to("4\BS\BS\n\BSmidrule\n&\BSmulticolumn{5}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
 erase x.tex
 erase y.tex
 * ------------------------------------------------------------------------------
