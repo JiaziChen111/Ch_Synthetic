@@ -1,0 +1,25 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+%\usepackage[margin=1in]{geometry}
+%\input{../Settings/macros}
+
+\begin{document}
+	\begin{normalsize}
+%		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Descriptive Statistics of Yield Curves} \label{tab:yldcrvs}
+					\begin{threeparttable}
+						\estauto{../Tables/f_yldcrvs.tex}{7}
+						\tabnote{This table reports the average, the standard deviation, the minimum and the maximum values for different tenors of the nominal and synthetic yields of the emerging markets and advanced countries in the sample.  All figures are expressed in annualized percentage points.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+%		\end{landscape}
+	\end{normalsize}
+\end{document}
