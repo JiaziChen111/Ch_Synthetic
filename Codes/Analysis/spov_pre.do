@@ -2,6 +2,15 @@
 * Preliminary analysis
 * ==============================================================================
 
+use $file_dta2, clear
+
+replace mp1  = 0 if date >= td(1jan2009)
+replace lsap = 0 if date <  td(1jan2009)
+
+foreach shock in mp1 path lsap {
+	gen  abs`shock' = abs(`shock')
+}
+
 * ------------------------------------------------------------------------------
 * MP shocks
 * ------------------------------------------------------------------------------
@@ -16,35 +25,54 @@ line mp1 path lsap datem if cty == "CHF"
 twoway (line mp1 datem if cty == "CHF" & date < td(1jan2009), lpattern("-")) (line path datem if cty == "CHF", lpattern("l")) (line lsap datem if cty == "CHF" & date >= td(1jan2009), lpattern("-.")), ytitle("Basis Points", size(medsmall)) xtitle("")
 graph export $pathfigs/MPS/USmps.eps, replace
 
-use $file_dta2, clear
-
-replace mp1  = 0 if date >= td(1jan2009)
-replace lsap = 0 if date <  td(1jan2009)
-
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for U.S. monetary policy shocks
+local tbllbl "f_mpsstats"
+matrix drop _all
+local j = 0
 foreach shock in mp1 path lsap {
-	gen  abs`shock' = abs(`shock')
-	summ abs`shock' if cty == "CHF" & fomc & abs`shock' != 0
-	summ `shock' if cty == "CHF" & fomc & `shock' > 0
-	summ `shock' if cty == "CHF" & fomc & `shock' < 0
-// 	hist abs`shock' if cty == "CHF" & fomc & abs`shock' != 0
+	local ++j
+	if `j' == 1 local datecond date > td(1jan2000) & date < td(1jan2009)	// target
+	if `j' == 4 local datecond date > td(1jan2000) & date < td(1jan2020)	// path
+	if `j' == 7 local datecond date > td(1jan2009) & date < td(1jan2020)	// lsap
+	
+	estpost summ abs`shock' if cty == "CHF" & fomc & `datecond' // & abs`shock' != 0
+	if `j' == 1 {
+		matrix t`j' = ( e(mean) \ e(sd) \ e(min) \ e(max) \ e(count) )
+		matrix rownames t1 = "Mean" "Std. Dev." "Min." "Max." "Obs"
+		matrix t`j' = t`j''
+	}
+	else {
+		matrix t`j' = ( e(mean) \ e(sd) \ e(min) \ e(max) \ e(count) )'
+	}
+	local ++j
+	estpost summ `shock' if cty == "CHF" & fomc & `shock' > 0
+	matrix t`j' = ( e(mean) \ e(sd) \ e(min) \ e(max) \ e(count) )'
+	local ++j
+	estpost summ `shock' if cty == "CHF" & fomc & `shock' < 0
+	matrix t`j' = ( e(mean) \ e(sd) \ e(min) \ e(max) \ e(count) )'
 }
+matrix tablemps = ( t1 \ t2 \ t3 \ t4 \ t5 \ t6 \ t7 \ t8 \ t9 )
+matrix rownames tablemps = "Target Shocks (absolute values)" "\quad Target Shocks \(>\) 0" "\quad Target Shocks \(<\) 0" "Path Shocks  (absolute values)" "\quad Path Shocks \(>\) 0" "\quad Path Shocks \(<\) 0" "LSAP Shocks  (absolute values)" "\quad LSAP Shocks \(>\) 0" "\quad LSAP Shocks \(<\) 0"
+esttab matrix(tablemps, fmt(1 1 1 1 0)) using x.tex, replace fragment noobs nomtitles nonumbers booktabs
+filefilter x.tex y.tex, from(\nPath) to(\n\BSmidrule\nPath) replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(\nLSAP) to(\n\BSmidrule\nLSAP) replace
+erase x.tex
+erase y.tex
+// 	hist abs`shock' if cty == "CHF" & fomc & abs`shock' != 0
+* ------------------------------------------------------------------------------
+
 
 // summary statistics in monetary policy announcement days (absolute values)
 // main messages: magnitude of shocks is generally less than 10 basis points
-// shocks are not correlated, but on Mar 18, 2009 large easing path and lsap shocks
+// shocks are not correlated, but on 18-Mar-2009 large easing path and lsap shocks
 // easing shocks are more common than tightening ones
 
 
 //     Variable |        Obs        Mean    Std. Dev.       Min        Max
 // -------------+---------------------------------------------------------
 //       absmp1 |         60    6.634633    9.781944       .001     46.501
-
-//     Variable |        Obs        Mean    Std. Dev.       Min        Max
-// -------------+---------------------------------------------------------
 //      abspath |        162    6.003316    6.497144     .00873   54.61488
-
-//     Variable |        Obs        Mean    Std. Dev.       Min        Max
-// -------------+---------------------------------------------------------
 //      abslsap |         81    2.226131    3.620153   .0529064    29.9438
 
 
@@ -86,7 +114,18 @@ pwcorr path lsap if cty == "CHF" & fomc & date >= td(1jan2009) & date != td(18ma
 * Yield curves
 * ------------------------------------------------------------------------------
 
-local tbllbl "f_yldcrvs"
+foreach v in nom syn dyp dtp phi {
+	local ycs = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+	}
+	tabstat `ycs' if eomth, by(ae) statistics(mean sd min max) nototal
+}
+
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for nominal and synthetic yields
+local tbllbl "f_yldcrvstats"
 local clbl 3M 6M 1Y 2Y 5Y 10Y
 local repapp replace
 local j = 0
@@ -127,12 +166,84 @@ filefilter x.tex y.tex, from(3M&) to("  & 3M&") replace
 filefilter y.tex "$pathtbls/`tbllbl'.tex", from(%&) to(\BScmidrule(lr){2-8}\n%&) replace
 erase x.tex
 erase y.tex
+* ------------------------------------------------------------------------------
 
+
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for components of nominal yields: Emerging markets
+local tbllbl "f_dcmpstats"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+local repapp replace
+local j = 0
+foreach v in dyp dtp phi {
+	local ++j
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if em & eomth, statistics(mean sd min max)
+	if `j' == 1 {
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+	}
+	else {
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
+	}
+}
+drop pct*
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
+filefilter x.tex y.tex, from(min) to(Minimum) replace
+filefilter y.tex x.tex, from(max) to(Maximum) replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nAverage) to("Y\BS\BS\n\BShline\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex x.tex, from(1\BS\BS\n\BShline\nAverage) to("1\BS\BS\n\BShline\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(4\BS\BS\n\BShline\nAverage) to("4\BS\BS\n\BShline\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+erase x.tex
+erase y.tex
+* ------------------------------------------------------------------------------
+
+
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for components of nominal yields: Advanced countries
+local tbllbl "f_dcmpstats_AE"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+local repapp replace
+local j = 0
+foreach v in dyp dtp {
+	local ++j
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if !em & eomth, statistics(mean sd min max)
+	if `j' == 1 {
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber
+	}
+	else {
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber
+	}
+}
+drop pct*
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
+filefilter x.tex y.tex, from(min) to(Minimum) replace
+filefilter y.tex x.tex, from(max) to(Maximum) replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BShline\nAverage) to("Y\BS\BS\n\BShline\n&\BSmulticolumn{5}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(5\BS\BS\n\BShline\nAverage) to("5\BS\BS\n\BShline\n&\BSmulticolumn{5}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+erase x.tex
+erase y.tex
+* ------------------------------------------------------------------------------
 
 // Save in esttab table as in tabstat (post #4)
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/
 // 5559-using-estpost-estout-esttab-to-format-summary-stats
-
 
 
 * ------------------------------------------------------------------------------
