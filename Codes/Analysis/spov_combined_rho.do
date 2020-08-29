@@ -6,8 +6,8 @@ use $file_dta2, clear
 
 * Define local variables
 local xtcmd xtscc				// xtreg
-local xtopt fe level(90) lag(4)	// fe level(90) cluster($id)
-local horizon = 90	// in days
+local xtopt fe level(90)	// fe level(90) cluster($id)
+local horizon = 60	// in days
 local maxlag  = 1
 local vars rho
 

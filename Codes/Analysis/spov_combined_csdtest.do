@@ -5,7 +5,7 @@ use $file_dta2, clear
 
 
 * Define local variables
-local horizon = 90	// in days
+local horizon = 60	// in days
 local maxlag  = 1
 
 foreach group in 0 1 {
