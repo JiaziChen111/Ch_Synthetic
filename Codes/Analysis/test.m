@@ -43,3 +43,21 @@ TTaux = synchronize(TTaux,TT24m,'intersection');
 TTaux = synchronize(TTaux,TT60m,'intersection');
 TTaux = synchronize(TTaux,TT120m,'intersection');
 TTaux2 = rmmissing(TTaux);
+
+
+%%
+aedata = cell2table(fitrprtmy);
+
+
+clear input
+input.tableRowLabels = aedata{2:31,1}';
+input.dataFormat = {'%.2f'};
+input.fontSize = 'tiny';
+
+input.tableColLabels = aedata{1,[2 3 4 5 8 10]};
+filename   = fullfile('..','..','Docs','Tables','modelfit');
+input.data = aedata(1:31,[2 3 4 5 8 10]);
+input.tableCaption = 'Model Fit';
+input.tableLabel = 'modelfit';
+input.texName = filename;
+latexTable(input);
