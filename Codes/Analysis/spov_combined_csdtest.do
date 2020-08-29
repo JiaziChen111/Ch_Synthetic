@@ -3,19 +3,11 @@
 * ==============================================================================
 use $file_dta2, clear
 
-
 local maxlag  = 1
+local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
 foreach group in 0 1 {
-	if `group' == 0 {
-		local grp "AE"
-		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
-		local region regionae
-	}
-	else {
-		local grp "EM"
-		local vars nom dyp dtp phi // nom usyc rho phi	//	nom syn rho phi
-		local region regionem
-	}
+	if `group' == 0 local grp "AE"
+	else local grp "EM"
 	
 	foreach t in 24 120 { // 3 6 12 24 60 120  {
 		// regressions
@@ -29,7 +21,7 @@ foreach group in 0 1 {
 				capture gen `v'`t'm`h' = (f`h'.`v'`t'm - l.`v'`t'm)
 				
 				// conditions
-				local condition em == `group' & fomc	// & `region' == 4
+				local condition em == `group' & fomc
 				
 				// test for cross-sectional independence
 				quiet xtreg `v'`t'm`h' `shock' `ctrl`v'`t'm' if `condition', fe
