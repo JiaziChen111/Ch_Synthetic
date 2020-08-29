@@ -56,9 +56,9 @@ erase y.tex
 * ------------------------------------------------------------------------------
 
 
-// summary statistics in monetary policy announcement days (absolute values)
-// main messages: magnitude of shocks is generally less than 10 basis points
-// shocks are not correlated, but on 18-Mar-2009 large easing path and lsap shocks
+// main messages of summary statistics in MP announcement days
+// magnitude of shocks is generally less than 10 basis points in absolute value
+// shocks are not correlated, but on 18-Mar-2009 large easing path and LSAP shocks
 // easing shocks are more common than tightening ones
 
 
