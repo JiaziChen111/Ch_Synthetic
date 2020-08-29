@@ -1,7 +1,6 @@
 * ==============================================================================
 * Clean dataset and generate variables
 * ==============================================================================
-
 use $file_dta1, clear
 
 
@@ -69,6 +68,14 @@ foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
 }
 
 
+* Adjust target and LSAP shocks
+replace mp1  = 0 if date >= td(1jan2009)
+replace lsap = 0 if date <  td(1jan2009)
+foreach shock in mp1 path lsap {
+	gen  abs`shock' = abs(`shock')
+}
+
+
 * x-axis and zero line
 gen days = _n-1 if _n <= 90 +1
 gen zero = 0 	if _n <= 90 +1
@@ -96,9 +103,9 @@ label values ae grpnames
 
 * Label variables for use in figures and tables
 #delimit ;
-unab oldlabels : mp1 path lsap sdprm gdp inf une 
+unab oldlabels : mp1 path lsap sdprm gdp inf une epuus
 				 epugbl globalip nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
-local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." 
+local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." "EPU US" 
 	"Global EPU" "Global IP" "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
 	"Synthetic" "Synthetic" "Synthetic" "Synthetic" "Forward Premium" "Forward Premium" "Forward Premium" 
 	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk P." "Credit Risk P." 

@@ -1,11 +1,8 @@
 * ==============================================================================
-* Local projections: AE and EM
+* Local projections: US YC
 * ==============================================================================
 use $file_dta2, clear
 
-* Adjust target and LSAP shocks
-replace mp1  = 0 if date >= td(1jan2009)
-replace lsap = 0 if date <  td(1jan2009)
 
 * Define local variables
 local xtcmd reg		// xtreg	// xtscc

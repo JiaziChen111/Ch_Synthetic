@@ -1,15 +1,8 @@
 * ==============================================================================
 * Preliminary analysis
 * ==============================================================================
-
 use $file_dta2, clear
 
-replace mp1  = 0 if date >= td(1jan2009)
-replace lsap = 0 if date <  td(1jan2009)
-
-foreach shock in mp1 path lsap {
-	gen  abs`shock' = abs(`shock')
-}
 
 * ------------------------------------------------------------------------------
 * MP shocks
@@ -158,8 +151,8 @@ filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nSynthetic&Emerging) to(Y\BS\BS
 filefilter y.tex x.tex, from(&\BSmidrule) to(\BScmidrule(lr){2-8}) replace
 filefilter x.tex y.tex, from("Emerging Markets") to("\BSmulticolumn{7}{c}{Emerging Markets}\t\BS\BS") replace
 filefilter y.tex x.tex, from("Advanced Countries") to("\BSmulticolumn{7}{c}{Advanced Countries}\t\BS\BS") replace
-filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{11}{*}{Nominal Yields}") replace
-filefilter y.tex x.tex, from(Synthetic) to("\BSmultirow{11}{*}{Synthetic Yields}") replace
+filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{7}{*}{Nominal Yields}") replace
+filefilter y.tex x.tex, from(Synthetic) to("\BSmultirow{7}{*}{Synthetic Yields}") replace
 filefilter x.tex y.tex, from(3M&) to("  & 3M&") replace
 filefilter y.tex "$pathtbls/`tbllbl'.tex", from(%&) to(\BScmidrule(lr){2-8}\n%&) replace
 erase x.tex
