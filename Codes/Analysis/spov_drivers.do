@@ -1,7 +1,6 @@
 * ==============================================================================
 * Panel regressions with monthly data
 * ==============================================================================
-
 use $file_dta2, clear
 
 
@@ -16,7 +15,7 @@ order  datem, first
 
 
 * Compute monthly returns (in basis points)
-foreach v of varlist vix spx oil fx stx epugbl globalip {
+foreach v of varlist vix spx oil fx stx epuus epugbl globalip {
     gen log`v' = ln(`v')
 	by $idm: gen rt`v' = (log`v' - log`v'[_n-1])*10000
 }
@@ -24,15 +23,17 @@ foreach v of varlist vix spx oil fx stx epugbl globalip {
 
 * Define variables
 global x0 sdprm
-global x1 logvix logepugbl globalip rtfx rtspx rtoil	// vix epugbl globalip	// vix epugbl rtglobalip	// rtvix rtepugbl rtglobalip
+global x1 logvix logepuus globalip rtfx rtspx rtoil // vix epugbl globalip	// vix epugbl rtglobalip	// rtvix rtepugbl rtglobalip
 global x2 inf une $x1
 
 
 * Label variables for use in figures and tables
 #delimit ;
-unab oldlabels : ustp* usyp* rtvix rtfx rtoil rtspx rtstx rtepugbl rtglobalip logepugbl logvix vix;
+unab oldlabels : ustp* usyp* rtvix rtfx rtoil rtspx rtstx rtepuus rtepugbl 
+				 rtglobalip logepuus logepugbl logvix vix;
 local newlabels `" "US TP" "US TP" "US TP" "US TP" "US ER" "US ER" "US ER" "US ER" 
-				"Vix" "FX" "Oil" "S\&P" "Stock" "Global EPU" "Global IP" "Log(EPU)" "Log(Vix)" "Vix" "';
+				"Vix" "FX" "Oil" "S\&P" "Stock" "EPU US" "Global EPU" "Global IP" 
+				"Log(EPU)" "Log(EPU)" "Log(Vix)" "Vix" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {
