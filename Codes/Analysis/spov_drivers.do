@@ -21,19 +21,24 @@ foreach v of varlist vix spx oil fx stx epuus epugbl globalip {
 }
 
 
-* Define variables
+* Define local variables
+local xtcmd xtscc	// xtreg
+local xtopt fe		// fe cluster($id)
+
+
+* Define global variables
 global x0 sdprm
-global x1 logvix logepuus globalip rtfx rtspx rtoil // vix epugbl globalip	// vix epugbl rtglobalip	// rtvix rtepugbl rtglobalip
+global x1 logvix logepuus logepugbl globalip rtfx rtspx rtoil // vix epugbl globalip	// vix epugbl rtglobalip	// rtvix rtepugbl rtglobalip
 global x2 inf une $x1
 
 
 * Label variables for use in figures and tables
 #delimit ;
-unab oldlabels : ustp* usyp* rtvix rtfx rtoil rtspx rtstx rtepuus rtepugbl 
-				 rtglobalip logepuus logepugbl logvix vix;
+unab oldlabels : ustp* usyp* rtvix rtfx rtoil rtspx rtstx rtepuus rtepugbl rtglobalip 
+				 logepuus logepugbl logvix vix;
 local newlabels `" "US TP" "US TP" "US TP" "US TP" "US ER" "US ER" "US ER" "US ER" 
 				"Vix" "FX" "Oil" "S\&P" "Stock" "EPU US" "Global EPU" "Global IP" 
-				"Log(EPU)" "Log(EPU)" "Log(Vix)" "Vix" "';
+				"Log(EUS)" "Log(EGL)" "Log(Vix)" "Vix" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {
@@ -50,16 +55,23 @@ eststo clear
 local j = 0
 foreach t in 3 12 24 60 120 {
 	local ++j
-	quietly xtreg dtp`t'm $x0 if em, fe cluster($idm)
-	eststo mtp`j'
+	`xtcmd' dtp`t'm $x0 if em, `xtopt'
+	eststo mtp`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
+	estadd local FE Yes
 	local ++j
-	quietly xtreg dtp`t'm $x0 gdp if em, fe cluster($idm)
-	eststo mtp`j'
+	`xtcmd' dtp`t'm $x0 gdp if em, `xtopt'
+	eststo mtp`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
+	estadd local FE Yes
+	quiet xtreg dtp`t'm $x0 if em, fe
+	xtcsd, pesaran abs
+	quiet xtreg dtp`t'm $x0 gdp if em, fe
+	xtcsd, pesaran abs
 }
 esttab mtp* using "$pathtbls/`tbllbl'.tex", replace fragment cells(b(fmt(a2) star) se(fmt(a2) par)) ///
-r2(2) keep($x0 gdp) nomtitles nonumbers nonotes nolines label booktabs collabels(none) ///
+keep($x0 gdp) nomtitles nonumbers nonotes nolines noobs label booktabs collabels(none) ///
 mgroups("3M" "1Y" "2Y" "5Y" "10Y", pattern(1 0 1 0 1 0 1 0 1 0) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
-varlabels(, elist(gdp \midrule))
+varlabels(, elist(gdp \midrule)) scalars("FE Fixed Effects" "Lags" "Countries" "Obs Obs." "R2 \(R^{2}\)") sfmt(%4.0fc %4.0fc %4.0fc %4.0fc %4.2fc)
+// scalars("e(lag) Lags" "e(r2_w) R2" "e(N_g) Countries" "e(N) Obs" “Fixed Effects”)
 // filefilter x.tex "$pathtbls/`tbllbl'.tex", from(\BS\BS\n) to(\BStabularnewline\n) replace
 // erase x.tex
 * ------------------------------------------------------------------------------
@@ -76,19 +88,25 @@ foreach t in 24 120 {
 		foreach v in nom syn dyp dtp phi rho {
 			local ++j
 			if `group' == 0 {
-				quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', fe cluster($idm)
-				eststo mdl`j'
+				`xtcmd' `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', `xtopt'
+				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
+				estadd local FE Yes
+				quiet xtreg `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', fe
+				xtcsd, pesaran abs
 			}
 			
 			if `group' == 1 {
-				quietly xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if `condition', fe cluster($idm)
-				eststo mdl`j'
+				`xtcmd' `v'`t'm usyp`t'm ustp`t'm $x2 if `condition', `xtopt'
+				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
+				estadd local FE Yes
+				quiet xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if `condition', fe
+				xtcsd, pesaran abs
 			}
 		}	// `v' variables
 		esttab mdl* using x.tex, replace fragment cells(b(fmt(2) star) se(fmt(2) par)) ///
-		r2(2) nocons nomtitles nonumbers nonotes nolines label booktabs collabels(none) ///
+		nocons nomtitles nonumbers nonotes nolines noobs label booktabs collabels(none) ///
 		mgroups("Nominal" "Synth." "ESR" "TP" "CRP" "FP", pattern(1 1 1 1 1 1) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
-		varlabels(, elist(rtoil \midrule))
+		varlabels(, elist(rtoil \midrule)) scalars("FE Fixed Effects" "Lags" "Countries" "Obs Obs." "R2 \(R^{2}\)") sfmt(%4.0fc %4.0fc %4.0fc %4.0fc %4.2fc)
 	}	// `group'
 	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(Observations) to(Obs.) replace
 }	// `t'
