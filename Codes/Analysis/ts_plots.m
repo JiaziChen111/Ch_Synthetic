@@ -489,6 +489,26 @@ for k0 = 1:nEMs
 end
 figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)
 
+    % Long-term EMRR vs USRR
+fldname = 'rrt';
+% TT_rr   = read_spf();
+figure
+for k0 = 1:nEMs
+    if ~isempty(S(k0).(fldname))
+        subplot(3,5,k0)
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100); hold on       % 10Y
+        fltrUS = datenum(TT_rr.Time) >= S(k0).(fldname)(2,1) & datenum(TT_rr.Time) <= S(k0).(fldname)(end,1);
+        plot(datenum(TT_rr.Time(fltrUS)),TT_rr.USRR10Y(fltrUS),'-.')
+        hold off
+        title(S(k0).cty);
+        datetick('x','yy'); yline(0); ylim([-2 5]);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+    end
+end
+lgd = legend({'Domestic Real Rate','U.S. Real Rate'},'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+figname = [fldname '_LTvsUSrrt']; save_figure(figdir,figname,formats,figsave)
+
     % All tenors
 figure
 for k0 = 1:nEMs
