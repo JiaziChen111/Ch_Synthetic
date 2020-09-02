@@ -1,8 +1,8 @@
-/* Code for 'Spillovers of U.S. Monetary Policy to Emerging Market Sovereign Yields' 
-by Pavel Solís, July 2020
+/* Code for 'Sovereign Yields with Credit Risk and U.S. Monetary Policy' 
+by Pavel Solís, August 2020
 
-This code uses local projections to estimate the reponse of the bond yields of
-emerging markets to a 1 basis point change in the the target, path and LSAP shocks */
+This code uses local projections to estimate the reponse of emerging market bond
+yields to a 1 basis point change in the the target, path and LSAP shocks */
 * ==============================================================================
 
 
@@ -32,46 +32,18 @@ do "$pathcode/spov_read"
 do "$pathcode/spov_vars"
 use $file_dta2, clear
 
-
 * ------------------------------------------------------------------------------
 * Analysis
 * ------------------------------------------------------------------------------
 log using $file_log, replace
-// do "$pathcode/spov_pre"
-// do "$pathcode/spov_regs"
-do "$pathcode/lp_usyc"
+do "$pathcode/spov_pre"
+do "$pathcode/spov_combined_group"
+do "$pathcode/spov_combined_rho"
+do "$pathcode/spov_combined_usyc"
+do "$pathcode/spov_drivers"
 log close
 translate $file_log.smcl $file_log.pdf, replace
 erase $file_log.smcl
-
-* ------------------------------------------------------------------------------
-* Additional
-* ------------------------------------------------------------------------------
-// // Potential local events
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "BRL" & inlist(date,td(19oct2009),td(04oct2010),td(06jan2011),td(06jul2011),td(08jul2011),td(04jun2013))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "COP" & inlist(date,td(01dec2004),td(29jun2006),td(10may2007),td(19jul2007),td(06oct2008))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "HUF" & inlist(date,td(09apr2003),td(14apr2003),td(16apr2003),td(01aug2005),td(01sep2018))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "IDR" & inlist(date,td(01jul2005),td(01jun2010))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "KRW" & inlist(date,td(01jan2003),td(14jun2010))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "PHP" & inlist(date,td(01jan2002),td(28jul2017))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "PLN" & inlist(date,td(09apr2003),td(14apr2003),td(16apr2003),td(07jun2003),td(28jul2017),td(01dec2017),td(01mar2018))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "RUB" & inlist(date,td(27sep2013),td(01jan2014))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "THB" & inlist(date,td(01dec2006))
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "TRY" & inlist(date,td(02jan2006),td(27jan2017),td(25jun2018),td(02oct2018),td(08jul2019))
-
-// // Selected local events
-// list date cty dnom120m dsyn120m ddtp120m ddyp120m dphi120m if cty == "TRY" & inlist(date,td(25jun2018),td(02oct2018),td(08jul2019))
-
-// Large US MP shocks
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(17mar2009),td(18mar2009),td(19mar2009))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(15dec2008),td(16dec2008),td(17dec2008))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(08aug2011),td(09aug2011),td(10aug2011))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(17sep2013),td(18sep2013),td(19sep2013))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(27jan2004),td(28jan2004),td(29jan2004))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(05may2003),td(06may2003),td(07may2003))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(17mar2015),td(18mar2015),td(19mar2015))
-// browse date cty dnom120m dsyn120m drho120m dusyc120m if inlist(date,td(14mar2017),td(15mar2017),td(16mar2017))
-
 
 * ------------------------------------------------------------------------------
 * Packages
@@ -113,3 +85,10 @@ erase $file_log.smcl
 // Use -inlist- with local list
 // https://www.statalist.org/forums/forum/general-stata-discussion/general/
 // 1315256-use-inlist-with-local-list
+
+// Tables Stata to Latex
+// https://asjadnaqvi.com/stata-to-latex-part-1/
+// https://www.jwe.cc/2012/03/stata-latex-tables-estout/
+
+// Driscoll-Kray standard errors
+// https://www.statalist.org/forums/forum/general-stata-discussion/general/1566497-xtscc-error-too-many-values-r-134

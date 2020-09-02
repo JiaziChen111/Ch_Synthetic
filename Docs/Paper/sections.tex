@@ -212,9 +212,9 @@ On the spillover effects of U.S. monetary policy, this paper extends the work of
 
 The rest of the paper proceeds as follows. 
 Section \ref{sec:LCYCs} explains how the LC yield curves are constructed. Section \ref{sec:Methodology} presents the affine term structure model used to decompose them.
-Section \ref{sec:analysisYCdcmp} assesses the yield decompositions.
+Section \ref{sec:decomposition} assesses the yield decompositions.
 %shows that provide several new insights about their dynamics.
-Section \ref{sec:spillovers} analyzes the U.S. monetary policy spillovers to the yields of emerging markets.
+Section \ref{sec:analysis} analyzes the U.S. monetary policy spillovers to the yields of emerging markets.
 The last section concludes.
 
 }{}	% Closes \iftoggle{fulldraft}
@@ -369,8 +369,14 @@ To construct the XCS rates, I use data on cross-currency basis swaps and interes
 The data for the swap curves comes from Bloomberg.\footnote{A spreadsheet with the tickers used in the construction of the forward premiums and in the estimation of the nominal yield curves is available upon request. The file consolidates and expands (with tenors and tickers) similar files kindly posted online in Wenxin Du and Jesse Schreger's websites.}
 %The maximum maturity available varies per country but there is data covering at least up to ten years for all but it can go as far as 30 years for some countries.\footnote{After 10 years, the periodicity decreases to every five years. Then, when they are available, the maturities beyond 10 years are reported for 15, 20, 25 and up to 30 years.} 
 
+Table \ref{tab:yldcrvstats} reports descriptive statistics for different tenors of the nominal and synthetic yield curves of the emerging markets and advanced countries in the sample. 
+higher std of the short end of the EM curves. 
+Yields (and components) are more volatile in EM than in AEs.
+The two types of YCs are upward sloping.
+
 % Learning
 % CRSP data monthly and daily data fixed-rate and risk-free series are very close to each other once they are annualized. The `biggest' differences are in the 1-month interest rate and before 1980.
+
 
 \subsubsection{Timing}
 The parameters of the affine term structure models are estimated using end-of-month data, as explained in section \ref{sec:Estimation}.
@@ -528,8 +534,12 @@ Although surveys have good forecasting properties, it is important to acknowledg
 Long-term forecasts are particularly helpful for the model to pin down the parameters under the \(\Pmeasure\) measure.
 Twice a year Consensus Economics provides 5-year ahead and long-term (between 6 and 10 years ahead) forecasts for consumer inflation and real GDP growth for most of the emerging countries in the sample. 
 For this paper, the data is available from March 2001 to October 2017.\footnote{ Data availability varies by country; for example, data for the Philippines starts in 2009, whereas it ends in October 2013 for Latin American countries.}
-Figures \ref{fig:wnCPI} and \ref{fig:wnGDP} respectively plot the long-horizon forecasts for inflation and real GDP growth.
-With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see below for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band are the highest and lowest bounds since 2009.}
+Figure \ref{fig:wnCPI} 
+%and \ref{fig:wnGDP} respectively 
+plots the long-horizon forecasts for inflation.
+% and real GDP growth.
+With the exception of Brazil and Turkey, inflation expectations in emerging markets have been stable or even declining, and are generally within the upper and lower bounds for the domestic inflation target.
+%\footnote{ For Israel and South Africa, figure \ref{fig:wnCPI} shows the inflation trend, see appendix \ref{sec:trendinf} for more information. The upper and lower bounds are the most recent ones for each country. Russia has updated its target range almost every year since early 2000s; the plotted band are the highest and lowest bounds since 2009.}
 Notice that the 5-year ahead and long-term forecasts are highly correlated.
 % for both inflation and GDP growth.
 %Meanwhile, for half of the EMs in the sample, there is a declining trend in their expected real GDP growth. 
@@ -556,18 +566,8 @@ An alternative way to infer the embedded expectations for the policy rate is to 
 The two approaches yield similar values for the implied forecasts for the domestic short-term rates. 
 The correlation  between the two approaches is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
 
-An advantage of the small open economy approach is that it only requires forecasts for inflation, or a proxy in the case of countries with no long-term forecasts available as is the case for Israel and South Africa.
-Inflation expectations are hoped to match measures of inflation that exclude unexpected shocks and better reflect the inflation environment.
-Different measures of core inflation exist.
-I use the inflation trend obtained by applying the Hodrick-Prescott filter to the series of realized inflation of each country.
-Of course, the filter is sensitive to the sample period used.
-The resulting trend can also be outside of the target inflation band due to the innate dynamics of the series, which would be at odds with survey data (see figure \ref{fig:wnCPI}).
-Fortunately, unlike other countries, there is no marked upward or downward trend in the inflation of the two countries during the sample period.
-For each country, trend inflation is calculated for the whole period but only considered within the time range for which survey data is available for the rest of the countries, and as long as the trend is within the inflation target band.
-Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa, and compares them with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked trend) and for which survey data is available.
-%It supports that t
-Trend inflation seems to be a good proxy for the long-term inflation forecasts of Israel and South Africa.
-Finally, since the 5-year and long-term forecasts closely follow each other (see figure \ref{fig:wnCPI}), I use trend inflation for both tenors.
+Since there is no survey data on long-term inflation forecasts for Israel and South Africa, appendix \ref{sec:trendinf} shows that trend inflation is a good proxy.
+%for the long-term inflation forecasts of Israel and South Africa.
 
 % Sigal Ribon (2009). Core Inflation Indices for Israel: 
 %For the purpose of examining the appropriateness of monetary policy ex post, and also to help determine policy for the future, it is important to focus on core inflation, i.e., inflation excluding unexpected shocks that are not affected by monetary policy.
@@ -645,7 +645,7 @@ To strike a balance between these two considerations, I follow \cite{KimOrphanid
 In this sense, survey data is seen as a noisy measure of expectations for the short rate.\footnote{ When \(\sigma_s\) is allowed to be estimated, its average value among all emerging markets is 29 basis points.
 In this case, the estimated term premia remains largely the same for most of the countries in the sample.}
 
-\subsubsection{Estimation with Daily Data}
+\subsubsection{Daily Frequency Estimation}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 The parameters of the model are estimated using end-of-month data because at the daily frequency there is noise that can undermine the estimation. 
 However, once the parameters are estimated with monthly data, they can be used to estimate the model at the daily frequency \citep{ACM:2013}.
@@ -668,7 +668,7 @@ Finally, the parameters estimated with monthly data along with the daily pricing
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{Decomposing the Yields of Emerging Markets} \label{sec:analysisYCdcmp}
+\section{Decomposing the Yields of Emerging Markets} \label{sec:decomposition}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -725,7 +725,7 @@ In general, emerging market yield curves are not as smooth as those of advanced 
 %%	\input{../Tables/RMSE_NelsonSiegel}
 
 
-\subsection{Assessing the Decomposition}
+\subsection{Decomposition Assessment}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 %Once the affine model is estimated, the nominal yields of 
@@ -760,7 +760,7 @@ the relative importance of the two premia varies by country and can even change 
 %For the rest of the countries,\footnote{ MYR, PHP, PLN, THB.} both components are important.
 
 
-\subsubsection{Expected Future Short Rate}
+\subsubsection{Expected Short Rate}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 Figure \ref{fig:bsl_yP_scbp} shows that the model-implied expectation of the short rate for the 10-year maturity tracks the interest rate forecasts reasonably well, even though the model does not rely too much on them given the conservative value used for \(\sigma_s\).
@@ -927,82 +927,6 @@ Notwithstanding, the data is limited to reach meaningful conclusions.\footnote{ 
 %Is regional (Asian and European) or global?
 
 
-\subsection{Comovement} \label{sec:globalPC}
-\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
-
-%Here, I exploit it to provide new stylized facts about them that will help to interpret the results in the next section.
-
-The response of emerging market yields to U.S. monetary policy shocks in part depends on the extent to which LC bonds are integrated to the global financial markets.
-This requires to answer the question of how connected are the sovereign yields of emerging markets.
-One way to address this question is to pool all yields together and see whether there is a global-level factor, associated with the first principal component.
-For advanced countries, a global factor explains more than 90\% of the variation in their yields, consistent line with \cite{DahlquistHasseltoft:2016}.
-In contrast, a global factor explains only around 50\% of the variation in emerging market yields or their components.
-%\footnote{ \cite{DuSchreger:2016JoF} find something similar for the credit risk premium.}
-%This suggests that the emerging market yields are not as connected among themselves as the yields of advanced countries.
-%When yields are separated by maturity, a similar pattern emerges for the 1-year yields, whereas for the 10-year yields, a global factor explains around 95\% in AEs and 40\% in EMs. 
-%Although a global factor plays a role in the variation of yields in both AEs and EMs, the bond yields in EMs are not as tightly connected as they are in AEs.
-%These percentages are largely the same after the GFC.
-%A global factor explains around 40\% of the variation of all the three components of yields in EMs.\footnote{ \cite{DuSchreger:2016JoF} also show that the credit risk premium has a low reaction to global variables.} 
-%For AEs, in contrast, a global factor explains 90\% of the variation in the expected short rate and 80\% in their term premia. 
-%After the GFC, these percentages **increased** for the term premia in AEs and for the two components of the synthetic yields in EMs.
-
-A more formal way to answer the question is to measure the degree of connectedness among emerging market yields.
-%; that is, how much does the shock in one market has implications for the other markets.
-\cite{DieboldYilmaz:2014} propose a system-wide measure of connectedness 
-%based on forecast error variance decompositions.
-%Their methodology 
-that assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere.
-Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I obtain the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the 10-year nominal yields 
-%of the emerging markets in the sample 
-and each of its components.
-Figure \ref{fig:dyindex10y} displays the connectedness index for emerging and advanced countries.\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
-The index for emerging markets (figure \ref{subfig:dyindex10yEM}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
-Notably, it spiked above 55\% around the taper tantrum episode in 2013.\footnote{ During the episode, financial markets feared an earlier than expected withdrawal of the Fed's unconventional stimulus measures.} %and remained elevated for about a year.
-The second biggest spike %in the index 
-occurred after the 2016 U.S. presidential election.
-%, with potential implications for some of the emerging markets in the sample.
-By mid-2017, the index was back to its pre-taper tantrum levels of around 30\% compared to an average value of the index for advanced countries of close to 70\%.
-
-The difference between the highly connected yields of advanced countries and the low connected yields of emerging markets might seem at odds with the idea of a 
-%perspective based on the 
-global financial cycle \citep{Rey:2013}.
-%On the one hand, the yields of advanced countries are highly connected among themselves (see figure \ref{subfig:dyindex10yAE}), which over the last decade has been driven by an increase in the connectedness of their term premia, as documented by \cite{ACDM:2019}.
-%Changes in the compensation for risk in one advanced country not only spillover to other advanced countries but they have become increasingly important for the variation in their yields.
-%On the other hand, the yields among emerging markets are not as connected as those in advanced countries (see figure \ref{subfig:dyindex10yEM}).
-The level of the index for emerging markets is about half the level of the index for advanced countries, it shows no upward trend for either their nominal yields or their components.\footnote{ \cite{ACDM:2019} already document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.}
-% of emerging market yields do not show a clear trend, their relative importance seems to depend on the current economic environment.
-%as might be expected under a perspective based on the global financial cycle. %according to the idea of the
-%Is there a component that is more connected? 
-%Unlike the rise in the connectedness of the term premium among advanced countries, 
-These results, however, are consistent with the global financial cycle in which the global bond markets operate under a core-periphery structure, in which the bond markets of advanced countries constitute the (highly interconnected) core and those of emerging markets represent the (less connected) periphery.
-Countries in the periphery are in turn connected to the network mainly through countries in the core.\footnote{ The core-periphery structure has been shown to be a good description of different networks in economics and finance. For example, \cite{CvP:2014} show that the interbank market operates under such a structure.}
-According to this, figures \ref{subfig:dyindex10yEM} and \ref{subfig:dyindex10yAE} are measuring the connectedness of the periphery and the core, respectively.
-Therefore, what matters for emerging market yields are not spillovers originating in other emerging markets but in advanced countries, which makes the argument of a global financial cycle stronger, not weaker.
-
-%Are the short and long end equally connected?
-%Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
-A related question is whether the connectedness of yields is the same throughout the term structure or whether some sections of the curves are more connected than others.
-%The role of a global factor seems to be different throughout the yield curve.
-\cite{Obstfeld:2015} 
-%shows that the effects of the global financial cycle are different at the short than at the long end of the yield curve. In particular, he 
-argues that long-term bonds are more globally connected than short term ones.
-On the other hand, \cite{Kalemli-Ozcan:2019} argues that short-term yields suffer more the effects of global influences.
-%When yields are separated by maturity, a global factor explains around 50\% of the variation in the 1-year yields of EMs, compared to 90\% for AEs. 
-%For the 10-year yields, a global factor explains around 60\% of the variability in EMs, relative to 95\% in AEs. 
-%However, the role of the global factor is larger for the two components of the synthetic yield curve in the long end than for the short end.
-%In sum, the role of a global component is larger for long-term yields and its components.
-Figure \ref{fig:dy_index_ts} plots the connectedness index for different maturities.
-It shows that the long end is relatively more connected than the short end, similar to what is observed for advanced countries, although this pattern became relevant for emerging markets after the taper tantrum episode.
-The figure also shows that the connectedness of the short end of the yield curves is similar between advanced and emerging markets.
-The difference in connectedness between two groups of countries is therefore driven by the medium and long end of their yield curves.
-Although foreign participation in LC bond markets has increased, it is still mostly held by local investors, especially medium- and longer-term bonds as suggested by figure \ref{fig:dy_index_ts}, 
-%of emerging markets are far from being fully integrated in the global financial markets 
-and are therefore more responsive to local factors.
-%In sum, while the yields of emerging markets are indeed globally connected, they are less so than the yields of advanced countries. 
-%In particular, 
-%Several factors can explain these patterns, including segmented markets, capital controls, home bias and regional differences.
-%therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
-
 
 %Is There A Non-U.S. Common Factor?
 %%How much the US factor explains TP? Is there a non-US common factor?
@@ -1069,7 +993,7 @@ and are therefore more responsive to local factors.
 }{}	% Closes \iftoggle{fulldraft}
 
 
-\section{U.S. Monetary Policy Spillovers} \label{sec:spillovers}
+\section{Understanding the Yields of Emerging Markets} \label{sec:analysis}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 \iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
 	\begin{boxeditems}
@@ -1081,7 +1005,85 @@ It  also analyzes how each component of the yields reacts to the news, and highl
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
-\subsection{Drivers of Yields} \label{sec:Drivers}
+\subsection{Comovement} \label{sec:globalPC}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+%Here, I exploit it to provide new stylized facts about them that will help to interpret the results in the next section.
+
+The response of emerging market yields to U.S. monetary policy shocks in part depends on the extent to which LC bonds are integrated to the global financial markets.
+This requires to answer the question of how connected are the sovereign yields of emerging markets.
+One way to address this question is to pool all yields together and see whether there is a global-level factor, associated with the first principal component.
+For advanced countries, a global factor explains more than 90\% of the variation in their yields, consistent line with \cite{DahlquistHasseltoft:2016}.
+In contrast, a global factor explains only around 50\% of the variation in emerging market yields or their components.
+%\footnote{ \cite{DuSchreger:2016JoF} find something similar for the credit risk premium.}
+%This suggests that the emerging market yields are not as connected among themselves as the yields of advanced countries.
+%When yields are separated by maturity, a similar pattern emerges for the 1-year yields, whereas for the 10-year yields, a global factor explains around 95\% in AEs and 40\% in EMs. 
+%Although a global factor plays a role in the variation of yields in both AEs and EMs, the bond yields in EMs are not as tightly connected as they are in AEs.
+%These percentages are largely the same after the GFC.
+%A global factor explains around 40\% of the variation of all the three components of yields in EMs.\footnote{ \cite{DuSchreger:2016JoF} also show that the credit risk premium has a low reaction to global variables.} 
+%For AEs, in contrast, a global factor explains 90\% of the variation in the expected short rate and 80\% in their term premia. 
+%After the GFC, these percentages **increased** for the term premia in AEs and for the two components of the synthetic yields in EMs.
+
+A more formal way to answer the question is to measure the degree of connectedness among emerging market yields.
+%; that is, how much does the shock in one market has implications for the other markets.
+\cite{DieboldYilmaz:2014} propose a system-wide measure of connectedness 
+%based on forecast error variance decompositions.
+%Their methodology 
+that assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere.
+Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I obtain the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of the 10-year nominal yields 
+%of the emerging markets in the sample 
+and each of their components.
+Figure \ref{fig:dyindex10y} displays the connectedness index for emerging and advanced countries.
+%\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
+The index for emerging markets (figure \ref{subfig:dyindex10yEM}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
+Notably, it spiked above 55\% around the taper tantrum episode in 2013.\footnote{ During the episode, financial markets feared an earlier than expected withdrawal of the Fed's unconventional stimulus measures.} %and remained elevated for about a year.
+The second biggest spike %in the index 
+occurred after the 2016 U.S. presidential election.
+%, with potential implications for some of the emerging markets in the sample.
+By mid-2017, the index was back to its pre-taper tantrum levels of around 30\% compared to an average value of the index for advanced countries of close to 70\%.
+
+The difference between the highly connected yields of advanced countries and the low connected yields of emerging markets might seem at odds with the idea of a 
+%perspective based on the 
+global financial cycle \citep{Rey:2013}.
+%On the one hand, the yields of advanced countries are highly connected among themselves (see figure \ref{subfig:dyindex10yAE}), which over the last decade has been driven by an increase in the connectedness of their term premia, as documented by \cite{ACDM:2019}.
+%Changes in the compensation for risk in one advanced country not only spillover to other advanced countries but they have become increasingly important for the variation in their yields.
+%On the other hand, the yields among emerging markets are not as connected as those in advanced countries (see figure \ref{subfig:dyindex10yEM}).
+The level of the index for emerging markets is about half the level of the index for advanced countries, it shows no upward trend for either their nominal yields or their components.\footnote{ \cite{ACDM:2019} already document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.}
+% of emerging market yields do not show a clear trend, their relative importance seems to depend on the current economic environment.
+%as might be expected under a perspective based on the global financial cycle. %according to the idea of the
+%Is there a component that is more connected? 
+%Unlike the rise in the connectedness of the term premium among advanced countries, 
+These results, however, are consistent with the global financial cycle in which the global bond markets operate under a core-periphery structure, in which the bond markets of advanced countries constitute the (highly interconnected) core and those of emerging markets represent the (less connected) periphery.
+Countries in the periphery are in turn connected to the network mainly through countries in the core.\footnote{ The core-periphery structure has been shown to be a good description of different networks in economics and finance. For example, \cite{CvP:2014} show that the interbank market operates under such a structure.}
+According to this, figures \ref{subfig:dyindex10yEM} and \ref{subfig:dyindex10yAE} are measuring the connectedness of the periphery and the core, respectively.
+Therefore, what matters for emerging market yields are not spillovers originating in other emerging markets but in advanced countries, which makes the argument of a global financial cycle stronger, not weaker.
+
+%Are the short and long end equally connected?
+%Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
+A related question is whether the connectedness of yields is the same throughout the term structure or whether some sections of the curves are more connected than others.
+%The role of a global factor seems to be different throughout the yield curve.
+\cite{Obstfeld:2015} 
+%shows that the effects of the global financial cycle are different at the short than at the long end of the yield curve. In particular, he 
+argues that long-term bonds are more globally connected than short term ones.
+On the other hand, \cite{Kalemli-Ozcan:2019} argues that short-term yields suffer more the effects of global influences.
+%When yields are separated by maturity, a global factor explains around 50\% of the variation in the 1-year yields of EMs, compared to 90\% for AEs. 
+%For the 10-year yields, a global factor explains around 60\% of the variability in EMs, relative to 95\% in AEs. 
+%However, the role of the global factor is larger for the two components of the synthetic yield curve in the long end than for the short end.
+%In sum, the role of a global component is larger for long-term yields and its components.
+Figure \ref{fig:dy_index_ts} plots the connectedness index for different maturities.
+It shows that the long end is relatively more connected than the short end, similar to what is observed for advanced countries, although this pattern became relevant for emerging markets after the taper tantrum episode.
+The figure also shows that the connectedness of the short end of the yield curves is similar between advanced and emerging markets.
+The difference in connectedness between two groups of countries is therefore driven by the medium and long end of their yield curves.
+Although foreign participation in LC bond markets has increased, it is still mostly held by local investors, especially medium- and longer-term bonds as suggested by figure \ref{fig:dy_index_ts}, 
+%of emerging markets are far from being fully integrated in the global financial markets 
+and are therefore more responsive to local factors.
+%In sum, while the yields of emerging markets are indeed globally connected, they are less so than the yields of advanced countries. 
+%In particular, 
+%Several factors can explain these patterns, including segmented markets, capital controls, home bias and regional differences.
+%therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
+
+
+\subsection{Drivers} \label{sec:Drivers}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 %To what extent US YC is related to EM yield components?
@@ -1165,8 +1167,9 @@ In closing, the yield decompositions provide valuable information on the driving
 Nevertheless, it is important to acknowledge that the model in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as endogeneity as well as the use of persistent the variables.
 These issues are addressed next.
 
+\subsection{Response to U.S. Monetary Policy} %\label{sec:spillovers}
 
-\subsection{U.S. Monetary Policy Shocks}
+\subsubsection{Shocks} \label{sec:USMPS}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 \cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension since asset prices respond to different types of news about monetary policy.
@@ -1198,18 +1201,22 @@ After 2008 the target shocks are essentially zero, since then there was no surpr
 By contrast, the meaning of LSAP shocks is unclear before 2008.
 Path shocks, nevertheless, have been relevant before and after the GFC.
 As a result, target shocks are considered from 2000 to 2008, LSAP shocks are considered starting in 2009, and path shocks span the whole sample period.
-Figure \ref{fig:USmps} plots all three monetary policy shocks.
+%Figure \ref{fig:USmps} plots all three monetary policy shocks.
+Table \ref{tab:mpsstats} reports descriptive statistics of the three types of shocks on monetary policy announcement days.
+magnitude of shocks is generally less than 10 basis points.
+shocks are not correlated, but on 18-Mar-2009 large easing path and lsap shocks
+easing shocks are more common than tightening ones
 
 
-\subsection{The Response of Yields to U.S. Monetary Policy} \label{sec:LPs}
+\subsubsection{Spillovers} \label{sec:LPs}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 The impact of U.S. monetary policy on emerging market yields is estimated using panel local projections for the daily changes in the yields and their components.
 These regressions are useful to understand not only how the yields respond to the policy surprise at the time of the shock but over subsequent periods, see \cite{HofmannShimShin:2019} and \cite{ACDM:2019} for recent applications.
 
-Following \cite{Jorda:2005} and \cite{ACDM:2019}, the panel local projections are:
+Following \cite{Jorda:2005}, the panel local projections are:
 	\input{../Equations/nPanelLP}	% \ref{eq:nPanelLP}
-\noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 90\),  \(\alpha_{\idxi}\) is a country fixed effect, \(\epsilon_{\idxt}\) represents a type of monetary policy shock, \(\fx_{\idxspnllag}\) is a one-day lag of the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
+\noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 90\),  \(\alpha_{\idxh,\idxi}\) is a country fixed effect, \(\epsilon_{\idxt}\) represents a type of monetary policy shock, \(\fx_{\idxspnllag}\) is a one-day lag of the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
 The regressions are done for the 2- and 10-year yields and each of their components (the expected short rate, the term premium and the credit risk premium) for every type of monetary policy shock.\footnote{ By definition, the shocks are unanticipated by the market and thus there is no need to control for past or future shocks. Also, by construction, the shocks are not correlated among themselves so, there is no need to control for the other types of shocks.}
 
 The parameters of interest, \(\beta_{\idxh}\), measure the average response of the yield (or one of its components) to a monetary policy shock at a particular horizon.
@@ -1434,7 +1441,7 @@ Investors also adjust the compensation they demand to hold long-term bonds as we
 U.S. monetary policy has therefore not only monetary but also fiscal implications for emerging markets.
 %It affects financing costs for the government and domestic financial conditions.
 
-
+Future research paths. Structure of the sovereign bond yield market: core-periphery? MPS from other advanced countries (e.g. ECB from Gurkaynak).
 
 %Several new insights about the dynamics of bond yields in emerging markets were also discussed.
 %There is a negative relationship between the credit risk premium and the term premium reflecting a trade-off between explicit and implicit default.
@@ -1475,18 +1482,18 @@ U.S. monetary policy has therefore not only monetary but also fiscal implication
 %---------------------------------------------------------------
 
 %\newpage
-\begin{landscape}
-	\input{../Tables/tpucsv}
-\end{landscape}
-
+\input{../Tables/yldcrvstats}
+\input{../Tables/dcmpstats}	% appendix
+\input{../Tables/dcmpstats_AE} % appendix (commented)
+\input{../Tables/tpucsv}
 \input{../Tables/ycdcmp2y}
 \input{../Tables/ycdcmp10y}
+\input{../Tables/mpsstats}
 
 \begin{landscape}
 	\input{../Figures/Surveys/wnCPI}
-	\input{../Figures/Surveys/wnGDP}
+%	\input{../Figures/Surveys/wnGDP}
 	\input{../Figures/Data/YLD10Y_CBP}
-	\input{../Figures/Surveys/CPI_ILSZAR}
 	\input{../Figures/Estimation/s_ylds_bsl_yQ}	% \ref{fig:s_ylds_bsl_yQ}
 	\input{../Figures/Estimation/ny_dcmp}
 	\input{../Figures/Estimation/bsl_yP_scbp}
@@ -1495,7 +1502,7 @@ U.S. monetary policy has therefore not only monetary but also fiscal implication
 %	\input{../Figures/Estimation/ssb_yP_QE}
 %	\input{../Figures/Estimation/ny_yP_QE_AE}
 %	\input{../Figures/Estimation/ssb_tp_local}
-	\input{../Figures/Estimation/rrt_LT}
+	\input{../Figures/Estimation/rrt_LTvsUSrrt}
 	\input{../Figures/Estimation/bsl_tp_ts}
 %	\input{../Figures/Estimation/brp_dcmp}
 \end{landscape}
@@ -1504,9 +1511,7 @@ U.S. monetary policy has therefore not only monetary but also fiscal implication
 %\newpage
 \input{../Figures/Estimation/dyindex10y}
 \input{../Figures/Estimation/dy_index_ts}
-\begin{landscape}
-	\input{../Figures/MPS/USmps}
-\end{landscape}
+%\input{../Figures/MPS/USmps}
 \input{../Figures/LPs/Latex/LP_US}
 \input{../Figures/LPs/Latex/LP_EM}
 %\input{../Figures/LPs/Latex/LP_AE}

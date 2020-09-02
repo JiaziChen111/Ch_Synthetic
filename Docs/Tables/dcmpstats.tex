@@ -1,0 +1,25 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+%\usepackage[margin=1in]{geometry}
+%\input{../Settings/macros}
+
+\begin{document}
+	\begin{normalsize}
+%		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Descriptive Statistics of Yield Components: Emerging Markets} \label{tab:dcmpstats}
+					\begin{threeparttable}
+						\estauto{../Tables/f_dcmpstats.tex}{6}
+						\tabnote{This table reports the average, the standard deviation, the minimum and the maximum values using end-of-month data for different tenors of the components of the emerging market nominal yields. All figures are expressed in annualized percentage points.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+%		\end{landscape}
+	\end{normalsize}
+\end{document}

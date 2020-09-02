@@ -55,7 +55,6 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 
 %% Store/load results
 cd(pathd)
-% save struct_datamy_S.mat S currAE currEM
 % save struct_datamy_S.mat S currAE currEM corrTPem corrTPae corrTPyP pcexplnd pc1yc pc1em pc1ae
 load('struct_datamy_S.mat')
 load('struct_datady_cells.mat')
@@ -74,80 +73,3 @@ ts_plots(S,currEM,currAE,kwtp,vix);
 datetime(now(),'ConvertFrom','datenum')
 TT = construct_panel(S,matsout,currEM,currAE);
 datetime(now(),'ConvertFrom','datenum')
-
-%%
-% [S,dataset_monthly,header_monthly] = daily2monthly(S,dataset_daily,header_daily);
-% S = forecast_cbpol(S,currEM);
-
-% % Baseline estimations
-% fldname = {'ssb_','sy_','ny_'};
-% fldtype = {'yQ','yP','tp','pr'};
-% ncntrs  = length(S);
-% ntypes  = length(fldtype);
-% for k0  = 1:ncntrs
-%     for k1 = 1:ntypes
-%         switch S(k0).iso
-%             case setdiff(currEM,{'ILS','ZAR'})
-%                 S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{1} fldtype{k1}]); % synthetic,surveys,fixed sgmS
-%             case {'ILS','ZAR'}
-%                 S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{2} fldtype{k1}]); % synthetic, yields
-%             case currAE
-%                 S(k0).(['bsl_' fldtype{k1}]) = S(k0).([fldname{3} fldtype{k1}]); % nominal, yields
-%         end
-%     end
-% end
-
-% [~,corrPC,pctmiss] = compare_pcs(S,nPCs,true);
-% save('struct_datamy_S.mat','corrPC','-append')
-% save('struct_datamy_S.mat','pctmiss','-append')
-
-% %% Compare results
-% [S,corrExp,corrTP] = compare_atsm_surveys(S,currEM,0);      % compare expected policy rate and term premium
-
-% addpath('../Pre-Analysis')
-% notradedays = TTusyc.Date(sum(ismissing(TTusyc),2) == size(TTusyc,2));
-% tradingdays = TTusyc.Date(~ismember(TTusyc.Date,notradedays));      % trading days in the U.S.
-
-
-% %% Decomposition of Nominal Yield Curves and TP Comparison
-% 
-% ncntrs  = length(S);
-% tnr = 10;
-% decomp = nan(ncntrs,5);
-% tpvslccs = nan(ncntrs,3);
-% tpcompare = nan(ncntrs,2);
-% tpnomvssyn = nan(ncntrs,3);
-% 
-% for k = 1:ncntrs
-%     yieldsnom = mean(S(k).nomblncd(2:end, S(k).nomblncd(1,:) == tnr)*100);
-%     yieldssyn = mean(S(k).synblncd(2:end, S(k).synblncd(1,:) == tnr)*100);
-%     yieldsP   = mean(S(k).synyldsP(2:end, S(k).synyldsP(1,:) == tnr)*100);
-%     x = S(k).syntp(3:end, S(k).syntp(1,:) == tnr);
-%     tpsyn     = mean(x);
-%     y = S(k).cipdev(2:end, S(k).cipdev(1,:) == tnr);
-%     lccs      = mean(y,'omitnan');
-%     decomp(k,:) = [yieldsnom yieldssyn yieldsP tpsyn lccs];
-%     [h,p] = ttest2(x,y,'Vartype','unequal');     % Equality of means test b/w TP and LCCS
-%     tpvslccs(k,:) = [k h p];
-%     
-%     z = S(k).nomtp(3:end, S(k).nomtp(1,:) == tnr);
-%     tpnom     = mean(z);
-%     tpcompare(k,:) = [tpnom tpsyn];
-%     [h,p] = ttest2(z,x,'Vartype','unequal');     % Equality of means test b/w TP and LCCS
-%     tpnomvssyn(k,:) = [k h p];
-% end
-% 
-% AvgDecomp = [mean(decomp(1:15,:)); mean(decomp([16:19 23:25],:)); mean(decomp(20:22,:))];
-% clear input
-% labelcty    = {'EM','A-SOE','G-3'};
-% labelcty{1} = [' ' labelcty{1}];                % Otherwise, Latex gives an error
-% input.tableRowLabels = labelcty;
-% input.tableColLabels = {'Nominal','Synthetic','Expected','Term Premium','CIP Dev'};
-% input.dataFormat = {'%.2f'};
-% input.fontSize = 'tiny';
-% namefl   = fullfile('..','..','Docs','Tables','temp_decomp10yr');
-% input.data = AvgDecomp;
-% input.tableCaption = '10-Year Yield Decomposition (\%).';
-% input.tableLabel = 'decomp10yr';
-% input.texName = namefl;
-% latexTable(input);

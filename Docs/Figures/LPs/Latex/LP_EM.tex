@@ -6,69 +6,64 @@
 %\usepackage{subcaption}
 
 \begin{document}
-
-% trim = {<left> <lower> <right> <upper>}
-
-\begin{figure}[tbph]
-	\caption{Response of 2Y EM Yields to U.S. Monetary Policy Shocks}
-	\label{fig:LPEM2Y}
-	\begin{subfigure}[t]{\textwidth}
+	\begin{figure}[tbph]
+		\caption{Response of 2-Year Emerging Market Yield to U.S. Monetary Policy Shocks} \label{fig:LPEM2Y}
 		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMnomyptpphi24m.eps} \\
-			\caption{Target Shock: 2000-2008} \label{subfig:LPEM2Ytarget}
-%			\vspace{.5cm}
+			\begin{minipage}{\linewidth}
+				\begin{center}
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.24\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMnomyptpphi24m.eps} \\
+						\vspace{-0.35cm}
+						\caption{Target Shock: 2000-2008} \label{subfig:LPEM2Ytarget}
+						\vspace{0.4cm}
+					\end{subfigure}
+					
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.24\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/Path/EM/PathEMnomyptpphi24m.eps} \\
+						\vspace{-0.35cm}
+						\caption{Path Shock: 2000-2019} \label{subfig:LPEM2Ypath}
+					\end{subfigure}
+					
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.24\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/LSAP/EM/LSAPEMnomyptpphi24m.eps} \\
+						\vspace{-0.35cm}
+						\caption{LSAP Shock: 2009-2019} \label{subfig:LPEM2Ylsap}
+					\end{subfigure}
+				\end{center}
+				\fignotes{This figure shows the response following \cite{Jorda:2005} of the 2-year emerging market nominal yield and its components to U.S. monetary policy shocks. The nominal yield is decomposed into an expected future short-term interest rate (ER), a term premium (TP) and a credit risk premium (CRP). The target, path and LSAP shocks are identified using high-frequency data around Fed's monetary policy announcements, see section \ref{sec:USMPS} for details.}
+			\end{minipage}
 		\end{center}
-	\end{subfigure}
+	\end{figure}
 	
-	\begin{subfigure}[t]{\textwidth}
-		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/EM/PathEMnomyptpphi24m.eps} \\
-			\caption{Path Shock: 2000-2019} \label{subfig:LPEM2Ypath}
-%			\vspace{.4cm}
-		\end{center}
-	\end{subfigure}
+	\pagebreak[4]
 	
-	\begin{subfigure}[t]{\textwidth}
+	\begin{figure}[tbph]
+		\caption{Response of 10-Year Emerging Market Yield to U.S. Monetary Policy Shocks} \label{fig:LPEM10Y}
 		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/EM/LSAPEMnomyptpphi24m.eps} \\
-			\caption{LSAP Shock: 2009-2019} \label{subfig:LPEM2Ylsap}
-			%			\vspace{.4cm}
+			\begin{minipage}{\linewidth}
+				\begin{center}
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.24\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMnomyptpphi120m.eps} \\
+						\vspace{-0.35cm}
+						\caption{Target Shock: 2000-2008} \label{subfig:LPEM10Ytarget}
+						\vspace{0.4cm}
+					\end{subfigure}
+					
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.24\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/Path/EM/PathEMnomyptpphi120m.eps} \\
+						\vspace{-0.35cm}
+						\caption{Path Shock: 2000-2019} \label{subfig:LPEM10Ypath}
+					\end{subfigure}
+					
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.24\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/LSAP/EM/LSAPEMnomyptpphi120m.eps} \\
+						\vspace{-0.35cm}
+						\caption{LSAP Shock: 2009-2019} \label{subfig:LPEM10Ylsap}
+					\end{subfigure}
+				\end{center}
+				\fignotes{This figure shows the response following \cite{Jorda:2005} of the 10-year emerging market nominal yield and its components to U.S. monetary policy shocks. The nominal yield is decomposed into an expected future short-term interest rate (ER), a term premium (TP) and a credit risk premium (CRP). The target, path and LSAP shocks are identified using high-frequency data around Fed's monetary policy announcements, see section \ref{sec:USMPS} for details.}
+			\end{minipage}
 		\end{center}
-	\end{subfigure}
-
-%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
-\end{figure}
-
-\pagebreak[4]
-
-\begin{figure}[tbph]
-	\caption{Response of 10Y EM Yields to U.S. Monetary Policy Shocks}
-	\label{fig:LPEM10Y}
-	\begin{subfigure}[t]{\textwidth}
-		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMnomyptpphi120m.eps} \\
-			\caption{Target Shock: 2000-2008} \label{subfig:LPEM10Ytarget}
-			%			\vspace{.5cm}
-		\end{center}
-	\end{subfigure}
-	
-	\begin{subfigure}[t]{\textwidth}
-		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/Path/EM/PathEMnomyptpphi120m.eps} \\
-			\caption{Path Shock: 2000-2019} \label{subfig:LPEM10Ypath}
-			%			\vspace{.4cm}
-		\end{center}
-	\end{subfigure}
-	
-	\begin{subfigure}[t]{\textwidth}
-		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.26\textheight,width=1\textwidth]{../Figures/LPs/LagDep-FX/LSAP/EM/LSAPEMnomyptpphi120m.eps} \\
-			\caption{LSAP Shock: 2009-2019} \label{subfig:LPEM10Ylsap}
-			%			\vspace{.4cm}
-		\end{center}
-	\end{subfigure}
-	
-	%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
-\end{figure}
-
+	\end{figure}
 \end{document}
+% trim = {<left> <lower> <right> <upper>}

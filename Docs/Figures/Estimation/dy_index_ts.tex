@@ -6,30 +6,27 @@
 %\usepackage{subcaption}
 
 \begin{document}
-
-% trim = {<left> <lower> <right> <upper>}
-
-\begin{figure}[tbph]
-	\caption{Connectedness of the Term Structure}
-	\label{fig:dy_index_ts}
-	
-	\begin{subfigure}[t]{\textwidth}
+	\begin{figure}[tbph]
+		\caption{Connectedness of the Term Structure} \label{fig:dy_index_ts}
 		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.42\textheight,width=1\textwidth]{../Figures/Estimation/dy_index_ts.eps} \\
-			\caption{Emerging Markets} \label{subfig:dyindexTSEM}
-%			\vspace{.4cm}
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/dy_index_dn_data.eps} \\
+						\vspace{-0.35cm}
+						\caption{Emerging Markets} \label{subfig:dyindexTSEM}
+						\vspace{0.4cm}
+					\end{subfigure}
+					
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/dy_index_dn_data_AE.eps} \\
+						\vspace{-0.35cm}
+						\caption{Advanced Countries} \label{subfig:dyindexTSAE}
+					\end{subfigure}
+				\end{center}
+				\fignotes{This figure plots the connected index of \cite{DieboldYilmaz:2014} for nominal yields of emerging markets and advanced countries for 3 months (solid line), 1 year (line), 5 years (line) and 10 years (line). The index is obtained using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of the nominal yields each maturity.}
+			\end{minipage}
 		\end{center}
-	\end{subfigure}
-	
-	\begin{subfigure}[t]{\textwidth}
-		\begin{center}
-			\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.42\textheight,width=1\textwidth]{../Figures/Estimation/dy_index_ts_AE.eps} \\
-			\caption{Advanced Countries} \label{subfig:dyindexTSAE}
-			%			\vspace{.4cm}
-		\end{center}
-	\end{subfigure}
-
-%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
-\end{figure}
-
+	\end{figure}
 \end{document}
+% trim = {<left> <lower> <right> <upper>}

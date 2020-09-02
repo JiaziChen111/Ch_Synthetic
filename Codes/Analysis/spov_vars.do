@@ -1,7 +1,6 @@
 * ==============================================================================
 * Clean dataset and generate variables
 * ==============================================================================
-
 use $file_dta1, clear
 
 
@@ -63,9 +62,24 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
 }
 
 
+* Generate first differences
+foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
+	gen d`v' = d.`v'
+}
+
+
+* Adjust target and LSAP shocks
+replace mp1  = 0 if date >= td(1jan2009)
+replace lsap = 0 if date <  td(1jan2009)
+foreach shock in mp1 path lsap {
+	gen  abs`shock' = abs(`shock')
+}
+
+
 * x-axis and zero line
-gen days = _n-1 if _n <= 90 +1
-gen zero = 0 	if _n <= 90 +1
+global horizon = 30	// in days
+gen days = _n-1 if _n <= $horizon +1
+gen zero = 0 	if _n <= $horizon +1
 
 
 * Define regions and groups
@@ -83,16 +97,24 @@ label define bnames 1 "Non-US G3" 2 "A-SOE"
 label values regionae bnames
 label variable regionae "AE Blocks"
 
+gen byte ae = em == 0
+label define grpnames 0 "Emerging Markets" 1 "Advanced Countries"
+label values ae grpnames
+
 
 * Label variables for use in figures and tables
 #delimit ;
-unab oldlabels : mp1 path lsap sdprm gdp inf une 
+unab oldlabels : mp1 path lsap sdprm gdp inf une epuus
 				 epugbl globalip nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
-local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." 
-	"EPU" "Global IP" "YLD" "YLD" "YLD" "YLD" "YLD" "YLD" "SYNT" "SYNT" "SYNT" 
-	"SYNT" "SYNT" "SYNT" "FWD" "FWD" "FWD" "FWD" "FWD" "FWD" "CRP" "CRP" "CRP" "CRP" "CRP" "CRP" 
-	"ER" "ER" "ER" "ER" "ER" "ER" "TP" "TP" "TP" "TP" "TP" "TP" "US YLD" "US YLD" "US YLD" 
-	 "US YLD" "US YLD" "US YLD" "US TP" "US TP" "US TP" "US TP" "US ER" "US ER" "US ER" "US ER" "';
+local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." "EPU US" 
+	"Global EPU" "Global IP" "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
+	"Synthetic" "Synthetic" "Synthetic" "Synthetic" "Forward Premium" "Forward Premium" "Forward Premium" 
+	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk P." "Credit Risk P." 
+	"Credit Risk P." "Credit Risk P." "Credit Risk P." "E. Short Rate" "E. Short Rate" "E. Short Rate" 
+	"E. Short Rate" "E. Short Rate" "E. Short Rate" "Term Premium" "Term Premium" "Term Premium" 
+	"Term Premium" "Term Premium" "Term Premium" "Yield" "Yield" "Yield" 
+	"Yield" "Yield" "Yield" "Term Premium" "Term Premium" "Term Premium" "Term Premium" 
+	"Expected Short Rate" "Expected Short Rate" "Expected Short Rate" "Expected Short Rate" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {

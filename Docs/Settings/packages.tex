@@ -58,13 +58,25 @@
 \usepackage{subcaption}	    	  % Multi-panel figure: \begin{subfigure}[t]{\textwidth}
 
 % Tables (extensions to the standard tabular environment)
+\usepackage{array}					  % add vertical space in tables
+	\setlength\extrarowheight{3pt}
 \usepackage{booktabs}			  % Needed for \toprule, \midrule, \bottomrule
 \usepackage{tabularx}				% Creates paragraph-like columns
 \usepackage{threeparttable}		 % Includes a structured note section
 \usepackage{longtable} 			   % For multi-page tables, note section needs package threeparttablex
 \usepackage{multirow}			   % To add entries with multiple rows
 \usepackage{bigstrut} 			 	 % Needed for \bigstrut
-\usepackage{siunitx}				 % To align the decimal points
+\usepackage{siunitx}				 % To align the decimal points in tables
+	\sisetup{
+		detect-mode,
+		tight-spacing				   = true,
+		group-digits				   = false ,
+		input-signs		                = ,
+		input-symbols		         = ( ) [ ] - + *,
+		input-open-uncertainty	= ,
+		input-close-uncertainty = ,
+		table-align-text-post    = false
+	}
 
 %---------------------------------------------------------------
 % Hyperlinks and References

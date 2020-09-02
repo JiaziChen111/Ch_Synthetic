@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+	\begin{figure}[tbph]
+		\caption{Model-Implied 10-Year Expectation of the Real Interest Rate} \label{fig:rrt_LTvsUSrrt}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.86\textheight,width=\linewidth]{../Figures/Estimation/rrt_LTvsUSrrt.eps} \\
+				\end{center}
+				\fignotes{This figure plots the model-implied 10-year expectation of the domestic real interest rate. The real rate is equal to the difference between the model-implied 10-year expectation of the nominal interest rate and the long-term consensus forecast of consumer price inflation.}
+			\end{minipage}
+		\end{center}
+	\end{figure}
+\end{document}
+% trim = {<left> <lower> <right> <upper>}

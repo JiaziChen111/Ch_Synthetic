@@ -1,44 +1,25 @@
-\begin{table}[htbp]\centering
-\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\caption{Drivers of the 2-Year Nominal Yield and Its Components}
-\label{tab:ycdcmp2y}
-\begin{tabular*}{0.8\hsize}{@{\hskip\tabcolsep\extracolsep\fill}l*{6}{c}}
-\toprule
-                    &\multicolumn{1}{c}{YLD}&\multicolumn{1}{c}{SYN}&\multicolumn{1}{c}{ER}&\multicolumn{1}{c}{TP}&\multicolumn{1}{c}{CRP}&\multicolumn{1}{c}{FWD}\\
-\midrule
-US ER               &        0.29\sym{**} &        0.44\sym{*}  &        0.31         &        0.14\sym{*}  &       -0.07\sym{*}  &       -0.56\sym{**} \\
-                    &     (0.093)         &     (0.174)         &     (0.155)         &     (0.059)         &     (0.031)         &     (0.173)         \\
-\addlinespace
-US TP               &        2.12\sym{*}  &        3.37\sym{***}&        2.52\sym{***}&        0.89         &       -0.92\sym{**} &        2.40\sym{**} \\
-                    &     (0.786)         &     (0.765)         &     (0.561)         &     (0.467)         &     (0.293)         &     (0.759)         \\
-\addlinespace
-Log(Vix)            &       67.70\sym{*}  &      -16.06         &        1.93         &      -22.36         &      103.31\sym{***}&      -18.76         \\
-                    &    (31.051)         &    (30.075)         &    (25.425)         &    (16.038)         &    (23.154)         &    (30.217)         \\
-\addlinespace
-EPU                 &       -0.27         &       -0.28         &       -0.28         &        0.02         &       -0.12         &       -0.28         \\
-                    &     (0.278)         &     (0.264)         &     (0.200)         &     (0.110)         &     (0.107)         &     (0.265)         \\
-\addlinespace
-S\&P                &        0.01         &       -0.02         &       -0.01         &       -0.01         &        0.03\sym{***}&       -0.02         \\
-                    &     (0.007)         &     (0.009)         &     (0.010)         &     (0.005)         &     (0.005)         &     (0.009)         \\
-\addlinespace
-Global IP           &        1.33         &       -1.86         &       -0.05         &       -1.80         &        4.31\sym{**} &       -1.93         \\
-                    &     (1.373)         &     (1.589)         &     (1.279)         &     (1.616)         &     (1.358)         &     (1.585)         \\
-\addlinespace
-Oil                 &       -0.00         &       -0.00         &        0.00         &       -0.00\sym{**} &       -0.00         &       -0.00         \\
-                    &     (0.004)         &     (0.003)         &     (0.002)         &     (0.001)         &     (0.001)         &     (0.003)         \\
-\addlinespace
-Inflation           &       44.28\sym{***}&       44.87\sym{***}&       30.40\sym{**} &       14.64\sym{***}&       -0.89         &       44.89\sym{***}\\
-                    &     (6.426)         &     (7.843)         &     (8.066)         &     (2.323)         &     (3.165)         &     (7.824)         \\
-\addlinespace
-Unempl.             &       21.30\sym{*}  &        8.20         &        7.26         &        1.23         &        9.80         &        7.94         \\
-                    &     (9.780)         &    (10.055)         &     (7.321)         &     (3.932)         &     (5.618)         &    (10.014)         \\
-\addlinespace
-FX                  &        0.02         &        0.01         &        0.00         &        0.01         &        0.01         &        0.01         \\
-                    &     (0.016)         &     (0.016)         &     (0.015)         &     (0.008)         &     (0.009)         &     (0.016)         \\
-\midrule
-Obs.        &        2333         &        2257         &        2257         &        2257         &        2197         &        2257         \\
-\(R^{2}\)           &        0.60         &        0.52         &        0.49         &        0.28         &        0.25         &        0.37         \\
-\bottomrule
-\multicolumn{7}{l}{\footnotesize Note: Dependent variables in basis points. EPU Global, returns for: S\&P, oil, FX.}\\
-\end{tabular*}
-\end{table}
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+%\usepackage[margin=1in]{geometry}
+%\input{../Settings/macros}
+
+\begin{document}
+	\begin{normalsize}
+%		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Drivers of the Emerging Market 2-Year Nominal Yield and Its Components} \label{tab:ycdcmp2y}
+					\begin{threeparttable}
+						\estauto{../Tables/f_ycdcmp2y.tex}{6}
+						\tabnote{This table reports the estimated slope coefficients of panel data regressions of the 2-year nominal yields and their components on selected explanatory variables. The sample includes monthly data for 15 emerging markets starting in 2000:1 and ending in 2019:12. The dependent variables are the nominal (Nominal) and synthetic (Synth.) yields, the expected short rate (ESR), the term premium (TP), the credit risk premium (CRP) and the forward premium (FP). All dependent variables are expressed in basis points. The explanatory variables are the U.S. expected short rate (US ER) and term premium (US TP) according to \cite{KimWright:2005}, domestic inflation and unemployment, the log of the Vix (Log(Vix)) and the global economic policy uncertainty index (Log(EPU)) based on \cite{BakerBloomDavis:2016}, the global activity index based in industrial production (Global IP) from \cite{Hamilton:2019} and the monthly returns of the exchange rate (FX), the Standard \& Poor's stock market index (S\&P) and the price of oil for the West Texas Intermediate benchmark (Oil). All cases include country fixed effects. Heteroskedasticity and autocorrelation consistent standard errors are in parenthesis. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+%		\end{landscape}
+	\end{normalsize}
+\end{document}
