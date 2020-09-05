@@ -76,4 +76,5 @@ params.rho0  = rho0;    params.rho1  = rho1;
 params.lmbd0 = lmbd0;   params.lmbd1 = lmbd1;
 params.sgmY  = sgmY;    params.sgmS  = sgmS;
 params.cSgm  = cSgm;    params.xs    = xs;
+params.x00   = x00;     params.P00   = P00;
 params.Ps    = Ps;      params.Hhess = hessian;
