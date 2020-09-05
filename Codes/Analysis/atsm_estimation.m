@@ -1,4 +1,4 @@
-function S = atsm_estimation(S,matsout,sgmSfree)
+function S = atsm_estimation(S,matsout,sgmSfree,simplex)
 % ATSM_ESTIMATION Estimate affine term structure model with monthly data
 % and 3 pricing factors
 % 
@@ -7,15 +7,17 @@ function S = atsm_estimation(S,matsout,sgmSfree)
 %            and synthetic bond yields and survey forecasts if available
 % matsout  - bond maturities (in years) to be reported
 % sgmSfree - logical for whether to estimate sgmS (o/w fixed at 75 bp)
+% simplex  - logical for whether to estimate using fminsearch (default) or fminunc
 %
 %	OUTPUT
 % S - structure includes estimated yields under Q and P measures, estimated
 % term premia, estimated parameters for nominal and synthetic yield curves
 %
 % m-files called: estimation_jsz, estimation_svys
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 addpath(genpath('jsz_code'))
+if nargin < 4; simplex = true; end                                          % set fminsearch as default solver
 p       = 3;                                                                % number of state vectors
 dt      = 1/12;                                                             % time period in years
 ncntrs  = length(S);
@@ -50,7 +52,8 @@ for k0 = 1:length(prefix)
         
         % Estimate the model using yields and surveys
         if ~isempty(matsS)                                                  % only for EMs w/ survey data
-            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,params0,sgmSfree);
+            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,...
+                                                             params0,sgmSfree,simplex);
             
             S(k1).([prefix{k0} 's' sgmtype '_yQ']) = [nan matsout; dates ylds_Q];
             S(k1).([prefix{k0} 's' sgmtype '_yP']) = [nan matsout; dates ylds_P];
