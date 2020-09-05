@@ -20,7 +20,7 @@ S = daily2dymy(S,dataset_daily,header_daily,true);
 S = add_macroNsvys(S,currEM);
 S = append_svys2ylds(S,currEM);
 
-%% Estimate affine term structure model (fminsearch for all cases)
+%% Estimate affine term structure model using fminsearch (for all cases)
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 4.1 hrs
@@ -44,7 +44,7 @@ for k0  = 1:ncntrs
     end
 end
 
-%% Estimate affine term structure model (fminunc for baseline cases)
+%% Estimate affine term structure model using fminunc (for baseline cases)
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,false,false);                      	% fixed sgmS case, runtime 4.1 hrs
