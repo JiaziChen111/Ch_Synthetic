@@ -45,9 +45,9 @@ for k0  = 1:ncntrs
 end
 
 %% Estimate affine term structure model using fminunc (for baseline cases)
-matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
+sgmSfree = false;                                                   % consistent w/ baseline (fixed sgmS) case
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,false,false);                      	% fixed sgmS case, runtime 4.1 hrs
+S = atsm_estimation(S,matsout,sgmSfree,false);                      % fminunc, runtime XX hrs
 datetime(now(),'ConvertFrom','datenum')
 
 %% Assess fit of the model for baseline estimation
