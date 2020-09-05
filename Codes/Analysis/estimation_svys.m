@@ -1,4 +1,4 @@
-function [ylds_Q,ylds_P,termprm,params] = estimation_svys(yldsvy,matsY,matsS,matsout,dt,params0,sgmSfree)
+function [ylds_Q,ylds_P,termprm,params] = estimation_svys(yldsvy,matsY,matsS,matsout,dt,params0,sgmSfree,simplex)
 % ESTIMATION_SVYS Estimate affine term structure model using yields and surveys
 % 
 %	INPUTS
@@ -8,7 +8,8 @@ function [ylds_Q,ylds_P,termprm,params] = estimation_svys(yldsvy,matsY,matsS,mat
 % matsout  - bond maturities (in years) to be reported
 % dt       - length of period in years (eg. 1/12 for monthly data)
 % params0  - initial values of parameters
-% sgmSfree - logical whether to estimate sgmS (o/w fixed at 75 bp)
+% sgmSfree - logical for whether to estimate sgmS (o/w fixed at 75 bp)
+% simplex  - logical for whether to estimate using fminsearch (default) or fminunc
 %
 %	OUTPUT
 % ylds_Q  - estimated yields under Q measure
@@ -17,17 +18,18 @@ function [ylds_Q,ylds_P,termprm,params] = estimation_svys(yldsvy,matsY,matsS,mat
 % params  - estimated parameters
 %
 % m-files called: llkfn, atsm_params, Kfs, parest2vars, loadings
-% Pavel Solís (pavel.solis@gmail.com), June 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
+if nargin < 8; simplex = true; end                                          % set fminsearch as default solver
 nobs   = size(yldsvy,1);                                                    % number of observations
 x00    = params0.x00;
 P00    = params0.P00;
-fmflag = 0;
 niter  = 2000;
+exflag = 0;
 
 % Estimate parameters
-while fmflag == 0
-    if niter == 2000                                                        % use initial values in 1st run
+while exflag == 0
+    if niter == 2000                                                        % initial values from input
         if sgmSfree
             par0 = [params0.PhiP(:);params0.cSgm(:);params0.lmbd1(:);params0.lmbd0(:);...
                     params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY;params0.sgmS];
@@ -36,14 +38,20 @@ while fmflag == 0
                     params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY];
         end
     else
-        par0 = parest;
+        par0 = parest;                                                      % initial values from previous run
     end
     
     maxitr = length(par0)*niter;
-    optns  = optimset('MaxFunEvals',maxitr,'MaxIter',maxitr);
-    llkhd  = @(x)llkfn(x,yldsvy',x00,P00,matsY,matsS,dt);                   % include vars in workspace
-    [parest,fval,fmflag] = fminsearch(llkhd,par0,optns);                    % estimate parameters
-    if ~isinf(fval) && fmflag == 0;   niter = niter + 1000;   end
+    llkhan = @(x)llkfn(x,yldsvy',x00,P00,matsY,matsS,dt);                   % include vars in workspace
+    if simplex
+        options = optimset('MaxFunEvals',maxitr,'MaxIter',maxitr);
+        [parest,fval,exflag] = fminsearch(llkhan,par0,options);
+    else
+        options = optimoptions('fminunc','Display','notify','Algorithm','quasi-newton','HessUpdate','bfgs',...
+            'MaxFunctionEvaluations',maxitr,'MaxIter',maxitr,'UseParallel',false);
+        [parest,fval,exflag,~,~,hessian] = fminunc(llkhan,par0,options);
+    end
+    if ~isinf(fval) && exflag == 0;   niter = niter + 1000;   end
 end
 
 % Estimate state vector based on estimated parameters
@@ -62,10 +70,10 @@ ylds_P    = ones(nobs,1)*AnP + xs*BnP;
 termprm   = ylds_Q - ylds_P;        % = ones(nobs,1)*(AnQ - AnP) + xs*(BnQ - BnP);
 
 % Report parameters
-params.cSgm  = cSgm;
 params.mu_xP = mu_xP;   params.PhiP  = PhiP;
 params.mu_xQ = mu_xQ;   params.PhiQ  = PhiQ;
 params.rho0  = rho0;    params.rho1  = rho1;
 params.lmbd0 = lmbd0;   params.lmbd1 = lmbd1;
 params.sgmY  = sgmY;    params.sgmS  = sgmS;
-params.xs    = xs;      params.Ps    = Ps;
+params.cSgm  = cSgm;    params.xs    = xs;
+params.Ps    = Ps;      params.Hhess = hessian;
