@@ -48,7 +48,7 @@ end
 
 % Estimate state vector based on estimated parameters
 [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);                 % get model parameters
-[~,~,~,~,~,xs] = Kfs(yldsvy',mu_x,mu_y,Phi,A,Q,R,x00,P00);                  % smoothed state
+[~,~,~,~,~,xs,Ps] = Kfs(yldsvy',mu_x,mu_y,Phi,A,Q,R,x00,P00);               % smoothed state and its covariance
 xs = xs';                                                                   % same dimensions as yldsvy 
 
 % Estimate the term premium
@@ -62,9 +62,10 @@ ylds_P    = ones(nobs,1)*AnP + xs*BnP;
 termprm   = ylds_Q - ylds_P;        % = ones(nobs,1)*(AnQ - AnP) + xs*(BnQ - BnP);
 
 % Report parameters
+params.cSgm  = cSgm;
 params.mu_xP = mu_xP;   params.PhiP  = PhiP;
 params.mu_xQ = mu_xQ;   params.PhiQ  = PhiQ;
 params.rho0  = rho0;    params.rho1  = rho1;
 params.lmbd0 = lmbd0;   params.lmbd1 = lmbd1;
 params.sgmY  = sgmY;    params.sgmS  = sgmS;
-params.cSgm  = cSgm;    params.xs    = xs;
+params.xs    = xs;      params.Ps    = Ps;
