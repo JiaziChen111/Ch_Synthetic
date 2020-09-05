@@ -42,13 +42,16 @@ for k0 = 1:length(prefix)
             yonly = ynsvys(:,1:startS-1);                                   % extract yields
         end
         
-        % Estimate the model using yields only (all countries)
-        [ylds_Q,ylds_P,termprm,params0] = estimation_jsz(yonly,matsY,matsout,dt,p);
-        
-        S(k1).([prefix{k0} 'y_yQ']) = [nan matsout; dates ylds_Q];
-        S(k1).([prefix{k0} 'y_yP']) = [nan matsout; dates ylds_P];
-        S(k1).([prefix{k0} 'y_tp']) = [nan matsout; dates termprm];
-        S(k1).([prefix{k0} 'y_pr']) = params0;
+        if ~isfield(S,[prefix{k0} 'y_pr'])                                  % JSZ only if not already done
+            % Estimate the model using yields only (all countries)
+            [ylds_Q,ylds_P,termprm,params0] = estimation_jsz(yonly,matsY,matsout,dt,p);
+            S(k1).([prefix{k0} 'y_yQ']) = [nan matsout; dates ylds_Q];
+            S(k1).([prefix{k0} 'y_yP']) = [nan matsout; dates ylds_P];
+            S(k1).([prefix{k0} 'y_tp']) = [nan matsout; dates termprm];
+            S(k1).([prefix{k0} 'y_pr']) = params0;
+        else
+            params0 = S(k1).([prefix{k0} 'y_pr']);                          % initial values from JSZ
+        end
         
         % Estimate the model using yields and surveys
         if ~isempty(matsS)                                                  % only for EMs w/ survey data
