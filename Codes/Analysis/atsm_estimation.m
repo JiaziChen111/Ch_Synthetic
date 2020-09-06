@@ -55,13 +55,24 @@ for k0 = 1:length(prefix)
         
         % Estimate the model using yields and surveys
         if ~isempty(matsS)                                                  % only for EMs w/ survey data
-            [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,...
-                                                             params0,sgmSfree,simplex);
-            
-            S(k1).([prefix{k0} 's' sgmtype '_yQ']) = [nan matsout; dates ylds_Q];
-            S(k1).([prefix{k0} 's' sgmtype '_yP']) = [nan matsout; dates ylds_P];
-            S(k1).([prefix{k0} 's' sgmtype '_tp']) = [nan matsout; dates termprm];
-            S(k1).([prefix{k0} 's' sgmtype '_pr']) = params;
+            if simplex
+                [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,...
+                                                                 params0,sgmSfree,true);
+                S(k1).([prefix{k0} 's' sgmtype '_yQ']) = [nan matsout; dates ylds_Q];
+                S(k1).([prefix{k0} 's' sgmtype '_yP']) = [nan matsout; dates ylds_P];
+                S(k1).([prefix{k0} 's' sgmtype '_tp']) = [nan matsout; dates termprm];
+                S(k1).([prefix{k0} 's' sgmtype '_pr']) = params;
+            elseif strcmp(prefix{k0},'ms')                                  % fminunc only for synthetic yields
+                params0 = S(k1).('bsl_pr');                                 % initial values from fminsearch
+                params0.x00 = S(k1).([prefix{k0} 'y_pr']).x00;
+                params0.P00 = S(k1).([prefix{k0} 'y_pr']).P00;
+                [ylds_Q,ylds_P,termprm,params] = estimation_svys(ynsvys,matsY,matsS,matsout,dt,...
+                                                                 params0,sgmSfree,false);
+                S(k1).('bsl_yQ') = [nan matsout; dates ylds_Q];             % overwrite baseline fields
+                S(k1).('bsl_yP') = [nan matsout; dates ylds_P];
+                S(k1).('bsl_tp') = [nan matsout; dates termprm];
+                S(k1).('bsl_pr') = params;
+            end
         end
         disp(['Estimation for ' S(k1).cty ' has finished.'])
     end
