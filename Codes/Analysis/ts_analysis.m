@@ -51,8 +51,10 @@ S = atsm_estimation(S,matsout,sgmSfree,false);                      % fminunc, r
 datetime(now(),'ConvertFrom','datenum')
 
 %% Assess fit of the model for baseline estimation
+seX = se_state(S,currEM);
+S   = se_components(S,matsout,currEM);
 [S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
-S = add_vars(S,currEM);
+S   = add_vars(S,currEM);
 
 %% Daily frequency estimation
 S = daily2dymy(S,dataset_daily,header_daily,false);
