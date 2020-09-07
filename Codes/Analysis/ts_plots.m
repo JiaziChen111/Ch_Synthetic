@@ -707,13 +707,13 @@ close all
 %% Nominal YC decomposition: drivers of yields
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
     % EM: monthly
-fldname = {'bsl_yP','bsl_tp','mc_blncd'};       % daily data: {'d_yP','d_tp','dc_blncd'};
+fldname = {'bsl_yP','bsl_tp','bsl_cr'};       % daily data: {'d_yP','d_tp','dc_blncd'};
 figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
-    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
-              S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
-              S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--');% 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
+         S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--')% 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -729,8 +729,8 @@ figure
 for k0 = nEMs+1:nEMs+nAEs
     k1 = k1 + 1;
     subplot(2,5,k1)
-    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
-              S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.');% 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.')% 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -970,7 +970,7 @@ for k0 = 1:length(fldname)
     figname = ['dy_index_' fldname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
 end
 
-%% Plot yield curve
+%% Plot yield curves
 k0 = 1;                                                                     % country
 matrix = S(k0).ms_blncd;                                                    % synthetic
 dates  = matrix(2:end,1);
