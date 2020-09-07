@@ -743,7 +743,25 @@ figname = 'ny_dcmp_AE'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Compare estimated CRC versus DS LCCS
+    % Monthly frequency
 fldname = {'bsl_cr','mc_blncd'};
+tnr = 10;
+figure
+for k1 = 1:nEMs
+    subplot(3,5,k1)
+    var1 = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
+    var2 = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
+    plot(S(k1).(fldname{1})(2:end,1),var1,S(k1).(fldname{2})(2:end,1),var2);
+    title(S(k1).cty)
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+lbl = {'Own','DS'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+
+    % Daily frequency
+fldname = {'d_cr','dc_blncd'};
 tnr = 10;
 figure
 for k1 = 1:nEMs
