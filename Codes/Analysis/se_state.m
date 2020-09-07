@@ -1,5 +1,6 @@
-function mtxmse = se_from_state(S,currEM)
-% SE_STATE Report standard errors due to uncertainty in the state
+function mtxmse = se_state(S,currEM)
+% SE_STATE Report standard errors due to uncertainty in the state. The
+% parameters are assumed to be known with certainty
 
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
