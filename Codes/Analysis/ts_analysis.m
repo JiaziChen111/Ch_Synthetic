@@ -1,10 +1,10 @@
 %% Term Structure Analysis: Nominal and Synthetic for EM and AE
 % This code calls functions to estimate and analyze affine term structure models
 
-% m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation,
-% assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
+% m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation, se_state, add_cr, 
+% se_components, assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
 % auxiliary: read_macrovars, read_kw
-% Pavel Solís (pavel.solis@gmail.com), August 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2020
 % 
 %% Load the data
 clear
@@ -52,6 +52,7 @@ datetime(now(),'ConvertFrom','datenum')
 
 %% Assess fit of the model for baseline estimation
 seX = se_state(S,currEM);
+S   = add_cr(S,matsout,currEM);
 S   = se_components(S,matsout,currEM);
 [S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
 S   = add_vars(S,currEM);
