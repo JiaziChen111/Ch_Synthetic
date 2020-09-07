@@ -2,6 +2,7 @@ function mtxmse = se_state(S,currEM)
 % SE_STATE Report standard errors due to uncertainty in the state. The
 % parameters are assumed to be known with certainty
 
+% m-files called: loadings, vars2parest, atsm_params, Kfs
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 dt      = 1/12; 
@@ -47,7 +48,7 @@ for k0  = 1:ncntrs
     [~,BnP] = loadings(matsall,mu_xP,PhiP,Hcov,rho0,rho1,dt);
     
     % Covariance matrix of state vector based on estimated parameters
-    parest = [PhiP(:);cSgm(:);lmbd1(:);lmbd0(:);mu_xP(:);rho1(:);rho0;sgmY;sgmS];
+    parest = vars2parest(PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS);
     [mu_x,mu_y,Phi,A,Q,R] = atsm_params(parest,matsY,matsS,dt);        	% get model parameters
     [~,~,~,~,~,~,Ps] = Kfs(ynsvys',mu_x,mu_y,Phi,A,Q,R,x00,P00);     	% smoothed state
     
