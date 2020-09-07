@@ -61,27 +61,3 @@ input.tableCaption = 'Model Fit';
 input.tableLabel = 'modelfit';
 input.texName = filename;
 latexTable(input);
-
-%%
-figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
-vars  = {'yQ','yP','tp'};
-names = {'Fitted Yields','Expected Short Rate','Term Premium'};
-for k0 = 1:length(vars)
-    fldname = {['bsl_' vars{k0}],['bsl_' vars{k0} '_se']};
-    figure
-    for k1 = 1:nEMs
-        subplot(3,5,k1)
-        var   = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == 10)*100;
-        varse = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == 10)*100;
-        plot(S(k1).(fldname{1})(2:end,1),var,'-'); hold on
-        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6])
-        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
-        title(S(k1).cty)
-        datetick('x','yy'); yline(0);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
-    end
-    lbl = {names{k0},'Confidence Bands'};
-    lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
-    set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
-    figname = [fldname{1} '_CI']; save_figure(figdir,figname,formats,figsave)
-end
