@@ -742,12 +742,28 @@ figname = 'ny_dcmp_AE'; save_figure(figdir,figname,formats,figsave)
 
 close all
 
+%% Compare estimated CRC versus DS LCCS
+fldname = {'bsl_cr','mc_blncd'};
+tnr = 10;
+figure
+for k1 = 1:nEMs
+    subplot(3,5,k1)
+    var1 = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
+    var2 = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
+    plot(S(k1).(fldname{1})(2:end,1),var1,S(k1).(fldname{2})(2:end,1),var2);
+    title(S(k1).cty)
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+lbl = {'Own','DS'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+
 %% Components with confidence bands
 figdir = 'Estimation'; formats = {'eps'}; figsave = false;
-vars   = {'yQ','yP','tp'};
-names  = {'Fitted Yields','Expected Short Rate','Term Premium'};
+vars   = {'yQ','yP','tp','cr'};
+names  = {'Fitted Yields','Expected Short Rate','Term Premium','Credit Risk Compensation'};
 tnr    = 10;
-figure
 for k0 = 1:length(vars)
     fldname = {['bsl_' vars{k0}],['bsl_' vars{k0} '_se']};
     figure
@@ -767,25 +783,6 @@ for k0 = 1:length(vars)
     set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
     figname = [fldname{1} '_CI_' num2str(tnr) 'y']; save_figure(figdir,figname,formats,figsave)
 end
-
-fldname = {'mc_blncd','bsl_cr_se'};         % when mc_blncd -> bsl_cr, move upwards in loop w/ other components
-tnr = 10;
-figure
-for k1 = 1:nEMs
-    subplot(3,5,k1)
-    var   = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
-    varse = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
-    plot(S(k1).(fldname{1})(2:end,1),var,'-'); hold on
-    plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6])
-    plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
-    title(S(k1).cty)
-    datetick('x','yy'); yline(0);
-    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
-end
-lbl = {'Credit Risk Compensation','Confidence Bands'};
-lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
-set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
-figname = ['bsl_cr_CI_' num2str(tnr) 'y']; save_figure(figdir,figname,formats,figsave)
 
 %% Plot TP against LCCS, USTP, VIX, EPU, INF
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
