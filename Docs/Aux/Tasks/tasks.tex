@@ -191,6 +191,7 @@
 \begin{todolist}	
 	\item Paper.
 	\begin{todolist}
+		
 		\item Read Cochrane shared by Moffitt.
 		\item Follow Sahm's recommendations and Hollerstein tweet.
 		\item Low connectedness supports decomposing the yields separately instead of jointly.
@@ -245,6 +246,39 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Calculate uncertainty due to estimation of the state.
+	\begin{todolist}
+		\item[\done] Get matsY and matsS.
+		\item[\done] Extract estimated parameters per country.
+		\item[\done] Generate parest from estimated parameters.
+		\item[\done] Call atsm_params to get parameters for state space model.
+		\item[\done] Call Kfs to get xs and Ps.
+		\item[\done] Confirm that xs obtained as above is the same as the one stored in field.
+		\item[\done] Calculate standard errors for uncertainty due to xs as sqrt(diag((Bn'*Ps*Bn))).
+		\item[\done] Calculate average standard error per maturity and store in a matrix that has those averages for all countries.
+		\item[\done] Do that for yQ, yP and TP.
+	\end{todolist}
+	\item[\done] Obtain the asymptotic variance of the MLE parameters.
+	\begin{todolist}
+		\item[\done] Report covariance matrix for smoothed state in estimation_svys.
+		\item[\done] Define problem to use fminunc (optimoptions, algorithm, passing extra parameters, use of exit flag, display). Store the Hessian.
+		\item[\done] Add option in estimation_svys to choose b/w estimation using fminsearch or fminunc.
+		\item[\done] Add option in atsm_estimation to choose b/w estimation using fminsearch or fminunc and update call to estimation_svys including the option.
+		\item[\done] In ts_analysis call atsm_estimation twice: one using fminsearch and one using fminunc.
+		\item[\done] Use estimated parameters w/ fminsearch as starting values for fminunc. Note: it produces warnings of singular matrix in all cases.
+		\item[\done] Use intial values from JSZ. Note: it produces warnings of singular matrix in 8 out of 15 cases, but yP is no close to scbp for KRW and PEN.
+		\item[\done] Compare solution vs intial values (fminunc vs fminsearch) using figures.
+		\item[\done] Compare RMSE.
+	\end{todolist}
+	\item Implement the delta method.
+	\begin{todolist}
+		\item[\done] Implement vars2parest to get theta.
+		\item[\done] 3D array: Subtract epsilon to each element of theta, compute loadings and components each time.
+		\item[\done] Compute the Jacobian and the asymptotic variance.
+		\item[\done] 2D array: Compute standard errors for all maturities in each period.
+		\item[\done] Repeat for: yQ, yP, TP.
+		\item Make changes to include SE for phi.
+	\end{todolist}
 	\item[\done] Figures.
 	\begin{todolist}
 		\item[\done] Adjust target and LSAP shocks in spov_vars.

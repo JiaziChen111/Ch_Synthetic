@@ -718,6 +718,13 @@ In general, emerging market yield curves are not as smooth as those of advanced 
 % indicating that the affine model successfully captures the .
 % Fit for monthly and daily data.
 
+The standard errors of the components are calculated using the delta method.
+Although there is uncertainty in the estimation of the parameters and the pricing factors, the effect of uncertainty in the pricing factors is relatively small.
+For emerging markets, the average standard error over time and across countries for the fitted yields is 9 basis points, and for the expected future short rates and the term premium is 8 basis points; for advance countries, the equivalent numbers are less than 3 basis points.\footnote{ At each period, the standard errors are obtained by pre- and post-multiplying the variance of the pricing factors from the Kalman filter by the respective loadings for the fitted yields, the expected future short term rates and the term premium.}
+Therefore, I assume that the pricing factors are known with certainty and proceed to apply the delta method.
+
+Compute the Jacobian numerically for yQ, yP and TP, and apply the delta method.
+
 %Table \ref{tab:rmse_atsm} summarizes the fit of the models. The table shows the average root mean square fitting error in annualized percentage points of nominal and synthetic yields for emerging markets and advanced economies.\footnote{For each country, the root mean square fitting error is calculated as the square root of the average (across months and maturities) squared difference between the observed yields and the fitted yields from the estimated affine term structure model.} 
 
 %%As can be seen, the fit of the model for the nominal curves of both groups of countries is similar. The fit for the synthetic curves of advanced countries slightly improves relative to the fit for their nominal curves, while that for emerging markets declines. It is worth mentioning that the latter is driven mainly by two countries, Brazil and Indonesia, whose root mean square fitting error is slightly above 2\%.\footnote{Although not as high, the root mean square fitting error for Peru and Philippines is also above average at around 0.64 and 0.54, respectively.} This requires further inspection of the synthetic yield curves of these two countries.\footnote{In some special cases, outliers may need to be dropped in some periods to be able to fit the curve for the rest of the points.} 
