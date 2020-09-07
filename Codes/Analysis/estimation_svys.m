@@ -16,8 +16,8 @@ function [ylds_Q,ylds_P,termprm,params] = estimation_svys(yldsvy,matsY,matsS,mat
 % ylds_P  - estimated yields under P measure
 % termprm - estimated term premia
 % params  - estimated parameters
-%
-% m-files called: llkfn, atsm_params, Kfs, parest2vars, loadings
+
+% m-files called: vars2parest, llkfn, atsm_params, Kfs, parest2vars, loadings
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 if nargin < 8; simplex = true; end                                          % set fminsearch as default solver
@@ -31,11 +31,11 @@ exflag = 0;
 while exflag == 0
     if niter == 2000                                                        % initial values from input
         if sgmSfree
-            par0 = [params0.PhiP(:);params0.cSgm(:);params0.lmbd1(:);params0.lmbd0(:);...
-                    params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY;params0.sgmS];
+            par0 = vars2parest(params0.PhiP,params0.cSgm,params0.lmbd1,params0.lmbd0,...
+                               params0.mu_xP,params0.rho1,params0.rho0,params0.sgmY,params0.sgmS);
         else                                                                % sgmS fixed in atsm_params
-            par0 = [params0.PhiP(:);params0.cSgm(:);params0.lmbd1(:);params0.lmbd0(:);...
-                    params0.mu_xP(:);params0.rho1(:);params0.rho0;params0.sgmY];
+            par0 = vars2parest(params0.PhiP,params0.cSgm,params0.lmbd1,params0.lmbd0,...
+                               params0.mu_xP,params0.rho1,params0.rho0,params0.sgmY);
         end
     else
         par0 = parest;                                                      % initial values from previous run
