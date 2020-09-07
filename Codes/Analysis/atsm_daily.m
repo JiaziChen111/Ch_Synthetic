@@ -64,10 +64,10 @@ for k0 = 1:ncntrs
     end
     
     % Fit yields and estimate the term premium
-    cSgm  = S(k0).(fnameq).cSgm;    Hcov  = cSgm*cSgm';                     % estimated parameters
-    mu_xQ = S(k0).(fnameq).mu_xQ;   PhiQ  = S(k0).(fnameq).PhiQ;
-    mu_xP = S(k0).(fnameq).mu_xP;   PhiP  = S(k0).(fnameq).PhiP;
-    rho0  = S(k0).(fnameq).rho0;    rho1  = S(k0).(fnameq).rho1;
+    cSgm  = S(k0).(fnameq).cSgm;    Hcov = cSgm*cSgm';                      % estimated parameters
+    mu_xQ = S(k0).(fnameq).mu_xQ;   PhiQ = S(k0).(fnameq).PhiQ;
+    mu_xP = S(k0).(fnameq).mu_xP;   PhiP = S(k0).(fnameq).PhiP;
+    rho0  = S(k0).(fnameq).rho0;    rho1 = S(k0).(fnameq).rho1;
     [AnQ,BnQ] = loadings(mats,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);                % loadings using original maturities 
     [AnP,BnP] = loadings(mats,mu_xP,PhiP,Hcov,rho0,rho1,dt);
     ylds_Q    = ones(nobsD,1)*AnQ + xsD*BnQ;                                % fitted daily yields in decimals
@@ -84,6 +84,22 @@ for k0 = 1:ncntrs
     S(k0).([prefix '_yP']) = [nan matsout; datesD ylds_P(:,fltr)];
     S(k0).([prefix '_tp']) = [nan matsout; datesD termprm(:,fltr)];
     S(k0).([prefix '_rmse']) = sqrt(mean(mean(10000*(yieldsD - ylds_Q).^2)));% RMSE
+    
+    % Credit risk compensation
+    if ismember(S(k0).iso,currEM)
+        fnameb = 'dn_blncd';                                                % field containing nominal yields
+        fltrnm = ismember(S(k0).(fnameb)(1,:),matsout);                     % same maturities as in matsout
+        yldnom = S(k0).(fnameb)(2:end,fltrnm);                              % yields in decimals
+        datesn = S(k0).(fnameb)(2:end,1);                                   % dates
+        [~,crynom,cryldsQ] = syncdatasets([nan matsout; datesn yldnom],S(k0).([prefix '_yQ']));
+        crcomp    = crynom(2:end,2:end) - cryldsQ(2:end,2:end);
+        S(k0).([prefix '_cr']) = [nan matsout; crynom(2:end,1) crcomp];
+    else
+        fnameb = 'dc_blncd';                                                % field containing CIP deviations
+        fltrcp = ismember(S(k0).(fnameb)(1,:),matsout);                     % same maturities as in matsout
+        fltrcp(1) = true;                                                   % include dates
+        S(k0).([prefix '_cr']) = S(k0).(fnameb)(:,fltrcp);
+    end
     
     if plotfit
         if ismember(S(k0).iso,currEM)
