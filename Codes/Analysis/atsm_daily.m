@@ -11,7 +11,7 @@ function [S,fitrprt] = atsm_daily(S,matsout,currEM,currAE,plotfit)
 %	OUTPUT
 % S - structure includes fitted yields and components at daily frequency
 
-% m-files called: none
+% m-files called: loadings, syncdatasets
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 dt      = 1/12;                                                             % period length in years
