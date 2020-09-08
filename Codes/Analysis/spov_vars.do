@@ -106,8 +106,8 @@ label values ae grpnames
 #delimit ;
 unab oldlabels : mp1 path lsap sdprm gdp inf une epuus
 				 epugbl globalip nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
-local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." "EPU US" 
-	"Global EPU" "Global IP" "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
+local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unemployment" "EPU US" 
+	"EPU Global" "Global Ind. Prod." "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
 	"Synthetic" "Synthetic" "Synthetic" "Synthetic" "Forward Premium" "Forward Premium" "Forward Premium" 
 	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk P." "Credit Risk P." 
 	"Credit Risk P." "Credit Risk P." "Credit Risk P." "E. Short Rate" "E. Short Rate" "E. Short Rate" 
