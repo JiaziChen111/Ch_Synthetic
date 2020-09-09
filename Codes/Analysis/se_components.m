@@ -58,7 +58,7 @@ for k0  = 1:nEMs
         thetanew     = thetaold;
         thetanew(k1) = thetanew(k1) - epsilon;
 
-        % New decomposition
+        % New decomposition (assumes no uncertainty in state)
         [PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0] = parest2vars(thetanew);    % sgmY and sgmS no needed
         Hcov      = cSgm*cSgm';             cSgm = chol(Hcov,'lower');      % crucial: cSgm from Cholesky
         mu_xQ     = mu_xP - cSgm*lmbd0;     PhiQ = PhiP  - cSgm*lmbd1;
@@ -96,9 +96,3 @@ for k0  = 1:nEMs
     S(k0).('bsl_tp_se') = [nan matsout; datess setp];
     S(k0).('bsl_cr_se') = [nan matsout; datesc secr];
 end
-
-%     % Covariance matrix of state vector based on estimated parameters
-%     x00   = S(k0).(fname0).x00;     P00   = S(k0).(fname0).P00;
-%     code for matsY and matsS
-%     [mu_x,mu_y,Phi,A,Q,R] = atsm_params(thetanew,matsY,matsS,dt);           % get model parameters
-%     [~,~,~,~,~,xs] = Kfs(ynsvys',mu_x,mu_y,Phi,A,Q,R,x00,P00);              % smoothed state
