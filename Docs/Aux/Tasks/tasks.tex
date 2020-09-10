@@ -191,9 +191,10 @@
 \begin{todolist}	
 	\item Paper.
 	\begin{todolist}
-		
+		\item Explain that phi = ynom - yfitted (not ynom-ysynt as before).
 		\item Read Cochrane shared by Moffitt.
 		\item Follow Sahm's recommendations and Hollerstein tweet.
+		\item Reframe paper in terms of Obstfeld-Ozcan debate. Highlight that ignoring credit risk alters the assessment of the debate (instead of framing the whole paper about the implication of ignoring credit risk).
 		\item Low connectedness supports decomposing the yields separately instead of jointly.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
 		\item LPs vs VAR to compute IRFs.
@@ -246,6 +247,24 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Compute the asymptotic variance.
+	\begin{todolist}
+		\item[\done] Compute second derivative of llkfun and multiply by minus 1.
+		\item[\done] Compute first derivative of llkfun and take the variance. First derivative minus expected value.
+		\item[\done] Check definiteness. V2 pass this test whereas V1 doesn't.
+		\item[\done] Save in Vasy in structures bsl_pr.
+		\item[\done] Use Vasy in se_components (delta method).
+		\item[\done] Divide J*Vasy*J' by n when calculating the standard errors.
+		\item[\done] Plot components w/ SE.
+		\item Repeat exercise but using fminsearch instead of fminunc.
+	\end{todolist}
+	\item Update LP figures in Stata: 30 and 60 days. May need to re-run them since estimates from fminseach might still be valid.
+	\item Call to splityldssvys in atsm_estimation, se_state.
+	\item[\done] Line up observations in drivers table so that coefficients add up exactly.
+	\item[\done] Update datasets and tables in Stata.
+	\item[\done] Update construct_panel to report d_cr instead of dc_blncd.
+	\item[\done] Report d_cr so that decomposition of nominal yields adds up exactly w/ daily data.
+	\item[\done] Compare mssf_yP vs scbp. Note: in general is similar; however, the fit improves for some countries whereas it is off for others (for which it may require to run the estimation again).
 	\item[\done] Calculate uncertainty due to estimation of the state.
 	\begin{todolist}
 		\item[\done] Get matsY and matsS.
@@ -270,14 +289,14 @@
 		\item[\done] Compare solution vs intial values (fminunc vs fminsearch) using figures.
 		\item[\done] Compare RMSE.
 	\end{todolist}
-	\item Implement the delta method.
+	\item[\done] Implement the delta method.
 	\begin{todolist}
 		\item[\done] Implement vars2parest to get theta.
 		\item[\done] 3D array: Subtract epsilon to each element of theta, compute loadings and components each time.
 		\item[\done] Compute the Jacobian and the asymptotic variance.
 		\item[\done] 2D array: Compute standard errors for all maturities in each period.
 		\item[\done] Repeat for: yQ, yP, TP.
-		\item Make changes to include SE for phi.
+		\item[\done] Make changes to include SE for phi. Notes: use syncdatasets.
 	\end{todolist}
 	\item[\done] Figures.
 	\begin{todolist}
