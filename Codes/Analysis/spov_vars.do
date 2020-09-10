@@ -107,10 +107,10 @@ label values ae grpnames
 unab oldlabels : mp1 path lsap sdprm gdp inf une epuus
 				 epugbl globalip nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
 local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unemployment" "EPU US" 
-	"EPU Global" "Global Ind. Prod." "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
+	"EPU Global" "Global Ind. Prod." "Nominal" "Nominal" "Nominal" "Nominal" "Nominal" "Nominal" "Synthetic" "Synthetic" 
 	"Synthetic" "Synthetic" "Synthetic" "Synthetic" "Forward Premium" "Forward Premium" "Forward Premium" 
-	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk P." "Credit Risk P." 
-	"Credit Risk P." "Credit Risk P." "Credit Risk P." "E. Short Rate" "E. Short Rate" "E. Short Rate" 
+	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk" "Credit Risk" 
+	"Credit Risk" "Credit Risk" "Credit Risk" "E. Short Rate" "E. Short Rate" "E. Short Rate" 
 	"E. Short Rate" "E. Short Rate" "E. Short Rate" "Term Premium" "Term Premium" "Term Premium" 
 	"Term Premium" "Term Premium" "Term Premium" "Yield" "Yield" "Yield" 
 	"Yield" "Yield" "Yield" "Term Premium" "Term Premium" "Term Premium" "Term Premium" 
