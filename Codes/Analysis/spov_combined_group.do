@@ -12,7 +12,7 @@ local maxlag  = 1
 foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
-		local vars nom dyp dtp phi // nom usyc rho phi	//  nom syn rho phi
+		local vars nom dyp dtp // nom usyc rho phi	//  nom syn rho phi
 		local region regionae
 	}
 	else {
