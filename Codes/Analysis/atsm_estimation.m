@@ -13,7 +13,7 @@ function S = atsm_estimation(S,matsout,sgmSfree,simplex)
 % S - structure includes estimated yields under Q and P measures, estimated
 % term premia, estimated parameters for nominal and synthetic yield curves
 %
-% m-files called: estimation_jsz, estimation_svys
+% m-files called: splityldssvys, estimation_jsz, estimation_svys
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 addpath(genpath('jsz_code'))
@@ -28,19 +28,7 @@ for k0 = 1:length(prefix)
     fldname = [prefix{k0} '_ylds'];
     for k1  = 1:ncntrs
         % Split yields & surveys
-        dates  = S(k1).(fldname)(2:end,1);
-        ynsvys = S(k1).(fldname)(2:end,2:end);
-        mats   = S(k1).(fldname)(1,:);                                      % include first column
-        startS = find(mats(2:end) - mats(1:end-1) < 0);                     % position where survey data starts
-        mats   = mats(2:end);                                               % remove extra first column
-        if isempty(startS)                                                  % only yields in dataset
-            matsY = mats(1:end);   matsS = [];
-            yonly = ynsvys;
-        else
-            matsY = mats(1:startS-1);                                       % yield maturities in years
-            matsS = mats(startS:end);                                       % survey maturities in years
-            yonly = ynsvys(:,1:startS-1);                                   % extract yields
-        end
+        [dates,yonly,ynsvys,matsY,matsS] = splityldssvys(S,k1,fldname);
         
         if ~isfield(S,[prefix{k0} 'y_pr'])                                  % JSZ only if not already done
             % Estimate the model using yields only (all countries)
