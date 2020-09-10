@@ -50,9 +50,10 @@ datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,sgmSfree,false);                      % fminunc, runtime XX hrs
 datetime(now(),'ConvertFrom','datenum')
 
-%% Assess fit of the model for baseline estimation
+%% Post-estimation computations
 seX = se_state(S,currEM);
 S   = add_cr(S,matsout,currEM);
+S   = asyvarhat(S,currEM);
 S   = se_components(S,matsout,currEM);
 [S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
 S   = add_vars(S,currEM);
