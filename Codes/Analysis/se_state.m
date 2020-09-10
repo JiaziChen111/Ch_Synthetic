@@ -2,7 +2,7 @@ function mtxmse = se_state(S,currEM)
 % SE_STATE Report standard errors due to uncertainty in the state. The
 % parameters are assumed to be known with certainty
 
-% m-files called: loadings, vars2parest, atsm_params, Kfs
+% m-files called: splityldssvys, loadings, vars2parest, atsm_params, Kfs
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 dt      = 1/12; 
@@ -22,17 +22,8 @@ for k0  = 1:ncntrs
     fnamey = [prefix '_ylds'];      fname0 = [prefix 'y_pr'];
     
     % Split yields & surveys
-    ynsvys = S(k0).(fnamey)(2:end,2:end);
-    nobs   = size(ynsvys,1);                                            % number of observations
-    mats   = S(k0).(fnamey)(1,:);                                       % include first column
-    startS = find(mats(2:end) - mats(1:end-1) < 0);                     % position where survey data starts
-    mats   = mats(2:end);                                               % remove extra first column
-    if isempty(startS)                                                  % only yields in dataset
-        matsY = mats(1:end);   matsS = [];
-    else
-        matsY = mats(1:startS-1);                                       % yield maturities in years
-        matsS = mats(startS:end);                                       % survey maturities in years
-    end
+    [~,~,ynsvys,matsY,matsS] = splityldssvys(S,k0,fnamey);
+    nobs = size(ynsvys,1);                                              % number of observations
     
     % Extract estimated parameters
     cSgm  = S(k0).(fnameq).cSgm;    Hcov  = cSgm*cSgm';
