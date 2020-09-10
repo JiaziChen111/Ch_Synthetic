@@ -33,7 +33,7 @@ for k0  = 1:nEMs
     lmbd0 = S(k0).(fnameq).lmbd0;   lmbd1 = S(k0).(fnameq).lmbd1;
     rho0  = S(k0).(fnameq).rho0;    rho1  = S(k0).(fnameq).rho1;
     sgmY  = S(k0).(fnameq).sgmY;    sgmS  = S(k0).(fnameq).sgmS;
-    xs    = S(k0).(fnameq).xs;      Hhess = S(k0).(fnameq).Hhess;
+    xs    = S(k0).(fnameq).xs;      Vasy  = S(k0).(fnameq).V1;
     
     % Original decomposition
     [AnQ,BnQ] = loadings(matsout,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);
@@ -83,12 +83,12 @@ for k0  = 1:nEMs
     setp = nan(nobssn,nmats);
     secr = nan(nobscr,nmats);
     for k2 = 1:nobssn
-        seyQ(k2,:) = sqrt(diag(JyQ(:,:,k2)*(Hhess\JyQ(:,:,k2)')));
-        seyP(k2,:) = sqrt(diag(JyP(:,:,k2)*(Hhess\JyP(:,:,k2)')));
-        setp(k2,:) = sqrt(diag(Jtp(:,:,k2)*(Hhess\Jtp(:,:,k2)')));
+        seyQ(k2,:) = sqrt(diag(JyQ(:,:,k2)*Vasy*JyQ(:,:,k2)'/nobssn));
+        seyP(k2,:) = sqrt(diag(JyP(:,:,k2)*Vasy*JyP(:,:,k2)'/nobssn));
+        setp(k2,:) = sqrt(diag(Jtp(:,:,k2)*Vasy*Jtp(:,:,k2)'/nobssn));
     end
     for k2 = 1:nobscr
-        secr(k2,:) = sqrt(diag(Jcr(:,:,k2)*(Hhess\Jcr(:,:,k2)')));
+        secr(k2,:) = sqrt(diag(Jcr(:,:,k2)*Vasy*Jcr(:,:,k2)'/nobscr));
     end
     
     S(k0).('bsl_yQ_se') = [nan matsout; datess seyQ];
