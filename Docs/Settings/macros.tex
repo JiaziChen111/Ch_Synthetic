@@ -21,16 +21,19 @@
 \providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
 \providecommand{\yZeroP}{\yZero^{\Pmeasure}}
 \providecommand{\yZeroE}{\yZero^{\xpc}}
-\providecommand{\yZeroFwd}{\yld_{\idxsfwd}}
+\providecommand{\yZeroFwd}{\frate_{\idxsfwd}}
 \providecommand{\yZeroEfwd}{\yZeroFwd^{\xpc}}
 \providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
 \providecommand{\srate}{i}
 \providecommand{\shortrate}{\srate_{\idxt}}
 \providecommand{\shortratelag}{\srate_{\idxt-1}}
+\providecommand{\frate}{f}
+\providecommand{\realrate}{r_{\idxs}}
 \providecommand{\rateSvy}{\srate_{\idxs}^{survey}}
 \providecommand{\SDF}{M_{\idxt+1}}
 \providecommand{\SDFprod}{\ExpP \left[\Pi_{j=1} ^\tnr M_{\idxt+j}\right]}
+\providecommand{\SDFsum}{\ExpQ \left[\exp \left(- \Sigma_{j=0} ^{\tnr-1} \srate_{\idxt+j} \right) \right]}
 \providecommand{\Xvars}{X_{\idxt}}
 \providecommand{\XvarsFwd}{X_{\idxt+1}}
 \providecommand{\affineA}{A_{\tnr}}
@@ -132,6 +135,8 @@
 \newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqBeFwd}{\affineAeFwd = \left( \tnrfwd B_{\tnrfwd}^{\xpc}  - \tnr \affineBe \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqrrt}{\srate_{\idxs} = \pi^{CE survey}_{\idxs} + \realrate^{*} = \pi^{CE survey}_{\idxs} + \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) }
+
 
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
 \newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
