@@ -7,13 +7,17 @@ function S = asyvarhat(S,currEM)
 addpath(genpath('derivest'))
 dt      = 1/12;
 epsilon = 1e-9;                                                             % 0.00001 basis point
-nEMs    = length(currEM);
+ncntrs  = length(S);
 fnameq  = 'bsl_pr';                                                         % field containing estimated parameters
-fname0  = 'msy_pr';
 
-for k0  = 1:nEMs
+for k0 = 1:ncntrs
+    if ismember(S(k0).iso,currEM)
+        fnamec = {'ms_ylds','msy_pr',};
+    else
+        fnamec = {'mn_ylds','mny_pr',};
+    end
     % Split yields & surveys
-    [~,~,ynsvys,matsY,matsS] = splityldssvys(S,k0,'ms_ylds');
+    [~,~,ynsvys,matsY,matsS] = splityldssvys(S,k0,fnamec{1});
     nobs = size(ynsvys,1);
     
     % Extract estimated parameters
@@ -22,10 +26,10 @@ for k0  = 1:nEMs
     lmbd0 = S(k0).(fnameq).lmbd0;   lmbd1 = S(k0).(fnameq).lmbd1;
     rho0  = S(k0).(fnameq).rho0;    rho1  = S(k0).(fnameq).rho1;
     sgmY  = S(k0).(fnameq).sgmY;    sgmS  = S(k0).(fnameq).sgmS;
-    x00   = S(k0).(fname0).x00;     P00   = S(k0).(fname0).P00;
+    x00   = S(k0).(fnamec{2}).x00;	P00   = S(k0).(fnamec{2}).P00;
     
     % Evaluate likelihood at the optimum
-    if isempty(sgmS)
+    if isempty(sgmS) || (sgmY == sgmS)
         theta0 = vars2parest(PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY);
     else
         theta0 = vars2parest(PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS);

@@ -7,16 +7,17 @@ function S = se_components(S,matsout,currEM)
 %%
 dt      = 1/12;
 epsilon = 1e-6;                                                             % 0.01 basis point
-nEMs    = length(currEM);
+ncntrs  = length(S);
 nmats   = length(matsout);
 fnames  = fieldnames(S);
 fnameq  = fnames{contains(fnames,'bsl_pr')};                                % field containing estimated parameters
 
-for k0  = 1:nEMs
+for k0 = 1:ncntrs
     % Nominal yields
     fnameb = 'mn_blncd';                                                    % field containing *nominal* yields
     fltrnm = ismember(S(k0).(fnameb)(1,:),matsout);                         % same maturities as in matsout
     yldnom = S(k0).(fnameb)(2:end,fltrnm);                                  % yields in decimals
+    nobsnm = size(yldnom,1);                                                % number of observations
     datesn = S(k0).(fnameb)(2:end,1);                                       % dates
     
     % Synthetic yields
@@ -26,6 +27,8 @@ for k0  = 1:nEMs
     nobssn = size(yldsyn,1);                                                % number of observations
     datess = S(k0).(fnameb)(2:end,1);                                       % dates
     
+    if ismember(S(k0).iso,currEM); nobs = nobssn; dates = datess; else; nobs = nobsnm; dates = datesn; end
+    
     % Extract estimated parameters
     cSgm  = S(k0).(fnameq).cSgm;    Hcov  = cSgm*cSgm';
     mu_xP = S(k0).(fnameq).mu_xP;   PhiP  = S(k0).(fnameq).PhiP;
@@ -33,25 +36,31 @@ for k0  = 1:nEMs
     lmbd0 = S(k0).(fnameq).lmbd0;   lmbd1 = S(k0).(fnameq).lmbd1;
     rho0  = S(k0).(fnameq).rho0;    rho1  = S(k0).(fnameq).rho1;
     sgmY  = S(k0).(fnameq).sgmY;    sgmS  = S(k0).(fnameq).sgmS;
-    xs    = S(k0).(fnameq).xs;      Vasy  = S(k0).(fnameq).V1;
+    xs    = S(k0).(fnameq).xs;      [rws,cls] = size(xs);
+    if rws < cls; xs = xs'; end                                             % dimensions of xs & yields are equal
+    Vasy  = S(k0).(fnameq).V1;                                              % Vasy = inv(-S(k0).(fnameq).Hess/nobssn)
     
     % Original decomposition
     [AnQ,BnQ] = loadings(matsout,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);
     [AnP,BnP] = loadings(matsout,mu_xP,PhiP,Hcov,rho0,rho1,dt);
-    yQold     = ones(nobssn,1)*AnQ + xs*BnQ;
-    yPold     = ones(nobssn,1)*AnP + xs*BnP;
+    yQold     = ones(nobs,1)*AnQ + xs*BnQ;
+    yPold     = ones(nobs,1)*AnP + xs*BnP;
     tpold     = yQold - yPold;
-    [~,crynom,cryQold] = syncdatasets([nan matsout; datesn yldnom],[nan matsout; datess yQold]);
+    [~,crynom,cryQold] = syncdatasets([nan matsout; datesn yldnom],[nan matsout; dates yQold]);
     crold     = crynom(2:end,2:end) - cryQold(2:end,2:end);
     datesc    = crynom(2:end,1);
     nobscr    = length(datesc);
     
     % Delta method
-    thetaold = vars2parest(PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS);
+    if isempty(sgmS) || (sgmY == sgmS)
+        thetaold = vars2parest(PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY);
+    else
+        thetaold = vars2parest(PhiP,cSgm,lmbd1,lmbd0,mu_xP,rho1,rho0,sgmY,sgmS);
+    end
     ntheta   = length(thetaold);
-    JyQ      = nan(nmats,ntheta,nobssn);
-    JyP      = nan(nmats,ntheta,nobssn);
-    Jtp      = nan(nmats,ntheta,nobssn);
+    JyQ      = nan(nmats,ntheta,nobs);
+    JyP      = nan(nmats,ntheta,nobs);
+    Jtp      = nan(nmats,ntheta,nobs);
     Jcr      = nan(nmats,ntheta,nobscr);
     for k1 = 1:ntheta
         % Subtract epsilon to theta
@@ -64,10 +73,10 @@ for k0  = 1:nEMs
         mu_xQ     = mu_xP - cSgm*lmbd0;     PhiQ = PhiP  - cSgm*lmbd1;
         [AnQ,BnQ] = loadings(matsout,mu_xQ,PhiQ,Hcov,rho0,rho1,dt);
         [AnP,BnP] = loadings(matsout,mu_xP,PhiP,Hcov,rho0,rho1,dt);
-        yQnew     = ones(nobssn,1)*AnQ + xs*BnQ;
-        yPnew     = ones(nobssn,1)*AnP + xs*BnP;
+        yQnew     = ones(nobs,1)*AnQ + xs*BnQ;
+        yPnew     = ones(nobs,1)*AnP + xs*BnP;
         tpnew     = yQnew - yPnew;
-        [~,crynom,cryQnew] = syncdatasets([nan matsout; datesn yldnom],[nan matsout; datess yQnew]);
+        [~,crynom,cryQnew] = syncdatasets([nan matsout; datesn yldnom],[nan matsout; dates yQnew]);
         crnew     = crynom(2:end,2:end) - cryQnew(2:end,2:end);
 
         % Jacobians
@@ -78,21 +87,21 @@ for k0  = 1:nEMs
     end
     
     % Standard errors
-    seyQ = nan(nobssn,nmats);
-    seyP = nan(nobssn,nmats);
-    setp = nan(nobssn,nmats);
+    seyQ = nan(nobs,nmats);
+    seyP = nan(nobs,nmats);
+    setp = nan(nobs,nmats);
     secr = nan(nobscr,nmats);
-    for k2 = 1:nobssn
-        seyQ(k2,:) = sqrt(diag(JyQ(:,:,k2)*Vasy*JyQ(:,:,k2)'/nobssn));
-        seyP(k2,:) = sqrt(diag(JyP(:,:,k2)*Vasy*JyP(:,:,k2)'/nobssn));
-        setp(k2,:) = sqrt(diag(Jtp(:,:,k2)*Vasy*Jtp(:,:,k2)'/nobssn));
+    for k2 = 1:nobs
+        seyQ(k2,:) = sqrt(diag(JyQ(:,:,k2)*Vasy*JyQ(:,:,k2)'/nobs));
+        seyP(k2,:) = sqrt(diag(JyP(:,:,k2)*Vasy*JyP(:,:,k2)'/nobs));
+        setp(k2,:) = sqrt(diag(Jtp(:,:,k2)*Vasy*Jtp(:,:,k2)'/nobs));
     end
     for k2 = 1:nobscr
         secr(k2,:) = sqrt(diag(Jcr(:,:,k2)*Vasy*Jcr(:,:,k2)'/nobscr));
     end
     
-    S(k0).('bsl_yQ_se') = [nan matsout; datess seyQ];
-    S(k0).('bsl_yP_se') = [nan matsout; datess seyP];
-    S(k0).('bsl_tp_se') = [nan matsout; datess setp];
+    S(k0).('bsl_yQ_se') = [nan matsout; dates seyQ];
+    S(k0).('bsl_yP_se') = [nan matsout; dates seyP];
+    S(k0).('bsl_tp_se') = [nan matsout; dates setp];
     S(k0).('bsl_cr_se') = [nan matsout; datesc secr];
 end
