@@ -1,11 +1,12 @@
 function S = asyvarhat(S,currEM)
 % ASYVARHAT Report estimates of the asymptotic covariance matrix
 
-% m-files called: splityldssvys, llkfns, vars2parest
+% m-files called: splityldssvys, llkfn, llkfns, vars2parest, hessian
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
+addpath(genpath('derivest'))
 dt      = 1/12;
-epsilon = 1e-6;                                                             % 0.01 basis point
+epsilon = 1e-9;                                                             % 0.00001 basis point
 nEMs    = length(currEM);
 fnameq  = 'bsl_pr';                                                         % field containing estimated parameters
 fname0  = 'msy_pr';
@@ -54,10 +55,16 @@ for k0  = 1:nEMs
         end
     end
     
+    % Robust numerical differentiation (warnings + 2 hours to run)
+%     llkhan = @(x)llkfn(x,ynsvys',x00,P00,matsY,matsS,dt);
+%     Hess2  = hessian(llkhan,theta0);
+    
     % Sample Hessian estimator
-    S(k0).(fnameq).V0 = inv(-Hess0);
+    S(k0).(fnameq).V0 = inv(-Hess0/nobs);
     S(k0).(fnameq).V1 = inv(-sum(Hess1,3)/nobs);
+%     S(k0).(fnameq).V2 = inv(-Hess2/nobs);
     
     % Outer product estimator
-    S(k0).(fnameq).V2 = inv(Score*Score'/nobs);
+%     dScore = Score - mean(Score,2);
+%     S(k0).(fnameq).V3 = inv(dScore*dScore'/nobs);
 end
