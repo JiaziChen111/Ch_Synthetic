@@ -799,7 +799,7 @@ for k0 = 1:length(vars)
     lbl = {names{k0},'Confidence Bands'};
     lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
     set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
-    figname = [fldname{1} '_CI_' num2str(tnr) 'y']; save_figure(figdir,figname,formats,figsave)
+    figname = [fldname{1} '_CI_' num2str(tnr) 'y_V1']; save_figure(figdir,figname,formats,figsave)
 end
 
 %% Plot TP against LCCS, USTP, VIX, EPU, INF
