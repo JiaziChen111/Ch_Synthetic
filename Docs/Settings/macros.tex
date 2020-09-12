@@ -102,6 +102,14 @@
 \providecommand{\tauNSS}{\tau_{2}}
 \providecommand{\tnrTauNS}{\tnr/\tauNS}
 \providecommand{\tnrTauNSS}{\tnr/\tauNSS}
+\providecommand{\params}{\theta}
+\providecommand{\Vasy}{\Omega}
+\providecommand{\cmpnt}{\Psi}
+\providecommand{\Jacobian}{\Gamma}
+\providecommand{\Hessian}{\mathcal{H}_\params}
+\providecommand{\asydstr}{\sqrt{\Ydim} \left( \widehat{\cmpnt} - \cmpnt \right) \xrightarrow[]{d} \Normal \left(0,\, \Jacobian \, \Vasy \, \Jacobian' \right)}
+\providecommand{\sampleHjoint}{\frac{1}{\Ydim} \frac{\partial^{2} \ell_{\Ydim} (\widehat{\params})}{\partial \params \partial \params'}}
+\providecommand{\sampleHindiv}{\frac{1}{\Ydim} \sum_{i = 1}^{\Ydim} \frac{\partial^{2} \log \mathit{f} (X_{i} | \widehat{\params})}{\partial \params \partial \params'}}
 
 % Nelson-Siegel_Svensson
 \providecommand{\loadSTnsFwd}{\exp\left(-\tnrTauNS \right)}
@@ -130,7 +138,7 @@
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \beta' z_{\idxspnl} + u_{\idxspnl}}
-\newcommand{\eqySvy}{\rateSvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\srate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{g}}}{1-\hat{\beta}_{\srate}} g_{\idxs}^{survey} }
+\newcommand{\eqySvy}{\rateSvy = \frac{\widehat{\beta}_{0}}{1-\widehat{\beta}_{\srate}} + \frac{\widehat{\beta}_{{\pi}}}{1-\widehat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\widehat{\beta}_{{g}}}{1-\widehat{\beta}_{\srate}} g_{\idxs}^{survey} }
 
 \newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
