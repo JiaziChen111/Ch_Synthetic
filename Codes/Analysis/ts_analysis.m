@@ -47,7 +47,7 @@ end
 %% Estimate affine term structure model using fminunc (for baseline cases)
 sgmSfree = false;                                                   % consistent w/ baseline (fixed sgmS) case
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,sgmSfree,false);                      % fminunc, runtime XX hrs
+S = atsm_estimation(S,matsout,sgmSfree,false);                      % fminunc, runtime ~20 min
 datetime(now(),'ConvertFrom','datenum')
 
 %% Post-estimation computations
