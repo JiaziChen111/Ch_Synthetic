@@ -779,7 +779,7 @@ set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 
 %% Components with confidence bands
     % EM
-figdir = 'Estimation'; formats = {'eps'}; figsave = true;
+figdir = 'Estimation'; formats = {'eps'}; figsave = false;
 vars   = {'yQ','yP','tp','cr'};
 names  = {'Fitted Yields','Expected Short Rate','Term Premium','Credit Risk Compensation'};
 tnr    = 10;

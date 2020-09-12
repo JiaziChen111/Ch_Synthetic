@@ -28,6 +28,7 @@ for k0 = 1:ncntrs
     datess = S(k0).(fnameb)(2:end,1);                                       % dates
     
     if ismember(S(k0).iso,currEM); nobs = nobssn; dates = datess; else; nobs = nobsnm; dates = datesn; end
+    % nobs = nobsnm; dates = datesn;                                        % in case mny for EMs
     
     % Extract estimated parameters
     cSgm  = S(k0).(fnameq).cSgm;    Hcov  = cSgm*cSgm';
