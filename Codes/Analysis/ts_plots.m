@@ -953,6 +953,30 @@ close all
 %% DY index (daily frequency): Yield components
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
 
+    % AE + EM (nominal, synthetic)
+tenor = 10;
+fldname = {'dn_data','ds_data'};
+lstyle  = {'-','-.','--'};
+datemin = datenum('31-Jan-2019');
+figure
+for k0 = 1:length(fldname)
+    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
+    disp(DYtable)
+    plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
+    if DYindex(1,1) < datemin
+        datemin = DYindex(1,1);
+    end
+end
+k0 = 1;
+[DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
+disp(DYtable)
+fltrAE = DYindex(:,1) >= datemin;
+plot(DYindex(fltrAE,1),DYindex(fltrAE,2),lstyle{end}); hold on
+datetick('x','yy'); hold off
+lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
+legend(lbl,'Location','best','AutoUpdate','off');
+figname = ['dy_index' num2str(tenor) 'y_nomsyn']; save_figure(figdir,figname,formats,figsave)
+
     % EM
 tenor = 10;
 fldname = {'dn_data','d_yP','d_tp','dc_data'};
