@@ -198,7 +198,7 @@
 		\item Low connectedness supports decomposing the yields separately instead of jointly.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
 		\item LPs vs VAR to compute IRFs.
-		\item Reference to DK se. Reference to Pesaran test. Highlight default value for the lags.
+		\item Reference to DK se. Reference to Pesaran test. Indicate how default value for the lags is chosen.
 		\item Review notes of all tables and figures (eg. 90\% CI) in main text and appendix.
 		\item Explain why not showing AE decompositions.
 		\item Save figures to be used in pdf.
@@ -247,9 +247,18 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
-	\item Construct data using results from fminsearch.
-	\item Update tables.
-	\item Update LPs for 30 and 60 days.
+	\item[\done] Construct data using results from fminsearch.
+	\item[\done] Update tables.
+	\item[\done] Update LPs for 30 and 60 days.
+	\item[\done] Compute SE.
+	\begin{todolist}
+		\item[\done] Try derivest. Didn't produce meaningful results, sends singularity warning at every iteration. 
+		\item[\done] Compute SE but using fminsearch instead of fminunc.
+		\item[\done] Try different values for epsilon.
+		\item[\done] Compare CIs from V0 vs V1.
+		\item[\done] Compare eps = 1e-9 vs hessian from fminunc.
+		\item[\done] Compare SE w/ mny and msy (when no surveys are used, SE wider?)
+	\end{todolist}
 	\item[\done] Plot the components w/ SE and call them from the paper.
 	\item[\wontdo] Update LP figures in Stata: 30 and 60 days. May need to re-run them since estimates from fminseach might still be valid.
 	\item[\done] Call to splityldssvys in atsm_estimation, se_state.
@@ -262,7 +271,6 @@
 		\item[\done] Use Vasy in se_components (delta method).
 		\item[\done] Divide J*Vasy*J' by n when calculating the standard errors.
 		\item[\done] Plot components w/ SE.
-		\item Repeat exercise but using fminsearch instead of fminunc.
 	\end{todolist}
 	\item[\done] Line up observations in drivers table so that coefficients add up exactly.
 	\item[\done] Update datasets and tables in Stata.
