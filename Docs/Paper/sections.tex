@@ -556,6 +556,7 @@ as reported by Consensus Economics, plus the expected global real rate over the 
 I use the 5- and 10-Year CPI inflation forecasts and, for the T-bill rate, the 10-year forecast and the second longest available one
 %for the 5-year tenor 
 since there is no 5-year forecast for the T-bill rate.\footnote{ The specific series are CPI5YR, CPI10, BILL10 and TBILLD. The BILL10 series is released in the first-quarter surveys only, so I use linear interpolation for the second to fourth quarters in the respective year. Consensus Economics forecasts are considered at the end of the month in which they are published, at that time the most recent value for the U.S. real interest rate forecast is used to calculate the implied forecast for the domestic short rate.}
+The 5- and 10-year implied forecasts for the U.S. real rate obtained from surveys are closely aligned to the respective zero-coupon real yields derived using U.S. TIPS market data by \cite{GSW:2010};\footnote{ For the 10-year horizon, the correlation of the two series is 0.91, yet the TIPS series is twice as volatile as the survey series.} however, TIPS yields are not used as the benchmark due to the well-known liquidity problems of TIPS.
 Figure \ref{fig:YLD10Y_CBP} shows that the implied long-term forecasts for the short rates are sensible, their level is in line with the synthetic 10-year yield in each country.
 %In principle, there is an alternative way to use the surveys from Consensus Economics to aid in the estimation of the affine model. 
 An alternative way to infer the embedded expectations for the policy rate is to use Taylor rule-type regressions, and assume that the estimated parameters for inflation and real GDP growth apply at each of the survey maturities.\footnote{ I regress the policy rate on its lag, the year-on-year consumer price inflation and the year-on-year real GDP growth for all the countries except Israel and South Africa. The coefficient for the lag of the policy rate is a smoothing parameter that improves the fit of the model to the data. A potential drawback of this approach is precisely that it requires to know the expectation of the policy rate for the previous forecast horizon. Nevertheless, it is reasonable to assume stationarity for the long-term forecasts (5 and 10 years), in which case only survey data for inflation and GDP growth are needed after dividing their coefficients by 1 minus the coefficient for the lag of the policy rate (due to stationarity). Data from the policy rate statistics of the Bank for International Settlements is used for the dependent variable.}
@@ -1107,7 +1108,7 @@ and each of its components.
 \cite{ACDM:2019} report that the connectedness index fluctuates around 80\% for advanced countries.
 In contrast, figure \ref{fig:dyindex10y} shows that index for the yields of emerging markets fluctuates around 30\%, %and advanced countries.
 %\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
-%The index for emerging markets (figure \ref{subfig:dyindex10yEM}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
+%The index for emerging markets (figure \ref{subfig:dyindex10ydcmp}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
 with notable spikes around the taper tantrum episode in 2013,
 %\footnote{ During the episode, financial markets feared an earlier than expected withdrawal of the Fed's unconventional stimulus measures.} %and remained elevated for about a year.
 %The second biggest spike %in the index occurred 
@@ -1120,7 +1121,7 @@ This evidence of highly connected yields in advanced countries and low connected
 %global financial cycle \citep{Rey:2013}.
 %On the one hand, the yields of advanced countries are highly connected among themselves (see figure \ref{subfig:dyindex10yAE}), which over the last decade has been driven by an increase in the connectedness of their term premia, as documented by \cite{ACDM:2019}.
 %Changes in the compensation for risk in one advanced country not only spillover to other advanced countries but they have become increasingly important for the variation in their yields.
-%On the other hand, the yields among emerging markets are not as connected as those in advanced countries (see figure \ref{subfig:dyindex10yEM}).
+%On the other hand, the yields among emerging markets are not as connected as those in advanced countries (see figure \ref{subfig:dyindex10ydcmp}).
 %The level of the index for emerging markets is about half the level of the index for advanced countries, it shows no upward trend for either their nominal yields or their components.\footnote{ \cite{ACDM:2019} already document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.}
 % of emerging market yields do not show a clear trend, their relative importance seems to depend on the current economic environment.
 %as might be expected under a perspective based on the global financial cycle. %according to the idea of the
@@ -1131,7 +1132,7 @@ is consistent with a view %the global financial cycle
 in which global bond markets essentially operate under a core-periphery structure, in which the bond markets of advanced countries constitute the (highly interconnected) core and those of emerging markets represent the (less connected) periphery.
 Countries in the periphery are in turn connected to the network mainly through countries in the core.\footnote{ The core-periphery structure has been shown to be a good description of different networks in economics and finance. \cite{CvP:2014} show, for example, that the interbank market operates under such a structure.}
 According to this, shocks to emerging market yields are mainly idiosyncratic---reflected in less comovement---so
-%figures \ref{subfig:dyindex10yEM} and \ref{subfig:dyindex10yAE} are measuring the connectedness of the periphery and the core, respectively.
+%figures \ref{subfig:dyindex10ydcmp} and \ref{subfig:dyindex10yAE} are measuring the connectedness of the periphery and the core, respectively.
 %Therefore, 
 what matters for them %emerging market yields 
 are not spillovers originating in other emerging markets but in advanced countries.
@@ -1139,7 +1140,7 @@ are not spillovers originating in other emerging markets but in advanced countri
 
 The connectedness index shows no upward trend for either the nominal or synthetic yields nor their components.\footnote{ \cite{ACDM:2019} document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.}
 Moreover, the level of the index for the synthetic yields is higher than that for the nominal yields, suggesting that credit risk is indeed a more idiosyncratic component of the yields.
-% (see figure \ref{subfig:dyindex10yEM}).
+% (see figure \ref{subfig:dyindex10ydcmp}).
 
 %Are the short and long end equally connected?
 %Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
@@ -1201,7 +1202,8 @@ I use the decomposition based on the \cite{KimWright:2005} model, which decompos
 % and the S\&P \(500\) stock market index. 
 The Vix reflects the implied volatility in option prices and is usually considered as a measure of risk aversion and economic uncertainty; given the sudden spikes in the index, it is common to use it in logs.
 \cite{BakerBloomDavis:2016} construct a news-based economic policy uncertainty (EPU) index that has been replicated for different countries. 
-The global and U.S. versions of the EPU index are used as alternative measures of global uncertainty.
+Unfortunately, it is only available for five of the emerging markets in the sample,\footnote{ Brazil, Colombia, Mexico, Russia and South Korea.} so its not included as an explanatory variable to account for domestic political uncertainty.
+Instead, the global and U.S. versions of the EPU index are used as alternative measures of global uncertainty.
 The index of economic activity based on world industrial production proposed by \cite{Hamilton:2019} reflects global real economic activity. % are the price of oil and 
 %The VIX and the federal funds rate have been used in the global financial cycle literature \citep[see][]{Rey:2013} to study the effects of common factors on capital flows. The VIX is usually used as a measure of risk aversion and economic uncertainty and the fed funds rate is a measure of the monetary policy stance in the U.S. 
 %For the U.S. monetary policy, the variable used is the effective federal funds rate calculated by the New York Fed.
