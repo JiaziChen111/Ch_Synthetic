@@ -77,7 +77,7 @@ foreach shock in mp1 path lsap {
 
 
 * x-axis and zero line
-global horizon = 30	// in days
+global horizon = 60	// in days
 gen days = _n-1 if _n <= $horizon +1
 gen zero = 0 	if _n <= $horizon +1
 
