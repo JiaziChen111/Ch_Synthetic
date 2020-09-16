@@ -401,6 +401,11 @@ The credit risk compensation for those countries is calculated using the shifted
 
 % LIBOR reflects the average interest rate major banks charge each other to borrow. LIBOR is produced once each day, although there are 35 different LIBOR rates posted—which includes seven different maturities (ON,1W,1M,2M,3M,6M,1Y) across five currencies (USD, GBP, EUR, CHF and JPY).
 
+
+\subsection{Comovement of Yields}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in
+Text
+
 }{}	% Closes \iftoggle{fulldraft}
 
 
@@ -479,7 +484,7 @@ A key assumption behind this model is that the yield \(\yZero\) is free of credi
 This implies that while the nominal yield curve \(\yLCnom\) is the relevant one for advanced countries, it is not so for emerging markets because it is not free of credit risk.
 In that case, the synthetic yield curve \(\yLCsynt\) better aligns with the risk-free assumption and, in turn, with the affine model.
 
-\subsection{Informational Deficiency} \label{sec:Identification}
+\subsubsection{Informational Deficiency} \label{sec:Identification}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 In principle, the estimation of the parameters in the affine term structure model only  requires zero-coupon bond yields as an input.
@@ -498,7 +503,7 @@ The instability in the decomposition of the yield curves of advanced countries i
 %%of professional forecasters. 
 %\cite{Guimaraes:2014} compares these approaches and concludes that surveys provide robust decompositions of the U.S. and U.K. yield curves; for instance, the term premium estimated with the aid of surveys remains essentially the same after varying the number of pricing factors (from 3 to 5) and sample periods, unlike the other alternatives.
 
-The importance of survey data is particularly relevant to get reliable decompositions for emerging markets % the bond yields of 
+Survey data is particularly important to get reliable decompositions for emerging markets % the bond yields of 
 %Surveys help to address a common concern when working with emerging market data. , namely small sample sizes.
 since the sample size for these countries is relatively shorter, compared with data from advanced countries.
 %Second, since the early 2000s there has been a considerable reduction in the inflation rates of many emerging markets, which %a phenomenon that 
@@ -514,7 +519,7 @@ serves as a robustness check for the one obtained from the model.
 %term premium obtained from the affine model.
 
 
-\subsubsection{Survey Data} \label{sec:SurveyData}
+\subsection{Survey Data} \label{sec:SurveyData}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 Long-term forecasts are particularly helpful to pin down the parameters of the model under the \(\Pmeasure\) measure, \{\(\XmuP, \XPhiP\)\}.
@@ -807,7 +812,7 @@ the relative importance of the two risk associated parts varies by country and c
 %For several countries,\footnote{ COP, IDR, ILS, MXN, PEN, RUB, TRY, ZAR.} the term premium plays a bigger role; the exception is Brazil, for which the credit risk compensation is more salient.
 %For the rest of the countries,\footnote{ MYR, PHP, PLN, THB.} both components are important.
 
-\subsubsection{Expected Short Rate}
+\subsubsection{Expected Future Short Rate}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 Figure \ref{fig:bsl_yP_scbp} shows that the 10-year expected future short rate tracks the (implied) long-term interest rate forecasts reasonably well, even though the model does not rely too much on them given the conservative value used for \(\sigma_s\).
@@ -1054,24 +1059,8 @@ The evidence thus points to a trade-off between explicit and implicit defaults f
 %
 %With the exception of Brazil during 2012-13, the term premia estimated using survey data are in line with the model-based term premia. In fact, the average correlation between the two is $80.4\%$.\footnote{Even for the term premia calculated using the nominal yield curve, the correlation with the survey-based term premia is equal to $85\%$.} This is reassuring and supports the idea of supplementing the term structure model with survey data to better pin down the term premia in emerging markets, which will in turn provide a more robust decomposition of the nominal yield curve. This will be done in future versions of this paper.
 
-	
-}{}	% Closes \iftoggle{fulldraft}
 
-
-\section{Understanding the Yields of Emerging Markets} \label{sec:analysis}
-\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
-\iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
-	\begin{boxeditems}
-		\item Commonalities (TPs, yP, LCCS) all, ST vs LT.
-\end{boxeditems}}{}
-
-This section documents a strong and persistent response of the sovereign yields of emerging markets to U.S. monetary policy shocks. 
-%It  also analyzes how each component of the yields reacts to the news, and highlights that the response
-Yields respond differently depending on the type of shock. %information conveyed.
-
-\iftoggle{fulldraft}{					% Turn it on/off in packages.tex
-
-\subsection{Comovement} \label{sec:globalPC}
+\subsection{Comovement of Components} \label{sec:globalPC}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 %Here, I exploit it to provide new stylized facts about them that will help to interpret the results in the next section.
@@ -1138,9 +1127,10 @@ what matters for them %emerging market yields
 are not spillovers originating in other emerging markets but in advanced countries.
 %, which makes the argument of a global financial cycle stronger, not weaker.
 
-The connectedness index shows no upward trend for either the nominal or synthetic yields nor their components.\footnote{ \cite{ACDM:2019} document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.}
-Moreover, the level of the index for the synthetic yields is higher than that for the nominal yields, suggesting that credit risk is indeed a more idiosyncratic component of the yields.
-% (see figure \ref{subfig:dyindex10ydcmp}).
+The connectedness index shows no clear trend for either the nominal or synthetic yields nor their components. 
+In contrast, \cite{ACDM:2019} document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.
+Nevertheless, the term premia in emerging markets has been slightly more connected since 2013, whereas the credit risk compensation is relatively less connected (see figure \ref{subfig:dyindex10ydcmp}).
+In fact, the level of the index for the synthetic yields tends to be higher than that for the nominal yields (see figure \ref{subfig:dyindex10ynomsyn}), suggesting that credit risk is indeed a more idiosyncratic component of the yields.
 
 %Are the short and long end equally connected?
 %Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
@@ -1167,7 +1157,23 @@ and are therefore more responsive to local factors.
 %therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
 
 
-\subsection{Drivers} \label{sec:Drivers}
+}{}	% Closes \iftoggle{fulldraft}
+
+
+\section{The Effects of U.S. Monetary Policy on Emerging Market Yields} \label{sec:analysis}
+\iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+\iftoggle{cboxes}{	   				  % Turn it on/off in packages.tex
+	\begin{boxeditems}
+		\item Commonalities (TPs, yP, LCCS) all, ST vs LT.
+\end{boxeditems}}{}
+
+This section documents a strong and persistent response of the sovereign yields of emerging markets to U.S. monetary policy shocks. 
+%It  also analyzes how each component of the yields reacts to the news, and highlights that the response
+Yields respond differently depending on the type of shock. %information conveyed.
+
+\iftoggle{fulldraft}{					% Turn it on/off in packages.tex
+
+\subsection{Transmission Channels} \label{sec:Drivers}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 To understand the potential drivers of emerging market yields and the role of their components, I run the following regressions 
@@ -1192,17 +1198,17 @@ Moreover, decomposing the U.S. yields can be even more insightful.
 %I start by studying the role of the components of the U.S. yield curve as drivers 
 %cyclical properties of the nominal yields 
 %To do this, 
-I use the decomposition based on the \cite{KimWright:2005} model, which decomposes the yields into an expected future short rate and a term premium. The model addresses the small sample problem using survey forecasts of future interest rates.
+I use the decomposition based on the \cite{KimWright:2005} model, which decomposes the yields into an expected future short rate and a term premium, and addresses the small sample problem using survey forecasts of future interest rates.
 %start the analysis of the relationship between U.S. monetary policy and the sovereign yields of emerging markets, I run panel data regressions of those yields on the components of the U.S. yield curve controlling for a variety of  variables.
 %At the same time, those regressions allow me to study the cyclical properties of  emerging market yields. The coefficients of interest are those associated with 
-\cite{Rey:2013} highlights the role of the Cboe's volatility index (Vix) as important driver of the global financial cycle.
+\cite{Rey:2013} highlights the role of the Cboe's volatility index (Vix) as an important driver of the global financial cycle.
 %Other potential drivers of emerging market yields include 
 %global financial and domestic macroeconomic and financial variables.
 %The variables considered to capture global financial conditions are 
 % and the S\&P \(500\) stock market index. 
-The Vix reflects the implied volatility in option prices and is usually considered as a measure of risk aversion and economic uncertainty; given the sudden spikes in the index, it is common to use it in logs.
-\cite{BakerBloomDavis:2016} construct a news-based economic policy uncertainty (EPU) index that has been replicated for different countries. 
-Unfortunately, it is only available for five of the emerging markets in the sample,\footnote{ Brazil, Colombia, Mexico, Russia and South Korea.} so its not included as an explanatory variable to account for domestic political uncertainty.
+The Vix reflects the implied volatility in stock option prices and is usually considered as a measure of risk aversion and economic uncertainty; given the sudden spikes in the index, it is common to use it in logs.
+\cite{BakerBloomDavis:2016} construct a news-based economic policy uncertainty (EPU) index that has been replicated for different countries, which would allow to account for domestic political uncertainty. 
+Unfortunately, it is only available for five of the emerging markets in the sample,\footnote{ Brazil, Colombia, Mexico, Russia and South Korea.} so its not included as an explanatory variable.
 Instead, the global and U.S. versions of the EPU index are used as alternative measures of global uncertainty.
 The index of economic activity based on world industrial production proposed by \cite{Hamilton:2019} reflects global real economic activity. % are the price of oil and 
 %The VIX and the federal funds rate have been used in the global financial cycle literature \citep[see][]{Rey:2013} to study the effects of common factors on capital flows. The VIX is usually used as a measure of risk aversion and economic uncertainty and the fed funds rate is a measure of the monetary policy stance in the U.S. 
@@ -1210,8 +1216,7 @@ The index of economic activity based on world industrial production proposed by 
 Domestic inflation and unemployment rates will capture local macroeconomic conditions. %in each country
 %year-on-year percentage change in the consumer price index
 %The domestic variables include inflation, the unemployment rate and industrial production to capture macroeconomic effects. 
-Finally, the exchange rate (LC per USD) is included to rule out explanations of changes in yields based on currency movements.
-The exchange rate is standardized for each country over the sample period.
+Finally, the exchange rate (LC per USD) is included to rule out explanations of changes in yields based on currency movements; the exchange rate is standardized for each country over the sample period.
 %and the local stock market index are included as measures of local financial conditions.
 %Monthly returns for the stock market index, the oil price and the exchange rate are calculated as the log difference of the series, and expressed in basis points.
 
@@ -1257,14 +1262,11 @@ However, here it works through the term premium instead of the credit risk compe
 %The two main domestic factors are . Holding the other factors constant, an increase in any of these three variables increases the term premia in emerging markets. 
 %The effect of the domestic variables is in line with what has been found for advanced countries using nominal yield curves. 
 
-Although the yield decompositions provide valuable information on the driving forces behind the sovereign yields of emerging markets, it is important to acknowledge that the model in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as endogeneity as well as the use of persistent the variables.
+Although the yield decompositions provide valuable information on the driving forces behind the sovereign yields of emerging markets, it is important to acknowledge that the model in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as reverse causality and omitted variables as well as the use of persistent variables.
 Issues that are addressed next.
 
-\subsection{Response to U.S. Monetary Policy} %\label{sec:spillovers}
 
-This section first explains how the monetary policy shocks are calculated and then analyzes the responses of emerging market yields to those shocks.
-
-\subsubsection{Identification of Monetary Policy Shocks} \label{sec:USMPS}
+\subsection{Identification of Monetary Policy Shocks} \label{sec:USMPS}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
 \cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension since asset prices respond to different types of news about monetary policy.
@@ -1276,14 +1278,14 @@ They will be referred to hereinafter as target, path and LSAP shocks, respective
 The shocks are identified using high-frequency data around Fed's monetary policy announcements.
 These shocks are essentially surprises in monetary policy decisions that represent a change in the information set of market participants \citep{GurkaynakWright:2013,NakamuraSteinsson:2018JEP}.
 The construction of the shocks therefore requires to calculate changes in asset prices that capture market expectations of monetary policy decisions.
-These changes are measured in windows containing monetary policy decisions starting 15 minutes before to 1 hour and 45 minutes after each Federal Open Market Committee (FOMC) meeting since 2000 giving a total of 162 events.\footnote{ Following \cite{GSS:2005a} and \cite{NakamuraSteinsson:2018JEP}, I exclude from the analysis the meeting of September 2001 that followed the terrorist attacks.}
+These changes are measured in windows containing monetary policy decisions starting 15 minutes before to 1 hour and 45 minutes after each Federal Open Market Committee (FOMC) meeting since 2000 giving a total of 162 events.\footnote{ Following \cite{GSS:2005a} and \cite{NakamuraSteinsson:2018JEP}, I exclude from the analysis the meeting of September 2001 that followed the terrorist attacks in New York.}
 In days with no FOMC meeting, the shocks are set to zero.
-Unlike \cite{FerrariKearnsSchrimpf:2017} who include releases of minutes and speeches by Fed officials, the dataset here only includes monetary policy announcements.
+Unlike \cite{FerrariKearnsSchrimpf:2017}, who include releases of minutes and speeches by Fed officials, the dataset here includes monetary policy announcements only.
 
 To compute the shocks, I use the current federal funds rate future (FF0) contract, the 8-quarters ahead eurodollar future (ED8) contract and the yield of the 10-year U.S. Treasury bond.
-The target shock uses rescaled changes in the price of the FF0 contract as in \cite{GSS:2005a} who implement an intraday version of the daily measure proposed by \cite{Kuttner:2001}.
-The price change in the ED8 contract is a measure of surprises in the federal funds rate two years into the future.
-The path shock is the residual of a regression of the intraday change in the ED8 contract on the target shock; this shock is highly correlated with the path factor in \cite{GSS:2005a}.\footnote{ The change in the 4-quarters ahead eurodollar future (ED4) contract could also be used to capture the path shock. However, intraday changes in ED4 became essentially zero after 2011 since market participants expected the policy rate to remain at zero for at least a year.}
+The target shock uses rescaled changes in the price of the FF0 contract as in \cite{GSS:2005a}, who implement an intraday version of the daily measure proposed by \cite{Kuttner:2001}.
+Price changes in the ED8 contract measure surprises in the federal funds rate two years into the future.
+The path shock is the residual of a regression of the intraday change in the ED8 contract on the target shock, and is highly correlated with the path factor in \cite{GSS:2005a}.\footnote{ The change in the 4-quarters ahead eurodollar future (ED4) contract could also be used to capture the path shock. However, intraday changes in ED4 became essentially zero after 2011 since market participants expected the policy rate to remain at zero for at least a year.}
 Finally, in line with \cite{Swanson:2018}, %for measuring the last type. % of shocks.
 the LSAP shock is the residual of a regression of the intraday change in the 10-year yield on the target and path shocks.
 A positive value in any of the shocks represents a tightening of the monetary policy stance, and vice versa.
@@ -1292,36 +1294,41 @@ A positive value in any of the shocks represents a tightening of the monetary po
 
 %Sample periods for the shocks.
 The relevance of the shocks has varied over time.
-After 2008 the target shocks are essentially zero, since then there were no surprise changes in the current policy rate.
+After 2008, there were no surprise changes in the current policy rate, so target shocks have been essentially zero.
 By contrast, the meaning of LSAP shocks is unclear before 2008.
-Path shocks, nevertheless, have been relevant before and after the GFC.
+Path shocks have nevertheless been relevant before and after the GFC.
 As a result, target shocks are only considered from 2000 to 2008, LSAP shocks are considered starting in 2009, and path shocks span the whole sample period.
 %Figure \ref{fig:USmps} plots all three monetary policy shocks.
 Table \ref{tab:mpsstats} reports descriptive statistics of the three types of shocks on monetary policy announcement days.
 %magnitude of shocks is generally less than 10 basis points.
-The shocks are not correlated; notwithstanding, there were large easing path and LSAP shocks on March 18, 2009.
-In general, the Fed is more aggressive in stimulating the U.S. economy as can be seen in the table, easing shocks are larger on average and more common than tightening shocks.
+By construction, the shocks are not correlated.
+%; notwithstanding, there were large easing path and LSAP shocks on March 18, 2009.
+In general, the Fed is more aggressive in stimulating than in contracting the U.S. economy, easing shocks are larger on average and more common than tightening shocks.
 
 
-\subsubsection{Monetary Policy Spillovers} \label{sec:LPs}
+\subsection{U.S. Monetary Policy Spillovers} \label{sec:LPs} %\label{sec:spillovers}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
+
+This section first explains how the monetary policy shocks are calculated and then analyzes the responses of emerging market yields to those shocks.
 
 The impact of U.S. monetary policy on emerging market yields is estimated using panel local projections for the daily changes in the yields and their components.
 These regressions are useful to understand not only how the yields respond to the policy surprise at the time of the shock but over subsequent periods, see \cite{HofmannShimShin:2019} and \cite{ACDM:2019} for recent applications.
 
 Following \cite{Jorda:2005}, the panel local projections are:
 	\input{../Equations/nPanelLP}	% \ref{eq:nPanelLP}
-\noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 90\),  \(\alpha_{\idxh,\idxi}\) is a country fixed effect, \(\epsilon_{\idxt}\) represents a type of monetary policy shock, \(\fx_{\idxspnllag}\) is a one-day lag of the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
-The regressions are done for the 2- and 10-year yields and each of their components (the expected short rate, the term premium and the credit risk compensation) for every type of monetary policy shock.\footnote{ By definition, the shocks are unanticipated by the market and thus there is no need to control for past or future shocks. Also, by construction, the shocks are not correlated among themselves so, there is no need to control for the other types of shocks.}
+\noindent where \(\idxi\) and \(\idxt\) are respectively the country and time indexes, \(\idxh\) indicates the horizon (in days) with \(\idxh = 0, 1, \ldots, 60\),  \(\alpha_{\idxh,\idxi}\) is a country fixed effect, each \(\epsilon_{\idxt}\) represents a type of monetary policy shock that is set to zero in non-announcement days or in periods outside of the considered range (e.g. before 2009 for LSAP shocks), \(\fx_{\idxspnllag}\) is a one-day lag in the exchange rate (LC per USD) and \(u_{\idxspnlfwd}\) is the error term.
+The regressions are done for the 2- and 10-year nominal yields and each of their components.\footnote{ By definition, the shocks are unanticipated by the market and thus there is no need to control for past or future shocks. Also, although there is no need to control for the other types of shocks since they are uncorrelated by construction, the estimation is more efficient when all the shocks are included.}
+%(the expected short rate, the term premium and the credit risk compensation) 
+%for every type of monetary policy shock.
 
-The parameters of interest, \(\beta_{\idxh}\), measure the average response of the yield (or one of its components) to a monetary policy shock at a particular horizon.
+The parameters of interest, \(\beta^{j}_{\idxh}\), measure the average response of the nominal yield (or one of its components) to monetary policy shock \(j\) at horizon \(\idxh\).
 The contemporaneous effects of the shocks are obtained by setting \(\idxh = 0\) in equation (\ref{eq:nPanelLP}).
-All responses are assessed relative to a one basis point increase (a tightening) in any of the shocks.
+All responses are assessed relative to a one basis point reduction (an easing) in any of the shocks, since the Fed has been more aggressive in that direction during the sample period.
 
 %The Pesaran test of cross-sectional independence is rejected at any significance level.
 %Therefore, standard errors are computed following Driscoll and Kraay (1994), so that they are robust to heteroskedasticity, autocorrelation and cross-sectional dependence.
 
-The response of the U.S. yields and its components to the three shocks are used as a benchmark to assess the responses of the yields of emerging markets.\footnote{ As before, the yields are from the dataset of \cite{GSW:2007}, the components come from the decomposition proposed by \cite{KimWright:2005}.}
+The response of the U.S. yields and its components to the three shocks are used as a benchmark to assess the responses of the yields of emerging markets.\footnote{ As before, the U.S. yields come from the dataset of \cite{GSW:2007}, and the components from the decomposition proposed by \cite{KimWright:2005}.}
 The first column of figures \ref{fig:LPUS2Y} and \ref{fig:LPUS10Y} shows the responses of the 2- and 10-year yields, respectively, to all three shocks.
 The on-impact effect of the 2-year yield to any of the three shocks is similar at around %half a basis point increase.
 5 basis points for a 10 basis point increase in any of the shocks.
@@ -1370,7 +1377,7 @@ By construction, the effects on synthetic yields are linked to the responses of 
 Such responses have already been discussed above (see figures \ref{fig:LPUS10Y} and \ref{fig:LPEMRHO}).
 The response of the synthetic yields is the net result of those two individual effects, which in turn will be reflected in the components of those synthetic yields, namely the expected short rate and the term premium.
 The expected short rate does not respond on-impact for target or path shocks; the term premium also does not respond on-impact to path shocks, only to target shocks.
-But their responses are sluggish a amplify over time.
+But their responses are sluggish and amplify over time.
 
 The analysis of the 10-year yield shows that Fed's decisions not only impact the credit risk compensation but that it can affect them in both directions.
 The credit risk compensation increases in response to target and path shocks, while decreases in response to LSAP shocks.
