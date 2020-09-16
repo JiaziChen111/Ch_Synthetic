@@ -21,7 +21,7 @@ foreach group in 0 1 {
 		local region regionem
 	}
 	
-	foreach t in 3 6 12 24 60 120 {
+	foreach t in 24 120 {
 		// regressions
 		foreach v in `vars' {
 		
