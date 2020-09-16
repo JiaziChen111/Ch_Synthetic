@@ -556,3 +556,18 @@ levelsof $id, local(levels)
 // 	di "`l'"
 // 	summ `ycs' if imf == `l' & eomth
 // }
+
+levelsof $id, local(levels)
+foreach v of varlist usyc* ustp* usyp* {
+	di "`v'"
+	foreach l of local levels {
+		di "`l'"
+		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) pperron `v' if imf == `l', trend
+	}
+}
+
+levelsof $id, local(levels)
+foreach v of varlist usyc* ustp* usyp* {
+	di "`v'"
+		pperron `v' if cty == "ZAR", trend
+}
