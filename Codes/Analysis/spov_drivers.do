@@ -12,6 +12,8 @@ sort  $idm $tm
 xtset $idm $tm
 drop date eomth
 order  datem, first
+replace cbp = cbp*100
+gen byte taper = datem >= tm(2013m5)
 
 
 * Compute monthly returns (in basis points)
@@ -35,17 +37,17 @@ local xtopt fe		// fe cluster($id)
 * Define global variables
 global x0 sdprm
 global x1 logvix logepuus logepugbl globalip //  rtspx rtoil vix epugbl globalip	// vix epugbl rtglobalip	// rtvix rtepugbl rtglobalip
-global x2 inf une zfx $x1
+global x2 cbp inf une zfx $x1
 
 
 * Label variables for use in figures and tables
 #delimit ;
 unab oldlabels : ustp* usyp* rtvix rtfx rtoil rtspx rtstx rtepuus rtepugbl rtglobalip 
-				 logepuus logepugbl logvix vix zfx;
+				 logepuus logepugbl logvix vix zfx cbp;
 local newlabels `" "U.S. Term Premium" "U.S. Term Premium" "U.S. Term Premium" "U.S. Term Premium" 
 				"U.S. E. Short Rate" "U.S. E. Short Rate" "U.S. E. Short Rate" "U.S. E. Short Rate" 
 				"Vix" "FX" "Oil" "S\&P" "Stock" "EPU U.S." "Global EPU" "Global Ind. Prod." 
-				"Log(EPU U.S.)" "Log(EPU Global)" "Log(Vix)" "Vix" "LC per USD (Std.)" "';
+				"Log(EPU U.S.)" "Log(EPU Global)" "Log(Vix)" "Vix" "LC per USD (Std.)" "Policy Rate" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {
@@ -104,6 +106,8 @@ foreach t in 12 24 60 120 {
 			
 			if `group' == 1 {
 				`xtcmd' `v'`t'm usyp`t'm ustp`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
+// 				`xtcmd' `v'`t'm usyc`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
+// 				`xtcmd' `v'`t'm usyp`t'm c.usyp`t'm#i.taper ustp`t'm c.ustp`t'm#i.taper $x2 if `condition' & phi`t'm != ., `xtopt'
 				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
 				estadd local FE Yes
 				quiet xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if `condition', fe
