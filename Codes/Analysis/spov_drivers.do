@@ -97,20 +97,20 @@ foreach t in 12 24 60 120 {
 		foreach v in nom dyp dtp phi {
 			local ++j
 			if `group' == 0 {
-				`xtcmd' `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', `xtopt'
+				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x1 if `condition', `xtopt'
 				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
 				estadd local FE Yes
-				quiet xtreg `v'`t'm usyp`t'm ustp`t'm $x1 if `condition', fe
+				quiet xtreg `v'`t'm ustp`t'm usyp`t'm $x1 if `condition', fe
 				xtcsd, pesaran abs
 			}
 			
 			if `group' == 1 {
-				`xtcmd' `v'`t'm usyp`t'm ustp`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
+				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
 // 				`xtcmd' `v'`t'm usyc`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
-// 				`xtcmd' `v'`t'm usyp`t'm c.usyp`t'm#i.taper ustp`t'm c.ustp`t'm#i.taper $x2 if `condition' & phi`t'm != ., `xtopt'
+// 				`xtcmd' `v'`t'm ustp`t'm c.ustp`t'm#i.taper usyp`t'm c.usyp`t'm#i.taper $x2 if `condition' & phi`t'm != ., `xtopt'
 				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
 				estadd local FE Yes
-				quiet xtreg `v'`t'm usyp`t'm ustp`t'm $x2 if `condition', fe
+				quiet xtreg `v'`t'm ustp`t'm usyp`t'm $x2 if `condition', fe
 				xtcsd, pesaran abs
 			}
 		}	// `v' variables
