@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+	\begin{figure}[tbph]
+		\caption{Response of the U.S. Yield Curve to a Forward Guidance Surprise: 2000-2019} \label{fig:LPUSpathWh}
+		\begin{center}
+			\begin{minipage}{\linewidth}
+				\begin{center}
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.35\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/Path/US/DCMP/PathUSDnomyptp120m.eps} \\
+						\vspace{-0.35cm}
+						\caption{10-Year Yield} \label{subfig:LPUS10YpathWh}
+					\end{subfigure}
+					
+					\vspace{0.5cm}
+					
+					\begin{subfigure}[t]{\linewidth}
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.35\textheight,width=\linewidth]{../Figures/LPs/LagDep-FX/Path/US/DCMP/PathUSDnomyptp24m.eps} \\
+						\vspace{-0.35cm}
+						\caption{2-Year Yield} \label{subfig:LPUS2YpathWh}
+					\end{subfigure}
+				\end{center}
+				\fignotes{This figure shows the response following \cite{Jorda:2005} of the 10- and 2-year U.S. yields and their components to a forward guidance surprise. The U.S. yield is the zero coupon yield from \cite{GSW:2007}. The yield is decomposed into an expected future short-term interest rate and a term premium following \cite{KimWright:2005}. Forward guidance surprises are identified using high-frequency data around Fed's monetary policy announcements, see section \ref{sec:USMPS} for details. The 90\% confidence bands are based on Driscoll--Kraay standard errors.}
+			\end{minipage}
+		\end{center}
+	\end{figure}
+\end{document}
+% trim = {<left> <lower> <right> <upper>}
