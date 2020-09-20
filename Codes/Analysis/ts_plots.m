@@ -1006,7 +1006,7 @@ figname = ['dy_index' num2str(tenor) 'y_dcmp_AE']; save_figure(figdir,figname,fo
 
 %% DY index (daily frequency): Term structure
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
-fldname = {'dn_data'}; % {'dn_data','d_yP','d_tp','dc_data'};
+fldname = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
 lstyle  = {'-','-.','--',':'};
 tenor   = [10 5 1 0.25];
 lbl     = {'10 Years','5 Years','1 Year','3 Months'};
