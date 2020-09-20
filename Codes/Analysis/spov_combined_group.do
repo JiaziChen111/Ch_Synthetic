@@ -42,7 +42,7 @@ foreach group in 1 { // 0 1 {
 				capture gen `v'`t'm`h' = (f`h'.`v'`t'm - l.`v'`t'm)
 				
 				// conditions
-				local condition em == `group' & date >=  td(1jan2009)	// & `region' == 4
+				local condition em == `group' & date >= td(1oct2008)	// & `region' == 4
 				
 				// one regression for each horizon
 				if `h' == 0 {

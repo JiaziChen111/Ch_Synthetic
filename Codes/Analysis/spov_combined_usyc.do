@@ -32,7 +32,7 @@ foreach t in 24 120 {
 			capture gen `v'`t'm`h' = (f`h'.`v'`t'm - l.`v'`t'm)
 			
 			// conditions
-			local condition cty == "`grp'" & date >=  td(1jan2009)
+			local condition cty == "`grp'" & date >=  td(1oct2008)
 			
 			// one regression for each horizon
 			if `h' == 0 {
