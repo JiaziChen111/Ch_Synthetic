@@ -69,8 +69,8 @@ foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
 
 
 * Adjust target and LSAP shocks
-replace mp1  = 0 if date >= td(1jan2009)
-replace lsap = 0 if date <  td(1jan2009)
+replace mp1  = 0 if date >= td(1jan2009) & date < td(1dec2015)
+replace lsap = 0 if date <  td(1oct2008)
 foreach shock in mp1 path lsap {
 	gen  abs`shock' = abs(`shock')
 }
