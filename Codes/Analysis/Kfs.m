@@ -1,4 +1,4 @@
-function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,mu_x,mu_y,Phi,A,Q,R,xf0,Pf0)
+function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx,llks] = Kfs(y,mu_x,mu_y,Phi,A,Q,R,xf0,Pf0)
 % KFS Implement the missing-data versions of the Kalman filter and smoother
 % Notation from Time Series Analysis and Its Applications by Shumway & Stoffer
 % 
@@ -32,6 +32,7 @@ function [llk,xp,Pp,xf,Pf,xs,Ps,x0n,P0n,S11,S10,S00,Syx] = Kfs(y,mu_x,mu_y,Phi,A
 % S10  : p*(p+1)     smoother using current and past xs and Pslag (accounts for intercept)
 % S00  : (p+1)*(p+1) smoother using past xs and Ps (accounts for intercept)
 % Syx  : q*(p+1)     smoother using y and current xs (accounts for intercept)
+% llks : n*1   log-likelihoods
 
 % Pavel Solís (pavel.solis@gmail.com), May 2020
 %%
@@ -59,7 +60,8 @@ miss = isnan(y);                                                    % keep recor
 yt   = y;   yt(miss) = 0;                                         	% replace missing values w/ zeros
 
 %% Estimation: Kalman filter
-llk = 0;
+llk  = 0;
+llks = nan(n,1);
 for t = 1:n
     % Predicting equations
     if t == 1
@@ -80,8 +82,9 @@ for t = 1:n
     Pf(:,:,t) = (Ip - K*At)*Pp(:,:,t);
     
     % Log-likelihood
-    term3 = max(u'/U*u,0);                                          % in case V is non-PSD
-    llk   = llk - 0.5*(q*log(2*pi) + log(det(U)) + term3);
+    term3   = max(u'/U*u,0);                                    	% in case V is non-PSD
+    llks(t) = - 0.5*(q*log(2*pi) + log(det(U)) + term3);
+    llk     = llk + llks(t);
 end
 
 %% Inference: Kalman smoother

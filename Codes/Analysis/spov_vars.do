@@ -69,15 +69,15 @@ foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
 
 
 * Adjust target and LSAP shocks
-replace mp1  = 0 if date >= td(1jan2009)
-replace lsap = 0 if date <  td(1jan2009)
+replace mp1  = 0 if date >= td(1jan2009) & date < td(1dec2015)
+replace lsap = 0 if date <  td(1oct2008)
 foreach shock in mp1 path lsap {
 	gen  abs`shock' = abs(`shock')
 }
 
 
 * x-axis and zero line
-global horizon = 30	// in days
+global horizon = 45	// in days
 gen days = _n-1 if _n <= $horizon +1
 gen zero = 0 	if _n <= $horizon +1
 
@@ -106,11 +106,11 @@ label values ae grpnames
 #delimit ;
 unab oldlabels : mp1 path lsap sdprm gdp inf une epuus
 				 epugbl globalip nom* syn* rho* phi* dyp* dtp* usyc* ustp* usyp*;
-local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unempl." "EPU US" 
-	"Global EPU" "Global IP" "Yield" "Yield" "Yield" "Yield" "Yield" "Yield" "Synthetic" "Synthetic" 
+local newlabels `" "Target" "Path" "LSAP" "UCSV-Perm" "GDP Growth" "Inflation" "Unemployment" "EPU US" 
+	"EPU Global" "Global Ind. Prod." "Nominal" "Nominal" "Nominal" "Nominal" "Nominal" "Nominal" "Synthetic" "Synthetic" 
 	"Synthetic" "Synthetic" "Synthetic" "Synthetic" "Forward Premium" "Forward Premium" "Forward Premium" 
-	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk P." "Credit Risk P." 
-	"Credit Risk P." "Credit Risk P." "Credit Risk P." "E. Short Rate" "E. Short Rate" "E. Short Rate" 
+	"Forward Premium" "Forward Premium" "Forward Premium" "Credit Risk" "Credit Risk" "Credit Risk" 
+	"Credit Risk" "Credit Risk" "Credit Risk" "E. Short Rate" "E. Short Rate" "E. Short Rate" 
 	"E. Short Rate" "E. Short Rate" "E. Short Rate" "Term Premium" "Term Premium" "Term Premium" 
 	"Term Premium" "Term Premium" "Term Premium" "Yield" "Yield" "Yield" 
 	"Yield" "Yield" "Yield" "Term Premium" "Term Premium" "Term Premium" "Term Premium" 

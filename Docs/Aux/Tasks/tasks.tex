@@ -191,24 +191,29 @@
 \begin{todolist}	
 	\item Paper.
 	\begin{todolist}
-		\item Read Cochrane shared by Moffitt.
-		\item Follow Sahm's recommendations and Hollerstein tweet.
-		\item Low connectedness supports decomposing the yields separately instead of jointly.
+		\item Effects on YC slope in section 5.
+		\item In drivers tables (1, 2, 5 10 Y) indicate that USYP and USTP have same maturity as dependent variables.
+		\item Risks of global investors when investing in LC bonds: risk of a LC depreciation, risk of default.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
-		\item LPs vs VAR to compute IRFs.
-		\item Reference to DK se. Reference to Pesaran test. Highlight default value for the lags.
+		\item[\done] Reference to DK SE for LPs (text and footnotes). Reference to Pesaran test. Indicate how default value for the lags is chosen. e.g. in Brooks et al.: `We plot 2-standard-error bands around theIR. HAC standard errors computed with bandwidth 2 fork<=50.'
+		\item Make references to all things in appendices.
 		\item Review notes of all tables and figures (eg. 90\% CI) in main text and appendix.
-		\item Explain why not showing AE decompositions.
+		\item LPs: Use target, forward guidance and asset purchase instead of target, path, LSAP.
 		\item Save figures to be used in pdf.
-		\item In conclusions: future work on decomposing further the yields (real parts, CR compensation).
+		\item Future work in conclusions: future work on decomposing further the yields (real parts, CR compensation), inform theoretical models for pricing sovereign defaultable bonds, effects of domestic MP, effects of other AE CB.
 		\item Read literature and prepare litreview file. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
 		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
+		\item Follow Hollerstein tweet.
+		\item Low connectedness supports decomposing the yields separately instead of jointly.
+		\item Evidence from DY index on different maturities show evidence of market segmentation, which allows to explain effects of LSAP on TP (W \& W 2020).
+		\item Evidence that CRC is more idiosyncratic from drivers and DY index.
+		\item TS of TP DY index.
 	\end{todolist}
 	
 	\item Annex.
 	\begin{todolist}
 		\item[\done] Trend inflation and figures for ILS-ZAR.
-		\item Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
+		\item[\done] Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
 		\item How the size of the rolling window influence the DY index for EMs?
 	\end{todolist}
 	
@@ -217,6 +222,9 @@
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
+	\item Adjust threshold for path and LSAP pre- and post GFC, cutoff data October 2008 according to Rogers et al (2018). Maybe activate target after 2015. Update: summary table of US MPS, LPs (all b/c all shock at once, path pre/post).
+	\item Robustness checks: (1) compare scbp obtained w/ SPF data vs other survey data from other AEs, (2) re-estimate models using scbp constructed w/ TIPS data rather than SPF data.
+	\item Drivers before vs after GFC.
 	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
 	\item Update slides.
 	\item Are big changes in TP related to local events?
@@ -245,6 +253,77 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Reframe paper in terms of Obstfeld-Ozcan debate. Highlight that ignoring credit risk alters the assessment of the debate (instead of framing the whole paper about the implication of ignoring credit risk).
+	\item[\done] Importance of TP: how resources are allocated in the economy, transmission of MP.
+	\item[\done] LPs vs VAR to compute IRFs.
+	\item[\done] Reference to DK se for tables. Reference to Pesaran test.
+	\item[\done] Explain that phi = ynom - yfitted (not ynom-ysynt as before).
+	\item[\done] Explain why not showing AE decompositions.
+	\item[\done] Follow Sahm's recommendations.
+	\item[\done] Read Cochrane shared by Moffitt.
+	\item[\done] Construct data using results from fminsearch.
+	\item[\done] Update tables.
+	\item[\done] Update LPs for 30 and 60 days.
+	\item[\done] Compute SE.
+	\begin{todolist}
+		\item[\done] Try derivest. Didn't produce meaningful results, sends singularity warning at every iteration. 
+		\item[\done] Compute SE but using fminsearch instead of fminunc.
+		\item[\done] Try different values for epsilon.
+		\item[\done] Compare CIs from V0 vs V1.
+		\item[\done] Compare eps = 1e-9 vs hessian from fminunc.
+		\item[\done] Compare SE w/ mny and msy (when no surveys are used, SE wider?)
+	\end{todolist}
+	\item[\done] Plot the components w/ SE and call them from the paper.
+	\item[\wontdo] Update LP figures in Stata: 30 and 60 days. May need to re-run them since estimates from fminseach might still be valid.
+	\item[\done] Call to splityldssvys in atsm_estimation, se_state.
+	\item[\done] Compute the asymptotic variance.
+	\begin{todolist}
+		\item[\done] Compute second derivative of llkfun and multiply by minus 1.
+		\item[\done] Compute first derivative of llkfun and take the variance. First derivative minus expected value.
+		\item[\done] Check definiteness. V2 pass this test whereas V1 doesn't.
+		\item[\done] Save in Vasy in structures bsl_pr.
+		\item[\done] Use Vasy in se_components (delta method).
+		\item[\done] Divide J*Vasy*J' by n when calculating the standard errors.
+		\item[\done] Plot components w/ SE.
+	\end{todolist}
+	\item[\done] Line up observations in drivers table so that coefficients add up exactly.
+	\item[\done] Update datasets and tables in Stata.
+	\item[\done] Update construct_panel to report d_cr instead of dc_blncd.
+	\item[\done] Report d_cr so that decomposition of nominal yields adds up exactly w/ daily data.
+	\item[\done] Compare mssf_yP vs scbp. Note: in general is similar; however, the fit improves for some countries whereas it is off for others (for which it may require to run the estimation again).
+	\item[\done] Calculate uncertainty due to estimation of the state.
+	\begin{todolist}
+		\item[\done] Get matsY and matsS.
+		\item[\done] Extract estimated parameters per country.
+		\item[\done] Generate parest from estimated parameters.
+		\item[\done] Call atsm_params to get parameters for state space model.
+		\item[\done] Call Kfs to get xs and Ps.
+		\item[\done] Confirm that xs obtained as above is the same as the one stored in field.
+		\item[\done] Calculate standard errors for uncertainty due to xs as sqrt(diag((Bn'*Ps*Bn))).
+		\item[\done] Calculate average standard error per maturity and store in a matrix that has those averages for all countries.
+		\item[\done] Do that for yQ, yP and TP.
+	\end{todolist}
+	\item[\done] Obtain the asymptotic variance of the MLE parameters.
+	\begin{todolist}
+		\item[\done] Report covariance matrix for smoothed state in estimation_svys.
+		\item[\done] Define problem to use fminunc (optimoptions, algorithm, passing extra parameters, use of exit flag, display). Store the Hessian.
+		\item[\done] Add option in estimation_svys to choose b/w estimation using fminsearch or fminunc.
+		\item[\done] Add option in atsm_estimation to choose b/w estimation using fminsearch or fminunc and update call to estimation_svys including the option.
+		\item[\done] In ts_analysis call atsm_estimation twice: one using fminsearch and one using fminunc.
+		\item[\done] Use estimated parameters w/ fminsearch as starting values for fminunc. Note: it produces warnings of singular matrix in all cases.
+		\item[\done] Use intial values from JSZ. Note: it produces warnings of singular matrix in 8 out of 15 cases, but yP is no close to scbp for KRW and PEN.
+		\item[\done] Compare solution vs intial values (fminunc vs fminsearch) using figures.
+		\item[\done] Compare RMSE.
+	\end{todolist}
+	\item[\done] Implement the delta method.
+	\begin{todolist}
+		\item[\done] Implement vars2parest to get theta.
+		\item[\done] 3D array: Subtract epsilon to each element of theta, compute loadings and components each time.
+		\item[\done] Compute the Jacobian and the asymptotic variance.
+		\item[\done] 2D array: Compute standard errors for all maturities in each period.
+		\item[\done] Repeat for: yQ, yP, TP.
+		\item[\done] Make changes to include SE for phi. Notes: use syncdatasets.
+	\end{todolist}
 	\item[\done] Figures.
 	\begin{todolist}
 		\item[\done] Adjust target and LSAP shocks in spov_vars.

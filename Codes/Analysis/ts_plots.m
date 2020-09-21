@@ -707,13 +707,13 @@ close all
 %% Nominal YC decomposition: drivers of yields
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
     % EM: monthly
-fldname = {'bsl_yP','bsl_tp','mc_blncd'};       % daily data: {'d_yP','d_tp','dc_blncd'};
+fldname = {'bsl_yP','bsl_tp','bsl_cr'};       % daily data: {'d_yP','d_tp','dc_blncd'};
 figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
-    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
-              S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
-              S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--');% 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
+         S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--')% 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -729,8 +729,8 @@ figure
 for k0 = nEMs+1:nEMs+nAEs
     k1 = k1 + 1;
     subplot(2,5,k1)
-    h1 = plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
-              S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.');% 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
+         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.')% 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -741,6 +741,93 @@ set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = 'ny_dcmp_AE'; save_figure(figdir,figname,formats,figsave)
 
 close all
+
+%% Compare estimated CRC versus DS LCCS
+    % Monthly frequency
+fldname = {'bsl_cr','mc_blncd'};
+tnr = 10;
+figure
+for k1 = 1:nEMs
+    subplot(3,5,k1)
+    var1 = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
+    var2 = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
+    plot(S(k1).(fldname{1})(2:end,1),var1,S(k1).(fldname{2})(2:end,1),var2);
+    title(S(k1).cty)
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+lbl = {'Own','DS'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+
+    % Daily frequency
+fldname = {'d_cr','dc_blncd'};
+tnr = 10;
+figure
+for k1 = 1:nEMs
+    subplot(3,5,k1)
+    var1 = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
+    var2 = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
+    plot(S(k1).(fldname{1})(2:end,1),var1,S(k1).(fldname{2})(2:end,1),var2);
+    title(S(k1).cty)
+    datetick('x','yy'); yline(0);
+    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+end
+lbl = {'Own','DS'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+
+%% Components with confidence bands
+    % EM
+figdir = 'Estimation'; formats = {'eps'}; figsave = false;
+vars   = {'yQ','yP','tp','cr'};
+names  = {'Fitted Yields','Expected Short Rate','Term Premium','Credit Risk Compensation'};
+tnr    = 10;
+for k0 = 1:length(vars)
+    fldname = {['bsl_' vars{k0}],['bsl_' vars{k0} '_se']};
+    figure
+    for k1 = 1:nEMs
+        subplot(3,5,k1)
+        var   = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
+        varse = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
+        plot(S(k1).(fldname{1})(2:end,1),var,'-'); hold on
+        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6])
+        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
+        title(S(k1).cty)
+        datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+    end
+    lbl = {names{k0},'Confidence Bands'};
+    lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+    set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+    figname = [fldname{1} '_CI_' num2str(tnr) 'y_V1']; save_figure(figdir,figname,formats,figsave)
+end
+
+    % AE
+vars   = {'yQ','yP','tp'};
+names  = {'Fitted Yields','Expected Short Rate','Term Premium'};
+tnr    = 10;
+for k0 = 1:length(vars)
+    fldname = {['bsl_' vars{k0}],['bsl_' vars{k0} '_se']};
+    figure
+    k2 = 0;
+    for k1 = nEMs+1:length(S)
+        k2 = k2 + 1;
+        subplot(2,5,k2)
+        var   = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
+        varse = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
+        plot(S(k1).(fldname{1})(2:end,1),var,'-'); hold on
+        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6])
+        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
+        title(S(k1).cty)
+        datetick('x','yy'); yline(0);
+        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+    end
+    lbl = {names{k0},'Confidence Bands'};
+    lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+    set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+    figname = [fldname{1} '_CI_' num2str(tnr) 'y_V1_AE']; save_figure(figdir,figname,formats,figsave)
+end
 
 %% Plot TP against LCCS, USTP, VIX, EPU, INF
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
@@ -866,10 +953,34 @@ close all
 %% DY index (daily frequency): Yield components
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
 
+    % AE + EM (nominal, synthetic)
+tenor = 10;
+fldname = {'dn_data','ds_data'};
+lstyle  = {'-','-.','--'};
+datemin = datenum('31-Jan-2019');
+figure
+for k0 = 1:length(fldname)
+    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
+    disp(DYtable)
+    plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
+    if DYindex(1,1) < datemin
+        datemin = DYindex(1,1);
+    end
+end
+k0 = 1;
+[DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
+disp(DYtable)
+fltrAE = DYindex(:,1) >= datemin;
+plot(DYindex(fltrAE,1),DYindex(fltrAE,2),lstyle{end}); hold on
+datetick('x','yy'); hold off
+lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
+legend(lbl,'Location','best','AutoUpdate','off');
+figname = ['dy_index' num2str(tenor) 'y_nomsyn']; save_figure(figdir,figname,formats,figsave)
+
     % EM
 tenor = 10;
-fldname = {'dn_data','d_yP','d_tp','dc_data'};
-lstyle  = {'-','-.','--',':'};
+fldname = {'d_yP','d_tp','dc_data'};
+lstyle  = {'-','-.','--'};
 figure
 for k0 = 1:length(fldname)
     [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
@@ -877,9 +988,9 @@ for k0 = 1:length(fldname)
     plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
 end
 datetick('x','yy'); hold off
-lbl = {'Nominal Yield','Exp. Short Rate','Term Premium','Credit Risk Premium'};
+lbl = {'Exp. Short Rate','Term Premium','Credit Risk Premium'};
 legend(lbl,'Location','best','AutoUpdate','off');
-figname = ['dy_index' num2str(tenor) 'y']; save_figure(figdir,figname,formats,figsave)
+figname = ['dy_index' num2str(tenor) 'y_dcmp']; save_figure(figdir,figname,formats,figsave)
 
     % AE
 fldname = {'dn_data','d_yP','d_tp'};
@@ -891,11 +1002,11 @@ for k0 = 1:length(fldname)
 end
 datetick('x','yy'); hold off
 legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
-figname = ['dy_index' num2str(tenor) 'y_AE']; save_figure(figdir,figname,formats,figsave)
+figname = ['dy_index' num2str(tenor) 'y_dcmp_AE']; save_figure(figdir,figname,formats,figsave)
 
 %% DY index (daily frequency): Term structure
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
-fldname = {'dn_data'}; % {'dn_data','d_yP','d_tp','dc_data'};
+fldname = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
 lstyle  = {'-','-.','--',':'};
 tenor   = [10 5 1 0.25];
 lbl     = {'10 Years','5 Years','1 Year','3 Months'};
@@ -928,7 +1039,7 @@ for k0 = 1:length(fldname)
     figname = ['dy_index_' fldname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
 end
 
-%% Plot yield curve
+%% Plot yield curves
 k0 = 1;                                                                     % country
 matrix = S(k0).ms_blncd;                                                    % synthetic
 dates  = matrix(2:end,1);

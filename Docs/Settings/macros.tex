@@ -21,16 +21,19 @@
 \providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
 \providecommand{\yZeroP}{\yZero^{\Pmeasure}}
 \providecommand{\yZeroE}{\yZero^{\xpc}}
-\providecommand{\yZeroFwd}{\yld_{\idxsfwd}}
+\providecommand{\yZeroFwd}{\frate_{\idxsfwd}}
 \providecommand{\yZeroEfwd}{\yZeroFwd^{\xpc}}
 \providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
 \providecommand{\srate}{i}
 \providecommand{\shortrate}{\srate_{\idxt}}
 \providecommand{\shortratelag}{\srate_{\idxt-1}}
+\providecommand{\frate}{f}
+\providecommand{\realrate}{r_{\idxs}}
 \providecommand{\rateSvy}{\srate_{\idxs}^{survey}}
 \providecommand{\SDF}{M_{\idxt+1}}
 \providecommand{\SDFprod}{\ExpP \left[\Pi_{j=1} ^\tnr M_{\idxt+j}\right]}
+\providecommand{\SDFsum}{\ExpQ \left[\exp \left(- \Sigma_{j=0} ^{\tnr-1} \srate_{\idxt+j} \right) \right]}
 \providecommand{\Xvars}{X_{\idxt}}
 \providecommand{\XvarsFwd}{X_{\idxt+1}}
 \providecommand{\affineA}{A_{\tnr}}
@@ -49,7 +52,7 @@
 \providecommand{\yLCsynt}{\widetilde{\yld}_{\idxs} ^{LC}}
 \providecommand{\yUS}{y_{\idxs} ^{US}}
 \providecommand{\yUSsynt}{\widetilde{\yld}_{\idxs} ^{US}}
-\providecommand{\fx}{f}
+\providecommand{\fx}{\mathit{s}}
 
 % Math fonts
 \providecommand{\Xdim}{\mathrm{K}}
@@ -99,6 +102,14 @@
 \providecommand{\tauNSS}{\tau_{2}}
 \providecommand{\tnrTauNS}{\tnr/\tauNS}
 \providecommand{\tnrTauNSS}{\tnr/\tauNSS}
+\providecommand{\params}{\theta}
+\providecommand{\Vasy}{\Omega}
+\providecommand{\cmpnt}{\Psi}
+\providecommand{\Jacobian}{\Gamma}
+\providecommand{\Hessian}{\mathcal{H}_\params}
+\providecommand{\asydstr}{\sqrt{\Ydim} \left( \widehat{\cmpnt} - \cmpnt \right) \xrightarrow[]{d} \Normal \left(0,\, \Jacobian \, \Vasy \, \Jacobian' \right)}
+\providecommand{\sampleHjoint}{\frac{1}{\Ydim} \frac{\partial^{2} \ell_{\Ydim} (\widehat{\params})}{\partial \params \partial \params'}}
+\providecommand{\sampleHindiv}{\frac{1}{\Ydim} \sum_{i = 1}^{\Ydim} \frac{\partial^{2} \log \mathit{f} (X_{i} | \widehat{\params})}{\partial \params \partial \params'}}
 
 % Nelson-Siegel_Svensson
 \providecommand{\loadSTnsFwd}{\exp\left(-\tnrTauNS \right)}
@@ -127,11 +138,13 @@
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
 \newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \beta' z_{\idxspnl} + u_{\idxspnl}}
-\newcommand{\eqySvy}{\rateSvy = \frac{\hat{\beta}_{0}}{1-\hat{\beta}_{\srate}} + \frac{\hat{\beta}_{{\pi}}}{1-\hat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\hat{\beta}_{{g}}}{1-\hat{\beta}_{\srate}} g_{\idxs}^{survey} }
+\newcommand{\eqySvy}{\rateSvy = \frac{\widehat{\beta}_{0}}{1-\widehat{\beta}_{\srate}} + \frac{\widehat{\beta}_{{\pi}}}{1-\widehat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\widehat{\beta}_{{g}}}{1-\widehat{\beta}_{\srate}} g_{\idxs}^{survey} }
 
 \newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqBeFwd}{\affineAeFwd = \left( \tnrfwd B_{\tnrfwd}^{\xpc}  - \tnr \affineBe \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqrrt}{\srate_{\idxs} = \pi^{CE survey}_{\idxs} + \realrate^{*} = \pi^{CE survey}_{\idxs} + \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) }
+
 
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
 \newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
@@ -140,7 +153,7 @@
 %\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \beta_{\idxh} \epsilon_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}}
 
 % All shocks at once
-\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \Sigma^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
+\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
 % \beta^{target}_{\idxh} \epsilon^{target}_{\idxt} + \beta^{path}_{\idxh} \epsilon^{path}_{\idxt} + \beta^{lsap}_{\idxh} \epsilon^{lsap}_{\idxt} 
 
 %---------------------------------------------------------------

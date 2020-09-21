@@ -1,15 +1,15 @@
 %% Term Structure Analysis: Nominal and Synthetic for EM and AE
 % This code calls functions to estimate and analyze affine term structure models
 
-% m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation,
-% assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
+% m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation, se_state, add_cr, 
+% se_components, assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
 % auxiliary: read_macrovars, read_kw
-% Pavel Solís (pavel.solis@gmail.com), August 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2020
 % 
 %% Load the data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2020';
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/September-2020';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
@@ -20,7 +20,7 @@ S = daily2dymy(S,dataset_daily,header_daily,true);
 S = add_macroNsvys(S,currEM);
 S = append_svys2ylds(S,currEM);
 
-%% Estimate affine term structure model
+%% Estimate affine term structure model using fminsearch (for all cases)
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 datetime(now(),'ConvertFrom','datenum')
 S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 4.1 hrs
@@ -30,13 +30,13 @@ datetime(now(),'ConvertFrom','datenum')
 
 %% Baseline estimations
 ncntrs  = length(S);
-fldname = {'mssb_','mny_'};  % fldname = {'mssb_','msy_','mny_'};
+fldname = {'mssb_','mny_'};                                         % EM and AE
 fldtype = {'yQ','yP','tp','pr'};
 ntypes  = length(fldtype);
 for k0  = 1:ncntrs
     for k1 = 1:ntypes
         if ismember(S(k0).iso,currEM)
-            fldaux = fldname{1};                                    % synthetic yields, surveys,fixed sgmS
+            fldaux = fldname{1};                                    % synthetic yields + surveys + fixed sgmS
         else
             fldaux = fldname{2};                                    % nominal yields
         end
@@ -44,10 +44,19 @@ for k0  = 1:ncntrs
     end
 end
 
-% Assess fit of the model
-[S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
+%% Estimate affine term structure model using fminunc (for baseline cases)
+sgmSfree = false;                                                   % consistent w/ baseline (fixed sgmS) case
+datetime(now(),'ConvertFrom','datenum')
+S = atsm_estimation(S,matsout,sgmSfree,false);                      % fminunc, runtime ~20 min
+datetime(now(),'ConvertFrom','datenum')
 
-S = add_vars(S,currEM);
+%% Post-estimation computations
+seX = se_state(S,currEM);
+S   = add_cr(S,matsout,currEM);
+S   = asyvarhat(S,currEM);
+S   = se_components(S,matsout,currEM);
+[S,fitrprtmy] = assess_fit(S,currEM,currAE,false);
+S   = add_vars(S,currEM);
 
 %% Daily frequency estimation
 S = daily2dymy(S,dataset_daily,header_daily,false);
@@ -55,7 +64,7 @@ S = daily2dymy(S,dataset_daily,header_daily,false);
 
 %% Store/load results
 cd(pathd)
-% save struct_datamy_S.mat S currAE currEM corrTPem corrTPae corrTPyP pcexplnd pc1yc pc1em pc1ae
+% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy
 load('struct_datamy_S.mat')
 load('struct_datady_cells.mat')
 cd(pathc)
@@ -68,6 +77,7 @@ vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 ts_plots(S,currEM,currAE,kwtp,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1em,pc1ae,pc1res,r2TPyP] = ts_pca(S,currEM,currAE,kwyp,kwtp);
+% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae corrTPyP pcexplnd pc1yc pc1em pc1ae
 
 %% Construct panel dataset
 datetime(now(),'ConvertFrom','datenum')

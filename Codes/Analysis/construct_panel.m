@@ -12,11 +12,11 @@ function TT = construct_panel(S,matsout,currEM,currAE)
 
 % m-files called: read_mps, read_kw, read_spf, read_global_idxs, read_epu_usdgbl,
 % read_financialvars, read_platforms, read_usyc, datesminmax
-% Pavel Solís (pavel.solis@gmail.com), August 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2020
 % 
 %% Define variables
 dtend   = datetime('31-Jan-2019');                                          % end of sample
-flds1   = ['d_gsw' strcat({'dn','ds','dr','dc'},'_blncd') strcat('d_',{'yP','tp'}) strcat('bsl_',{'yP','tp'})];
+flds1   = ['d_gsw' strcat({'dn','ds','dr'},'_blncd') strcat('d_',{'cr','yP','tp'}) strcat('bsl_',{'yP','tp'})];
 varnms1 = {'usyc','nom','syn','rho','phi','dyp','dtp','myp','mtp'};
 flds2   = {'scbp','scpi','sgdp','stp','rrt','cbp','inf','une','ip','gdp','sdprm','sdcyc','epu'};
 varnms2 = flds2;
@@ -142,11 +142,6 @@ TT.em    = ismember(TT.cty,currEM);                                         % em
 %% Export table to Excel
 filename = fullfile(pathc,'..','..','Data','Analytic','dataspillovers.xlsx');
 writetimetable(TT,filename,'Sheet',1,'Range','A1')
-
-%% Save variables in mat files (not in Git directory due to size limits)
-% cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2020'
-% save datasets TT*
-% cd(pathc)
 
 %% Sources
 % Merge tables with different dimensions

@@ -544,7 +544,8 @@ levelsof $id, local(levels)
 // 		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) pwcorr dtp`t'm phi`t'm if imf == `l', sig
 // 		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) summ dtp* if imf == `l'
 // 		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr dyp120m dtp120m phi120m if imf == `l'
-		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr rho120m phi120m if eoqtr & imf == `l' & date >= td(1mar2004) & date <= td(31dec2018)
+// 		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr rho120m phi120m if eoqtr & imf == `l' & date >= td(1mar2004) & date <= td(31dec2018)
+		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr dtp120m scbp120m if imf == `l'
 // 		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) summ rho60m phi60m inf if eoqtr & imf == `l' & date >= td(1mar2004) & date <= td(31dec2018)
 	// 	if !inlist(`l',233,536,922,964) corr dtp120m phi120m if imf == `l'
 	}
@@ -556,3 +557,18 @@ levelsof $id, local(levels)
 // 	di "`l'"
 // 	summ `ycs' if imf == `l' & eomth
 // }
+
+levelsof $id, local(levels)
+foreach v of varlist usyc* ustp* usyp* {
+	di "`v'"
+	foreach l of local levels {
+		di "`l'"
+		if !inlist(`l',193,156,146,128,134,112,158,142,196,144) pperron `v' if imf == `l', trend
+	}
+}
+
+levelsof $id, local(levels)
+foreach v of varlist usyc* ustp* usyp* {
+	di "`v'"
+		pperron `v' if cty == "ZAR", trend
+}
