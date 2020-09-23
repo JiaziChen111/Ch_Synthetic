@@ -28,9 +28,9 @@
 %---------------------------------------------------------------
 \usepackage{enumerate} 											% Personalizes the enumerate style
 	\setbeamertemplate{enumerate items}[default]
-	\setbeamertemplate{itemize items}{$\bullet$}		 % Or {$\vdash$}
-	\setbeamertemplate{itemize subitem}{$\rightharpoonup$}
-	\setbeamertemplate{itemize subsubitem}{---}
+	\setbeamertemplate{itemize items}{\(\textperiodcentered\)}		 % Or {$\vdash$}, {$\bullet$}, {$\rightharpoonup$}, {---}
+	\setbeamertemplate{itemize subitem}{\(\textendash\)}
+	\setbeamertemplate{itemize subsubitem}{\(\textbullet\)}
 	%\setbeamertemplate{itemize subsubitem}[triangle]
 	%\setbeamercolor{subitem projected}{bg=green}
 	%\setbeamercolor{itemize subitem}{bg=green}
@@ -86,7 +86,7 @@
 % Theme
 %---------------------------------------------------------------
 \usetheme{Madrid}			   % Good: Madrid, Copenhagen, CambridgeUS, Boadilla
-\useoutertheme{noslidenum}
+%\useoutertheme{noslidenum}
 \usecolortheme{lily} 			% Good: lily, dolphin
 \usefonttheme{serif}
 \useoutertheme{infolines} 	% Full list: miniframes, infolines, shadow, sidebar, smoothbars, smoothtree, split, tree

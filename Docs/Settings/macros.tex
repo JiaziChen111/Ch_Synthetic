@@ -137,6 +137,15 @@
 % Equations
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
+
+\newcommand{\eqXvarsFwdQ}{\XvarsFwd = \XmuQ + \XPhiQ \Xvars  + \XSigma \errorQ}
+\newcommand{\eqshortrate}{\shortrate = \deltazero + \deltaone' \Xvars}
+\newcommand{\eqyZeroQ}{\yZeroQ = \affineAQ + \affineBQ \Xvars}
+\newcommand{\eqXvarsFwdP}{\XvarsFwd = \XmuP + \XPhiP \Xvars  + \XSigma \errorP}
+\newcommand{\eqriskprice}{\riskprice = \lambdazero + \lambdaone \Xvars}
+\newcommand{\eqSDF}{\SDF = \exp\left( -\shortrate -\frac{1}{2} \riskprice' \riskprice - \riskprice' \errorP \right)}
+%\newcommand{}{}
+
 \newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \beta' z_{\idxspnl} + u_{\idxspnl}}
 \newcommand{\eqySvy}{\rateSvy = \frac{\widehat{\beta}_{0}}{1-\widehat{\beta}_{\srate}} + \frac{\widehat{\beta}_{{\pi}}}{1-\widehat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\widehat{\beta}_{{g}}}{1-\widehat{\beta}_{\srate}} g_{\idxs}^{survey} }
 
