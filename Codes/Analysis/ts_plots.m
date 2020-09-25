@@ -407,7 +407,7 @@ for k0 = 1:nEMs
          S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'-.');    % 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
-    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+%     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 lgd = legend({'Observed','Fitted'},'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
@@ -445,7 +445,7 @@ for k0 = 1:nEMs
     end
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
-    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+%     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
 lgd = legend('Model','Forecast','Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
@@ -716,9 +716,9 @@ for k0 = 1:nEMs
          S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--')% 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
-    L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+%     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
 end
-lbl = {'Expected Short Rate','Term Premium','Credit Risk Premium'};
+lbl = {'Expected Short Rate','Term Premium','Credit Risk Compensation'};
 lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = 'ny_dcmp'; save_figure(figdir,figname,formats,figsave)
@@ -795,7 +795,7 @@ for k0 = 1:length(vars)
         plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
         title(S(k1).cty)
         datetick('x','yy'); yline(0);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+%         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
     end
     lbl = {names{k0},'Confidence Bands'};
     lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
@@ -988,7 +988,7 @@ for k0 = 1:length(fldname)
     plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
 end
 datetick('x','yy'); hold off
-lbl = {'Exp. Short Rate','Term Premium','Credit Risk Premium'};
+lbl = {'Exp. Short Rate','Term Premium','Credit Risk Compensation'};
 legend(lbl,'Location','best','AutoUpdate','off');
 figname = ['dy_index' num2str(tenor) 'y_dcmp']; save_figure(figdir,figname,formats,figsave)
 
