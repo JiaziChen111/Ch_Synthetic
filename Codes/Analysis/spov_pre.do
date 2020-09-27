@@ -25,9 +25,9 @@ matrix drop _all
 local j = 0
 foreach shock in mp1 path lsap {
 	local ++j
-	if `j' == 1 local datecond date > td(1jan2000) & date < td(1jan2009)	// target
+	if `j' == 1 local datecond date > td(1jan2000) & date < td(1jan2020)	// target
 	if `j' == 4 local datecond date > td(1jan2000) & date < td(1jan2020)	// path
-	if `j' == 7 local datecond date > td(1jan2009) & date < td(1jan2020)	// lsap
+	if `j' == 7 local datecond date > td(1oct2008) & date < td(1jan2020)	// lsap
 	
 	estpost summ abs`shock' if cty == "CHF" & fomc & `datecond' // & abs`shock' != 0
 	if `j' == 1 {
@@ -46,10 +46,12 @@ foreach shock in mp1 path lsap {
 	matrix t`j' = ( e(mean) \ e(sd) \ e(min) \ e(max) \ e(count) )'
 }
 matrix tablemps = ( t1 \ t2 \ t3 \ t4 \ t5 \ t6 \ t7 \ t8 \ t9 )
-matrix rownames tablemps = "Target Shocks (absolute values)" "\quad Target Shocks \(>\) 0" "\quad Target Shocks \(<\) 0" "Path Shocks  (absolute values)" "\quad Path Shocks \(>\) 0" "\quad Path Shocks \(<\) 0" "LSAP Shocks  (absolute values)" "\quad LSAP Shocks \(>\) 0" "\quad LSAP Shocks \(<\) 0"
+matrix rownames tablemps = "Target Surprises (abs. values)" "\quad Target Surprises \(>\) 0" "\quad Target Surprises \(<\) 0" "Path Surprises  (abs. values)" "\quad Path Surprises \(>\) 0" "\quad Path Surprises \(<\) 0" "LSAP Surprises  (abs. values)" "\quad LSAP Surprises \(>\) 0" "\quad LSAP Surprises \(<\) 0"
 esttab matrix(tablemps, fmt(1 1 1 1 0)) using x.tex, replace fragment noobs nomtitles nonumbers booktabs
-filefilter x.tex y.tex, from(\nPath) to(\n\BSmidrule\nPath) replace
-filefilter y.tex "$pathtbls/`tbllbl'.tex", from(\nLSAP) to(\n\BSmidrule\nLSAP) replace
+filefilter x.tex y.tex, from(Path) to("Forward Guidance") replace
+filefilter y.tex x.tex, from(LSAP) to("Asset Purchase") replace
+filefilter x.tex y.tex, from(\nForward) to(\n\BSmidrule\nForward) replace
+filefilter y.tex "$pathtbls/`tbllbl'.tex", from(\nAsset) to(\n\BSmidrule\nAsset) replace
 erase x.tex
 erase y.tex
 // 	hist abs`shock' if cty == "CHF" & fomc & abs`shock' != 0
