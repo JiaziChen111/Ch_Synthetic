@@ -2,7 +2,7 @@ function ts_plots(S,currEM,currAE,kwtp,vix)
 % TS_PLOTS Plot different series after estimation of affine model
 
 % m-files called: datesminmax, syncdatasets, inflation_target, save_figure,
-% ts_dyindex
+% rollingcorrs, ts_dyindex
 % Pavel Solís (pavel.solis@gmail.com), August 2020
 %%
 nEMs = length(currEM);
@@ -949,6 +949,84 @@ end
 figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
 
 close all
+
+%% Rolling correlations (daily frequency): Yield components
+figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+
+    % AE + EM (nominal, synthetic)
+tenor  = 10;
+fname  = {'dn_data','ds_data'};
+lstyle = {'-','-.','--'};
+figure
+for k0 = 1:length(fname)
+    rollcorr = rollingcorrs(S,currEM,fname{k0},tenor);
+    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0}); hold on
+end
+k0 = 1;
+rollcorr = rollingcorrs(S,currAE,fname{k0},tenor);
+plot(rollcorr(:,1),rollcorr(:,2),lstyle{end}); hold on
+datetick('x','yy'); hold off
+lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
+legend(lbl,'Location','best','AutoUpdate','off');
+figname = ['rolling' num2str(tenor) 'y_nomsyn']; save_figure(figdir,figname,formats,figsave)
+
+    % EM
+tenor  = 10;
+fname  = {'d_yP','d_tp','d_cr'};
+lstyle = {'-','-.','--'};
+figure
+for k0 = 1:length(fname)
+    rollcorr = rollingcorrs(S,currEM,fname{k0},tenor);
+    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0}); hold on
+end
+datetick('x','yy'); hold off
+lbl = {'Exp. Short Rate','Term Premium','Credit Risk Compensation'};
+legend(lbl,'Location','best','AutoUpdate','off');
+figname = ['rolling' num2str(tenor) 'y_dcmp']; save_figure(figdir,figname,formats,figsave)
+
+    % AE
+tenor  = 10;
+fname  = {'dn_data','d_yP','d_tp'};
+lstyle = {'-','-.','--'};
+figure
+for k0 = 1:length(fname)
+    rollcorr = rollingcorrs(S,currAE,fname{k0},tenor);
+    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0}); hold on
+end
+datetick('x','yy'); hold off
+legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
+figname = ['rolling' num2str(tenor) 'y_dcmp_AE']; save_figure(figdir,figname,formats,figsave)
+
+%% Rolling correlations (daily frequency): Term structure
+figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+fname   = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
+lstyle  = {'-','-.','--',':'};
+tenor   = [10 5 1 0.25];
+lbl     = {'10 Years','5 Years','1 Year','3 Months'};
+
+    % EM
+for k0 = 1:length(fname)
+    figure
+    for k1 = 1:length(tenor)
+        rollcorr = rollingcorrs(S,currEM,fname{k0},tenor(k1));
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+    end
+    datetick('x','yy'); hold off
+    legend(lbl,'Location','best','AutoUpdate','off');
+    figname = ['rolling_' fname{k0}]; save_figure(figdir,figname,formats,figsave)
+end
+
+    % AE
+for k0 = 1:length(fname)
+    figure
+    for k1 = 1:length(tenor)
+        rollcorr = rollingcorrs(S,currAE,fname{k0},tenor(k1));
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+    end
+    datetick('x','yy'); hold off
+    legend(lbl,'Location','best','AutoUpdate','off');
+    figname = ['rolling_' fname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
+end
 
 %% DY index (daily frequency): Yield components
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
