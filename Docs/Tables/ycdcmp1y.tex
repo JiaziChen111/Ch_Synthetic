@@ -5,8 +5,9 @@
 \usepackage{threeparttable}
 \usepackage{pdflscape}
 \usepackage{tabularx}
-%\usepackage[margin=1in]{geometry}
-%\input{../Settings/macros}
+\usepackage[margin=1in]{geometry}
+\input{../Settings/macros}
+\pagestyle{empty}
 
 \begin{document}
 	\begin{normalsize}
@@ -16,7 +17,7 @@
 					\caption{Drivers of the Emerging Market 1-Year Nominal Yield and Its Components} \label{tab:ycdcmp1y}
 					\begin{threeparttable}
 						\estauto{../Tables/f_ycdcmp1y.tex}{6}
-						\tabnote{This table reports the estimated slope coefficients of panel data regressions of the 1-year nominal yields and their components on selected explanatory variables. The sample includes monthly data for 15 emerging markets starting in 2000:1 and ending in 2019:12. The dependent variables are the nominal (Nominal) and synthetic (Synth.) yields, the expected short rate (ESR), the term premium (TP), the credit risk premium (CRP) and the forward premium (FP). All dependent variables are expressed in basis points. The explanatory variables are the U.S. expected short rate (US ER) and term premium (US TP) according to \cite{KimWright:2005}, domestic inflation and unemployment, the log of the Vix (Log(Vix)) and the global economic policy uncertainty index (Log(EPU)) based on \cite{BakerBloomDavis:2016}, the global activity index based in industrial production (Global IP) from \cite{Hamilton:2019} and the monthly returns of the exchange rate (FX), the Standard \& Poor's stock market index (S\&P) and the price of oil for the West Texas Intermediate benchmark (Oil). All cases include country fixed effects. Heteroskedasticity and autocorrelation consistent standard errors are in parenthesis. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
+						\tabnote{This table reports the estimated slope coefficients of panel data regressions of the 1-year nominal yields and their components on selected explanatory variables. The sample includes monthly data for 15 emerging markets starting in 2000:1 and ending in 2019:1. The dependent variables are the nominal, the expected short rate, the term premium and the credit risk compensation. All dependent variables are expressed in basis points. The explanatory variables are the U.S. term premium and the U.S. expected short rate according to \cite{KimWright:2005} with the same maturity as the dependent variables, the policy rate, domestic inflation and unemployment, the standardized exchange rate (local currency per USD), the log of the Vix, the log of the U.S. and global economic policy uncertainty indexes based on \cite{BakerBloomDavis:2016}, the global activity index based in industrial production from \cite{Hamilton:2019}. Driscoll--Kraay standard errors in parenthesis. Lag length up to which the residuals may be autocorrelated is indicated. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
 					\end{threeparttable}
 				\end{center}
 			\end{table}
