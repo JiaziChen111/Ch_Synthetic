@@ -1028,6 +1028,37 @@ for k0 = 1:length(fname)
     figname = ['rolling_' fname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
 end
 
+%% Rolling correlations w/ US yield curve (daily frequency): Term structure
+figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+fname   = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
+lstyle  = {'-','-.','--',':'};
+tenor   = [10 5 1 0.25];
+lbl     = {'10 Years','5 Years','1 Year','3 Months'};
+
+    % EM
+for k0 = 1:length(fname)
+    figure
+    for k1 = 1:length(tenor)
+        rollcorr = rollingcorrsus(S,currEM,fname{k0},tenor(k1));
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+    end
+    datetick('x','yy'); hold off
+    legend(lbl,'Location','best','AutoUpdate','off');
+    figname = ['rollingUS_' fname{k0}]; save_figure(figdir,figname,formats,figsave)
+end
+
+    % AE
+for k0 = 1:length(fname)
+    figure
+    for k1 = 1:length(tenor)
+        rollcorr = rollingcorrsus(S,currAE,fname{k0},tenor(k1));
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+    end
+    datetick('x','yy'); hold off
+    legend(lbl,'Location','best','AutoUpdate','off');
+    figname = ['rollingUS_' fname{k0} '_AE']; save_figure(figdir,figname,formats,figsave)
+end
+
 %% DY index (daily frequency): Yield components
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
 
