@@ -950,6 +950,21 @@ figname = 'tp_sdprm'; save_figure(figdir,figname,formats,figsave)
 
 close all
 
+%% Fitting error in CRC
+tenor = 0.25;
+fname = {'d_cr','d_crds'};
+rprt = nan(nEMs,4);
+for k0 = 1:nEMs
+    
+    mrgdtst = syncdatasets(S(k0).(fname{1}),S(k0).(fname{2}));
+    fltr = ismember(mrgdtst(1,:),tenor);
+    aux = mrgdtst(:,fltr);
+    crcdiff = (aux(2:end,1) - aux(2:end,2))*10000;
+    rprt(k0,:) = [mean(crcdiff) std(crcdiff) min(crcdiff) max(crcdiff)];
+%     figure
+%     plot(mrgdtst(2:end,1),crcdiff)
+end
+
 %% Rolling correlations (daily frequency): Yield components
 figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
 
