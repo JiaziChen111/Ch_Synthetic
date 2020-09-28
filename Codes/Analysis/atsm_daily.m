@@ -92,13 +92,19 @@ for k0 = 1:ncntrs
         yldnom = S(k0).(fnameb)(2:end,fltrnm);                              % yields in decimals
         datesn = S(k0).(fnameb)(2:end,1);                                   % dates
         [~,crynom,cryldsQ] = syncdatasets([nan matsout; datesn yldnom],S(k0).([prefix '_yQ']));
-        crcomp    = crynom(2:end,2:end) - cryldsQ(2:end,2:end);
+        crcomp = crynom(2:end,2:end) - cryldsQ(2:end,2:end);                % fitting error inside
         S(k0).([prefix '_cr']) = [nan matsout; crynom(2:end,1) crcomp];
+        
+        fnameb = 'dc_blncd';                                                % field containing CIP deviations
+        fltrcp = ismember(S(k0).(fnameb)(1,:),matsout);                     % same maturities as in matsout
+        fltrcp(1) = true;                                                   % include dates
+        S(k0).([prefix '_crds']) = S(k0).(fnameb)(:,fltrcp);
     else
         fnameb = 'dc_blncd';                                                % field containing CIP deviations
         fltrcp = ismember(S(k0).(fnameb)(1,:),matsout);                     % same maturities as in matsout
         fltrcp(1) = true;                                                   % include dates
         S(k0).([prefix '_cr']) = S(k0).(fnameb)(:,fltrcp);
+        S(k0).([prefix '_crds']) = S(k0).(fnameb)(:,fltrcp);
     end
     
     if plotfit
