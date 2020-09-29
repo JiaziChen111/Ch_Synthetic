@@ -7,24 +7,32 @@
 
 \begin{document}
 	\begin{figure}[tbph]
-		\caption{Connectedness of the Term Structure} \label{fig:dy_index_ts}
+		\caption{Comovement of the Term Structures of Emerging Markets} \label{fig:dy_index_ts}
 		\begin{center}
 			\begin{minipage}{0.9\linewidth}
 				\begin{center}
 					\begin{subfigure}[t]{\linewidth}
-						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/dy_index_dn_data.eps} \\
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/rolling_dn_data.eps} \\
 						\vspace{-0.35cm}
-						\caption{Emerging Markets} \label{subfig:dyindexTSEM}
+						\caption{Rolling Correlations} \label{subfig:rollingTSEM}
 						\vspace{0.4cm}
 					\end{subfigure}
 					
 					\begin{subfigure}[t]{\linewidth}
-						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/dy_index_dn_data_AE.eps} \\
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/dy_index_dn_data.eps} \\
 						\vspace{-0.35cm}
-						\caption{Advanced Countries} \label{subfig:dyindexTSAE}
+						\caption{Connectedness Index} \label{subfig:dyindexTSEM}
+						\vspace{0.4cm}
 					\end{subfigure}
+					
+%					\begin{subfigure}[t]{\linewidth}
+%						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.38\textheight,width=\linewidth]{../Figures/Estimation/dy_index_dn_data_AE.eps} \\
+%						\vspace{-0.35cm}
+%						\caption{Advanced Countries} \label{subfig:dyindexTSAE}
+%					\end{subfigure}
 				\end{center}
-				\fignotes{This figure plots the connected index of \cite{DieboldYilmaz:2014} for nominal yields of emerging markets and advanced countries for 3 months (solid line), 1 year (line), 5 years (line) and 10 years (line). The index is obtained using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of the nominal yields each maturity.}
+				\vspace{-0.45cm}
+				\fignotes{This figure plots rolling window correlation coefficients and the \cite{DieboldYilmaz:2014} connected index for the nominal yields of emerging markets for 10 years (solid line), 5 years (dashed-dotted line), 1 year (dashed line), and 3 months (dotted line). The first panel displays	one-year rolling correlations of daily yield changes averaged across all country pairs. The connected index in the second panel is obtained using a vector autoregression of order 1 of daily yield changes, with a forecast horizon of 10 days and a rolling window of 150 days.}
 			\end{minipage}
 		\end{center}
 	\end{figure}
