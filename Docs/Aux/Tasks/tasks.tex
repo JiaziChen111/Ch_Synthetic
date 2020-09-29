@@ -198,13 +198,15 @@
 		\item[\done] Check difference between surveys among economists and surveys among traders. A few basis points b/w SPF and SPD, and b/w SPF and SMP.
 		\item[\done] Verify that fitting error is left in CRC and is not big to change to a 4-way decomposition.
 		\item[\done] Check dates in USMPS file against dates in Rogers et al. (2014) to verify it only includes FOMC meetings (no speeches). Only FOMC meetings.
-		\item Check which parameters seem to be precisely estimated.
-		\item Use linewidth to make lines in Matlab bigger.
+		\item[\done] Check which parameters seem to be precisely estimated. B/c real and imaginary parts, the latter are ignored when plotting so is akin to SE = 0.
+		\item[\done] Use linewidth to make lines in Matlab bigger.
 		\item LPs. Update equation and figures (including path pre/post).
-		\item Fisher equation rather than approximation.
+		\item Fisher equation rather than approximation for US real rate and EM nominal rate. Start sample for Russia 1 or 2 months after the current initial date.
 	\end{todolist}
 	\item Wording.
 	\begin{todolist}
+		\item Remove that only FOMC meetings but leave that no minutes nor speeches.
+		\item Footnote for differences in SPF-SPD-SMP.
 		\item Reason to use CRSP: GSW doesn't target ST, follow Golinski \& Spencer.
 		\item Comparison of real rates from surveys and TIPS.
 		\item Reason for day shift.
@@ -244,6 +246,7 @@
 	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
 	\item Are big changes in TP related to local events?
 	\item Make reference to Chernov, Schmidt, Song about credit risk in US YC.
+	\item Correct Hessian in asyvarhat considering that it seems to work for AEs, check whether excluding surveys corrects the issue.
 \end{todolist}
 
 \section{Analysis: Long Term}
