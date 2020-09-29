@@ -120,7 +120,7 @@ foreach t in 12 24 60 120 {
 		}	// `v' variables
 		esttab mdl* using x.tex, replace fragment cells(b(fmt(2) star) se(fmt(2) par)) ///
 		nocons nomtitles nonumbers nonotes nolines noobs label booktabs collabels(none) ///
-		mgroups("Nominal" "E. Short Rate" "Term Premium" "Credit Rirsk", pattern(1 1 1 1 1 1) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
+		mgroups("Nominal" "E. Short Rate" "Term Premium" "Credit Risk", pattern(1 1 1 1 1 1) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
 		varlabels(, elist(globalip \midrule)) scalars("FE Fixed Effects" "Lags" "Countries No. Countries" "Obs Observations" "R2 \(R^{2}\)") sfmt(%4.0fc %4.0fc %4.0fc %4.0fc %4.2fc)
 	}	// `group'
 	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(Observations) to(Observations) replace
