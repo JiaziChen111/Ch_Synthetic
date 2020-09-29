@@ -20,7 +20,7 @@ for l = 1:length(vars)
             date1 = datenum(S(k0).mn_dateb,'mmm-yyyy'); 
             date2 = datenum(S(k0).ms_dateb,'mmm-yyyy');
             subplot(3,5,k0)
-            plot(S(k0).(fnames{l})(:,1),S(k0).(fnames{l})(:,2))
+            plot(S(k0).(fnames{l})(:,1),S(k0).(fnames{l})(:,2),'LineWidth',1.25)
             title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0);
             if l ~= 6; ylabel('%'); end
             xline(date1); xline(date2);
@@ -37,7 +37,7 @@ for l = 1:length(vars)
             [dtmn,dtmx] = datesminmax(S,k0);
             fltrd = S(k0).(fnames{l})(:,1) >= dtmn;
             subplot(3,5,k0)
-            plot(S(k0).(fnames{l})(fltrd,1),S(k0).(fnames{l})(fltrd,2))
+            plot(S(k0).(fnames{l})(fltrd,1),S(k0).(fnames{l})(fltrd,2),'LineWidth',1.25)
             title([S(k0).cty ' ' vars{l}]); datetick('x','yy'); yline(0);
             if l ~= 6; ylabel('%'); end
             xline(dtmx);
@@ -52,10 +52,10 @@ for k0 = 1:nEMs
     fldname = {'sdprm','sdcyc'};                                            % std of permanent and cyclical
     subplot(3,5,k0)
     yyaxis left
-    plot(S(k0).(fldname{1})(:,1),S(k0).(fldname{1})(:,2))
+    plot(S(k0).(fldname{1})(:,1),S(k0).(fldname{1})(:,2),'LineWidth',1.25)
     set(gca,'ytick',[])
     yyaxis right
-    plot(S(k0).(fldname{2})(:,1),S(k0).(fldname{2})(:,2))
+    plot(S(k0).(fldname{2})(:,1),S(k0).(fldname{2})(:,2),'LineWidth',1.25)
     set(gca,'ytick',[])
     title(S(k0).cty)
     if k0 == 2; legend('SDPRM','SDCYC','Orientation','horizontal','AutoUpdate','off'); end
@@ -73,7 +73,7 @@ fldname = {'ms_data','inf','scbp'};
 figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100)
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,'LineWidth',1.25)
     title(S(k0).iso); 
     datetick('x','yy'); yline(0);
 end
@@ -84,7 +84,7 @@ figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
     fltrYLD = ismember(S(k0).(fldname{1})(1,:),[0.25 1 5 10]);
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrYLD)*100)
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrYLD)*100,'LineWidth',1)
     title(S(k0).iso);
     datetick('x','yy'); yline(0);
 end
@@ -98,8 +98,8 @@ for k0 = 1:nEMs
     subplot(3,5,k0)
     dtmn  = datesminmax(S,k0);
     fltrd = S(k0).(fldname{2})(:,1) >= dtmn;
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-         S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end))
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,'LineWidth',1.25); hold on
+    plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'LineWidth',1.25)
     title(S(k0).iso); 
     datetick('x','yy'); yline(0);
 end
@@ -112,11 +112,11 @@ figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname{3}))
         subplot(3,5,k0)
-        plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-             S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end),'-.')
+        plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,'LineWidth',1.25); hold on
+        plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,end),'-.','LineWidth',1.25)
         title(S(k0).cty); 
         datetick('x','yy'); yline(0);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+%         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
 lbl = {'10-Year Synthetic Yield','Implied Long-Term Forecast of Short Rate'};
@@ -136,11 +136,11 @@ for k0 = 1:length(macrovr)
             dtmn  = datesminmax(S,k1);
             fltrd = S(k1).(fldname)(:,1) >= dtmn;
             subplot(3,5,k1)
-            plot(S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end),...
-                S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end-1),'-.');
+            plot(S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end),'LineWidth',1.25); hold on
+            plot(S(k1).(fldname)(fltrd,1),S(k1).(fldname)(fltrd,end-1),'-.','LineWidth',1.25);
             title(S(k1).cty);
             datetick('x','yy'); ylim([0 8]);
-            L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))     % sets #ticks to 4
+%             L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))     % sets #ticks to 4
             if strcmp(macrovr{k0},'CPI')
                 [ld,lu] = inflation_target(S(k1).iso);
                 if ~isempty(ld); yline(ld,'--'); yline(lu,'--'); end
@@ -401,10 +401,11 @@ figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
 
     % Monthly data
 fldname = {'ms_blncd','bsl_yQ'};
+figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'-.');    % 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,'LineWidth',1.25); hold on
+    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'-.','LineWidth',1.25);    % 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
 %     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -415,10 +416,11 @@ figname = 's_ylds_bsl_yQ'; save_figure(figdir,figname,formats,figsave)
 
     % Daily data
 fldname = {'ds_blncd','d_yQ'};
+figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'--');    % 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,end)*100,'LineWidth',1.25); hold on
+    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,end)*100,'--','LineWidth',1.25);    % 10Y
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -438,10 +440,10 @@ for k0 = 1:nEMs
     dtmn  = datesminmax(S,k0);
     subplot(3,5,k0)
     fltrt = S(k0).(fldname{1})(1,:) == 10;
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrt)*100);
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrt)*100,'LineWidth',1.25);
     if ~isempty(S(k0).(fldname{2}))
         fltrd = S(k0).(fldname{2})(:,1) >= dtmn;
-        hold on; plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'*');  % 10Y
+        hold on; plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'*','LineWidth',0.6);  % 10Y
     end
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
@@ -458,17 +460,16 @@ for k0 = 1:nEMs
     dtmn  = datesminmax(S,k0);
     subplot(3,5,k0)
     fltrt = S(k0).(fldname{1})(1,:) == 10;
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrt)*100);
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,fltrt)*100,'LineWidth',1.25);
     if ~isempty(S(k0).(fldname{2}))
         fltrd = S(k0).(fldname{2})(:,1) >= dtmn;
-        hold on; plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'*');  % 10Y
+        hold on; plot(S(k0).(fldname{2})(fltrd,1),S(k0).(fldname{2})(fltrd,end),'*','LineWidth',0.6);  % 10Y
     end
     title(S(k0).cty)
-    if k0 == 12
-        legend('Model w/o S','Surveys','Orientation','horizontal','location','best','AutoUpdate','off')
-    end
     datetick('x','yy');yline(0);
 end
+lgd = legend('Model w/o Surveys','Surveys','Orientation','horizontal','location','best','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsave)
 close all
 
@@ -481,12 +482,14 @@ figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100)       % 10Y
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100,'LineWidth',1.25)       % 10Y
         title(S(k0).cty);
         datetick('x','yy'); yline(0); ylim([-2 5]);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+%         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
+lgd = legend({'Domestic Real Rate'},'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = [fldname '_LT']; save_figure(figdir,figname,formats,figsave)
 
     % Long-term EMRR vs USRR
@@ -496,13 +499,13 @@ figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100); hold on       % 10Y
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,end)*100,'LineWidth',1.25); hold on       % 10Y
         fltrUS = datenum(TT_rr.Time) >= S(k0).(fldname)(2,1) & datenum(TT_rr.Time) <= S(k0).(fldname)(end,1);
-        plot(datenum(TT_rr.Time(fltrUS)),TT_rr.USRR10Y(fltrUS),'-.')
+        plot(datenum(TT_rr.Time(fltrUS)),TT_rr.USRR10Y(fltrUS),'-.','LineWidth',1.25)
         hold off
         title(S(k0).cty);
         datetick('x','yy'); yline(0); ylim([-2 5]);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+%         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
 lgd = legend({'Domestic Real Rate','U.S. Real Rate'},'Orientation','horizontal','AutoUpdate','off');
@@ -514,16 +517,15 @@ figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
         subplot(3,5,k0)
-        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end)*100)
+        plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,2:end)*100,'LineWidth',1)
         title(S(k0).cty);
-        if k0 == 1
-            legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
-                'UniformOutput',false),'Orientation','horizontal','AutoUpdate','off')
-        end
         datetick('x','yy'); yline(0);
-        L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
+%         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))         % sets #ticks to 4
     end
 end
+lgd = legend(cellfun(@num2str,num2cell(S(k0).(fldname)(1,2:end)),...
+                'UniformOutput',false),'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = [fldname '_all']; save_figure(figdir,figname,formats,figsave)
 
 close all
@@ -707,13 +709,14 @@ close all
 %% Nominal YC decomposition: drivers of yields
 figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
     % EM: monthly
-fldname = {'bsl_yP','bsl_tp','bsl_cr'};       % daily data: {'d_yP','d_tp','dc_blncd'};
+fldname = {'bsl_yP','bsl_tp','bsl_cr'};         % daily data: {'d_yP','d_tp','dc_blncd'};
 figure
 for k0 = 1:nEMs
-    subplot(3,5,k0)
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.',...
-         S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:) == 10)*100,'--')% 10Y
+    subplot(3,5,k0)                             % 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:)==10)*100,'-','LineWidth',1);
+    hold on
+    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:)==10)*100,'-.','LineWidth',1);
+    plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:)==10)*100,'--','LineWidth',1);
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
 %     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -729,8 +732,9 @@ figure
 for k0 = nEMs+1:nEMs+nAEs
     k1 = k1 + 1;
     subplot(2,5,k1)
-    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:) == 10)*100,'-',...
-         S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:) == 10)*100,'-.')% 10Y
+    plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:)==10)*100,'-','LineWidth',1);
+    hold on;
+    plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:)==10)*100,'-.','LineWidth',1);
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -790,9 +794,9 @@ for k0 = 1:length(vars)
         subplot(3,5,k1)
         var   = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
         varse = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
-        plot(S(k1).(fldname{1})(2:end,1),var,'-'); hold on
-        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6])
-        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
+        plot(S(k1).(fldname{1})(2:end,1),var,'-','LineWidth',1.25); hold on
+        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6],'LineWidth',0.75)
+        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6],'LineWidth',0.75); hold off
         title(S(k1).cty)
         datetick('x','yy'); yline(0);
 %         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -816,9 +820,9 @@ for k0 = 1:length(vars)
         subplot(2,5,k2)
         var   = S(k1).(fldname{1})(2:end,S(k1).(fldname{1})(1,:) == tnr)*100;
         varse = S(k1).(fldname{2})(2:end,S(k1).(fldname{2})(1,:) == tnr)*100;
-        plot(S(k1).(fldname{1})(2:end,1),var,'-'); hold on
-        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6])
-        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6]); hold off
+        plot(S(k1).(fldname{1})(2:end,1),var,'-','LineWidth',1.25); hold on
+        plot(S(k1).(fldname{2})(2:end,1),var - 2*varse,'--','Color', [0.6 0.6 0.6],'LineWidth',0.75)
+        plot(S(k1).(fldname{2})(2:end,1),var + 2*varse,'--','Color', [0.6 0.6 0.6],'LineWidth',0.75); hold off
         title(S(k1).cty)
         datetick('x','yy'); yline(0);
         L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
@@ -975,11 +979,11 @@ lstyle = {'-','-.','--'};
 figure
 for k0 = 1:length(fname)
     rollcorr = rollingcorrs(S,currEM,fname{k0},tenor);
-    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0}); hold on
+    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0},'LineWidth',1); hold on
 end
 k0 = 1;
 rollcorr = rollingcorrs(S,currAE,fname{k0},tenor);
-plot(rollcorr(:,1),rollcorr(:,2),lstyle{end}); hold on
+plot(rollcorr(:,1),rollcorr(:,2),lstyle{end},'LineWidth',1); hold on
 datetick('x','yy'); hold off
 lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
 legend(lbl,'Location','best','AutoUpdate','off');
@@ -992,7 +996,7 @@ lstyle = {'-','-.','--'};
 figure
 for k0 = 1:length(fname)
     rollcorr = rollingcorrs(S,currEM,fname{k0},tenor);
-    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0}); hold on
+    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0},'LineWidth',1); hold on
 end
 datetick('x','yy'); hold off
 lbl = {'Exp. Short Rate','Term Premium','Credit Risk Compensation'};
@@ -1006,14 +1010,14 @@ lstyle = {'-','-.','--'};
 figure
 for k0 = 1:length(fname)
     rollcorr = rollingcorrs(S,currAE,fname{k0},tenor);
-    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0}); hold on
+    plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0},'LineWidth',1); hold on
 end
 datetick('x','yy'); hold off
 legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
 figname = ['rolling' num2str(tenor) 'y_dcmp_AE']; save_figure(figdir,figname,formats,figsave)
 
 %% Rolling correlations (daily frequency): Term structure
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
 fname   = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
 lstyle  = {'-','-.','--',':'};
 tenor   = [10 5 1 0.25];
@@ -1024,7 +1028,7 @@ for k0 = 1:length(fname)
     figure
     for k1 = 1:length(tenor)
         rollcorr = rollingcorrs(S,currEM,fname{k0},tenor(k1));
-        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1},'LineWidth',1); hold on
     end
     datetick('x','yy'); hold off
     legend(lbl,'Location','best','AutoUpdate','off');
@@ -1036,7 +1040,7 @@ for k0 = 1:length(fname)
     figure
     for k1 = 1:length(tenor)
         rollcorr = rollingcorrs(S,currAE,fname{k0},tenor(k1));
-        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1},'LineWidth',1); hold on
     end
     datetick('x','yy'); hold off
     legend(lbl,'Location','best','AutoUpdate','off');
@@ -1055,7 +1059,7 @@ for k0 = 1:length(fname)
     figure
     for k1 = 1:length(tenor)
         rollcorr = rollingcorrsus(S,currEM,fname{k0},tenor(k1));
-        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1},'LineWidth',1); hold on
     end
     datetick('x','yy'); hold off
     legend(lbl,'Location','best','AutoUpdate','off');
@@ -1067,7 +1071,7 @@ for k0 = 1:length(fname)
     figure
     for k1 = 1:length(tenor)
         rollcorr = rollingcorrsus(S,currAE,fname{k0},tenor(k1));
-        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1}); hold on
+        plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1},'LineWidth',1); hold on
     end
     datetick('x','yy'); hold off
     legend(lbl,'Location','best','AutoUpdate','off');
@@ -1086,7 +1090,7 @@ figure
 for k0 = 1:length(fldname)
     [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
     disp(DYtable)
-    plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
+    plot(DYindex(:,1),DYindex(:,2),lstyle{k0},'LineWidth',1); hold on
     if DYindex(1,1) < datemin
         datemin = DYindex(1,1);
     end
@@ -1095,7 +1099,7 @@ k0 = 1;
 [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
 disp(DYtable)
 fltrAE = DYindex(:,1) >= datemin;
-plot(DYindex(fltrAE,1),DYindex(fltrAE,2),lstyle{end}); hold on
+plot(DYindex(fltrAE,1),DYindex(fltrAE,2),lstyle{end},'LineWidth',1); hold on
 datetick('x','yy'); hold off
 lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
 legend(lbl,'Location','best','AutoUpdate','off');
@@ -1109,7 +1113,7 @@ figure
 for k0 = 1:length(fldname)
     [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
     disp(DYtable)
-    plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
+    plot(DYindex(:,1),DYindex(:,2),lstyle{k0},'LineWidth',1); hold on
 end
 datetick('x','yy'); hold off
 lbl = {'Exp. Short Rate','Term Premium','Credit Risk Compensation'};
@@ -1122,7 +1126,7 @@ figure
 for k0 = 1:length(fldname)
     [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
     disp(DYtable)
-    plot(DYindex(:,1),DYindex(:,2),lstyle{k0}); hold on
+    plot(DYindex(:,1),DYindex(:,2),lstyle{k0},'LineWidth',1); hold on
 end
 datetick('x','yy'); hold off
 legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','AutoUpdate','off');
@@ -1142,7 +1146,7 @@ for k0 = 1:length(fldname)
         [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor(k1));
         disp([fldname{k0} ' ' num2str(tenor(k1))])
         disp(DYtable)
-        plot(DYindex(:,1),DYindex(:,2),lstyle{k1}); hold on
+        plot(DYindex(:,1),DYindex(:,2),lstyle{k1},'LineWidth',1); hold on
     end
     datetick('x','yy'); hold off
     legend(lbl,'Location','best','AutoUpdate','off');
@@ -1156,7 +1160,7 @@ for k0 = 1:length(fldname)
         [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor(k1));
         disp([fldname{k0} ' ' num2str(tenor(k1))])
         disp(DYtable)
-        plot(DYindex(:,1),DYindex(:,2),lstyle{k1}); hold on
+        plot(DYindex(:,1),DYindex(:,2),lstyle{k1},'LineWidth',1); hold on
     end
     datetick('x','yy'); hold off
     legend(lbl,'Location','best','AutoUpdate','off');
