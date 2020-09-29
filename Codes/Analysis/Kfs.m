@@ -82,7 +82,7 @@ for t = 1:n
     Pf(:,:,t) = (Ip - K*At)*Pp(:,:,t);
     
     % Log-likelihood
-    term3   = max(u'/U*u,0);                                    	% in case V is non-PSD
+    term3   = max(u'*(U\u),0);                                    	% in case V is non-PSD
     llks(t) = - 0.5*(q*log(2*pi) + log(det(U)) + term3);
     llk     = llk + llks(t);
 end
