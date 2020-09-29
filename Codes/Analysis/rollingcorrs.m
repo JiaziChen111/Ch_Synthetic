@@ -21,7 +21,7 @@ for k1 = ctr1:ctrn
         dtst = syncdatasets(dtst,dtstaux,'union');                          % append series
     end
 end
-fltrCTR = [true; sum(isnan(dtst(2:end,2:end)),2) <= 10];                    % at least 5 countries with data
+fltrCTR = [true; sum(isnan(dtst(2:end,2:end)),2) <= 3];                     % at least 12 countries with data
 fltrDT  = dtst(:,1) > datenum('31-Jan-2019');                               % out of sample observations
 dtst    = dtst(fltrCTR & ~fltrDT,:);                                        % adjust dataset
 datemin = dtst(2,1) + 365;                                                  % one year after first observation
