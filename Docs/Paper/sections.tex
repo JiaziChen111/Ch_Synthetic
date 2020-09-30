@@ -432,9 +432,14 @@ The maximum maturity considered is 10 years because bonds and swaps with larger 
 The construction of the LC synthetic yield curves involves data from the U.S. yield curve and the forward premium for different maturities, as explained in section \ref{sec:YCsynt}. 
 Data for the U.S. zero-coupon yield curve is obtained from two sources. 
 For maturities of one through ten years, the yields come from the dataset constructed by \cite*{GSW:2007} (hence GSW).\footnote{Available at: \url{https://www.federalreserve.gov/pubs/feds/2006/200628/200628abs.html}.} 
-Treasury securities with less than one year to maturity are less actively traded than longer-maturity ones. 
-The estimates from the Center for Research in Security Prices (CRSP) are thought to be more robust at the short end of the curve \citep{Duffee:2010}.
+The estimation by GSW only considers Treasury securities with coupons.
+In general, Treasury securities with less than one year to maturity behave differently, partly because  
+%Treasury securities with less than one year to maturity 
+they are less actively traded than longer-maturity ones. 
+I follow \citep{Duffee:2010} and use the estimates from the Center for Research in Security Prices (CRSP), which are %are thought to be %more 
+robust at the short end of the curve.
 Specifically, the 3- and 6-month yields are the annualized 13- and 26-week rates (bid/ask average) in the CRSP Risk-Free Rates Series.\footnote{ The 3- and 6-month yields implied by the GSW fitted model are highly correlated with the CRSP yields (0.9985 and 0.9995, respectively) but the former are on average higher (by 16 and 10 basis points, respectively) using data since 1983.} 
+% Golinski \& Spencer (2017): yield data at the long end are thin (issuance of the 30 year Treasury bond was suspended between 2002 and 2006). The number of actively traded securities is sparse at the short end.
 %Although the GSW dataset goes back to 1961, the main issue for the construction of the synthetic yield curves is the information needed to calculate the forward premium. 
 
 As mentioned before, the calculation of the forward premium varies by maturity.
@@ -746,7 +751,7 @@ This reduces the number of parameters to be estimated.
 % Why homoskedasticity?
 % That is, the standard deviation of the errors in yields is the same for all maturities, as is the the standard deviation of the errors in the surveys for all maturities. 
 
-It is important to acknowledge that although surveys have good forecasting properties and helps to discipline the model, they are not a panacea. For instance, surveys might not be representative of market expectations nor of the expectations of the marginal investor, they are also subject to measurement error\footnote{ In particular, recall that Consensus Economics does not report long-term forecasts for the short rate of emerging markets, so they were inferred from available data.} and relying too much on them can be counterproductive as it may lead to overfitting.
+It is important to acknowledge that although surveys have good forecasting properties and helps to discipline the model, they are not a panacea. For instance, surveys might not be representative of market expectations nor of the expectations of the marginal investor;\footnote{ Notwithstanding, when comparing the 5-year ahead CPI inflation median forecast from the Survey of Professional forecasters against the Survey of Primary Dealers and the Survey of Market Participants, the absolute difference between 2015:I and 2020:II is on average 5 and 13 basis points, respectively.} they are also subject to measurement error\footnote{ In particular, recall that Consensus Economics does not report long-term forecasts for the short rate of emerging markets, so they were inferred from available data.} and relying too much on them can be counterproductive as it may lead to overfitting.
 Thus, although surveys certainly contain useful information, I consider them as imperfect or `noisy' measures of expectations. 
 As such, I follow \cite{KimOrphanides:2012} and 
 %To strike a balance between these two considerations, 
@@ -1397,7 +1402,8 @@ The surprises in monetary policy decisions are identified using high-frequency d
 %These changes are measured in windows containing monetary policy decisions
 Asset price changes are calculated from 15 minutes before to 1 hour and 45 minutes after each Federal Open Market Committee (FOMC) meeting since 2000 giving a total of 162 events.\footnote{ Following \cite{GSS:2005a}, I exclude from the analysis the meeting of September 2001 that followed the terrorist attacks in New York.}
 In days with no FOMC meeting, the surprises are set to zero.
-The dataset does not include releases of minutes and speeches by Fed officials, only monetary policy announcements.
+The dataset does not include minute releases nor speeches by Fed officials. 
+%, only (scheduled and unscheduled) monetary policy announcements.
 %Unlike \cite{FerrariKearnsSchrimpf:2017}, who include releases of minutes and speeches by Fed officials, the dataset here includes monetary policy announcements only.
 
 \cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension since asset prices respond to different types of news about monetary policy.
@@ -1455,6 +1461,7 @@ The regressions are ran for the 10- and 2-year nominal yields and each of their 
 %(the expected short rate, the term premium and the credit risk compensation) 
 %for every type of monetary policy surprise.
 The confidence bands are constructed using Driscoll--Kraay standard errors, which allow for time and cross-sectional dependence.
+% Lags for DK in LPs: 9
 
 The parameters of interest, \(\beta^{j}_{\idxh}\), measure the average response of the nominal yield (or one of its components) to monetary policy surprise \(j\) at horizon \(\idxh\).\footnote{ The contemporaneous effects of the surprises is what would be reported under an event study methodology, and would be obtained here by setting \(\idxh = 0\) in equation (\ref{eq:nPanelLP}).}
 All responses are assessed relative to a one basis point reduction (an easing) in any of the surprises, since the Fed has been more aggressive in that direction during the sample period.

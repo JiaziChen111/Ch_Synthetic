@@ -189,25 +189,11 @@
 \section{Analysis: Short Term}
 \gototoc
 \begin{todolist}
-	\item Technical parts.
-	\begin{todolist}
-		\item[\done] Drivers before vs after GFC. Influence of US YC components and the Vix increased post-GFC. Unemployment larger role for TP pre-GFC.
-		\item[\done] Include UCSV std in drivers. Negative sign after including components of US YC.
-		\item[\done] Adjust cutoff date for LSAP, Oct 2008 (rather than Jan 2009) according to Rogers et al (2018). Update: summary table of US MPS, LPs (all b/c shocks all at once, including path pre/post).
-		\item[\done] Rolling correlation in addition to DY index.
-		\item[\done] Check difference between surveys among economists and surveys among traders. A few basis points b/w SPF and SPD, and b/w SPF and SMP.
-		\item[\done] Verify that fitting error is left in CRC and is not big to change to a 4-way decomposition.
-		\item[\done] Check dates in USMPS file against dates in Rogers et al. (2014) to verify it only includes FOMC meetings (no speeches). Only FOMC meetings.
-		\item[\done] Check which parameters seem to be precisely estimated. B/c real and imaginary parts, the latter are ignored when plotting so is akin to SE = 0.
-		\item[\done] Use linewidth to make lines in Matlab bigger.
-		\item LPs. Update equation and figures (including path pre/post).
-		\item Fisher equation rather than approximation for US real rate and EM nominal rate. Start sample for Russia 1 or 2 months after the current initial date.
-	\end{todolist}
 	\item Wording.
 	\begin{todolist}
-		\item Remove that only FOMC meetings but leave that no minutes nor speeches.
-		\item Footnote for differences in SPF-SPD-SMP.
-		\item Reason to use CRSP: GSW doesn't target ST, follow Golinski \& Spencer.
+		\item[\done] Remove that only FOMC meetings but leave that no minutes nor speeches.
+		\item[\done] Footnote for differences in SPF-SPD-SMP.
+		\item[\done] Reason to use CRSP: GSW doesn't target ST, follow Golinski \& Spencer.
 		\item Comparison of real rates from surveys and TIPS.
 		\item Reason for day shift.
 		\item Write equation for inflation uncertainty part.
@@ -241,7 +227,9 @@
 		\item Figures. Labels, titles, notes. Clearly state maturity of the yield reported.
 		\item Tables and figures. Add circles/rectangles or highlight numbers w/ color.
 		\item Explanation of bias in VAR is b/c state variable is very persistent.
+		\item Reason to use CRSP: GSW doesn't target ST.
 	\end{todolist}
+	\item Fisher equation rather than approximation for US real rate and EM nominal rate. Start sample for Russia 1 or 2 months after the current initial date.
 	\item Compare scbp obtained w/ SPF data vs survey data from other AEs.
 	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
 	\item Are big changes in TP related to local events?
@@ -266,6 +254,20 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Technical parts.
+	\begin{todolist}
+		\item[\done] Drivers before vs after GFC. Influence of US YC components and the Vix increased post-GFC. Unemployment larger role for TP pre-GFC.
+		\item[\done] Include UCSV std in drivers. Negative sign after including components of US YC.
+		\item[\done] Adjust cutoff date for LSAP, Oct 2008 (rather than Jan 2009) according to Rogers et al (2018). Update: summary table of US MPS, LPs (all b/c shocks all at once, including path pre/post).
+		\item[\done] Rolling correlation in addition to DY index.
+		\item[\done] Check difference between surveys among economists and surveys among traders. A few basis points b/w SPF and SPD, and b/w SPF and SMP.
+		\item[\done] Verify that fitting error is left in CRC and is not big to change to a 4-way decomposition.
+		\item[\done] Check dates in USMPS file against dates in Rogers et al. (2014) to verify it only includes FOMC meetings (no speeches). Only FOMC meetings.
+		\item[\done] Check which parameters seem to be precisely estimated. B/c real and imaginary parts, the latter are ignored when plotting so is akin to SE = 0.
+		\item[\done] Use linewidth to make lines in Matlab bigger.
+		\item[\done] LPs. Update equation in levels.
+		\item[\done] LPs: update figures in levels (including path pre/post).
+	\end{todolist}
 	\item[\done] In drivers tables (1, 2, 5 10 Y) indicate that USYP and USTP have same maturity as dependent variables. Indicated in notes.
 	\item[\wontdo] Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW. GSW fitting error of 3 bps, improvement of Wu is in short end for which GSW doesn't fit well.
 	\item[\done] Robustness checks: (1) compare scbp obtained w/ SPF data vs TIPS. 
