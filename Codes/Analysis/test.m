@@ -63,13 +63,14 @@ input.texName = filename;
 latexTable(input);
 
 %% SE for parameters
-fname = {'ms_blncd','bsl_pr'};
-theta_se = nan(38,nEMs);
-for k0 = 1:nEMs
-    fltrsn = ismember(S(k0).(fname{1})(1,:),matsout);                         % same maturities as in matsout
-    yldsyn = S(k0).(fname{1})(2:end,fltrsn);                                  % yields in decimals
+fname = {'mn_blncd','ms_blncd','bsl_pr'};
+theta_se = nan(38,ncntrs);
+for k0 = 1:ncntrs
+    if ismember(S(k0).iso,currAE); k1 = 1; else; k1 = 2; end
+    fltrsn = ismember(S(k0).(fname{k1})(1,:),matsout);                         % same maturities as in matsout
+    yldsyn = S(k0).(fname{k1})(2:end,fltrsn);                                  % yields in decimals
     nobs = size(yldsyn,1); 
-    Vasy = S(k0).(fname{2}).V1;
+    Vasy = S(k0).(fname{3}).V1;
     theta_se(:,k0) = sqrt(diag(Vasy/nobs));
 end
 
