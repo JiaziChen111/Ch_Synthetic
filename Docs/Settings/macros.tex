@@ -14,6 +14,7 @@
 \providecommand{\idxspnl}{\idxi,\idxt}
 \providecommand{\idxspnlfwd}{\idxi,{\idxt+\idxh}}
 \providecommand{\idxspnllag}{\idxi,{\idxt-1}}
+\providecommand{\idxspnllaglag}{\idxi,{\idxt-j}}
 \providecommand{\fInst}{f_{\idxs}}
 \providecommand{\yld}{y}
 \providecommand{\xpc}{e}
@@ -163,6 +164,8 @@
 
 % All shocks at once
 \newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
+
+\newcommand{\eqpanelLPlevels}{\yld_{\idxspnlfwd} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \sum^{2}_{j = 1} \gamma^{j}_{\idxh} \yld_{\idxspnllaglag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
 % \beta^{target}_{\idxh} \epsilon^{target}_{\idxt} + \beta^{path}_{\idxh} \epsilon^{path}_{\idxt} + \beta^{lsap}_{\idxh} \epsilon^{lsap}_{\idxt} 
 
 %---------------------------------------------------------------
