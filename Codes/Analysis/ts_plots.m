@@ -616,7 +616,7 @@ for k0 = 1:nEMs
         posTNR  = find(fltrTNR);
         hold on
         for k1 = 1:length(posTNR)
-            plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,posTNR(k1))*100,lstyle{k1})
+            plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,posTNR(k1))*100,lstyle{k1},'LineWidth',1)
         end
         hold off
         title(S(k0).cty); 
@@ -640,7 +640,7 @@ for k0 = 1:nEMs
         posTNR  = find(fltrTNR);
         hold on
         for k1 = 1:length(posTNR)
-            plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,posTNR(k1))*100,lstyle{k1})
+            plot(S(k0).(fldname)(2:end,1),S(k0).(fldname)(2:end,posTNR(k1))*100,lstyle{k1},'LineWidth',1)
         end
         hold off
         title(S(k0).cty); 
