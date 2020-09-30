@@ -45,6 +45,19 @@ log close
 translate $file_log.smcl $file_log.pdf, replace
 erase $file_log.smcl
 
+
+log using $file_log, replace
+// do "$pathcode/spov_pre"
+do "$pathcode/spov_levels_group"
+do "$pathcode/spov_levels_usyc"
+do "$pathcode/spov_levels_rho"
+do "$pathcode/spov_levels_group_path"
+do "$pathcode/spov_levels_usyc_path"
+do "$pathcode/spov_drivers"
+log close
+translate $file_log.smcl $file_log.pdf, replace
+erase $file_log.smcl
+
 * ------------------------------------------------------------------------------
 * Packages
 * ------------------------------------------------------------------------------
