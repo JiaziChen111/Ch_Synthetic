@@ -10,7 +10,8 @@
 \providecommand{\idxi}{i}
 \providecommand{\idxh}{h}
 \providecommand{\idxs}{\idxt,\tnr}
-\providecommand{\idxsfwd}{\idxt,\tnr | \tnrfwd}
+\providecommand{\idxsfwd}{\tnr | \tnrfwd}
+\providecommand{\idxsfwdt}{\idxt,\idxsfwd}
 \providecommand{\idxspnl}{\idxi,\idxt}
 \providecommand{\idxspnlfwd}{\idxi,{\idxt+\idxh}}
 \providecommand{\idxspnllag}{\idxi,{\idxt-1}}
@@ -22,7 +23,7 @@
 \providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
 \providecommand{\yZeroP}{\yZero^{\Pmeasure}}
 \providecommand{\yZeroE}{\yZero^{\xpc}}
-\providecommand{\yZeroFwd}{\frate_{\idxsfwd}}
+\providecommand{\yZeroFwd}{\frate_{\idxsfwdt}}
 \providecommand{\yZeroEfwd}{\yZeroFwd^{\xpc}}
 \providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
@@ -155,7 +156,7 @@
 \newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqBeFwd}{\affineAeFwd = \left( \tnrfwd B_{\tnrfwd}^{\xpc}  - \tnr \affineBe \right)/ \left( \tnrfwd - \tnr \right) }
-\newcommand{\eqrrt}{\srate_{\idxs} = \pi^{CE survey}_{\idxs} + \realrate^{*} = \pi^{CE survey}_{\idxs} + \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) }
+\newcommand{\eqrrt}{\rateSvy = \pi^{CE survey}_{\idxs} + \realrate^{*} = \pi^{CE survey}_{\idxs} + \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) }
 
 
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
