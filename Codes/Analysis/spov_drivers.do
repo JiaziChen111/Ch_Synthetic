@@ -108,8 +108,8 @@ foreach t in 12 24 60 120 {
 			}
 			
 			if `group' == 1 {
-// 				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
-				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x0 $x2 if `condition' & phi`t'm != ., `xtopt'
+				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
+// 				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x0 $x2 if `condition' & phi`t'm != ., `xtopt'
 // 				`xtcmd' `v'`t'm usyc`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
 // 				`xtcmd' `v'`t'm ustp`t'm c.ustp`t'm#i.taper usyp`t'm c.usyp`t'm#i.taper $x2 if `condition' & phi`t'm != ., `xtopt'
 				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
