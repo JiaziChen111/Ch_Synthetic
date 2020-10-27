@@ -1312,7 +1312,7 @@ It also documents a strong and persistent response of emerging market yields to 
 
 %transmission channels of U.S. monetary surprises to EMs financial markets.
 %Under an extreme case of the traditional Mundell-Fleming trilemma---the impossibility to combine free capital flows, a fixed exchange rate and an independent monetary policy---changes in the monetary policy stance in one country will have no monetary spillovers to other financially-open countries because the changes will be fully absorbed by a flexible exchange rate. %Bernanke: 
-Under the traditional Mundell-Fleming trilemma---the impossibility to combine free capital flows, a fixed exchange rate and an independent monetary policy---a flexible exchange rate helps to insulate a financially-open economy from shocks abroad. %Bernanke
+Under the traditional Mundell-Fleming trilemma---the impossibility of combining free capital flows, a fixed exchange rate and an independent monetary policy---a flexible exchange rate helps to insulate a financially-open economy from shocks abroad. %Bernanke
 \cite{Rey:2013} argues that a flexible exchange rate does not fully offset those shocks because there is a global financial cycle---mainly driven by U.S. monetary policy---operating through channels other than the exchange rate, like the comovement of global asset prices and cross-border bank lending; such a cycle drives portfolio flows in and out of emerging markets, influencing their domestic financial conditions.
 
 %The GFCy mainly influence LT rates.
@@ -1344,7 +1344,7 @@ In addition, \cite{Kalemli-Ozcan:2019} argues that monetary autonomy is also lim
 short-term yields.
 
 \subsubsection{Comovement of Yields}
-To formally assess whether some nodes of the yield curves of emerging markets comove more than others, I use the connectedness index developed by \cite{DieboldYilmaz:2014}. The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere. The connectedness index fluctuates between 0 and 100 percent, with higher numbers indicating a higher degree of comovement.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} The index is computed for different maturities.
+To formally assess whether different sections of the yield curves of emerging markets comove more than others, I use the connectedness index developed by \cite{DieboldYilmaz:2014}. The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere. The connectedness index fluctuates between 0 and 100 percent, with higher numbers indicating a higher degree of comovement.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} The index is computed for different maturities.
 
 Figure \ref{subfig:dy_index_tsEM} shows that the long end in emerging markets is indeed more connected than the short end, especially since the taper tantrum episode of 2013. 
 Nevertheless, figure \ref{subfig:dy_index_tsAE} shows that the long end in advanced economies is even more connected. The degree of comovement of the long end in emerging markets is half (around 35\%) the level in advanced economies (around 70\%).
@@ -1381,7 +1381,7 @@ for the 10- and 2-year maturities.\footnote{ \cite{Kalemli-Ozcan:2019} focuses o
 %As can be seen, the components have different dynamics, they are not associated to the same variables nor in the same magnitudes.
 %Also, none of them can be inferred from the forward premium as it behaves differently to %does not mirror % directly tied to 
 %any of them.
-As before, I use the Driscoll--Kraay  standard errors to test for significance.\footnote{ The Pesaran test of cross-sectional independence is rejected in all cases at the 1\% significance level.} %\cite{DriscollKraay:1998}
+As before, I use Driscoll--Kraay standard errors to test for significance.\footnote{ The Pesaran test of cross-sectional independence is rejected in all cases at the 1\% significance level.} %\cite{DriscollKraay:1998}
 %estimator that allows the errors to be correlated across countries and over time 
 % Lag selection based on Newey \& West(1994) “plug-in” estimator
 %Automatic lag selection in covariance matrix estimation. Review of Economic Studies 61: 631–653.
@@ -1432,7 +1432,8 @@ In particular, I can directly test the thesis in \cite{Kalemli-Ozcan:2019} regar
 Indeed, these risk spillovers to the average expected future short rates of emerging markets decrease with maturity and operate through 
 %; the results further reveal that those risk spillovers are due to 
 the U.S. term premium rather than the Vix.
-Lastly, here is where accounting for credit risk pays off; when it is ignored, the conclusions on direct and cross effects between the components of the yields change. Why? Because the resulting `term premium' mixes together a pure term premium and a credit risk compensation.
+%Lastly, here is where accounting for credit risk pays off; when it is ignored, the conclusions on direct and cross effects between the components of the yields change. Why? Because the resulting `term premium' mixes together a pure term premium and a credit risk compensation.
+These conclusions would be different if we failed to account for credit risk and thus merged the term premium and credit risk components.
 
 %Over the course of the month CR flips sign wrt on-impact
 %K-O: Strongest response of YP at short end
@@ -1486,7 +1487,7 @@ In particular, the term premium and the credit risk compensation seem to be coun
 Moreover, the positive association between inflation and the term premium conforms with the idea that inflation erodes the value of nominal bonds and so, in periods of rising inflation investors expect the central bank to tighten its monetary stance going forward, demanding a higher term premium. 
 %More generally, changes in inflation are associated with changes in all of the dependent variables except for the credit risk compensation. 
 %In particular, the magnitudes are similar for nominal and synthetic as well as for the forward premium.
-As expected for measures of risk and uncertainty, shifts in the Vix are positively associated with the term premium and the credit risk compensation, but not with the expected future short rate.
+As expected for measures of risk and uncertainty, shifts in the Vix are positively associated with the term premium and credit risk compensation, but not with the expected future short rate.
 Also, higher economic uncertainty in the U.S. seems to induce a flight to quality in the short end of the yield curve and a reduction in the perceived credit quality.\footnote{ The coefficient for the U.S. EPU index in the term premium column is negative and positive in the credit risk compensation column.}
 Lastly, there is evidence supporting the risk-taking channel of exchange rates,\footnote{ According to the standard trade-channel effect, an appreciation is contractionary because it discourages exports and stimulates imports, reducing the trade balance.} 
 according to which a currency appreciation is associated with easier financial conditions (and compressed sovereign bond spreads) due to balance sheet effects.
@@ -1498,9 +1499,9 @@ So far, the yield decompositions have been valuable to assess the validity of th
 Notwithstanding, 
 %it is important to acknowledge that 
 the model in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as persistent variables, reverse causality and omitted variables.
-Moreover, the measures of comovement are not limited to episodes driven by monetary policy surprises. % but are rather calculated for all yield curve movements.
-In addition, the sample period includes few U.S. policy rate surprises. %; in fact, most monetary policy decisions operated not through changes in the policy rate.
-These issues are addressed next.
+Moreover, the measures of comovement are are unconditional, and so not specifically driven by monetary policy surprises. % but are rather calculated for all yield curve movements.
+%In addition, the sample period includes few U.S. policy rate surprises. %; in fact, most monetary policy decisions operated not through changes in the policy rate.
+%These issues are addressed next.
 
 
 %
@@ -1651,9 +1652,9 @@ As a result, the credit risk compensation at the long end rises %increases
 by almost one-to-one in the month following the surprise. %1 basis point one month after a 1 basis point surprise.
 %Intuitively, the surprise reduces relatively more than directly, increasing 
 The surprise therefore seems to trigger capital flows towards emerging markets that slowly concentrate on short term LC bonds.
-This would explain the effect on the long-term credit risk compensation, which declines on impact but increases over the month following the surprise. % reverses
+This would explain the effect on long-term credit risk compensation, which declines on impact but increases over the month following the surprise. % reverses
 %In addition, figure \ref{fig:LPEMtarget} %the three-part decomposition of the yields 
-The credit risk compensation is thus an important factor to understand %that needs to be taken into account when assessing 
+Credit risk compensation is thus an important factor to understand %that needs to be taken into account when assessing 
 the transmission of U.S. monetary policy to emerging markets.
 %The response of the long-term yield is not statistically significant.
 %In fact, due to a decline in the ST yield.
@@ -1701,7 +1702,7 @@ The decline in the nominal yields at the long end has a shorter duration relativ
 the front end of the curve in emerging markets and the long end of the U.S. yield curve. 
 As a result, in the month following the surprise, 
 the nominal yield curve in emerging markets steepens while the U.S. yield curve flattens. 
-Again, these effects increase the opportunity cost of lending long-term to emerging markets in LC, leading to an increase in the credit risk compensation at the long end, even though the expected short rate and the term premium decline. In fact, the effect on the term premium would be hard to detect should the credit risk be ignored.
+Again, these effects increase the opportunity cost of lending long-term to emerging markets in LC, leading to an increase in the credit risk compensation at the long end, even though the expected short rate and the term premium decline. In fact, the effect on the term premium would be hard to detect should credit risk be ignored.
 %, and synthetic borrowing becomes relatively cheaper, making nominal yields riskier, which 
 %EM become comparatively more risky.
 
