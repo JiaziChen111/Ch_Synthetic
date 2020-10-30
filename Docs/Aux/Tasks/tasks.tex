@@ -188,71 +188,109 @@
 
 \section{Analysis: Short Term}
 \gototoc
-\begin{todolist}	
-	\item Paper.
+\begin{todolist}
+	\item Additional stuff.
 	\begin{todolist}
-		\item Effects on YC slope in section 5.
-		\item In drivers tables (1, 2, 5 10 Y) indicate that USYP and USTP have same maturity as dependent variables.
+		\item[\done] Write down equation for CRC.
+		\item[\done] Review explanation in HSS on Nickell bias.
+		\item[\done] Review references.
+		\item Review notes of all tables and figures (eg. 90\% CI) in main text and appendix.
+		\item[\done] Assumption: same investors in LCNOM and LCSYNT. 
 		\item Risks of global investors when investing in LC bonds: risk of a LC depreciation, risk of default.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
-		\item[\done] Reference to DK SE for LPs (text and footnotes). Reference to Pesaran test. Indicate how default value for the lags is chosen. e.g. in Brooks et al.: `We plot 2-standard-error bands around theIR. HAC standard errors computed with bandwidth 2 fork<=50.'
-		\item Make references to all things in appendices.
-		\item Review notes of all tables and figures (eg. 90\% CI) in main text and appendix.
-		\item LPs: Use target, forward guidance and asset purchase instead of target, path, LSAP.
-		\item Save figures to be used in pdf.
-		\item Future work in conclusions: future work on decomposing further the yields (real parts, CR compensation), inform theoretical models for pricing sovereign defaultable bonds, effects of domestic MP, effects of other AE CB.
-		\item Read literature and prepare litreview file. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light?
-		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
-		\item Follow Hollerstein tweet.
+		\item Make references in the main text to all things in appendices.
 		\item Low connectedness supports decomposing the yields separately instead of jointly.
 		\item Evidence from DY index on different maturities show evidence of market segmentation, which allows to explain effects of LSAP on TP (W \& W 2020).
 		\item Evidence that CRC is more idiosyncratic from drivers and DY index.
 		\item TS of TP DY index.
+		\item Save figures to be used in pdf.
+		\item Read literature and prepare litreview file. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light? % Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. 
+		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
+		\item Follow Hollerstein tweet.
 	\end{todolist}
-	
-	\item Annex.
-	\begin{todolist}
-		\item[\done] Trend inflation and figures for ILS-ZAR.
-		\item[\done] Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
-		\item How the size of the rolling window influence the DY index for EMs?
-	\end{todolist}
-	
 \end{todolist}
 
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
-	\item Adjust threshold for path and LSAP pre- and post GFC, cutoff data October 2008 according to Rogers et al (2018). Maybe activate target after 2015. Update: summary table of US MPS, LPs (all b/c all shock at once, path pre/post).
-	\item Robustness checks: (1) compare scbp obtained w/ SPF data vs other survey data from other AEs, (2) re-estimate models using scbp constructed w/ TIPS data rather than SPF data.
-	\item Drivers before vs after GFC.
+	\item Slides.
+	\begin{todolist}
+		\item Include figure for yield decomposition, reflecting (in terms of sizes per maturity) averages of components.
+		\item Include cashflow diagram to construct synthetic yields.
+		\item Tables. Include summary tables. Update notes. 
+		\item Figures. Labels, titles, notes. Clearly state maturity of the yield reported.
+		\item Tables and figures. Add circles/rectangles or highlight numbers w/ color.
+		\item Explanation of bias in VAR is b/c state variable is very persistent.
+		\item Reason to use CRSP: GSW doesn't target ST.
+	\end{todolist}
+	\item Fisher equation rather than approximation for US real rate and EM nominal rate. Start sample for Russia 1 or 2 months after the current initial date.
+	\item Compare scbp obtained w/ SPF data vs survey data from other AEs.
 	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
-	\item Update slides.
 	\item Are big changes in TP related to local events?
-	\item Correlation of YC components with the 3 PCs and estimated pricing factors.
-	\item LPs for effects of US MPS on the 3 pricing factors of EMs.
-	\item Skim through Warnock papers on TIC data.
-	\item Include TIC data for each country (inflows and outflows) in dataset.
-	\item Variable of financial openness (Chinn-Ito index). Linear interpolation.
+	\item Make reference to Chernov, Schmidt, Song about credit risk in US YC.
+	\item Correct Hessian in asyvarhat considering that it seems to work for AEs, check whether excluding surveys corrects the issue.
 \end{todolist}
 
 \section{Analysis: Long Term}
 \gototoc
 \begin{todolist}
-	\item MPS from ECB. Which MPS matter more for EMs, Fed or ECB? Does it varies by region (some countries respond more to ECB than to the Fed)?
-	\item Correct US YC for credit risk (Chernov, Schmidt, Song).
-	\item Create a structure for US data: Vix, KWUSTP, KWUSYP, SVEY, EPU, FFR, USMPS. In daily2monthly for US extract LCNOM, OIS, FF. Add Guimaraes TP.
-	\item Estimate Guimaraes w/ daily data for US and compare against KW.
-	\item Use 0.25 and 0.5 Y to test results from forward premium puzzle. Whether it holds at short but not at long maturities (Lingareddy 2008).
+	\item Update database.
 	\item ATSM estimated with longer series for AEs.
 	\item Replicate analysis in Dahlquist \& Hasseltoft on time-varying bond risk premia.
-	\item Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW.
+	\item MPS from ECB. Which MPS matter more for EMs, Fed or ECB? Does it varies by region (some countries respond more to ECB than to the Fed)? Beyond scope of current paper.
+	\item Create a structure for US data: Vix, KWUSTP, KWUSYP, SVEY, EPU, FFR, USMPS. In daily2monthly for US extract LCNOM, OIS, FF. Add Guimaraes TP.
+	\item Estimate Guimaraes w/ daily data for US and compare against KW.
 	\item Replicate Lloyd.
+	\item Use 0.25 and 0.5 Y to test results from forward premium puzzle. Whether it holds at short but not at long maturities (Lingareddy 2008).
 	\item Check whether the removal of CB governors in TRY had an effect on its TP. Did TP decline in countries that adopted IT during the sample period? Need to know when it was announced (not when IT started).
 \end{todolist}
 
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Wording.
+	\begin{todolist}
+		\item[\done] Remove that only FOMC meetings but leave that no minutes nor speeches.
+		\item[\done] Footnote for differences in SPF-SPD-SMP.
+		\item[\done] Reason to use CRSP: GSW doesn't target ST, follow Golinski \& Spencer.
+		\item[\done] Comparison of real rates from surveys and TIPS.
+		\item[\done] Reason for day shift.
+		\item[\done] Write equation for inflation uncertainty part.
+	\end{todolist}
+	\item[\done] Technical parts.
+	\begin{todolist}
+		\item[\done] Drivers before vs after GFC. Influence of US YC components and the Vix increased post-GFC. Unemployment larger role for TP pre-GFC.
+		\item[\done] Include UCSV std in drivers. Negative sign after including components of US YC.
+		\item[\done] Adjust cutoff date for LSAP, Oct 2008 (rather than Jan 2009) according to Rogers et al (2018). Update: summary table of US MPS, LPs (all b/c shocks all at once, including path pre/post).
+		\item[\done] Rolling correlation in addition to DY index.
+		\item[\done] Check difference between surveys among economists and surveys among traders. A few basis points b/w SPF and SPD, and b/w SPF and SMP.
+		\item[\done] Verify that fitting error is left in CRC and is not big to change to a 4-way decomposition.
+		\item[\done] Check dates in USMPS file against dates in Rogers et al. (2014) to verify it only includes FOMC meetings (no speeches). Only FOMC meetings.
+		\item[\done] Check which parameters seem to be precisely estimated. B/c real and imaginary parts, the latter are ignored when plotting so is akin to SE = 0.
+		\item[\done] Use linewidth to make lines in Matlab bigger.
+		\item[\done] LPs. Update equation in levels.
+		\item[\done] LPs: update figures in levels (including path pre/post).
+	\end{todolist}
+	\item[\done] In drivers tables (1, 2, 5 10 Y) indicate that USYP and USTP have same maturity as dependent variables. Indicated in notes.
+	\item[\wontdo] Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW. GSW fitting error of 3 bps, improvement of Wu is in short end for which GSW doesn't fit well.
+	\item[\done] Robustness checks: (1) compare scbp obtained w/ SPF data vs TIPS. 
+	\item[\wontdo] Re-estimate models using scbp constructed w/ TIPS data rather than SPF data. TIPS data is not the benchmark.
+	\item[\done] Update slides for presentation in brown bag seminar.
+	\item[\wontdo] Correlation of YC components with the 3 PCs and estimated pricing factors. PCs are not relevant for ATSM, only used for estimation.
+	\item[\wontdo] LPs for effects of US MPS on the 3 pricing factors of EMs.
+	\item[\wontdo] Skim through Warnock papers on TIC data. No longer need to include TIC data.
+	\item[\wontdo] Include TIC data for each country (inflows and outflows) in dataset.
+	\item[\wontdo] Variable of financial openness (Chinn-Ito index). Linear interpolation.
+	\item[\done] Annex.
+	\begin{todolist}
+		\item[\done] Trend inflation and figures for ILS-ZAR.
+		\item[\done] Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
+		\item[\wontdo] How the size of the rolling window influence the DY index for EMs? I will report rolling correlation and DY index for support, so no need for robustness of DY index.
+	\end{todolist}
+	\item[\done] Future work in conclusions: future work on decomposing further the yields (real parts, CR compensation), inform theoretical models for pricing sovereign defaultable bonds, effects of domestic MP, effects of other AE CB.
+	\item[\done] LPs: Use target, forward guidance and asset purchase instead of target, path, LSAP.
+	\item[\done] Effects on YC slope in section 5.
+	\item[\done] Reference to DK SE for LPs (text and footnotes). Reference to Pesaran test. Indicate how default value for the lags is chosen. e.g. in Brooks et al.: `We plot 2-standard-error bands around theIR. HAC standard errors computed with bandwidth 2 fork<=50.'
 	\item[\done] Reframe paper in terms of Obstfeld-Ozcan debate. Highlight that ignoring credit risk alters the assessment of the debate (instead of framing the whole paper about the implication of ignoring credit risk).
 	\item[\done] Importance of TP: how resources are allocated in the economy, transmission of MP.
 	\item[\done] LPs vs VAR to compute IRFs.

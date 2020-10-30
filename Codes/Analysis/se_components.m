@@ -6,7 +6,7 @@ function S = se_components(S,matsout,currEM)
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 %%
 dt      = 1/12;
-epsilon = 1e-6;                                                             % 0.01 basis point
+epsilon = 1e-9;                                                             % 0.00001 basis point
 ncntrs  = length(S);
 nmats   = length(matsout);
 fnames  = fieldnames(S);

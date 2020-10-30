@@ -85,6 +85,9 @@ varlabels(, elist(gdp \midrule)) scalars("FE Fixed Effects" "Lags" "Countries No
 // erase x.tex
 * ------------------------------------------------------------------------------
 
+* Repeat sdprm values throughout the quarter
+replace sdprm = L.sdprm if sdprm >= .
+
 * ------------------------------------------------------------------------------
 * Table: Drivers
 local tbllbl "f_ycdcmp"
@@ -92,7 +95,7 @@ eststo clear
 foreach t in 12 24 60 120 {
 	local ty = `t'/12
 	foreach group in 1 { // 0
-		local condition em == `group'
+		local condition em == `group' // & datem >= tm(2008m9)
 		local j = 0
 		foreach v in nom dyp dtp phi {
 			local ++j
@@ -106,6 +109,7 @@ foreach t in 12 24 60 120 {
 			
 			if `group' == 1 {
 				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
+// 				`xtcmd' `v'`t'm ustp`t'm usyp`t'm $x0 $x2 if `condition' & phi`t'm != ., `xtopt'
 // 				`xtcmd' `v'`t'm usyc`t'm $x2 if `condition' & phi`t'm != ., `xtopt'
 // 				`xtcmd' `v'`t'm ustp`t'm c.ustp`t'm#i.taper usyp`t'm c.usyp`t'm#i.taper $x2 if `condition' & phi`t'm != ., `xtopt'
 				eststo mdl`j', addscalars(Lags e(lag) R2 e(r2_w) Countries e(N_g) Obs e(N))
@@ -116,7 +120,7 @@ foreach t in 12 24 60 120 {
 		}	// `v' variables
 		esttab mdl* using x.tex, replace fragment cells(b(fmt(2) star) se(fmt(2) par)) ///
 		nocons nomtitles nonumbers nonotes nolines noobs label booktabs collabels(none) ///
-		mgroups("Nominal" "E. Short Rate" "Term Premium" "Credit Rirsk", pattern(1 1 1 1 1 1) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
+		mgroups("Nominal" "E. Short Rate" "Term Premium" "Credit Risk", pattern(1 1 1 1 1 1) prefix(\multicolumn{@span}{c}{) suffix(}) span erepeat(\cmidrule(lr){@span}))  ///
 		varlabels(, elist(globalip \midrule)) scalars("FE Fixed Effects" "Lags" "Countries No. Countries" "Obs Observations" "R2 \(R^{2}\)") sfmt(%4.0fc %4.0fc %4.0fc %4.0fc %4.2fc)
 	}	// `group'
 	filefilter x.tex "$pathtbls/`tbllbl'`ty'y.tex", from(Observations) to(Observations) replace

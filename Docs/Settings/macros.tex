@@ -10,10 +10,12 @@
 \providecommand{\idxi}{i}
 \providecommand{\idxh}{h}
 \providecommand{\idxs}{\idxt,\tnr}
-\providecommand{\idxsfwd}{\idxt,\tnr | \tnrfwd}
+\providecommand{\idxsfwd}{\tnr | \tnrfwd}
+\providecommand{\idxsfwdt}{\idxt,\idxsfwd}
 \providecommand{\idxspnl}{\idxi,\idxt}
 \providecommand{\idxspnlfwd}{\idxi,{\idxt+\idxh}}
 \providecommand{\idxspnllag}{\idxi,{\idxt-1}}
+\providecommand{\idxspnllaglag}{\idxi,{\idxt-j}}
 \providecommand{\fInst}{f_{\idxs}}
 \providecommand{\yld}{y}
 \providecommand{\xpc}{e}
@@ -21,7 +23,7 @@
 \providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
 \providecommand{\yZeroP}{\yZero^{\Pmeasure}}
 \providecommand{\yZeroE}{\yZero^{\xpc}}
-\providecommand{\yZeroFwd}{\frate_{\idxsfwd}}
+\providecommand{\yZeroFwd}{\frate_{\idxsfwdt}}
 \providecommand{\yZeroEfwd}{\yZeroFwd^{\xpc}}
 \providecommand{\Pzero}{P_{\idxs}}
 \providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
@@ -137,13 +139,28 @@
 % Equations
 %-------------------------------------------------------------------
 \newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
-\newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \beta' z_{\idxspnl} + u_{\idxspnl}}
+\newcommand{\eqCIPdevDS}{\CIPdev = \yLCnom - \yLCsynt}
+\newcommand{\eqCIPdevQ}{\CIPdev = \yLCnom - \yZeroQ}
+
+\newcommand{\PzeroP}{\Pzero = \ExpP \left[ \SDF \Pzerolag \right]}
+\newcommand{\PzeroQ}{\Pzero = \ExpQ \left[ \exp\left(- \shortrate\right) \Pzerolag \right]}
+
+\newcommand{\eqXvarsFwdQ}{\XvarsFwd = \XmuQ + \XPhiQ \Xvars  + \XSigma \errorQ}
+\newcommand{\eqshortrate}{\shortrate = \deltazero + \deltaone' \Xvars}
+\newcommand{\eqyZeroQ}{\yZeroQ = \affineAQ + \affineBQ \Xvars}
+\newcommand{\eqXvarsFwdP}{\XvarsFwd = \XmuP + \XPhiP \Xvars  + \XSigma \errorP}
+\newcommand{\eqriskprice}{\riskprice = \lambdazero + \lambdaone \Xvars}
+\newcommand{\eqSDF}{\SDF = \exp\left( -\shortrate -\frac{1}{2} \riskprice' \riskprice - \riskprice' \errorP \right)}
+%\newcommand{}{}
+
+\newcommand{\eqpanelUCSV}{\tau_{\idxspnl} = \alpha_{\idxi} + \beta_{1} \sigma^{\pi}_{\idxspnl} + \beta_{2} g_{\idxspnl} + u_{\idxspnl}}
+\newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \gamma_{1}' z^{1}_{\idxspnl} + \gamma_{2}' z^{2}_{\idxspnl} + u_{\idxspnl}}
 \newcommand{\eqySvy}{\rateSvy = \frac{\widehat{\beta}_{0}}{1-\widehat{\beta}_{\srate}} + \frac{\widehat{\beta}_{{\pi}}}{1-\widehat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\widehat{\beta}_{{g}}}{1-\widehat{\beta}_{\srate}} g_{\idxs}^{survey} }
 
 \newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
 \newcommand{\eqBeFwd}{\affineAeFwd = \left( \tnrfwd B_{\tnrfwd}^{\xpc}  - \tnr \affineBe \right)/ \left( \tnrfwd - \tnr \right) }
-\newcommand{\eqrrt}{\srate_{\idxs} = \pi^{CE survey}_{\idxs} + \realrate^{*} = \pi^{CE survey}_{\idxs} + \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) }
+\newcommand{\eqrrt}{\rateSvy = \pi^{CE survey}_{\idxs} + \realrate^{*} = \pi^{CE survey}_{\idxs} + \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) }
 
 
 \newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
@@ -153,7 +170,9 @@
 %\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \beta_{\idxh} \epsilon_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}}
 
 % All shocks at once
-\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
+\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \eta_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
+
+\newcommand{\eqpanelLPlevels}{\yld_{\idxspnlfwd} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \sum^{2}_{j = 1} \gamma^{j}_{\idxh} \yld_{\idxspnllaglag} + \eta_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
 % \beta^{target}_{\idxh} \epsilon^{target}_{\idxt} + \beta^{path}_{\idxh} \epsilon^{path}_{\idxt} + \beta^{lsap}_{\idxh} \epsilon^{lsap}_{\idxt} 
 
 %---------------------------------------------------------------

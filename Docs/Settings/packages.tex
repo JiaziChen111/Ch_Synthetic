@@ -81,7 +81,11 @@
 %---------------------------------------------------------------
 % Hyperlinks and References
 %---------------------------------------------------------------
-\usepackage[colorlinks=true]{hyperref} 	% Creates hyperlinks, 'true' gets rid of awful boxes
+\usepackage[round,authoryear]{natbib} 	% For cite and abbrvnat bibliography style
+%\usepackage{cite} 									% Needed for cite
+
+%\usepackage[colorlinks=true]{hyperref} 	% Creates hyperlinks, 'true' gets rid of boxes
+\usepackage[colorlinks=true,draft]{hyperref} 	% Removes hyperlinks
 \usepackage{xcolor}
 	\definecolor{c1}{rgb}{0,0,1} 				  % Blue
 	\definecolor{c2}{rgb}{0,0.3,0.9} 			% Light blue
@@ -91,8 +95,8 @@
 		citecolor={c2}, 								% Citations
 		urlcolor={c3} 									 % External links/urls
 	}
-\usepackage[round,authoryear]{natbib} 	% For cite and abbrvnat bibliography style
-%\usepackage{cite} 									% Needed for cite
+%\usepackage[options]{nohyperref}		  % Removes links
+%\usepackage{url}									 % To make \url work
 
 %---------------------------------------------------------------
 % Special Characters

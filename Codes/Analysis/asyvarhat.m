@@ -36,6 +36,7 @@ for k0 = 1:ncntrs
     end
     ntheta = length(theta0);
     [llk0,llks0] = llkfns(theta0,ynsvys',x00,P00,matsY,matsS,dt);
+    llk0 = -llk0;    llks0 = -llks0;
     
     % Compute the score and the Hessian using backward difference
     Score = nan(ntheta,nobs);
@@ -45,6 +46,7 @@ for k0 = 1:ncntrs
         theta1       = theta0;
         theta1(k1)   = theta1(k1) - epsilon;
         [llk1,llks1] = llkfns(theta1,ynsvys',x00,P00,matsY,matsS,dt);
+        llk1 = -llk1;  llks1 = -llks1;
         Score(k1,:)  = (llks0 - llks1)'/epsilon;
         
         for k2 = 1:ntheta
@@ -54,6 +56,7 @@ for k0 = 1:ncntrs
             theta3(k1) = theta3(k1) - epsilon;
             [llk2,llks2]   = llkfns(theta2,ynsvys',x00,P00,matsY,matsS,dt);
             [llk3,llks3]   = llkfns(theta3,ynsvys',x00,P00,matsY,matsS,dt);
+            llk2 = -llk2;    llks2 = -llks2;    llk3 = -llk3;    llks3 = -llks3;
             Hess0(k1,k2)   = (llk0 - llk1 - llk2 + llk3)/(epsilon^2);
             Hess1(k1,k2,:) = (llks0 - llks1 - llks2 + llks3)'/(epsilon^2);
         end
@@ -69,6 +72,14 @@ for k0 = 1:ncntrs
 %     S(k0).(fnameq).V2 = inv(-Hess2/nobs);
     
     % Outer product estimator
-%     dScore = Score - mean(Score,2);
-%     S(k0).(fnameq).V3 = inv(dScore*dScore'/nobs);
+    dScore = Score - mean(Score,2);
+    S(k0).(fnameq).V3 = inv(dScore*dScore'/nobs);
+    
+    Fisher = zeros(ntheta,ntheta);
+    for k3 = 1:nobs
+        aux = dScore(:,k3)*dScore(:,k3)';
+        Fisher = Fisher + aux;
+    end
+    Fisher = Fisher/nobs;
+    S(k0).(fnameq).V4 = inv(Fisher);
 end
