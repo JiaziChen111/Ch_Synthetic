@@ -1,6 +1,6 @@
 %% Packages for Beamer
-% Conditionals, Fromatting, Lists, Figures, Tables, Math,
-% Hyperlinks and References, Special Characters, Theme
+% Conditionals, Fromatting, Figures, Tables, Math, Hyperlinks
+% and References, Special Characters, Colors, Theme, Lists
 
 %---------------------------------------------------------------
 % Conditionals
@@ -15,26 +15,15 @@
 %---------------------------------------------------------------
 % Fromatting
 %---------------------------------------------------------------
+\usepackage{FiraSans}							% font for metropolis theme
+\usepackage{appendixnumberbeamer}	% add appendix, omit it from counter
 \setbeamertemplate{navigation symbols}{}				% Omits the navigation symbols
-\usepackage{todonotes} 											  % Used for to-do lists
+%\usepackage{todonotes} 											  % Used for to-do lists
 \usepackage{setspace} 		% Line spacing and spaces above/below equations
 	\setstretch{1.7}
 	\AtBeginDocument{		 % Space before and after an equation
 		\addtolength\abovedisplayskip{-0.5\baselineskip}
 		\addtolength\belowdisplayskip{-0.5\baselineskip}}
-
-%---------------------------------------------------------------
-% Lists
-%---------------------------------------------------------------
-\usepackage{enumerate} 											% Personalizes the enumerate style
-	\setbeamertemplate{enumerate items}[default]
-	\setbeamertemplate{itemize items}{\(\textperiodcentered\)}		 % Or {$\vdash$}, {$\bullet$}, {$\rightharpoonup$}, {---}
-	\setbeamertemplate{itemize subitem}{\(\textendash\)}
-	\setbeamertemplate{itemize subsubitem}{\(\textbullet\)}
-	%\setbeamertemplate{itemize subsubitem}[triangle]
-	%\setbeamercolor{subitem projected}{bg=green}
-	%\setbeamercolor{itemize subitem}{bg=green}
-%\usepackage[orientation=landscape,size=custom,width=16,height=9.75,scale=0.5,debug]{beamerposter}
 
 %---------------------------------------------------------------
 % Figures
@@ -44,6 +33,9 @@
 \usepackage[outdir=./]{epstopdf} 	  % Avoids errors to input figures
 %\usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
 %{eso-pic}											 % Draw grid on slide to aid positioning figures
+
+%\usepackage{pgfplots}						% simplifies inclusion of scientific graphs
+%\usepgfplotslibrary{dateplot}
 
 %---------------------------------------------------------------
 % Tables
@@ -83,14 +75,8 @@
 %\usepackage[T1]{fontenc}		  	  % Fonts to use for printing characters
 
 %---------------------------------------------------------------
-% Theme
+% Colors
 %---------------------------------------------------------------
-\usetheme{Madrid}			   % Good: Madrid, Copenhagen, CambridgeUS, Boadilla
-\useoutertheme{noslidenum}
-\usecolortheme{lily} 			% Good: lily, dolphin
-\usefonttheme{serif}
-\useoutertheme{infolines} 	% Full list: miniframes, infolines, shadow, sidebar, smoothbars, smoothtree, split, tree
-%\useinnertheme{circles}	 % Full list: rectangles, circles, inmargin, rounded
 \definecolor{JHUblue}{rgb}{0.36, 0.54, 0.66}%{0, 0.45, 0.114}
 \definecolor{JHUgrey2}{rgb}{180, 178, 173}
 \definecolor{JHUorange}{rgb}{255, 105, 0}
@@ -131,9 +117,34 @@
 \definecolor{unitednationsblue}{rgb}{0.36, 0.57, 0.9}
 \definecolor{yaleblue}{rgb}{0.06, 0.3, 0.57}	% Good
 
-\usecolortheme[named=yaleblue]{structure}
-\setbeamercolor{alerted text}{fg=midnightblue}
-\setbeamerfont{alerted text}{series=\bfseries}
+%---------------------------------------------------------------
+% Theme
+%---------------------------------------------------------------
+\usetheme{metropolis}		% Good: Madrid, Copenhagen, CambridgeUS, Boadilla
+%\usetheme[numbering=counter]{metropolis}
+%\useoutertheme{noslidenum}
+%\usecolortheme{lily} 			% Good: lily, dolphin
+%\usefonttheme{serif}
+%\useoutertheme{infolines} 	% Full list: miniframes, infolines, shadow, sidebar, smoothbars, smoothtree, split, tree
+%\useinnertheme{circles}	 % Full list: rectangles, circles, inmargin, rounded
+
+%\usecolortheme[named=yaleblue]{structure}
+%\setbeamercolor{alerted text}{fg=blue} % midnightblue
+%\setbeamerfont{alerted text}{series=\bfseries}
+
+%---------------------------------------------------------------
+% Lists
+%---------------------------------------------------------------
+\usepackage{enumerate} 											% Personalizes the enumerate style
+%\setbeamertemplate{enumerate items}[default]
+%\setbeamertemplate{itemize items}{\(\bullet\)}		 % Or {$\vdash$}, {$\bullet$}, {$\rightharpoonup$}, {---}
+%\setbeamertemplate{itemize subitem}[square]
+%\setbeamertemplate{itemize subsubitem}{\(\textendash\)} %\textbullet
+
+%\setbeamertemplate{itemize subsubitem}[triangle]
+%\setbeamercolor{subitem projected}{bg=green}
+%\setbeamercolor{itemize subitem}{bg=green}
+%\usepackage[orientation=landscape,size=custom,width=16,height=9.75,scale=0.5,debug]{beamerposter}
 
 %---------------------------------------------------------------
 % Sources
