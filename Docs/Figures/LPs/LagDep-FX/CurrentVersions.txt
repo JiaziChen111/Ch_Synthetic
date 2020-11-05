@@ -1,0 +1,22 @@
+November 2, 2020
+
+Previous version
+CRC truncated at zero
+LSAP only b/w 2008 and 2019
+CRC *increase* on impact
+
+Current
+CRC truncated at zero
+LSAP only b/w 2008 and 2015
+CRC does not increase on impact
+
+Try
+CRC *not* truncated at zero
+LSAP only b/w 2008 and 2015
+CRC? CI bands are wider when CRC is not truncated at 0 but effects are essentially the same
+
+Go back
+Current
+CRC truncated at zero
+LSAP only b/w 2008 and 2019
+CRC *increase* on impact
