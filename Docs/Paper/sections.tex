@@ -21,48 +21,85 @@
 %Why it is important: risk management (simulations), portfolio allocation (high term premium), monetary policy transmission (effects on the components of yields).
 
 % Motivation
-U.S. monetary policy has worldwide consequences, yet the channels through which it affects the sovereign bond yields of emerging markets are not well understood. The ability of emerging markets to effectively mitigate any undesired domestic impact relies on understanding those transmission channels. Decomposing the yields and analyzing the effects of U.S. monetary policy on the components is a sensible approach. However, traditional decompositions of sovereign yields are not suitable for emerging markets because they assume that the yields are free of credit risk.
+U.S. monetary policy has worldwide consequences, yet the channels through which it affects the sovereign bond yields of emerging markets are not well understood. Decomposing the yields and analyzing the effects of U.S. monetary policy on the components is a sensible approach. However, traditional decompositions of sovereign yields are not suitable for emerging markets because they rely on the yields being free of credit risk.
 
 
 \iftoggle{fulldraft}{	% Turn it on/off in packages.tex
 
 The main contribution of this paper is to empirically quantify the transmission channels of U.S. monetary policy to the sovereign yields of emerging markets.
-To achieve this, the paper first proposes to decompose the yields into an average expected future short-term interest rates, a term premium and compensation for credit risk, and then asks how U.S. monetary policy transmits to these components. Notwithstanding, the value of the decomposition goes beyond this particular application, others include the transmission of monetary policy domestically.
+To achieve this, the paper first proposes to decompose the yields into an average expected future short-term interest rate, a term premium and compensation for credit risk, and then asks how U.S. monetary policy transmits to these components. The ability of emerging markets to effectively mitigate any undesired domestic impact relies on understanding those transmission channels. 
+%The value of the decomposition, however, goes beyond this particular application, others include the transmission of monetary policy domestically.
 %This paper answers the question: how does U.S. monetary policy transmit to the sovereign bond yields of emerging markets? 
 
 Investors holding local currency bonds of emerging markets bear two major risks. First, they bear the risk of not receiving the promised payments.
-Credit risk of sovereign debt differs across emerging and advanced economies. Over the last decades, the role of emerging markets in the global economy has increased as well as their reliance on local currency bonds as a stable source of funding \citep{IMFWB:2020}.\footnote{ Before 2000, several emerging markets issued bonds at short maturities and in foreign currency. Now, it is more common for them to issue bonds with longer maturities and in local currency.} But, even though they have the ability to print their own currency to avoid defaulting on their debt, emerging markets are prone to default \citep{ReinhartRogoff:2011}.\footnote{ Examples of overt defaults in local currency debt include Barbados (2018), Jamaica (2013, 2010), Nicaragua (2008, 2003), Argentina (2001), Turkey (1999), Russia (1998).} 
-Second, investors also bear the risk that they may receive the promised payments but find that inflation has eroded their real value.  The compensation for this risk is the standard term premium. Therefore, the credit risk compensation addresses the risk of not receiving the promised payments, whereas the term premium compensates investors for bearing interest rate risk. 
+%Credit risk in sovereign debt differs across emerging and advanced economies. 
+In the last decades, emerging markets depend more on local currency debt as a stable source of funding \citep{IMFWB:2020}, but they are prone to default \citep{ReinhartRogoff:2011}.\footnote{ Before 2000, several emerging markets issued bonds at short maturities and in foreign currency. Nowadays, it is more common for them to issue bonds with longer maturities and in local currency. Examples of overt defaults in local currency debt include Barbados (2018), Jamaica (2013, 2010), Nicaragua (2008, 2003), Argentina (2001), Turkey (1999), Russia (1998).} 
+Second, investors also bear the risk that inflation erodes the real value of the payments they may receive.  The compensation for this risk is the standard term premium. Therefore, a compensation for credit risk addresses the risk of not receiving the promised payments, whereas the term premium compensates investors for bearing interest rate risk. 
+%, even though they have the ability to print their own currency
 
-To account for credit risk, I use synthetic local currency yield curves. They essentially swap the U.S. yield curve into a local currency one, something akin to the U.S. issuing bonds in that currency. Synthetic yields can be seen as free of credit risk,\footnote{ This implicitly assumes that the U.S. yield curve and the financial instruments used to swap it are free of credit risk. In section \ref{sec:LCYCs}, I argue that these are reasonable assumptions.} and so traditional decompositions can be applied to them. I use a standard affine term structure model augmented with survey data because it provides robust decompositions of (default-free) yields \citep{Guimaraes:2014}.  Synthetic yields have been widely used recently to study deviations from covered interest parity (CIP) but, instead of concentrating on the CIP deviations, I focus on the synthetic yields themselves.\footnote{ \cite{DuTepperVerdelhan:2018} show that persistent and systematic deviations from CIP reflect a higher regulatory burden for financial intermediaries. \cite{DuImSchreger:2018JIE} argue that CIP deviations reflect a convenience yield in advanced economies, whereas \cite{DuSchreger:2016JoF} show that they capture a local currency credit spread for emerging markets, which is used by \cite{HofmannShimShin:2019} to explain the link between currency appreciations and the compression of the sovereign yield spreads of emerging markets.} To the best of my knowledge, this is the first application of affine terms structure models to synthetic yields.
+To account for credit risk, I use synthetic local currency yield curves. They essentially swap the U.S. yield curve into a local currency one, something akin to the U.S. issuing bonds in that currency. Taking the U.S. yield curve as a risk-free benchmark, synthetic yields are arguably free of credit risk, and so traditional decompositions can be applied to them. I use a standard affine term structure model augmented with survey data to obtain robust decompositions of the synthetic yields.\footnote{ \cite{Guimaraes:2014} shows that affine term structure models augmented with survey data provide robust decompositions of the U.S. and U.K. (nominal) yield curves.} Such yields have been widely used recently to study deviations from covered interest parity (CIP) but, instead of concentrating on the CIP deviations, I focus on the synthetic yields themselves.\footnote{ \cite{DuTepperVerdelhan:2018} show that persistent and systematic deviations from CIP reflect a higher regulatory burden for financial intermediaries. \cite{DuImSchreger:2018JIE} argue that CIP deviations reflect a convenience yield in advanced economies, whereas \cite{DuSchreger:2016JoF} show that they capture a local currency credit spread for emerging markets, which is used by \cite{HofmannShimShin:2019} to explain the link between currency appreciations and the compression of the sovereign yield spreads of emerging markets.} To the best of my knowledge, this is the first application of affine terms structure models to synthetic yields. 
+%\footnote{ Section \ref{sec:LCYCs} argues that it is reasonable to assume that the U.S. yield curve and the financial instruments used to swap it are free of credit risk.}
 
 This paper decomposes the nominal (or actual) yields of 15 emerging markets from 2000 to 2019 %accounting for the credit risk embedded in them
-into three parts. The first two components, average expected future short rates and the term premium, come from the decomposition of synthetic yields. The third component is the spread between the nominal and the synthetic yields, which captures the compensation for credit risk in the local currency debt of emerging markets \citep{DuSchreger:2016JoF}.\footnote{ Credit risk here is broadly defined including, for example, (selective) default risk, currency convertibility risk, regulation risk, capital controls, and jurisdiction risk, so compensation for any of these risks is considered as compensation for credit risk even if the country does not default per se.} Although credit risk is an important component of debt issued by those countries, 
-%it has not been accounted for in the literature that decomposes their (nominal) yields.
-the literature on term structures of emerging market yields does not examine it systematically.\footnote{ The analysis of sovereign credit risk traditionally focuses on bonds denominated in foreign currency. For instance, \cite{HilscherNosbusch:2010} report the relevance of domestic factors to explain sovereign credit risk, while \cite{Longstaffetal:2011} document the importance of global factors. \cite{BostanciYilmaz:2020} study the connectedness of the network of sovereign credit default swaps.} By explicitly accounting for credit risk, the second component is a genuine term premium. %clean of credit risk, 
+into three parts. The first two components come from the decomposition of synthetic yields, namely an average expected future short rate and a term premium. The third component is the spread between the nominal and the synthetic yields, which captures the compensation for credit risk in the local currency debt of emerging markets \citep{DuSchreger:2016JoF}.\footnote{ Credit risk here is broadly defined including, for example, (selective) default risk, currency convertibility risk, regulation risk, capital controls, and jurisdiction risk, so compensation for any of these risks is considered as compensation for credit risk even if the country does not default per se.}
+This decomposition gives reasonable estimates for the components.
+%the estimated components are reasonable. %estimates for the components. 
+Across emerging markets, average expected short rates, the term premium and the credit risk compensation in the 10-year nominal yield represent on average 4.3, 2 and 0.9\%, respectively.
+Although credit risk is an important component, % of debt issued by those countries, 
+the literature on term structures of emerging market yields has not examined it systematically.\footnote{ The analysis of sovereign credit risk traditionally focuses on bonds denominated in foreign currency. For instance, \cite{HilscherNosbusch:2010} report the relevance of domestic factors to explain sovereign credit risk, while \cite{Longstaffetal:2011} document the importance of global factors. \cite{BostanciYilmaz:2020} study the connectedness of the network of sovereign credit default swaps.} By explicitly accounting for credit risk, the second component is a genuine term premium. %clean of credit risk, 
 In fact, I show that this term premium aligns with the view that it compensates investors for bearing inflation uncertainty \citep{Wright:2011}, which is worth highlighting since inflation in emerging markets is more volatile than in advanced economies \citep{HaKoseOhnsorge:2019}. 
+%it has not been accounted for in the literature that decomposes their (nominal) yields.
 
-The three-part decomposition gives reasonable estimates for the components.
-The average expected short rates, the term premium and the credit risk compensation of the 10-year nominal yield %represent 
-average 4.30\%, 2\% and 0.8\%, respectively. Further, each component reflects particular circumstances of the countries in the sample. For instance, the decline in the term premium of Eastern European countries shadows that of Eurozone countries.
+The characterization of the transmission channels of U.S. monetary policy needs both the three-part yield decomposition and the identification of unanticipated policy decisions by the Fed.
+%The estimated components are reasonable. 
+%Further, 
+%%They also 
+%the components reflect %Each component reflects 
+%local circumstances; for instance, the decline in the term premium of Eastern European countries shadows that of Eurozone countries. 
+%of the countries in the sample
 %Although this decomposition helps to characterize the transmission channels of U.S. monetary policy in this paper, it has of course many more applications (e.g. the transmission of monetary policy domestically). 
-
-The characterization of the transmission channels of U.S. monetary policy relies on the three-part decomposition. Nevertheless, understanding the impact of unanticipated Fed's policy decisions not only requires decomposing the yields but distinguishing among the different types of monetary policy surprises. Following the literature \citep{GSS:2005a,Swanson:2018}, I consider three types, %of surprises, 
-namely target, forward guidance and asset purchase surprises. They are identified using intraday data around Fed's monetary policy announcements, which is by now
-a well-established strategy %in macro-finance 
+%Regarding the monetary policy surprises, 
+%In addition to decomposing the yields, 
+I distinguish between target, forward guidance and asset purchase surprises following the literature \citep{GSS:2005a,Swanson:2018}. 
+%to understand the impact of unanticipated policy decisions by the Fed. %not only requires %decomposing the yields but 
+%Nevertheless, 
+%distinguishing among the different types of monetary policy surprises. I , 
+These monetary policy surprises 
+are identified using intraday data around Fed's monetary policy announcements. %, which 
+This is by now a well-established strategy %in macro-finance 
 to overcome endogeneity concerns because it isolates the surprise component of monetary policy decisions.
 
 Three main findings summarize the transmission channels of U.S. monetary policy surprises to emerging market yields.
-First, the responses to target, forward guidance and asset purchase surprises are economically significant but sluggish, and amplify over the month following the surprise. In particular, the effects of forward guidance and asset purchase surprises last longer in emerging markets relative to the U.S. This delayed response is consistent with the evidence for advanced economies, which \cite{BrooksKatzLustig:2019} attribute to a portfolio rebalancing channel that translates into slow-moving capital.
+First, the responses to target, forward guidance and asset purchase surprises are economically significant but sluggish, and amplify over the month following the surprise. This delayed response is consistent with the evidence for the U.S. and other advanced economies, which \cite{BrooksKatzLustig:2019} attribute to a portfolio rebalancing channel and %that translates into 
+slow-moving capital. 
+Moreover, the effects of forward guidance and asset purchase surprises last longer in emerging market yields than in U.S. yields. Portfolio rebalancing involving emerging market sovereign bonds is thus slower.
+%Rebalancing involving emerging market sovereign bonds is thus slower.
 
-Second, the surprises spill over to all yield components, so that % not only the term premium, and including the compensation for credit risk. Therefore, 
-unanticipated Fed policy decisions give rise to a reassessment of policy rate expectations and a repricing of risks in emerging markets. Target easing surprises eventually reduce the average expected future short rates but increase long-term credit risk compensation. Forward guidance easing surprises led to a parallel decline in the term premium before the global financial crisis; since then, they eventually reduce average expected short rates and the term premium but also increase long-term credit risk compensation. Asset purchase easing surprises eventually decrease all three components of the yields. Interpreting the transmission of these surprises to emerging markets requires one to understand their effects not only on the nominal yield curve (like in advanced economies) but also on the synthetic one. The surprises trigger (slow-moving) capital flows in or out of emerging markets. The relative effect they have on each curve in turn determines the effects on the yield components. In particular, the surprises alter the opportunity cost of lending to emerging markets in local currency, so investors adjust the compensation they require for credit risk. The potential fiscal implications for emerging markets of the Fed's monetary policies have thus far not been discussed in the literature.
+Second, monetary policy surprises spill over to all yield components, so that % not only the term premium, and including the compensation for credit risk. Therefore, 
+unanticipated Fed policy decisions give rise to a reassessment of policy rate expectations and a repricing of risks in emerging markets. 
+Investors expect monetary authorities in those countries to eventually follow the Fed's monetary stance rather than counteract it, given that average expected future short rates decline following target, forward guidance and asset purchase easing surprises.
+In addition, Fed's unconventional monetary policies aimed at reducing the U.S. term premium, namely forward guidance and asset purchases, ultimately also decrease the term premia in emerging markets.
+Lastly, long-term credit risk compensation increases following target and forward guidance easing surprises, whereas it eventually decreases in response to an asset purchase easing surprise.
+%Target easing surprises eventually reduce the average expected future short rates but increase long-term credit risk compensation. Forward guidance easing surprises led to a parallel decline in the term premium before the global financial crisis; since then, they eventually reduce average expected short rates and the term premium but also increase long-term credit risk compensation. Asset purchase easing surprises eventually decrease all three components of the yields. 
+Interpreting the effects on the credit risk compensation %for  transmission of these surprises to emerging market yields 
+requires one to understand the response of both
+%their effects not only on 
+(nominal and synthetic) yield curves. %(like in advanced economies) 
+%but also on the synthetic one. 
+The surprises trigger (slow-moving) capital flows in or out of emerging markets, whose relative influence %they have 
+on each curve in turn determines %the effects on 
+the response of the yield components. In particular, the surprises alter the opportunity cost of lending to emerging markets in local currency, so investors adjust the compensation they require for credit risk. %The potential 
+The fiscal implications for emerging markets of Fed's monetary policies have thus far not been discussed in the literature.
 
 Third, since the global financial crisis, U.S. monetary policy has spilled over to emerging markets through a yield curve channel. %, according to which their monetary autonomy decreases along the yield curve. 
-I show that the monetary autonomy of emerging markets is stronger at the front end of their yield curves and that long-term yields are more interconnected than short term ones, %the correlation among long-term yields is higher than among short term ones
-so that the global financial cycle is more relevant at the long end of the curve. U.S. unconventional monetary policies thus limit the monetary autonomy of emerging markets along the yield curve. These results are consistent with the mechanisms discussed by \cite{Obstfeld:2015}, \cite{Kalemli-Ozcan:2019} and \cite{KolasaWesolowski:2020}.
-
-A growing literature analyzes the spillover effects of U.S. monetary policy on the local currency yields of emerging markets. For instance, \cite{HausmanWongswan:2011} find significant spillovers to local currency bond yields, while \cite{BowmanLondonoSapriza:2015} compare the spillovers of conventional and unconventional monetary policies. The present paper is nonetheless more closely related to the work in \cite{CurcuruKaminLiRodriguez:2018}, \cite{ACDM:2019} and \cite{Albaglietal:2019}, who decompose the yields to analyze the transmission channels of such spillovers, but it differs in a number of dimensions. Most importantly, this paper accounts for the credit risk embedded in the yields of emerging markets, and considers different types of monetary policy surprises identified with intraday data.\footnote{\cite{RogersScottiWright:2014} and \cite{RogersScottiWright:2018} analyze the spillovers on bond yields using surprises identified with intraday data but they focus on advanced economies. \cite{GilchristYueZakrajsek:2019} study the effects for advanced and emerging countries but for debt denominated in foreign currency.}
+I show that among emerging markets long-term yields are more interconnected than short-term ones. %, which implies that t
+The global financial cycle is therefore more relevant at the long end of the curve; equivalently, the monetary autonomy of emerging markets is stronger at the front end of their yield curves. U.S. unconventional monetary policies aimed at influencing long-term yields thus limit the monetary autonomy of emerging markets along the yield curve. These results are consistent with the mechanisms discussed by \cite{Turner:2014}, \cite{Obstfeld:2015}, \cite{Kalemli-Ozcan:2019} and \cite{KolasaWesolowski:2020}.
+ %the correlation among long-term yields is higher than among short term ones
+ 
+A growing literature analyzes the spillover effects of U.S. monetary policy to the local currency sovereign bond yields of emerging markets. \cite{HausmanWongswan:2011} report significant spillovers, %to local currency bond yields, 
+while \cite{BowmanLondonoSapriza:2015} compare the effects of 
+%distinguish between spillovers from 
+conventional and unconventional monetary policies. The present paper is nonetheless more closely related to the work of \cite{CurcuruKaminLiRodriguez:2018}, \cite{ACDM:2019} and \cite{Albaglietal:2019}, who decompose the yields to analyze the transmission channels of such spillovers, but it differs in a number of dimensions. Most importantly, this paper explicitly accounts for the credit risk embedded in emerging market yields, and analyzes the effects of different types of monetary policy surprises identified with intraday data.\footnote{\cite{RogersScottiWright:2014} and \cite{RogersScottiWright:2018} analyze the spillovers on bond yields using surprises identified with intraday data but they focus on advanced economies. \cite{GilchristYueZakrajsek:2019} study the effects for advanced and emerging countries but for debt denominated in foreign currency.}
 
 The rest of the paper proceeds as follows. 
 Section \ref{sec:LCYCs} explains how to construct the local currency yield curves. Section \ref{sec:Methodology} presents the affine term structure model used to decompose the yields.
@@ -347,7 +384,7 @@ The last section concludes.
 This section explains how to construct the nominal and synthetic local currency (LC) yield curves of emerging markets, and explains that
 %,  yield curves are obtained, followed by a description of the different data sources. 
 the spread between the two captures a credit risk compensation.
-In the next section, the \textit{synthetic} yield curve will be decomposed into an expected future short-term interest rate and a term premium. 
+In the next section, the \textit{synthetic} yield curve will be decomposed into average expected future short-term interest rates and a term premium. 
 The three components of the \textit{nominal} yield curve will then be used to characterize the response of emerging market yields to U.S. monetary policy.
 %The spread between the nominal and the synthetic yield curves is a measure of the credit risk compensation in the case of emerging markets.
 %Although the focus of this paper is on the synthetic yield curve, the nominal yield curve is also of interest.\footnote{Below the synthetic yield curve is denoted by $\yLCsynt$ and the nominal yield curve is denoted by $\yLCnom$.} A byproduct of decomposing the synthetic yield curve into the expectation for the future short-term interest rate and a term premium, is to decompose the nominal yield curve into three parts, the third component being the deviation from covered interest rate parity (CIP) -which in the case of emerging markets is the LC credit spread-. In addition, the nominal yield curve is used to compare the estimated term premium obtained from it to the one obtained from the synthetic yield curve. This section explains how to construct both curves.
@@ -361,7 +398,7 @@ The forward premium compensates investors for the expected depreciation of the c
 since in this paper the exchange rate is expressed in LC per U.S. dollar (USD), a currency depreciates when the exchange rate increases.
 This approach assumes frictionless financial markets; in particular, it assumes that (i) unconstrained arbitrageurs have access to U.S. and LC bonds, (ii) the derivatives contracts used to construct the forward premium have no counterparty risk, and (iii) U.S. yields are
 %The key assumption behind this approach is that the U.S. yield curve is 
-free of default risk.
+free of default risk.\footnote{ \cite{ACCS:2019} argue that U.S. sovereign default risk is not zero. Nevertheless, it is not volatile enough to affect the results in this paper.}
 \cite{DuSchreger:2016JoF} show that this is a useful benchmark to quantify the credit risk in the LC debt of emerging markets.
 % the U.S. serves as the benchmark for all the other countries in the sample.
 
@@ -379,7 +416,7 @@ By contrast, the nominal zero-coupon yield, \(\yLCnom\), is constructed directly
 %sovereign 
 LC bonds actually traded in the market.
 Notice that since the construction of the synthetic yields %\(\yLCsynt\) \(\yLCnom\)
-relies on the U.S. yield curve and cross-currency swap rates, it does not require information about the nominal yields.\footnote{ Since there is no forward premium for the USD relative to the USD, \(\yUSsynt = \yUS\).}
+relies on the U.S. yield curve and currency derivatives, it does not require information about the nominal yields.\footnote{ Since there is no forward premium for the USD relative to the USD, \(\yUSsynt = \yUS\).}
 
 According to the CIP condition, the nominal (direct) and the synthetic (indirect) LC interest rates should be equal. 
 CIP thus implies that an 
@@ -392,14 +429,16 @@ In the case of advanced economies, \cite{DuImSchreger:2018JIE} argue that CIP de
 By contrast, \cite{DuSchreger:2016JoF} point out that CIP deviations have a different interpretation for emerging markets. 
 
 The nominal-synthetic spread captures a credit risk compensation in the LC yields of emerging markets.
-Whereas the nominal yields of advanced economies are usually considered free of credit risk, the nominal yields of emerging markets include a credit risk compensation given the potential for default  \citep{ReinhartRogoff:2011}.
-Since the credit risk in the components of the synthetic yields in equation (\ref{eq:nLCsynt}) is small, a synthetic yield can be seen as the borrowing rate paid by a hypothetical issuer in LC with no credit risk. 
+Whereas the nominal yields of advanced economies are usually considered free of credit risk, the nominal yields of emerging markets include a credit risk compensation given the possibility of default  \citep{ReinhartRogoff:2011}.
+Since credit risk in the components of the synthetic yields (equation (\ref{eq:nLCsynt})) is small, a synthetic yield can be seen as the borrowing rate paid by a hypothetical issuer in LC with no credit risk. 
 \cite{DuSchreger:2016JoF} show that the nominal-synthetic spread is highly correlated with the rates of credit default swaps (CDS)---financial derivatives aimed to protect investors against default by a bond issuer.
 %\footnote{ For instance, CDS rates are highly correlated with the CIP deviations of emerging markets, unlike the CIP deviations of advanced economies.}
 %Accordingly, the nominal-synthetic spread in emerging markets captures the credit risk compensation.
 
-CDS spreads are not used in this paper to account for LC credit risk because they do not adequately characterize it since defaults on LC bonds governed under domestic law do not trigger CDS payouts.\footnote{ See the Credit Derivatives Physical Settlement Matrix of the International Swaps and Derivatives Association.}
-Nonetheless, CDS are suitable for studying the sovereign risk in bonds denominated in foreign currency \citep{Longstaffetal:2011}.
+An alternative approach is indeed to use CDS spreads to account for LC credit risk. However, a credit event is not always clearly defined. Moreover, according to the International Swaps and Derivatives Association (ISDA),
+%are not used in this paper to account for LC credit risk because they do not adequately characterize it since defaults on 
+LC bonds governed under domestic law do not trigger CDS payouts.\footnote{ See the ISDA credit derivatives physical settlement matrix.}
+Nonetheless, CDS are suitable for studying the sovereign risk in bonds denominated in foreign currency; see, for example \cite{Longstaffetal:2011}.
 
 %Although CDS capture credit risk in the medium to long term \citep{PalladiniPortes:2011}, they  because for several reasons. First, credit risk in CDS themselves is not eliminated, it simply shifts from the bond issuer to the CDS seller, i.e. there is counterparty credit risk. Second, a credit event is not clearly defined and, thus, borrowers can intentionally circumvent the CDS payout. Third, since investors do not need to hold the underlying bond to buy a CDS, there is a chance for market manipulation.
 
@@ -411,11 +450,11 @@ The construction of the nominal yield curve \(\yLCnom\) uses the Bloomberg Fair 
 %, which are provided by Bloomberg with a daily frequency. 
 Since these curves report coupon-equivalent par yields, I convert them into continuously-compounded yields
 %, which are then used to estimate a parametric model to smooth through the inherent idiosyncratic variation 
-\citep[see][]{GSW:2007} to obtain the implied zero-coupon curves.\footnote{As a robustness check, I estimate the nominal yield curves from actual prices for some of the countries in the sample with the Nelson--Siegel model, these curves follow those reported by Bloomberg closely.} %following \cite{NelsonSiegel:1987}
+\citep[see][]{GSW:2007} to obtain the implied zero-coupon curves.\footnote{As a robustness check, I estimate the nominal yield curves from actual prices for some of the countries in the sample using the Nelson--Siegel model. They closely follow the curves reported by Bloomberg.} %following \cite{NelsonSiegel:1987}
 This approach applies to all but two countries for which no BFV curves exist.
 %The nominal yield curves for all but two countries are obtained from the BFV. 
 %Although there are no BFV curves 
-For Brazil and Israel, Bloomberg provides zero-coupon yields with coupon-equivalent compounding, known as IYC curves, which I also convert into continuously-compounded yields.\footnote{ For some emerging markets, Bloomberg reports both BFV and IYC curves. BFV curves are preferred for several reasons: they have a longer history than IYC curves, IYC curves are not available for advanced economies---the benchmark for some of the results reported later---and, compared to the BFV curves, the short end of the IYC curves seems disconnected from the rest of the curve for some countries and dates.} 
+For Brazil and Israel, Bloomberg provides zero-coupon yields with coupon-equivalent compounding, known as IYC curves, which I also convert into continuously-compounded yields.\footnote{ For some emerging markets, Bloomberg reports both BFV and IYC curves. BFV curves are preferred for several reasons: their history is longer, IYC curves are not available for advanced economies---the benchmark for some of the results reported later---and, compared to the BFV curves, the short end of the IYC curves seems disconnected from the rest of the curve at some dates for a few countries.} 
 %before fitting the Nelson--Siegel model.
 
 The resulting continuously-compounded zero-coupon curve for each country is what this paper refers to as the nominal yield curve \(\yLCnom\).
@@ -484,12 +523,12 @@ The maximum maturity considered is 10 years because bonds and swaps with larger 
 
 The construction of the LC synthetic yield curves involves data from the U.S. yield curve and the forward premium for different maturities, as explained in section \ref{sec:YCsynt}. 
 Data for the U.S. zero-coupon yield curve comes from two sources. 
-For maturities of 1 through 10 years, the yields come from the dataset constructed by \cite{GSW:2007}.\footnote{Available at: \url{https://www.federalreserve.gov/pubs/feds/2006/200628/200628abs.html}.} 
-Their estimation only considers Treasury securities with coupons.
-In general, Treasury securities with less than one year to maturity behave differently, partly because  
+For maturities of 1 through 10 years, the yields come from the dataset constructed by \cite{GSW:2007}, who only consider Treasury securities with coupons.\footnote{Available at: \url{https://www.federalreserve.gov/pubs/feds/2006/200628/200628abs.html}.} 
+Since Treasury securities with less than one year to maturity behave differently, partly because  
 %Treasury securities with less than one year to maturity 
-they are less actively traded than longer-maturity ones. 
-Thus, I follow \cite{Duffee:2010} and use the estimates from the Center for Research in Security Prices (CRSP), which are %are thought to be %more 
+they are less actively traded than longer-maturity ones, 
+%Thus, 
+I follow \cite{Duffee:2010} and use the estimates from the Center for Research in Security Prices (CRSP), which are %are thought to be %more 
 robust at the short end of the curve.
 Specifically, the 3- and 6-month yields are the annualized 13- and 26-week rates (bid/ask average) in the CRSP Risk-Free Rates Series.\footnote{ The 3- and 6-month yields implied by the fitted model of \cite{GSW:2007} are highly correlated with the CRSP yields (0.9985 and 0.9995, respectively) but the former are on average higher (by 16 and 10 basis points, respectively) using data since 1983.} 
 % Golinski \& Spencer (2017): yield data at the long end are thin (issuance of the 30 year Treasury bond was suspended between 2002 and 2006). The number of actively traded securities is sparse at the short end.
@@ -497,7 +536,7 @@ Specifically, the 3- and 6-month yields are the annualized 13- and 26-week rates
 
 The data to compute the forward premium also comes from two sources.
 %The calculation of the forward premium uses forward exchange rates for maturities of less than one year and cross-currency swap rates for longer maturities.
-For maturities of less than one year, I use data on the spot exchange rate along with 3- and 6-month forwards from Bloomberg for all but three countries; for Korea, the Philippines and Thailand the data comes from Datastream.
+For maturities of less than one year, I use data on the spot exchange rate along with 3- and 6-month forwards from Bloomberg for all countries but Korea, the Philippines and Thailand, for which data comes from Datastream.
 To construct the cross-currency swap rates, I use data on cross-currency basis swaps and interest rate swaps for each available maturity from 1 through 10 years. 
 The data for the swap curves comes from Bloomberg.\footnote{A spreadsheet with the tickers used in the construction of the forward premiums and in the estimation of the nominal yield curves is available upon request. The file consolidates and expands (with tenors and tickers) similar files kindly posted online in Wenxin Du and Jesse Schreger's websites.}
 %The maximum maturity available varies per country but there is data covering at least up to ten years for all but it can go as far as 30 years for some countries.\footnote{After 10 years, the periodicity decreases to every five years. Then, when they are available, the maturities beyond 10 years are reported for 15, 20, 25 and up to 30 years.} 
@@ -511,7 +550,7 @@ At the same time, the table provides information on how the curves of emerging m
 For instance, the level and the volatility (measured by the standard deviation) of their curves %of emerging markets 
 are larger than those of advanced economies.
 Also, the short end of their curves is more volatile than the long end, particularly so for the synthetic curve.
-Lastly, the spread between the nominal and the synthetic yields suggests that the credit risk compensation is on average positive and that it increases with maturity.
+Lastly, the spread between the nominal and the synthetic yields suggests that the credit risk compensation is on average positive and broadly stable across maturities.
 
 
 % Learning
@@ -572,7 +611,7 @@ This paper exploits it to analyze the transmission channels of U.S. monetary pol
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
 \subsection{Affine Term Structure Model} \label{sec:ATSM}
-Let \(\Pzero\) be the price at time \(\idxt\) of a zero-coupon risk-free bond with maturity \(\tnr\). The continuously compounded yield on that bond is then \(\yZero = - \ln \Pzero/\tnr\). In particular, the one-period continuously compounded risk-free rate is \(\shortrate = \yld_{\idxt,1} = - \ln P_{t,1}\).
+Let \(\Pzero\) be the price at time \(\idxt\) of a zero-coupon \textit{risk-free} bond with maturity \(\tnr\). The continuously compounded yield on that bond is then \(\yZero = - \ln \Pzero/\tnr\). In particular, the one-period continuously compounded risk-free rate is \(\shortrate = \yld_{\idxt,1} = - \ln P_{t,1}\).
 
 %The no-arbitrage assumption implies the existence of 
 If there is no arbitrage, there exists a strictly positive stochastic discount factor that prices all nominal bonds. 
@@ -630,11 +669,21 @@ A key assumption behind this model is that the yield \(\yZero\) is free of credi
 This implies that while the nominal yield curve \(\yLCnom\) is the relevant one for advanced economies, it is not so for emerging markets because it is not free of credit risk.
 In that case, the synthetic yield curve \(\yLCsynt\) better aligns with the risk-free assumption in the affine model.
 
-Finally, to ensure that the decomposition adds up, the credit risk compensation is computed as
+Finally, to ensure that the decomposition adds up, %complete the decomposition %
+the credit risk compensation is computed as
 	\input{../Equations/nCIPdevQ}
 \noindent Notice that the credit risk compensation equals the spread between the nominal 
 %\(\yLCnom\) 
 and the fitted, rather than the synthetic (\(\yLCsynt\)) yields. % \(\yZeroQ\)
+Although the unconditional mean of the credit risk compensation in the data is positive, there have been brief episodes in which it has been negative.
+These situations are unrealistic and can reflect financial market frictions \citep{DuSchreger:2016JoF}, including market segmentation between foreign and local investors and short selling constraints.
+Thus, the nominal-synthetic spread is a valid measure of credit risk that is far from perfect, but
+%Nevertheless, although far from perfect, it is a valid measure of credit risk, and 
+definitely better than ignoring it. 
+Otherwise, estimates of the term premium would be contaminated with credit risk.
+For the analysis in subsequent sections, given the unrealistic nature of being negative, the credit risk compensation is set at zero in the cases in which it becomes negative in the data. 
+In general, those episodes are brief and rare, so the results and conclusions of the analysis remain the same as if it is allowed to be negative.
+
 
 \subsubsection{Weak Identification} \label{sec:Identification}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
@@ -707,8 +756,8 @@ With the exception of Brazil and Turkey, inflation expectations in emerging mark
 
 Although there is no source for long-term forecasts for the short rate of emerging markets, they can be inferred from existing data using the Fisher equation. 
 For this purpose, I treat emerging markets as small open economies. 
-Specifically, the implied forecast for the short rate (\(\rateSvy\)) equals the expected average inflation %over 5-year ahead and long-term horizons, 
-as reported by Consensus Economics (\(\pi^{CE survey}_{\idxs}\)), plus the expected global real rate over the same horizon (\(\realrate^{*}\)), inferred by a combination of survey forecasts of future short-term U.S. Treasury bill yields (\(\srate^{SPF survey}_{\idxs}\)) and of future U.S. inflation (\(\pi^{SPF survey}_{\idxs}\)) as follows
+Specifically, the implied forecast for the nominal short rate (\(\rateSvy\)) equals the expected average inflation %over 5-year ahead and long-term horizons, 
+as reported by Consensus Economics (\(\pi^{CE survey}_{\idxs}\)), plus the expected global real rate over the same horizon (\(\realrate^{*}\)), inferred by a combination of survey forecasts of future short-term U.S. Treasury bill yields (\(\srate^{SPF survey}_{\idxs}\)) and future U.S. inflation (\(\pi^{SPF survey}_{\idxs}\)) as follows
 \input{../Equations/uRrt}
 %\[\eqrrt ,\]
 %Since emerging markets are small open economies, I assume that the real interest rate is determined abroad. 
@@ -717,13 +766,13 @@ as reported by Consensus Economics (\(\pi^{CE survey}_{\idxs}\)), plus the expec
 %As with synthetic yields, the U.S. is taken as the benchmark for emerging markets. 
 %Forecasts for the U.S. real interest rate are obtained as the difference between the forecast for the three-month Treasury bill (T-bill) rate and the inflation forecast for the same maturity.
 %, namely 5 and 10 years ahead.
-The required data for the U.S. is available quarterly from the Survey of Professional Forecasters.
+The required U.S. data is available quarterly from the Survey of Professional Forecasters.
 I use the 5- and 10-Year CPI inflation forecasts and, for the T-bill rate, the 10-year forecast and the second longest available one
 %for the 5-year tenor 
 since there is no 5-year forecast for the T-bill rate.\footnote{ The specific series are CPI5YR, CPI10, BILL10 and TBILLD. The BILL10 series is released in the first-quarter surveys only, so I use linear interpolation for the second to fourth quarters in the respective year. Consensus Economics forecasts are considered at the end of the month in which they are published, at that time the most recent value for the U.S. real interest rate forecast is used to calculate the implied forecast for the domestic short rate.}
 The 5- and 10-year zero-coupon real yields of \cite{GSW:2010} constructed with data from the U.S. TIPS market serve as a reference for the respective implied forecasts for the U.S. real rate obtained from surveys.
 The levels of the two series are comparable. 
-TIPS yields are not the benchmark, however, because they are more volatile (their term premium is time varying) and suffer from liquidity problems.
+TIPS yields are not the real rate benchmark, however, because they are more volatile (their term premium is time varying) and suffer from liquidity problems.
 %TIPS yields are not used as the benchmark due to the well-known liquidity problems of TIPS.
 % For the 10-year horizon, the correlation of the two series is 0.91, yet the TIPS yields are twice as volatile as the survey series.
 
@@ -733,7 +782,8 @@ Figure \ref{fig:YLD10Y_CBP} shows that the implied long-term forecasts for the s
 An alternative way to infer the embedded expectations for the policy rate is to use Taylor rule-type regressions, and assume that the estimated parameters for inflation and real GDP growth apply at each of the survey maturities.\footnote{ I regress the policy rate on its lag, the year-on-year consumer price inflation and the year-on-year real GDP growth for all the countries except Israel and South Africa. The coefficient for the lag of the policy rate is a smoothing parameter that improves the fit of the model to the data. A potential drawback of this approach is precisely that it requires one to know the expectation of the policy rate for the previous forecast horizon. Nevertheless, it is reasonable to assume stationarity for the long-term forecasts (5 and 10 years), in which case only survey data for inflation and GDP growth are needed after dividing their coefficients by 1 minus the coefficient for the lag of the policy rate (due to stationarity). Data for the dependent variable comes from the policy rate statistics of the Bank for International Settlements.}
 The two approaches yield similar values for the implied forecasts for the domestic short-term rates, the correlation  between the two is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
 
-I assume that the 5-year ahead (implied) forecast for the short rate of emerging markets equals the expected average short rate under \(\Pmeasure\) given by
+I assume that the 5-year ahead (implied) forecast for the short rate of emerging markets guides %is aligned with 
+the expected average short rate under \(\Pmeasure\) given by
 %expected yield over the life of an \(\tnr\)-period bond equals the conditional expectation under \(\Pmeasure\) of the average short rate over the period, thus:
 \input{../Equations/uYaffineE}
 \noindent in which \(\affineAe = - \frac{1}{\tnr} \affineA\), \(\affineBe = - \frac{1}{\tnr} \affineB\), where in turn \input{../Equations/functionAnE} and \input{../Equations/functionBnE}; that is, \(\affineAe\) and \(\affineBe\) also satisfy the recursions under the \(\Pmeasure\) measure but setting \(\XSigma = 0\) (see appendix C of \cite{Guimaraes:2014}).\footnote{ The difference between \(\yZeroP\) and \(\yZeroE\) is a convexity term due to Jensen's inequality, which increases with maturity. In practice, however, this term usually becomes relevant for maturities beyond ten years. Further, the term is constant across maturities in homoskedastic models like the ones used in this paper.}
@@ -743,7 +793,7 @@ I assume that the 5-year ahead (implied) forecast for the short rate of emerging
 %information about \(\yZeroE\) could 
 Long-term (implied) forecasts 
 %are the expectation between 6 and 10 years ahead, they 
-are in turn matched to the 5-year forward rate starting 5 years hence.
+are in turn aligned with the 5-year forward rate starting 5 years hence.
 %Long-term forecasts are matched to forward rates. 
 In the model, the forward rate from \(\tnr\) to \(\tnrfwd\) periods hence
 %, \(\tnr < \tnrfwd\), 
@@ -822,18 +872,19 @@ On months when survey data is available, the observation equation increases by t
 %continuously-compounded forward rate starting in \(\tnr\) periods and maturing in m periods, \(m > \tnr\),
 
 To estimate the survey-augmented model, I follow \cite{Guimaraes:2014} and \cite{Lloyd:2020} in two aspects. First, I use the estimated parameters from the \cite{JSZ:2011} normalization as initial values for the Kalman filter.
-Second, I assume homoskedasticity in yields and survey errors, so that \(\SyVec = \sigma_y I_{\Ydim}\) and \(\SsVec = \sigma_s I_{\Sdim}\), where \(I_{\Ydim}\) and \(I_{\Sdim}\) are \(\Ydim \times \Ydim\) and \(\Sdim \times \Sdim\) identity matrices, respectively.
-This reduces the number of parameters to be estimated.
+Second, I assume homoskedasticity in the errors of yields and surveys, so that \(\SyVec = \sigma_y I_{\Ydim}\) and \(\SsVec = \sigma_s I_{\Sdim}\), in which \(I_{\Ydim}\) and \(I_{\Sdim}\) are \(\Ydim \times \Ydim\) and \(\Sdim \times \Sdim\) identity matrices, %respectively
+%This reduces 
+reducing the number of parameters to be estimated.
 % Why homoskedasticity?
 % That is, the standard deviation of the errors in yields is the same for all maturities, as is the the standard deviation of the errors in the surveys for all maturities. 
 
-It is important to acknowledge that although surveys have good forecasting properties and help to anchor the model to the reality in each country, they are not a panacea. 
+It is important to acknowledge that although surveys contain useful information, have good forecasting properties and help to anchor the model to the reality in each country, they are not a panacea. 
 For instance, surveys might not represent market expectations nor the expectations of the marginal investor,\footnote{ Notwithstanding, when comparing the 5-year ahead CPI inflation median forecast from the Survey of Professional Forecasters against the Survey of Primary Dealers and the Survey of Market Participants, the absolute difference over 2015:I and 2020:II is on average 5 and 13 basis points, respectively.} they might also be subject to measurement error, %\footnote{ In this case, recall that Consensus Economics does not report long-term forecasts for the short rate of emerging markets, so they were inferred from available data.} 
 and relying too much on them can be counterproductive as it may lead to overfitting.
-Thus, although surveys certainly contain useful information, I consider them as imperfect or `noisy' measures of expectations. 
+Thus, I consider them as imperfect or `noisy' measures of expectations. 
 Accordingly, I follow \cite{KimOrphanides:2012} by
 %To strike a balance between these two considerations, 
-fixing \(\sigma_s\) at a conservative level of 75 basis points, even though when \(\sigma_s\) is allowed to be estimated, its average value across all emerging markets is 31 basis points.
+fixing \(\sigma_s\) at a conservative level of 75 basis points. 
 %In this sense, survey data is seen as a noisy measure of expectations for the short rate.\footnote{ 
 %In this case, the estimated term premia remains largely the same for most of the countries in the sample.}
 
@@ -913,7 +964,7 @@ synthetic yields. % of emerging markets.
 In general, the model fits the data reasonably well.
 The squared root of the average (across months and maturities) squared difference between the actual and the fitted yields is commonly used to summarize the fitting errors.
 For the advanced economies in the sample, those fitting errors are small, at around 5 basis points in line with previous studies \citep{Wright:2011,ACDM:2019}.
-The dynamics of emerging market yields, however, are relatively harder to capture, reflected in an average fitting error of 16 basis points, which it is still a reasonable fit.\footnote{ Nevertheless, it is important to keep in mind that for some countries, large fitting errors might be an indication of less liquid and deep markets.} % In fact, \cite{HuPanWang:2013} propose to use cross-sectional pricing errors in U.S. Treasuries as a measure of market illiquidity.
+An average fitting error of 16 basis points shows that the dynamics of emerging market yields are relatively harder to capture. Even so, it is still a reasonable fit.\footnote{ Notwithstanding, it is important to keep in mind that for some countries, large fitting errors might be an indication of less liquid and deep markets.} % In fact, \cite{HuPanWang:2013} propose to use cross-sectional pricing errors in U.S. Treasuries as a measure of market illiquidity.
 %it simply means your model is not as good a cross-sectional fit for some emerging markets. Maybe there is a missing factor that picks up shallow markets, but perhaps inflation dynamics in those countries are not captured by VAR(1) dynamics. 
 %\footnote{ For instance, the fitting errors for the short end of the yield curves of Indonesia and Philippines are on average larger than for the rest of the countries.} 
 %In general, emerging market yield curves are not as smooth as those of advanced economies, partly due to a shallower investor base.
@@ -939,7 +990,7 @@ Specifically, since each yield component \(\cmpnt\) is a function of the paramet
 \(\Vasy\) is estimated using the sample Hessian estimator \(\widehat{\Vasy} = \widehat{\Hessian}^{-1} \), for which the second derivative matrix of the log-likelihood function evaluated at the optimum, \(\widehat{\Hessian}\), is also calculated numerically.%\footnote{ \(\widehat{\Hessian}\) can be estimated using the joint log density or the individual log densities since \(\widehat{\Hessian} = - \sampleHindiv = - \sampleHjoint\). Here, I report confidence bands using the individual log densities.} %In unreported results, the bands generated using the joint log density are slightly tighter for some countries.
 
 %In practice, 
-Although there is uncertainty in both the parameters and the pricing factors after the estimation, the effect of uncertainty associated with the pricing factors on each component is usually small.\footnote{ To verify this, at each period, I compute the standard errors by pre- and post-multiplying the variance of the pricing factors (generated by the Kalman filter) by the respective factor loadings for the fitted yields, the expected future short term rate and the term premium. In all cases, the average standard error (over time and across countries) is less than 9 basis points for emerging markets, and less than 3 basis points for advanced economies.}
+Although there is uncertainty in both the parameters and the pricing factors after the estimation, the effect of uncertainty associated with the pricing factors on each component is usually small.\footnote{ To verify this, at each period, I compute the standard errors by pre- and post-multiplying the variance of the pricing factors (generated by the Kalman filter) by the respective factor loadings for the fitted yields, the average expected future short rate and the term premium. In all cases, the average standard error (over time and across countries) is less than 9 basis points for emerging markets, and less than 3 basis points for advanced economies.}
 Therefore, when applying the delta method, I assume that the pricing factors are known with certainty. %and proceed to
 %explained in the previous paragraph.
 Figures \ref{fig:bsl_tp_CI_10y_V1} and \ref{fig:bsl_cr_CI_10y_V1} in the appendix display the term premium and the credit risk compensation along with their confidence bands. They illustrate the benefits of using survey data 
@@ -967,8 +1018,8 @@ Specifically, surveys help in obtaining robust yield decompositions for emerging
 %	YC decomposition
 
 Table \ref{tab:dcmpstats} summarizes the decomposition across emerging markets.\footnote{ The decompositions for advanced economies are not displayed for two reasons. First, they have already been studied before, see for instance \cite{Wright:2011} and \cite{ACDM:2019}. Second, the dataset does not include survey data for advanced economies and so their decompositions may not be robust. They are nonetheless a useful benchmark to assess some results like with the fitting errors.} %of the yields of emerging markets. 
-On average, the expected short rate explains most of the variability in yields at the short end of the curve and slowly decreases with maturity.
-By contrast, the relevance of the term premium and the credit risk compensation increases with maturity. %, whereas the role of slowly increases up to the 5-year maturity.
+Average expected short rates explain most of the variability in yields at the short end of the curve, decreasing with maturity.
+By contrast, the relevance of the term premium increases with maturity, whereas the credit risk compensation is broadly stable. %, whereas the role of slowly increases up to the 5-year maturity.
 The three parts respectively %expected part, the term premium and the credit risk compensation roughly 
 represent around 61, 28 and 11\% of the 10-year nominal yields of emerging markets.
 %The average decomposition of the 10-year nominal yields of emerging markets equals the expected part, the term premium and the credit risk compensation at around 430, 200 and 80 basis points, respectively, which represent roughly 61, 28 and 11\% of the yields.
@@ -993,7 +1044,7 @@ and the term premium of several countries, consistent with the evidence for adva
 
 The results for individual countries are consistent with their particular circumstances.
 For instance, the expected short rate in Mexico increased during the tightening cycle that started %initiated %by the central bank following 
-following the 2016 U.S. presidential election.\footnote{ After the election, market participants expected a deterioration in the bilateral relation.}
+following the 2016 U.S. presidential election, after which market participants expected a deterioration in the bilateral relation.
 The credit risk compensation for Hungary increased after 2010, when the current populist government came into power. 
 %Which countries get negative term premia and why? It is Thailand, countries in Eastern Europe and Korea. 
 Also, Hungary and Poland have seen a decline in their term premia after the global financial crisis, in line with other European countries in response to the unconventional monetary policies of the European Central Bank.
@@ -1005,7 +1056,10 @@ Also, Hungary and Poland have seen a decline in their term premia after the glob
 \subsubsection{Expected Future Short Rate}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
-Figure \ref{fig:bsl_yP_scbp} shows that the 10-year expected future short rate tracks the (implied) long-term interest rate forecasts reasonably well, even though the model does not rely too much on them given the conservative value used for \(\sigma_s\).
+Figure \ref{fig:bsl_yP_scbp} shows that the 10-year expected future short rate tracks the (implied) long-term interest rate forecasts reasonably well, even though the model does not rely too much on them given the value of %chosen %conservative value used for 
+\(\sigma_s\).
+When \(\sigma_s\) is allowed to be estimated, its average value across all emerging markets is 31 basis points. Nevertheless, the baseline results are based on the conservative 75 basis points to account for the problems with survey expectations.
+
 %Surveys help the model 
 %An alternative model-free measure of the expected future short rate is the 2-year (synthetic) yield, the correlation between the two is 93\%.
 %Incorporating survey data in the estimation helps the model pinning down the parameters under the \(\Pmeasure\) measure, and to address the small sample problem characteristic in emerging market data.
@@ -1023,13 +1077,14 @@ Figure \ref{fig:bsl_yP_scbp} shows that the 10-year expected future short rate t
 %For some countries, for instance, the yields-only model-implied expectations of the short rate were low relative to the survey forecasts and, thus, the estimated term premium was relatively high. 
 %Once survey data was incorporated into the estimation, the model-implied expectations increased in line with the interest rate forecasts and the estimated term premium decreased, and even became negative for some countries.
 
-The expected future short rate implied by the model can also be assessed in terms of the long-term real interest rate, a key variable in assessing the monetary stance in a country and the suitability of the central bank's monetary policy decisions.
-Since the implied long-term forecast for the short rates 
-%of emerging markets 
-is based on the long-term U.S. real interest rate (see section \ref{sec:SurveyData}), the expected future \textit{real} interest rate---the difference between the model-implied future expected short rate and the domestic long-term inflation forecast---should be similar across countries.
-Figure \ref{fig:rrt_LTvsUSrrt} verifies this.
-It shows that, once correcting for credit risk and inflation, the real interest rates of emerging markets fluctuate near zero, consistent with real rate estimates for advanced economies; for instance,
-\cite{HolstonLaubachWilliams:2017} show that their real  rates have trended toward zero over the last decades, which makes more likely for their central banks to be constrained by the zero lower bound.
+%The expected future short rate implied by the model can also be assessed in terms of the long-term real interest rate, a key variable in assessing the monetary stance in a country and the suitability of the central bank's monetary policy decisions.
+%Since the implied long-term forecast for the short rates 
+%%of emerging markets 
+%is based on the long-term U.S. real interest rate (see section \ref{sec:SurveyData}), the expected future \textit{real} interest rate---the difference between the model-implied future expected short rate and the domestic long-term inflation forecast---should be similar across countries.
+%Figure \ref{fig:rrt_LTvsUSrrt} verifies this.
+%It shows that, once correcting for credit risk and inflation, the real interest rates of emerging markets fluctuate near zero, consistent with real rate estimates for advanced economies; for instance,
+%\cite{HolstonLaubachWilliams:2017} show that their real  rates have trended toward zero over the last decades, which makes more likely for their central banks to be constrained by the zero lower bound.
+
 %, a phenomenon that is partly explained by the increase in savings from East Asian countries following the regional crises of the late-1990s \citep{Obstfeld:2020}.
 %The neutral real interest rate is a key reference for inflation-targeting central banks. It is an important concept in monetary economics. However, it is an unobserved variable. Estimates of it generally focus on AEs.
 %The decomposition of the nominal yields of EMs opens the door to glimpse the long-term real interest rates of EMs.
@@ -1084,7 +1139,7 @@ To test this hypothesis, I run the following panel regressions
 \(g_{\idxspnl}\) is the domestic real GDP growth to control for the business cycle, 
 and \(u_{\idxspnl}\) is the error term. 
 The dependent variable \(\tau_{\idxspnl}\) is the model implied term premium at different maturities.
-Following \cite{Wright:2011}, the inflation uncertainty measure is the standard deviation of the permanent component of inflation based on the Stock--Watson unobserved components stochastic volatility (UCSV) model, estimated using quarterly data for each country.\footnote{ The UCSV model assumes that inflation has permanent and transitory components subject to uncorrelated shocks that vary over time.}
+Following \cite{Wright:2011}, the measure of inflation uncertainty is the standard deviation of the permanent component of inflation based on the Stock--Watson unobserved components stochastic volatility (UCSV) model, estimated using quarterly data for each country.\footnote{ The UCSV model assumes that inflation has permanent and transitory components subject to uncorrelated shocks that vary over time.}
 %proposed by \cite{StockWatson:2007}. 
 %The UCSV model is 
 %monthly data shows that inflation is negatively autocorrelated which messes the results
@@ -1098,19 +1153,20 @@ The response to the standard deviation of the permanent component is significant
 and increases with maturity.
 The result becomes stronger after controlling for the business cycle. 
 %(proxied by the real GDP growth in each country).
-It is important to acknowledge, however, that the specification might be subject to econometric problems since it involves persistent variables and ignores measurement error.
+%It is important to acknowledge, however, that 
+Even though the specification might be subject to econometric problems since it involves persistent variables and ignores measurement error,
 %the errors-in-variables problem associated with 
 %the fact that the regressor of interest is estimated.
-The result is nonetheless %at least 
+the results are % is nonetheless %at least 
 aligned with the view that term premia in emerging markets compensate investors for bearing inflation uncertainty.
 
 Finally, a term premium becomes negative when investors see bonds as hedges and are therefore willing to give up some investment return. 
 This phenomenon has been reported for advanced economies before and, especially, after the global financial crisis.
-Figure \ref{fig:bsl_tp_CI_10y_V1} indeed shows that negative term premia is not an advanced country phenomenon.
-\cite{IMFWB:2020} report a particularly strong demand for LC bonds in Asia since 2011, which partly explains the negative term premia seen for Korea, Malaysia, the Philippines and Thailand.
+Figure \ref{fig:bsl_tp_ts} in the appendix indeed shows that negative term premia is not an advanced country phenomenon.
+\cite{IMFWB:2020} report a particularly large demand for LC bonds in Asia since 2011 due to strong macroeconomic fundamentals, which partly explains the negative term premia seen for Korea, Malaysia, the Philippines and Thailand.
 Moreover,
 %When compared across maturities, 
-figure \ref{fig:bsl_tp_ts} in the appendix not only shows that term premia increase with maturity---indicating that long-term bonds are seen as riskier than short-term bonds---but that other countries also experienced negative term premia, yet at the short end of their yield curves, %post-crisis
+figure \ref{fig:bsl_tp_ts} not only shows that term premia increase with maturity---indicating that long-term bonds are seen as riskier than short-term bonds---but that other countries also experienced negative term premia, yet at the short end of their yield curves, %post-crisis
 %This term structure of term premia actually sheds more light 
 %provides a more refined perspective 
 %on the issue of negative term premia just discussed.
@@ -1147,17 +1203,18 @@ had a particular preference for short-term LC bonds after the global financial c
 \subsubsection{Credit Risk Compensation} \label{sec:CRC}
 \iftoggle{toclinks}{\gototoc}{} % Turn it on/off in packages.tex, command in macros.tex
 
+The role of the credit risk compensation in explaining yield variation is non-negligible (see table \ref{tab:dcmpstats}), and thus it matters which curve is used (nominal or synthetic) for decomposing the yields of emerging markets. 
 Unlike the term premium, no clear trend is visible for the credit risk compensation, nor a pattern is detected when looking across maturities.
 The dynamics are in line with the results reported by \cite{DuSchreger:2016JoF} who, in particular, show that it is highly correlated with the CDS of the respective country.
 %of the credit risk compensation 
-
-The role of the credit risk compensation in explaining yield variation is non-negligible (see table \ref{tab:dcmpstats}), and thus it matters which curve is used (nominal or synthetic) for decomposing the yields of emerging markets.
-Although its unconditional mean is positive, there have been brief episodes in which the credit risk compensation has been negative.
-These situations are unrealistic and can reflect financial market frictions \citep{DuSchreger:2016JoF}, including market segmentation between foreign and local investors and short selling constraints.
-The nominal-synthetic spread is thus a valid measure of credit risk that is far from perfect, but
-%Nevertheless, although far from perfect, it is a valid measure of credit risk, and 
-definitely better than ignoring it. 
-Otherwise, estimates of the term premium would be contaminated with credit risk. 
+%Although its unconditional mean is positive, there have been brief episodes in which the credit risk compensation has been negative.
+%These situations are unrealistic and can reflect financial market frictions \citep{DuSchreger:2016JoF}, including market segmentation between foreign and local investors and short selling constraints.
+%The nominal-synthetic spread is thus a valid measure of credit risk that is far from perfect, but
+%%Nevertheless, although far from perfect, it is a valid measure of credit risk, and 
+%definitely better than ignoring it. 
+%Otherwise, estimates of the term premium would be contaminated with credit risk.
+%For the analysis in subsequent sections, given the unrealistic nature of being negative, the credit risk compensation is set at zero in the cases in which it becomes negative in the data. 
+%Since those episodes are generally rare, the results and conclusions of the analysis remain the same. 
 
 %The components of the bond risk premium capture different risks. Indeed, 
 Given that both the term premium and the credit risk compensation help explain yield variation in emerging markets, a natural question is whether and how they are related.
@@ -1170,19 +1227,17 @@ Attempting to isolate those two parts is beyond the scope of this paper.
 %If a country flips a coin and decides to inflate away debt rather than default, the credit risk premium falls. However, term premia are not necessarily affected. In a homoscedastic world, they definitely are unaffected. Instead, expected future short rates increase in response to the news that the coin flip came up “inflate.”
 %In a heteroskedastic world (outside of your model), compensation for mean-zero shocks generally move together. If, say, investors suddenly become more risk averse, term premia and the uncertainty-compensation component of the credit risk premium should both increase.
 Therefore, interpreting any potential correlation between the term premium and the credit risk compensation is not straightforward.\footnote{ One the one hand, the term premium and the \textit{uncertainty} component of the credit risk compensation are likely to move in the same direction. On the other hand, the average expected future short rates and the \textit{expected} component of the credit risk compensation are likely to move in opposite directions.}
-In the data, the term premium and the credit risk compensation are negatively correlated as is the case between the average expected future short rates and the credit risk compensation, which suggests that 
-%the expected component of the credit risk compensation might be behind it.
-%are also negatively correlated, supporting the view that 
-the expected component of the credit risk compensation is relatively more relevant.
-Intuitively, a country facing difficulties servicing its debt can either inflate it away and/or default, which can be referred to as implicit and explicit defaults, respectively. % Galli  (2020) 
+For several countries, the term premium and the credit risk compensation are negatively correlated in the data as is the case between the average expected future short rates and the credit risk compensation, which suggests that the expected component of the credit risk compensation is empirically more relevant.
+Intuitively, %a country facing difficulties servicing its debt can either inflate it away and/or default, which can be referred to as implicit and explicit defaults, respectively. 
+%The negative correlation in the data suggests a trade-off between the two, in which case inflation and default would be substitutes.
+%If so, 
+inflating away the debt would reduce the need to default.
+\cite{Galli:2020} shows that inflation and default are indeed substitutes in models of debt dilution, although he argues for a positive correlation between inflation and default.\footnote{ An alternative explanation for the negative correlation involves market segmentation between foreign and local investors. For instance, if only foreign investors require to be compensated for bearing certain risks, synthetic yields will increase but not nominal yields, reducing the spread between the two and, at the same time, increasing either the average expected short rate or the term premium.}
+% Galli  (2020) 
 %Intuitively, when emerging markets face difficulties servicing their bond payments, they can either default or inflate away their debt, which can be referred to as explicit and implicit defaults. % Galli  (2020) 
 %An increase in the likelihood of the first option would lift the credit risk compensation, whereas the second essentially generates inflation risk that would be reflected in a higher term premium.
 %They can be seen as substitutes if inflating away the debt reduces the need to default.
 %, in which case they would be seen as substitutes.
-The negative correlation in the data suggests a trade-off between the two, in which case inflation and default would be substitutes.
-%Therefore, %explicit and implicit defaults 
-If so, inflating away the debt would reduce the need to default.
-\cite{Galli:2020} shows that in models of debt dilution inflation and default are indeed substitutes.\footnote{ \cite{Galli:2020}, however, argues for a positive correlation between inflation and default. An alternative explanation for the negative correlation involves market segmentation between foreign and local investors. For instance, if only foreign investors require to be compensated for bearing certain risks, synthetic yields will increase but not nominal yields, reducing the spread between the two and, at the same time, increasing either the expected short rate or the term premium.}
 %in emerging markets is not discarded by the data.
 %In this sense, inflation and default would be seen as substitutes since choosing one of the two reduces the need for the other.
 %, which would explain the negative correlation. This evidence points to a 
@@ -1313,7 +1368,7 @@ It also documents a strong and persistent response of emerging market yields to 
 %transmission channels of U.S. monetary surprises to EMs financial markets.
 %Under an extreme case of the traditional Mundell-Fleming trilemma---the impossibility to combine free capital flows, a fixed exchange rate and an independent monetary policy---changes in the monetary policy stance in one country will have no monetary spillovers to other financially-open countries because the changes will be fully absorbed by a flexible exchange rate. %Bernanke: 
 Under the traditional Mundell-Fleming trilemma---the impossibility of combining free capital flows, a fixed exchange rate and an independent monetary policy---a flexible exchange rate helps to insulate a financially-open economy from shocks abroad. %Bernanke
-\cite{Rey:2013} argues that a flexible exchange rate does not fully offset those shocks because there is a global financial cycle---mainly driven by U.S. monetary policy---operating through channels other than the exchange rate, like the comovement of global asset prices and cross-border bank lending; such a cycle drives portfolio flows in and out of emerging markets, influencing their domestic financial conditions.
+\cite{Rey:2013} argues that a flexible exchange rate does not fully offset those shocks because there is a global financial cycle---mainly driven by U.S. monetary policy---operating through channels other than the exchange rate, like the comovement of global asset prices and cross-border bank lending; such a cycle drives portfolio flows in or out of emerging markets, influencing their domestic financial conditions.
 
 %The GFCy mainly influence LT rates.
 %\cite{Obstfeld:2015} describes 
@@ -1322,10 +1377,9 @@ Under the traditional Mundell-Fleming trilemma---the impossibility of combining 
 \cite{Obstfeld:2015} and \cite{KolasaWesolowski:2020} describe what can be referred to as the yield curve channel of the global financial cycle.
 Central banks in emerging markets can independently exert control on the short end of their yield curves, but are less powerful swaying the long end 
 %of the curve 
-because long-term yields are highly correlated and, thus, influenced by global forces, like the U.S. monetary policy.
-Accordingly, monetary policy decisions in advanced economies oriented to have an effect on long-term yields, like forward guidance and quantitative easing, spill over abroad via, for instance, the term premium.\footnote{ \cite{ACDM:2019} find that the correlation of the term premia in long-term yields has actually increased over the last years. \cite{Turner:2014} argues that changes in the U.S. term premium spill over into the term premia of emerging markets.}
-Due to the high comovement of long-term yields, unconventional monetary policies
-reduce the monetary autonomy of emerging markets 
+because long-term yields are highly correlated and, thus, influenced by global forces, like U.S. monetary policy.
+Accordingly, monetary policy decisions in advanced economies aimed at affecting long-term yields, like forward guidance and quantitative easing, spill over abroad via, for instance, the term premium.\footnote{ \cite{ACDM:2019} find that the correlation of the term premia in long-term yields has actually increased over the last years. \cite{Turner:2014} argues that changes in the U.S. term premium spill over into the term premia of emerging markets.}
+Due to the high comovement of long-term yields, unconventional monetary policies limit the monetary autonomy of emerging markets 
 %Specifically, the higher comovement among long-term rates implies that 
 %Since the monetary autonomy of central banks decreases 
 along the yield curve.
@@ -1344,11 +1398,12 @@ In addition, \cite{Kalemli-Ozcan:2019} argues that monetary autonomy is also lim
 short-term yields.
 
 \subsubsection{Comovement of Yields}
-To formally assess whether different sections of the yield curves of emerging markets comove more than others, I use the connectedness index developed by \cite{DieboldYilmaz:2014}. The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere. The connectedness index fluctuates between 0 and 100 percent, with higher numbers indicating a higher degree of comovement.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} The index is computed for different maturities.
+To formally assess whether different sections of the yield curves of emerging markets comove more than others, I use the connectedness index developed by \cite{DieboldYilmaz:2014}. The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere. 
+It fluctuates between 0 and 100\%, with higher numbers indicating a higher degree of comovement.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the connectedness index using a vector autoregression of order 1, with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} It is computed for different maturities.
 
-Figure \ref{subfig:dy_index_tsEM} shows that the long end in emerging markets is indeed more connected than the short end, especially since the taper tantrum episode of 2013. 
-Nevertheless, figure \ref{subfig:dy_index_tsAE} shows that the long end in advanced economies is even more connected. The degree of comovement of the long end in emerging markets is half (around 35\%) the level in advanced economies (around 70\%).
-This suggests that the medium- and long-term bonds of emerging markets are mostly held by local investors.\footnote{ According to \cite{KolasaWesolowski:2020}, the share of foreign investors in the LC bonds of emerging markets increased from 10\% in 2008 to 25\% in 2019.}
+Figure \ref{subfig:dy_index_tsEM} shows that among emerging markets long-term yields are indeed more connected than short-term ones, especially since the taper tantrum episode of 2013. 
+Figure \ref{subfig:dy_index_tsAE} shows that the long-term yields of advanced economies are even more connected among themselves. The degree of comovement of long-term yields in emerging markets is half (around 35\%) the level in advanced economies (around 70\%),
+suggesting that the medium- and long-term bonds of emerging markets are mostly held by local investors.\footnote{ According to \cite{KolasaWesolowski:2020}, the share of foreign investors in the LC bonds of emerging markets increased from 10\% in 2008 to 25\% in 2019.}
 If so, local factors still play a role in explaining the long end of their curves.\footnote{ Figure \ref{fig:rolling_ts} in the appendix reports essentially the same patterns but using one-year rolling correlations of daily  yield changes at different maturities.}
 %of emerging markets are far from being fully integrated in the global financial markets 
 %and are therefore more responsive to local factors.
@@ -1498,8 +1553,8 @@ However, here it works through the expected future short rate and the term premi
 So far, the yield decompositions have been valuable to assess the validity of the yield curve channel and understand the driving forces behind the sovereign yields of emerging markets.
 Notwithstanding, 
 %it is important to acknowledge that 
-the model in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as persistent variables, reverse causality and omitted variables.
-Moreover, the measures of comovement are are unconditional, and so not specifically driven by monetary policy surprises. % but are rather calculated for all yield curve movements.
+the specification in equation (\ref{eq:nPanelDCMP}) may suffer from econometric problems such as persistent variables, reverse causality and omitted variables.
+Moreover, the measures of comovement are unconditional, and so not specifically driven by monetary policy surprises. % but are rather calculated for all yield curve movements.
 %In addition, the sample period includes few U.S. policy rate surprises. %; in fact, most monetary policy decisions operated not through changes in the policy rate.
 %These issues are addressed next.
 
@@ -1531,41 +1586,41 @@ Moreover, the measures of comovement are are unconditional, and so not specifica
 
 %This section first explains how the monetary policy surprises are calculated and then analyzes the responses of emerging market yields to those surprises.
 
-The surprises in monetary policy decisions are identified using intraday data on asset prices around the Fed's monetary policy announcements in order to capture changes in the information set of market participants. %\citep{GurkaynakWright:2013,NakamuraSteinsson:2018JEP}
+Surprises in monetary policy decisions are identified using intraday data on asset prices around the Fed's monetary policy announcements in order to capture changes in the information set of market participants. %\citep{GurkaynakWright:2013,NakamuraSteinsson:2018JEP}
 %The construction of the surprises therefore requires to calculate changes in asset prices that capture market expectations of monetary policy decisions.
 %These changes are measured in windows containing monetary policy decisions
 Asset price changes are calculated from 15 minutes before to 1 hour and 45 minutes after each Federal Open Market Committee (FOMC) meeting since 2000 giving a total of 162 events.\footnote{ Following \cite{GSS:2005a}, I exclude from the analysis the meeting of September 2001 that followed the terrorist attacks in New York.}
-In days with no FOMC meeting, the surprises are set to zero.
-The dataset does not include minute releases nor speeches by Fed officials. 
+The surprises are set to zero in non-announcement days. %FOMC meeting 
+Neither minute releases nor speeches by Fed officials are included. 
 %, only (scheduled and unscheduled) monetary policy announcements.
 %Unlike \cite{FerrariKearnsSchrimpf:2017}, who include releases of minutes and speeches by Fed officials, the dataset here includes monetary policy announcements only.
 
-\cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension since asset prices respond to different types of news about monetary policy.
+\cite{GSS:2005a} and \cite{Swanson:2018} show that monetary policy has more than one dimension. Asset prices respond to different types of news about monetary policy.
 Following \cite{RogersScottiWright:2018}, I consider three separate types of U.S. monetary policy surprises,
 %unexpected changes to the current policy rate \citep{Kuttner:2001}, surprise changes to the future path of the policy rate \citep{GSS:2005a}, and unanticipated announcements about the Fed's LSAP programs \citep{Swanson:2018}. They will be 
-which are referred to hereinafter as target, forward guidance and asset purchase surprises.
+referred to hereinafter as target, forward guidance and asset purchase surprises.
 %To compute the surprises, I use the current federal funds rate future (FF0) contract, the 8-quarters ahead eurodollar future (ED8) contract and the yield of the 10-year U.S. Treasury bond.
 The target surprise is the change in the yield on the current- or next-month federal funds futures contracts, as proposed by \cite{Kuttner:2001}.
 %uses rescaled changes in the price of the FF0 contract as in \cite{GSS:2005a}, who implement an intraday version of the daily measure proposed by \cite{Kuttner:2001}.
 %Price changes in the 8-quarters ahead Eurodollar future contract measure surprises in the federal funds rate two years into the future.
 The forward guidance surprise is the residual from regressing the yield change of the 8-quarters ahead Eurodollar futures contract on the target surprise.\footnote{ The yield change of the 4-quarters ahead Eurodollar futures contract could also be used to capture the forward guidance surprise. However, intraday changes in that contract became essentially zero after 2011 since market participants expected the policy rate to remain at zero for at least a year. Eurodollar futures contracts are bets on the future level of 3-month interest rates.}
 %ED8 contract on the target shock, and is highly correlated with the forward guidance factor in \cite{GSS:2005a}.
-Finally, %in line with \cite{Swanson:2018}, %for measuring the last type. % of surprises.
-the asset purchase surprise is the residual from a regression of the yield change in the 10-year Treasury futures contract on the target and forward guidance surprises.
-By construction, the surprises are uncorrelated.
+%Finally, %in line with \cite{Swanson:2018}, %for measuring the last type. % of surprises.
+The asset purchase surprise is the residual from regressing the yield change in the 10-year Treasury futures contract on the target and forward guidance surprises.
+%By construction, the surprises are uncorrelated.
 A positive value in any of the surprises represents a tightening of the monetary policy stance, and vice versa.
 %whereas a negative shock indicates an easing.
 %Correlation of surprises?
 
 %Sample periods for the surprises.
 The relevance of the surprises has varied over time.
-After 2008, there were no changes in the current policy rate until the first rate hike in December 2015, so target surprises were essentially zero during that period.
-By contrast, the meaning of asset purchase surprises is unclear before October 2008; therefore, they %asset purchase surprises 
-are considered from October 2008 onwards.
-Forward guidance surprises have nevertheless been relevant before and after the global financial crisis.\footnote{ In general, the surprise is set to zero in non-announcement days or in periods outside of the considered range (e.g. before October 2008 for asset purchase surprises).}
+After 2008, there were no changes in the current policy rate until %the first rate hike in 
+December 2015, so target surprises were essentially zero during that period.
+Meanwhile, asset purchase surprises are considered starting in October 2008 because their meaning is unclear before that date.
+Forward guidance surprises have nevertheless been relevant before and after the global financial crisis. %\footnote{ In general, the surprise is set to zero in non-announcement days or in periods outside of the considered range (e.g. before October 2008 for asset purchase surprises).}
 %As a result, target surprises are only considered from 2000 to 2008 and again starting in December 2015, asset purchase surprises are considered from October 2008 onwards, while forward guidance surprises span the whole sample period.
 %Figure \ref{fig:USmps} plots all three monetary policy surprises.
-Table \ref{tab:mpsstats} in the appendix reports descriptive statistics for the three types of surprises on monetary policy announcement days.
+Table \ref{tab:mpsstats} in the appendix reports descriptive statistics for the three types of surprises. %on monetary policy announcement days.
 %magnitude of surprises is generally less than 10 basis points.
 %; notwithstanding, there were large easing forward guidance and asset purchase surprises on March 18, 2009.
 In general, the Fed has been more aggressive in stimulating than in contracting the U.S. economy, since easing surprises are larger on average and more common than tightening surprises.
@@ -1601,12 +1656,13 @@ The regressions are ran for the 10- and 2-year nominal yields and each of their 
 The confidence bands are constructed using Driscoll--Kraay standard errors, which allow for time and cross-sectional dependence.
 % Lags for DK in LPs: 9
 
-The parameters of interest, \(\beta^{j}_{\idxh}\), measure the average response of the nominal yield (or its components) to monetary policy surprise \(j\) at horizon \(\idxh\).\footnote{ The contemporaneous effects of the surprises, which would be reported under an event study methodology, can be obtained by setting \(\idxh = 0\) in equation (\ref{eq:nPanelLP}).}
+The parameters of interest, \(\beta^{j}_{\idxh}\), measure the average response of the nominal yield (or its components) to monetary policy surprise \(j\) at horizon \(\idxh\). 
+The contemporaneous effects (when \(\idxh = 0\)) are marked with an arrow in the figures below.
 All responses are assessed relative to a one basis point reduction (an easing) in any of the surprises, since the Fed has been more aggressive in that direction during the sample period.
 
 The response of the U.S. yields and its components to the three surprises serves as a benchmark to assess the responses of the yields of emerging markets. 
 As before, the U.S. yields come from the dataset of \cite{GSW:2007}, and the components from the decomposition proposed by \cite{KimWright:2005}.
-The responses are reported in appendix \ref{sec:AppFigures}. 
+The responses are reported in figures \ref{fig:LPUStarget} to \ref{fig:LPUSlsap} in the appendix. 
 They are consistent with the findings in the existing literature.
 %In general, Fed's decisions impact both expectations about its policy rate in the future and the compensation required by investors to hold long-term bonds.
 %The first column of figures \ref{fig:LPUS2Y} and \ref{fig:LPUS10Y} shows the responses of the 2- and 10-year yields, respectively, to all three surprises.
@@ -1619,7 +1675,7 @@ They are consistent with the findings in the existing literature.
 %The decomposition allows for a better characterization of the response.
 For instance, target easing surprises reduce yields, mainly driven by a decline in the average expected future short rates;
 while forward guidance and asset purchase easing surprises decrease yields, in part due to a reduction in the term premium.
-Moreover, the responses build over time in all cases.
+%Moreover, the responses build over time in all cases.
 %one of the goals of the unconventional monetary policy tools was to influence (decrease) long-term bond yields and, in particular, the term premium.
 % \citep[see][]{Kuttner:2018}.
 %\footnote{ \cite{Kuttner:2018} discusses the effects of the QE announcements on U.S. bond yields.}
@@ -1633,19 +1689,19 @@ Moreover, the responses build over time in all cases.
 
 %W/o decomposition, could only assess the YC channel by looking at nominal yields only.
 Figure \ref{fig:LPEMtarget} shows the response of the yields of emerging markets to a target easing surprise.
-The magnitude of the initial yield response %of the  yields in emerging markets 
+The magnitude of the contemporaneous yield response %of the  yields in emerging markets 
 is lower than in the U.S., but it builds over time.
-This delayed response is documented by \cite{BrooksKatzLustig:2019} for the U.S. and by \cite{ACDM:2019} for a sample comprised mostly of advanced economies.
+This delayed response is documented by \cite{BrooksKatzLustig:2019} for the U.S. and by \cite{ACDM:2019} for a sample comprised mostly of advanced economies,\footnote{ It is also seen in the responses of U.S. yields reported in appendix D.} which \cite{BrooksKatzLustig:2019} attribute to a portfolio rebalancing channel.
 %, it can last for up to 2 months and intensify to such an extent so as to become a one-to-one response, or even more in the case of asset purchase surprises.
 %In particular, the path and asset purchase surprises have a larger and longer effect on EM yields. 
 %The response of yields of emerging markets therefore lasts relatively longer than the response of U.S. yields.
 %As will be discussed in the next two subsections, there is also a 
-Moreover, the reaction to forward guidance and asset purchase surprises is also sluggish, as discussed later.
 %The evidence documented here is also consistent with said channel.
+Moreover, the reaction to forward guidance and asset purchase surprises is also sluggish, as discussed later.
 Therefore, slow-moving capital is also present in emerging markets.\footnote{ Figure \ref{fig:LPEMRHO} in the appendix shows that the delayed responses are not driven by the response of the forward premium, the term added to the U.S. yield curve to construct the synthetic yields.} %a decline in the forward premium (when the spot is higher than the forward) implies a future expected appreciation of the domestic currency.
-\cite{BrooksKatzLustig:2019} attribute the delayed response to a portfolio rebalancing channel.
 
-Following a target surprise, both the U.S. and emerging market yield curves steepen. %because 
+
+Following a target easing surprise, both the U.S. and emerging market yield curves steepen. %because 
 The surprise reduces the short but not the long end of the yield curves in such a way that the long end of the synthetic yield curve declines by more than the nominal one. 
 That is, borrowing long-term in LC synthetically becomes cheaper; equivalently, the opportunity cost of lending long-term directly in LC increases.
 As a result, the credit risk compensation at the long end rises %increases 
@@ -1662,7 +1718,7 @@ the transmission of U.S. monetary policy to emerging markets.
 %Figure \ref{fig:LPEMtarget} also indicates that the response to a target % easing surprise 
 %Figure \ref{fig:LPEMtarget} helps to understand the effects of a target surprise in emerging markets.
 Nevertheless, the response of their yields %in emerging markets 
-to a target surprise is mainly driven by the expected short rate; in particular, %reflecting 
+to a target easing surprise is also driven by the expected short rate; in particular, %reflecting 
 investors expect for central banks in emerging markets  to follow the U.S. monetary stance. %Fed's decision.
 %Moreover, since there is no material difference in its response %of that component 
 %across maturities, there is a parallel reduction in the expected short rate. %across maturities.
@@ -1674,15 +1730,13 @@ investors expect for central banks in emerging markets  to follow the U.S. monet
 %lending to EMs is comparatively more risky
 
 %pre-GFC 
-In sum, economically significant spillovers from target easing surprises build over time reducing the expected future short rate and increasing the long term credit risk compensation of emerging markets.
-These results show that U.S. monetary policy spillovers 
-%limiting the monetary autonomy of emerging markets 
-are not limited to the term premium.
+In sum, U.S. monetary policy spillovers may not involve the term premium. Economically significant spillovers from target easing surprises build over time reducing the expected future short rate and increasing the long term credit risk compensation of emerging markets.
+These results 
 %can therefore have , an issue not previously in . %influence the compensation for credit risk in emerging markets.
 %Lastly, the lack of significant effects of target surprises on the term premia of emerging markets implies that spillovers limiting their monetary autonomy at the long end can transmit not only through 
 %mainly through yP and LESS than 1-to-1 so EM relatively more risky at LT over some time
 %Thus, term premia are not the only channel through which 
-They also highlight a channel that has not been discussed in the literature, the potential fiscal implications for emerging markets of the Fed's monetary policies. 
+highlight a channel that has not been discussed in the literature, the potential fiscal implications for emerging markets of the Fed's monetary policies. 
 
 
 \subsubsection{Forward Guidance Surprises}
@@ -1690,26 +1744,25 @@ They also highlight a channel that has not been discussed in the literature, the
 
 Since U.S. monetary policy spillovers to long-term yields increased after the global financial crisis \citep{Albaglietal:2019}, figures \ref{fig:LPEMpathPre} and \ref{fig:LPEMpathPost} display the responses of emerging market yields to a forward guidance easing surprise before and after October 2008, respectively.
 Before the global financial crisis, a forward guidance easing surprise led to a downward parallel shift in the yield curves of emerging markets in the month following the surprise.
+The yield response lasted longer than the response of U.S. yields, and was mainly driven by a parallel decline in the term premium.
 In general, investors did not expect central banks in those countries to follow the Fed's decision, since the effect on the expected short rate was generally not significant. 
-The yield response was instead mainly driven by a parallel decline in the term premium, which in fact lasted longer than the response of U.S. yields.
 %to forward guidance easing surprises 
 %Over time CR increases.
 
-After the global financial crisis, the transmission of forward guidance surprises changed, but %of the spillovers to nominal yields 
-the magnitudes remain similar.
+After the global financial crisis, the transmission of forward guidance easing surprises changed. %, but %of the spillovers to nominal yields % the magnitudes remain similar.
 %spillovers post GFC increased.
 The decline in the nominal yields at the long end has a shorter duration relative to both 
 the front end of the curve in emerging markets and the long end of the U.S. yield curve. 
 As a result, in the month following the surprise, 
 the nominal yield curve in emerging markets steepens while the U.S. yield curve flattens. 
-Again, these effects increase the opportunity cost of lending long-term to emerging markets in LC, leading to an increase in the credit risk compensation at the long end, even though the expected short rate and the term premium decline. In fact, the effect on the term premium would be hard to detect should credit risk be ignored.
+Again, these effects increase the opportunity cost of lending long-term to emerging markets in LC, leading to an increase in the credit risk compensation at the long end, even though the average expected short rate and the term premium decline. In fact, the effect on the term premium would be hard to detect should credit risk be ignored.
 %, and synthetic borrowing becomes relatively cheaper, making nominal yields riskier, which 
 %EM become comparatively more risky.
 
 In addition, the transmission of a forward guidance easing surprise after the global financial crisis is consistent with the yield curve channel.
-First, the surprise reduces the U.S. term premium at the long end almost one-to-one over the month (see figure \ref{subfig:LPUS10YpathPost}). 
+First, the surprise reduces the U.S. term premium at the long end by more than at the short end (almost one-to-one over the month, see figure \ref{subfig:LPUS10YpathPost}). 
 Similarly, the decline in the term premia of emerging markets at the long end is larger than at the short end.
-In addition, investors expect central banks in emerging markets to mirror Fed's decisions, in line with a risk spillover mechanism \citep{Kalemli-Ozcan:2019}.
+In addition, based on the response of the average expected short rate, investors expect central banks in emerging markets to mirror Fed's decisions, in line with a risk spillover mechanism \citep{Kalemli-Ozcan:2019}.
 %the surprise decreases the term premium at the long end 
 %and the expected short rate at the front end of the yield curves of emerging markets. 
 %and, at the same time, it decreases both the term premium at the long end and the expected short rate at the front end of the yield curves of emerging markets. 
@@ -1727,12 +1780,12 @@ Figure \ref{fig:LPEMlsap} displays the response of the yields of emerging market
 The surprise flattens the yield curves in the U.S. and in emerging markets.
 In both cases, the effect at the long end of the curves is larger than at the short end.
 The on-impact response of U.S. yields is larger, whereas the response of the nominal yields of emerging markets lasts longer.
-These two effects in turn explain the response of the credit risk compensation, which %to an asset purchase surprise.
+These two effects in turn explain the response of the credit risk compensation at the long end of the curve, which %to an asset purchase surprise.
 %In response to an asset purchase easing surprise the credit risk compensation in emerging markets 
-initially increases followed by a sluggish and considerable decline, especially at the long end of the curve.
+initially increases followed by a sluggish and considerable decline.
 The counterintuitive initial increase %in the credit risk compensation 
 reflects characteristics of both bond markets. %in  emerging markets and the U.S.
-On one side, an asset purchase surprise triggers a strong investor reaction in the market for U.S. Treasuries, leading to a  more than one-to-one on-impact decline in the long-term U.S. yield (see figure \ref{subfig:LPUS10YpathPost}).
+On one side, an asset purchase easing surprise triggers a strong investor reaction in the market for U.S. Treasuries, leading to a  more than one-to-one on-impact decline in the long-term U.S. yield (see figure \ref{subfig:LPUS10Ylsap}).
 On the other, the yields of emerging markets decline sluggishly.
 Nonetheless, the eventual decline in the credit risk compensation is consistent with a relaxation of global financial conditions, increasing the willingness (and the capital flows) to invest in the long-term debt of emerging markets. 
 %, but due to the delayed response in emerging markets, the credit risk compensation increases following the surprise. 
@@ -1742,16 +1795,17 @@ Nonetheless, the eventual decline in the credit risk compensation is consistent 
 %US and EM YC flattened.
 %EM reaction is small on impact but increases over time and gets stronger than in US. b/c of this difference in response (US eased more), EM seen a more risky at the beginning of the surprise.
 
-In terms of the yield curve channel, an asset purchase easing surprise reduces the term premia at the long end and the expected short rate at the front end of the curve, similar to the effect of a forward guidance easing surprise.
+In terms of the yield curve channel, an asset purchase easing surprise reduces the term premia at the long end more than at the short end, and the average expected short rate at the front end of the curve, similar to the effect of a forward guidance easing surprise after October 2008.
 %In particular, According to the response of the expected future short rate, investors expect central banks in emerging markets to ease following the Fed's move. % in terms of direction but in a much smaller magnitude.
 %CB expected to follow at the beginning. 
 %effect on ST YP
-Also, the response of the term premia at the long end is larger than at the short end.
-More generally, %show that before the global financial crisis 
-the yield curve channel is not at play in figures \ref{fig:LPEMtarget} and \ref{fig:LPEMpathPre}, %, or at least not working through the expected future short rate or the term premia, but through the credit risk compensation.
+While these results do %show that before the global financial crisis 
+%the yield curve channel is 
+not show up in figures \ref{fig:LPEMtarget} and \ref{fig:LPEMpathPre}, %, or at least not working through the expected future short rate or the term premia, but through the credit risk compensation.
 %Meanwhile, figure \ref{fig:LPEMpathPost} is consistent with the yield curve channel.
 %In general, although 
-whereas figures \ref{fig:LPEMpathPost} and \ref{fig:LPEMlsap} align with it. %\footnote{ Target surprises are not included in this comparison since the yield curve channel involves the response of the long-term yields, yet the long end of the yield curve does not significantly respond to a target surprise (see figure \ref{fig:LPEMtarget}). }
+they do in figures \ref{fig:LPEMpathPost} and \ref{fig:LPEMlsap}.
+% align with it. %\footnote{ Target surprises are not included in this comparison since the yield curve channel involves the response of the long-term yields, yet the long end of the yield curve does not significantly respond to a target surprise (see figure \ref{fig:LPEMtarget}). }
 The yield curve channel is thus a relatively recent phenomenon that coincides with the implementation of unconventional monetary policies in advanced economies.
 
 %I now turn to analyze how the sovereign yields of emerging markets respond to U.S. monetary policy.
@@ -1930,16 +1984,19 @@ The yield curve channel is thus a relatively recent phenomenon that coincides wi
 
 \iftoggle{fulldraft}{					% Turn it on/off in packages.tex
 
-This paper decomposes the yields of 15 emerging markets accounting for the credit risk embedded in them, and empirically quantifies the transmission channels of U.S. monetary policy to the yields of emerging markets.
+This paper decomposes the sovereign yields of 15 emerging markets explicitly accounting for the credit risk embedded in them, and empirically quantifies the transmission channels of U.S. monetary policy to them. %yields of emerging markets.
 %In order to understand the responses to monetary policy surprises, I 
-The nominal yields of emerging markets are decomposed into an expected future short-term interest rate, a term premium and a compensation for credit risk.
+Emerging markets nominal yields are decomposed into average expected future short rates, a term premium and compensation for credit risk.
 %This decomposition is robust.
 
-Surprises in Fed's policy decisions give rise to a reassessment of policy rate expectations in emerging markets, and lead to a repricing in their interest and credit risks.
-That is, the surprises spill over to all yield components, not only the term premium, and including the compensation for credit risk.
-The fiscal implications for emerging markets of the Fed's monetary policies is an unexplored but prospective area for future research.
-The responses to target, forward guidance and asset purchase surprises are sluggish but amplify over time with economically significant effects.
-In addition, since the global financial crisis, U.S. monetary policy has spilled over to emerging markets through a yield curve channel, which limits their monetary autonomy along the yield curve.
+Surprises in Fed's policy decisions give rise to a reassessment of policy rate expectations in emerging markets, and lead to a repricing of interest and credit risks.
+In particular, 
+%That is, 
+the surprises spill over to %all yield components, not only the term premium, and including 
+the compensation for credit risk.
+The fiscal implications for emerging markets of Fed's monetary policies is an unexplored but prospective area for future research.
+Also, the responses to target, forward guidance and asset purchase surprises are sluggish but amplify over time. %with economically significant effects.
+Lastly, since the global financial crisis, U.S. monetary policy has spilled over to emerging markets through a yield curve channel, which limits their monetary autonomy along the yield curve.
 %according to which their monetary autonomy decreases along the yield curve.
 
 %- since the global financial crisis yield curve channel: monetary autonomy in emerging markets decreases along the yield curve
@@ -1969,16 +2026,16 @@ In addition, since the global financial crisis, U.S. monetary policy has spilled
 
 %The results in this paper raise questions whose answers can have policy implications.
 More work %incorporating capital flows 
-is needed to have a better understanding of the spillovers. 
-U.S. monetary policy influences investors' risk tolerance and preferences for the LC bonds of emerging markets, which in turn give rise to (slow-moving) capital flows in or out of those bonds.
+is needed to better understand the spillovers. 
+U.S. monetary policy influences investors' risk tolerance and preferences for the LC bonds of emerging markets, which in turn give rise to (slow-moving) capital flows into or out of those bonds.
 The relative importance of short-term and long-term bonds following a surprise determines the response of the yield curves of emerging markets.
 Understanding the effects on investors' risk tolerance and preferences will further improve the ability of emerging markets to %effectively 
-mitigate any undesired domestic effect of monetary policy decisions abroad.
+mitigate any undesired domestic impact of monetary policy decisions abroad.
 
 The results presented here can be extended in several directions.
-Two of the many applications of the decomposition of emerging market yields are to analyze the transmission of monetary policy domestically and to further decompose each part (e.g. split the average expected future short rates into an inflation expectation and an expected real interest rate).
+The proposed three-part decomposition of emerging market yields has many applications, such as analyzing the transmission of monetary policy domestically and further decomposing each part (e.g. average expected short rates may be split into inflation and real interest rate expectations).
 The results might also inform theoretical models for pricing sovereign defaultable bonds. 
-Finally, surprises from other central banks (e.g. European Central Bank) can be included in the analysis to broaden our understanding of monetary policy spillovers.
+Finally, surprises from other central banks (e.g. European Central Bank) can be included in the analysis of monetary policy spillovers. %to broaden our understanding 
 %Future research paths. Structure of the sovereign bond yield market: core-periphery? 
 %MPS from ECB. Which MPS matter more for EMs, Fed or ECB? Does it varies by region (some countries respond more to ECB than to the Fed)?
 
@@ -2044,7 +2101,7 @@ Finally, surprises from other central banks (e.g. European Central Bank) can be 
 %	\input{../Figures/Estimation/ssb_yP_QE}
 %	\input{../Figures/Estimation/ny_yP_QE_AE}
 %	\input{../Figures/Estimation/ssb_tp_local}
-	\input{../Figures/Estimation/rrt_LTvsUSrrt}
+%	\input{../Figures/Estimation/rrt_LTvsUSrrt}
 %	\input{../Figures/Surveys/wnGDP}
 %	\input{../Figures/Estimation/bsl_tp_ts} % appendix
 %	\input{../Figures/Estimation/brp_dcmp}
