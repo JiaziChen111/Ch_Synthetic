@@ -148,11 +148,11 @@ filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
 filefilter x.tex y.tex, from(\BS\BS\n) to(\BS\BS\n&) replace
 filefilter y.tex x.tex, from(&\BSmidrule\nEmerging) to(\BSmidrule\nEmerging) replace
 filefilter x.tex y.tex, from("Emerging Markets") to("Synthetic&Emerging Markets\n%") replace
-filefilter y.tex x.tex, from("Advanced Countries") to("&Advanced Countries\n%") replace
+filefilter y.tex x.tex, from("Advanced Economies") to("&Advanced Economies\n%") replace
 filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nSynthetic&Emerging) to(Y\BS\BS\n\BSmidrule\nNominal&Emerging) replace
 filefilter y.tex x.tex, from(&\BSmidrule) to(\BScmidrule(lr){2-8}) replace
 filefilter x.tex y.tex, from("Emerging Markets") to("\BSmulticolumn{7}{c}{Emerging Markets}\t\BS\BS") replace
-filefilter y.tex x.tex, from("Advanced Countries") to("\BSmulticolumn{7}{c}{Advanced Countries}\t\BS\BS") replace
+filefilter y.tex x.tex, from("Advanced Economies") to("\BSmulticolumn{7}{c}{Advanced Economies}\t\BS\BS") replace
 filefilter x.tex y.tex, from(Nominal) to("\BSmultirow{7}{*}{Nominal Yields}") replace
 filefilter y.tex x.tex, from(Synthetic) to("\BSmultirow{7}{*}{Synthetic Yields}") replace
 filefilter x.tex y.tex, from(3M&) to("  & 3M&") replace
@@ -196,6 +196,107 @@ erase x.tex
 erase y.tex
 * ------------------------------------------------------------------------------
 
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for components of nominal yields - Emerging markets (Pre-GFC)
+local tbllbl "f_dcmpstatspregfc"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+local repapp replace
+local j = 0
+foreach v in dyp dtp phi {
+	local ++j
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if em & eomth & date < td(1sep2008), statistics(mean sd)
+	if `j' == 1 {
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber booktabs
+	}
+	else {
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber booktabs
+	}
+}
+drop pct*
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nAverage) to("Y\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex x.tex, from(8\BS\BS\n\BSmidrule\nAverage) to("8\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(7\BS\BS\n\BSmidrule\nAverage) to("7\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+erase x.tex
+erase y.tex
+* ------------------------------------------------------------------------------
+
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for components of nominal yields - Emerging markets (Post-GFC)
+local tbllbl "f_dcmpstatspostgfc"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+local repapp replace
+local j = 0
+foreach v in dyp dtp phi {
+	local ++j
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if em & eomth & date >= td(1sep2008), statistics(mean sd)
+	if `j' == 1 {
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber booktabs
+	}
+	else {
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber booktabs
+	}
+}
+drop pct*
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nAverage) to("Y\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex x.tex, from(8\BS\BS\n\BSmidrule\nAverage) to("8\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(7\BS\BS\n\BSmidrule\nAverage) to("7\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+erase x.tex
+erase y.tex
+* ------------------------------------------------------------------------------
+
+* ------------------------------------------------------------------------------
+* Table: Summary statistics for components of nominal yields - Emerging markets (No Truncated)
+local tbllbl "f_dcmpstatsnotrunc"
+local clbl 3M 6M 1Y 2Y 5Y 10Y
+local repapp replace
+local j = 0
+foreach v in dyp dtp oldphi {
+	local ++j
+	local ycs = ""
+	local fmt = ""
+	foreach t in 3 6 12 24 60 120 {
+		capture gen pct`v'`t'm = `v'`t'm/100
+		local ycs `ycs' pct`v'`t'm
+		local fmt `fmt' pct`v'`t'm(fmt(1))
+	}
+	eststo clear
+	estpost tabstat `ycs' if em & eomth, statistics(mean sd)
+	if `j' == 1 {
+		esttab using x.tex, replace fragment cells("`fmt'") collabels(`clbl') noobs nonote nomtitle nonumber booktabs
+	}
+	else {
+		esttab using x.tex, append fragment cells("`fmt'") collabels(none) noobs nonote nomtitle nonumber booktabs
+	}
+}
+drop pct*
+filefilter x.tex y.tex, from(mean) to(Average) replace
+filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
+filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nAverage) to("Y\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter y.tex x.tex, from(8\BS\BS\n\BSmidrule\nAverage) to("8\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(7\BS\BS\n\BSmidrule\nAverage) to("7\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+erase x.tex
+erase y.tex
+* ------------------------------------------------------------------------------
 
 * ------------------------------------------------------------------------------
 * Table: Summary statistics for components of nominal yields - Advanced countries
