@@ -716,7 +716,10 @@ for k0 = 1:nEMs
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:)==10)*100,'-','LineWidth',1);
     hold on
     plot(S(k0).(fldname{2})(2:end,1),S(k0).(fldname{2})(2:end,S(k0).(fldname{2})(1,:)==10)*100,'-.','LineWidth',1);
-    plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:)==10)*100,'--','LineWidth',1);
+%   plot(S(k0).(fldname{3})(2:end,1),S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:)==10)*100,'--','LineWidth',1);
+    crcts = S(k0).(fldname{3})(2:end,S(k0).(fldname{3})(1,:)==10);
+    crcts(crcts < 0) = 0;
+    plot(S(k0).(fldname{3})(2:end,1),crcts*100,'--','LineWidth',1);
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
 %     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
