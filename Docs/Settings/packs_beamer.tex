@@ -28,9 +28,18 @@
 %---------------------------------------------------------------
 % Figures
 %---------------------------------------------------------------
-\usepackage{tikz}								% To create high quality diagrams
+%\usepackage{standalone}			  		   % To compile sub-files as part of main
 \usepackage{graphicx} 				 		% Needed for \includegraphics
 \usepackage[outdir=./]{epstopdf} 	  % Avoids errors to input figures
+\usepackage{tikz}								% To create high quality diagrams
+%	\tikzset{
+%		invisible/.style={opacity=0,text opacity=0},
+%		visible on/.style={alt={#1{}{invisible}}},
+%		alt/.code args={<#1>#2#3}{%
+%			\alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+%		},
+%	}
+
 %\usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
 %{eso-pic}											 % Draw grid on slide to aid positioning figures
 
@@ -41,6 +50,8 @@
 % Tables
 %---------------------------------------------------------------
 \usepackage{booktabs}						% Needed for \toprule, \midrule, \bottomrule
+\usepackage{tabularx}				% Creates paragraph-like columns
+\usepackage{multirow}			   % To add entries with multiple rows
 
 %---------------------------------------------------------------
 % Math
@@ -138,7 +149,7 @@
 \usepackage{enumerate} 											% Personalizes the enumerate style
 %\setbeamertemplate{enumerate items}[default]
 %\setbeamertemplate{itemize items}{\(\bullet\)}		 % Or {$\vdash$}, {$\bullet$}, {$\rightharpoonup$}, {---}
-%\setbeamertemplate{itemize subitem}[square]
+\setbeamertemplate{itemize subitem}{\(\textendash\)} %[square]
 %\setbeamertemplate{itemize subsubitem}{\(\textendash\)} %\textbullet
 
 %\setbeamertemplate{itemize subsubitem}[triangle]

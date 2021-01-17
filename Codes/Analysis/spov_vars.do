@@ -62,6 +62,14 @@ foreach v of varlist usyc* nom* syn* rho* phi* dyp* dtp* myp* mtp* stp* rrt* {
 }
 
 
+* Truncate phi at zero
+foreach v of varlist phi* {
+	rename   `v' old`v'
+	clonevar `v' = old`v'
+    replace  `v' = 0 if old`v' < 0
+}
+
+
 * Generate first differences
 foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
 	gen d`v' = d.`v'
@@ -69,8 +77,8 @@ foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
 
 
 * Adjust target and LSAP shocks
-// replace mp1 = 0 if date >= td(1jan2009) & date < td(1dec2015)
-replace lsap = 0 if date < td(1oct2008)
+replace mp1  = 0 if date > td(31dec2008) & date < td(01dec2015)		// ZLB
+replace lsap = 0 if date < td(01oct2008) // & date > td(31dec2015)	// Rogers, Scotti & Wright (2018)
 foreach shock in mp1 path lsap {
 	gen  abs`shock' = abs(`shock')
 }
@@ -98,7 +106,7 @@ label values regionae bnames
 label variable regionae "AE Blocks"
 
 gen byte ae = em == 0
-label define grpnames 0 "Emerging Markets" 1 "Advanced Countries"
+label define grpnames 0 "Emerging Markets" 1 "Advanced Economies"
 label values ae grpnames
 
 

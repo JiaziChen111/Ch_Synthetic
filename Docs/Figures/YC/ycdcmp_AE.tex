@@ -19,10 +19,16 @@
 	\coordinate (O) at (0,0);
 	\draw[->] (-0.3,0) -- (8,0) coordinate[label = {below:Maturity}] (xmax);
 	\draw[->] (0,-0.3) -- (0,5) coordinate[label = {right:Yield}] (ymax);
-	\draw plot[smooth] coordinates {(0,2.5) (3,3.5) (5,4) (7,4)};
-	\draw plot[smooth] coordinates {(0,2.5) (3,2.7) (5,2.8) (7,2.9)};
-	\draw (4.5,3.7) node[below right] {Term Premium};
-	\draw (0.85,1.8) node[below right] {Average Expected Future Short Rates};
+	\draw plot[smooth] coordinates {(0,2) (3,2.8) (5,3.05) (7,3.05)};
+	\draw plot[smooth] coordinates {(0,2) (2.5,2.1) (5,2.15) (7,2.15)};
+	\draw (4.35,2.85) node[below right] {Term Premium};
+	\draw (0.85,1.6) node[below right] {Average Expected Future Short Rates};
+	
+	
+%	\draw plot[smooth] coordinates {(0,2.5) (3,3.5) (5,3.8) (7,3.8)};
+%	\draw plot[smooth] coordinates {(0,2.5) (2.5,2.55) (5,2.65) (7,2.7)};
+%	\draw (4.4,3.55) node[below right] {Term Premium};
+%	\draw (0.85,1.8) node[below right] {Average Expected Future Short Rates};
 	
 	
 %	\path[name path=x] (0.3,0.5) -- (6.7,4.7);

@@ -147,7 +147,9 @@
 
 \newcommand{\eqXvarsFwdQ}{\XvarsFwd = \XmuQ + \XPhiQ \Xvars  + \XSigma \errorQ}
 \newcommand{\eqshortrate}{\shortrate = \deltazero + \deltaone' \Xvars}
+\newcommand{\eqyZeroP}{\yZeroP = \affineAP + \affineBP \Xvars}
 \newcommand{\eqyZeroQ}{\yZeroQ = \affineAQ + \affineBQ \Xvars}
+\newcommand{\eqTP}{\termprm = \yZeroQ - \yZeroP}
 \newcommand{\eqXvarsFwdP}{\XvarsFwd = \XmuP + \XPhiP \Xvars  + \XSigma \errorP}
 \newcommand{\eqriskprice}{\riskprice = \lambdazero + \lambdaone \Xvars}
 \newcommand{\eqSDF}{\SDF = \exp\left( -\shortrate -\frac{1}{2} \riskprice' \riskprice - \riskprice' \errorP \right)}
@@ -210,7 +212,8 @@
 \newcommand{\estauto}[2]{
 	\newcolumntype{C}{>{\centering\arraybackslash}X}
 	\vspace{.75ex}{
-		\begin{tabularx}{\linewidth}{l*{#2}C}
+%		\begin{tabularx}{1.4\textwidth}{l*{#2}C}
+		\begin{tabularx}{0.95\linewidth}{l*{#2}C}
 			\toprule
 			\estinput{#1}
 			\\ \bottomrule

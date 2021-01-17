@@ -47,7 +47,7 @@ unab oldlabels : ustp* usyp* rtvix rtfx rtoil rtspx rtstx rtepuus rtepugbl rtglo
 local newlabels `" "U.S. Term Premium" "U.S. Term Premium" "U.S. Term Premium" "U.S. Term Premium" 
 				"U.S. E. Short Rate" "U.S. E. Short Rate" "U.S. E. Short Rate" "U.S. E. Short Rate" 
 				"Vix" "FX" "Oil" "S\&P" "Stock" "EPU U.S." "Global EPU" "Global Ind. Prod." 
-				"Log(EPU U.S.)" "Log(EPU Global)" "Log(Vix)" "Vix" "LC per USD (Std.)" "Policy Rate" "';
+				"Log(EPU U.S.)" "Log(EPU Global)" "Log(Vix)" "Vix" "LC per USD (Std.)" "Local Policy Rate" "';
 #delimit cr
 local nlbls : word count `oldlabels'
 forvalues i = 1/`nlbls' {

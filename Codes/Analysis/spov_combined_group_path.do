@@ -87,7 +87,7 @@ foreach group in 1 { // 0 1 {
 						(line ul1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
 						(line b_`shock'_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
 						(line zero days, lcolor(black)), ///
-				`yxtitles' xlabel(0(15)$horizon, nogrid) ylabel(``shock'`v'' ">", add custom labcolor(red) tlcolor(red) nogrid) ///
+				`yxtitles' xlabel(0(15)$horizon, nogrid) ylabel(``shock'`v'' "{bf:{&rArr}}", add custom labcolor(red) tlcolor(red) nogrid) ///
 				graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
 				title(`: variable label `v'`t'm', color(black) size(medium))
 
