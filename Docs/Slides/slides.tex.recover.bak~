@@ -19,8 +19,9 @@
 \author{Pavel Solís}
 \institute{Johns Hopkins University}
 
-\note{Hello everyone, thank you for having me.} %Please feel free to ask questions.
-\note{I really appreciate the opportunity to present my paper, in which I study the transmission channels of US MP to the sovereign bond yields of EMs.}
+\note{Hello everyone, thank you for having me here.
+	I really appreciate the opportunity to present my JMP, in which I study the 
+	transmission channels of US MP to the sovereign bond yields of EM.} %Please feel free to ask questions.
 
 
 \begin{document}
@@ -57,17 +58,15 @@
 	
 	Understand transmission channels to \alert{mitigate} undesired effects
 	\begin{itemize}
-		\item Traditional decompositions of bond yields assume no credit risk
+		\item Traditional decompositions of bond yields assume no default risk
 	\end{itemize}
 \end{frame}
-\note{US MP has worldwide effects. In particular, it influences different asset prices like stocks, exchange rates and the yields of bonds issued in foreign and LCs.}
-\note{A large literature documents those effects.}
-\note{In particular, there has been a lot of interest in measuring the effects of US MP on the sovereign bond yields of other economies because that can affect financial conditions locally.}
-\note{The reason is that government bond yields are key to local financial conditions b/c they are a benchmark against which other assets, like corporate bonds and loans, are priced.}
-\note{In the paper I revisit the question of spillovers from US MP but focusing on the components of the sovereign bond yields of EM in LC, which is a relevant category given that more than 80\% of their sovereign debt is issued in LC.}
-\note{Understanding the transmission channels can help EMs to mitigate any undesired effects in their economies due to changes in US MP.}
-\note{Previous work decomposes bond yields to understand the transmission channels but that decomposition assumes that the bonds are free of credit risk, which is a reasonable assumption for bonds issued by AEs but not for bonds issued by EMs.}
-
+\note{It is well documented that US MP has worldwide effects. In particular, it influences different asset prices like stocks, exchange rates and yields of bonds issued in F and LCs.}
+\note{There is a large literature that studies the spillovers of US MP.}
+\note{In the paper, I revisit those spillovers but focusing on the components of the sovereign bond yields of EM in LC. This category is relevant given that more than 80\% of their sovereign debt is issued in LC.}
+\note{Understanding the transmission channels can help EM to mitigate any undesired effects of US MP.}
+\note{To understand the transmission channels, previous work uses traditional decompositions of bond yields, which assume that the bonds are free of default risk.}
+\note{This is reasonable assumption for bonds issued by AE but not for bonds issued by EM.}
 %\note{You might start by talking about spillovers from U.S. monetary policy--evidence that they exist, why they are important... (but just some quick facts and/or references--don't get bogged down in a review of the literature).}
 
 
@@ -84,12 +83,12 @@
 	\end{textblock*}
 \end{frame}
 \note{We generally assume that sovereigns rarely default on LC debt b/c in theory they can `print' their own currency.}
-\note{This figure shows the number of sovereigns that have defaulted on foreign and LC debt since 1960.}
-\note{The number of defaults on FC are in blue, while the number of defaults on LC are in red.}
+\note{This figure shows the number of sovereigns that have defaulted on FC and LC debt since 1960.}
+\note{The number of defaults on FC are in blue. The number of defaults on LC are in red.}
 \note{As you can see, defaults on LC debt do occur and are more common than is usually thought.}
-\note{For instance, there have been more than 60 default episodes in LC since 1980, and more than 30 since 1996.} % , bonds denominated in LC
-\note{One famous example of a LC default is Russia in 1998 but there are more recent examples like Barbados in 2018.}
-\note{With the pandemic, last year several EMs saw deteriorations in their credit quality. For instance, credit rating agencies downgraded more than 35 sovereigns in 2020, mostly EMs, some of which unfortunately might end up defaulting in the future.} % (August 2020) % downgrades in LC bonds?
+\note{For instance, there have been more than 60 default episodes under domestic law since 1980.} % , bonds denominated in LC
+\note{One famous example is Russia in 1998 but there are more recent examples like Barbados in 2018.}
+\note{Last year with the pandemic, several EMs saw deteriorations in their credit quality. Credit rating agencies, for example, downgraded at least 36 sovereigns in 2020 (August), mostly EMs, some of which unfortunately might end up defaulting in the future.} % downgrades in LC bonds?
 
 %\note{44 sovereigns with negative outlooks
 %	EM public debt projected to be above 60\% of GDP (IMF)} % from 40\% of GDP after the GR
@@ -112,7 +111,7 @@
 
 \begin{frame}
 	\frametitle{This Paper}
-	How to \alert{decompose} the sovereign yields of emerging markets (EMs)?
+	How to \alert{decompose} the sovereign yields of emerging markets (EM)?
 	\begin{itemize}
 		\item Accounting for credit risk
 		\newline
@@ -130,10 +129,14 @@
 		\end{itemize}
 %	\end{itemize}
 \end{frame}
-\note{The main research question that I address in the paper is: How does US MP transmit to the sovereign bond yields of EMs?}
-\note{To answer the question, I first propose a decomposition of the yields that explicitly takes into account the risk that EMs might default on their LC debt. I then use the decomposition to empirically quantify the effects of US MP surprises on each component.}
-
-\note{There are three main findings that summarize the transmission channels of US MP to EM yields. But since they involve the components of the yields, let me show you a couple of figures to fix ideas.}
+\note{The main research question that I address in the paper is: How does US MP transmit to the sovereign bond yields of EM?}
+\note{To answer the question, I first propose a decomposition of the yields that explicitly takes into account the risk that EM might default on their LC debt. I then use the decomposition to empirically quantify the effects of US MP surprises on each component.}
+%\note{To understand the transmission mechanisms of US MP to bond yields, one can decompose the yields and analyze the effect on each component.}
+%\note{Traditional decompositions assume that the yields are free of default and they are then decomposed into AESR and TP.}
+%\note{But the fact that there is credit risk in EM yields means that traditional decompositions are not suitable for EM.}
+%\note{Reflecting an increase in credit risk, so ignoring it will have negative implications in the analysis.}
+%\note{First, how to decompose EM yields taking into account credit risk.}
+%\note{Better understanding of vulnerabilities in global financial system.}
 
 
 \begin{frame}
@@ -142,8 +145,8 @@
 	\includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=0.85\textwidth,height=0.95\textheight]{../Figures/YC/ycdcmp_AE}
 \end{center}
 \end{frame}
-\note{In this figure, you can see a stylized two-part decomposition of bond yields. The YC shows the relationship b/w bond yields at different maturities at a point in time. By assuming that the bonds are free of default risk, the yields can be decomposed into two parts: an average expected future short rate and a term premium.}
-\note{A shortcoming of past work is to use this two-part decomposition for the yields of EMs b/c it ignores the fact that EMs do default.}
+\note{In this figure, you can see a stylized two-part decomposition of bond yields. The YC shows the relationship b/w bond yields at different maturities. By assuming that the bonds are free of default risk, the yields can be decomposed into two parts: average expected future short rates and a term premium.}
+\note{A shortcoming of past work is to use this two-part decomposition for the yields of EM because it ignores the fact that EMs do default.}
 
 
 \begin{frame}
@@ -152,18 +155,19 @@
 	\includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=0.85\textwidth,height=0.95\textheight]{../Figures/YC/ycdcmp_EM}
 \end{center}
 \end{frame}
-\note{Instead of the traditional approach, I propose a three-part decomposition for the yields of EMs, which you can see schematically in this figure.}
-\note{In addition to the usual two components, there is a third component that compensates investors for bearing credit risk, which is obtained as the difference between the usual nominal yield and a synthetic yield.}
-\note{Later in the talk I will explain how synthetic yields are constructed but they essentially swap the US YC into a LC YC that can be considered free of credit risk, so the traditional two-part decomposition applies to them.}
+\note{I propose a three-part decomposition for the sovereign bond yields of EM.}
+\note{You can see schematically that decomposition in this figure.}
+\note{In addition to the usual two components, there is a third component that compensates investors for credit risk.}
+\note{To explicitly account for credit risk, I use synthetic yields, which essentially swap the US YC into a LC YC that can be considered free of credit risk, so traditional decompositions can be applied to them. The spread between the actual and the synthetic yields is the credit risk compensation.}
 
 
 \begin{frame}
-	\frametitle{U.S. Monetary Policy Spillovers to EM Yields}
+	\frametitle{U.S. Monetary Policy Spillovers}
 %	\begin{enumerate}
 %		\item 
-		1. Response of EM yields is \alert{economically significant}, yet \alert{delayed} %over days
+		1. EM yields' response is \alert{economically significant}, yet \alert{delayed} %over days
 		\begin{itemize}
-			\item Response sometimes lasts longer in EM than in U.S. yields
+			\item Response in EM sometimes lasts longer than in U.S.
 			\newline
 		\end{itemize}
 		
@@ -172,8 +176,8 @@
 		2. \alert{All three} components react to U.S. monetary policy % shocks <2->
 		\begin{itemize}
 			\item EM central banks expected to follow Fed's monetary stance
-			\item EM term premia response is similar to U.S. term premium
-			\item Fiscal implications in EMs of U.S. monetary policy
+			\item EM term premia respond similar than U.S. term premium
+			\item Fiscal implications in EM of U.S. monetary policy
 			\newline
 		\end{itemize} 
 	
@@ -184,17 +188,16 @@
 		\end{itemize}
 %	\end{enumerate}
 \end{frame}
-\note{As I mentioned, three main findings summarize the transmission channels of US MP to EM yields.}
-
-\note{First, the response of EM yields is economically significant and amplifies over the month following a MP surprise, which can be attributed to gradual adjustments in portfolio reallocations also known as slow-moving capital.} %  This is consistent with the evidence for advanced economies, since their yields display a similar sluggish response.
+\note{There are three main findings that summarize the transmission channels of US MP to EM yields.}
+\note{First, the response of EM yields is economically significant and amplifies over the month following a MP surprise, which can be attributed to a portfolio rebalancing channel and slow-moving capital.} %  This is consistent with the evidence for advanced economies, since their yields display a similar sluggish response.
 \note{I also find that, for certain types of surprises, the effects on EM yields last longer than on US yields.}
 
-\note{Second, all 3 components of EM yields react, which means that surprises in US monetary policy lead investors to reevaluate their policy rate expectations and their perceptions of interest and credit risks in EMs.}
-\note{For instance, I find that investors expect CBs in EMs to follow the monetary stance of the Federal Reserve rather than counteract its measaures. So if the Fed loosens or tightens financial conditions, EM CBs are expected to follow suit.}
-\note{In addition, the UMP tools, namely FG and asset purchases, aimed at reducing the term premium in US yields also reduce the term premia in EM yields.}
-\note{Moreover, the CRC part also reacts to US MP surprises. I highlight that the fiscal implications in EMs of MP in the US have so far not been discussed in the literature.}
+\note{The second result is that all 3 components of EM yields react, which means that surprises in US MP lead to a reassessment of policy rate expectations and a repricing of interest and credit risks in EM.}
+\note{For instance, I find that investors expect CBs in EM to follow the monetary stance of the Federal Reserve rather than counteract its measaures. So if the Fed loosens or tightens financial conditions, EM CBs are expected to follow suit.}
+\note{In addition, the UMP tools aimed at reducing the TP in US yields also reduce the TP in EM yields.}
+\note{Moreover, the credit risk compensation part also reacts to US MP surprises. The fiscal implications in EM of MP in the US have so far not been discussed in the literature.}
 
-\note{And third, since the 2007-2009 crisis the GFCy -which refers to the global comovement of risky asset prices- has a stronger impact on the LT yields than on the ST yields of EMs. Since Fed's decisions are important drivers of the GFCy, the unconventional policies implemented by the Fed after the GFC limit the influence central banks in EMs can exert over their domestic YCs.}
+\note{The third result is that since the 2007-2009 crisis the GFCy -which refers to the global comovement of risky asset prices- has a stronger impact at the long end of the YCs of EM, which limits the influence their CBs exert over their domestic YCs.}
 
 
 \begin{frame}[label=LitReview]
@@ -220,18 +223,13 @@
 		\item {\scriptsize \cite{HausmanWongswan:2011}; \cite*{BowmanLondonoSapriza:2015}; \cite*{CurcuruKaminLiRodriguez:2018}; \cite*{Albaglietal:2019}; \cite*{ACDM:2019}}
 	\end{itemize}
 \end{frame}
-\note{The paper relates to different branches in the literature.} % but in the interest of time, I will just point out two things.
-\note{One branch uses synthetic yields to study deviations from covered interest rate parity.
-	Another, documents the prevalence of sovereign defaults in LC.
-	A branch describes different mechanisms through which US MP can transmit to the sovereign bond yields of EMs.
-}
-\note{Finally, several papers have studied the spillovers of US MP to bond yields. But there are two issues regarding the effects on EM yields.}
-\note{First, the literature on term structures of EM yields has not examined credit risk systematically, it uses a two-part decomposition, which implicitly assumes that credit risk is zero and so EMs are treated as AEs.}
-\note{Second, the analysis of spillovers using yield decompositions has mainly focused on AEs and, again, when EMs are included, they are treated as AEs.}
+\note{The paper relates to different branches in the literature.}
+\note{In the interest of time, I will just point out two things. That the literature on term structures of EM yields has not examined credit risk systematically, it uses a two-part decomposition, so it implicitly treats EM as AE.}
+\note{Second, the analysis of spillovers using yield decompositions has mainly focused on AE and, again, when EM are included, they are treated as AE.}
 
 
 \section{Yield Curves}
-\note{Is there any question? Let me start by explaining how to construct the YCs that will be decomposed later.}
+\note{Are there any questions? Let me first explain how to construct the YCs that later will be decomposed.}
 
 \begin{frame}
 \frametitle{Nominal Yield Curves}
@@ -255,11 +253,11 @@
 	
 %	Why not CDS (credit default swaps)?
 \end{frame}
-\note{The nominal YCs are ZC YCs obtained from the par YCs reported by Bloomberg but, as I mentioned in the introduction, it is not appropriate to use the traditional decomposition on these yields b/c it ignores the credit risk embedded in them.}
-\note{To explicitly account for credit risk, I use synthetic yields, which essentially swap the US YC into a LC YC that can be considered free of credit risk. In this sense, synthetic yields represent the borrowing costs of a hypothetical bond issuer in LC w/ no credit risk.}
-\note{Under this approach, the US YC serves as a benchmark for all EMs. The approach assumes frictionless financial markets, that is}
-\note{Global investors have unrestricted access to US and LC bonds. The derivatives used in the construction of the synthetic yields have no counterparty risk and US yields are free of default risk.}
-\note{There are circumstances in which these assumptions migh not hold exactly. However, \cite{DuSchreger:2016JoF} show that these assumptions are a \alert{useful benchmark} to study credit risk in EM yields.} % In the analysis, I rely on the work of 
+\note{The nominal YCs are obtained from Bloomberg but, as I mentioned in the introduction, these yields have credit risk embedded in them.}
+\note{To explicitly account for credit risk, I use synthetic yields, which essentially swap the US YC into a LC YC. In this sense, the US YC serves as a benchmark for all EMs. The construction of the synthetic yields uses currency derivatives.}
+\note{This approach assumes frictionless financial markets, that is....}
+\note{There are circumstances in which these assumptions migh not hold exactly.
+	In the analysis, I rely on the work of \cite{DuSchreger:2016JoF} that shows that these assumptions are a \alert{useful benchmark} to study credit risk in EM yields.}
 
 \note{An alternative approach to synthetic yields is to use CDS. I do not use them mainly because the definition of default is not always clear. Plus, ISDA does not include defaults on LC bonds governed under domestic law as triggers of CDS payouts.}
 %\note{CDS do not adequately characterize LC credit risk.}
@@ -274,9 +272,9 @@
 \input {../Equations/uLCsynt}
 %\vspace{-0.5cm}
 
-	\(\yLCsynt\): \(\tnr\)-period zero-coupon \textit{synthetic} yield in LC at time \(\idxt\) % (\(\yLCnom\) not needed)
+	\(\yLCsynt\): \(\tnr\)-period zero-coupon \textit{synthetic} yield in LC at time \(\idxt\) (\(\yLCnom\) not needed)
 	
-	\(\yUS\): \(\tnr\)-period zero-coupon U.S. yield at time \(\idxt\) % (in USD)
+	\(\yUS\): \(\tnr\)-period zero-coupon yield of the U.S. in USD at time \(\idxt\)
 	
 	\(\fwdprm\): \(\tnr\)-period foreign exchange \alert{forward premium} from USD to LC at time \(\idxt\)
 %	\begin{itemize}
@@ -289,8 +287,8 @@
 		\item \alert{\(\geq 1\) Year}: Cross-currency swaps %Fixed-for-fixed 
 		%	\iftoggle{long}{\pause}{}
 		\begin{itemize}
-			\item Interest rate swaps
 			\item Cross-currency basis swaps
+			\item Interest rate swaps
 		\end{itemize}
 	\end{itemize}
 %	\begin{textblock*}{3cm}(.92\textwidth,0.74\textheight)
@@ -299,45 +297,44 @@
 \end{frame}
 \note{Synthetic yields are constructed by adding a FX forward premium to US yields.}
 \note{This FP compensates investors for the expected depreciation of the LC.}
-\note{For maturities of less than 1Y, the FP is calculated as the annualized difference b/w the forward and the spot exchange rates.}
-\note{For maturities greater than or equal to 1Y, the FP is calculated using cross-currency swaps b/c outright forwards are less liquid.}
-\note{When XCS are not directly traded in the market, they can be constructed using CCS and IRS based on the following sequence of steps.}
-\note{Today I can lock in a risk-free investment in LC by exchanging LC for US dollars, investing those dollars in Tresuaries and entering into a forward contract agreeing to sell dollars for LC in the future.}
-\note{Once the dollar payment from the investment in Treasuries is received, those dollars are exchanged back into LC at the agreed forward exchange rate.}
-\note{All the derivative instruments involved are liquid and collateralized so the bilateral counterparty risk is small.}
+\note{For maturities of less than one year, FP is calculated as the annualized difference between the forward and the spot exchange rates.}
+\note{For maturities greater or equal to one year, FP is calculated using cross-currency swaps because outright forwards are less liquid.}
+\note{When XCS are not directly traded in the market, they can be constructed using CCS and IRS.}
+\note{All these instruments are liquid and collateralized so the bilateral counterparty risk is small.}
 \note{Notice that the nominal YC is not needed in the construction of the synthetic YC.}
+
+%\note{Today I can lock in a risk-free investment in LC by exchanging LC for USD, investing those USD in Tresuaries and enter into a forward contract agreeing to sell USD for LC in the future. Once I receive the payment from Treasuries, I exchange it back into LC.}
 
 
 \begin{frame}[label=DevCIP]
 \frametitle{Deviations from CIP (Covered Interest Parity)}
-%\vspace{-0.5cm}
+%\vspace{-1cm}
 \[\eqCIPdevDS\]
 
-\vspace{0.2cm}
 	Measures:
 	\begin{itemize}
-		\item \alert{Convenience yield} for AEs \citep*{DuImSchreger:2018JIE}
-%		\item[] {\small \cite*{DuImSchreger:2018JIE}} 
-		\item \alert{Sovereign credit risk} for EMs \citep{DuSchreger:2016JoF}
-%		\item[] {\small \cite{DuSchreger:2016JoF}} 
-		\item \alert{Financial frictions} for banks \citep*{DuTepperVerdelhan:2018} \newline
-%		\item[] {\small \cite*{DuTepperVerdelhan:2018}}
+		\item Advanced economies (AE) \(\rightarrow\) \alert{Convenience yield}
+		\item[] {\small \cite*{DuImSchreger:2018JIE}} 
+		\item EM \(\rightarrow\) \alert{Sovereign credit risk}
+		\item[] {\small \cite{DuSchreger:2016JoF}} 
+		\item Banks \(\rightarrow\) Financial market \alert{frictions} 
+		\item[] {\small \cite*{DuTepperVerdelhan:2018}}
 	\end{itemize}
 
-	\textbf{Here}: Emphasis also on \(\yLCsynt\)
+	\textbf{Here}: Emphasis on \(\yLCsynt\)
 \end{frame}
-\note{Synthetic yields can be constructed, as I just explained, for both AEs and EMs.}
-\note{The spread b/w the nominal and the synthetic yields measures deviations from CIP in government yields.}
+\note{Synthetic yields can be constructed for both AE and EM.}
+\note{The spread b/w LCNOM and LCSYNT yields measures deviations from CIP in government yields.}
 \note{But the interpreation of the spread depends on the context.}
-\note{For AEs, Du, Im and Schreger document that the spread measures the difference in the convenience yield of investing in US Treasuries relative to the convenience yield of investing in the bonds of other AEs.}
-\note{For EMs, Du and Schreger document that the spread captures the compensation for credit risk. In particular, they show that the spread for EMs is highly correlated with their CDS.}
-\note{While previous literature focuses on the spread, I emphasize the importance of the synthetic yields themselves given that they can be considered as free of credit risk and so the traditional two-part decomposition can be applied to them.}
+\note{For AE, Du, Im and Schreger document that the spread measures the convenience yield relative to US Treasuries.}
+\note{For EM, Du and Schreger document that the spread captures the compensation for credit risk. In particular, they show that the spread for EM is highly correlated with their CDS.}
+\note{While previous literature only focuses on the spread, I emphasize the importance of the synthetic yields b/c they can be considered as free of credit risk and so the traditional two-part decomposition can be applied to them.}
 %\note{Correlation b/w CIP dev and CDS is high for EMs but not for AEs.}
 
 
 \begin{frame}[label=YldData]
 \frametitle{Yield Data}
-	\alert{15 EMs}:
+	\alert{15 EM}:
 	\begin{itemize}
 %		\item[] {\scriptsize BRL, COP, HUF, IDR, ILS, KRW, MYR, MXN, PEN, PHP, PLN, RUB, THB, TRY, ZAR}
 		\item {\small Brazil, Colombia, Hungary, Indonesia, Israel, Korea, Malaysia, Mexico, Peru, Philippines, Poland, Russia, Thailand, Turkey, South Africa}
@@ -347,7 +344,7 @@
 	%	\end{itemize}
 %	\iftoggle{struct}{\item<2->}{\item} 
 	
-	\alert{Daily} data: January 2000 to January 2019
+	\alert{Daily} data starting in January 2000 to January 2019
 %	\iftoggle{struct}{\item<3->}{\item}
 	
 	\alert{Maturities}: 0.25, 0.5, 1, 2, \ldots, 10 years
@@ -367,15 +364,16 @@
 \end{textblock*}
 \end{frame}
 \note{I construct nominal and synthetic yields for the 15 EMs originally studied by Du and Schreger at the daily frequency going back to 2000 up to 2019.}
-\note{However, starting dates vary by country. Longer series are of course desirable to pin down the term premium since it is an unobserved variable. But there are at least 10 years of data for most countries in the sample, which is a reasonable sample size for the estimation of the models that I will explain in a moment.}
-\note{The maturities considered in the analysis are 3M, 6M and from 1 to 10Y.}
-\note{The construction of the synthetic yields uses the dataset built by GSW, which captures the US YC reasonably well for maturities greater than or equal to 1Y.}
-\note{For the yields at the 3M and 6M maturities, I use data from CRSP b/c it is more robust at the short end of the YC.}
-\note{Finally, the data for the forwards and swaps needed to compute the FP comes from BLP and DTS.}
+\note{Starting dates vary by country. Longer series are desirable to pin down TP since it is an unobserved variable. But there are at least 10 years of data for most countries in the sample, which is a reasonable sample size for the estimation of the types of model that I will explain in a moment.}
+\note{The maturities considered are 3M, 6M and from 1 to 10Y.}
+\note{The construction of the synthetic yields uses the dataset built by GSW, which captures the USYC reasonably well for maturities greater or equal than 1Y.}
+\note{For 3M and 6M yields I use data from CRSP, which is more robust at the short end.}
+\note{The information needed to compute the FP comes from BLP and DTS.}
 %\note{Bonds\(>10Y\) have less history and are less liquid, including the swaps used to construct the synthetic YC.}
 
 %\note{Results are compared against those obtained for 10 AEs.}
 %\note{Reasons for use monthly: VAR is a good approximation for monthly, adequate frequency if want to use macro data.}
+%\note{Consensus Economics provides long-horizon forecasts for consumer inflation and real GDP growth but not for policy rates.}
 
 
 \section{Affine Term Structure Model}
@@ -386,8 +384,8 @@
 	
 	Standard discrete-time nominal affine term structure model
 	\begin{itemize}
-		\item Assumes default-free bonds \(\rightarrow\) \alert{Synthetic} yields (\(\yLCsynt\)) for EMs
-		\item \alert{Augmented} with survey forecasts
+		\item Assumes default-free bonds \(\rightarrow\) \alert{Synthetic} yields (\(\yLCsynt\)) for EM
+		\item \alert{Augmented} with survey data
 	\end{itemize}
 	
 	Intuition:
@@ -411,110 +409,126 @@
 		\hyperlink{SvyAugModel}{\beamergotobutton{Augmented Version}}
 	\end{textblock*}
 \end{frame}
-\note{I use a discrete-time nominal ATSM, which is a standard tool to estimate the dynamics of risk-free *nominal* YCs. The traditional decomposition relies on this risk-free assumption and that is why it makes sense for the bonds issued by AEs.}
-\note{In the case of EMs, I use the model to capture the dynamics of the *synthetic* yields b/c they are better aligned with the risk-free assumption in contrast to the nominal yields.}
-\note{I augment the model with survey forecasts of future ST interest rates to obtain robust decompositions as I will explain in a moment.}
-\note{In the interest of time, I will not go into the details of the model but the intuition behind it is as follows.}
-\note{According to the model, bond yields are driven by a set of pricing factors whose actual dynamics are represented with simple vector autoregressions.}
-\note{Restrictions are then imposed to reflect the no-arbitrage condition across maturities, giving rise to alternative, risk-adjusted dynamics for yields. The actual and the risk-adjusted dynamics are also known as the P and the Q measures.}
-\note{The difference between the P and Q dynamics reflect market participants' risk preferences. By exploiting these two dynamics, yields can be decomposed into expectations of future interest rates and term premia.}
+\note{I use a discrete-time nominal ATSM, which is a standard tool to estimate the dynamics of risk-free \alert{nominal} yield curves.}
+\note{As I mentioned earlier, the risk-free assumption is reasonable for bonds issued by AE.}
+\note{In the case of EM, I use the model to capture the dynamics of synthetic yields b/c they are better aligned with the risk-free assumption than the nominal yields.}
+\note{I augment the model with survey forecasts of future short-term interest rates to obtain robust decompositions as I will explain in a moment.}
+\note{In the interest of time, I will not go into the details of the model but I will explain the intuition behind it.}
+\note{Bond yields are driven by a set of pricing factors whose actual dynamics are represented with simple vector autoregressions. Restrictions are then imposed to reflect the no-arbitrage assumption across maturities, giving rise to alternative, risk-adjusted dynamics for yields. The differences between the actual and the risk-adjusted dynamics -also known as the P and the Q measures- reflect market participants' risk preferences. By exploiting these two dynamics, it is possible to decompose yields into expectations of future interest rates and term premia.}
 %\note{The coefficients are functions of the maturity of the bond and the coefficients that determine the stochastic processes that drive the state variables.}
 
 
+%\begin{frame}
+%\frametitle{EM Yield Decomposition}
+%
+%Fitted \alert{synthetic} yields
+%\input{../Equations/uYaffineQ}
+
+Average expected future short rate %(\(\lambdazero = \lambdaone = 0\)) as if investors were risk-neutral
+\input{../Equations/uYaffineP}
+
+Term premium
+\input{../Equations/uTPatsm}
+
+Credit risk compensation
+\[\CIPdev = \yLCnom - \yZeroQ \] % \geq 0
+\end{frame}
+
 \begin{frame}[label=Components]
 \frametitle{EM Yield Decomposition}
-\vspace{-0.35cm}
-\[\yLCnom \; \; = \; \; \yZeroQ \; + \; \CIPdev \; \; = \; \; \yZeroP \; + \; \termprm \; + \; \CIPdev \]
+\vspace{-0.5cm}
+\[\yLCnom = \yZeroQ + \CIPdev = \yZeroP + \termprm + \CIPdev \]
 
-\vspace{0.8cm}
+\vspace{0.5cm}
 \begin{tabular}{ l l }
-	\(\eqyZeroQ\) \(:\) & Fitted \alert{synthetic} yields \\ [15pt]
+	Fitted \alert{synthetic} yields: & \(\eqyZeroQ\) \\ [15pt]
 	
-	\(\eqyZeroP\) \(\, :\) & Average expected future short rates \\  [15pt]
+	Average expected future short rate: & \(\eqyZeroP\) \\  [15pt]
 	
-	\(\eqTP\) \(\; :\) & Term premium \\ [15pt]
+	Term premium: & \(\eqTP\) \\ [15pt]
 	
-	\(\CIPdev = \yLCnom - \yZeroQ\) \(\, :\) & Credit risk compensation
+	Credit risk compensation: & \(\CIPdev = \yLCnom - \yZeroQ\)
 \end{tabular}
+
+
+%\begin{itemize}
+%	\item Fitted \alert{synthetic} yields \(\rightarrow\) \(\eqyZeroQ\)
+%	\item Average expected future short rate \(\rightarrow\) \(\eqyZeroP\)
+%	\item Term premium \(\rightarrow\) \(\eqTP\)
+%	\item Credit risk compensation \(\rightarrow\) \(\CIPdev = \yLCnom - \yZeroQ\) % \geq 0
+%\end{itemize}
+
 \end{frame}
-\note{Here you can see how the nominal yields of EMs can be decomposed into three parts.}
-\note{The nominal yields are equal to the risk-free synthetic yields plus a compensation for credit risk. Since synthetic yields are seen as free of credit risk, they can be decomposed into an average expected short rate and a term premium.}
-\note{The CRC part has been ignored in previous work by assuming that the nominal yields are free of credit risk.}
-\note{Therefore, the TP that I propose is *clean* in the sense that it is not contaminated with credit risk as would be the case with traditional approach. In other words, using the traditional approach for EM yields would generate a term premium contaminated with credit risk.}
-
-\note{The fitted synthetic yields are given as affine functions of the pricing factors using parameters under the Q measure. The average expected future short rates are also affine functions of the pricing factors but under the P measure. The difference b/w the two gives an estimate for the term premium. Finally, the spread b/w the nominal and the fitted synthetic yields is the CRC.}
-\note{Since the model fits the synthetic yields reasonably well, as you will see in a moment, this spread is largely similar to the one reported by Du and Schreger, and which they referred to as the LC credit spread.}
-\note{Of course, the spread might not be a perfect measure of credit risk but it is *definitely* better than ignoring it.}
+\note{The yields are decomposed as follows.}
+\note{The fitted synthetic yields are given as affine functions of the pricing factors using parameters under the Q measure. The average expected future short rates are also affine functions but under the P measure. The difference b/w the two gives an estimate for the TP. Finally, the spread b/w the nominal and the fitted synthetic yields is the CRC.}
+\note{Since the model fits the synthetic yields reasonably well as I will show you in a moment, this spread is largely the same as the one reported by Du and Schreger.}
+\note{Of course, the spread is not be a perfect measure of credit risk but it is definitely better than ignoring it.}
+\note{Notice that by decomposing the synthetic yields into two parts (YP and TP), I am at the same time decomposing the nominal yields into 3 parts.} %The third component being the credit risk compensation.
 
 
-\begin{frame}
-\frametitle{Weak Identification}
-
-Yields \alert{accurately} identify \(\Qmeasure\) parameters, yet \(\Pmeasure\) ones are \alert{poorly} identified % , yet parameters % \{\(\XmuQ, \XPhiQ\)\} % \{\(\XmuP, \XPhiP\)\}
-
-\begin{itemize}
-	\item Bond yields are persistent
-	\item Unstable yield decompositions
-\end{itemize}
-
-\textbf{Solutions}: Survey data, parameter restrictions, bias-corrected estimators
-
-Surveys provide \alert{robust} decompositions of AE yields \citep{Guimaraes:2014}
-\begin{itemize}
-	\item Surveys anchor the long run mean of interest rates.
-	\item Important for EM yields given small sample sizes
-\end{itemize}
-\end{frame}
-\note{The estimation of the parameters in the model only requires data on yields, which accurately identifies the parameters under the Q measure.}
-\note{However, the parameters under the P measure are poorly identified since bond yields are persistent and the term premium is an unobserved variable, which can result in unstable yield decompositions.}
-\note{That is why it is desirable to have long series for the estimation.} % This is a problem given that the TP is an unobserved variable. 
-\note{Different solutions have been proposed in the literature like complementing yield data with surveys on interest rate forecasts (especially long-term forecasts), imposing restrictions on the parameters and using bias-corrected estimators.}
-\note{Guimaraes compares those solutions and concludes that surveys provide robust decompositions for the YCs of the US and the UK.}
-\note{In particular, surveys are useful becase help the model anchoring the long run mean of interest rates.}
-\note{In the case of EM, it is especially important to use surveys given the relatively small sample sizes compared to those for AEs.}
-
-%Most variability attributed to fluctuations in term premium
-% Overestimates stability of expected path of short rate
-%\note{Although the estimation of the parameters in the model only requires data on yields, it can result in unstable yield decompositions because bond yields are persistent and the TP is an unobserved variable.}
-%\note{It has been shown that surveys provide robust decompositions for the YCs of AEs; they help anchoring the long run mean of interest rates.}
+%\begin{frame}
+%\frametitle{Weak Identification}
+%
+%Yields \alert{accurately} identify \{\(\XmuQ, \XPhiQ\)\}, yet \{\(\XmuP, \XPhiP\)\} \alert{poorly} identified
+%
+%\begin{itemize}
+%	\item Bond yields are persistent
+%	\item Unstable yield decompositions
+%\end{itemize}
+%
+%\textbf{Solutions}: Survey data, parameter restrictions, bias-corrected estimators
+%
+%Surveys provide \alert{robust} decompositions of AE yields \citep{Guimaraes:2014}
+%\begin{itemize}
+%	\item Important for EM yields due to small sample sizes
+%\end{itemize}
+%%Most variability attributed to fluctuations in term premium
+%% Overestimates stability of expected path of short rate
+%\end{frame}
+%\note{The estimation of the parameters in the model only requires data on yields, which accurately identifies the parameters under the Q measure.}
+%\note{The parameters under the P measure, however, are poorly identified since bond yields are persistent, which results in unstable yield decompositions.}
+%\note{This is a problem given that the TP is an unobserved variable. That is why it is desirable to have long series for the estimation.}
+%\note{Different solutions have been proposed in the literature including complementing yield data with surveys on interest rate forecasts, especially long-term ones.}
+%\note{Guimaraes compares those solutions and concludes that surveys provide robust decompositions.}
+%\note{Surveys anchor the long run mean of interest rates.}
+%\note{In the case of EM, it is particularly important to use surveys given the small sample sizes.}
 
 %\note{Overestimates stability of expected path of short rate}
 %\note{Surveys are an effective solution to obtain robust decompositions of the yield curve \citep{Guimaraes:2014} 
-
 
 \begin{frame}[label=SCBP]
 \frametitle{Survey Data}
 
 No data on long-term forecasts for EM short rates
 
-Implied forecast for EM short rates from existing data %on long-term forecasts
-
-\input{../Equations/uRrt}
-
+Implied forecast for EM short rates using existing data %on long-term forecasts
 \begin{itemize}
-\item \alert{EM inflation} forecasts: 5 years ahead and long-term
+\item \alert{EM inflation} expectations: 5 years ahead and long-term
 \begin{itemize}
-	\item From Consensus Economics (CE), available twice a year
+	\item Twice a year from Consensus Economics (CE)
 \end{itemize}
 
-\item Implied long-term expectations of \alert{U.S real interest rate} using
+\item Implied long-term expectations of \alert{U.S real interest rate} 
 \begin{itemize}
 \item T-bill rate, CPI inflation from Survey of Professional Forecasters (SPF)
 %\item Compared against TIPS yields
 \end{itemize}
 \end{itemize}
 
+\input{../Equations/uRrt}
+
 \begin{textblock*}{3cm}(.9\textwidth,1.05\textheight)
 	\hyperlink{YldCBP}{\beamergotobutton{Implied Forecasts}}
 \end{textblock*}
 \end{frame}
-\note{Unfortunately, there is no data on LT forecasts for the short rates of EMs.}
-\note{Consensus Economics, for instance, provides long-horizon forecasts for consumer inflation and real GDP growth but not for ST rates.}
+\note{Although the estimation of the parameters in the model only requires data on yields, it can result in unstable yield decompositions because bond yields are persistent and the TP is an unobserved variable.}
+\note{Surveys provide robust decompositions for the US and the UK YCs. They help anchoring the long run mean of interest rates.}
+\note{Unfortunately, there is no data...}
 \note{So I infer the forecasts from existing data using the Fisher equation and treating EMs as SOEs, which implies that the global real interest rate is determined abroad.}
 \note{This approach requires forecasts for inflation in each EM and for the global real interest rate.}
 \note{Inflation forecasts come from CE and are available twice a year.}
-\note{The U.S. real interest rate serves as a proxy for the global real interest rate and is derived using forecasts for the T-bill rate and CPI inflation from the SPF.}
-\note{This calculation is done using 5Y- and 10Y-ahead forecasts.} % and b/w 5Y and 10Y ahead forecasts
+\note{The U.S. real interest rate serves as a proxy for the global real interest rate and is derived using forecasts for the T-bill rate and CPI inflation from SPF.}
+\note{This is done using 5Y ahead forecasts and b/w 5Y and 10Y ahead forecasts.}
 %\note{I compare them also against the real yields from TIPS and against an alternative approach using Taylor-rule type regressions, which also use forecasts for real GDP. The results are also comparable.}
 
 
@@ -522,7 +536,7 @@ Implied forecast for EM short rates from existing data %on long-term forecasts
 \frametitle{Model Estimation}
 
 %	\item Use \cite*{JSZ:2011} normalization of the model %: \(\Pmeasure \perp \Qmeasure\) % likelihood functions
-Estimate parameters by ML with \alert{monthly} data on yields
+Estimate parameters by MLE with \alert{monthly} data
 \begin{itemize}
 \item \cite*{JSZ:2011} normalization
 \end{itemize}
@@ -536,16 +550,14 @@ Estimate survey-augmented model by Kalman filter (missing data)
 
 Standard errors by delta method
 
-Estimate pricing factors at \alert{daily} frequency
+Estimate \alert{daily} pricing factors
 
 \end{frame}
 \note{I estimate the model using end-of-month data and a two-step approach.}
-\note{First, the model is estimated by ML using only data on yields and following the normalization proposed by JSZ, which essentially separates the likelihood function of the model into likelihoods for the P and the Q measures.}
-\note{The estimated parameters obtained in this way are used as initial values in the second step, in which yields are complemented with survey data.}
-\note{Since surveys are available twice a year, they are treated as mising values in the months in which no surveys are released.}
-\note{The survey-augmented model is thus estimated by the KF b/c it can easily handle missing data.}
-\note{Although surveys contain useful information that helps anchoring the model to reality in each country, they are not a panacea, so they are treated as `noisy' measures of expectations by using a conservative value for their standard deviation following Kim and Orphanides.}
-\note{Finally, I use the parameters obtained with monthly data to estimate the pricing factors at the daily frequency. This allows me to perform daily decompositions of the yields, which are needed to analyze the persistence of the MP decisions in the US.}
+\note{First, the model is estimated by MLE using only data on yields following the JSZ normalization. The estimated parameters are used as initial values in the second step.}
+\note{Since surveys are available twice a year, they are treated as mising in non-release dates so the survey-augmented model is estimated by KF b/c it can easily handle missing data.}
+\note{Surveys contain useful information that helps anchoring the model to reality in each country but they are not a panacea, so they are treated as `noisy' measures of expectations by using a conservative value of 75 bp for their standard devaition.}
+\note{Finally, I use the parameters obtained with monthly data to estimate the pricing factors at the daily frequency. This allows me to decompose the yields at the daily frequency, which is needed to analyze the spillovers of US MP.}
 %\note{At the daily frequency there is noise in yield data that can undermine the estimation.}
 
 
@@ -563,7 +575,23 @@ Estimate pricing factors at \alert{daily} frequency
 \end{textblock*}
 \end{frame}
 \note{This figure illustrates the fit of the model for the 10Y synthetic yields of all the countries in the sample. The actual yields are in blue and the fitted yields are in orange.}
-\note{As you can see, the model fits the data reasonably well.}
+\note{As you can see, the model fits the data reasonably well.}
+
+
+%\begin{frame}
+%\frametitle{Average EM Yield Curve Decomposition}
+%\vspace{5pt}
+%\begin{center}
+%	\includegraphics[trim={0.1cm 0.1cm 0.1cm 0cm},clip,width=0.85\textwidth,height=0.85\textheight]{../Figures/Slides/Yield_Dcmp_EM.png}
+%\end{center}
+%\end{frame}
+%\note{Figure summarizes the decomposition across EM.}
+%\note{Describe colors.}
+
+%\note{On average, ESR explains most of the variability in yields.}
+%\note{The relevance of the term premium increases with maturity.}
+%\note{CRC remains stable across maturities.}
+%\note{Broadly speaking the 10Y 7 = 4 + 2 + 1 or 60-30-10 percent.}
 
 
 \begin{frame}[label=YldDcmp2]
@@ -575,11 +603,8 @@ Estimate pricing factors at \alert{daily} frequency
 \begin{textblock*}{15cm}(2.5mm,3mm)
 	\textbf{10Y}
 \end{textblock*}
-%\begin{textblock*}{3cm}(.23\textwidth,1.08\textheight)
-%	\hyperlink{yPscbp}{\beamergotobutton{Expected Short Rates}}
-%\end{textblock*}
 \begin{textblock*}{3cm}(.23\textwidth,1.08\textheight)
-	\hyperlink{YldDcmp10}{\beamerreturnbutton{Decomposition All}}
+	\hyperlink{yPscbp}{\beamergotobutton{Expected Short Rates}}
 \end{textblock*}
 \begin{textblock*}{3cm}(.51\textwidth,1.08\textheight)
 \hyperlink{tpCI}{\beamergotobutton{Term Premia}}
@@ -588,14 +613,17 @@ Estimate pricing factors at \alert{daily} frequency
 \hyperlink{crcCI}{\beamergotobutton{Credit Risk Compensation}}
 \end{textblock*}
 \end{frame}
-\note{In this figure you can see how the decomposition looks like over time for the 10Y nominal yields for HUF and MXN, which are two of the countries in the sample.}
-\note{The solid blue line is the AESR. The dash-dotted orange line is the TP. And the dashed yellow line is the CRC.}
-\note{On average, the ESR explains most of the variability in yields. However, the dynamics of the TP and the CRC are also important drivers of EM bond yields, yet the TP plays a relatively bigger role than the CRC, in general.}
-\note{It is encouraging that the decomposition captures local conditions in each country.}
+\note{In this figure you can see how the decomposition looks like over time for the 10Y nominal yields of two countries in the sample: HUF and MXN.}
+\note{The solid blue line is... The dash-dotted orange line is... And the dashed yellow line is...}
+\note{On average, ESR explains most of the variability in yields.}
+\note{Nevertheless, the dynamics of TP and CRC are also important drivers of EM bond yields.}
+\note{Notice that the TP plays a relatively bigger role than CRC, in general.}
+\note{Also, the decomposition captures local conditions in each country.}
 \note{For instance, the CRC for HUF increased after 2010, when the current populist government came into power.}
 \note{In the case of MX, the CB started a tightening cycle following the 2016 US presidential election, in response to a depreciation of the currency. That move is reflected in an increase in ESR.}
-\note{To assess the decomposition more generally, I study the components by themsevles but focusing on the ESR and the term premium b/c D-S already study the CRC in detail; as I mentioned before, they show that it is highly correlated with CDS.}
+\note{To asses the decomposition, I study the components separately but focusing on the ESR and the TP b/c D-S already study the CRC in detail; in particular, they show that it is highly correlated with CDS.}
 
+%\note{There is a downward trend in EM TP, which consistent w/ the evidence for AE.}
 %\note{Since 2011 there has been strong demand for LC bonds in Asia, which partly explains TP < 0 seen in Asian countries.}
 %\note{TP decline due to: international investors, US UMP.}
 
@@ -614,36 +642,33 @@ Estimate pricing factors at \alert{daily} frequency
 \begin{textblock*}{15cm}(2.5mm,3mm)
 	\textbf{10Y}
 \end{textblock*}
-%\begin{textblock*}{5cm}(0.97\textwidth,1.05\textheight)
-%	\hyperlink{YldDcmp10}{\beamerreturnbutton{Decomposition}}
-%\end{textblock*}
+\begin{textblock*}{5cm}(0.97\textwidth,1.05\textheight)
+	\hyperlink{YldDcmp10}{\beamerreturnbutton{Decomposition}}
+\end{textblock*}
 \end{frame}
-\note{This figure compares the 10Y ESR implied by the model in blue and the 10Y forecast for the short rate in orange. You can see that the model implied value tracks the forecast reasonably.}
+\note{This figure compares the 10Y ESR implied by the model and the 10Y forecast for the short rate. You can see that the model implied value tracks the forecast reasonably.}
 
 
 \begin{frame}[label=tpUCSV]
 \frametitle{Term Premium and Inflation Uncertainty}
 
-\alert{Term premia} in AEs compensates for \alert{inflation uncertainty} \citep{Wright:2011} \newline
+Term premium compensates for \alert{inflation uncertainty} in AE \citep{Wright:2011}
 %In advanced economies related to inflation uncertainty \citep{Wright:2011} % in advanced economies
 
-\alert{Inflation} higher and \alert{more volatile in EMs} than in AEs \citep{HaKoseOhnsorge:2019}
+Inflation higher and \alert{more volatile} in EM than AE \citep{HaKoseOhnsorge:2019}
 \newline
 
-\textbf{Question}: Is inflation uncertainty relevant for EM term premia?
-
-\vspace{-0.5cm}
+Is inflation uncertainty relevant for EM term premia?
 \input{../Equations/uPanelUCSV}
 
 \begin{itemize}
 	\item \(\sigma^{\pi}_{\idxspnl}\) of permanent component in UCSV model \citep{StockWatson:2007}
-	\item Domestic real GDP growth \(g_{\idxspnl}\) controls for the business cycle
 \end{itemize}
 \end{frame}
-\note{To assess the validity of the estimated TP, two findings in the literature are worth highlighting. The first one is that the TP compensates investors for bearing inflation uncertainty in AEs and the second is that inflation is higher and more volatile in EMs than in AEs.}
-\note{Therefore, it is reasonable to assume that the relationship between the term premium and inflation uncertainty is particularly relevant in EMs.}
-\note{To test this hypothesis, I regress the term premium on a measure of inflation uncertainty controlling for the business cycle, which is proxied by the growth rate in real GDP.}
-\note{Following Wright, the measure of inflation uncertainty is the standard deviation of the permanent component of inflation based on the unobserved components stochastic volatility (UCSV) model of Stock and Watson.}
+\note{Two findings in the literature that help to assess the validity of the estimated TP. It has been shown that ... and that...}
+\note{Therefore, it is reasonable to assume that the relationship between the TP and inflation uncertainty is particularly relevant in EM.}
+\note{To test this hypothesis, I regress the TP on a measure of inflation uncertainty controlling for the business cycle, which is proxied by the growth rate in real GDP.}
+\note{Following Wright, the measure of inflation uncertainty is the STD of the permanent component of inflation based on the unobserved components stochastic volatility (UCSV) model of Stock and Watson.}
 
 
 \begin{frame}
@@ -653,63 +678,63 @@ Estimate pricing factors at \alert{daily} frequency
 \vspace{-0.8cm}
 \begin{figure}[!htbp]
 \begin{center} % trim removes: left, down, right, top
-\includegraphics[trim={2.5cm 6cm 2.5cm 6cm},clip, width=1\textwidth,height=0.95\textheight]{../Tables/tpucsv.pdf}
+\includegraphics[trim={2.5cm 6cm 2.5cm 7cm},clip, width=1\textwidth,height=0.95\textheight]{../Tables/tpucsv.pdf}
 \par\end{center}
 \end{figure}
 \end{frame}
-\note{In this table, you can see that the standard deviation of the permanent component of inflation is indeed positively associated with the term premia in EMs.}
-\note{Notice that the result increases with maturity and that it becomes stronger after controlling for the business cycle.}
-\note{Even though the specification might be subject to econometric problems like persistent variables, the results are aligned with the view that term premia in EMs compensate investors for bearing inflation uncertainty.}
+\note{In this table, you can see that the STD of the permanent component of inflation is indeed positively associated with the TP in EM.}
+\note{Moreover, the result increases with maturity and becomes stronger after controlling for the business cycle.}
+\note{Even though the specification might be subject to econometric problems like involving persistent variables, the results are aligned with the view that TP in EM compensate investors for bearing inflation uncertainty.}
 
 
 \section{U.S. Monetary Policy Spillovers}
-\note{With the decomposition at hand for the 15 EMs, I now use it to address the main question about the transmission channels of US MP to EM yields.}
+\note{With the decomposition at hand for the 15 EM, I now use it to study the spillover effects of US MP.}
 
 \begin{frame}
 \frametitle{The Yield Curve Channel}
-U.S. monetary policy key driver of the global financial cycle \citep{Rey:2013}
+\alert{Long-term yields} more influenced by global forces
+\begin{itemize}
+	\item Global financial cycle \citep{Rey:2013}
+\end{itemize}
 
-%Yield curve channel
-%\begin{itemize}
-	\alert{Long-term yields} more influenced by global forces
-	\begin{itemize}
-		\item EM \alert{monetary autonomy} declines along yield curve \citep{Obstfeld:2015}
-	\end{itemize}
+\alert{Unconventional} monetary policies abroad affect EM yields
+\begin{itemize}
+	\item Long-term via the term premium \citep{Turner:2014}
+	\item Short-term via \textbf{risk spillovers} \citep{Kalemli-Ozcan:2019} 
+\end{itemize}
 
-	U.S. \alert{unconventional} monetary policies affect EM yields
-	\begin{itemize}
-		\item Long-term via the term premium \citep{Turner:2014}
-		\item Short-term via expected short rate \citep{Kalemli-Ozcan:2019}
-	\end{itemize}
-%\end{itemize}
+EM \alert{monetary autonomy} declines along yield curve \citep{Obstfeld:2015}
 \end{frame}
+\note{One the three main findings that I mentioned in the introduction is related to the GFCy, which refers to fluctuations in financial activity on a global scale and is mainly driven by developments in the US.}
 \note{The literature describes different mechanisms that I referred to as the YC channel, which can be explained as follows.}
-\note{The GFCy, which refers to fluctuations in financial activity on a global scale, is mainly driven by developments in the US.} % One the three main findings that I mentioned in the introduction is related to t
-\note{At the same time, a widely held view is that LT yields are more influced by global forces than ST ones. In the case of EMs, these global forces would limit the monetary autonomy of their CBs along their YCs.}
-\note{In particular, the UMPs implemented by the Fed aimed at reducing the term premium in US yields can reduce EM yields by decreasing the TP in LT yields and the expected component in ST yields; this last effect is what K-O refers to as risk spillovers.}
+\note{It has been argued that LT yields are more influced by global forces than ST ones.}
+\note{In particular, since UMPs implemented by CBs in AE aim to influence LT yields, those policies can also affect EM yields through the TP and they can even have risk spillovers that particularly influence ST yields.}
+\note{These developments limit the monetary autonomy of the CBs in EM along their YCs.}
 
 %\note{We usually think that CBs exert control over a ST interest rate and financial markets transmit the monetary stance to LT interest rates.}
-
 
 \begin{frame}
 \frametitle{Implications of Yield Curve Channel}
 
 Long-term EM yields \alert{comove more} than short-term ones
+%\begin{itemize}
+%\item Rolling correlations % Connectedness index \citep{DieboldYilmaz:2014}
+%\end{itemize}
 
-\alert{Direct} relationship that varies by maturity
+\alert{Direct} relationships that vary by maturity
 \begin{itemize}
 \item U.S. term premium \(\rightarrow\) EM term premium
 \item U.S. expected future short rates \(\rightarrow\) EM expected future short rates
 \end{itemize}
 
-\alert{Cross} relationships at the \textit{short end}
+\alert{Cross} relationships at the \textbf{short end}
 \begin{itemize}
-\item \textbf{Risk spillovers}: U.S. term premium \(\rightarrow\) EM expected future short rates
+\item U.S. term premium \(\rightarrow\) EM expected future short rates
 \end{itemize}
 \end{frame}
 \note{If there is a YC channel, we should observe that LT yields are more correlated than ST ones.}
-\note{Also, there should be a direct relationship that varies by maturity b/w the term premia in the US and in EMs, and b/w ESRs in the US and in EMs.}
-\note{If there are risk spillovers, we should observe that the US TP influences the ESR particularly at the short end of the YC.}
+\note{Also, there should be a direct relationship that varies by maturity b/w the TP in the US and in EM, and b/w ESR in the US and in EM.}
+\note{If there are risk spillovers, we should observe that the US TP influences the ESR particularly at the short end.}
 
 %\begin{frame}[label=DYindex]
 %\frametitle{EM Yields Comovement}
@@ -740,11 +765,9 @@ Long-term EM yields \alert{comove more} than short-term ones
 	\hyperlink{DYindex}{\beamergotobutton{D-Y Index}}
 \end{textblock*}
 \end{frame}
-\note{Regarding the comovement of the yields, this figure shows the average pair-wise rolling correlations for yields at maturities of 3M and 1, 5 and 10 years.}
+\note{Regarding the comovement of the yields, this figure shows the average pair-wise rolling correlations for yields at different maturities: 3M and 1, 5 and 10 years.}
 \note{As you can see, the comovement among LT yields after the GFC became stronger than that of ST yields.}
-\note{The same conclusion is reached using the popular connectedness index of Diebold and Yilmaz, which determines shares of forecast error variation in a country's yield due to shocks arising elsewhere.}
-
-%\note{The index fluctuates between 0 and 100\%, with higher numbers indicating a higher degree of comovement.}
+\note{The same conclusion is reached using the connectedness index of Diebold and Yilmaz.}
 
 
 \begin{frame}
@@ -755,7 +778,7 @@ Long-term EM yields \alert{comove more} than short-term ones
 \input {../Equations/uPanelDCMP}
 %\vspace{-1cm}
 
-\(\yld_{\idxspnl}\): EM nominal yields and their three components
+\(\yld_{\idxspnl}\): nominal EM yields and their three components
 
 \(\alpha_{i}\): country fixed effects
 
@@ -768,99 +791,55 @@ Long-term EM yields \alert{comove more} than short-term ones
 \end{itemize}
 %\end{itemize}
 \end{frame}
-\note{To formally assess, the direct and cross relationships implied by the YC channel, I regress EM nominal yields and their components on the components of the US YC.}
-\note{The decomposition of the US YC comes from the Kim-Wright model, which uses survey forecasts of future ST interest rates.}
+\note{To formally assess, the direct and cross relationships implied by the YC channel, I regress the nominal yields of EM and their components on the components of the US YC.}
+\note{The decomposition of the US YC comes from the Kim-Wright model, which uses survey forecasts of future short-term interest rates.}
 \note{I include country FE and control for global and domestic drivers of yields.}
-\note{Global factors include the volatility index, the EPU index of Baker, Bloom and Davis and the global real activity index of Hamilton.}
-\note{Domestic factors include the local policy rate, inflation, the unemployment rate and the currency.}
 %\note{Country FE allow for the possibility that country-specific factors that may affect TP are also correlated with the controls.}
 
-
-%\begin{frame}[label=Drivers10Y2Y]
-%\vspace{-0.9cm} % \vspace{-2.2cm}
-%\begin{center}
-%	\begin{tikzpicture}
-%	\node (table) at (0,0)
-%	{\includegraphics[trim={2cm 6.7cm 2cm 4cm},clip, width=0.95\textwidth,height=1.15\textheight]{../Tables/ycdcmp10y2y_v0.pdf}};
-%	% \draw[step=0.5cm,gray,very thin] (-4,-4) grid (6,6);
-%	\onslide<2>{
-%		\draw[blue,thick] (-0.2,1.24) rectangle (1.2,1.7); %YP10Y
-%		\draw[blue,thick] (-0.2,-1.49) rectangle (1.2,-1.02); %YP2Y
-%		\draw[orange,thick] (-0.2,0.75) rectangle (1.2,1.21); %CBP10Y
-%		\draw[orange,thick] (-0.2,-2) rectangle (1.2,-1.523); %CBP2Y
-%	}
-%	\onslide<3>{
-%		\draw[blue,thick] (2,1.72) rectangle (3.5,2.19); % TP10Y
-%		\draw[blue,thick] (2,-1.05) rectangle (3.5,-0.54); %TP2Y
-%		\draw[orange,thick] (2,0.23) rectangle (3.5,0.74); % VIX10Y
-%		\draw[orange,thick] (2,-2.52) rectangle (3.5,-2); %VIX2Y
-%	}
-%	\onslide<4>{
-%		\draw[blue,thick] (-0.2,1.7) rectangle (1.2,2.2); %TP10Y
-%		\draw[blue,thick] (-0.2,-1.05) rectangle (1.2,-0.54); %TP2Y
-%		\draw[orange,thick] (-0.2,0.24) rectangle (1.2,0.74); % VIX10Y
-%		\draw[orange,thick] (-0.2,-2.52) rectangle (1.2,-2); %VIX2Y
-%	}
-%	\end{tikzpicture}
-%\end{center}
-%\begin{textblock*}{5cm}(1.07\textwidth,0.175\textheight)
-%	\hyperlink{Drivers10Y}{\beamergotobutton{10Y}}
-%\end{textblock*}
-%\begin{textblock*}{5cm}(1.07\textwidth,0.525\textheight)
-%	\hyperlink{Drivers2Y}{\beamergotobutton{2Y}}
-%\end{textblock*}
-%\end{frame}
 
 \begin{frame}[label=Drivers10Y2Y]
 \vspace{-0.9cm} % \vspace{-2.2cm}
 \begin{center}
 	\begin{tikzpicture}
 	\node (table) at (0,0)
-	{\includegraphics[trim={4cm 2cm 3.5cm 1cm},clip, width=1\textwidth,height=1.15\textheight]{../Tables/ycdcmp10y2y.pdf}};
+	{\includegraphics[trim={2cm 6.7cm 2cm 4cm},clip, width=0.95\textwidth,height=1.15\textheight]{../Tables/ycdcmp10y2y.pdf}};
 	% \draw[step=0.5cm,gray,very thin] (-4,-4) grid (6,6);
 	\onslide<2>{
-		\draw[blue,thick] (-0.7,1.38) rectangle (0.55,1.88); %YP10Y blue
-		\draw[blue,thick] (-0.7,-1.51) rectangle (0.55,-1.02); %YP2Y blue
-		\draw[orange,thick] (-0.7,0.85) rectangle (0.55,1.34); %CBP10Y orange
-		\draw[orange,thick] (-0.7,-2.05) rectangle (0.55,-1.55); %CBP2Y orange
+		\draw[blue,thick] (-0.2,1.24) rectangle (1.2,1.7); %YP10Y
+		\draw[blue,thick] (-0.2,-1.49) rectangle (1.2,-1.02); %YP2Y
+		\draw[orange,thick] (-0.2,0.75) rectangle (1.2,1.21); %CBP10Y
+		\draw[orange,thick] (-0.2,-2) rectangle (1.2,-1.523); %CBP2Y
 	}
 	\onslide<3>{
-		\draw[blue,thick] (1.95,1.88) rectangle (3.25,2.38); % TP10Y blue
-		\draw[blue,thick] (1.95,-1.03) rectangle (3.25,-0.51); %TP2Y blue
-		\draw[orange,thick] (1.95,0.3) rectangle (3.25,0.85); % VIX10Y orange
-		\draw[orange,thick] (1.95,-2.58) rectangle (3.25,-2.08); %VIX2Y orange
+		\draw[blue,thick] (2,1.72) rectangle (3.5,2.19); % TP10Y
+		\draw[blue,thick] (2,-1.05) rectangle (3.5,-0.54); %TP2Y
+		\draw[orange,thick] (2,0.23) rectangle (3.5,0.74); % VIX10Y
+		\draw[orange,thick] (2,-2.52) rectangle (3.5,-2); %VIX2Y
 	}
 	\onslide<4>{
-		\draw[blue,thick] (-0.7,1.88) rectangle (0.55,2.38); %TP10Y
-		\draw[blue,thick] (-0.7,-1.03) rectangle (0.55,-0.51); %TP2Y
-		\draw[orange,thick] (-0.7,0.3) rectangle (0.55,0.85); % VIX10Y
-		\draw[orange,thick] (-0.7,-2.58) rectangle (0.55,-2.08); %VIX2Y
+		\draw[blue,thick] (-0.2,1.7) rectangle (1.2,2.2); %TP10Y
+		\draw[blue,thick] (-0.2,-1.05) rectangle (1.2,-0.54); %TP2Y
+		\draw[orange,thick] (-0.2,0.24) rectangle (1.2,0.74); % VIX10Y
+		\draw[orange,thick] (-0.2,-2.52) rectangle (1.2,-2); %VIX2Y
 	}
 	\end{tikzpicture}
 \end{center}
-\begin{textblock*}{5cm}(1.07\textwidth,0.23\textheight)
+\begin{textblock*}{5cm}(1.07\textwidth,0.175\textheight)
 	\hyperlink{Drivers10Y}{\beamergotobutton{10Y}}
 \end{textblock*}
-\begin{textblock*}{5cm}(1.07\textwidth,0.59\textheight)
+\begin{textblock*}{5cm}(1.07\textwidth,0.525\textheight)
 	\hyperlink{Drivers2Y}{\beamergotobutton{2Y}}
 \end{textblock*}
 \end{frame}
-\note{This table reports the estimated coefficients for the 2Y and 10Y nominal yields and their components. I want to highlight 3 things from this table in relation to the YC channel.}
+\note{This table reports the estimated coefficients for the 2Y and 10Y nominal yields and their components. There are 3 things that I want to highlight.}
 
-\note{First, notice that the response of ESR to the domestic policy rate is stronger at the short end than at the long end. Also, the ESR is associated with its US counterpart only at the long end but not at the short end}
-\note{This evidence shows that the monetary autonomy in EMs is stronger at the short end than at the long end.}
+\note{First, notice that the response of ESR to the local policy rate is stronger at ST than at LT. Also, ESR is associated with its US counterpart only at the LT -> This evidence shows that the monetary autonomy in EM is stronger at the ST than at LT.}
 
-\note{The second point is that the response of the term premia in EMs to the US TP increases with maturity. Also, the term premia in EMs is positively associated with the VIX only at the long end.}
-\note{This shows that the GFCy (represented here by the US TP and the VIX) is more relevant for LT yields than for ST ones.}
+\note{The second point is that the response of TP in EM to the US TP increases with maturity. Also, the TP in EM is positively associated with the Vix only at LT -> This shows that the GFCy (represented by the US TP and the VIX) is more relevant for LT yields than for ST ones.}
 
-\note{The last point is that there are risk spillovers to the ESR in EMs from the US TP but not from the VIX. Those risk spillovers are stronger at the shor end than at the long end as suggested by Kalemli-Ozkan.}
+\note{The last point is that there are risk spillovers to the ESR in EM from the USTP but not from the VIX. Those risk spillovers are stronger at the ST than LT as suggested by Kalemli-Ozkan.}
 
-\note{The results from this analysis are therefore in line with the implications of the YC channel.}
-\note{Here, I am highilighting the evidence supporting the YC channel but in the paper, I discuss the effects of the other drivers not shown in this table.}
-
-
-\note{In particular, the term premia in EMs is countercyclical, it raises during recessions.}
-
+\note{All these results are in line with the implications of the YC channel.}
 %\note{Higher TP during recessions: high UNE, low IP. Evidence of EM TP countercyclical.}
 %\note{INF erodes value of nominal bonds: in periods of rising INF demand a higher TP.}
 %\note{Higher TP due to FX depreciation in line with risk-taking channel of FX.
@@ -872,17 +851,33 @@ Long-term EM yields \alert{comove more} than short-term ones
 %	However, it is in line with the risk-taking channel of exchange rates found by \cite{HofmannShimShin:2017}, according to which currency depreciation is associated with tighter financial conditions and increased sovereign bond spreads.}
 
 
-%{%
-%	\setbeamertemplate{frame footer}{See \cite{Kuttner:2001,GSS:2005a,Swanson:2018,RogersScottiWright:2018}.}
+%\begin{frame}[label=Drivers10Y2Y]
+%\vspace{-0.8cm}
+%\begin{figure}[!htbp]
+%	\begin{center} % trim removes: left, down, right, top
+%		\includegraphics[trim={2cm 6.7cm 2cm 4cm},clip, width=0.95\textwidth,height=1.15\textheight]{../Tables/ycdcmp10y2y.pdf}
+%		\par\end{center}
+%\end{figure}
+%\begin{textblock*}{5cm}(1.07\textwidth,0.175\textheight)
+%	\hyperlink{Drivers10Y}{\beamergotobutton{10Y}}
+%\end{textblock*}
+%\begin{textblock*}{5cm}(1.07\textwidth,0.525\textheight)
+%	\hyperlink{Drivers2Y}{\beamergotobutton{2Y}}
+%\end{textblock*}
+%\end{frame}
+
+
+{%
+	\setbeamertemplate{frame footer}{See \cite{Kuttner:2001,GSS:2005a,Swanson:2018,RogersScottiWright:2018}.}
 \begin{frame}
 \frametitle{U.S. Monetary Policy Surprises}
 
 Asset price changes in 2-hour windows around FOMC meetings % since 2000
 %Surprises:
 	\begin{itemize}
-		\item \alert{Target}: change in yield on federal funds futures \citep{Kuttner:2001}
-		\item \alert{Forward guidance}: residual of change in yield for 8\(^{th}\) Eurodollar futures onto target surprise \citep{GSS:2005a}
-		\item \alert{Asset purchases}: residual of change in yield of 10Y Treasury futures onto target and FG surprises \citep{Swanson:2018} % target and forward guidance surprises starting in 2009
+		\item \alert{Target}: federal funds futures contracts
+		\item \alert{Forward guidance}: residual of 8th Eurodollar yield on target surprise
+		\item \alert{Asset purchases}: residual of 10Y Treasury yield on previous surprises % target and forward guidance surprises starting in 2009
 	\end{itemize}
 \begin{center}
 \input{../Figures/MPS/USMPtimeline}
@@ -891,28 +886,21 @@ Asset price changes in 2-hour windows around FOMC meetings % since 2000
 %	\includegraphics[trim={0cm 0cm 0cm 0cm},clip,width=0.85\textwidth,height=0.95\textheight]{../Figures/MPS/USMPtimeline}
 %\end{center}
 \end{frame}
-%}
-\note{The analysis so far has not identified US MP surprises and is not suitable to analyze the persistence of the effects.}
-\note{To address that, I capture unexpected changes in the monetary stance in the US following the literature that identifies surprises in MP using intraday data on asset prices in 2-hour windows around FOMC meetings.}
-\note{Since Fed's announcements provide different types of information, in the analysis I distinguish between three types of MP decisions.}
-\note{Surprises about the target federal funds rate are based on the change in the yield on FFF contracts.}
-\note{Surprises about the future path of the policy rate are equal to the residual from a regression of the change in the yield for the 8th Eurodollar futures contract onto the target surprise.}
-\note{The 8th Eurodollar futures contract is a bet on the level of 3M interest rates about 2Y ahead. At the ZLB, this was around the shortest point on the YC that could be influenced by MP.}
-\note{And finally, LSAP surprises are equal to the residual from a regression of the change in the yield of 10Y Treasury futures onto the target and FG surprises.}
-\note{Notice that by construction the three types of surprises are uncorrelated.}
-\note{A positive value in any of the surprises represents a tightening of the monetary stance, and a negative value represents an easing.}
-\note{During the ZLB period there were essentially no target surprises. LSAP surprises only make sense after the GFC. And there have been FG surprises over the whole sample period.}
+}
+\note{So far, the analysis has not identified US MP surprises and is not suitable to analyze the persistence of the effects.}
+\note{To address that, I follow the literature that identifies MP surprises using intraday data on asset prices in 2-hour windows around FOMC meetings. Since Fed's announcements provide different types of information, in the analysis I distinguish between target, forward guidance and LSAP surprises.}
+\note{A positive value in any of the surprises represents a tightening
+of the monetary policy stance, and a negative value represents an easing.}
+%\note{The previous specification might be subject to econometric problems such as omitted variables.}
 
 \begin{frame}
 \frametitle{Measuring the Effects on EM Yields}
 %\vspace{-1cm}
 Panel local projections:
-
-\vspace{-0.4cm}
 \input{../Equations/uPanelLP}	% \ref{eq:nPanelLP}
 %\vspace{-0.7cm}
 \begin{itemize}
-\item \(\yld_{\idxspnl}\): 10Y and 2Y EM nominal \alert{yields} and their \alert{components}
+\item \(\yld_{\idxspnl}\): 10Y and 2Y nominal \alert{EM yields} and their \alert{components}
 \item \(\idxh = 0, 1, \ldots, 45\) days
 \item \(\alpha_{\idxh,\idxi}\): country fixed effects
 \item \(\epsilon^{j}_{\idxt}\): \alert{three} types of monetary policy \alert{surprises}
@@ -920,12 +908,10 @@ Panel local projections:
 \end{itemize}
 \end{frame}
 \note{To quantify the effects of US MP on EM yields, I use panel local projections for the daily changes in the nominal yields and their components, which allow me to estimate the effects on the day of a surprise as well as their persistence.}
-\note{I control for the lag of the dependent variable and the lag of the FX to rule out explanations of yield changes due to the exchange rate.}
-\note{Since the Fed has been more aggressive stimulating the economy over the sample period, all responses are assessed relative to a 1 basis point easing surprise.}
-
-
-\note{Large number of daily observations reduces the potential for Nickell bias. Responses are essentially the same when I removed the lag of the depvar.}
-%\note{Keep in mind that since there are two curves, it is important to understand the effects on both curves when interpreting the results.}
+\note{I control for the lag of the dependent variable and the lag of the exchange rate to rule out explanations of yield changes due to the exchange rate.}
+\note{All responses are assessed relative to a 1 bp easing surprise.}
+\note{Keep in mind that since there are two curves, so it is important to understand the effects on both curves when interpreting the results.}
+%\note{Large number of daily observations reduces the potential for Nickell bias. Responses are essentially the same when I removed the lag of depvar.}
 
 
 \begin{frame}[label=TargetEM]
@@ -951,21 +937,33 @@ Panel local projections:
 \hyperlink{TargetUS}{\beamergotobutton{US}}
 \end{textblock*}
 \end{frame}
-\note{This figure shows the responses of the 2Y and 10Y nominal yields and their components to a 1 basis point target easing surprise.}
+\note{This figure shows the responses of the 2Y and 10Y nominal yields and their components to a 1 bp target easing surprise.}
 \note{Red arrows indicate the responses on the day of the surprise.}
 %\note{The dotted lines are 90\% confidence bands.} %computed using the DK SE
 
-\note{Following a target easing surprise, the YCs of EMs steepen since ST yields decline by more. Also notice that the response builds over time, which can be attributed to slow-moving capital.}
-\note{The response of the US YC is similar. It also steepens over time.}
+\note{Following a target easing surprise, both the US and EM YCs steepen and the response builds over time.}
+\note{Looking at the effects on the components, we can see that investors expect CB in EM to follow the monetary stance of the Fed, with the effect being somewhat stronger at ST.}
+\note{The results suggest that investors reallocate capital into US Treasuries along the YC but only into EM sovereign bonds at ST which increases the nominal-synthetic spread at LT.}
 
-\note{Looking at the effects on the components, we can see that investors expect CBs in EMs to follow the monetary stance of the Fed, in this case an easing of financial conditions, with the effect being somewhat stronger at the short end.}
-\note{In fact, most of the effect of a target surprise is reflected on the ESR component. There is essentially no effect on the term premia and on the CRC at the short end. However, the CRC at the lond end increases one month after the surprise.}
-\note{Mechanically, this result suggests that investors reallocate capital into US Treasuries along the YC but only into EM sovereign bonds at the short end which increases the nominal-synthetic spread at the long end.}
-\note{The economic intuition behind this result can be related to the reason why EMs default in the first place. The decline in the ESR might lead to an eventual depreciation of the LC, which would have a negative effect on the balance sheet of firms with assets in LC but liabilities in FC. Different papers have indeed documented that the corporate sector in EMs has increased its borrowing in FC over time.}
-\note{A large depreciation of the LC might therefore trigger corporarte defaults that would negatively affect domestic output. In such a case, a sovereign default would be preferred to a depreciation, increasing the price of bearing credit risk.}
-\note{Du and Schreger document support for this mechanism.}
-\note{Notice that the effect is not expected in the short term, since the CRC increases only for LT yields.}
-\note{This can be seen as the fiscal implications in EMs of MP in the US.}
+
+%\begin{frame}
+%\frametitle{Effects of Target Surprises}
+%\begin{center}
+%\begin{tikzpicture}
+%	\node[anchor=north west,inner sep=0] (image) at (0,0) {\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.45\textheight,width=0.85\linewidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMnomyptpphi120m.eps}};
+%	\begin{scope}[x={(image.south east)},y={(image.north west)}]
+%		\draw[red] (0.3,1) circle (0.1cm);
+%		\draw[blue, semitransparent] (0,0) circle[radius=3pt];
+%		\draw[red] (0.62,0.65) rectangle (0.78,0.75);
+%	\end{scope}
+%%	\draw[red,ultra thick,rounded corners] (7.5,5.3) rectangle (9.4,6.2);
+%\end{tikzpicture}
+%\begin{tikzpicture}
+%	\node[anchor=south west,inner sep=0] (image) at (0,0) {\includegraphics[trim={0cm 0cm 0cm 0.76cm},clip,height=0.45\textheight,width=0.85\linewidth]{../Figures/LPs/LagDep-FX/Target/EM/TargetEMnomyptpphi24m.eps}};
+%%	\draw[red,ultra thick,rounded corners] (7.5,5.3) rectangle (9.4,6.2);
+%\end{tikzpicture}
+%\end{center}
+%\end{frame}
 
 
 \begin{frame}[label=FGEMpre]
@@ -991,13 +989,8 @@ Panel local projections:
 	\hyperlink{FGUSpre}{\beamergotobutton{US}}
 \end{textblock*}
 \end{frame}
-\note{The literature documents that US MP spillovers to EM yields changed after the GFC, so I present the responses to a FG easing surprise before and after the GFC.}
-
-\note{As you can see in this figure, before 2008, a FG easing surprise led to a downward parallel shift in EM YCs in the month following the surprise, which was mainly driven by a parallel decline in term premia since the ESR and the CRC essentially did not respond.}
-\note{The sluggish response that I mentioned for target surprises can also be seen here.}
-
-\note{The effect on US yields is not as clear as for EM yields but FG easing surprises also reduce the US term premium, with the effect being somewhat stronger at the long end.}
-
+\note{The literature documents that US MP spillovers to EM yields changed after GFC. So I present the responses to a FG easing surprise before and after the GFC.}
+\note{Before 2008, a FG easing surprise led to a downward parallel shift in EM YCs in the month following the surprise, which was essentially driven by a parallel decline in TP.}
 %\note{Slightly reduced CRC on impact.}
 
 
@@ -1024,20 +1017,10 @@ Panel local projections:
 \hyperlink{FGUSpost}{\beamergotobutton{US}}
 \end{textblock*}
 \end{frame}
-\note{This figures shows the responses of EM yields to a FG easing surprise after the GFC.}
-
-\note{For the UMPs, let me also show you the responses of US yields.}
-\note{The figure shows the responses of US yields to a FG easing surprise after the GFC.}
-\note{Notice that the effect is stronger on LT yields, it is persistent and it is mainly driven by the term premium.}
-\note{In fact, one of the goals of the Fed of making announcements about the future path of the federal funds rate after the GFC was to reduce LT yields in the US mainly by reducing the term premium.}
-
-\note{In the case of EMs, the effect on LT yields is shorter than in US yields. Therefore, the nominal-synthetic spread in EM yields widens at the long end. The same economic intuition applied with target surprises is still valid for FG surprises. That is, the effect of an eventual depreciation of the LC on the balance sheet of the corporate sector increases the price of bearing credit risk.} %makes investors relatively more willing to invest in LT bonds in the US than in EM
-
-\note{You can also see that the response of the term premia at the lond end is similar in EMs than in the US. In other words, announcements by the Fed about the future path of the federal funds rate aimed at reducing the term premium in US yields at the long end, also reduce the term premia in EM yields at the long end.}
-\note{This is where accounting for credit risk pays off because if it were to be ignored, one would conclude that unconventional policies do not affect the term premia in EMs. And the reason is that the `clean' term premium that I propose and the CRC part respond in opposite directions with magnitudes that almost offset each other, so there is no net effect in the term premium contaminated with credit risk.}
-
-\note{In relation to the YC channel, a FG easing surprise not only reduces the term premium in EMs at the long end but also the expectation for the policy rates at the short end.}
-\note{This is consistent with the risk spillovers mechanism highlighted before.}
+\note{After the GFC, the effect of a FG easing surprise lasts less in EM LT yields than in US yields, which widens the nominal-synthetic spread in EM at LT.} %makes investors relatively more willing to invest in LT bonds in the US than in EM
+\note{The figure also shows that FG surprises aimed at reducing the LT USTP also reduce the LT TP in EM.}
+\note{Note that following the surprise, the TP and the CRC at LT move in opposite directions. Almost offsetting each other. This is where accounting for CR pays off b/c if CR were to be ignored, one would conclude that FG does not affect the TP in EM.}
+\note{In relation to the YC channel, a FG easing surprise also reduces the expectations of policy rates in EM at ST in line with the risk spillover mechanism.}
 
 
 \begin{frame}[label=LSAPEM]
@@ -1063,22 +1046,14 @@ Panel local projections:
 \hyperlink{LSAPUS}{\beamergotobutton{US}}
 \end{textblock*}
 \end{frame}
-\note{This last figure shows the effects on EM yields to announcements about asset purchases.}
-
-\note{Let me also refer to the response of US yields to those surprises.}
-\note{An asset purchase easing surprise flattens the US YC since the effect is stronger on LT yields than on ST ones. In particular notice that the response of LT yields is more than 1-to-1, and that the surprises reduce both the ESR and the TP at short and long maturities.}
-
-\note{In the case of EMs, asset purchase easing surprises also flatten their YCs but the effect lasts longer on EM yields than on US yields. Therefore, an asset purchase surprise more clearly incentivizes investors to *eventually* hold LT bonds in EMs than target and FG surprises.}
-\note{This effect reduces the term premium and the CRC.}
-\note{This on-impact increase in the CRC at the long end, however, seems to be more a reflection of the response in the US Treasuries market than on the bond markets in emerging economies.}
-
-\note{Similar to the responses to a FG easing surprise after the GFC, an asset purchase easing surprise not only reduces the term premium in EMs at the long end but also the expectation for the policy rates at the short end.}
-\note{This evidence also confirms the results I mentioned before about a YC channel.}
-\note{In particular, the UMPs, namely FG and asset purchases, implemented by the Fed after the GFC transmit to EM yields through their different components, which can limit the influence central banks in EMs can exert over their domestic YCs.}
+\note{An asset purchase easing surprise flattens both US and EM YCs since the effects are stronger on LT yields than on ST ones. The effects of an LSAP surpise last longer on EM yields than on US yields.}
+\note{Unlike with FG, an LSAP surprise incentivizes investors to invest in LT yields in EM, reducing TP and CRC.}
+\note{The on impact increase in the CRC at LT is more a reflection of the response in the US Treasuries market than on the bond markets in EM.}
+\note{Similar to the responses to a FG easing surprise post-GFC, the responses of the 10Y TP and the 2Y ESR are also consistent with the YC channel.}
+\note{So there is evidence of a YC channel of UMPs.}
 
 
 \section{Conclusions}
-\note{Let me now conclude.}
 
 \begin{frame}
 \frametitle{Conclusions}
@@ -1095,20 +1070,13 @@ U.S. monetary policy \textbf{spillovers} to EM sovereign yields
 \item Evidence of a \alert{yield curve channel} since 2008
 \end{enumerate}
 \end{frame}
-\note{I propose a 3-part decomposition of the sovereign bond yields of EMs that explicitly takes into account the risk that those countries might default on their LC debt.}
-\note{I then use this decomposition to characterize the transmission channels of US MP.}
-\note{I find that the responses of EM yields to surprises in US MP are economically significant but they are delayed over the month following a surprise.}
-\note{Also, surprises in US MP lead to a reassessment of policy rate expectations and a repricing not only of interest risk but also of credit risk in EMs.}
-\note{Finally, the UMPs implemented by the Fed after the GFC limit the influence central banks in EMs can exert over their domestic YCs.}
-
-\note{A final takeaway from the paper is that it is important to explicitly account for credit risk in the LC debt of EMs and to examine the effects at different maturities to adequately characterize the transmission channels of US MP.}
-\note{I am happy to take any other question.}
-
-
-%\note{These results have implications for both AE and EM.}
+\note{I propose a 3-part decomposition of EM sovereign yields that explicitly takes into account the risk that EM might default in LC debt.}
+\note{I then use this decomposition to understand the transmission channels of US MP. I find that...}
+\note{These results have implications for both AE and EM.}
 %\note{These results give rise to further research questions like, for example, what tools do CBs in EM have at their disposal to deal with MP spillovers from abroad.}
 %\note{Extensions: nominal-real decompositions, jumps.}
 %\note{YC channel: EM monetary autonomy decreases along the yield curve and involves the CRC.}
+
 
 
 \begin{frame}[standout]
@@ -1264,24 +1232,24 @@ Forward rate from \(\tnr\) to \(\tnrfwd\) periods hence
 \begin{textblock*}{15cm}(2.5mm,3mm)
 	\textbf{10Y}
 \end{textblock*}
-\begin{textblock*}{5cm}(0.92\textwidth,1.07\textheight)
-	\hyperlink{YldDcmp2}{\beamerreturnbutton{Decomposition HUF-MXN}}
+\begin{textblock*}{5cm}(0.97\textwidth,1.05\textheight)
+	\hyperlink{YldDcmp2}{\beamerreturnbutton{Decomposition 2}}
 \end{textblock*}
 \end{frame}
 
-%\begin{frame}[label=yPscbp]
-%%	\frametitle{Components: Expected Future Short Rate}
-%\vspace{0.1cm}
-%\begin{center}							% center the figure inside the minipage
-%	\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.95\textheight,width=\linewidth]{../Figures/Estimation/bsl_yP_scbp.eps} \\
-%\end{center}
-%\begin{textblock*}{15cm}(2.5mm,3mm)
-%	\textbf{10Y}
-%\end{textblock*}
-%\begin{textblock*}{5cm}(0.97\textwidth,1.05\textheight)
-%	\hyperlink{YldDcmp10}{\beamerreturnbutton{Decomposition}}
-%\end{textblock*}
-%\end{frame}
+\begin{frame}[label=yPscbp]
+%	\frametitle{Components: Expected Future Short Rate}
+\vspace{0.1cm}
+\begin{center}							% center the figure inside the minipage
+	\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.95\textheight,width=\linewidth]{../Figures/Estimation/bsl_yP_scbp.eps} \\
+\end{center}
+\begin{textblock*}{15cm}(2.5mm,3mm)
+	\textbf{10Y}
+\end{textblock*}
+\begin{textblock*}{5cm}(0.97\textwidth,1.05\textheight)
+	\hyperlink{YldDcmp10}{\beamerreturnbutton{Decomposition}}
+\end{textblock*}
+\end{frame}
 
 \begin{frame}[label=tpCI]
 %	\frametitle{Components: Term Premium}
