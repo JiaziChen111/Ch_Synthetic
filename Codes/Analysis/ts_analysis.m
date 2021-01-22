@@ -9,7 +9,7 @@
 %% Load the data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/September-2020';
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/January-2021';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
