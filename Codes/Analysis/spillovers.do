@@ -1,8 +1,8 @@
-/* Code for 'Sovereign Yields with Credit Risk and U.S. Monetary Policy' 
-by Pavel Solís, August 2020
+/* Code for 'Term Premia and Credit Risk in Emerging Markets: The Role of U.S. 
+Monetary Policy' by Pavel Solís, January 2021
 
 This code uses local projections to estimate the reponse of emerging market bond
-yields to a 1 basis point change in the the target, path and LSAP shocks */
+yields to a 1 basis point change in U.S. target, path and LSAP shocks */
 * ==============================================================================
 
 
@@ -20,8 +20,8 @@ global pathfigs "`pathmain'/Docs/Figures"
 cd $pathdata
 
 global file_src  "$pathdata/dataspillovers.xlsx"
-global file_dta1 "$pathdlfs/dataspillovers1.dta"	// original dataset
-global file_dta2 "$pathdlfs/dataspillovers2.dta"	// dataset for analysis
+global file_dta1 "$pathdlfs/dataspillovers1.dta"		// original dataset
+global file_dta2 "$pathdlfs/dataspillovers2.dta"		// cleaned dataset
 global file_log  "$pathtbls/impact_regs"
 global file_tbl  "$pathtbls/impact_tbls"
 
@@ -45,25 +45,11 @@ log close
 translate $file_log.smcl $file_log.pdf, replace
 erase $file_log.smcl
 
-
-log using $file_log, replace
-// do "$pathcode/spov_pre"
-do "$pathcode/spov_levels_group"
-do "$pathcode/spov_levels_usyc"
-do "$pathcode/spov_levels_rho"
-do "$pathcode/spov_levels_group_path"
-do "$pathcode/spov_levels_usyc_path"
-do "$pathcode/spov_drivers"
-log close
-translate $file_log.smcl $file_log.pdf, replace
-erase $file_log.smcl
-
 * ------------------------------------------------------------------------------
-* Packages
+* Files from SSC
 * ------------------------------------------------------------------------------
-// ssc install xtcsd, replace	// to perform the Pesaran’s CD test of cross-sectional independence in FE panel models
-// ssc install xtscc, replace	// to get DK standard errors for FE panel models
-
+// ssc install xtcsd, replace	// for Pesaran’s CD test of cross-sectional independence in FE panel models
+// ssc install xtscc, replace	// for DK standard errors with FE panel models
 
 * ------------------------------------------------------------------------------
 * Sources
