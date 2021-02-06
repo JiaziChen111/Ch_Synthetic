@@ -77,7 +77,8 @@ vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 ts_plots(S,currEM,currAE,kwtp,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1em,pc1ae,pc1res,r2TPyP] = ts_pca(S,currEM,currAE,kwyp,kwtp);
-% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae corrTPyP pcexplnd pc1em pc1ae pc1res r2TPyP
+% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae 
+% corrTPyP pcexplnd pc1em pc1ae pc1res r2TPyP
 
 %% Construct panel dataset
 datetime(now(),'ConvertFrom','datenum')
