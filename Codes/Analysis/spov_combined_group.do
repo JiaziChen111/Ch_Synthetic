@@ -9,7 +9,7 @@ local xtcmd xtscc			// xtreg
 local xtopt fe level(90)	// fe level(90) cluster($id)
 local maxlag  = 1
 
-foreach group in 1 { // 0 1 {
+foreach group in 0 1 {
 	if `group' == 0 {
 		local grp "AE"
 		local vars nom dyp dtp // nom usyc rho phi	//  nom syn rho phi

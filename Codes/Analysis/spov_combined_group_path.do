@@ -9,7 +9,7 @@ local xtcmd xtscc			// xtreg
 local xtopt fe level(90)	// fe level(90) cluster($id)
 local maxlag  = 1
 
-foreach group in 1 { // 0 1 {
+foreach group in 1 {		// 0 1 {
 	if `group' == 0 {
 		local grp "AE"
 		local vars nom dyp dtp // nom usyc rho phi	//  nom syn rho phi
@@ -42,7 +42,7 @@ foreach group in 1 { // 0 1 {
 				capture gen `v'`t'm`h' = (f`h'.`v'`t'm - l.`v'`t'm)
 				
 				// conditions
-				local condition em == `group' & date >= td(1oct2008)	// & `region' == 4
+				local condition em == `group' & date < td(1oct2008)	// & `region' == 4
 				
 				// one regression for each horizon
 				if `h' == 0 {
@@ -97,7 +97,7 @@ foreach group in 1 { // 0 1 {
 			}	// `v' yield component
 
 			graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'nomyptpphi`t'm.eps, replace
+			graph export $pathfigs/LPs/`shk'/`grp'/`shk'`grp'nomyptpphi`t'mPre.eps, replace
 			graph drop _all
 		}		// `shock'
 	}		// `t' tenor

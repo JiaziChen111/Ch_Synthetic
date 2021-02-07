@@ -16,10 +16,10 @@ order  cty, after(date)
 
 * Business calendar based on current dataset
 capture {
-	// bcal create spillovers, from(date) purpose(Convert daily data into business calendar dates) replace
-	bcal load spillovers
-	gen bizdate = bofd("spillovers",date)
-	format %tbspillovers bizdate
+	// bcal create calspov, from(date) purpose(Convert daily data into business calendar dates) replace
+	bcal load calspov
+	gen bizdate = bofd("calspov",date)
+	format %tbcalspov bizdate
 }
 
 
@@ -34,11 +34,11 @@ xtset $id $t
 rename path pathold
 rename lsap lsapold
 reg ed8 mp1 
-predict path, r
+predict path, resid
 reg onrun10 mp1 path 
-predict lsap, r
-corr path pathold // if cty == "CHF"
-corr lsap lsapold // if cty == "CHF"
+predict lsap, resid
+corr path pathold if cty == "CHF"
+corr lsap lsapold if cty == "CHF"
 	// very highly correlated, path 0.9995 and lsap 0.9943
 drop pathold lsapold ed4 ed8 onrun10
 order path lsap, after(mp1)
@@ -77,8 +77,8 @@ foreach v of varlist usyc* ustp* usyp* nom* syn* rho* phi* dyp* dtp* {
 
 
 * Adjust target and LSAP shocks
-replace mp1  = 0 if date > td(31dec2008) & date < td(01dec2015)		// ZLB
-replace lsap = 0 if date < td(01oct2008) // & date > td(31dec2015)	// Rogers, Scotti & Wright (2018)
+replace mp1  = 0 if date > td(31dec2008) & date < td(01dec2015)		// ZLB period
+replace lsap = 0 if date < td(01oct2008)							// Rogers, Scotti & Wright (2018)
 foreach shock in mp1 path lsap {
 	gen  abs`shock' = abs(`shock')
 }

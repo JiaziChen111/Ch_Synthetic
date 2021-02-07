@@ -32,7 +32,7 @@ foreach t in 24 120 {
 			capture gen `v'`t'm`h' = (f`h'.`v'`t'm - l.`v'`t'm)
 			
 			// conditions
-			local condition cty == "`grp'" & date >=  td(1oct2008)
+			local condition cty == "`grp'" & date < td(1oct2008)
 			
 			// one regression for each horizon
 			if `h' == 0 {
@@ -77,7 +77,7 @@ foreach t in 24 120 {
 					(line ul1_`shock'_`v'`t'm days, lcolor(gs6) lpattern(dash)) ///
 					(line b_`shock'_`v'`t'm days, lcolor(blue*1.25) lpattern(solid) lwidth(thick)) /// 
 					(line zero days, lcolor(black)), ///
-			`yxtitles' xlabel(0(15)$horizon, nogrid) ylabel(``shock'`v'' ">", add custom labcolor(red) tlcolor(red) nogrid) ///
+			`yxtitles' xlabel(0(15)$horizon, nogrid) ylabel(``shock'`v'' "{bf:{&rArr}}", add custom labcolor(red) tlcolor(red) nogrid) ///
 			graphregion(color(white)) plotregion(color(white)) legend(off) name(`v'`t'm, replace) ///
 			title(`: variable label `v'`t'm', color(black) size(medium))
 
@@ -87,7 +87,7 @@ foreach t in 24 120 {
 		}	// `v' yield component
 		
 		graph combine `graphs`shock'`grp'`t'', rows(1) ycommon
-		graph export $pathfigs/LPs/`shk'/CTY/`shk'USDnomyptp`t'm.eps, replace
+		graph export $pathfigs/LPs/`shk'/CTY/`shk'USDnomyptp`t'mPre.eps, replace
 		graph drop _all
 	}		// `shock'
 }		// `t' tenor
