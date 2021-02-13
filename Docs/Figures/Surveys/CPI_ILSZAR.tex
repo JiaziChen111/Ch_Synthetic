@@ -6,15 +6,16 @@
 %\usepackage{subcaption}
 
 \begin{document}
-
-\begin{figure}[tbph]
-	\begin{center}
-		\caption{Trend versus Long-Horizon Forecasts of Inflation}
-		\label{fig:CPI_ILSZAR}
-		\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=1\textheight,width=1.4\textwidth]{../Figures/Surveys/CPI_ILSZAR.eps} \\
-	\end{center}
-	% trim = {<left> <lower> <right> <upper>}
-%	\vspace{-0.4cm} \caption*{\footnotesize{\textit{Notes}: Notes.}}
-\end{figure}
-
+	\begin{figure}[tbph]
+		\caption{Inflation Trend and Long-Horizon Forecast for Inflation} \label{fig:CPI_ILSZAR}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.85\textheight,width=1\textwidth]{../Figures/Surveys/CPI_ILSZAR.eps} \\
+				\end{center}
+				\fignotes{This figure plots consumer price inflation (solid line), inflation trend based on the Hodrick--Prescott filter (dash-dotted line) and long-term inflation forecast (dashed line). The figure also includes the upper and lower bounds for the domestic inflation target. The upper and lower bounds are the most recent ones for each country.}
+			\end{minipage}
+		\end{center}
+	\end{figure}
 \end{document}
+% trim = {<left> <lower> <right> <upper>}
