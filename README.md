@@ -1,7 +1,6 @@
 # Ch_Synthetic
 
-The files in this folder are provided to facilitate the replication of the results in "Comovement of the Sovereign Yields of Emerging Markets" by Pavel Solís
-Alternative title: International Bond Risk Premia Implications of Deviations from Covered Interest Rate Parity.
+The files in this folder are provided to facilitate the replication of the results in "Term Premia and Credit Risk in Emerging Markets: The Role of U.S. Monetary Policy" by Pavel Solís
 
 
 ## SYSTEM FEATURES
@@ -77,7 +76,7 @@ If you add or modify the files in the main folder, keep in mind that the names o
 
 The paths in the codes for opening and/or saving files are relative to the folder in which the file is located. Therefore, the codes work regardless of where the main folder is located. However, the relative paths rely on the structure of the main folder as provided.
 
-The paths of directories are defined using the Unix convention (i.e. forward slash). Keep in mind that Windows systems use a backslash and so, an error may appear if the files are executed in a Windows machine. The user would just need to modify the codes where appropriate. This should only happen with executable .sh and .do files because the codes in Matlab were written to be independent of the platform used.
+The paths of directories are defined using the Unix convention (i.e. forward slash). Keep in mind that Windows systems use a backslash and so, an error may appear if the files are executed in a Windows machine. The user would just need to modify the codes where appropriate. This should only happen with executable .sh and .do files because the Matlab codes are independent of the platform used.
 
 On reproducibility of empirical research, see:
 - TIER protocol (http://www.projecttier.org/tier-protocol/)
@@ -94,10 +93,10 @@ In pre-analysis folder
 run read_data.m 	-> generates dataset_daily (runtime: 30 min w/o NSS, o/w 75 min)
 	read_platforms	-> tickers from Bloomberg and Datastream
 	read_usyc	-> data from GSW and CRSP
-	fwd_prm		-> short and long term forward premia
+	fwd_prm		-> short- and long-term forward premia
 	zc_yields	-> par converted into zero-coupon yields, fit NS model
 	spreads		-> CIP deviations, yield spreads (LC, FC)
-	read_cip	-> load DIS dataset
+	read_cip		-> load DIS dataset
 	plot_spreads	-> plot (term structure of) spreads
 	compare_cip	-> compare own spreads vs DIS
 variable types in header_daily: RHO,LCNOM,LCSYNT,LCSPRD,CIPDEV,FCSPRD
@@ -105,14 +104,14 @@ read_data.m calls: read_platforms, read_usyc, fwd_prm, zc_yields, spreads, read_
 auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
 In analysis folder
-run ts_analysis.m	-> generates structure w/ analyzed data
+run ts_analysis.m -> generates structure w/ analyzed data
 	daily2monthly	-> extract monthly data
 	forecast_cbpol	-> add survey data for policy rate
 	append_surveys 	-> combine yield and survey data
-	atsm_estimation -> estimate model w/ and w/o survey data, nominal & synthetic YCs
-	post-estimation -> assess_fit, add_vars, ts_plots, ts_correlations, ts_pca
-	atsm_daily	-> estimate mode w/ daily data
-	construct_panel -> construct panel dataset
+	atsm_estimation 	-> estimate model w/ and w/o survey data, nominal & synthetic YCs
+	post-estimation 	-> assess_fit, add_vars, ts_plots, ts_correlations, ts_pca
+	atsm_daily	-> estimate model w/ daily data
+	construct_panel 	-> construct panel dataset
 
 
 'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified using (filtering in) header_daily

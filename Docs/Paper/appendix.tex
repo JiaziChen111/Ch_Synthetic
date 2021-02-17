@@ -11,22 +11,24 @@
 \section{Trend Inflation as a Proxy for Long-Term Inflation Forecasts} \label{sec:trendinf}
 \setcounter{figure}{0}
 
-An advantage of the small open economy approach is that it only requires forecasts for inflation, or a proxy in the case of countries with no long-term forecasts available as is the case for Israel and South Africa.
+An advantage of the small open economy approach to infer long-term forecasts for the short rate is that, for emerging markets, it only requires data on inflation forecasts, or a proxy in the case of countries with no long-term forecasts available as is the case for Israel and South Africa.
 
 Inflation expectations are hoped to match measures of inflation that exclude unexpected shocks and better reflect the inflation environment.
 Different measures of core inflation exist.
-I use the inflation trend obtained by applying the Hodrick-Prescott filter to the series of realized inflation of each country.
-Of course, the filter is sensitive to the sample period used.
-The resulting trend can also be outside of the target inflation band due to the innate dynamics of the series, which would be at odds with survey data (see figure \ref{fig:wnCPI}).
+I use the inflation trend obtained by applying the Hodrick--Prescott filter to the series of realized inflation of each country.
 
+There are two main concerns for using this approach. Namely, the filter is sensitive to the sample period used and the resulting trend can be outside of the target inflation band due to the innate dynamics of the series, which would be at odds with survey data (see figure \ref{fig:wnCPI}). In the case of Israel and South Africa, however, 
 %Fortunately, u
-Unlike other countries, there is no marked upward or downward trend in the inflation of Israel nor South Africa during the sample period.
-For each country, trend inflation is calculated for the whole period but only considered within the time range for which survey data is available for the rest of the countries, and as long as the trend is within the inflation target band.
+%Unlike other countries, 
+there is no marked upward or downward trend in their inflation %of Israel nor South Africa 
+during the sample period. 
+Therefore, for both countries, trend inflation is calculated for the whole period %but only considered within the time range 
+for which survey data is available for the rest of the countries in the sample, and as long as the resulting trend is within the respective inflation target band.
 
-Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa, and compares them with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked trend) and for which survey data is available.
+Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa along with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked upward or downward trend) and for which survey data is available.
 %It supports that t
-Trend inflation seems to be a good proxy for the long-term inflation forecasts of Israel and South Africa.
-Finally, since the 5-year and long-term forecasts closely follow each other (see figure \ref{fig:wnCPI}), I use trend inflation for both tenors.
+The figure shows that trend inflation seems to be a good proxy for the long-term inflation forecasts in Malaysia and Thailand.
+Also, as can be seen in the main text (figure \ref{fig:wnCPI}), 5-year and long-term inflation forecasts follow each other closely, therefore trend inflation is used as the proxy for both the 5-year and the long-term inflation forecasts in the case of Israel and South Africa.
 
 \begin{landscape}
 	\input{../Figures/Surveys/CPI_ILSZAR}
@@ -35,7 +37,7 @@ Finally, since the 5-year and long-term forecasts closely follow each other (see
 %	\input{../Figures/Latex/temp_ts_tp}
 
 \renewcommand\thefigure{\thesection.\arabic{figure}}
-\section{Connectedness of Yield Components}
+\section{Connectedness of Yields and  Components}
 \setcounter{figure}{0}
 
 %The expected short rate in emerging markets reacts to changes in the U.S. term premium. 
@@ -47,11 +49,11 @@ Finally, since the 5-year and long-term forecasts closely follow each other (see
 %%This requires to answer the question of 
 %how connected are the sovereign yields of emerging markets.
 %One way to address this question is to pool all yields together and see whether there is a global-level factor, associated with the first principal component.
-%A global factor explains more than 90\% of the variation in the yields of advanced countries, 
+%A global factor explains more than 90\% of the variation in the yields of advanced economies, 
 %%consistent with \cite{DahlquistHasseltoft:2016}, 
 %whereas it only explains around 50\% of the variation in the yields of emerging markets. % or their components.
 %\footnote{ \cite{DuSchreger:2016JoF} find something similar for the credit risk compensation.}
-%This suggests that the emerging market yields are not as connected among themselves as the yields of advanced countries.
+%This suggests that the emerging market yields are not as connected among themselves as the yields of advanced economies.
 %When yields are separated by maturity, a similar pattern emerges for the 1-year yields, whereas for the 10-year yields, a global factor explains around 95\% in AEs and 40\% in EMs. 
 %Although a global factor plays a role in the variation of yields in both AEs and EMs, the bond yields in EMs are not as tightly connected as they are in AEs.
 %These percentages are largely the same after the GFC.
@@ -72,7 +74,8 @@ Finally, since the 5-year and long-term forecasts closely follow each other (see
 %%of the emerging markets in the sample 
 %and each of its components.
 
-Figure \ref{fig:dyindex10y} shows that the connectedness index for the yields of emerging markets fluctuates around 30\%, %and advanced countries.
+Figure \ref{subfig:dyindex10ynomsyn} %\ref{fig:dyindex10y} 
+shows that the connectedness index for the nominal yields of emerging markets fluctuates between 30 and 40\%, %and advanced economies.
 %\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
 %The index for emerging markets (figure \ref{subfig:dyindex10ydcmp}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
 with notable spikes around the taper tantrum episode in 2013,
@@ -80,36 +83,36 @@ with notable spikes around the taper tantrum episode in 2013,
 %The second biggest spike %in the index occurred 
 and after the 2016 U.S. presidential election.
 %, with potential implications for some of the emerging markets in the sample.
-%By mid-2017, the index was back to its pre-taper tantrum levels of around 30\% compared to an average value of the index for advanced countries of close to 70\%.
+%By mid-2017, the index was back to its pre-taper tantrum levels of around 30\% compared to an average value of the index for advanced economies of close to 70\%.
 %The difference between the 
-In contrast, \cite{ACDM:2019} report that the index fluctuates around 80\% for advanced countries.
+In contrast, the index for the nominal yields of advanced economies fluctuates around 70\%. %\footnote{\cite{ACDM:2019} report that the index fluctuates around 80\% in their sample mostly comprised of advanced economies.}
+The low connectedness among the yields of emerging markets supports estimating the term structure models for their yield curves separately (as it has been done in the paper) rather than jointly.
 
-The evidence of highly connected yields in advanced countries and low connected yields in emerging markets %might seem at odds with the idea of a 
+The evidence of highly connected yields in advanced economies and low connected yields in emerging markets %might seem at odds with the idea of a 
 %perspective based on the 
 %global financial cycle \citep{Rey:2013}.
-%On the one hand, the yields of advanced countries are highly connected among themselves (see figure \ref{subfig:dyindex10yAE}), which over the last decade has been driven by an increase in the connectedness of their term premia, as documented by \cite{ACDM:2019}.
-%Changes in the compensation for risk in one advanced country not only spillover to other advanced countries but they have become increasingly important for the variation in their yields.
-%On the other hand, the yields among emerging markets are not as connected as those in advanced countries (see figure \ref{subfig:dyindex10ydcmp}).
-%The level of the index for emerging markets is about half the level of the index for advanced countries, it shows no upward trend for either their nominal yields or their components.\footnote{ \cite{ACDM:2019} already document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.}
+%On the one hand, the yields of advanced economies are highly connected among themselves (see figure \ref{subfig:dyindex10yAE}), which over the last decade has been driven by an increase in the connectedness of their term premia, as documented by \cite{ACDM:2019}.
+%Changes in the compensation for risk in one advanced country not only spillover to other advanced economies but they have become increasingly important for the variation in their yields.
+%On the other hand, the yields among emerging markets are not as connected as those in advanced economies (see figure \ref{subfig:dyindex10ydcmp}).
+%The level of the index for emerging markets is about half the level of the index for advanced economies, it shows no upward trend for either their nominal yields or their components.\footnote{ \cite{ACDM:2019} already document that the increase in the connectedness of the yields of advanced economies has been driven by an increase in the connectedness of their term premia.}
 % of emerging market yields do not show a clear trend, their relative importance seems to depend on the current economic environment.
 %as might be expected under a perspective based on the global financial cycle. %according to the idea of the
 %Is there a component that is more connected? 
-%Unlike the rise in the connectedness of the term premium among advanced countries, 
+%Unlike the rise in the connectedness of the term premium among advanced economies, 
 %These results, however, are 
-is consistent with a view %the global financial cycle 
-in which global bond markets essentially operate under a core-periphery structure, in which the bond markets of advanced countries constitute the (highly interconnected) core and those of emerging markets represent the (less connected) periphery.
-Countries in the periphery are in turn connected to the network mainly through countries in the core.\footnote{ The core-periphery structure has been shown to be a good description of different networks in economics and finance.} % \cite{CvP:2014} show, for example, that the interbank market operates under such a structure.
-According to this view, shocks to emerging market yields are mainly idiosyncratic---reflected in less comovement---so
+is consistent with %a view %the global financial cycle %in which 
+global bond markets operating under a core-periphery structure, in which the bond markets of advanced economies constitute the (highly interconnected) core and those of emerging markets represent the (less connected) periphery who are in turn connected to the network mainly through countries in the core.\footnote{ The core-periphery structure has been shown to be a good description of different networks in economics and finance. \cite{CvP:2014}, for example, show that the interbank market operates under such a structure.}
+According to this view, shocks to emerging market yields are mainly idiosyncratic---reflected in less comovement among themselves---so
 %figures \ref{subfig:dyindex10ydcmp} and \ref{subfig:dyindex10yAE} are measuring the connectedness of the periphery and the core, respectively.
 %Therefore, 
 what matters for them %emerging market yields 
-are not spillovers originating in other emerging markets but in advanced countries.
+are not spillovers originating in other emerging markets but in advanced economies.
 %, which makes the argument of a global financial cycle stronger, not weaker.
 
-The connectedness index for the yields of emerging markets shows no clear trend for either the nominal or synthetic yields nor their components. 
-In contrast, \cite{ACDM:2019} document that the increase in the connectedness of the yields of advanced countries has been driven by an increase in the connectedness of their term premia.
-Nevertheless, the term premia in emerging markets has been slightly more connected since 2013, whereas the credit risk compensation is relatively less connected (see figure \ref{subfig:dyindex10ydcmp}).
-In fact, the level of the index for the synthetic yields tends to be higher than that for the nominal yields (see figure \ref{subfig:dyindex10ynomsyn}), suggesting that credit risk is indeed a more idiosyncratic component of the yields.
+The connectedness index for emerging market yields (either nominal or synthetic) is, on average, slightly higher after the taper tantrum episode in 2013 than before. For the yields of advanced economies, the index increased from around 60 to somewhat above 70\% which, according to \cite{ACDM:2019}, has been driven by an increase in the connectedness of their term premia.
+Figure \ref{subfig:dyindex10ydcmp} shows that the connectedness of the components of emerging market yields also increased slightly after the taper tantrum.
+From all three components of emerging market yields, the term premium has been slightly more connected since 2013 with the expected future short rate becoming more connected towards the end of the sample. Meanwhile, the credit risk compensation has been essentially the least connected component.
+Figure \ref{subfig:dyindex10ynomsyn} supports that credit risk is indeed a more idiosyncratic component of the yields, given that the level of the index for synthetic yields tends to be higher than that for nominal yields.
 
 %Are the short and long end equally connected?
 %Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
@@ -124,18 +127,16 @@ In fact, the level of the index for the synthetic yields tends to be higher than
 %However, the role of the global factor is larger for the two components of the synthetic yield curve in the long end than for the short end.
 %In sum, the role of a global component is larger for long-term yields and its components.
 %Figure \ref{fig:dy_index_ts} plots the connectedness index for different maturities.
-%It shows that the long end is relatively more connected than the short end, similar to what is observed for advanced countries, although this pattern became relevant for emerging markets after the taper tantrum episode.
+%It shows that the long end is relatively more connected than the short end, similar to what is observed for advanced economies, although this pattern became relevant for emerging markets after the taper tantrum episode.
 %The figure also shows that the connectedness of the short end of the yield curves is similar between advanced and emerging markets.
 %The difference in connectedness between the two groups of countries is therefore driven by the medium and long end of their yield curves.
 %Although foreign participation in LC bond markets has increased, it is still mostly held by local investors, especially medium- and longer-term bonds as suggested by figure \ref{fig:dy_index_ts}, 
 %%of emerging markets are far from being fully integrated in the global financial markets 
 %and are therefore more responsive to local factors.
-%In sum, while the yields of emerging markets are indeed globally connected, they are less so than the yields of advanced countries. 
+%In sum, while the yields of emerging markets are indeed globally connected, they are less so than the yields of advanced economies. 
 %In particular, 
 %Several factors can explain these patterns, including segmented markets, capital controls, home bias and regional differences.
 %therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
-
-Finally, notice that the low connectedness among the yields of emerging markets supports estimating the term structure models for their yield curves separately (as it has been done in the paper) rather than jointly.
 
 \input{../Figures/Estimation/dyindex10y} % appendix
 
@@ -159,7 +160,7 @@ Finally, notice that the low connectedness among the yields of emerging markets 
 	%	\input{../Figures/Estimation/bsl_yP_CI_10y_V1}
 	\input{../Figures/Estimation/bsl_tp_CI_10y_V1}
 	\input{../Figures/Estimation/bsl_cr_CI_10y_V1}
-	\input{../Figures/Estimation/bsl_yP_CI_10y_V1}
+%	\input{../Figures/Estimation/bsl_yP_CI_10y_V1}
 	\input{../Figures/Estimation/bsl_tp_ts}
 \end{landscape}
 

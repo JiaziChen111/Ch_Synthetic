@@ -9,7 +9,7 @@
 %% Load the data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/September-2020';
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/January-2021';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
@@ -23,9 +23,9 @@ S = append_svys2ylds(S,currEM);
 %% Estimate affine term structure model using fminsearch (for all cases)
 matsout = [0.25 0.5 1 2 5 10];                                      % report 3M-6M-1Y-2Y-5Y-10Y tenors
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 4.1 hrs
+S = atsm_estimation(S,matsout,false);                               % fixed sgmS case, runtime 5.5 hrs
 datetime(now(),'ConvertFrom','datenum')
-S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4 hrs
+S = atsm_estimation(S,matsout,true);                                % free sgmS case, runtime 4.5 hrs
 datetime(now(),'ConvertFrom','datenum')
 
 %% Baseline estimations
@@ -77,7 +77,8 @@ vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 ts_plots(S,currEM,currAE,kwtp,vix);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1em,pc1ae,pc1res,r2TPyP] = ts_pca(S,currEM,currAE,kwyp,kwtp);
-% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae corrTPyP pcexplnd pc1yc pc1em pc1ae
+% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae 
+% corrTPyP pcexplnd pc1em pc1ae pc1res r2TPyP
 
 %% Construct panel dataset
 datetime(now(),'ConvertFrom','datenum')

@@ -25,20 +25,23 @@ prefix  = {'mn','ms'};
 if sgmSfree; sgmtype = 'f'; else; sgmtype = 'b'; end                        % free vs baseline case
 
 for k0 = 1:length(prefix)
+    disp(['Estimation nominal/synthetic: ' prefix{k0}])
     fldname = [prefix{k0} '_ylds'];
     for k1  = 1:ncntrs
+        disp(['Estimating ' S(k1).cty '...'])
+        
         % Split yields & surveys
         [dates,yonly,ynsvys,matsY,matsS] = splityldssvys(S,k1,fldname);
         
-        if ~isfield(S,[prefix{k0} 'y_pr'])                                  % JSZ only if not already done
-            % Estimate the model using yields only (all countries)
+        % Estimate the model using yields only (all countries)
+        if isfield(S,[prefix{k0} 'y_pr']) && ~isempty(S(k1).([prefix{k0} 'y_pr']))
+            params0 = S(k1).([prefix{k0} 'y_pr']);                          % initial values from JSZ
+        else                                                                % JSZ only if not already done
             [ylds_Q,ylds_P,termprm,params0] = estimation_jsz(yonly,matsY,matsout,dt,p);
             S(k1).([prefix{k0} 'y_yQ']) = [nan matsout; dates ylds_Q];
             S(k1).([prefix{k0} 'y_yP']) = [nan matsout; dates ylds_P];
             S(k1).([prefix{k0} 'y_tp']) = [nan matsout; dates termprm];
             S(k1).([prefix{k0} 'y_pr']) = params0;
-        else
-            params0 = S(k1).([prefix{k0} 'y_pr']);                          % initial values from JSZ
         end
         
         % Estimate the model using yields and surveys

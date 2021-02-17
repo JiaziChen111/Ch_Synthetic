@@ -155,17 +155,8 @@
 	\item Clean Tables folder.
 	\item Upward sloping YCs? Averages.
 	\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2. Compare w/ average YC slope. 
-	\item Fit. RMSE. Averages per country. Nominal AEs and synthetic EMs (incl. ILS and ZAR).
-	\item Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP, and measures of risk and uncertainty.
-	\item Compare ssb_yP vs CBP surveys. Similar to comparing against model-free TPsvy. Comment this in footnote.
 	\item Decompose nominal yields. Averages per country. Averages before and after the GFC to see if relative importance of the components changed. Drivers of yields: Average and std of components (TPsynt, LCCS and yE).
-	\item Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
-	\item Term structure of TP. Averages per country.
-	\item Correlation of BRP and TPnom. Averages of components (relative importance) per country. Before and after the GFC.
 	\item Compare std of BRP vs std of AE TP. C-R (2002): risk premiums are far more volatile in emerging markets than in developed economies. Bech and Lengwiler (2011) find that central bank purchases of bonds not only reduced long-term interest rates, but also led to lower interest rate volatility. 
-	\item t-test for LCCS = 0 and TPsynt = 0. LCCS = 0 is equivalent to test TPnom = TPsynt.
-	\item Average and std of real interest rate to see if on average is the same across EMs and how much variability it has compared to nominal and synthetic yields. Correlation b/w real rates of EMs.
-	\item Notes for tables.
 \end{todolist}
 
 
@@ -173,17 +164,18 @@
 \gototoc
 \begin{todolist}
 	\item Why TPs differ across EMs? Average of TPsynt per country, is there a large variation among them? b/w them and AEs? 
-	\item Why TP and CR move as they do? Which asset pricing model is consistent with the data (TP, CR)? What explanations of bond risk premia are supported? Compensation for disagreement (increases quantity of risk), for economic pain (increases price of risk), for economic uncertainty about GDP growth and/or inflation (increases price of risk), for volatility risk (increases quantity of risk)? \item High inflation uncertainty leads to high TP?
+	\item Why TP and CR move as they do? Which asset pricing model is consistent with the data (TP, CR)? What explanations of bond risk premia are supported? Compensation for disagreement (increases quantity of risk), for economic pain (increases price of risk), for economic uncertainty about GDP growth and/or inflation (increases price of risk), for volatility risk (increases quantity of risk)? 
 	\item Has the importance of TP and CR changed after the GR? More role of CR after the GR since large fiscal debts?
-	\item Did UMP spread abroad? He and McCauley (2013) and Turner (2014). QE's purpose was to decrease TP in AE, did the same happen to EMs? TP \(<\) 0?
 	\item Why TP \(<\) 0? Change in importance of AD relative to AS shocks? Change in correlation b/w consumption and inflation and b/w bonds and stocks (so bonds become hedges of stocks)? Gourio and Ngo (2016), Pericoli (2018), Campbell, Pflueger and Viceira (2018), Campbell, Sunderam and Viceira (2016). Or financial integration story?
 	\item Financial integration: Correlation b/w debt flows from TIC data and TP. FX reserves. The increase in inflows reflected in an increase in FX reserves, lower bond yields or both. Case of capital controls in Brazil.
-	\item GFCy is different at the short than at the long end of the curve. Obstfeld (2015)
-	\item Is there a risk channel for monetary policy spillovers? Are LT rates more highly correlated than ST rates? Policy rate disconnect for ST and/or LT? US spillovers work through changes in risk premia? Expected rate in EMs react to changes in USTP?
-	\item International comparisons of expectations (yE). Subtract inflation expectations and see whether r* differs. Is there a single world real interest rate? Is the real interest rate the same for all EMs? Plot min-max intervals to see spread like Kalemli-Ozcan for policy rates.
 	\item What is the relationship b/w the YC components and the forward premium?
 	\item Decompose the forward exchange premium into: an expectations part and a risk premium. Clarida-Taylor (1997), Burnside et al (2007), Backus et al (1995). If LT TP are more closely linked, then tau_rho is closer to zero and thus UIP holds more closely for LT rates than for shorter ones.
+	\item Did UMP spread abroad? He and McCauley (2013) and Turner (2014). QE's purpose was to decrease TP in AE, did the same happen to EMs? TP \(<\) 0?
+	\item[\done] Is there a risk channel for monetary policy spillovers? Are LT rates more highly correlated than ST rates? Policy rate disconnect for ST and/or LT? US spillovers work through changes in risk premia? Expected rate in EMs react to changes in USTP?
+	\item[\done] International comparisons of expectations (yE). Subtract inflation expectations and see whether r* differs. Is there a single world real interest rate? Is the real interest rate the same for all EMs? Plot min-max intervals to see spread like Kalemli-Ozcan for policy rates.
 	\item[\done] TPs across EMs: Are they idiosyncratic or is there a common factor driving them? PCA for all yields. PCA for ST rates. PCA for LT rates. No common component might imply segmented markets, capital controls, home bias.
+	\item[\done] High inflation uncertainty leads to high TP?
+	\item[\done] GFCy is different at the short than at the long end of the curve. Obstfeld (2015)
 \end{todolist}
 
 \section{Analysis: Short Term}
@@ -191,10 +183,9 @@
 \begin{todolist}
 	\item Additional stuff.
 	\begin{todolist}
-		\item Recalculate implied forecasts of EM short rates considering currency risk premia.
+		\item Explanation of bias in VAR is b/c state variable is very persistent.
+		\item Reason to use CRSP: GSW doesn't target ST.
 		\item Reference to Chernov et al. and to SP credit ratings for EM instead of R-R 2011 in section 2.1. 
-		\item[\done] Update LPs using absphi. Countries w/ truncated phi: COP (minimal), HUF (only early in sample), IDR (-51 bps), ILS (GR), KRW (minimal), MXN (ave -15 bps), MYR (minimal) PEN (-31 bps), PHP (-66 bps), PLN (only early in sample), RUB (minimal), THB (GR), TRY (since 2014, avg -59 bps), ZAR (ave -33 bps). Avg = -43 bps.
-		\item Risks of global investors when investing in LC bonds: risk of a LC depreciation, risk of default.
 		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
 		\item Low connectedness supports decomposing the yields separately instead of jointly.
 		\item Evidence from DY index on different maturities show evidence of market segmentation, which allows to explain effects of LSAP on TP (W \& W 2020).
@@ -210,18 +201,8 @@
 \section{Analysis: Medium Term}
 \gototoc
 \begin{todolist}
-	\item Slides.
-	\begin{todolist}
-		\item Figures. Labels, titles, notes. Clearly state maturity of the yield reported.
-		\item Tables and figures. Add circles/rectangles or highlight numbers w/ color.
-		\item Explanation of bias in VAR is b/c state variable is very persistent.
-		\item Reason to use CRSP: GSW doesn't target ST.
-	\end{todolist}
-	\item Fisher equation rather than approximation for US real rate and EM nominal rate. Start sample for Russia 1 or 2 months after the current initial date.
-	\item Compare scbp obtained w/ SPF data vs survey data from other AEs.
 	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
 	\item Are big changes in TP related to local events?
-	\item Make reference to Chernov, Schmidt, Song about credit risk in US YC.
 	\item Correct Hessian in asyvarhat considering that it seems to work for AEs, check whether excluding surveys corrects the issue.
 \end{todolist}
 
@@ -242,6 +223,27 @@
 \section{Analysis: Completed}
 \gototoc
 	\begin{todolist}
+	\item[\done] Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
+	\item[\done] Term structure of TP. Averages per country.
+	\item[\done] Correlation of BRP and TPnom. Averages of components (relative importance) per country. Before and after the GFC.
+	\item[\wontdo] t-test for LCCS = 0 and TPsynt = 0. LCCS = 0 is equivalent to test TPnom = TPsynt.
+	\item[\wontdo] Average and std of real interest rate to see if on average is the same across EMs and how much variability it has compared to nominal and synthetic yields. Correlation b/w real rates of EMs.
+	\item[\done] Compare ssb_yP vs CBP surveys. Similar to comparing against model-free TPsvy. Comment this in footnote.
+	\item[\done] Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP, and measures of risk and uncertainty.
+	\item[\done] Fit. RMSE. Averages per country. Nominal AEs and synthetic EMs (incl. ILS and ZAR).
+	\item[\done] Notes for tables.
+	\item[\done] Slides.
+	\begin{todolist}
+		\item[\done] Figures. Labels, titles, notes. Clearly state maturity of the yield reported.
+		\item[\done] Tables and figures. Add circles/rectangles or highlight numbers w/ color.
+	\end{todolist}
+	\item[\wontdo] Fisher equation rather than approximation for US real rate and EM nominal rate. Not clear how to do it once the correction for the 'real' TP is included.
+	\item[\wontdo] Start sample for Russia 1 or 2 months after the current initial date. Forget to include it in the last update.
+	\item[\wontdo] Compare scbp obtained w/ SPF data vs survey data from other AEs. Time consuming; can reference to international evidence based on Laubach and Williams.
+	\item[\done] Make reference to Chernov, Schmidt, Song about credit risk in US YC.
+	\item[\done] Recalculate implied forecasts of EM short rates considering currency risk premia.
+	\item[\done] Update LPs using absphi. Countries w/ truncated phi: COP (minimal), HUF (only early in sample), IDR (-51 bps), ILS (GR), KRW (minimal), MXN (ave -15 bps), MYR (minimal) PEN (-31 bps), PHP (-66 bps), PLN (only early in sample), RUB (minimal), THB (GR), TRY (since 2014, avg -59 bps), ZAR (ave -33 bps). Avg = -43 bps.
+	\item[\done] Risks of global investors when investing in LC bonds: risk of a LC depreciation, risk of default.
 	\item[\done] Truncate CRC at 0 in dcmp figure.
 	\item[\wontdo] Update label for Avg Exp SR in figures.
 	\item[\done] Include figure for yield decomposition, reflecting (in terms of sizes per maturity) averages of components.

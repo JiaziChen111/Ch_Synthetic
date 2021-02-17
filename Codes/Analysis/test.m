@@ -75,7 +75,6 @@ for k0 = 1:ncntrs
 end
 
 
-
 %% Hessian
 % fminsearch uses the Nelder-Mead simplex (direct search) method, it is a simplex-based solver suggested
 % for nonsmooth objective functions

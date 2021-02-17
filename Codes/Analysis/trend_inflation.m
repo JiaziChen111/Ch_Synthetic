@@ -51,9 +51,10 @@ if tfplot
         if ismember(S(k2).iso,{'ILS','MYR','THB','ZAR'})
             k3 = k3 + 1;
             subplot(2,2,k3)                                                 % 3,5 to see all countries
-            plot(TTinf.Time,TTinf{:,k2},HPfreq.Time,HPfreq{:,k2});	hold on
-            if ~isempty(S(k2).scpi)
-                plot(datetime(S(k2).scpi(2:end,1),'ConvertFrom','datenum'),S(k2).scpi(2:end,end));  % 10Y
+            plot(TTinf.Time,TTinf{:,k2},'-','LineWidth',1);	hold on
+            plot(HPfreq.Time,HPfreq{:,k2},'-.','LineWidth',1);
+            if ~isempty(S(k2).scpi)                                         % 10Y
+                plot(datetime(S(k2).scpi(2:end,1),'ConvertFrom','datenum'),S(k2).scpi(2:end,end),'--','LineWidth',1);
             end
             [ld,lu] = inflation_target(S(k2).iso);
             if ~isempty(ld); yline(ld,'--'); yline(lu,'--'); end
@@ -61,6 +62,9 @@ if tfplot
             title(S(k2).cty)
         end
     end
+    lbl = {'Inflation','Trend','Forecast'};
+    lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+    set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
     figdir  = 'Surveys'; formats = {'eps'}; figsave = tfsave;
     figname = ['CPI_' [trndcntrs{:}]]; save_figure(figdir,figname,formats,figsave)
 end
