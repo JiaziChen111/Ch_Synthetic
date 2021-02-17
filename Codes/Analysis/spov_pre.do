@@ -193,7 +193,7 @@ filefilter x.tex y.tex, from(mean) to(Average) replace
 filefilter y.tex x.tex, from(sd) to("S. Dev.") replace
 filefilter x.tex y.tex, from(Y\BS\BS\n\BSmidrule\nAverage) to("Y\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Expected Short Rate}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
 filefilter y.tex x.tex, from(1\BS\BS\n\BSmidrule\nAverage) to("1\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Term Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
-filefilter x.tex "$pathtbls/`tbllbl'.tex", from(0\BS\BS\n\BSmidrule\nAverage) to("0\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Credit Risk Premium}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
+filefilter x.tex "$pathtbls/`tbllbl'.tex", from(0\BS\BS\n\BSmidrule\nAverage) to("0\BS\BS\n\BSmidrule\n&\BSmulticolumn{6}{c}{Credit Risk Compensation}\t\BS\BS\n\BScmidrule(lr){2-7}\nAverage") replace
 erase x.tex
 erase y.tex
 * ------------------------------------------------------------------------------
@@ -552,7 +552,7 @@ levelsof $id, local(levels)
 foreach l of local levels {
 	di "`l'"
 	if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr dtp120m stp120m if imf == `l'
-	if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr dyp120m scbp120m if imf == `l'
+// 	if !inlist(`l',193,156,146,128,134,112,158,142,196,144) corr dyp120m scbp120m if imf == `l'
 }
 
 levelsof $id, local(levels)
