@@ -987,7 +987,7 @@ k0 = 1;
 rollcorr = rollingcorrs(S,currAE,fname{k0},tenor);
 plot(rollcorr(:,1),rollcorr(:,2),lstyle{end},'LineWidth',1); hold on
 datetick('x','yy'); hold off
-lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
+lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Economies - Nominal'};
 legend(lbl,'Location','best','AutoUpdate','off');
 figname = ['rolling' num2str(tenor) 'y_nomsyn']; save_figure(figdir,figname,formats,figsave)
 
@@ -1103,7 +1103,7 @@ disp(DYtable)
 fltrAE = DYindex(:,1) >= datemin;
 plot(DYindex(fltrAE,1),DYindex(fltrAE,2),lstyle{end},'LineWidth',1); hold on
 datetick('x','yy'); hold off
-lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Countries - Nominal'};
+lbl = {'Emerging Markets - Nominal','Emerging Markets - Synthetic','Advanced Economies - Nominal'};
 legend(lbl,'Location','best','AutoUpdate','off');
 figname = ['dy_index' num2str(tenor) 'y_nomsyn']; save_figure(figdir,figname,formats,figsave)
 
