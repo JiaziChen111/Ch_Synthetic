@@ -49,7 +49,7 @@ for k0  = 1:2
     end
 end
 
-S = trend_inflation(S,currEM,{'ILS','ZAR'});                            % use trend inflation when no survey data
+S = trend_inflation(S,currEM,{'ILS','ZAR'},true,true);                  % use trend inflation when no survey data
 
 
 %% Compute implied CBP forecasts (only need survey data on inflation)
