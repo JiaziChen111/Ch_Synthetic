@@ -48,8 +48,9 @@
 	\bibliographystyle{abbrvnat} 					% Other styles: {plain}, {authordate1}
 	%\bibliography{../References/library}		% Uses local copy of database with references
 %	\bibliography{../../../References/library}	% Uses centralized database with references
-	{\footnotesize
-		\bibliography{../../../References/library}}
+	{\small %\footnotesize
+		\bibliography{../../../References/library}
+	}
 	
 	\input{appendix}
 	}{}	% Closes \iftoggle{fulldraft}
@@ -68,4 +69,5 @@
 % removed references, in the terminal execute the next two lines
 % $ cd Book/Ch_XXXX/Docs/Paper
 % $ bibexport -o ../References/library.bib paper.aux
+% Delete auxiliary files in References and Paper folders
 % Source for cleaning .bib file to remove citations https://tex.stackexchange.com/questions/41821/creating-bib-file-containing-only-the-cited-references-of-a-bigger-bib-file
