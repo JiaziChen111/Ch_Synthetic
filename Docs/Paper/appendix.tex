@@ -37,7 +37,7 @@ Also, as can be seen in the main text (figure \ref{fig:wnCPI}), 5-year and long-
 %	\input{../Figures/Latex/temp_ts_tp}
 
 \renewcommand\thefigure{\thesection.\arabic{figure}}
-\section{Connectedness of Yields and  Components}
+\section{Connectedness of Yields and  Components} \label{sec:dyindex}
 \setcounter{figure}{0}
 
 %The expected short rate in emerging markets reacts to changes in the U.S. term premium. 
@@ -74,21 +74,33 @@ Also, as can be seen in the main text (figure \ref{fig:wnCPI}), 5-year and long-
 %%of the emerging markets in the sample 
 %and each of its components.
 
-Figure \ref{subfig:dyindex10ynomsyn} %\ref{fig:dyindex10y} 
-shows that the connectedness index for the nominal yields of emerging markets fluctuates between 30 and 40\%, %and advanced economies.
-%\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
-%The index for emerging markets (figure \ref{subfig:dyindex10ydcmp}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
-with notable spikes around the taper tantrum episode in 2013,
-%\footnote{ During the episode, financial markets feared an earlier than expected withdrawal of the Fed's unconventional stimulus measures.} %and remained elevated for about a year.
-%The second biggest spike %in the index occurred 
-and after the 2016 U.S. presidential election.
-%, with potential implications for some of the emerging markets in the sample.
-%By mid-2017, the index was back to its pre-taper tantrum levels of around 30\% compared to an average value of the index for advanced economies of close to 70\%.
-%The difference between the 
-In contrast, the index for the nominal yields of advanced economies fluctuates around 70\%. %\footnote{\cite{ACDM:2019} report that the index fluctuates around 80\% in their sample mostly comprised of advanced economies.}
-The low connectedness among the yields of emerging markets supports estimating the term structure models for their yield curves separately (as it has been done in the paper) rather than jointly.
 
-The evidence of highly connected yields in advanced economies and low connected yields in emerging markets %might seem at odds with the idea of a 
+An alternative approach to rolling correlations for assessing the comovement of yields is the connectedness index of \cite{DieboldYilmaz:2014}. 
+The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the index  using a VAR(1), with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} %for each maturity  
+Higher numbers (between 0 and 100\%) indicate a higher degree of comovement. 
+Figure \ref{fig:dy_index_ts} exhibits the same patterns as those reported in figure \ref{fig:rolling_ts} using rolling correlations.
+
+Figure \ref{subfig:dyindex10ynomsyn} compares the index for the nominal and synthetic yields of emerging markets with the nominal yields of advanced economies. %, and displays the index for all three components of emerging market yields. 
+The relatively low connectedness among the yields of emerging markets % to those of advanced economies shown 
+supports estimating the term structure models for their yield curves separately rather than jointly.
+%Figure \ref{subfig:dy_index_tsEM} shows that the long-term yields of emerging markets are indeed more connected than short-term ones, especially since the taper tantrum episode of 2013. 
+%Figure \ref{subfig:dy_index_tsAE} shows that the long-term yields of advanced economies are even more connected among themselves. The degree of comovement among the long-term yields of emerging markets is half (around 35\%) that of yields of advanced economies (around 70\%),
+%suggesting that the medium- and long-term bonds of emerging markets are mostly held by local investors.\footnote{ According to \cite{KolasaWesolowski:2020}, the share of foreign investors in the LC bonds of emerging markets increased from 10\% in 2008 to 25\% in 2019.}
+%If so, local factors still play a role in explaining the long end of their curves.
+%Figure \ref{subfig:dyindex10ynomsyn} %\ref{fig:dyindex10y} 
+%shows that the connectedness index for the nominal yields of emerging markets fluctuates between 30 and 40\%, %and advanced economies.
+%%\footnote{ The index for emerging markets has a shorter history because its computation requires a balanced panel. Also, since the construction of the synthetic curve does not involve nominal yields, the history of the components do not start on the same date.} 
+%%The index for emerging markets (figure \ref{subfig:dyindex10ydcmp}) captures some developments of the European sovereign debt crisis in 2012 and  the Greek debt crisis in 2015.
+%with notable spikes around the taper tantrum episode in 2013,
+%%\footnote{ During the episode, financial markets feared an earlier than expected withdrawal of the Fed's unconventional stimulus measures.} %and remained elevated for about a year.
+%%The second biggest spike %in the index occurred 
+%and after the 2016 U.S. presidential election.
+%%, with potential implications for some of the emerging markets in the sample.
+%%By mid-2017, the index was back to its pre-taper tantrum levels of around 30\% compared to an average value of the index for advanced economies of close to 70\%.
+%%The difference between the 
+%In contrast, the index for the nominal yields of advanced economies fluctuates around 70\%. %\footnote{\cite{ACDM:2019} report that the index fluctuates around 80\% in their sample mostly comprised of advanced economies.}
+%The low connectedness among the yields of emerging markets relative to those of advanced economies supports estimating the term structure models for their yield curves separately (as it has been done in the paper) rather than jointly.
+More generally, the evidence of highly connected yields in advanced economies and low connected yields in emerging markets %might seem at odds with the idea of a 
 %perspective based on the 
 %global financial cycle \citep{Rey:2013}.
 %On the one hand, the yields of advanced economies are highly connected among themselves (see figure \ref{subfig:dyindex10yAE}), which over the last decade has been driven by an increase in the connectedness of their term premia, as documented by \cite{ACDM:2019}.
@@ -109,10 +121,13 @@ what matters for them %emerging market yields
 are not spillovers originating in other emerging markets but in advanced economies.
 %, which makes the argument of a global financial cycle stronger, not weaker.
 
-The connectedness index for emerging market yields (either nominal or synthetic) is, on average, slightly higher after the taper tantrum episode in 2013 than before. For the yields of advanced economies, the index increased from around 60 to somewhat above 70\% which, according to \cite{ACDM:2019}, has been driven by an increase in the connectedness of their term premia.
-Figure \ref{subfig:dyindex10ydcmp} shows that the connectedness of the components of emerging market yields also increased slightly after the taper tantrum.
-From all three components of emerging market yields, the term premium has been slightly more connected since 2013 with the expected future short rate becoming more connected towards the end of the sample. Meanwhile, the credit risk compensation has been essentially the least connected component.
-Figure \ref{subfig:dyindex10ynomsyn} supports that credit risk is indeed a more idiosyncratic component of the yields, given that the level of the index for synthetic yields tends to be higher than that for nominal yields.
+%The connectedness index for emerging market yields (either nominal or synthetic) is, on average, slightly higher after the taper tantrum episode in 2013 than before. For the yields of advanced economies, the index increased from around 60 to somewhat above 70\% which, according to \cite{ACDM:2019}, has been driven by an increase in the connectedness of their term premia.
+
+Figure \ref{subfig:dyindex10ydcmp} shows the connectedness index for the components of emerging market yields. %The connectedness increased slightly after the taper tantrum.
+From all three components of emerging market yields, the term premium has been slightly more connected since the taper tantrum in 2013 with the expected future short rate becoming more connected towards the end of the sample.\footnote{ \cite{ACDM:2019} show that the increase in the connectedness among the yields of advanced economies has been driven by an increase in the connectedness of their term premia.} 
+Meanwhile, the credit risk compensation has been essentially the least connected component.
+Figure \ref{subfig:dyindex10ynomsyn} shows that the level of the index for synthetic yields tends to be higher than that for nominal yields, which supports that the credit risk component is %indeed a 
+more idiosyncratic. % of the yields.
 
 %Are the short and long end equally connected?
 %Diebold-Yilmaz index for 2Y and 10Y to test Obsfeld vs K-O
@@ -138,7 +153,9 @@ Figure \ref{subfig:dyindex10ynomsyn} supports that credit risk is indeed a more 
 %Several factors can explain these patterns, including segmented markets, capital controls, home bias and regional differences.
 %therefore seem to play a bigger role in the yields of EMs, and its components, than they do for AEs.
 
+\input{../Figures/Estimation/dy_index_ts}
 \input{../Figures/Estimation/dyindex10y} % appendix
+\newpage
 
 %---------------------------------------------------------------
 % Figures and Tables
@@ -164,7 +181,7 @@ Figure \ref{subfig:dyindex10ynomsyn} supports that credit risk is indeed a more 
 	\input{../Figures/Estimation/bsl_tp_ts}
 \end{landscape}
 
-\input{../Figures/Estimation/rolling_ts}
+%\input{../Figures/Estimation/rolling_ts}
 \input{../Figures/LPs/Latex/LP_US_Shk} % appendix
 \input{../Figures/LPs/Latex/LP_US_Shk_Path}
 \input{../Figures/LPs/Latex/LP_EM_Shk_Path}
