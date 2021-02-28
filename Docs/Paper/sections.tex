@@ -1444,13 +1444,13 @@ Thus, emerging markets indeed remain subject to global risks even when borrowing
 
 
 \subsubsection{Comovement of Yields}
-To formally assess whether different sections of the yield curves of emerging markets comove more than others, I use the connectedness index of \cite{DieboldYilmaz:2014} for different maturities.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the index using a VAR(1), with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere. 
-It fluctuates between 0 and 100\%, with higher numbers indicating a higher degree of comovement. 
 
-Figure \ref{subfig:dy_index_tsEM} shows that the long-term yields of emerging markets are indeed more connected than short-term ones, especially since the taper tantrum episode of 2013. 
-Figure \ref{subfig:dy_index_tsAE} shows that the long-term yields of advanced economies are even more connected among themselves. The degree of comovement among the long-term yields of emerging markets is half (around 35\%) that of yields of advanced economies (around 70\%),
-suggesting that the medium- and long-term bonds of emerging markets are mostly held by local investors.\footnote{ According to \cite{KolasaWesolowski:2020}, the share of foreign investors in the LC bonds of emerging markets increased from 10\% in 2008 to 25\% in 2019.}
-If so, local factors still play a role in explaining the long end of their curves.\footnote{ Figure \ref{fig:rolling_ts} in the appendix reports essentially the same patterns but using one-year rolling correlations of daily yield changes at different maturities rather than the connectedness index.}
+To assess whether different sections of the yield curves of emerging markets comove more than others, I use one-year rolling correlations of daily yield changes for different maturities.\footnote{ Appendix \ref{sec:dyindex} reports essentially the same patterns but using the connectedness index of \cite{DieboldYilmaz:2014} rather than rolling correlations. It also compares the comovement of nominal and synthetic yields, and analyzes the comovement among the components of emerging market yields.} Figure \ref{fig:rolling_ts} displays the results.
+
+The long-term yields of emerging markets are more connected than short-term ones, although local factors remain relevant.
+Figure \ref{subfig:rolling_tsEM} shows that the long-term yields of emerging markets became more connected after the global financial crisis, and more so since the taper tantrum episode of 2013. 
+Notwithstanding, the long-term yields of advanced economies are more connected among themselves (see figure \ref{subfig:rolling_tsAE}). On average, the correlation among the long-term yields of emerging markets is less than half that of the yields of advanced economies, suggesting that the medium- and long-term bonds of emerging markets are mostly held by local investors. Indeed, even though the share of foreign investors in the LC bonds of emerging markets has increased over time (from 10\% in 2008 to 25\% in 2019 according to \cite{KolasaWesolowski:2020}), the next section shows that local factors %still play a role in explaining 
+are still important drivers for the long end of their yield curves.
 %of emerging markets are far from being fully integrated in the global financial markets 
 %and are therefore more responsive to local factors.
 
@@ -1708,7 +1708,7 @@ The contemporaneous effects (when \(\idxh = 0\)) are indicated with an arrow in 
 All responses are assessed relative to a one basis point reduction (an easing) in any of the surprises, since the Fed has been more aggressive in that direction over the sample period.
 
 The response of U.S. yields and their components to the three surprises serves as a benchmark to assess the responses of the yields of emerging markets. 
-As before, U.S. yields come from the dataset of \cite{GSW:2007}, and the components from the decomposition proposed by \cite{KimWright:2005}.
+As before, U.S. yields come from the dataset of \cite{GSW:2007}, and the components come from the decomposition proposed by \cite{KimWright:2005}.
 The responses are reported in figures \ref{fig:LPUStarget} to \ref{fig:LPUSlsap} in the appendix. 
 They are consistent with the findings in the existing literature.
 %In general, Fed's decisions impact both expectations about its policy rate in the future and the compensation required by investors to hold long-term bonds.
@@ -1738,7 +1738,7 @@ while forward guidance and asset purchase easing surprises decrease yields, in p
 Figure \ref{fig:LPEMtarget} shows the response of emerging market yields to a target easing surprise.
 Although the magnitude of the contemporaneous yield response %of the  yields in emerging markets 
 is lower than in the U.S., it builds over time.
-This delayed response is documented by \cite{BrooksKatzLustig:2019} for the U.S. and by \cite{ACDM:2019} for a sample comprised mostly of advanced economies,\footnote{ It is also seen in the responses of U.S. yields reported in appendix D.} which they attribute to a portfolio rebalancing channel.
+This delayed response is documented by \cite{BrooksKatzLustig:2019} for the U.S. and by \cite{ACDM:2019} for a sample comprised mostly of advanced economies,\footnote{ It is also seen in the responses of U.S. yields reported in appendix D. Although the U.S. Treasuries market is deep and liquid, some players like pension funds and foreign investors might respond gradually.} which they attribute to a portfolio rebalancing channel.
 %, it can last for up to 2 months and intensify to such an extent so as to become a one-to-one response, or even more in the case of asset purchase surprises.
 %In particular, the path and asset purchase surprises have a larger and longer effect on EM yields. 
 %The response of yields of emerging markets therefore lasts relatively longer than the response of U.S. yields.
@@ -1821,7 +1821,10 @@ Moreover, the response of the term premia at the long end is similar in emerging
 By making announcements about the future path of the federal funds rate, the Fed attempts to reduce long-term U.S. yields mainly by reducing the term premium (see figure \ref{fig:LPUSpathPost}). Figure \ref{fig:LPEMpathPost} shows that those announcements also reduce the term premia in emerging market yields at the long end.
 This is where accounting for credit risk pays off because if it were to be ignored, one would incorrectly conclude that forward guidance does not affect the term premia in emerging markets. The reason is that the `clean' term premium and the credit risk compensation components respond in opposite directions with magnitudes that almost offset each other, so there is no net effect in the term premium contaminated with credit risk.
 
-In relation to the yield curve channel, a forward guidance easing surprise not only reduces the term premia at the long end but also the expectation for the policy rate at the short end, whichsupports the risk spillovers mechanism in \cite{Kalemli-Ozcan:2019}.%highlighted before 
+In relation to the yield curve channel, a forward guidance easing surprise not only reduces the term premia at the long end 
+but also the expectation for the policy rate at the short end, which
+supports the risk spillovers mechanism in \cite{Kalemli-Ozcan:2019}.
+%highlighted before 
 
 
 \subsubsection{Asset Purchase Surprises}
@@ -2049,7 +2052,8 @@ Emerging market nominal yields are decomposed into average expected future short
 %The fiscal implications for emerging markets of Fed's monetary policies is an unexplored but prospective area for future research.
 %Also, 
 The responses to target, forward guidance and asset purchase surprises are sluggish but amplify over time. %with economically significant effects.
-In addition, surprises in Fed's policy decisions lead to a reassessment of policy rate expectations in emerging markets and a repricing not only of interest risk but also of credit risk.This last effect is an unexplored but prospective area for future research.
+In addition, surprises in Fed's policy decisions lead to a reassessment of policy rate expectations in emerging markets and a repricing not only of interest risk but also of credit risk.
+This last effect is an unexplored but prospective area for future research.
 Lastly, since the global financial crisis, U.S. monetary policy has spilled over to emerging markets through a yield curve channel, which limits their monetary autonomy along their yield curves.
 %according to which their monetary autonomy decreases along the yield curve.
 The results in this paper show that, in order to adequately characterize the transmission channels of U.S. monetary policy, it is important to explicitly account for credit risk in the local currency debt of emerging markets and to examine the effects at different maturities.
@@ -2165,8 +2169,9 @@ Finally, surprises from other central banks in advanced economies can be include
 
 \pagebreak[4]
 %\newpage
+\input{../Figures/Estimation/rolling_ts}
 %\input{../Figures/Estimation/dyindex10y} % appendix
-\input{../Figures/Estimation/dy_index_ts}
+%\input{../Figures/Estimation/dy_index_ts}
 %\input{../Figures/MPS/USmps}
 %\input{../Figures/LPs/Latex/LP_US}
 %\input{../Figures/LPs/Latex/LP_EM}
