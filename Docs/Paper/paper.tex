@@ -4,7 +4,8 @@
 \documentclass[a4paper, 12pt]{article} 	% Document class
 \input{../Settings/packages}		   		  % Packages
 \input{../Settings/page_settings}   		% Page settings
-\input{../Settings/macros}					   % Personalized commands
+\input{../Settings/macros_global}		   % Personalized commands
+\input{../Settings/macros_local}			% Personalized commands
 %---------------------------------------------------------------
 
 \begin{document}
@@ -52,7 +53,10 @@
 		\bibliography{../../../References/library}
 	}
 	
-	\input{appendix}
+	\newpage
+	\begin{appendices}
+		\input{appendix}
+	\end{appendices}
 	}{}	% Closes \iftoggle{fulldraft}
 
 \iftoggle{toclinks}{\maketoc \listoftodos}{}	% Turn it on/off in packages.tex
