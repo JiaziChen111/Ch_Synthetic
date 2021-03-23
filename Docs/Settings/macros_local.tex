@@ -1,5 +1,5 @@
 %% Personalized Macros
-% Definitions, Equations, Table of Contents, Tables, Subcaptions, Paths, Text Fomats
+% Variable Definitions, Equations
 
 %-------------------------------------------------------------------
 % Variable Definitions
@@ -123,7 +123,6 @@
 \providecommand{\loadMTnsZero}{\left(\loadSTnsZero - \loadSTnsFwd \right)}
 \providecommand{\loadMTnssZero}{\left( \loadSTnssZero - \loadSTnssFwd \right)}
 
-%\providecommand{\}{}
 % DELETE in a later revision
 \providecommand{\Xmu}{\mu}
 \providecommand{\XPhi}{\Phi}
@@ -153,7 +152,6 @@
 \newcommand{\eqXvarsFwdP}{\XvarsFwd = \XmuP + \XPhiP \Xvars  + \XSigma \errorP}
 \newcommand{\eqriskprice}{\riskprice = \lambdazero + \lambdaone \Xvars}
 \newcommand{\eqSDF}{\SDF = \exp\left( -\shortrate -\frac{1}{2} \riskprice' \riskprice - \riskprice' \errorP \right)}
-%\newcommand{}{}
 
 \newcommand{\eqpanelUCSV}{\tau_{\idxspnl} = \alpha_{\idxi} + \beta_{1} \sigma^{\pi}_{\idxspnl} + \beta_{2} GDP_{\idxspnl} + u_{\idxspnl}}
 \newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \gamma_{1}' z^{1}_{\idxspnl} + \gamma_{2}' z^{2}_{\idxspnl} + u_{\idxspnl}}
@@ -176,94 +174,3 @@
 
 \newcommand{\eqpanelLPlevels}{\yld_{\idxspnlfwd} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \sum^{2}_{j = 1} \gamma^{j}_{\idxh} \yld_{\idxspnllaglag} + \eta_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
 % \beta^{target}_{\idxh} \epsilon^{target}_{\idxt} + \beta^{path}_{\idxh} \epsilon^{path}_{\idxt} + \beta^{lsap}_{\idxh} \epsilon^{lsap}_{\idxt} 
-
-%---------------------------------------------------------------
-% Table of Contents
-%---------------------------------------------------------------
-% Link to ToC from section
-\newcommand{\gototoc}{\vspace{-2cm} \null\hfill [\hyperlink{toc}{Go2ToC}] \newline}
-
-% Link back to section from ToC
-\newcommand{\maketoc}{
-	\hypertarget{toc}{}
-	\newpage
-	\tableofcontents
-	\vspace{2.5\bigskipamount} }
-
-% Box with bullets for tasks to do in a section
-\newenvironment{boxeditems}
-	{\begin{tabular}{|p{\linewidth}|}
-	\hline
-	\begin{itemize}
-	}
-	{
-	\end{itemize}
-	\\ \hline
-	\end{tabular} \\
-	}
-
-%---------------------------------------------------------------
-% Tables: Estout Commands following Jörg Weber
-%---------------------------------------------------------------
-\newcommand{\sym}[1]{\rlap{#1}}
-
-\let\estinput=\input	% define new input command to flatten the document
-
-\newcommand{\estauto}[2]{
-	\newcolumntype{C}{>{\centering\arraybackslash}X}
-	\vspace{.75ex}{
-%		\begin{tabularx}{1.4\textwidth}{l*{#2}C}
-		\begin{tabularx}{0.95\linewidth}{l*{#2}C}
-			\toprule
-			\estinput{#1}
-			\\ \bottomrule
-			\addlinespace[.75ex]
-		\end{tabularx}
-	}
-}
-
-% Allow line breaks with \\ in specialcells
-\newcommand{\specialcell}[2][c]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
-
-%---------------------------------------------------------------
-% Subcaptions
-%---------------------------------------------------------------
-% Notes after figures following Jörg Weber
-\newcommand{\figtext}[1]{
-	\vspace{-1ex}
-	\captionsetup{justification=justified,font=footnotesize}
-	\caption*{#1}
-%	\captionsetup{justification=raggedright,singlelinecheck=false,font=footnotesize}
-%	\caption*{\hspace{6pt}\hangindent=1.5em #1}
-}
-
-\newcommand{\fignote}[1]{\figtext{\emph{Note:~}~#1}}
-\newcommand{\fignotes}[1]{\figtext{\emph{Notes:~}~#1}}
-
-% Notes after tables
-\newcommand{\tabnote}[1]{
-	\begin{tablenotes}[para,flushleft]
-		\footnotesize \emph{Notes:~}~#1
-	\end{tablenotes}
-}
-
-%---------------------------------------------------------------
-% Paths
-%---------------------------------------------------------------
-%\newcommand*{\pathFigs}{../Figures}
-%\input{pathFigs/fig1.tex}
-
-%---------------------------------------------------------------
-% Text Fomats
-%---------------------------------------------------------------
-%\newcommand{\txtbi}[1]{\textbf{\textit{#1}}}
-
-%---------------------------------------------------------------
-% Other
-%---------------------------------------------------------------
-%\newcommand\LL[1]{\multicolumn{2}{|l}{#1}}
-%\newcommand\RR[1]{\multicolumn{2}{c|}{#1}}
-%\newcommand\LR[1]{\multicolumn{2}{|c|}{#1}}
-%\newcommand\LL[1]{\multicolumn{1}{|c}{#1}}
-%\newcommand\RR[1]{\multicolumn{1}{c|}{#1}}
-%\newcommand\LR[1]{\multicolumn{1}{|c|}{#1}}
