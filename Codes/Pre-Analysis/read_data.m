@@ -1,27 +1,53 @@
 %% Read Data
-% This code reads data from different files to construct a comprehensive
-% dataset of yield curves, swap curves, cross-currency swaps and credit spreads.
-% Calls to m-files: read_tickers_v4.m, read_bloomberg.m, read_usyc.m, ccs.m,
-% csp.m, append_dataset.m, plot_spreads.m
-%
-% Pavel Solís (pavel.solis@gmail.com), March 2018
-%%
+% Read data from different files to construct a dataset of yield curves,
+% spreads, forward premia and deviations from covered interest rate parity
+
+% m-files called: read_platforms, read_usyc, fwd_prm, zc_yields, spreads,
+% read_cip, plot_spreads, compare_cip, append_dataset, iso2names
+% Pavel Solís (pavel.solis@gmail.com), August 2020
+
+%% Data on yield curves and swap curves
 clear; clc; close all;
-run read_tickers_v4.m       % Construct the headers (generates 'hdr_blp')
-run read_bloomberg.m        % Historic data of swap and yield curves (generates 'data_blp')
+warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')                          % suppress table warnings
+[TTpltf,THpltf] = read_platforms();
+[TTusyc,THusyc] = read_usyc();
+TTdy = synchronize(TTpltf,TTusyc,'commonrange');                                % union over intersection
+THdy = [THpltf; THusyc];
 
-run read_usyc.m             % Historic data of US zero coupon yield curve (generates 'data_usyc')
-% Append the data of the US yield curve to the data from Bloomberg
-[dataset_daily,header_daily] = append_dataset(data_blp, data_usyc, hdr_blp, hdr_usyc);
+%% Convert tables to cell arrays (easier for performing calculations)
+header_daily  = [THdy.Properties.VariableNames;table2cell(THdy)];                       % header to cell
+header_daily(2:end,5) = cellfun(@num2str,header_daily(2:end,5),'UniformOutput',false);  % tnrs to string
+dataset_daily = [datenum(TTdy.Date) TTdy{:,:}];
+curncs = cellstr(unique(THdy.Currency(ismember(THdy.Type,'SPT')),'stable'));
+clear T*
 
-run ccs.m                   % Historic data of cross-currency swaps (generates 'data_ccs')
-% Append the data of CCS to the data of swap and yield curves
-[dataset_daily,header_daily] = append_dataset(dataset_daily, data_ccs, header_daily, hdr_ccs);
+%% Data on forward premiums
+[data_fp,hdr_fp,tnrs_fp]     = fwd_prm(dataset_daily,header_daily,curncs);              % no time shift
+[dataset_daily,header_daily] = append_dataset(dataset_daily,data_fp,header_daily,hdr_fp);
 
-run csp.m                   % Historic data of credit spreads (generates 'data_csp')
-% Append the data of credit spreads to the data of swap curves, yield curves and CCS 
-[dataset_daily,header_daily] = append_dataset(dataset_daily, data_csp, header_daily, hdr_csp);
+%% Data on nominal yield curves
+[data_zc,hdr_zc] = zc_yields(dataset_daily,header_daily,curncs,false,false,true);       % make time shift
+[dataset_daily,header_daily] = append_dataset(dataset_daily,data_zc,header_daily,hdr_zc);
 
-run plot_spreads.m
+%% Data on spreads (synthetic yield curves, interest rate differentials, CIP deviations)
+[data_sprd,hdr_sprd,tnrs_spd] = spreads(dataset_daily,header_daily);
+[dataset_daily,header_daily]  = append_dataset(dataset_daily,data_sprd,header_daily,hdr_sprd);
 
-clear path sheets
+%% Clean dataset
+types = {'Type','RHO','LCNOM','LCSYNT','LCSPRD','CIPDEV','FCSPRD'};
+fltr  = ~ismember(header_daily(:,2),types);
+dataset_daily(:,fltr) = [];     header_daily(fltr,:)  = [];
+dataset_daily(dataset_daily(:,1) < datenum('1-Jul-2009'),ismember(header_daily(:,1),'RUB')) = nan;
+
+%% Assess series
+[TTcip,currEM,currAE] = read_cip();
+figstop  = false;	figsave = false;
+corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figstop,figsave);
+corrDIS  = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave);
+S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
+clear data_* hdr_* fig* fltr types
+
+%% Save variables in mat files (not in Git directory due to size limits)
+% cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2020'
+% save struct_datady_S.mat S corr* cur* tnrs*
+% save struct_datady_cells.mat dataset_daily header_daily

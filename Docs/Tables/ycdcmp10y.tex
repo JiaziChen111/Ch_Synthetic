@@ -1,0 +1,26 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+\usepackage[margin=1in]{geometry}
+\input{../Settings/macros}
+\pagestyle{empty}
+
+\begin{document}
+	\begin{normalsize}
+%		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Drivers of the Emerging Market 10-Year Nominal Yield and Its Components} \label{tab:ycdcmp10y}
+					\begin{threeparttable}
+						\estauto{../Tables/f_ycdcmp10y.tex}{6}
+						\tabnote{This table reports the estimated slope coefficients of panel data regressions of the 10-year nominal yield and its components (expected short rate, term premium and credit risk compensation) on selected explanatory variables. The sample includes monthly data for 15 emerging markets starting in 2000:1 and ending in 2019:1. The dependent variables are expressed in basis points. The explanatory variables are the U.S. term premium and the U.S. expected short rate according to \cite{KimWright:2005}  with the same maturity as the dependent variables, the policy rate, domestic inflation and unemployment, the standardized exchange rate (local currency per USD), the log of the Vix, the log of the U.S. and global economic policy uncertainty indexes based on \cite{BakerBloomDavis:2016}, the global economic activity index of \cite{Hamilton:2019}. Driscoll--Kraay standard errors in parenthesis; lag length up to which the residuals may be autocorrelated is indicated. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+%		\end{landscape}
+	\end{normalsize}
+\end{document}

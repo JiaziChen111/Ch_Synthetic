@@ -1,0 +1,25 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+%\usepackage[margin=1in]{geometry}
+%\input{../Settings/macros}
+
+\begin{document}
+	\begin{normalsize}
+		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Caption} \label{tab:tpucsv}
+					\begin{threeparttable}
+						\estauto{../Tables/ftpucsv.tex}{10}
+						\tabnote{details.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+		\end{landscape}
+	\end{normalsize}
+\end{document}

@@ -4,38 +4,74 @@
 \documentclass[a4paper, 12pt]{article} 	% Document class
 \input{../Settings/packages}		   		  % Packages
 \input{../Settings/page_settings}   		% Page settings
-\input{../Settings/macros}					   % Personalized commands
+\input{../Settings/macros_global}		   % Personalized commands
+\input{../Settings/macros_local}			% Personalized commands
 %---------------------------------------------------------------
 
 \begin{document}
 %---------------------------------------------------------------
 % Title
 %---------------------------------------------------------------
-\title{Term Premia in Emerging Markets \thanks{ }}
-\author{M. Pavel Solís M. 
-	\thanks{Address: Wyman Park Building 544E, 3400 N. Charles Street, Baltimore, MD 21218. Email: msolism1@jhu.edu.}}
+\title{\vspace{-2.0cm}\input{../Settings/title}
+	\iftoggle{fulldraft}{
+		\hspace{-1.1em} \thanks{\protect\linespread{1}\protect\selectfont I am deeply grateful to Jonathan Wright for his invaluable advice and guidance, and to Greg Duffee and Olivier Jeanne for insightful discussions and suggestions. I also thank Tobias Adrian, Derin Aksit, Laurence Ball, Bob Barbera, Christopher Carroll, Lalit Contractor, Jon Faust, Daniel Millimet, Daniel Miranda, Alessandro Rebucci, Tatjana Schulze, Fabian Valencia and seminar participants at Johns Hopkins University, Loyola University, Carey Business School, the Bank of Spain, the Bank of Mexico and CNBV for their helpful comments and suggestions. All remaining errors are mine. The appendix for this paper is available in the following website \url{https://pavelsolis.github.io/research}.} % The codes used to generate the results in this paper are available in the author's website \url{https://pavelsolis.github.io/research}.
+	}
+	{\\ \large Outline}
+	}
+\author{Pavel Solís
+	\iftoggle{fulldraft}{
+		\hspace{-0.8em} \thanks{\protect\linespread{1}\protect\selectfont Address: Wyman Park Building 544E, 3400 N. Charles Street, Baltimore, MD 21218, United States. Email: \href{mailto:msolism1@jhu.edu}{\texttt{msolism1@jhu.edu}}.}}
+	{}
+	}
 \date{}
-\maketitle
-\vspace{-4ex}
-\begin{center}
-	This version: \today
-\end{center}
+\maketitle	\vspace{-4ex}
+	\iftoggle{fulldraft}{									% Turn it on/off in packages.tex
+%	\begin{center}
+%		\textbf{(Job Market Paper)}
+%	\end{center}
+	\begin{center}
+		% First draft: May 1, 2019 \\
+		March 2021 % This draft: \today	% or Month Day, Year
+	\end{center}
+	}{}	% Closes \iftoggle{fulldraft}
 
 %---------------------------------------------------------------
 % Contents
 %---------------------------------------------------------------
-\input{abstract}
+\iftoggle{fulldraft}{										% Turn it on/off in packages.tex
+	\input{abstract}
+	}{}	% Closes \iftoggle{fulldraft}
 
 \input{sections}
 
-\bibliographystyle{abbrvnat} 	% Other styles: {plain}, {authordate1}
-%\bibliography{../References/library}
-\bibliography{../../../References/library} % Without executing file_duplicator.sh
+\iftoggle{fulldraft}{										% Turn it on/off in packages.tex
+	\newpage
+	\bibliographystyle{abbrvnat} 					% Other styles: {plain}, {authordate1}
+	%\bibliography{../References/library}		% Uses local copy of database with references
+%	\bibliography{../../../References/library}	% Uses centralized database with references
+	{\small %\footnotesize
+		\bibliography{../../../References/library}
+	}
+	
+	\newpage
+	\begin{appendices}
+		\input{appendix}
+	\end{appendices}
+	}{}	% Closes \iftoggle{fulldraft}
 
-\input{appendix}
+\iftoggle{toclinks}{\maketoc \listoftodos}{}	% Turn it on/off in packages.tex
 
-\newpage
-\iftoggle{commentboxes}{\maketoc}	% Defined in packages.tex and macros.tex
-
-%\listoftodos
 \end{document}
+
+%---------------------------------------------------------------
+% Notes
+%---------------------------------------------------------------
+% References:
+% Local approach might need to first run file_duplicator.sh
+% Centralized approach doesn't need to execute file_duplicator.sh; but
+% it might show removed citations included in earlier drafts. To clean 
+% removed references, in the terminal execute the next two lines
+% $ cd Book/Ch_XXXX/Docs/Paper
+% $ bibexport -o ../References/library.bib paper.aux
+% Delete auxiliary files in References and Paper folders
+% Source for cleaning .bib file to remove citations https://tex.stackexchange.com/questions/41821/creating-bib-file-containing-only-the-cited-references-of-a-bigger-bib-file

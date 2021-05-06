@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+	\begin{figure}[tbph]
+		\caption{Model Fit: 10-Year Synthetic Yields of Emerging Markets} \label{fig:s_ylds_bsl_yQ}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.86\textheight,width=\linewidth]{../Figures/Estimation/s_ylds_bsl_yQ.eps} \\
+				\end{center}
+				\fignotes{This figure plots the fitted (dashed line) and the actual (solid line) 10-year synthetic yields. The fitted yield is obtained after estimating the survey-augmented affine term structure model.}
+			\end{minipage}
+		\end{center}
+	\end{figure}
+\end{document}
+% trim = {<left> <lower> <right> <upper>}

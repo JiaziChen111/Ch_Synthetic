@@ -1,0 +1,176 @@
+%% Personalized Macros
+% Variable Definitions, Equations
+
+%-------------------------------------------------------------------
+% Variable Definitions
+%-------------------------------------------------------------------
+\providecommand{\tnr}{n}
+\providecommand{\tnrfwd}{m}
+\providecommand{\idxt}{t}
+\providecommand{\idxi}{i}
+\providecommand{\idxh}{h}
+\providecommand{\idxs}{\idxt,\tnr}
+\providecommand{\idxsfwd}{\tnr | \tnrfwd}
+\providecommand{\idxsfwdt}{\idxt,\idxsfwd}
+\providecommand{\idxspnl}{\idxi,\idxt}
+\providecommand{\idxspnlfwd}{\idxi,{\idxt+\idxh}}
+\providecommand{\idxspnllag}{\idxi,{\idxt-1}}
+\providecommand{\idxspnllaglag}{\idxi,{\idxt-j}}
+\providecommand{\fInst}{f_{\idxs}}
+\providecommand{\yld}{y}
+\providecommand{\xpc}{e}
+\providecommand{\yZero}{\yld_{\idxs}}
+\providecommand{\yZeroQ}{\yZero^{\Qmeasure}}
+\providecommand{\yZeroP}{\yZero^{\Pmeasure}}
+\providecommand{\yZeroE}{\yZero^{\xpc}}
+\providecommand{\yZeroFwd}{\frate_{\idxsfwdt}}
+\providecommand{\yZeroEfwd}{\yZeroFwd^{\xpc}}
+\providecommand{\Pzero}{P_{\idxs}}
+\providecommand{\Pzerolag}{P_{\idxt+1,\tnr-1}}
+\providecommand{\srate}{i}
+\providecommand{\shortrate}{\srate_{\idxt}}
+\providecommand{\shortratelag}{\srate_{\idxt-1}}
+\providecommand{\frate}{f}
+\providecommand{\realrate}{r_{\idxs}}
+\providecommand{\rateSvy}{\srate_{\idxs}^{survey}}
+\providecommand{\SDF}{M_{\idxt+1}}
+\providecommand{\SDFprod}{\ExpP \left[\Pi_{j=1} ^\tnr M_{\idxt+j}\right]}
+\providecommand{\SDFsum}{\ExpQ \left[\exp \left(- \Sigma_{j=0} ^{\tnr-1} \srate_{\idxt+j} \right) \right]}
+\providecommand{\Xvars}{X_{\idxt}}
+\providecommand{\XvarsFwd}{X_{\idxt+1}}
+\providecommand{\affineA}{A_{\tnr}}
+\providecommand{\affineB}{B_{\tnr}}
+\providecommand{\affineAfwd}{A_{\tnr + 1}}
+\providecommand{\affineBfwd}{B_{\tnr + 1}}
+\providecommand{\affineAQ}{\affineA^{\Qmeasure}}
+\providecommand{\affineBQ}{\affineB^{\Qmeasure}}
+\providecommand{\affineAP}{\affineA^{\Pmeasure}}
+\providecommand{\affineBP}{\affineB^{\Pmeasure}}
+\providecommand{\affineAe}{\affineA^{\xpc}}
+\providecommand{\affineBe}{\affineB^{\xpc}}
+\providecommand{\affineAeFwd}{A_{\idxsfwd}^{\xpc}}
+\providecommand{\affineBeFwd}{B_{\idxsfwd}^{\xpc}}
+\providecommand{\yLCnom}{\yld_{\idxs} ^{LC}}
+\providecommand{\yLCsynt}{\widetilde{\yld}_{\idxs} ^{LC}}
+\providecommand{\yUS}{y_{\idxs} ^{US}}
+\providecommand{\yUSsynt}{\widetilde{\yld}_{\idxs} ^{US}}
+\providecommand{\fx}{\mathit{s}}
+
+% Math fonts
+\providecommand{\Xdim}{\mathrm{K}}
+\providecommand{\Ydim}{\mathrm{N}}
+\providecommand{\Sdim}{\mathrm{S}}
+\providecommand{\Normal}{\mathcal{N}}
+\providecommand{\Pmeasure}{\mathbb{P}}
+\providecommand{\Qmeasure}{\mathbb{Q}}
+\providecommand{\Expec}{\mathrm{E}_{t}}
+\providecommand{\ExpP}{\mathrm{E}^{\Pmeasure}_{t}}
+\providecommand{\ExpQ}{\mathrm{E}^{\Qmeasure}_{t}}
+\providecommand{\Svy}{S}
+\providecommand{\yVec}{\mathbf{\yld}_{t}}
+\providecommand{\ySVec}{\yVec^{\Svy}}
+\providecommand{\Avec}{\mathbf{A}}
+\providecommand{\Bvec}{\mathbf{B}}
+\providecommand{\ASvec}{\mathbf{A}^{\Svy}}
+\providecommand{\BSvec}{\mathbf{B}^{\Svy}}
+\providecommand{\uVec}{\mathbf{u}_{t}}
+\providecommand{\uSVec}{\mathbf{u}_{t}^{\Svy}}
+\providecommand{\Svec}{\mathbf{\Sigma}}
+\providecommand{\SyVec}{\mathbf{\Svec}_{Y}}
+\providecommand{\SsVec}{\mathbf{\Svec}_{\Svy}}
+
+% Greeks
+\providecommand{\termprm}{\tau_{\idxs}}
+\providecommand{\riskprice}{\lambda_{t}}
+\providecommand{\lambdazero}{\lambda_{0}}
+\providecommand{\lambdaone}{\lambda_{1}}
+\providecommand{\fwdprm}{\rho_{\idxs}}
+\providecommand{\CIPdev}{\phi_{\idxs}}
+\providecommand{\deltazero}{\delta_{0}}
+\providecommand{\deltaone}{\delta_{1}}
+\providecommand{\error}{\nu_{t+1}}
+\providecommand{\errorQ}{\error^{\Qmeasure}}
+\providecommand{\errorP}{\error^{\Pmeasure}}
+\providecommand{\XmuP}{\mu^{\Pmeasure}}
+\providecommand{\XmuQ}{\mu^{\Qmeasure}}
+\providecommand{\XSigma}{\Sigma}
+\providecommand{\XPhiP}{\Phi^{\Pmeasure}}
+\providecommand{\XPhiQ}{\Phi^{\Qmeasure}}
+\providecommand{\betaLT}{\beta_{0}}
+\providecommand{\betaST}{\beta_{1}}
+\providecommand{\betaMTns}{\beta_{2}}
+\providecommand{\betaMTnss}{\beta_{3}}
+\providecommand{\tauNS}{\tau_{1}}
+\providecommand{\tauNSS}{\tau_{2}}
+\providecommand{\tnrTauNS}{\tnr/\tauNS}
+\providecommand{\tnrTauNSS}{\tnr/\tauNSS}
+\providecommand{\params}{\theta}
+\providecommand{\Vasy}{\Omega}
+\providecommand{\cmpnt}{\Psi}
+\providecommand{\Jacobian}{\Gamma}
+\providecommand{\Hessian}{\mathcal{H}_\params}
+\providecommand{\asydstr}{\sqrt{\Ydim} \left( \widehat{\cmpnt} - \cmpnt \right) \xrightarrow[]{d} \Normal \left(0,\, \Jacobian \, \Vasy \, \Jacobian' \right)}
+\providecommand{\sampleHjoint}{\frac{1}{\Ydim} \frac{\partial^{2} \ell_{\Ydim} (\widehat{\params})}{\partial \params \partial \params'}}
+\providecommand{\sampleHindiv}{\frac{1}{\Ydim} \sum_{i = 1}^{\Ydim} \frac{\partial^{2} \log \mathit{f} (X_{i} | \widehat{\params})}{\partial \params \partial \params'}}
+
+% Nelson-Siegel_Svensson
+\providecommand{\loadSTnsFwd}{\exp\left(-\tnrTauNS \right)}
+\providecommand{\loadSTnssFwd}{\exp\left(-\tnrTauNSS \right)}
+\providecommand{\loadMTnsFwd}{\left(\tnrTauNS\right) \loadSTnsFwd}
+\providecommand{\loadMTnssFwd}{\left(\tnrTauNSS\right) \loadSTnssFwd}
+\providecommand{\loadSTnsZero}{\frac{1-\loadSTnsFwd}{\tnrTauNS}}
+\providecommand{\loadSTnssZero}{\frac{1-\loadSTnssFwd}{\tnrTauNSS}}
+\providecommand{\loadMTnsZero}{\left(\loadSTnsZero - \loadSTnsFwd \right)}
+\providecommand{\loadMTnssZero}{\left( \loadSTnssZero - \loadSTnssFwd \right)}
+
+% DELETE in a later revision
+\providecommand{\Xmu}{\mu}
+\providecommand{\XPhi}{\Phi}
+\providecommand{\XmuStar}{\mu^{*}}
+\providecommand{\XPhiStar}{\Phi^{*}}
+\providecommand{\STrate}{r}
+\providecommand{\rShort}{\STrate_{t}}
+\providecommand{\rShortlag}{\STrate_{t-1}}
+\providecommand{\ySvy}{\STrate_{\idxs}^{survey}}
+\providecommand{\TPatsm}{tp_{\idxs}}
+
+%-------------------------------------------------------------------
+% Equations
+%-------------------------------------------------------------------
+\newcommand{\eqyLCsynt}{\yLCsynt = \yUS + \fwdprm}
+\newcommand{\eqCIPdevDS}{\CIPdev = \yLCnom - \yLCsynt}
+\newcommand{\eqCIPdevQ}{\CIPdev = \yLCnom - \yZeroQ}
+
+\newcommand{\PzeroP}{\Pzero = \ExpP \left[ \SDF \Pzerolag \right]}
+\newcommand{\PzeroQ}{\Pzero = \ExpQ \left[ \exp\left(- \shortrate\right) \Pzerolag \right]}
+
+\newcommand{\eqXvarsFwdQ}{\XvarsFwd = \XmuQ + \XPhiQ \Xvars  + \XSigma \errorQ}
+\newcommand{\eqshortrate}{\shortrate = \deltazero + \deltaone' \Xvars}
+\newcommand{\eqyZeroP}{\yZeroP = \affineAP + \affineBP \Xvars}
+\newcommand{\eqyZeroQ}{\yZeroQ = \affineAQ + \affineBQ \Xvars}
+\newcommand{\eqTP}{\termprm = \yZeroQ - \yZeroP}
+\newcommand{\eqXvarsFwdP}{\XvarsFwd = \XmuP + \XPhiP \Xvars  + \XSigma \errorP}
+\newcommand{\eqriskprice}{\riskprice = \lambdazero + \lambdaone \Xvars}
+\newcommand{\eqSDF}{\SDF = \exp\left( -\shortrate -\frac{1}{2} \riskprice' \riskprice - \riskprice' \errorP \right)}
+
+\newcommand{\eqpanelUCSV}{\tau_{\idxspnl} = \alpha_{\idxi} + \beta_{1} \sigma^{\pi}_{\idxspnl} + \beta_{2} GDP_{\idxspnl} + u_{\idxspnl}}
+\newcommand{\eqpanelTPreg}{\yld_{\idxspnl} = \alpha_{\idxi} + \gamma_{1}' z^{1}_{\idxspnl} + \gamma_{2}' z^{2}_{\idxspnl} + u_{\idxspnl}}
+\newcommand{\eqySvy}{\rateSvy = \frac{\widehat{\beta}_{0}}{1-\widehat{\beta}_{\srate}} + \frac{\widehat{\beta}_{{\pi}}}{1-\widehat{\beta}_{\srate}} \pi_{\idxs}^{survey} + \frac{\widehat{\beta}_{{g}}}{1-\widehat{\beta}_{\srate}} g_{\idxs}^{survey} }
+
+\newcommand{\eqyFwd}{\yZeroFwd = \left( \tnrfwd \yld_{\idxt,\tnrfwd} - \tnr \yZero \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqAeFwd}{\affineAeFwd = \left( \tnrfwd A_{\tnrfwd}^{\xpc}  - \tnr \affineAe \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqBeFwd}{\affineAeFwd = \left( \tnrfwd B_{\tnrfwd}^{\xpc}  - \tnr \affineBe \right)/ \left( \tnrfwd - \tnr \right) }
+\newcommand{\eqrrt}{\rateSvy = \realrate^{*} + \pi^{e}_{\idxs} = \left( \srate^{SPF survey}_{\idxs} - \pi^{SPF survey}_{\idxs} \right) + \fwdprm^{\perp} + \pi^{CE survey}_{\idxs} }
+
+
+\newcommand{\eqyVecY}{\yVec = \Avec + \Bvec \Xvars + \SyVec \uVec}
+\newcommand{\eqyVecS}{\ySVec = \ASvec + \BSvec \Xvars + \SsVec \uSVec}
+
+% One shock at a time
+%\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \beta_{\idxh} \epsilon_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \phi_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}}
+
+% All shocks at once
+\newcommand{\eqpanelLP}{\yld_{\idxspnlfwd} - \yld_{\idxspnllag} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \gamma_{\idxh} \Delta \yld_{\idxspnllag} + \eta_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
+
+\newcommand{\eqpanelLPlevels}{\yld_{\idxspnlfwd} = \alpha_{\idxh,\idxi} + \sum^{3}_{j = 1} \beta^{j}_{\idxh} \epsilon^{j}_{\idxt} + \sum^{2}_{j = 1} \gamma^{j}_{\idxh} \yld_{\idxspnllaglag} + \eta_{\idxh} \fx_{\idxspnllag}  + u_{\idxspnlfwd}} 
+% \beta^{target}_{\idxh} \epsilon^{target}_{\idxt} + \beta^{path}_{\idxh} \epsilon^{path}_{\idxt} + \beta^{lsap}_{\idxh} \epsilon^{lsap}_{\idxt} 

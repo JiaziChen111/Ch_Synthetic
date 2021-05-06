@@ -1,0 +1,741 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}					  % Input accented characters
+\usepackage{underscore}						   % Control the behaviour of "_" in the text
+%\usepackage[T1]{fontenc}					  % Fonts to use for printing characters
+\usepackage[margin=1in]{geometry} 	   % Sets the margins of the file
+\usepackage[colorlinks=true]{hyperref} 	% colorlinks=true gets rid of the awful boxes
+\usepackage{enumitem,amssymb}
+\usepackage{xcolor}
+	\definecolor{clink}{rgb}{0,0,1} 			 % Blue
+	\definecolor{ccite}{rgb}{0,0.3,0.9} 	   % Light blue
+	\definecolor{curl}{rgb}{0.3,0,0.9} 			% Red blue
+	\hypersetup{linkcolor={clink}, citecolor={ccite}, urlcolor={curl}} 		% Internal links, Citations, External links/urls
+
+% Link to ToC from section
+\newcommand{\gototoc}{\vspace{-1.8cm} \null\hfill [\hyperlink{toc}{Go to ToC}] \newline}
+
+\newlist{todolist}{itemize}{2}					 % To-do list with checkmarks
+\setlist[todolist]{label=$\square$}
+\usepackage{pifont}
+	\newcommand{\cmark}{\ding{51}}
+	\newcommand{\xmark}{\ding{55}}
+	\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+	\hspace{-2.5pt}}
+	\newcommand{\wontdo}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+
+\begin{document}
+	\title{Tasks for `\input{../../Settings/title}'}
+	\author{M. Pavel Solís M.}
+	\date{}
+	\maketitle
+	\hypertarget{toc}{}								 % Allows to link back to the ToC
+	\tableofcontents
+	\vspace{2.5\bigskipamount}
+	
+
+\section{Data: BLP}
+\gototoc
+\begin{todolist}
+	\item After comparing datasets downloaded from BLP on Mar 2018 and Feb 2019: BLP updated values (slightly) in variables starting on: 9/30/2009 (USSW), 5/4/11 (USBC, USBA).
+	\item EUBS1-EUBS20 for PLN deleted since already downloaded for HUF.
+	\item Check PZSW*V3 Curncy against PZSW* Curncy for PLN because the former have a shorter history (became active in 2013 vs 2000). Why the substitution? Was it because PZSW* Curncy were discontinued?
+	\item Download PZSW15 and Curncy PZSW20 to complement the history 6/12/2000-1/30/2013 for Curncy PZSW15V3 Curncy and PZSW20V3 Curncy, respectively.
+	\item Check MRBS* starting in 4/20/2016 because in the data downloaded in 2019 they were flat most of the time after that date.
+	\item Check the following series b/c they remain mostly flat during those periods: SABS15 Curncy b/w 4/15/2014-1/27/2016, SABS20 Curncy b/w 4/15/2014-8/28/2015, SABS25 Curncy b/w 1/3/2000-9/5/2011, SABS30 Curncy b/w 1/3/2000-5/10/2010.
+	\item Check constant yield curves.
+	\begin{todolist}
+		\item NOK: C26610Y Index is flat after Nov 2012, C26610Y is flat twice during the sample.
+		\item PHP: Since 29-Oct-2018 BFV data does not vary. In the dataset, the BFV series includes IYC (converted into CE par) yields since 1-Oct-2018. Update BFV series w/ BLP data when access to it is available.
+	\end{todolist}
+	\item Include variables in datasets: CDS, longest histories in consumption and inflation for EMS. Same macro-financial data for AEs than for EMs?
+\end{todolist}
+
+\section{Datasets: Daily}
+\gototoc
+\begin{todolist}
+	\item For BRL RHO 2Y deviates from DIS starting in 2016. RHO 7Y is not available relative to DIS.
+	\item For GBP RHO 7Y increases a lot relative to DIS in 2010.
+	\item For PEN RHO 7Y big decrease in 2018.
+	\item For PHP RHO 7Y big spike in 2010.
+	\item For THB, AUD, CHF, DKK, EUR, NZD, SEK RHO 7Y and CAD 3Y, 7Y big declines.
+	\item Review RHO: 
+	\begin{todolist}
+		\item COP 1Y flat b/w 2012-2015.
+		\item HUF 3M.
+		\item IDR 1Y.
+		\item ILS 3M, 7Y.
+		\item MYR 2Y.
+	\end{todolist}
+	\item[\done] For NOK RHO 2Y, 3Y, 7Y have a hole in 2008-2009. Reason: cutoff date of convention to compute IRS.
+\end{todolist}
+
+\section{Data: Codes}
+\begin{todolist}
+	\item Consider shorter histories of some series within a country.
+	\begin{todolist}
+		\item For PLN consider removing PZBSEC6 Curncy, PZBSEC8 Curncy, PZBSEC9 Curncy (and PZSW6V3 Curncy, PZSW8V3 Curncy, PZSW9V3 Curncy) because they start in 2011 and that seems to eliminate the data before 2011 for PLN even if it is available for all the other tenors; plus it may not be needed, it depends on the other variables in the formula having the 6Y tenor available. Or modify the code so that those tenors are considered once they become available (and discarded before 2011).
+		\item Availability of data for PZBSEC6 Curncy and PZSW15 and Curncy might be related to the history of the synthetic curves for PLN.
+		\item Check that the shorter history of PZSW15V3 Curncy and PZSW20V3 Curncy (starts in 2013) does not affect the history of the synthetic curves for PLN.
+		\item Check that MRBS10 and lower start around 2005, while MRBS15 around 2007 and MRBS20 in mid-2009.
+		\item RRUSSW10 and lower start in 2006, while RRUSSW15 and RRUSSW20 in 2009.
+		\item TBSWNI10  and lower start in 2007, TBSWNI15 and TBSWNI20 in 2009.
+	\end{todolist}
+	\item[\done] In compute_fp_long.m address cases for HUF, PLN and NOK. If BS (HUF, PLN) and IRS (NOK) series are NaN, use zeros.
+	\item[\done] There are countries with BFV and IYC curves, transform BFV into ZC yields and compare the curves. BFV has CE par yields, IYC has CE ZC yields. Need to be converted into ZC continuously compounding.
+	\item[\wontdo] For countries for which DIS have a longer history than me, check whether it is b/c we use different LC YC (BFV vs. IYC) and one has a longer history. For HUF and PLN is b/c BS series start in 2007 in my sample.
+	\item[\done] Update codes since EUBS1-EUBS20 for HUF and PLN were deleted because they were already downloaded for EUR (plus EUBS25 and EUBS30 are now included).
+\end{todolist}
+
+
+\section{Data: Files}
+\gototoc
+\begin{todolist}
+	\item[\done] In the dataset, the BFV series for PHP includes IYC (converted into CE par) yields since 1-Oct-2018. 
+	\item[\done] In CE_Forecasts.xlsx, input first CPI 10Y forecast for PHP equal to next value since original value is unrealistically low.
+	\item[\done] In AE_EM_Curves_Tickers.xlsx change cutoff date for NOK. Official date 9/2/2008 only applies to 1Y, 5Y and 10Y tenors. New date 5/20/2009 applies to all tenors.
+	\item[\done] Data: CRSP.
+	\begin{todolist}
+		\item[\done] Download “Riskfree Series (1-month and 3-month)”, “Riskfree Series (4, 13, and 26-week)”, Fama Term Structure data for 3- 6- 9- months. Compare them.
+		\item[\done] Update read_usyc.m to read CRSP data for maturities $<$ 1Y.
+		\item[\done] Compare results in LC spread and forward premium for 3M against DIS.
+	\end{todolist}
+	\item[\done] It seems that EUBS1-EUBS20 for HUF can be deleted from AE_EM_Curves_BDH.xlsx (codes referencing BS_EUR so far ---fltr4tickers and compute_fp_long--- updated). Need consistency because the Type column in sheet Identifiers is different for HUF (BS_EUR) than for EUR (BS). 
+	\begin{todolist}
+		\item[\done] Compare time series of EUBS1-EUBS20 for HUF and for EUR to make sure they are the same (i.e. downloaded correctly).
+		\item[\done] Highlight in red columns DM-DV in original_Zero_Swap_Curves_Bloomberg.xlsx to indicate that those tickers were removed in current dataset.
+		\item[\done] Comment after comparison: small differences between 2018 and 2019. No change was made to 2019 series. Same data when comparing EUBS1-EUBS20 for HUF and EUR.
+		\item[\done] Delete BS_EUR in Type column in README sheet in AE_EM_Curves_Tickers.xlsx. Update Type columns in HUF and PLN sheets for EUBS1-EUBS20 from BS_EUR to BS.
+		\item[\done] Update AE_EM_Curves_BDH.xlsx.
+	\end{todolist}
+	\item[\done] Change name of files to US_Yield_Curve_Data.xlsx, IMF_Country_Codes.xlsx, ISO_Currency_Codes.xlsx, BIS_CB_Policy_rates.xlsx, CIP_Data.xlsx and CIP_data.dta (original_ removed).
+	\item[\done] Value for PHP CPI 10Y changed from 1.3 to 4.8 since it is unrealistically low.
+	\item[\done] Update CE_Forecasts.xlsx: change order of groups (APCF, LACF, EECF), correct dates for EECF.
+	\item[\done] Delete EUBS1-EUBS20 for PLN in both sheets (All, Tickers) of AE_EM_Curves_BDH.xlsx.
+\end{todolist}
+
+\section{Codes}
+\gototoc
+\begin{todolist}
+	\item Check if the formula for the CCS of HUF needs to be updated in compute_fp_long.m as indicated in the AE_EM_Curves_Tickers.xlsx file (check the sign ---plus or minus--- for TBS6v3).
+	\item[\done] Updates to Kfs: remove commented nargin for mu_x and mu_y.
+	\item[\done] Move loadings4ylds to the temp folder.
+	\item[\done] Update loadings4ylds: help, round maturities so that input as [0.25 1:5:10]
+	\item[\done] Consider to include files as subfunctions.
+	\begin{todolist}
+		\item[\done] findNaN.m into remove_NaNcols.m.
+		\item[\wontdo] matchtnrs.m into extract_vars.m. extract_vars.m is already long.
+		\item[\wontdo] fltr4tickers.m into extract_vars.m. Filter also used by compare_ycs.m and zc_yields.m.
+		\item[\wontdo] y_NS into y_NSS.m. They are used separately by zc_yields.m.
+	\end{todolist}
+	\item[\done] Add read_cip.m and iso2names.m in m-files called in read_data.m.
+	\item[\done] Move old codes to Aux->Temp folder.
+	\item[\wontdo] Check what the mat-files (ccs_data.mat, ccs_info.mat) contain to decide whether to move them to the Aux folder. Obtained with old codes.
+	\item[\done] Filter SPT in THdt to see if the currency tickers are identified. Yes, actually curncs is now obtained directly from the headers table.
+\end{todolist}
+
+\section{Facts}
+\gototoc
+\begin{todolist}
+	\item No EM was at the ZLB over the period.
+	\item Countries w/ LCNOM YCs  of less than 10Y maturities:
+	\begin{todolist}
+		\item IDR b/w 25-Feb-2003 and 15-Apr-2003 max tenor was 8Y.
+		\item KOR b/w 3-Jan-2000 and 30-Oct-2000 max tenor was 8Y.
+		\item RUB b/w 04-Apr-2006 and 19-Jun-2007 max tenor was 7Y.
+		\item TRY  b/w 17-Feb-2005 and 22-Feb-2005 max tenor was 3Y.
+		\item TRY  b/w 22-Feb-2005 and 28-Jun-2010 max tenor was 5Y.
+	\end{todolist}
+	\item Advantage of LCSYNT (longer history) instead of LCNOM for: BRL, IDR, PHP, RUB, TRY. Disadvantage for COP, HUF, ILS, MXN, MYR, PEN, PLN, THB, ZAR.
+	\item Since 2016, CHF and DKK negative YC up to 10Y and 7Y, respectively. Before GFC, close to ZLB.
+\end{todolist}
+
+\section{Tables}
+\gototoc
+\begin{todolist}
+	\item Clean Tables folder.
+	\item Upward sloping YCs? Averages.
+	\item Compare TPsynt in EMs vs TPnom in AEs. Averages. Compare to current table 2. Compare w/ average YC slope. 
+	\item Decompose nominal yields. Averages per country. Averages before and after the GFC to see if relative importance of the components changed. Drivers of yields: Average and std of components (TPsynt, LCCS and yE).
+	\item Compare std of BRP vs std of AE TP. C-R (2002): risk premiums are far more volatile in emerging markets than in developed economies. Bech and Lengwiler (2011) find that central bank purchases of bonds not only reduced long-term interest rates, but also led to lower interest rate volatility. 
+\end{todolist}
+
+
+\section{Research Questions}
+\gototoc
+\begin{todolist}
+	\item Why TPs differ across EMs? Average of TPsynt per country, is there a large variation among them? b/w them and AEs? 
+	\item Why TP and CR move as they do? Which asset pricing model is consistent with the data (TP, CR)? What explanations of bond risk premia are supported? Compensation for disagreement (increases quantity of risk), for economic pain (increases price of risk), for economic uncertainty about GDP growth and/or inflation (increases price of risk), for volatility risk (increases quantity of risk)? 
+	\item Has the importance of TP and CR changed after the GR? More role of CR after the GR since large fiscal debts?
+	\item Why TP \(<\) 0? Change in importance of AD relative to AS shocks? Change in correlation b/w consumption and inflation and b/w bonds and stocks (so bonds become hedges of stocks)? Gourio and Ngo (2016), Pericoli (2018), Campbell, Pflueger and Viceira (2018), Campbell, Sunderam and Viceira (2016). Or financial integration story?
+	\item Financial integration: Correlation b/w debt flows from TIC data and TP. FX reserves. The increase in inflows reflected in an increase in FX reserves, lower bond yields or both. Case of capital controls in Brazil.
+	\item What is the relationship b/w the YC components and the forward premium?
+	\item Decompose the forward exchange premium into: an expectations part and a risk premium. Clarida-Taylor (1997), Burnside et al (2007), Backus et al (1995). If LT TP are more closely linked, then tau_rho is closer to zero and thus UIP holds more closely for LT rates than for shorter ones.
+	\item Did UMP spread abroad? He and McCauley (2013) and Turner (2014). QE's purpose was to decrease TP in AE, did the same happen to EMs? TP \(<\) 0?
+	\item[\done] Is there a risk channel for monetary policy spillovers? Are LT rates more highly correlated than ST rates? Policy rate disconnect for ST and/or LT? US spillovers work through changes in risk premia? Expected rate in EMs react to changes in USTP?
+	\item[\done] International comparisons of expectations (yE). Subtract inflation expectations and see whether r* differs. Is there a single world real interest rate? Is the real interest rate the same for all EMs? Plot min-max intervals to see spread like Kalemli-Ozcan for policy rates.
+	\item[\done] TPs across EMs: Are they idiosyncratic or is there a common factor driving them? PCA for all yields. PCA for ST rates. PCA for LT rates. No common component might imply segmented markets, capital controls, home bias.
+	\item[\done] High inflation uncertainty leads to high TP?
+	\item[\done] GFCy is different at the short than at the long end of the curve. Obstfeld (2015)
+\end{todolist}
+
+\section{Analysis: Short Term}
+\gototoc
+\begin{todolist}
+	\item Additional stuff.
+	\begin{todolist}
+		\item Explanation of bias in VAR is b/c state variable is very persistent.
+		\item Reason to use CRSP: GSW doesn't target ST.
+		\item Reference to Chernov et al. and to SP credit ratings for EM instead of R-R 2011 in section 2.1. 
+		\item Write what explains movements in TP? Inflation and economic uncertainty. Increased demand due to QE. Kim-Wright.
+		\item Low connectedness supports decomposing the yields separately instead of jointly.
+		\item Evidence from DY index on different maturities show evidence of market segmentation, which allows to explain effects of LSAP on TP (W \& W 2020).
+		\item Evidence that CRC is more idiosyncratic from drivers and DY index.
+		\item TS of TP DY index.
+		\item Save figures to be used in pdf.
+		\item Read literature and prepare litreview file. Discuss insights of yield decompositions. Wright 2011 description. Adrian 2017 description. Sack 2008 description. Read KW 2005 explanations for declining TP \(<->\) Episodes of negative TP per country \(<->\) Portfolio inflows \(<->\) Taper tantrum. LCCS properties in D-S. Hoffman-Shim-Shin. Financial integration. Russia case discussed in D-S: can the 3-part decomposition shed light? % Correlation w/ inflation, changing pi*: do surveys help w/ this; is high inflation a risk factor. 
+		\item Results in light of Hofmann, Shim and Shin: since global investors more sensitive and LT not respond much -> LT bonds mainly held by domestic investors? B/c global more sensitive, local hold more LT LC bonds and so are less sensitive.
+		\item Follow Hollerstein tweet.
+	\end{todolist}
+\end{todolist}
+
+\section{Analysis: Medium Term}
+\gototoc
+\begin{todolist}
+	\item Compare my TPMX against Blake et al. Both TP nom and TPsynt.
+	\item Are big changes in TP related to local events?
+	\item Correct Hessian in asyvarhat considering that it seems to work for AEs, check whether excluding surveys corrects the issue.
+\end{todolist}
+
+\section{Analysis: Long Term}
+\gototoc
+\begin{todolist}
+	\item Update database.
+	\item ATSM estimated with longer series for AEs.
+	\item Replicate analysis in Dahlquist \& Hasseltoft on time-varying bond risk premia.
+	\item MPS from ECB. Which MPS matter more for EMs, Fed or ECB? Does it varies by region (some countries respond more to ECB than to the Fed)? Beyond scope of current paper.
+	\item Create a structure for US data: Vix, KWUSTP, KWUSYP, SVEY, EPU, FFR, USMPS. In daily2monthly for US extract LCNOM, OIS, FF. Add Guimaraes TP.
+	\item Estimate Guimaraes w/ daily data for US and compare against KW.
+	\item Replicate Lloyd.
+	\item Use 0.25 and 0.5 Y to test results from forward premium puzzle. Whether it holds at short but not at long maturities (Lingareddy 2008).
+	\item Check whether the removal of CB governors in TRY had an effect on its TP. Did TP decline in countries that adopted IT during the sample period? Need to know when it was announced (not when IT started).
+\end{todolist}
+
+\section{Analysis: Completed}
+\gototoc
+	\begin{todolist}
+	\item[\done] Feeling of data. Summary statistics of yield (Guimaraes) and survey data (inflation, GDP, short rate). 
+	\item[\done] Term structure of TP. Averages per country.
+	\item[\done] Correlation of BRP and TPnom. Averages of components (relative importance) per country. Before and after the GFC.
+	\item[\wontdo] t-test for LCCS = 0 and TPsynt = 0. LCCS = 0 is equivalent to test TPnom = TPsynt.
+	\item[\wontdo] Average and std of real interest rate to see if on average is the same across EMs and how much variability it has compared to nominal and synthetic yields. Correlation b/w real rates of EMs.
+	\item[\done] Compare ssb_yP vs CBP surveys. Similar to comparing against model-free TPsvy. Comment this in footnote.
+	\item[\done] Compare TPs w/ empirical measures as in Curcuru et al. 2018. Compare against survey-based TP, and measures of risk and uncertainty.
+	\item[\done] Fit. RMSE. Averages per country. Nominal AEs and synthetic EMs (incl. ILS and ZAR).
+	\item[\done] Notes for tables.
+	\item[\done] Slides.
+	\begin{todolist}
+		\item[\done] Figures. Labels, titles, notes. Clearly state maturity of the yield reported.
+		\item[\done] Tables and figures. Add circles/rectangles or highlight numbers w/ color.
+	\end{todolist}
+	\item[\wontdo] Fisher equation rather than approximation for US real rate and EM nominal rate. Not clear how to do it once the correction for the 'real' TP is included.
+	\item[\wontdo] Start sample for Russia 1 or 2 months after the current initial date. Forget to include it in the last update.
+	\item[\wontdo] Compare scbp obtained w/ SPF data vs survey data from other AEs. Time consuming; can reference to international evidence based on Laubach and Williams.
+	\item[\done] Make reference to Chernov, Schmidt, Song about credit risk in US YC.
+	\item[\done] Recalculate implied forecasts of EM short rates considering currency risk premia.
+	\item[\done] Update LPs using absphi. Countries w/ truncated phi: COP (minimal), HUF (only early in sample), IDR (-51 bps), ILS (GR), KRW (minimal), MXN (ave -15 bps), MYR (minimal) PEN (-31 bps), PHP (-66 bps), PLN (only early in sample), RUB (minimal), THB (GR), TRY (since 2014, avg -59 bps), ZAR (ave -33 bps). Avg = -43 bps.
+	\item[\done] Risks of global investors when investing in LC bonds: risk of a LC depreciation, risk of default.
+	\item[\done] Truncate CRC at 0 in dcmp figure.
+	\item[\wontdo] Update label for Avg Exp SR in figures.
+	\item[\done] Include figure for yield decomposition, reflecting (in terms of sizes per maturity) averages of components.
+	\item[\done] Include cashflow diagram to construct synthetic yields.
+	\item Tables. Include summary tables. Update notes. 
+	\item[\done] Write down equation for CRC.
+	\item[\done] Review explanation in HSS on Nickell bias.
+	\item[\done] Review references.
+	\item[\done] Review notes of all tables and figures (eg. 90\% CI) in main text and appendix.
+	\item[\done] Assumption: same investors in LCNOM and LCSYNT. 
+	\item[\done] Make references in the main text to all things in appendices.
+	\item[\done] Wording.
+	\begin{todolist}
+		\item[\done] Remove that only FOMC meetings but leave that no minutes nor speeches.
+		\item[\done] Footnote for differences in SPF-SPD-SMP.
+		\item[\done] Reason to use CRSP: GSW doesn't target ST, follow Golinski \& Spencer.
+		\item[\done] Comparison of real rates from surveys and TIPS.
+		\item[\done] Reason for day shift.
+		\item[\done] Write equation for inflation uncertainty part.
+	\end{todolist}
+	\item[\done] Technical parts.
+	\begin{todolist}
+		\item[\done] Drivers before vs after GFC. Influence of US YC components and the Vix increased post-GFC. Unemployment larger role for TP pre-GFC.
+		\item[\done] Include UCSV std in drivers. Negative sign after including components of US YC.
+		\item[\done] Adjust cutoff date for LSAP, Oct 2008 (rather than Jan 2009) according to Rogers et al (2018). Update: summary table of US MPS, LPs (all b/c shocks all at once, including path pre/post).
+		\item[\done] Rolling correlation in addition to DY index.
+		\item[\done] Check difference between surveys among economists and surveys among traders. A few basis points b/w SPF and SPD, and b/w SPF and SMP.
+		\item[\done] Verify that fitting error is left in CRC and is not big to change to a 4-way decomposition.
+		\item[\done] Check dates in USMPS file against dates in Rogers et al. (2014) to verify it only includes FOMC meetings (no speeches). Only FOMC meetings.
+		\item[\done] Check which parameters seem to be precisely estimated. B/c real and imaginary parts, the latter are ignored when plotting so is akin to SE = 0.
+		\item[\done] Use linewidth to make lines in Matlab bigger.
+		\item[\done] LPs. Update equation in levels.
+		\item[\done] LPs: update figures in levels (including path pre/post).
+	\end{todolist}
+	\item[\done] In drivers tables (1, 2, 5 10 Y) indicate that USYP and USTP have same maturity as dependent variables. Indicated in notes.
+	\item[\wontdo] Repeat analysis using dataset of Wu (competes against GSW) to see how sensitive the results are to using GSW. GSW fitting error of 3 bps, improvement of Wu is in short end for which GSW doesn't fit well.
+	\item[\done] Robustness checks: (1) compare scbp obtained w/ SPF data vs TIPS. 
+	\item[\wontdo] Re-estimate models using scbp constructed w/ TIPS data rather than SPF data. TIPS data is not the benchmark.
+	\item[\done] Update slides for presentation in brown bag seminar.
+	\item[\wontdo] Correlation of YC components with the 3 PCs and estimated pricing factors. PCs are not relevant for ATSM, only used for estimation.
+	\item[\wontdo] LPs for effects of US MPS on the 3 pricing factors of EMs.
+	\item[\wontdo] Skim through Warnock papers on TIC data. No longer need to include TIC data.
+	\item[\wontdo] Include TIC data for each country (inflows and outflows) in dataset.
+	\item[\wontdo] Variable of financial openness (Chinn-Ito index). Linear interpolation.
+	\item[\done] Annex.
+	\begin{todolist}
+		\item[\done] Trend inflation and figures for ILS-ZAR.
+		\item[\done] Figures: LPs for US, LPs for AEs, LPs for EMs regions, LPs for AEs blocks.
+		\item[\wontdo] How the size of the rolling window influence the DY index for EMs? I will report rolling correlation and DY index for support, so no need for robustness of DY index.
+	\end{todolist}
+	\item[\done] Future work in conclusions: future work on decomposing further the yields (real parts, CR compensation), inform theoretical models for pricing sovereign defaultable bonds, effects of domestic MP, effects of other AE CB.
+	\item[\done] LPs: Use target, forward guidance and asset purchase instead of target, path, LSAP.
+	\item[\done] Effects on YC slope in section 5.
+	\item[\done] Reference to DK SE for LPs (text and footnotes). Reference to Pesaran test. Indicate how default value for the lags is chosen. e.g. in Brooks et al.: `We plot 2-standard-error bands around theIR. HAC standard errors computed with bandwidth 2 fork<=50.'
+	\item[\done] Reframe paper in terms of Obstfeld-Ozcan debate. Highlight that ignoring credit risk alters the assessment of the debate (instead of framing the whole paper about the implication of ignoring credit risk).
+	\item[\done] Importance of TP: how resources are allocated in the economy, transmission of MP.
+	\item[\done] LPs vs VAR to compute IRFs.
+	\item[\done] Reference to DK se for tables. Reference to Pesaran test.
+	\item[\done] Explain that phi = ynom - yfitted (not ynom-ysynt as before).
+	\item[\done] Explain why not showing AE decompositions.
+	\item[\done] Follow Sahm's recommendations.
+	\item[\done] Read Cochrane shared by Moffitt.
+	\item[\done] Construct data using results from fminsearch.
+	\item[\done] Update tables.
+	\item[\done] Update LPs for 30 and 60 days.
+	\item[\done] Compute SE.
+	\begin{todolist}
+		\item[\done] Try derivest. Didn't produce meaningful results, sends singularity warning at every iteration. 
+		\item[\done] Compute SE but using fminsearch instead of fminunc.
+		\item[\done] Try different values for epsilon.
+		\item[\done] Compare CIs from V0 vs V1.
+		\item[\done] Compare eps = 1e-9 vs hessian from fminunc.
+		\item[\done] Compare SE w/ mny and msy (when no surveys are used, SE wider?)
+	\end{todolist}
+	\item[\done] Plot the components w/ SE and call them from the paper.
+	\item[\wontdo] Update LP figures in Stata: 30 and 60 days. May need to re-run them since estimates from fminseach might still be valid.
+	\item[\done] Call to splityldssvys in atsm_estimation, se_state.
+	\item[\done] Compute the asymptotic variance.
+	\begin{todolist}
+		\item[\done] Compute second derivative of llkfun and multiply by minus 1.
+		\item[\done] Compute first derivative of llkfun and take the variance. First derivative minus expected value.
+		\item[\done] Check definiteness. V2 pass this test whereas V1 doesn't.
+		\item[\done] Save in Vasy in structures bsl_pr.
+		\item[\done] Use Vasy in se_components (delta method).
+		\item[\done] Divide J*Vasy*J' by n when calculating the standard errors.
+		\item[\done] Plot components w/ SE.
+	\end{todolist}
+	\item[\done] Line up observations in drivers table so that coefficients add up exactly.
+	\item[\done] Update datasets and tables in Stata.
+	\item[\done] Update construct_panel to report d_cr instead of dc_blncd.
+	\item[\done] Report d_cr so that decomposition of nominal yields adds up exactly w/ daily data.
+	\item[\done] Compare mssf_yP vs scbp. Note: in general is similar; however, the fit improves for some countries whereas it is off for others (for which it may require to run the estimation again).
+	\item[\done] Calculate uncertainty due to estimation of the state.
+	\begin{todolist}
+		\item[\done] Get matsY and matsS.
+		\item[\done] Extract estimated parameters per country.
+		\item[\done] Generate parest from estimated parameters.
+		\item[\done] Call atsm_params to get parameters for state space model.
+		\item[\done] Call Kfs to get xs and Ps.
+		\item[\done] Confirm that xs obtained as above is the same as the one stored in field.
+		\item[\done] Calculate standard errors for uncertainty due to xs as sqrt(diag((Bn'*Ps*Bn))).
+		\item[\done] Calculate average standard error per maturity and store in a matrix that has those averages for all countries.
+		\item[\done] Do that for yQ, yP and TP.
+	\end{todolist}
+	\item[\done] Obtain the asymptotic variance of the MLE parameters.
+	\begin{todolist}
+		\item[\done] Report covariance matrix for smoothed state in estimation_svys.
+		\item[\done] Define problem to use fminunc (optimoptions, algorithm, passing extra parameters, use of exit flag, display). Store the Hessian.
+		\item[\done] Add option in estimation_svys to choose b/w estimation using fminsearch or fminunc.
+		\item[\done] Add option in atsm_estimation to choose b/w estimation using fminsearch or fminunc and update call to estimation_svys including the option.
+		\item[\done] In ts_analysis call atsm_estimation twice: one using fminsearch and one using fminunc.
+		\item[\done] Use estimated parameters w/ fminsearch as starting values for fminunc. Note: it produces warnings of singular matrix in all cases.
+		\item[\done] Use intial values from JSZ. Note: it produces warnings of singular matrix in 8 out of 15 cases, but yP is no close to scbp for KRW and PEN.
+		\item[\done] Compare solution vs intial values (fminunc vs fminsearch) using figures.
+		\item[\done] Compare RMSE.
+	\end{todolist}
+	\item[\done] Implement the delta method.
+	\begin{todolist}
+		\item[\done] Implement vars2parest to get theta.
+		\item[\done] 3D array: Subtract epsilon to each element of theta, compute loadings and components each time.
+		\item[\done] Compute the Jacobian and the asymptotic variance.
+		\item[\done] 2D array: Compute standard errors for all maturities in each period.
+		\item[\done] Repeat for: yQ, yP, TP.
+		\item[\done] Make changes to include SE for phi. Notes: use syncdatasets.
+	\end{todolist}
+	\item[\done] Figures.
+	\begin{todolist}
+		\item[\done] Adjust target and LSAP shocks in spov_vars.
+		\item[\done] Reduce horizon to less than 90 days.
+		\item[\done] Let y label on the left most LP panel.
+		\item[\done] Mark on impact effect w/ red.
+		\item[\done] Report easing rather than tightening shocks.
+		\item[\done] Generate figures for 60 days.
+		\item[\done] Generate figures for 30 days.
+		\item[\done] Include US real rate to compare against EM real rates.
+	\end{todolist}
+	\item[\done] Tables.
+	\begin{todolist}
+		\item[\done] Descriptive table of YCs (nominal and synthetic) as in Guimaraes. Highlight the higher std of the short end of their curves! Are yields and components more volatile in EM than in AEs? Are the two types of YCs upward sloping?
+		\item[\done] Summary statistics for decomposition of EM YCs.
+		\item[\done] Table for US MPS similar to Ferrari et al. and/or Hofmann-Shim-Shin.
+		\item[\wontdo] Table: report fit of the model for monthly and daily data in the same table. One w/ RMSE (Wright) and other w/ abs error (Guimaraes). Note: repetitive to include figure and table reporting fit of the model.
+		\item[\wontdo] Table: correlations of YC components w/ model-free measures (Curcuru et al). Note: already too many tables, just mention it.
+		\item[\wontdo] Table: on-impact responses. Event study for TP, LCCS, yE for AEs and EMs. Note: no needed since it can already be seen in LPs, just need to make them more visible in figures.
+		\item[\wontdo] Table for Pesaran test on impact. Note: no needed since assumption of x-sectional independence seems implausible, which is confirmed by the test and suffices to mention it.
+		\item[\done] Remove min and max in table of summary statistics.
+		\item[\done] Use EPU US instead of EPU Global.
+		\item[\done] DK se for tables of panel regressions.
+		 \item[\done] Add rows w/ statistics below each table.
+	\end{todolist}
+	\item[\done] Remaining stuff.
+	\begin{todolist}
+		\item[\done] Update equation of panel LPs.
+		\item[\done] Use lag of depvar as in HSS and ACDM for US LPs.
+		\item[\done] Use lag of depvar as in HSS and ACDM for EM/AE LPs.
+		\item[\done] Drivers: percent change in indexes (Vix, EPU, Global IP). Note: log of VIX and EPU to smooth spikes and no transformation for Global IP as it evolves as GDP growth.
+		\item[\done] Include all shocks at once: AE/EM, RHO, US.
+		\item[\done] Update LP equation in paper.
+		\item[\done] DK standard errors robust to heteroskedasticity, autocorrelation and cross-sectionally dependent. Number of lags = 4. For AE, EM and RHO. Note: it needs to comment lines in ado file.
+	\end{todolist}
+	
+	\item[\done] Tables.
+	\begin{todolist}
+		\item[\done] Add user-written commands in macros.tex.
+		\item[\done] Personalize wrapper for tablenotes.
+		\item[\wontdo] Define a new environment for template to create standalone table wrappers. Two versions: w/ notes and w/o notes. It seems that no need for two versions. Stata generates fragment of tables which can be called directly from the slides.
+		\item[\wontdo] Create version for paper starting w/ n and version for slides starting w/ u.
+		\item[\done] Add notes to tables.
+	\end{todolist}
+	
+	\item[\done] Figures.
+	\begin{todolist}
+		\item[\done] Determine which figures to cut: GDP forecasts, US MPS, ILS-ZAR in appendix.
+		\item[\done] Add notes to figures.
+		\item[\done] Update legends, labels, axis, titles in Stata.
+		\item[\done] Update files of LPs after model updated and change of colors.
+		\item[\done] Improve location of legend in figures w/ subplots.
+		\item[\done] Update legends, labels, axis, titles in Matlab.
+		\item[\done] Solid, dash, dash-dotted lines.
+	\end{todolist}
+	
+	\item[\done] Additional stuff.
+	\begin{todolist}
+		\item[\done] Term structure of term premia. TP \(<\) 0 more frequent at shorter maturities.
+		\item[\done] Term structure of credit risk premia? No clear pattern.
+		\item[\done] Term structure connectedness for AEs and EMs: 3m, 1Y, 5Y, 10Y.
+		\item[\done] Regress TP on sdprm. It works w/ dtp but not w/ stp (less than 75 obs). sdprm also explains yP and RHO.
+		\item[\done] Panel regressions for yP, TP and LCCS.
+		\item[\done] Latex files for panel regressions.
+		\item[\done] Re-estimate flexible model mssf for: IDR, ILS, ZAR.
+	\end{todolist}
+	\item[\done] Interpret the results.
+	\begin{todolist}
+		\item[\done] Use the code from trend_inflation to get a common table of the variable of interest.
+		\item[\done] On impact effects for EMs and US. Saved in Tables folder.
+		\item[\wontdo] All shocks in one regression? No, because different periods per shock.
+		\item[\wontdo] If counterintuitive, what the results suggest? Negative: Financial frictions, is LCCS interpretation adequate? Positive: signaling (favorable conditions in US). Once the timing is right, results are not counterintuitive.
+		\item[\wontdo] Question on why opposite effect on LCCS is equivalent to asking why nominal yields don't respond as much? Once the timing is right, results are not counterintuitive.
+		\item[\wontdo] If lag brief response regionally: slow moving reallocation portfolios. There does not seem to be a regional distinction. Regional LPs don't provide much information.
+		\item[\done] Possible interpretation from panel regressions on determinants of the components. Yes.
+		\item[\done] What drives the negative correlation b/w TP and LCCS? Effect of USMP on components? Partially yes.
+		\item[\wontdo] If inflation expectations are well-anchored, TP should be relatively low. Note: Don't remember where it came from. Might think in terms of DePootere t al (2014).
+		\item[\wontdo] PCs of macro variables and inflation volatility. Note: Don't remember where it came from.
+	\end{todolist}
+	\item[\done] LPs in Stata.
+	\begin{todolist}
+		\item[\done] How much the shift in LCNOM affects LPs? Use nom and sftnom. There is an on-impact effect relative to shift for any country.
+		\item[\done] Redefine regions as in Hofmann, Shim and Shin and see LPs.
+		\item[\done] Convert variables in percent (MPS, TT_kw, TT_rr) to basis points.
+		\item[\done] Substitute . by zeros in US MPS.
+		\item[\done] Express all variables in basis points.
+		\item[\done] Correction to construct_panel b/c repeating column names. EPU as first field name caused errors, it needs to be a variable common to all countries.
+		\item[\done] Delete previous file of dataspillovers b/c it keeps previous data outside current range.
+		\item[\done] Reproduce previous LPs. Decomposition of nominal yields: synthetic + phi.
+		\item[\done] Decomposition of synthetic: yP + TP.
+		\item[\done] Work graph: Re-label variables, no grid, title graph and file name.
+		\item[\done] Decomposition of nominal: yP + TP + phi.
+		\item[\done] Decomposition of nominal: USYC + rho + phi.
+		\item[\done] LPs for USYC components.
+		\item[\done] Update figures in Latex.
+		\item[\done] LPs for RHO 2Y and 10Y for all shocks to explain the response of synthetic yields.
+		\item[\done] Regional LPs for EMs.
+		\item[\wontdo] If not regional response, it might be groups of countries who respond similarly; use individual LPs to form those groups. Unlike AEs, there is a lot of heterogeneity in the response of EMs. It doesn't seem to be a group of countries that respond similarly to shocks.
+	\end{todolist}
+	\item[\done] Update dataset in Matlab.
+	\begin{todolist}
+		\item[\done] Update ts_analysis file to generate dataset.
+		\item[\done] Include USYC KW decomposition (yP and TP) for 2Y and 10Y.
+		\item[\done] Include EPU indexes for AEs to see how they correlate w/ AE TPnom.
+		\item[\wontdo] Include surveys for ALL tenors, currently construct_panel makes no exception for matsout. Note: needed for recursive Taylor rule. With SOE assumption, no longer need all survey tenors.
+		\item[\done] Ensure all yields generated are in decimals (daily2dymy makes yields in decimals, append_svys2ylds makes surveys in decimals, thus yields in all versions of model are in decimals).
+		\item[\done] In construct_panel include sdprm and spcyc in variables to pull.
+		\item[\done] Check that variables w/ and w/o header are correctly stored. Yes: single variables use (:,X) whereas variables w/ tenors use (2:end,X) b/w line 93 and 98.
+		\item[\done] Ensure all tenors are in months: TT_kw, TT_rr. Careful: USRR is a quarterly variable.
+		\item[\done] Identify variables that are not in decimals but in percent: MPS, TT_kw, TT_rr.
+		\item[\wontdo] Ensure scbp for 1Y is included to verify yP vs scbp for 1Y. Already done using ts_plots, saved in Estimation folder.
+		\item[\wontdo] Include daily 3 PCs and estimated pricing factors for each country. Maybe in add_vars. Note: PCs and pricing factors differ by a level shift. Relevant analysis would require daily factors, which would make the dataset very heavy. The change was introduced in atsm_daily but commented.
+		\item[\done] Include global PC and non-US common factor. common PC for EM and AE, non-US commons for EM and AE. Compare the common PC in EM and AE b/w them and to US YC components, global activity indexes, local conditions. Note: analysis done but variables not included in dataset.
+	\end{todolist}
+	\item[\done] Post-estimation analysis.
+	\begin{todolist}
+		\item[\done] Include Stock-Watson volatility in add_vars.
+		\item[\done] Include TP vs inflation volatility and permanent-cyclical volatility in ts_plots.
+		\item[\done] Move daily estimation upwards, before post-estimation analysis.
+		\item[\done] Implement Diebold-Yilmaz spillover index.
+		\item[\done] Update emtimetable to emaetimetable and include option to generate TT for AE (to be used by ts_plots for AEs). Update call for it in trend_inflation. It is now called cntrstimetable.
+		\item[\done] Compare yP vs scbp for 1Y (not used in estimation). Close but differs for some countries.
+		\item[\done] Update figures.
+		\item[\done] Update references to figures in Latex files due to changes in names (6 yP vs scbp).
+		\item[\done] Include in ts_pca PCs for: real rates (global RR 62\%), inflation (global inflation factor 81\%), inflation expectations (PC1: 51\%, PC2: 24\%) and growth (common trends in interest rates), inflation volatility S-W (93\%), inflation trend S-W (81\%), inflation trend HP (93\%).
+		\item[\done] Use global activity indexes for GFCy and C-P global factor. Seems weakly connected to common factor in yields.
+		\item[\done] Compare common factors (level) in AE and EM 10Y. They closely follow each other, they have a downward trend.
+		\item[\done] Compare pricing factors vs principal components. They are very similar, the main difference is a level shift (up or down). That is why an intercept is needed in atsm_daily.
+	\end{todolist}
+	\item[\done] Re-estimate parameters using implied forecasts for CBP.
+	\begin{todolist}
+		\item[\done] Check if there is no issues in estimation due to shorter history for 5Y US real rate relative to 10Y. It can be seen at the intersection of: llk, atsm_params, Kfs. atsm_params gives the loadings for surveys and Kfs uses them. It should not be a problem b/c the multiplication should yield a NaN when the 5Y does not exist, so it doesn't add to the estimation; it is akin to when there is no data between 10Y observations.
+		\item[\done] Compare results against previous ones. IDR : fit is bad, yP is far from scbp, TP seems too high. TRY: TP seems to high. ILS: TP seems to high.
+		\item[\done] Solution for ILS: inflation highly correlated w/ IDR, KRW, PHP, THB. How good SCPI vs INF.
+		\item[\done] HP for the inflation of ILS and ZAR as SCPI.
+		\item[\done] Update figures for inflation forecasts.
+		\item[\done] Explain methodology for ILS and ZAR in paper.
+		\item[\done] Explain IT bands of countries, in particular for Russia.
+		\item[\done] Incorporate trend_inflation into ts_analysis before estimation.
+		\item[\wontdo] Load daily dataset and run pre-estimation functions. Note: if reload from scratch, would need to reestimate the models for all countries. However, I can run the pre-estimation functions w/ current structure.
+		\item[\done] Swap order of fixed and free version of the model. Fixed is the baseline and needs to go first to get results earlier.
+		\item[\done] Stock and Watson inflation decomposition. Compare trend component vs HP filter trend for ILS and ZAR.  S-W trend component looks very similar to actual series, so keep HP trend for ILS and ZAR.
+		\item[\done] Re-estimate baseline models (mnsb, mssb) for HUF (0.16), IDR (0.39), ILS (0.10), MYR (0.17), THB (0.135), TRY (0.12), ZAR (0.07). 
+		\item[\done] Redefine baseline estimations (for ILS and ZAR), assess_fit and add_vars.
+		\item[\wontdo] Re-estimate baseline models (mnsb, mssb) for BRL (0.27), IDR (0.47), PEN, MYR THB, TRY, ZAR. Run code for all those countries takes time and is prone to freeze. So I better estimate individually and only the mssb version.
+		\item[\done] Compare results against previous ones.
+		\item[\done] Re-do: assess_fit, add_vars, daily_estimation, save mat files.
+	\end{todolist}
+	\item[\done] Generate daily dataset and verify time shift.
+	\begin{todolist}
+		\item[\done] Update append_dataset to use synchronize instead of concatenate.
+		\item[\done] Restrict sample for RUB to start in July 2009. Already explained in paper.
+		\item[\done] Compare RHO calculated in Matlab against Stata.
+		\item[\done] Correct error in time shift of fwd_prm. Need to include name of column in filter to properly account for position before the shift.
+		\item[\done] Check whether RHO 0.25-0.75Y needs to be shifted and verify that RHO 1-10Y needs to be shifted. Do exercise using rho vs sftrho, do they react to US MPS at time t or tp1? Is there a difference b/w WH and non-WH (due to time difference)? Conclusion: no shift needed, it reacts at time t for all countries.
+		\item[\done] Remove time shift in RHO.
+		\item[\done] Check time shift in LCNOM is correctly done.
+		\item[\done] Determine what variables need to be shifted. Note: Only LCNOM for non-WH countries. That will be reflected in PHI.
+		\item[\done] Compare LCNOM calculated in Matlab against sftnom in Stata.
+		\item[\done] Compare PHI calculated in Matlab against sftphi in Stata. For non-WH countries, PHI is not the old one shifted b/c only one component (LCNOM) changed/shifted (not both).
+		\item[\done] Save new mat files in folder August in Dropbox. Very high correlation of RHO w/ DS, high correlation of CIP up to 9Y, 0.5-0.9 correlation of CIP 10Y. In general, correlation w/ CIP of DS declines slightly due to time shift.
+	\end{todolist}
+	\item[\done] Shift time for variables in Matlab.
+	\begin{todolist}
+		\item[\done] Review comparison of nom/syn vs sft versions for ALL shocks to really identify countries for shift: look for responses similar to US YC (target for 2Y, path and LSAP for 10Y); compare against decision based on large shocks; compare to the currently used countries for sftnom. Guiding patterns: on-impact response (same direction), response over time to each shock (similar pattern), effect of large surprises (consistent w/ LPs). Note: LPs for individual countries confirm that LCNOM tP1 for non-WH countries.
+		\item[\done] Determine timing of rho. For which countries is rho_t and for which it is rho_tp1? All same time index or separate b/w WH and non-WH? Essentially where is the Libor recorded, NY or LDN? Conclusion: rho_tp1 for all countries, it is determined at noon in London so the rate at tp1 will reflect the on-impact effect. Note: LPs for individual countries confirm this.
+		\item[\done] Try w/o controlling for FX. Conclusion: essentially no change in LPs.
+		\item[\done] Check LPs for regions. After correcting for sftnom, they don't differ much from previous version. Response of AEs mainly driven by A-SOE.
+		\item[\done] Shift RHO only for maturities \(>= 1\). It seems weird to shift one part of the curve (1Y-10Y) and not the other (0.25-0.75Y) but the first part is based on the Libor and the second on forward rates which in principle would reflect to US MPS at tp1 and t, respectively. Plus autocorrelation of rho3m is 0.9917.
+		\item[\done] Make time shift. No need to use timetables in Matlab. Right at the end of the codes generating RHO (fwd_prm) and LCNOM (zc_yields) manually make the shift.
+		\item[\done] Why IDR has LCSYNT data before RHO data becomes available? RHO is available since 2001 when LCSYNT starts but is not stored in the dataset until later.
+	\end{todolist}
+	\item[\done] Update Matlab codes.
+	\begin{todolist}
+		\item[\done] Create folder for CRSP files within Data \(->\) Raw folder to improve structure and facilitate updates. EPU subfolder already done.
+		\item[\done] Plots for CE forecasts: include 5Y for each country to compare w/ 10Y for each variable. 1Y not included b/c less applicable for CBP.
+		\item[\done] Plot comparing 10Y yield vs 10Y CBP forecast: use synthetic rather than nominal. Explicit about: synthetic, 10Y implied CBP forecast. 
+		\item[\done] Change file name from append_surveys to append_svys2ylds.
+		\item[\done] Only include 5Y and 10Y forecasts for CBP in estimation.
+		\item[\wontdo] Remove references to brp. Variable serves to confirm that the TP obtained w/ LCNOM is actually a combination of TP+LCCS.
+		\item[\done] Exclude yQ from dataset, not used.
+		\item[\done] Update all functions after daily2monthly (forecast_cbpol, append_svys2ylds, atsm_estimation, assess_fit, add_vars, construct_panel, ts_plots, atsm_daily) after datasets renamed from c_, n_, s_ to mc_, mn_, ms_. After that, move daily2monthly to Temp folder and use daily2dymy.m.
+		\item[\done] Read KW decomposition of US YC from FRED and remove it from add_vars.
+		\item[\done] Read EPU indexes for AEs and update those for EMs. COP index now starts in 2000 not 1994. EUR index starts in 2001 since code deletes rows w/ NaNs and data for Spain starts in 2001. SEK index repeats 1976 twice. Japan starts months later b/c of text next to data. Indexes of AEs are more correlated than those of EMs.
+		\item[\done] Update ts_plots. Remove code plotting US TP (Guimaraes vs KW, TP QE).
+		\item[\done] Update functions in post-estimation analysis (simplified, no reference to ssb, ssf, etc) after the bsl field added to the structure or if can be done easier in Stata. Note: no need to use ssb in add_vars but leave it to be explicit about what yP is being used to calculate the real rates. In ts_plots needed when comparing different versions of the model. Otherwise bsl fields are used.
+		\item[\wontdo] Update construct_panel: Use usyc instead of d_gsw, tenors in months. It can be implemented but requires several lines of code; the way it is currently implemented (in daily2dymy) works fine and in a few lines.
+		\item[\done] Update datesminmax to allow for daily data to start as soon as it is available. Until now, data for all countries always starts at the end of a month (even daily data) .
+		\item[\done] Check whether usyc_analysis.m (done before atsm_estimation.m), compare_pcs.m (when unbalanced panels were thought to be used) and compare_atsm_surveys.m (predates ts_* post-estimation functions) need to be moved to Temp folder. Code relocated, usyc_analysis to a folder in Aux, others in Temp.
+		\item[\done] Update ts_analysis file to generate dataset. Delete code after construct panel dataset: relocate code for estimation of ATSM for US YC, remove old code comparing TPnom vs TPsyn, calculated term spread and compare AE vs EM nom/syn/TP.
+		\item[\done] Correct append_svys2ylds b/c fields mn_ylds and ms_ylds are empty for ILS and ZAR. Condition is based on emptiness of the field and previously the entry for those countries was not empty (it was NaN).
+		\item[\done] Allocate 6-10 surveys to 5-10 forward rate instead of the 10Y yield. Explain how to get forward rates in the paper.
+		\item[\done] Test implementation of forward rates. In atsm_estimation, change prefix w/o m and fix k1 = 1. Check with BRL: more reasonable dcmp than before, yP close to scbp, real rate now fluctuates around zero not 6, model-TP is in line w/ svy-TP.
+		\item[\wontdo] Potential solution to TP in AEs not being negative is likely due to using the PCs from jszLLK_KF (instead of PCs not smoothed). Don't remember the rationale for this nor how to implement it.
+	\end{todolist}
+	\item[\done] Implement computation of implied CBP forecasts based on SOE.
+	\begin{todolist}
+		\item[\done] Understand forecast_cbpol.m
+		\item[\done] Modify read_spf.m to calculate real rates.
+		\item[\done] Describe calculation in paper.
+		\item[\done] Add forecasts of real rates to CE survey data.
+	\end{todolist}
+	\item[\done] Update do files to be ready when updated dataset is generated in Matlab.
+	\item[\done] Panel to compute the real interest rates.
+	\begin{todolist}
+		\item[\done] Replicate country regressions in Stata.
+		\item[\done] Run pooling regression and compute embedded yE using iteration. 
+		\item[\done] Compare against current values. New forecasts similar to CBP, more plausible than current values for some countries.
+		\item[\done] Collect data for r* from SFP.
+		\item[\done] Compute expectation for EM policy rate using r* and survey_cpi.
+		\item[\done] Contrast real rates: stationarity, recursive vs SOE. SOE is a reasonable assumption. Recursive for 1Y and stationarity for 10Y. Conclusion: use SOE.
+	\end{todolist}
+	\item[\done] TP regressions. Drivers (monthly): Panel regressions for TP, LCCS, yE for AEs and EMs. Currently, no macro data for AEs.
+	\item[\done] Cross-check analyses in Stata using monthly/daily data.
+	\begin{todolist}
+		\item[\done] Check calculation of path and LSAP shocks. Not exact but highly correlated (Path shocks 0.9995, LSAP shocks 0.9946).
+		\item[\done] Correlation b/w yP and svyCBP, yP and 2Y yield (70).
+		\item[\done] Correlation b/w yTP and svyTP, yTP and synthetic residual10Yon3M (70). Good against svyTP, not good against residual.
+		\item[\done] Correlation b/w yTP and RHO/PHI, yTP/PHI and EPU/Vix.
+	\end{todolist}
+	\item[\done] Update code for LPs:
+	\begin{todolist}
+		\item[\done] Correct lag of dependent variable for LPs.
+		\item[\done] Update LPs for US for all subsamples. Adjust y-axis. 
+		\item[\wontdo] Update individual LPs. Used to decide about the shifting. For US LPs were similar.
+		\item[\done] Update LPs for AE/EM same sample as before for comparison.
+		\item[\done] Update LPs for AE/EM for all subsamples. Define local for subsamples. There is a change in some LPs due to different samples.
+		\item[\wontdo] DK standard errors robust to heteroskedasticity, autocorrelation and cross-sectionally dependent. Number of lags = 4. Last b/c they will take more time. too many values error when running xtscc.
+		\item[\wontdo] Update LPs for AE/EM for all subsamples after DK and compare vs pre-DK.
+		\item[\done] Create blocks for AEs as EM regions.
+		\item[\done] LPs for regions of EM and blocks of AE. Use shocks after replace missing values with zeros to increase the number of observations; when calculating LPs for AE/EM using shocks w/ zeros (no missing) values yields essentially the same LPs.
+		\item[\done] Merge codes in lp_spillovers and lp_regressions. Codes renamed starting w/ spov and disaggregated per blocks of tasks.
+	\end{todolist}
+	\item[\done] Mention characteristics of sample: MYR doesn't have an IT regime but similar characteristics (Pennings et al. 2015).
+	\item[\done] Reorient paper based on results.
+	\item[\done] Identify why LCNOM is not responding to US MPS. Conclusion: After time shift they respond on impact.
+	\item[\done] Individual LPs.
+	\begin{todolist}
+		\item For AEs 24m: different pattern as in US in NOK, SEK; CAD, GBP similar to US; not as strong as in US in AUD, CHF, DKK, EUR, JPY, NZD.
+		\item For AEs 120m: AUD, CAD, CHF, DKK, EUR, GBP, JPY, NOK, NZD,SEK similar to US.
+		\item For EMs 24m: different pattern as in US in HUF, IDR, PHP, RUB, ZAR; ILS, PEN similar to US; not as strong as in US in BRL, COP, KRW, MXN, MYR, PLN, THB, TRY.
+		\item For EMs 120m: different pattern as in US in HUF, IDR, PHP, PLN, RUB, TRY, ZAR; ILS, KRW, MXN, PEN similar to US; not as strong as in US in BRL, COP, MYR, THB.
+	\end{todolist}
+	\item[\done] Download EPU indexes for AEs to see how it correlates w/ AE TPnom.
+	\item[\done] Generate dta file with new US MPS (excluding Sept 2001 meeting).
+	\item[\done] Analysis on spillovers: Responses of EM components to US MPS. (regressions as in Curcuru or panel local projections as in ACDM); lags in response; asymmetric effects on different parts of the YC.
+	\item[\done] LPs for nominal yields after accounting for timing. Conclusion: On-impact effect improves (it's now positive). In general, similar patterns as before for AE and EM but smoothed. Ending the sample in 2008 doesn't alter the conclusion.
+	\item[\done] LPs for synthetic yields, rho and phi after accounting for timing. Conclusion: On-impact effects improve.
+	\item[\done] Schedule: codes (ts_*), figures (ts_plots), tables (ts_tables), export dataset as dta, do-file w/ basic analysis, re-estimate the model w/ monthly data after all changes in codes (RMSE, matsout, i_survey etc.) and update figures-tables-dta-do, estimate the model w/ daily data (assess fit and test against results w/ monthly data), event study analysis.
+	\item[\done] Construct panel dataset to analyze results in Stata. Include: rho, CIPdev, svys (CBP, INF, GDP), LCNOM, LCSYNT, decompositions (yQ, yP, tp), macro-financial (US, CBP, STX, FX), EPU. Before dataset, construct a field with yQ, yP, tp for ALL countries (EMs/AEs), ssb for EM w/ surveys, sy for ILS and ZAR, ny for AEs. Same tenors (0.25-10Y).
+	\item[\done] Add usyc. Compare response of usyc vs results in Brooks, Kratz and Lustig. Results of usyc across panels should be similar to usyc alone. Explain movements in ysynt due to rho and usyc. Conclusion: Responses of 2Y and 10Y yields to target shock similar to ACDM.
+	\item Compare monthly w/ daily fit and decompositions. Very closely related, lowest correlation across all countries is 0.9953 followed by 0.9993.
+	\item[\done] Combine LP graphs per tenor-group-shock.
+	\item[\done] Compare target and path shocks against GSS (2005).
+	\item[\done] In Matlab, remove MP1 shock of September 2001 immediately after reading the file.
+	\item[\done] Table of local events. Only insightful for TRY.
+	\item[\done] LPs for phi after censoring phi \(>=\) 0.
+	\item Regional analysis. Do LPs change depending on the region? It doesn't seem to be large differences across regions.
+	\item[\done] Add rho as a dependent variable in LPs.
+	\item[\done] ACDM controls. Generate ALL variables (lags, forwards, differences). Delete observations for which mp1 = . . Define a business calendar for FOMC dates. Analyze autocorrelation of US MPS. Controls: past and future shocks. Conclusion: LPs are similar with shocks-only case. Small difference in responses when sample ends in 2015.
+	\item[\done] Identify why there are so many missing values when Stata calculates forward. Reason: Weekends. Need to define a business calendar to correctly obtain lags, forwards and differences.
+	\item[\done] Use CIs from generated output instead of calculated.
+	\item[\done] Remove 9/11 obs in regressions from US MPS. However, it needs to be removed since the shocks are generated.
+	\item[\done] Analyze LP codes.
+	\item[\done] Include country-specific data for EMs in dataset: STX, surveys, real rates.
+	\item[\done] Add an end of quarter dummy.
+	\item[\done] Include global activity indexes from Hamilton and Kilian.
+	\item[\done] Include EPU US and global in dataset.
+	\item[\done] Include path and tp shocks in TT_mps.
+	\item[\done] Include FX (expressed in LC per USD) in dataset.
+	\item[\wontdo] Include USTP, USYP, in dataset. No longer need the daily changes in the components since now using HF target, path and tp shocks.
+	\item[\done] Read US MPS. File of wide windows.
+	\item[\done] Create dataset for Stata analysis.
+	\item[\done] Clean Analysis folder (rp_*).
+	\item[\done] Transform script for daily fit into a function.
+	\item[\done] Estimate model for daily data to study the effect of QE announcements and local events. Follow ACM (2013) to estimate and assess fit for daily yields - Use OLS. Prepare a new S structure to store the results - no need for new S.
+	\item[\done] Compare PCs from pca to smoothed state xs. They are not equal.
+	\item[\done] Add daily datasets to structure S.
+	\item[\wontdo] Eliminate yields in month after US end-of-month date. Not necessary, once parameters are estimated, only need yields observed.
+	\item[\done] Add 0.25 and 0.5 to matsout.
+	\item[\done] Add RHO to daily2monthly. In \textit{VarType} and in the \textit{switch} loop. Check whether in \textit{fields} too.
+	\item[\done] Function to calculate RMSE. Not included in estimation* b/c it will be used after estimation w/ daily data.
+	\item[\done] Fields in structure for baseline estimations for all countries (ssb for EM, sy for ILS and ZAR, ny for AEs).
+	\item[\done] Codes: move all parts in ts_plots that add variables to S into a function that can be called by ts_analysis. Leave only code for plotting in ts_plots.
+	\begin{todolist}		
+		\item[\done] Update forecast_cbpol.m and append_surveys.m to use new field name (svycbp).
+		\item[\done] Split ts_plots into functions: plots: correlations, pca.
+		\item[\done] Call all functions from ts_analysis.
+		\item[\done] Take functions datesmnmx and syncdtst outside of ts_plots and test.
+		\item[\done] Create add_vars function.
+		\item[\done] After estimation, add fields to structure S: macro vars, svys, brp, epu, realrt. Needed for plots and tables.
+		\item[\done] Save surveys in S as: svyinf, svygdp, svycbp. All maturities. 
+		\item[\done] Add policy rates data to macro data in structure of all countries.
+	\end{todolist}
+	\item[\done] Rename section 4 from Results to Yield Curve Decompositions. Section 5 would then addressed international spillovers.
+	\item[\done] Mention explicitly that 3 factors b/c they explain more than 99\% of the variation in yields.
+	\item[\done] US factor + non-US factor in each one or only in some of them?
+	\item[\done] Download USTP01 USTP10, USYP01, USYP10 from KW, and construct USyP.
+	\item[\done] TP correlations of AEs with: USTP, Vix, CIPdev.
+	\item[\done] PCA for TPsynt, LCCS and expectations. Common factor, commonalities (TPs, yP, LCCS) all, ST vs LT. Not real rates b/c dates don't match.
+	\item[\done] PCA for yields synthetic and nominal. Variability explained by PC1-PC3. 
+	\item[\done] Correlations of LCNOM components w/ alternative measures. Similar to Table 1 in Curcuru et al (2018).
+	\item[\done] Plot TP vs LCCS, USTP, Vix, EPU, local inflation. Not debt flows from TIC b/c no data yet.
+	\item[\done] TP correlations of EMs with: USTP, Vix, EPU index, LCCS, local inflation. Previous odd results w/ correlations might be explained by differences in estimated TPs. Use figure ssb_ny_tp.eps.
+	\item[\done] Plot inflation vs 10Y yield. They tend to move together.
+	\item[\done] Compare TP of Guimaraes vs KW. Add QE-TT dates. Compare USTP against TP in AEs and EMs.
+	\item[\done] Plot TPsynt vs TPsvy. TPsynt follows TPsvy closely.
+	\item[\done] Drivers of yields. Compare TPsynt, LCCS and yE against nominal yield to see drivers of EM yields.
+	\item[\done] Bond risk premia. Compare TPnom vs TPsynt+LCCS. Construct BRP series. Plot its components. Compare against TPnom.
+	\item[\done] Term structure of TP. Averages per country. QE events added.
+	\item[\done] function for synchronizing series.
+	\item[\done] Compare yEsynt and yEnom (w/ and w/o surveys) to see if they are similar. If so, it supports TPnom = TPsynt+LCCS -> TP and RP are not the same thing for EMs. Hypothesis: yEsynt and yEnom  closer w/ surveys. Won't: Compare when sgmS free vs fixed.
+	\item[\done] Feeling of fit. Compare ylds vs yQ. They are very close for most countries.
+	\item[\done] Plot LT real interest rates = ssb_yP - INF surveys. Are LT real rates similar? It seems that for most countries it fluctuates b/w 0 and 1 pp.
+	\item[\done] Plot yP for EMs and AEs. Is there a trend? No a marked one.
+	\item[\done] Plot ssb_yP vs CBP surveys. 
+	\item[\done] Compare TPsynt in EMs vs TPnom in AEs.Declining trend more marked for AEs, in EMs TP < 0.
+	\item[\done] Compare TPnom vs TPsynt for AEs. How big is the difference? Similar for most. Differences for AUD, NZD, SEK.
+	\item[\done] Plot TPnom for AEs. Trends? Declining.
+	\item[\done] Analyze TP synt.
+	\item[\done] TP for AEs. Reaction to QE events.
+	\item[\done] Compare TP different versions: nominal vs synthetic, ylds only vs surveys, sgmS free vs fixed. 
+	\item[\done] Plot TP different versions individually. Add key dates when plotting TPs: target adopted/changed, QE announcements, local events (capital controls). 
+	\item[\done] Plot: inflation, policy rate, expectations of inflation.
+	\item[\done] Plot survey forecasts of inflation. See whether there is a trend. For some countries.
+	\item[\done] Read old version of results.
+	\item[\done] Review old code in Analysis folder.	
+	\item[\done] Estimate ATSM for AEs and EMs. Save TP w/ JSZ and w/ surveys for LCNOM and LCSYNT.
+	\item[\done] After estimating ATSM, generate yields (P, Q) and TP for ALL maturities to get balanced panels (output tenors vs input tenors). Only report 1Y, 5Y, 10Y tenors in all cases.
+	\item[\done] Make sure all monthly data (yields, surveys, macro) has SAME end-of-month dates.
+	\item[\wontdo] Add als in pca to be able to estimate JSZ for initial values. Need balanced panel to use JSZ.
+	\item[\done] Generate dataset w/o fitting NS to YCs.
+	\item[\done] Replicate Guimaraes but w/o including the survey maturity for 10Y to see how much that maturity helps pinning down the parameters of the model. It helps a lot, especially with shorter samples.
+	\item[\done] Explicit that longer series for AEs and surveys for EMs. Also, no surveys for AEs for comparison w/ other studies. % :)
+	\item[\done] Decompose US YC.
+	\item[\done] Use surveys to decompose US YC and compare to Guimaraes.
+	\item[\done] Look for ST expectations in CE for EMs to complement LT ones.
+\end{todolist}
+
+\section{Literature}
+\gototoc
+\begin{todolist}
+	\item Serge Jeanneau and Camilo Tovar (2007) on development of LC bonds markets (before short-term debt and dollar-indexed liabilities). Jeanneau and Tovar (2008): for developments in LC bond markets.
+	\item Papers suggested by Duffee: Agustin, Chernov, Schmid, Song; Banque de France.
+	\item Market segmentation: D'Amico et al., Vayanos. Theories may apply to EMs. Instead of market segmentation on different sectors of the US YC, on different EMs.
+	\item Plumbing of the global system. Papers discussed in NBER SI.
+	\item BIS bulleting 2020.
+	\begin{todolist}
+		\item Hoffman Im and Shin (2020) for developments and references on LC bond markets. Emerging market economy exchange rates and local currency bond markets amid the Covid-19 pandemic.
+		\item Dollar funding costs during the Covid-19 crisis through the lens of the FX swap market.
+		\item Leverage and margin spirals in fixed income markets during the Covid-19 crisis.
+		\item Literature on sovereign default (real, nominal, current account behavior) --curvature in utility introduces risk aversion, imperfect financial markets --, currency denomination, original sin.
+		\item Risk premia in international macro-finance (Lustig).
+	\end{todolist}
+	\item Sekkel: C-P regressions in international bond markets, implications for replicating Dahlquist \& Hasseltoft.
+	\item R\&R (2010): The Forgotten History of Domestic Debt.
+	\item IMF(2019): A Guide to Sovereign Debt Data.
+	\item G20(2020): Recent developments in EM LC bond markets.
+	\item Erce \& Mallucci (2018): Selective Sovereign Defaults.
+	\item Banxico: What determines the neutral rate in an EM.
+	\item Gagnon et al for effects of QE on TP.
+	\item Caballero and Simsek (2020): A Model of Asset Price Spirals and Aggregate Demand Amplification of a Covid-19 Shock. UMP buys risk when investors become risk intolerant. Asset prices affect real economy w/ a lag (negative output gap w/ a positive asset gap b/c try to boost AD).
+	\item Trend Inflation in Advanced Economies (Garnier, Mertens, Nelson). Multivariate version of UCSV from Stock and Watson (2007).
+	\item Bostanci, G., and Yilmaz, K. (2020),"How Connected is the Global Sovereign Credit Risk Network?", Journal of Banking and Finance, forthcoming, 2020.
+	\item Diebold-Yilmaz (2014). Book (Financial and Macroeconomic Connectedness) is available online in JHU library. Website: http://financialconnectedness.org/index.html.
+	\item Nyhom (2000): Regime shifts in the Danish term structure of interest rates.
+	\item Ilzetzki and Jin (2020). The puzzling change in the international transmission of US macroeconomic policy shocks. Important: monthly data.
+\end{todolist}
+
+\end{document}

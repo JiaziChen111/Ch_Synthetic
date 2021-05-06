@@ -101,6 +101,23 @@ function latex = latexTable(input)
 % % Font size:
 % input.fontSize = 'small';
 %
+% % Add horizontal lines:
+% columns: row below which cmidrule will be added, start column, end column
+% input.tableCmidrules = [4,2,6;7,1,6;9,2,6];
+% 
+% % Position caption at the top:
+% input.captionPosition = 1;
+% 
+% % Notes below the table:
+% input.tableNotes = 'Notes';
+% input.notesFontSize = 'scriptsize';
+% 
+% % Long table:
+% input.tableLong = 1;
+% 
+% % Long table:
+% input.tableLandscape = 1;
+% 
 % % Save file:
 % input.texName = 'MyTable';
 %
@@ -131,6 +148,15 @@ if ~isfield(input,'tableColumnAlignment'),input.tableColumnAlignment = 'c';end
 % Specify whether the table has borders:
 % 0 for no borders, 1 for borders
 if ~isfield(input,'tableBorders'),input.tableBorders = 0;end
+% Specify whether the caption is at the top or at the bottom:
+% 0 for bottom, 1 for top
+if ~isfield(input,'captionPosition'),input.captionPosition = 0;end
+% Specify whether it is a long table
+% 0 for regular, 1 for long
+if ~isfield(input,'tableLong'),input.tableLong = 0;end
+% Specify whether the layout is landscape
+% 0 for vertical, 1 for landscape
+if ~isfield(input,'tableLandscape'),input.tableLandscape = 0;end
 % Specify whether to use booktabs formatting or regular table formatting:
 if ~isfield(input,'booktabs')
     input.booktabs = 1;
@@ -142,10 +168,11 @@ end
 % Other optional fields:
 if ~isfield(input,'tableCaption'),input.tableCaption = 'MyTableCaption';end
 if ~isfield(input,'tableLabel'),input.tableLabel = 'MyTableLabel';end
+if ~isfield(input,'notesFontSize'),input.notesFontSize = 'footnotesize';end
 if ~isfield(input,'makeCompleteLatexDocument'),input.makeCompleteLatexDocument = 0;end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% process table datatype
+%% process table datatype
 if isa(input.data,'table')
   if(~isempty(input.data.Properties.RowNames))
     input.tableRowLabels = input.data.Properties.RowNames';
@@ -160,7 +187,7 @@ end
 numberDataRows = size(input.data,1);
 numberDataCols = size(input.data,2);
 
-% obtain cell array for the table data and labels
+%% obtain cell array for the table data and labels
 colLabelsExist = isfield(input,'tableColLabels');
 rowLabelsExist = isfield(input,'tableRowLabels');
 cellSize = [numberDataRows+colLabelsExist,numberDataCols+rowLabelsExist];
@@ -173,7 +200,7 @@ if colLabelsExist
     C(1,1+rowLabelsExist:end)=input.tableColLabels;
 end
 
-% obtain cell array for the format
+%% obtain cell array for the format
 lengthDataFormat = length(input.dataFormat);
 if lengthDataFormat==1
     tmp = repmat(input.dataFormat(1),numberDataRows,numberDataCols);
@@ -197,35 +224,108 @@ end
 dataFormatArray = cell(cellSize);
 dataFormatArray(1+colLabelsExist:end,1+rowLabelsExist:end) = tmp;
 
-% transpose table (if this switched on)
+%% transpose table (if this is switched on)
 if input.transposeTable
     C = C';
     dataFormatArray = dataFormatArray';
 end
 
-% make table header lines:
+%% make table header lines:
 hLine = '\hline';
+
+if input.tableLong                          % header for long table
+% -------------------------------------------------------------------------
+if isfield(input,'tableNotes')
+   warning('Long tables do not work well with notes.') 
+end
+
+if input.tableBorders
+    header = ['\begin{longtable}','{|',repmat([input.tableColumnAlignment,'|'],1,size(C,2)),'}'];
+else
+    if rowLabelsExist
+        header = ['\begin{longtable}','{l',repmat(input.tableColumnAlignment,1,size(C,2)-1),'}'];
+    else
+        header = ['\begin{longtable}','{',repmat(input.tableColumnAlignment,1,size(C,2)),'}'];
+    end
+end
+
+if isfield(input,'fontSize')
+    latex = {['\begin{',input.fontSize,'}']};
+%     latex = {['\begin{',input.fontSize,'}'];['\begin{table}',input.tablePlacement];'\centering';header};
+else
+    latex = {};
+%     latex = {['\begin{table}',input.tablePlacement];'\centering';header};
+end
+
+if input.tableLandscape
+    latex = [latex;'\begin{landscape}'];
+end
+latex = [latex;'\begin{center}';[header,input.tablePlacement]];
+
+if isfield(input,'tableNotes')
+    latex = [latex;'\begin{threeparttable}'];
+end
+if input.captionPosition == 1
+    latex = [latex;['\caption{',input.tableCaption,'}'];['\label{tab:',input.tableLabel,'}']];
+end
+% latex = [latex;header];
+if input.booktabs;  line1 = '\toprule'; else;   line1 = hLine;  end
+if input.booktabs;  line2 = '\midrule'; else;   line2 = hLine;  end
+if input.booktabs;  line3 = '\bottomrule'; else;   line3 = hLine;  end
+txt1 = ['%\multicolumn{',num2str(size(C,2)),'}{c}{\textit{Continued from previous page}} \\'];
+txt3 = [line3,' %\multicolumn{',num2str(size(C,2)),'}{r}{\textit{Continued on next page}} \\'];
+title = '';
+for j=1:size(C,2)
+    dataValue = C{1,j};
+    if iscell(dataValue); dataValue = dataValue{:};
+    elseif isnan(dataValue); dataValue = input.dataNanString;
+    elseif isnumeric(dataValue); dataValue = num2str(dataValue,dataFormatArray{1,j}); end
+    if j==1; title = dataValue; else title = [title,' & ',dataValue]; end
+end
+latex = [latex;'\endfirsthead';txt1;line1;[title,' \\'];line2;'\endhead';txt3;'\endfoot';'\endlastfoot'];
+% -------------------------------------------------------------------------
+
+else                                        % header for regular table
+
 if input.tableBorders
     header = ['\begin{tabular}','{|',repmat([input.tableColumnAlignment,'|'],1,size(C,2)),'}'];
 else
     if rowLabelsExist
-        header = ['\begin{tabular}','{l|',repmat(input.tableColumnAlignment,1,size(C,2)-1),'}'];
+        header = ['\begin{tabular}','{l',repmat(input.tableColumnAlignment,1,size(C,2)-1),'}'];
     else
         header = ['\begin{tabular}','{',repmat(input.tableColumnAlignment,1,size(C,2)),'}'];
     end
 end
-% latex = {['\begin{table}',input.tablePlacement];'\centering';header};
+
 if isfield(input,'fontSize')
-    latex = {['\begin{',input.fontSize,'}','\begin{table}',input.tablePlacement];'\centering';header};
+    latex = {['\begin{',input.fontSize,'}']};
+%     latex = {['\begin{',input.fontSize,'}'];['\begin{table}',input.tablePlacement];'\centering';header};
 else
-    latex = {['\begin{table}',input.tablePlacement];'\centering';header};
+    latex = {};
+%     latex = {['\begin{table}',input.tablePlacement];'\centering';header};
 end
 
-% generate table
+if input.tableLandscape
+    latex = [latex;'\begin{landscape}'];
+end
+
+latex = [latex;['\begin{table}',input.tablePlacement];'\centering'];
+if isfield(input,'tableNotes')
+    latex = [latex;'\begin{threeparttable}'];
+end
+if input.captionPosition == 1
+    latex = [latex;['\caption{',input.tableCaption,'}'];['\label{tab:',input.tableLabel,'}']];
+end
+latex = [latex;header];
+
+end                                         % end for if input.tableLong
+
+%% generate table
 if input.booktabs
     latex(end+1) = {'\toprule'};
 end    
 
+% multicolumns
 % Include the following between \toprule and \midrule when multicolumn
 % Need ColSharedLabels and starting column of each shared label
 % Last line will use input.tableColLabels
@@ -236,6 +336,9 @@ end
 % Create input.multiCols = 0 (default), 1
 % Also: aligned with decimal point
 % https://tex.stackexchange.com/questions/2746/aligning-numbers-by-decimal-points-in-table-columns
+% 
+% multirows
+% https://tex.stackexchange.com/questions/156219/proper-centering-with-cmidrule-and-multi-row-and-column
 
 for i=1:size(C,1)
     if i==2 && input.booktabs
@@ -244,6 +347,15 @@ for i=1:size(C,1)
     if input.tableBorders
         latex(end+1) = {hLine};
     end
+    
+    % cmidrules
+    if isfield(input,'tableCmidrules') && input.booktabs
+        idxCmid = input.tableCmidrules(:,1) == i - 1;
+        if any(idxCmid)
+            latex(end+1) = {['\cmidrule(lr){',num2str(input.tableCmidrules(idxCmid,2)),'-',num2str(input.tableCmidrules(idxCmid,3)),'}']};
+        end
+    end
+    
     rowStr = '';
     for j=1:size(C,2)
         dataValue = C{i,j};
@@ -268,9 +380,30 @@ if input.booktabs
 end   
 
 
-% make footer lines for table:
-tableFooter = {'\end{tabular}';['\caption{',input.tableCaption,'}']; ...
-    ['\label{table:',input.tableLabel,'}'];'\end{table}'};
+%% make footer lines for table:
+if input.tableLong                          % footer for long table
+    tableFooter = {};
+else                                        % footer for regular table
+    tableFooter = {'\end{tabular}'};
+end
+
+if input.captionPosition == 0
+    tableFooter = [tableFooter;['\caption{',input.tableCaption,'}']; ...
+            ['\label{tab:',input.tableLabel,'}']];
+end
+if isfield(input,'tableNotes')
+    tableFooter = [tableFooter;'\begin{tablenotes}[para,flushleft]'; ...
+        ['\' input.notesFontSize ' \textit{Notes:} ',input.tableNotes];'\end{tablenotes}';'\end{threeparttable}'];
+end
+if input.tableLong 
+    tableFooter = [tableFooter;'\end{longtable}';'\end{center}'];
+else
+    tableFooter = [tableFooter;'\end{table}'];
+end
+if input.tableLandscape
+    tableFooter = [tableFooter;'\end{landscape}'];
+end
+
 if isfield(input,'fontSize')
     tableFooter = [tableFooter;['\end{',input.fontSize,'}']];
 end
@@ -280,23 +413,34 @@ else
     latex = [latex;tableFooter];
 end
 
-% add code if a complete latex document should be created:
+%% add code if a complete latex document should be created:
 if input.makeCompleteLatexDocument
     % document header
     latexHeader = {'\documentclass[a4paper,10pt]{article}'};
+    latexHeader(end+1) = {'\usepackage[labelsep=period,labelfont=bf]{caption}'};
+    latexHeader(end+1) = {'\usepackage{multirow}'};
     if input.booktabs
         latexHeader(end+1) = {'\usepackage{booktabs}'};
-    end 
+    end
+    if isfield(input,'tableNotes')
+        latexHeader(end+1) = {'\usepackage{threeparttable}'};
+    end
+    if isfield(input,'tableLong')
+        latexHeader(end+1) = {'\usepackage{longtable}'};
+    end
+    if isfield(input,'tableLandscape')
+        latexHeader(end+1) = {'\usepackage{pdflscape}'};
+    end
     latexHeader(end+1) = {'\begin{document}'};
     % document footer
     latexFooter = {'\end{document}'};
     latex = [latexHeader';latex;latexFooter];
 end
 
-% save latex code to tex file or print to console:
+%% save latex code to tex file or print to console:
 if isfield(input,'texName')
     fid = fopen([input.texName,'.tex'], 'w');
-    fprintf(fid,'%s',latex{:});
+    fprintf(fid,'%s\n',latex{:});           % /n needed to add new line breaks
     fclose(fid);
 else
     disp(char(latex));

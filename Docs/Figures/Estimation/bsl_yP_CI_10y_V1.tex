@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+	\begin{figure}[tbph]
+		\caption{The 10-Year Expected Future Short Rate of Emerging Markets} \label{fig:bsl_yP_CI_10y_V1}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.86\textheight,width=\linewidth]{../Figures/Estimation/bsl_yP_CI_10y_V1.eps} \\
+				\end{center}
+				\fignotes{This figure plots the model-implied 10-year expected future short term interest rate (solid line) along with 2-standard-error confidence intervals (dashed lines). The standard errors are estimated using the delta method. The covariance matrix is estimated using the sample Hessian estimator calculated numerically from the joint log density.}
+			\end{minipage}
+		\end{center}
+	\end{figure}
+\end{document}
+% trim = {<left> <lower> <right> <upper>}

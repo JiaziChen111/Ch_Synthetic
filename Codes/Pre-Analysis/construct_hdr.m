@@ -4,7 +4,7 @@ function header = construct_hdr(varargin)
 % variables are introduced.
 %
 %     INPUTS
-% char: from none to all; they can be currency, type (LC, IRS, etc.), name
+% char/double: from none to all; they can be currency, type (LC, IRS, etc.), name
 % and/or
 % cell: from none to all; they can be tikcers, name, tenors (all must have same dimensions)
 % 
@@ -13,23 +13,23 @@ function header = construct_hdr(varargin)
 %
 %     EXAMPLES
 % A = construct_hdr(currency, type, ticker, name, tenor);
-% A = construct_hdr('USD', 'LC', ticker, 'YC', tenor);
+% A = construct_hdr('USD', 'LC', ticker, 'YC', tenor, NaN, 'GSW');
 %
 % Pavel Solís (pavel.solis@gmail.com), March 2018
 %%
-nvars = length(varargin);               % Number of variables introduced
+nvars = length(varargin);                     % Number of input variables
 sizes = zeros(nvars,1);
 for k = 1:nvars
-    sizes(k) = size(varargin{k},1);     % Detect char (sizes=1) vs. cell (sizes>1) variables
+    sizes(k) = size(varargin{k},1);           % Detect char/double (sizes = 1) vs. cell (sizes > 1) variables
 end
 
-tnrmax = max(sizes);
-idx    = sizes > 1;                     % Logical for variables of type cell
-if sum(sizes(idx)) ~= tnrmax*sum(idx)   % Verify that all cell variables have same dimensions
+maxsize = max(sizes);
+idx    = sizes > 1;                           % Logical for variables of type cell
+if sum(sizes(idx)) ~= maxsize*sum(idx)        % Verify that all cell variables have same dimensions
     error('Inputs of type cell must have the same dimensions.')
 end
 
-header = cell(tnrmax,nvars);
+header = cell(maxsize,nvars);
 for k = 1:nvars
     if sizes(k) == 1                          % If char, repeat in all rows
         [header{:,k}] = deal(varargin{k});    % Equivalent of [A{:,1}] = deal('USD')

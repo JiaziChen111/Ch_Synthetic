@@ -1,0 +1,25 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+%\usepackage[margin=1in]{geometry}
+%\input{../Settings/macros}
+
+\begin{document}
+	\begin{normalsize}
+%		\begin{landscape}
+			\begin{table}
+				\begin{center}
+					\caption{Descriptive Statistics of U.S. Monetary Policy Surprises} \label{tab:mpsstats}
+					\begin{threeparttable}
+						\estauto{../Tables/f_mpsstats.tex}{5}
+						\tabnote{This table reports the average, the standard deviation, the minimum and the maximum values on monetary policy announcement days for the target, forward guidance and asset purchase surprises, see section \ref{sec:USMPS} for details. Target surprises are zero between January 2009 to November 2015. Forward guidance surprises span the whole sample period from January 2000 to January 2019. Asset purchase surprises are considered from October 2008 onwards.}
+					\end{threeparttable}
+				\end{center}
+			\end{table}
+%		\end{landscape}
+	\end{normalsize}
+\end{document}
