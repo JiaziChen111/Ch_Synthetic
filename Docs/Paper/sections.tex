@@ -583,9 +583,11 @@ are larger than those of advanced economies.
 Also, the short end of their curves is more volatile than the long end, particularly so for the synthetic curve.
 Lastly, the spread between the nominal and the synthetic yields suggests that the credit risk compensation is on average positive. % and broadly stable across maturities.
 
-\begin{center}
-	[Insert Table \ref{tab:yldcrvstats} here.]
-\end{center}
+%\begin{center}
+%	[Insert Table \ref{tab:yldcrvstats} here.]
+%\end{center}
+
+\input{../Tables/yldcrvstats}
 
 % Learning
 % CRSP data monthly and daily data fixed-rate and risk-free series are very close to each other once they are annualized. The `biggest' differences are in the 1-month interest rate and before 1980.
@@ -795,9 +797,11 @@ With the exception of Brazil and Turkey, inflation expectations in emerging mark
 %the ability of monetary policy to have an influence does not necessarily refer to the development of the overall index which also has noises and fluctuations that are independent of monetary policy.
 % assessing the expected inflation environment and are likely to help in conducting monetary policy.
 
-\begin{center}
-	[Insert Figure \ref{fig:wnCPI} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:wnCPI} here.]
+%\end{center}
+
+\input{../Figures/Surveys/wnCPI}
 
 Although there is no source for long-term forecasts for the short rate of emerging markets, they can be inferred from existing data by considering those countries as small open economies and using the Fisher equation.  
 Specifically, the implied forecast for the nominal short rate (\(\rateSvy\)) equals an expected real interest rate over the same horizon (\(\realrate^{*}\)) plus the expected average inflation %over 5-year ahead and long-term horizons, 
@@ -824,15 +828,16 @@ TIPS yields are not the benchmark, however, because they are more volatile (thei
 %TIPS yields are not used as the benchmark due to the well-known liquidity problems of TIPS.
 % For the 10-year horizon, the correlation of the two series is 0.91, yet the TIPS yields are twice as volatile as the survey series.
 
-
 Figure \ref{fig:YLD10Y_CBP} shows that the implied long-term forecasts for the short rates are sensible, their level is in line with the synthetic 10-year yield in each country.
 %In principle, there is an alternative way to use the surveys from Consensus Economics to aid in the estimation of the affine model. 
 An alternative way to infer the embedded expectations is to use Taylor rule-type regressions for the policy rate.\footnote{ I regress the policy rate on its lag, the year-on-year consumer price inflation and the year-on-year real GDP growth for all the countries except Israel and South Africa. The coefficient for the lag of the policy rate is a smoothing parameter that improves the fit of the model to the data. I assume that the estimated parameters for inflation and real GDP growth apply at each of the survey maturities. A potential drawback of this approach is precisely that it requires one to know the expectation of the policy rate for the previous forecast horizon. Nevertheless, it is reasonable to assume stationarity for the long-term forecasts (5 and 10 years), in which case only survey data for inflation and GDP growth are needed after dividing their coefficients by 1 minus the coefficient for the lag of the policy rate (due to stationarity). Data for the dependent variable comes from the policy rate statistics of the Bank for International Settlements.}
 Both approaches yield similar values for the implied forecasts of the short rates. %, the average correlation is 0.75 and 0.83 for the 5- and 10-year tenors, respectively.
 
-\begin{center}
-	[Insert Figure \ref{fig:YLD10Y_CBP} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:YLD10Y_CBP} here.]
+%\end{center}
+
+\input{../Figures/Data/YLD10Y_CBP}
 
 I assume that the 5-year ahead (implied) forecast for the short rate of each emerging market guides %is aligned with 
 the expected average short rate under \(\Pmeasure\) given by
@@ -1018,9 +1023,11 @@ The squared root of the average (across months and maturities) squared differenc
 The average fitting error for the synthetic yields of emerging markets is 16 basis points, a reasonable fit. For reference, the average fitting error for the nominal yields of the advanced economies in the sample is 5 basis points, in line with previous studies \citep{Wright:2011}. %,ACDM:2019
 The dynamics of emerging market yields are thus relatively harder to capture.\footnote{ Notwithstanding, it is important to keep in mind that for some countries, large fitting errors might be an indication of less liquid and deep markets.}
 
-\begin{center}
-	[Insert Figure \ref{fig:s_ylds_bsl_yQ} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:s_ylds_bsl_yQ} here.]
+%\end{center}
+
+\input{../Figures/Estimation/s_ylds_bsl_yQ}
 
 %For the advanced economies in the sample, those fitting errors are small, at around 5 basis points in line with previous studies \citep{Wright:2011,ACDM:2019}.
 %An average fitting error of 16 basis points shows that the dynamics of emerging market yields are relatively harder to capture. Even so, it is still a reasonable fit.\footnote{ Notwithstanding, it is important to keep in mind that for some countries, large fitting errors might be an indication of less liquid and deep markets.} % In fact, \cite{HuPanWang:2013} propose to use cross-sectional pricing errors in U.S. Treasuries as a measure of market illiquidity.
@@ -1084,9 +1091,11 @@ On average, the three parts respectively %expected part, the term premium and th
 represent around 58, 30 and 12\% of the 10-year nominal yields of emerging markets.
 %The average decomposition of the 10-year nominal yields of emerging markets equals the expected part, the term premium and the credit risk compensation at around 430, 200 and 80 basis points, respectively, which represent roughly 61, 28 and 11\% of the yields.
 
-\begin{center}
-	[Insert Table \ref{tab:dcmpstats} here.]
-\end{center}
+%\begin{center}
+%	[Insert Table \ref{tab:dcmpstats} here.]
+%\end{center}
+
+\input{../Tables/dcmpstats}
 
 Figure \ref{fig:ny_dcmp} shows the decomposition of the \(10\)-year yield for each country, from which two patterns emerge. 
 %First, the main component of the nominal yields of most countries is the expectation of the future short rate, for which a downward trend over the sample period can be seen for most countries, 
@@ -1105,9 +1114,11 @@ the term premium plays a relatively bigger role, in general.
 Second, there is a downward trend in the expected future short rate %over the sample period 
 and the term premium of several countries, consistent with the evidence for advanced economies \citep{Wright:2011,ACDM:2019}.
 
-\begin{center}
-	[Insert Figure \ref{fig:ny_dcmp} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:ny_dcmp} here.]
+%\end{center}
+
+\input{../Figures/Estimation/ny_dcmp}
 
 In addition, the results for individual countries are consistent with their particular circumstances.
 For instance, the expected short rate in Mexico increased during the tightening cycle that started %initiated %by the central bank following 
@@ -1128,9 +1139,11 @@ The following sections assess each part individually.
 Figure \ref{fig:bsl_yP_scbp} shows that the 10-year expected future short rate agrees with the (inferred) long-term forecasts for the short rate reasonably well, even though the model does not rely too much on them given the conservative value of 75 basis points used for \(\sigma_s\).
 When \(\sigma_s\) is allowed to be estimated, its average value across all emerging markets is 31 basis points. Yet the results are based on the conservative value as discussed in section \ref{sec:sATSM}. % to account for the problems with survey expectations.
 
-\begin{center}
-	[Insert Figure \ref{fig:bsl_yP_scbp} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:bsl_yP_scbp} here.]
+%\end{center}
+
+\input{../Figures/Estimation/bsl_yP_scbp}
 
 %Surveys help the model 
 %An alternative model-free measure of the expected future short rate is the 2-year (synthetic) yield, the correlation between the two is 93\%.
@@ -1231,9 +1244,11 @@ Even though the specification might be subject to econometric problems since it 
 the results are % is nonetheless %at least 
 aligned with the view that term premia compensate investors for bearing inflation uncertainty also in emerging markets.
 
-\begin{center}
-	[Insert Table \ref{tab:tpucsv} here.]
-\end{center}
+%\begin{center}
+%	[Insert Table \ref{tab:tpucsv} here.]
+%\end{center}
+
+\input{../Tables/tpucsv}
 
 Finally, a term premium becomes negative when investors see bonds as hedges and are therefore willing to give up some investment return. 
 This phenomenon has been reported for advanced economies before, especially after the global financial crisis.
@@ -1480,9 +1495,11 @@ Thus, emerging markets indeed remain subject to global risks even when borrowing
 
 To assess whether different sections of the yield curves of emerging markets comove more than others, I use one-year rolling correlations of daily yield changes for different maturities.\footnote{ Appendix \ref{sec:dyindex} reports essentially the same patterns but using the connectedness index of \cite{DieboldYilmaz:2014} rather than rolling correlations. It also compares the comovement of nominal and synthetic yields, and analyzes the comovement among the components of emerging market yields.} Figure \ref{fig:rolling_ts} displays the results.
 
-\begin{center}
-	[Insert Figure \ref{fig:rolling_ts} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:rolling_ts} here.]
+%\end{center}
+
+\input{../Figures/Estimation/rolling_ts}
 
 The long-term yields of emerging markets are more connected than short-term ones, although local factors remain relevant.
 Figure \ref{subfig:rolling_tsEM} shows that the long-term yields of emerging markets became more connected after the global financial crisis, and more so since the taper tantrum episode of 2013. 
@@ -1574,11 +1591,15 @@ the U.S. term premium than via the Vix.
 %Lastly, here is where accounting for credit risk pays off; when it is ignored, the conclusions on direct and cross effects between the components of the yields change. Why? Because the resulting `term premium' mixes together a pure term premium and a credit risk compensation.
 These conclusions would be different if one fails to account for credit risk and thus merges the term premium and credit risk components.
 
-\begin{center}
-	[Insert Table \ref{tab:ycdcmp10y} here.]
-	
-	[Insert Table \ref{tab:ycdcmp2y} here.]
-\end{center}
+%\begin{center}
+%	[Insert Table \ref{tab:ycdcmp10y} here.]
+%	
+%	[Insert Table \ref{tab:ycdcmp2y} here.]
+%\end{center}
+
+\input{../Tables/ycdcmp10y}
+
+\input{../Tables/ycdcmp2y}
 
 %Over the course of the month CR flips sign wrt on-impact
 %K-O: Strongest response of YP at short end
@@ -1790,9 +1811,11 @@ This delayed response is documented by \cite{BrooksKatzLustig:2019} for the U.S.
 Moreover, the reaction to forward guidance and asset purchase surprises is also sluggish, as discussed later.
 Therefore, slow-moving capital is also present in the bonds of emerging markets.\footnote{ Figure \ref{fig:LPEMRHO} in the appendix shows that the delayed responses are not driven by the response of the forward premium, the term added to the U.S. yield curve to construct the synthetic yields.} %a decline in the forward premium (when the spot is higher than the forward) implies a future expected appreciation of the domestic currency.
 
-\begin{center}
-	[Insert Figure \ref{fig:LPEMtarget} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:LPEMtarget} here.]
+%\end{center}
+
+\input{../Figures/LPs/Latex/LP_EM_Shk}
 
 Looking at the effects of a target easing surprise on the yield components in figure \ref{fig:LPEMtarget}, investors expect central banks in emerging markets to follow the monetary stance of the Fed %, in this case an easing of financial conditions, 
 as can be seen in the decline of the expected future short rate (particularly at the short end); in fact, most of the effect is reflected on that component.
@@ -1852,11 +1875,11 @@ The potential fiscal implications for emerging markets of Fed's monetary policie
 
 Since U.S. monetary policy spillovers to long-term yields increased after the global financial crisis \citep{Albaglietal:2019}, figures \ref{fig:LPEMpathPre} and \ref{fig:LPEMpathPost} display the responses of emerging market yields to a forward guidance easing surprise before and after October 2008, respectively.
 
-\begin{center}
-	[Insert Figure \ref{fig:LPEMpathPre} here.]
-	
-	[Insert Figure \ref{fig:LPEMpathPost} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:LPEMpathPre} here.]
+%	
+%	[Insert Figure \ref{fig:LPEMpathPost} here.]
+%\end{center}
 
 Before the global financial crisis, a forward guidance easing surprise led to a downward parallel shift in the yield curves of emerging markets in the month following the surprise.
 The effect on emerging market yields lasted longer than on U.S. yields, and was generally driven by a decline in all three components; at the long end, it was especially through a decline in the expected short rate and the term premium.
@@ -1905,9 +1928,9 @@ The eventual decline in the credit risk compensation as well as the reduction in
 %US and EM YC flattened.
 %EM reaction is small on impact but increases over time and gets stronger than in US. b/c of this difference in response (US eased more), EM seen a more risky at the beginning of the surprise.
 
-\begin{center}
-	[Insert Figure \ref{fig:LPEMlsap} here.]
-\end{center}
+%\begin{center}
+%	[Insert Figure \ref{fig:LPEMlsap} here.]
+%\end{center}
 
 In terms of the yield curve channel, an asset purchase easing surprise reduces the term premia at the long end the expectation for the policy rate at the short end, similar to the effect of a forward guidance easing surprise after 2008.
 %In particular, According to the response of the expected future short rate, investors expect central banks in emerging markets to ease following the Fed's move. % in terms of direction but in a much smaller magnitude.
@@ -2195,49 +2218,49 @@ Finally, surprises from other central banks in advanced economies can be include
 %---------------------------------------------------------------
 % Figures and Tables
 %---------------------------------------------------------------
-
-\newpage
-\input{../Tables/yldcrvstats}
-\input{../Tables/dcmpstats}
-%\input{../Tables/dcmpstats_AE}
-\input{../Tables/tpucsv}
-\input{../Tables/ycdcmp10y}
-%\input{../Tables/ycdcmp5y} % appendix
-\input{../Tables/ycdcmp2y}
-%\input{../Tables/ycdcmp1y} % appendix
-%\input{../Tables/mpsstats} % appendix
-
-\begin{landscape}
-	\input{../Figures/Surveys/wnCPI}
-	\input{../Figures/Data/YLD10Y_CBP}
-	\input{../Figures/Estimation/s_ylds_bsl_yQ}	% \ref{fig:s_ylds_bsl_yQ}
-	\input{../Figures/Estimation/ny_dcmp}
-	\input{../Figures/Estimation/bsl_yP_scbp}
-%	\input{../Figures/Estimation/ssb_tp_QE}
-%	\input{../Figures/Estimation/ny_tp_QE_AE}
-%	\input{../Figures/Estimation/ssb_yP_QE}
-%	\input{../Figures/Estimation/ny_yP_QE_AE}
-%	\input{../Figures/Estimation/ssb_tp_local}
-%	\input{../Figures/Estimation/rrt_LTvsUSrrt}
-%	\input{../Figures/Surveys/wnGDP}
-%	\input{../Figures/Estimation/bsl_tp_ts} % appendix
-%	\input{../Figures/Estimation/brp_dcmp}
-\end{landscape}
-
-\pagebreak[4]
+%
 %\newpage
-\input{../Figures/Estimation/rolling_ts}
-%\input{../Figures/Estimation/dyindex10y} % appendix
-%\input{../Figures/Estimation/dy_index_ts}
-%\input{../Figures/MPS/USmps}
-%\input{../Figures/LPs/Latex/LP_US}
-%\input{../Figures/LPs/Latex/LP_EM}
-%\input{../Figures/LPs/Latex/LP_US_Shk} % appendix
-\input{../Figures/LPs/Latex/LP_EM_Shk}
-%\input{../Figures/LPs/Latex/LP_AE}
-%\input{../Figures/LPs/Latex/LP_RHO} % appendix
-%\input{../Figures/LPs/Latex/LP_RHO_AE}
-
-\begin{landscape}
-	\newpage
-\end{landscape}
+%\input{../Tables/yldcrvstats}
+%\input{../Tables/dcmpstats}
+%	%\input{../Tables/dcmpstats_AE}
+%\input{../Tables/tpucsv}
+%\input{../Tables/ycdcmp10y}
+%	%\input{../Tables/ycdcmp5y} % appendix
+%\input{../Tables/ycdcmp2y}
+%	%\input{../Tables/ycdcmp1y} % appendix
+%	%\input{../Tables/mpsstats} % appendix
+%
+%\begin{landscape}
+%	\input{../Figures/Surveys/wnCPI}
+%	\input{../Figures/Data/YLD10Y_CBP}
+%	\input{../Figures/Estimation/s_ylds_bsl_yQ}	% \ref{fig:s_ylds_bsl_yQ}
+%	\input{../Figures/Estimation/ny_dcmp}
+%	\input{../Figures/Estimation/bsl_yP_scbp}
+%%	\input{../Figures/Estimation/ssb_tp_QE}
+%%	\input{../Figures/Estimation/ny_tp_QE_AE}
+%%	\input{../Figures/Estimation/ssb_yP_QE}
+%%	\input{../Figures/Estimation/ny_yP_QE_AE}
+%%	\input{../Figures/Estimation/ssb_tp_local}
+%%	\input{../Figures/Estimation/rrt_LTvsUSrrt}
+%%	\input{../Figures/Surveys/wnGDP}
+%%	\input{../Figures/Estimation/bsl_tp_ts} % appendix
+%%	\input{../Figures/Estimation/brp_dcmp}
+%\end{landscape}
+%
+%\pagebreak[4]
+%	%\newpage
+%\input{../Figures/Estimation/rolling_ts}
+%	%\input{../Figures/Estimation/dyindex10y} % appendix
+%	%\input{../Figures/Estimation/dy_index_ts}
+%	%\input{../Figures/MPS/USmps}
+%	%\input{../Figures/LPs/Latex/LP_US}
+%	%\input{../Figures/LPs/Latex/LP_EM}
+%	%\input{../Figures/LPs/Latex/LP_US_Shk} % appendix
+%\input{../Figures/LPs/Latex/LP_EM_Shk}
+%	%\input{../Figures/LPs/Latex/LP_AE}
+%	%\input{../Figures/LPs/Latex/LP_RHO} % appendix
+%	%\input{../Figures/LPs/Latex/LP_RHO_AE}
+%
+%\begin{landscape}
+%	\newpage
+%\end{landscape}

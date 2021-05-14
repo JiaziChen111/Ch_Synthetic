@@ -6,16 +6,20 @@
 %\usepackage{subcaption}
 
 \begin{document}
-	\begin{figure}[tbph]
-		\caption{Decomposition of the 10-Year Nominal Yields of Emerging Markets} \label{fig:ny_dcmp}
-		\begin{center}								% center the minipage on the line
-			\begin{minipage}{0.9\linewidth}
-				\begin{center}							% center the figure inside the minipage
-					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.86\textheight,width=\linewidth]{../Figures/Estimation/ny_dcmp.eps} \\
-				\end{center}
-				\fignotes{This figure plots the components of the 10-year nominal yields of emerging markets. The yields are decomposed into an average expected future short-term interest rate (solid line), a term premium (dash-dotted line) and a credit risk compensation (dashed line).}
-			\end{minipage}
-		\end{center}
-	\end{figure}
+	\afterpage{
+	\begin{landscape}
+		\begin{figure}[tbph]
+			\caption{Decomposition of the 10-Year Nominal Yields of Emerging Markets} \label{fig:ny_dcmp}
+			\begin{center}								% center the minipage on the line
+				\begin{minipage}{0.9\linewidth}
+					\begin{center}							% center the figure inside the minipage
+						\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.8\textheight,width=\linewidth]{../Figures/Estimation/ny_dcmp.eps} \\
+					\end{center}
+					\fignotes{This figure plots the components of the 10-year nominal yields of emerging markets. The yields are decomposed into an average expected future short-term interest rate (solid line), a term premium (dash-dotted line) and a credit risk compensation (dashed line).}
+				\end{minipage}
+			\end{center}
+		\end{figure}
+	\end{landscape}
+	}
 \end{document}
 % trim = {<left> <lower> <right> <upper>}
