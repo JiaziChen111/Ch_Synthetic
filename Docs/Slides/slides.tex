@@ -7,15 +7,15 @@
 \documentclass[12pt, aspectratio=169, xcolor=dvipsnames]{beamer}
 %\documentclass[12pt,aspectratio=169,xcolor=dvipsnames,handout,notes=show]{beamer}	  % For printing
 \input{../Settings/packs_beamer}   		  % Packages
-\input{../Settings/macros}					   % Personalized commands
-
+\input{../Settings/macros_global}					   % Personalized commands
+\input{../Settings/macros_local}
 
 %-------------------------------------------------------------
 % Title
 %-------------------------------------------------------------
 
 \title{\input{../Settings/title}}
-\date{February 2021}
+\date{July 2021}
 \author{Pavel Solís}
 \institute{Johns Hopkins University}
 
@@ -302,8 +302,10 @@
 \note{For maturities of less than 1Y, the FP is calculated as the annualized difference b/w the forward and the spot exchange rates.}
 \note{For maturities greater than or equal to 1Y, the FP is calculated using cross-currency swaps b/c outright forwards are less liquid.}
 \note{When XCS are not directly traded in the market, they can be constructed using CCS and IRS based on the following sequence of steps.}
+
 \note{Today I can lock in a risk-free investment in LC by exchanging LC for US dollars, investing those dollars in Tresuaries and entering into a forward contract agreeing to sell dollars for LC in the future.}
 \note{Once the dollar payment from the investment in Treasuries is received, those dollars are exchanged back into LC at the agreed forward exchange rate.}
+
 \note{All the derivative instruments involved are liquid and collateralized so the bilateral counterparty risk is small.}
 \note{Notice that the nominal YC is not needed in the construction of the synthetic YC.}
 
@@ -440,7 +442,7 @@
 \note{Here you can see how the nominal yields of EMs can be decomposed into three parts.}
 \note{The nominal yields are equal to the risk-free synthetic yields plus a compensation for credit risk. Since synthetic yields are seen as free of credit risk, they can be decomposed into an average expected short rate and a term premium.}
 \note{The CRC part has been ignored in previous work by assuming that the nominal yields are free of credit risk.}
-\note{Therefore, the TP that I propose is *clean* in the sense that it is not contaminated with credit risk as would be the case with traditional approach. In other words, using the traditional approach for EM yields would generate a term premium contaminated with credit risk.}
+\note{Therefore, the TP that I propose is *clean* in the sense that it is not contaminated with credit risk as would be the case with the traditional approach. In other words, using the traditional approach for EM yields would generate a term premium contaminated with credit risk.}
 
 \note{The fitted synthetic yields are given as affine functions of the pricing factors using parameters under the Q measure. The average expected future short rates are also affine functions of the pricing factors but under the P measure. The difference b/w the two gives an estimate for the term premium. Finally, the spread b/w the nominal and the fitted synthetic yields is the CRC.}
 \note{Since the model fits the synthetic yields reasonably well, as you will see in a moment, this spread is largely similar to the one reported by Du and Schreger, and which they referred to as the LC credit spread.}
@@ -1102,7 +1104,7 @@ U.S. monetary policy \textbf{spillovers} to EM sovereign yields
 \note{Finally, the UMPs implemented by the Fed after the GFC limit the influence central banks in EMs can exert over their domestic YCs.}
 
 \note{A final takeaway from the paper is that it is important to explicitly account for credit risk in the LC debt of EMs and to examine the effects at different maturities to adequately characterize the transmission channels of US MP.}
-\note{I am happy to take any other question.}
+\note{I am happy to answer any other question.}
 
 
 %\note{These results have implications for both AE and EM.}
