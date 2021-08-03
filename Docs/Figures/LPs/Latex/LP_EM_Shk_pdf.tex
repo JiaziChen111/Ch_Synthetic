@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage[labelsep=period,labelfont=bf]{caption}
+\usepackage{subcaption}
+\usepackage{pdflscape}
+\usepackage{graphicx}
+\usepackage{afterpage}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[margin=1in]{geometry}
+\input{../../../Settings/macros_global}
+\input{../../../Settings/macros_local}
+\pagestyle{empty}
+
+\begin{document}
+	\afterpage{
+		\begin{landscape}
+			\begin{figure}[tbph]
+%				\caption{Response of the Yield Curve to a Forward Guidance Surprise: 2008-2019} \label{fig:LPEMpathPost}
+				\begin{center}
+					\begin{minipage}{\linewidth}
+						\begin{center}
+							\begin{subfigure}[t]{\linewidth}
+								\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.35\textheight,width=\linewidth]{../../../Figures/LPs/LagDep-FX/Path/EM/PathEMnomyptpphi120mPost} \\
+								\vspace{-0.48cm}
+								\caption{10-Year Yield} %\label{subfig:LPEM10YpathPost}
+								\vspace{0.4cm}
+							\end{subfigure}
+							
+%							\vspace{0.1cm}
+							
+							\begin{subfigure}[t]{\linewidth}
+								\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.35\textheight,width=\linewidth]{../../../Figures/LPs/LagDep-FX/Path/EM/PathEMnomyptpphi24mPost} \\
+								\vspace{-0.48cm}
+								\caption{2-Year Yield} %\label{subfig:LPEM2YpathPost}
+							\end{subfigure}
+							\vspace{-0.45cm}
+						\end{center}
+%						\fignotes{This figure shows the response of the 10- and 2-year emerging market nominal yields and their components to a forward guidance easing surprise of 1 basis point. An arrow indicates the contemporaneous (\(\idxh = 0\)) effect. The 90\% confidence bands are based on Driscoll--Kraay standard errors.}
+					\end{minipage}
+				\end{center}
+			\end{figure}
+		\end{landscape}
+	}
+\end{document}
+% trim = {<left> <lower> <right> <upper>}
