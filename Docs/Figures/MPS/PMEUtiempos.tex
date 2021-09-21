@@ -1,0 +1,38 @@
+%\documentclass[border=3pt,tikz]{standalone}
+\usetikzlibrary{decorations.pathreplacing}
+
+%\begin{document}
+
+\begin{tikzpicture}
+\draw[very thick,-{latex}] (0,0) -- (11.35,0) node{};
+\foreach \x/\l in {0.5/2000,4.5/2008,8.5/2015,10.5/2019}
+  \draw (\x,3pt) -- (\x,-3pt) node[below]{$\l$};
+\draw [decorate,decoration={brace,amplitude=5pt}]
+  (0.5,1.6) -- (10.5,1.6) node[midway,yshift=1em]{Trayectoria};
+\draw [decorate,decoration={brace,amplitude=5pt}]
+  (4.5,0.9) -- (10.5,0.9) node[midway,yshift=1em]{Compras de Activos};
+\draw [decorate,decoration={brace,amplitude=5pt}]
+ (0.5,0.2) -- (4.5,0.2) node[midway,yshift=1em]{Nivel};
+\draw [decorate,decoration={brace,amplitude=5pt}]
+ (8.5,0.2) -- (10.5,0.2) node[midway,yshift=1em]{Nivel};
+\end{tikzpicture}
+
+%\end{document}
+
+
+%\begin{tikzpicture}
+%\draw[very thick,-{latex}] (0,0) -- (11,0) node{};
+%\foreach \x/\l in {0.5/2000,4.2/2008,5.2/2009,8.5/2015,10.5/2019}
+%\draw (\x,3pt) -- (\x,-3pt) node[below]{$\l$};
+%\draw [decorate,decoration={brace,amplitude=5pt}]
+%(0.5,1.4) -- (10.5,1.4) node[midway,yshift=1em]{Forward Guidance};
+%\draw [decorate,decoration={brace,amplitude=5pt}]
+%(5.2,0.8) -- (10.5,0.8) node[midway,yshift=1em]{LSAP};
+%\draw [decorate,decoration={brace,amplitude=5pt}]
+%(0.5,0.2) -- (4.2,0.2) node[midway,yshift=1em]{Target};
+%\draw [decorate,decoration={brace,amplitude=5pt}]
+%(8.5,0.2) -- (10.5,0.2) node[midway,yshift=1em]{Target};
+%\end{tikzpicture}
+
+%Chronology of Fed’s Quantitative Easing & Tightening
+%https://www.yardeni.com/chronology-of-feds-quantitative-easing/
