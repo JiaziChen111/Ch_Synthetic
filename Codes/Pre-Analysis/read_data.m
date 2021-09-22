@@ -4,9 +4,10 @@
 
 % m-files called: read_platforms, read_usyc, fwd_prm, zc_yields, spreads,
 % read_cip, plot_spreads, compare_cip, append_dataset, iso2names
-% Pavel Solís (pavel.solis@gmail.com), August 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2021
 
 %% Data on yield curves and swap curves
+tic
 clear; clc; close all;
 warning('OFF','MATLAB:table:ModifiedAndSavedVarnames')                          % suppress table warnings
 [TTpltf,THpltf] = read_platforms();
@@ -37,17 +38,19 @@ clear T*
 types = {'Type','RHO','LCNOM','LCSYNT','LCSPRD','CIPDEV','FCSPRD'};
 fltr  = ~ismember(header_daily(:,2),types);
 dataset_daily(:,fltr) = [];     header_daily(fltr,:)  = [];
-dataset_daily(dataset_daily(:,1) < datenum('1-Jul-2009'),ismember(header_daily(:,1),'RUB')) = nan;
+dataset_daily(dataset_daily(:,1) < datenum('1-Aug-2009'),ismember(header_daily(:,1),'RUB')) = nan;
 
 %% Assess series
 [TTcip,currEM,currAE] = read_cip();
-figstop  = false;	figsave = false;
+currEM(contains(currEM,{'CLP','CNY','INR'})) = [];
+figstop  = false;	figsave = true;
 corrsprd = plot_spreads(dataset_daily,header_daily,currEM,currAE,figstop,figsave);
 corrDIS  = compare_cip(dataset_daily,header_daily,curncs,TTcip,figstop,figsave);
 S = cell2struct(iso2names(curncs)',{'cty','ccy','iso','imf'});
 clear data_* hdr_* fig* fltr types
+toc
 
 %% Save variables in mat files (not in Git directory due to size limits)
-% cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2020'
+% cd '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2021'
 % save struct_datady_S.mat S corr* cur* tnrs*
 % save struct_datady_cells.mat dataset_daily header_daily
