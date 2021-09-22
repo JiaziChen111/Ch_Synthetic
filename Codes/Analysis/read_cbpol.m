@@ -14,6 +14,7 @@ cd(pathd)
 cnts_cbpol = readcell(namefl,'Sheet',3,'Range','3:3');              % read country names (third row)
 tckr_cbpol = readcell(namefl,'Sheet',3,'Range','4:4');              % read tickers
 data_cbpol = readmatrix(namefl,'Sheet',3);                          % note cnts_cbpol has 1 less column
+cnts_cbpol(:,1) = [];
 cd(pathc)
 
 % Identify countries in the sample
