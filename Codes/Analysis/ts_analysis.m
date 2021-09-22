@@ -4,12 +4,12 @@
 % m-files called: daily2dymy, add_macroNsvys, append_svys2ylds, atsm_estimation, se_state, add_cr, 
 % se_components, assess_fit, add_vars, ts_plots, ts_correlations, ts_pca, atsm_daily, construct_panel
 % auxiliary: read_macrovars, read_kw
-% Pavel Solís (pavel.solis@gmail.com), September 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2021
 % 
 %% Load the data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/January-2021';
+pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2021';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
