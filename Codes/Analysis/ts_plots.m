@@ -3,10 +3,16 @@ function ts_plots(S,currEM,currAE,kwtp,vix)
 
 % m-files called: datesminmax, syncdatasets, inflation_target, save_figure,
 % rollingcorrs, ts_dyindex
-% Pavel Solís (pavel.solis@gmail.com), August 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2021
 %%
 nEMs = length(currEM);
 nAEs = length(currAE);
+
+clrplt = [0.06, 0.5, 0.95
+        0.7, 0.075, 0.36
+        0.553, 0.353, 0.714
+        0.08, 0.9, 0.4
+        0, 0.77, 0.96];
 
 %% Plot macro data
 figdir = 'Data'; formats = {'eps'}; figsave = false;
@@ -422,6 +428,33 @@ lgd = legend({'Observed','Fitted'},'Orientation','horizontal','AutoUpdate','off'
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = 's_ylds_d_yQ'; save_figure(figdir,figname,formats,figsave)
 
+    % Daily data: residuals 10Y
+fldname = {'ds_blncd','d_yQ','d_cr'};                                   % for monthly: {'ms_blncd','bsl_yQ','bsl_cr'};
+yr = 10;
+figure
+for k0 = 1:nEMs
+    aux1 = S(k0).(fldname{1});
+    aux2 = S(k0).(fldname{2});
+    aux3 = S(k0).(fldname{3});
+    ttaux1 = array2timetable(aux1(2:end,aux1(1,:) == yr),'RowTimes',datetime(aux1(2:end,1),'ConvertFrom','datenum'));
+    ttaux2 = array2timetable(aux2(2:end,aux2(1,:) == yr),'RowTimes',datetime(aux2(2:end,1),'ConvertFrom','datenum'));
+    ttaux3 = array2timetable(aux3(2:end,aux3(1,:) == yr),'RowTimes',datetime(aux3(2:end,1),'ConvertFrom','datenum'));
+    ttaux  = synchronize(ttaux1,ttaux2);
+    ttaux.res = ttaux.(1) - ttaux.(2);                               	% actual minus fitted
+    ttaux = removevars(ttaux,contains(ttaux.Properties.VariableNames,{'ttaux1','ttaux2'}));
+    ttcor = synchronize(ttaux,ttaux3);
+    [rho,pval] = corr(ttcor{:,:},'rows','complete');
+    sprintf(['For ' S(k0).cty ', rho is %0.4f with a p-value of %0.4f'],rho(2,1),pval(2,1))
+    
+    subplot(3,5,k0)
+    plot(ttaux.Time,ttaux.res*10000,'LineWidth',1.25)                  	% in basis points
+    title(S(k0).cty)
+    datetick('x','yy'); yline(0); if ismember(k0,[1,6,11]); ylabel('Basis Points'); end
+end
+lgd = legend({'Residual'},'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+figname = 's_residual'; save_figure(figdir,figname,formats,figsave)
+
 close all
 
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
@@ -710,6 +743,7 @@ figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
     % EM: monthly
 fldname = {'bsl_yP','bsl_tp','bsl_cr'};
 figure
+colororder(clrplt)
 for k0 = 1:nEMs
     subplot(3,5,k0)                             % 10Y
     plot(S(k0).(fldname{1})(2:end,1),S(k0).(fldname{1})(2:end,S(k0).(fldname{1})(1,:)==10)*100,'-','LineWidth',1);
@@ -731,6 +765,7 @@ figname = 'ny_dcmp'; save_figure(figdir,figname,formats,figsave)
     % AE
 fldname = {'bsl_yP','bsl_tp'};  k1 = 0;
 figure
+colororder(clrplt)
 for k0 = nEMs+1:nEMs+nAEs
     k1 = k1 + 1;
     subplot(2,5,k1)
@@ -979,6 +1014,7 @@ tenor  = 10;
 fname  = {'dn_data','ds_data'};
 lstyle = {'-','-.','--'};
 figure
+colororder(clrplt)
 for k0 = 1:length(fname)
     rollcorr = rollingcorrs(S,currEM,fname{k0},tenor);
     plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0},'LineWidth',1); hold on
@@ -996,6 +1032,7 @@ tenor  = 10;
 fname  = {'d_yP','d_tp','d_cr'};
 lstyle = {'-','-.','--'};
 figure
+colororder(clrplt)
 for k0 = 1:length(fname)
     rollcorr = rollingcorrs(S,currEM,fname{k0},tenor);
     plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0},'LineWidth',1); hold on
@@ -1010,6 +1047,7 @@ tenor  = 10;
 fname  = {'dn_data','d_yP','d_tp'};
 lstyle = {'-','-.','--'};
 figure
+colororder(clrplt)
 for k0 = 1:length(fname)
     rollcorr = rollingcorrs(S,currAE,fname{k0},tenor);
     plot(rollcorr(:,1),rollcorr(:,2),lstyle{k0},'LineWidth',1); hold on
@@ -1028,6 +1066,7 @@ lbl     = {'10 Years','5 Years','1 Year','3 Months'};
     % EM
 for k0 = 1:length(fname)
     figure
+    colororder(clrplt)
     for k1 = 1:length(tenor)
         rollcorr = rollingcorrs(S,currEM,fname{k0},tenor(k1));
         plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1},'LineWidth',1); hold on
@@ -1040,6 +1079,7 @@ end
     % AE
 for k0 = 1:length(fname)
     figure
+    colororder(clrplt)
     for k1 = 1:length(tenor)
         rollcorr = rollingcorrs(S,currAE,fname{k0},tenor(k1));
         plot(rollcorr(:,1),rollcorr(:,2),lstyle{k1},'LineWidth',1); hold on
@@ -1081,7 +1121,7 @@ for k0 = 1:length(fname)
 end
 
 %% DY index (daily frequency): Yield components
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
+figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
 
     % AE + EM (nominal, synthetic)
 tenor = 10;
@@ -1089,8 +1129,9 @@ fldname = {'dn_data','ds_data'};
 lstyle  = {'-','-.','--'};
 datemin = datenum('31-Jan-2019');
 figure
+colororder(clrplt)
 for k0 = 1:length(fldname)
-    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
+    [DYindex,DYtable] = ts_dyindex(S,currEM(~contains(currEM,{'BRL','KRW','PHP','THB'})),fldname{k0},tenor);
     disp(DYtable)
     plot(DYindex(:,1),DYindex(:,2),lstyle{k0},'LineWidth',1); hold on
     if DYindex(1,1) < datemin
@@ -1098,7 +1139,7 @@ for k0 = 1:length(fldname)
     end
 end
 k0 = 1;
-[DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
+[DYindex,DYtable] = ts_dyindex(S,currAE(~contains(currAE,{'NOK'})),fldname{k0},tenor);
 disp(DYtable)
 fltrAE = DYindex(:,1) >= datemin;
 plot(DYindex(fltrAE,1),DYindex(fltrAE,2),lstyle{end},'LineWidth',1); hold on
@@ -1112,8 +1153,9 @@ tenor = 10;
 fldname = {'d_yP','d_tp','dc_data'};
 lstyle  = {'-','-.','--'};
 figure
+colororder(clrplt)
 for k0 = 1:length(fldname)
-    [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor);
+    [DYindex,DYtable] = ts_dyindex(S,currEM(~contains(currEM,{'BRL','KRW','PHP','THB'})),fldname{k0},tenor);
     disp(DYtable)
     plot(DYindex(:,1),DYindex(:,2),lstyle{k0},'LineWidth',1); hold on
 end
@@ -1125,8 +1167,9 @@ figname = ['dy_index' num2str(tenor) 'y_dcmp']; save_figure(figdir,figname,forma
     % AE
 fldname = {'dn_data','d_yP','d_tp'};
 figure
+colororder(clrplt)
 for k0 = 1:length(fldname)
-    [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor);
+    [DYindex,DYtable] = ts_dyindex(S,currAE(~contains(currAE,{'NOK'})),fldname{k0},tenor);
     disp(DYtable)
     plot(DYindex(:,1),DYindex(:,2),lstyle{k0},'LineWidth',1); hold on
 end
@@ -1144,8 +1187,9 @@ lbl     = {'10 Years','5 Years','1 Year','3 Months'};
     % EM
 for k0 = 1:length(fldname)
     figure
+    colororder(clrplt)
     for k1 = 1:length(tenor)
-        [DYindex,DYtable] = ts_dyindex(S,currEM,fldname{k0},tenor(k1));
+        [DYindex,DYtable] = ts_dyindex(S,currEM(~contains(currEM,{'PHP'})),fldname{k0},tenor(k1));
         disp([fldname{k0} ' ' num2str(tenor(k1))])
         disp(DYtable)
         plot(DYindex(:,1),DYindex(:,2),lstyle{k1},'LineWidth',1); hold on
@@ -1158,6 +1202,7 @@ end
     % AE
 for k0 = 1:length(fldname)
     figure
+    colororder(clrplt)
     for k1 = 1:length(tenor)
         [DYindex,DYtable] = ts_dyindex(S,currAE,fldname{k0},tenor(k1));
         disp([fldname{k0} ' ' num2str(tenor(k1))])
@@ -1202,3 +1247,9 @@ imshow(H(2).cdata);                                                         % on
 
 % Recession shaded areas
 % https://www.mathworks.com/matlabcentral/answers/243194-shade-an-area-in-a-plot-between-two-y-values
+
+% Select a Color from a Gradient
+% https://www.mathworks.com/help/matlab/ref/uisetcolor.html#mw_1bc83bef-7644-4f22-9acf-7e3d589d26bf
+
+% Data color picker
+% https://learnui.design/tools/data-color-picker.html#palette
