@@ -21,8 +21,8 @@ for k1 = ctr1:ctrn
         dtst = syncdatasets(dtst,dtstaux,'union');                          % append series
     end
 end
-fltrCTR = [true; sum(isnan(dtst(2:end,2:end)),2) <= 3];                     % at least 12 countries with data
-fltrDT  = dtst(:,1) > datenum('31-Jan-2019');                               % out of sample observations
+fltrCTR = [true; sum(isnan(dtst(2:end,2:end)),2) <= 4];                     % at least 11 countries with data
+fltrDT  = dtst(:,1) > datenum('31-Jul-2021');                               % out of sample observations
 dtst    = dtst(fltrCTR & ~fltrDT,:);                                        % adjust dataset
 datemin = dtst(2,1) + 365;                                                  % one year after first observation
 dates   = dtst(dtst(:,1) >= datemin,1);                                     % dates for rolling windows
