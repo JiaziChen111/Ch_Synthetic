@@ -1,0 +1,55 @@
+
+\documentclass[tikz,border=10pt]{standalone}
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,intersections}
+
+\begin{document}
+	\begin{tikzpicture}[
+	thick,
+	>=stealth',
+	dot/.style = {
+		draw,
+		fill = white,
+		circle,
+		inner sep = 0pt,
+		minimum size = 4pt
+	}
+	]
+	\coordinate (O) at (0,0);
+	\draw[->] (-0.3,0) -- (8,0) coordinate[label = {below:Plazo}] (xmax);
+	\draw[->] (0,-0.3) -- (0,5) coordinate[label = {right:Tasa}] (ymax);
+	\draw plot[smooth] coordinates {(0,2) (3,2.8) (5,3.05) (7,3.05)};
+	\draw plot[smooth] coordinates {(0,2) (2.5,2.1) (5,2.15) (7,2.15)};
+	\draw (4.3,2.85) node[below right] {Prima por Plazo};
+	\draw (0.85,1.6) node[below right] {Tasa Corta Futura Esperada Promedio};
+	
+	
+%	\draw plot[smooth] coordinates {(0,2.5) (3,3.5) (5,3.8) (7,3.8)};
+%	\draw plot[smooth] coordinates {(0,2.5) (2.5,2.55) (5,2.65) (7,2.7)};
+%	\draw (4.4,3.55) node[below right] {Term Premium};
+%	\draw (0.85,1.8) node[below right] {Average Expected Future Short Rates};
+	
+	
+%	\path[name path=x] (0.3,0.5) -- (6.7,4.7);
+%	\path[name path=y] plot[smooth] coordinates {(-0.3,2) (2,1.5) (4,2.8) (6,5)};
+%	\scope[name intersections = {of = x and y, name = i}]
+%	\fill[gray!20] (i-1) -- (i-2 |- i-1) -- (i-2) -- cycle;
+%	\draw      (0.3,0.5) -- (6.7,4.7) node[pos=0.8, below right] {Sekante};
+%	\draw[red] plot[smooth] coordinates {(-0.3,2) (2,1.5) (4,2.8) (6,5)};
+%	\draw (i-1) node[dot, label = {above:$P$}] (i-1) {} -- node[left]
+%	{$f(x_0)$} (i-1 |- O) node[dot, label = {below:$x_0$}] {};
+%	\path (i-2) node[dot, label = {above:$Q$}] (i-2) {} -- (i-2 |- i-1)
+%	node[dot] (i-12) {};
+%	\draw           (i-12) -- (i-12 |- O) node[dot,
+%	label = {below:$x_0 + \varepsilon$}] {};
+%	\draw[blue, <->] (i-2) -- node[right] {$f(x_0 + \varepsilon) - f(x_0)$}
+%	(i-12);
+%	\draw[blue, <->] (i-1) -- node[below] {$\varepsilon$} (i-12);
+%	\path       (i-1 |- O) -- node[below] {$\varepsilon$} (i-2 |- O);
+%	\draw[gray]      (i-2) -- (i-2 -| xmax);
+%	\draw[gray, <->] ([xshift = -0.5cm]i-2 -| xmax) -- node[fill = white]
+%	{$f(x_0 + \varepsilon)$}  ([xshift = -0.5cm]xmax);
+%	\endscope
+	\end{tikzpicture}
+\end{document}

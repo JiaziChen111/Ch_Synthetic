@@ -4,14 +4,17 @@ function [TTcip,currEM,currAE] = read_cip()
 %   currEM: contains currencies of emerging market in ascending order
 %   currAE: contains currencies of advanced countries in ascending order
 
-% Pavel Solís (pavel.solis@gmail.com), April 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2021
 %%
 pathc  = pwd;
 pathd  = fullfile(pathc,'..','..','Data','Raw');                  % platform-specific file separators
 cd(pathd)
-namefl = 'CIP_Data.xlsx';
-opts   = detectImportOptions(namefl,'Sheet',1);
-opts   = setvartype(opts,opts.VariableNames([1:2 4]),'categorical');
+namefl = 'CIP_Data.csv';
+opts   = detectImportOptions(namefl);
+opts   = setvartype(opts,contains(opts.VariableNames,{'group','currency','tenor'}),'categorical');
+opts   = setvartype(opts,contains(opts.VariableNames,{'diff_y','rho','cip_govt'}),'double');
+opts   = setvartype(opts,contains(opts.VariableNames,'date'),'datetime');
+opts   = setvaropts(opts,'date','InputFormat','ddMMMyyyy');
 TTcip  = readtimetable(namefl,opts);
 cd(pathc)
 

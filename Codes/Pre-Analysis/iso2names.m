@@ -4,19 +4,19 @@ function ccy_names = iso2names(iso)
 %   iso: three-letter code(s) indicating the currency (ISO 4217)
 %   ccy_names: country names, currency names, three-letter and -digit codes
 
-% Pavel Solís (pavel.solis@gmail.com), April 2020
+% Pavel Solís (pavel.solis@gmail.com), August 2021
 %%
 % Retrieve codes from sources
 pathc  = pwd;
 pathd  = fullfile(pathc,'..','..','Data','Raw');            % platform-specific file separators
 cd(pathd)
-filenameIMF = 'IMF_Country_Codes.xlsx';
-filenameISO = 'ISO_Currency_Codes.xlsx';
-codes_imf   = table2cell(readtable(filenameIMF));
-codes_iso   = table2cell(readtable(filenameISO));
+codes_imf = readcell('IMF_Country_Codes.xlsx','NumHeaderLines',2);
+opts = detectImportOptions('ISO_Currency_Codes.xlsx');
+opts.DataRange = 'A5';
+codes_iso = table2cell(readtable('ISO_Currency_Codes.xlsx',opts));
 cd(pathc)
 
-codes_imf(:,5:end) = [];  codes_iso(1:2,:) = [];  codes_iso(:,4:end) = [];	% delete unnecessary data
+codes_imf(:,5:end) = [];  codes_iso(:,4:end) = [];          % delete unnecessary data
 %%
 % For country names from ISO
 [~,id] = unique(codes_iso(:,1),'stable');
@@ -31,7 +31,7 @@ codes_iso(:,1) = aux1;
 % Exclude countries that complicate the match
 xclude_name = {'Australia';'Germany'};
 idx       = ismember(lower(codes_iso(:,1)),lower(xclude_name));
-xclude_ccy  = codes_iso(idx,2);
+% xclude_ccy  = codes_iso(idx,2);
 xclude_code = codes_iso(idx,3);
 ccy_codes   = iso(~ismember(iso,xclude_code));
 
