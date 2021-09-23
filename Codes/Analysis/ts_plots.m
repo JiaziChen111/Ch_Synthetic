@@ -818,6 +818,52 @@ lbl = {'Own','DS'};
 lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 
+%% Compare estimated CRC versus CDS
+figdir  = 'Estimation'; formats = {'eps'}; figsave = true;
+TT_cds  = read_cds();
+    % EM: daily
+fldname = 'd_cr';                                                   % bsl_cr
+figure
+%colororder(clrplt)
+for k0 = 1:nEMs
+    subplot(3,5,k0)
+    yyaxis left
+    crcts = S(k0).(fldname)(2:end,S(k0).(fldname)(1,:)==5);         % 5Y
+    crcts(crcts < 0) = 0;
+    ttaux = array2timetable(crcts*100,'RowTimes',datetime(S(k0).(fldname)(2:end,1),'ConvertFrom','datenum'));
+    ttaux = synchronize(ttaux,TT_cds(:,k0),'intersection');
+    plot(ttaux.Time,ttaux.(1),'-','LineWidth',0.6);
+    hold on
+    yyaxis right
+    plot(ttaux.Time,ttaux.(2),'-.','LineWidth',0.6);
+    title(S(k0).cty)
+    datetick('x','yy'); yline(0);
+end
+lbl = {'Credit Risk Compensation (LC in %) (LHS)','CDS (USD in basis points) (RHS)'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
+figname = 'cr_cds_EM'; save_figure(figdir,figname,formats,figsave)
+
+    % GER: daily
+fldname = 'd_cr';                                                   % bsl_cr
+figure                             
+    k0 = 20;                                                        % Germany
+    yyaxis left
+    crcts = S(k0).(fldname)(2:end,S(k0).(fldname)(1,:)==5);         % 5Y
+    crcts(crcts < 0) = 0;
+    ttaux = array2timetable(crcts*100,'RowTimes',datetime(S(k0).(fldname)(2:end,1),'ConvertFrom','datenum'));
+    ttaux = synchronize(ttaux,TT_cds(:,17),'intersection');         % Germany
+    plot(ttaux.Time,ttaux.(1),'-','LineWidth',0.6);
+    hold on
+    yyaxis right
+    plot(ttaux.Time,ttaux.(2),'-.','LineWidth',0.6);
+    title(S(k0).cty)
+    datetick('x','yy'); yline(0);
+lbl = {'CIP Deviation (EUR in %) (LHS)','CDS (USD in basis points) (RHS)'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0010 0.2554 0.05],'Units','normalized')
+figname = 'cr_cds_GER'; save_figure(figdir,figname,formats,figsave)
+
 %% Components with confidence bands
     % EM
 figdir = 'Estimation'; formats = {'eps'}; figsave = false;
