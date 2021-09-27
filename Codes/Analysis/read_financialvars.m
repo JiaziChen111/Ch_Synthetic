@@ -11,7 +11,7 @@ namefl = {'Macro_Vars_Tickers.xlsx','Macro_Vars_Data.xlsx'};
 
 % Read financial data from Bloomberg
 cd(pathd)
-hdr_finan  = readcell(namefl{1},'Sheet','Tickers');                         % read headers
+hdr_finan  = readcell(namefl{1},'Sheet','Tickers','ExpectedNumVariables',6);% read headers
 hdr_finan  = hdr_finan(:,1:6);                                              % remove extra columns
 data_finan = readmatrix(namefl{2},'Sheet','All');                           % read macro variables
 datesmcr   = x2mdate(data_finan(:,1),0);                                    % dates from Excel to Matlab format
