@@ -850,7 +850,7 @@ figure
     k0 = 20;                                                        % Germany
     yyaxis left
     crcts = S(k0).(fldname)(2:end,S(k0).(fldname)(1,:)==5);         % 5Y
-    crcts(crcts < 0) = 0;
+    %crcts(crcts < 0) = 0;
     ttaux = array2timetable(crcts*100,'RowTimes',datetime(S(k0).(fldname)(2:end,1),'ConvertFrom','datenum'));
     ttaux = synchronize(ttaux,TT_cds(:,17),'intersection');         % Germany
     plot(ttaux.Time,ttaux.(1),'-','LineWidth',0.6);
@@ -859,10 +859,42 @@ figure
     plot(ttaux.Time,ttaux.(2),'-.','LineWidth',0.6);
     title(S(k0).cty)
     datetick('x','yy'); yline(0);
+    corrcrcds = corr(ttaux{:,1},ttaux{:,2},'rows','complete');
+    text(datetime(2018,1,1),110,['Corr: ' num2str(round(corrcrcds,3))])
 lbl = {'CIP Deviation (EUR in %) (LHS)','CDS (USD in basis points) (RHS)'};
 lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0010 0.2554 0.05],'Units','normalized')
 figname = 'cr_cds_GER'; save_figure(figdir,figname,formats,figsave)
+
+    % AE
+fldname = 'd_cr';                                                   % bsl_cr
+figure
+for k0 =[16, 20, 21, 22]
+    if k0 == 16
+        k1 = k0;
+        k2 = 1;
+    else
+        k1 = k1 + 1;
+        k2 = k2 + 1;
+    end
+    subplot(2,2,k2)
+    yyaxis left
+    crcts = S(k0).(fldname)(2:end,S(k0).(fldname)(1,:)==5);         % 5Y
+    %crcts(crcts < 0) = 0;
+    ttaux = array2timetable(crcts*100,'RowTimes',datetime(S(k0).(fldname)(2:end,1),'ConvertFrom','datenum'));
+    ttaux = synchronize(ttaux,TT_cds(:,k1),'intersection');
+    plot(ttaux.Time,ttaux.(1),'-','LineWidth',0.6);
+    hold on
+    yyaxis right
+    plot(ttaux.Time,ttaux.(2),'-.','LineWidth',0.6);
+    title(S(k0).cty)
+    datetick('x','yy'); yline(0);
+    corr(ttaux{:,1},ttaux{:,2},'rows','complete')
+end
+lbl = {'CIP Deviation (LC in %) (LHS)','CDS (USD in basis points) (RHS)'};
+lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
+set(lgd,'Position',[0.3730 0.0010 0.2554 0.05],'Units','normalized')
+figname = 'cr_cds_AE'; save_figure(figdir,figname,formats,figsave)
 
 %% Components with confidence bands
     % EM
