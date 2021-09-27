@@ -15,7 +15,7 @@ function TT = construct_panel(S,matsout,currEM,currAE)
 % Pavel Solís (pavel.solis@gmail.com), September 2020
 % 
 %% Define variables
-dtend   = datetime('31-Jan-2019');                                          % end of sample
+dtend   = datetime('11-Aug-2021');                                          % end of sample
 flds1   = ['d_gsw' strcat({'dn','ds','dr'},'_blncd') strcat('d_',{'cr','yP','tp'}) strcat('bsl_',{'yP','tp'})];
 varnms1 = {'usyc','nom','syn','rho','phi','dyp','dtp','myp','mtp'};
 flds2   = {'scbp','scpi','sgdp','stp','rrt','cbp','inf','une','ip','gdp','sdprm','sdcyc','epu'};
