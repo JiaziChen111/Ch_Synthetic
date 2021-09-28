@@ -3,7 +3,7 @@ function [data_macro,hdr_macro] = read_macrovars(S)
 %   data_macro: stores historical data
 %   hdr_macro: stores headers
 
-% Pavel Solís (pavel.solis@gmail.com), May 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2021
 %%
 pathc  = pwd;
 pathd  = fullfile(pathc,'..','..','Data','Raw');                            % platform-specific file separators
@@ -11,7 +11,7 @@ namefl = {'Macro_Vars_Tickers.xlsx','Macro_Vars_Data.xlsx'};
 
 % Read macro data from Bloomberg
 cd(pathd)
-hdr_mcr  = readcell(namefl{1},'Sheet','Tickers');                           % read headers
+hdr_mcr  = readcell(namefl{1},'Sheet','Tickers','ExpectedNumVariables',6);  % read headers
 hdr_mcr  = hdr_mcr(:,1:6);                                                  % remove extra columns
 data_mcr = readmatrix(namefl{2},'Sheet','All');                             % read macro variables
 datesmcr = x2mdate(data_mcr(:,1),0);                                        % dates from Excel to Matlab format
