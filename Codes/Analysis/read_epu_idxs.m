@@ -2,7 +2,7 @@ function S = read_epu_idxs(S)
 % READ_EPU_IDXS Read economic policy uncertainty indexes (Baker-Bloom-Davis, 2016)
 % Files are not standardized, need to deal with exceptions
 
-% Pavel Solís (pavel.solis@gmail.com), July 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2021
 %%
 pathc   = pwd;
 pathd   = fullfile(pathc,'..','..','Data','Raw','EPU');                     % platform-specific file separators
@@ -24,7 +24,8 @@ for k0 = 1:ncntrs
             if strcmp(S(k0).iso,'COP')
                 inputfmt = 'yyyy-MM';                                       % COP case
             else
-                inputfmt = 'MMM-yy';                                        % KRW case
+                inputfmt = 'mm/yyyy';                                       % KRW case
+                opts.VariableNames(contains(opts.VariableNames,'Var')) = [];% delete extra columns
             end
             opts = setvaropts(opts,'Date','InputFormat',inputfmt);          % use correct input format
         else
