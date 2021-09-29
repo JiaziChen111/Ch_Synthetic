@@ -4,7 +4,7 @@ function S = trend_inflation(S,currEM,trndcntrs,tfplot,tfsave)
 % publish forecasts for emerging markets
 % 
 % m-files called: inflation_target, cntrstimetable
-% Pavel Solís (pavel.solis@gmail.com), August 2020
+% Pavel Solís (pavel.solis@gmail.com), September 2021
 %% 
 nEMs = length(currEM);
 if nargin < 4;  tfplot = false;	tfsave = false; end
@@ -53,13 +53,14 @@ if tfplot
             subplot(2,2,k3)                                                 % 3,5 to see all countries
             plot(TTinf.Time,TTinf{:,k2},'-','LineWidth',1);	hold on
             plot(HPfreq.Time,HPfreq{:,k2},'-.','LineWidth',1);
-            if ~isempty(S(k2).scpi)                                         % 10Y
+            if ~isempty(S(k2).scpi) && ~ismember(S(k2).iso,trndcntrs)       % 10Y
                 plot(datetime(S(k2).scpi(2:end,1),'ConvertFrom','datenum'),S(k2).scpi(2:end,end),'--','LineWidth',1);
             end
             [ld,lu] = inflation_target(S(k2).iso);
             if ~isempty(ld); yline(ld,'--'); yline(lu,'--'); end
             hold off
             title(S(k2).cty)
+            if ismember(k3,[1,3]); ylabel('%'); end
         end
     end
     lbl = {'Inflation','Trend','Forecast'};
