@@ -12,7 +12,7 @@ yields to a 1 basis point change in U.S. target, path and LSAP shocks */
 cd "/Users/Pavel/Documents/GitHub/Book/Ch_Synthetic"	// update as necessary
 local pathmain `c(pwd)'
 
-global pathdlfs "/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/January-2021"
+global pathdlfs "/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2021"
 global pathdata "`pathmain'/Data/Analytic"
 global pathcode "`pathmain'/Codes/Analysis"
 global pathtbls "`pathmain'/Docs/Tables"
