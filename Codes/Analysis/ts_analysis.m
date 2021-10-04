@@ -9,7 +9,8 @@
 %% Load the data
 clear
 pathc = pwd;
-pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2021';
+%pathd = '/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2021';
+pathd = 'C:\Users\G12284\Documents\Dropbox\Dissertation\Book-DB-Sync\Ch_Synt-DB\Codes-DB\August-2021';
 cd(pathd)
 load('struct_datady_S.mat')
 load('struct_datady_cells.mat')
@@ -74,11 +75,13 @@ cd(pathc)
 vix = data_macro(:,ismember(hdr_macro(:,2),{'type','VIX'}));
 [TT_kw,kwtp,kwyp] = read_kw(matsout);
 
-ts_plots(S,currEM,currAE,kwtp,vix);
+ts_plots(S,currEM,currAE,kwtp,vix,true);
 [corrTPem,corrTPae,corrBRP,corrTPyP] = ts_correlations(S,currEM,currAE,kwtp,vix);
 [pcexplnd,pc1em,pc1ae,pc1res,r2TPyP] = ts_pca(S,currEM,currAE,kwyp,kwtp);
-% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae 
+% cd(pathd)
+% save struct_datamy_S.mat S currAE currEM fitrprtdy fitrprtmy corrTPem corrTPae ...
 % corrTPyP pcexplnd pc1em pc1ae pc1res r2TPyP
+% cd(pathc)
 
 %% Construct panel dataset
 datetime(now(),'ConvertFrom','datenum')
