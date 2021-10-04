@@ -1,10 +1,11 @@
-function ts_plots(S,currEM,currAE,kwtp,vix)
+function ts_plots(S,currEM,currAE,kwtp,vix,figsave)
 % TS_PLOTS Plot different series after estimation of affine model
 
 % m-files called: datesminmax, syncdatasets, inflation_target, save_figure,
 % rollingcorrs, ts_dyindex
 % Pavel Solís (pavel.solis@gmail.com), August 2021
 %%
+if nargin < 6; figsave = false; end
 nEMs = length(currEM);
 nAEs = length(currAE);
 
@@ -15,7 +16,7 @@ clrplt = [0.06, 0.5, 0.95
         0, 0.77, 0.96];
 
 %% Plot macro data
-figdir = 'Data'; formats = {'eps'}; figsave = false;
+figdir = 'Data'; formats = {'eps'}; %figsave = false;
 vars   = {'INF','UNE','IP','GDP','CBP'};
 fnames = lower(vars);
 % whole period
@@ -70,7 +71,7 @@ figname = 'INF_vol'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Plot 10Y yields
-figdir  = 'Data'; formats = {'eps'}; figsave = false;
+figdir  = 'Data'; formats = {'eps'}; %figsave = false;
 fldname = {'ms_data','inf','scbp'};
 
 % Yield only
@@ -131,7 +132,7 @@ figname = 'YLD10Y_CBP'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Plot survey data
-figdir  = 'Surveys'; formats = {'eps'}; figsave = false;
+figdir  = 'Surveys'; formats = {'eps'}; %figsave = false;
 macrovr = {'CPI','GDP','CBP'};
 for k0 = 1:length(macrovr)
     fldname = ['s' lower(macrovr{k0})];
@@ -161,7 +162,7 @@ end
 close all
 
 %% Compare results (different versions, different variables): ny, ns, sy, ss
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 fldname = [strcat({'mny','msy','mnsf','mnsb','mssf','mssb'},'_tp') 'mssb_yP'];
 fldnmAE = [strcat({'mny','msy'},'_tp') 'mny_yP'];
 % Simple
@@ -272,7 +273,7 @@ end
 close all
 
 %% Compare TP (different versions, same variable): ny, ns, sy, ss
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 % sgmS baseline vs free: differences due to convergence, check fit for BRL-COP-MYR
 fldtype1 = 'mssb_';   fldvar  = 'tp';
 fldtype2 = 'mssf_';   fldname = [fldtype2 fldvar];
@@ -399,7 +400,7 @@ figname = [fldtype1 fldtype2 fldvar '_AE']; save_figure(figdir,figname,formats,f
 close all
 
 %% Model fit to synthetic
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 
     % Monthly data
 fldname = {'ms_blncd','bsl_yQ'};
@@ -461,7 +462,7 @@ figname = 's_residual'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Comparing yP vs surveys_CBP (assess fit + benefits of surveys)
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 % mssb_yP (surveys) vs surveys_CBP 
 fldname = {'bsl_yP','scbp'};
 figure
@@ -504,7 +505,7 @@ figname = [fldname{1} '_' fldname{2}]; save_figure(figdir,figname,formats,figsav
 close all
 
 %% Real rate = yP - svyINF
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 TT_rr = read_spf();                                                         % US real rates forecasts
 
     % Long-term
@@ -563,7 +564,7 @@ figname = [fldname '_all']; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% TP survey = sy - sCBP
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 
     % Long-term TPsvy
 fldname = 'stp';
@@ -602,7 +603,7 @@ figname = [fldname{1} '_svy']; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Synthetic vs nominal yP
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
     % Surveys: similar yP supports BRP = TP + CR
 fldtype1 = 'mssb_';   fldvar = 'yP';
 fldtype2 = 'mnsb_';   fldname = [fldtype2 fldvar];
@@ -643,7 +644,7 @@ close all
 
 %% Term structure
 % Term premia
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 fldname = 'bsl_tp';
 figure
 lstyle  = {'-','-.','--'};
@@ -695,7 +696,7 @@ figname = [fldname '_ts']; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Plot bond risk premia
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 % BRP: compensation for risk in EMs
 fldname = 'brp';
 figure
@@ -746,7 +747,7 @@ figname = 'brp_ntp'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Nominal YC decomposition: drivers of yields
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
     % EM: monthly
 fldname = {'bsl_yP','bsl_tp','bsl_cr'};
 figure
@@ -791,7 +792,7 @@ figname = 'ny_dcmp_AE'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Compare estimated CRC versus DS LCCS
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
     % Monthly frequency
 fldname = {'bsl_cr','mc_blncd'};
 tnr = 10;
@@ -831,7 +832,7 @@ figname = 'crc_lccs_dy'; save_figure(figdir,figname,formats,figsave)
 close all
 
 %% Compare estimated CRC versus CDS
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 TT_cds  = read_cds();
     % EM: daily
 fldname = 'd_cr';                                                   % bsl_cr
@@ -904,7 +905,7 @@ for k0 =[16, 20, 21, 22]
     plot(ttaux.Time,ttaux.(2),'-.','LineWidth',0.6);
     title(S(k0).cty)
     datetick('x','yy'); yline(0); if ismember(k2,[2,4]); ylabel('Basis Points'); end
-    corr(ttaux{:,1},ttaux{:,2},'rows','complete')
+    %corr(ttaux{:,1},ttaux{:,2},'rows','complete')
 end
 lbl = {'CIP Deviation (LC in %) (LHS)','CDS (USD in basis points) (RHS)'};
 lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
@@ -915,7 +916,7 @@ close all
 
 %% Components with confidence bands
     % EM
-figdir = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir = 'Estimation'; formats = {'eps'}; %figsave = false;
 vars   = {'yQ','yP','tp','cr'};
 names  = {'Fitted Yields','Expected Short Rate','Term Premium','Credit Risk Compensation'};
 tnr    = 10;
@@ -966,7 +967,7 @@ for k0 = 1:length(vars)
 end
 
 %% Plot TP against LCCS, USTP, VIX, EPU, INF
-figdir  = 'Estimation'; formats = {'eps'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 % TP vs LCCS: negative relationship
 figure
 for k0 = 1:nEMs
@@ -1105,7 +1106,7 @@ end
 close all
 
 %% Rolling correlations (daily frequency): Yield components
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps','fig'}; %figsave = false;
 
     % AE + EM (nominal, synthetic)
 tenor  = 10;
@@ -1157,7 +1158,7 @@ figname = ['rolling' num2str(tenor) 'y_dcmp_AE']; save_figure(figdir,figname,for
 close all
 
 %% Rolling correlations (daily frequency): Term structure
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps','fig'}; %figsave = false;
 fname   = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
 lstyle  = {'-','-.','--',':'};
 tenor   = [10 5 1 0.25];
@@ -1190,7 +1191,7 @@ for k0 = 1:length(fname)
 end
 
 %% Rolling correlations w/ US yield curve (daily frequency): Term structure
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps','fig'}; %figsave = false;
 fname   = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
 lstyle  = {'-','-.','--',':'};
 tenor   = [10 5 1 0.25];
@@ -1221,7 +1222,7 @@ for k0 = 1:length(fname)
 end
 
 %% DY index (daily frequency): Yield components
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = false;
+figdir  = 'Estimation'; formats = {'eps','fig'}; %figsave = false;
 
     % AE + EM (nominal, synthetic)
 tenor = 10;
@@ -1278,7 +1279,7 @@ legend({'Nominal Yield','Exp. Short Rate','Term Premium'},'Location','best','Aut
 figname = ['dy_index' num2str(tenor) 'y_dcmp_AE']; save_figure(figdir,figname,formats,figsave)
 
 %% DY index (daily frequency): Term structure
-figdir  = 'Estimation'; formats = {'eps','fig'}; figsave = true;
+figdir  = 'Estimation'; formats = {'eps','fig'}; %figsave = true;
 fldname = {'dn_data'}; % {'dn_data','d_yP','d_tp','d_cr'};
 lstyle  = {'-','-.','--',':'};
 tenor   = [10 5 1 0.25];
