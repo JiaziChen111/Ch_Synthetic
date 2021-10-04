@@ -34,8 +34,8 @@ dyMdl  = estimate(Mdl,dy_sub);
 % Connectedness table
 [DYtable,~,~,~,Net] = computeDYtable(dyMdl,nsteps,1);                       % useGIRF
 DYtable  = array2table([DYtable;[Net;NaN]']);
-varnames = [hdr repmat('        ',size(hdr,1),1);'FROM OTHERS'];
-rownames = [hdr repmat('        ',size(hdr,1),1);'TO OTHERS  ';'NET        '];
+varnames = [hdr repmat('        ',size(hdr,1),1);'FROM_OTHERS'];
+rownames = [hdr repmat('        ',size(hdr,1),1);'TO_OTHERS  ';'NET        '];
 DYtable.Properties.VariableNames = cellstr(varnames);
 DYtable.Properties.RowNames      = cellstr(rownames);
 
