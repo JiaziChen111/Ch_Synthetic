@@ -9,7 +9,7 @@ yields to a 1 basis point change in U.S. target, path and LSAP shocks */
 * ------------------------------------------------------------------------------
 * Preamble (uses Mac OS directory convention)
 * ------------------------------------------------------------------------------
-cd "/Users/Pavel/Documents/GitHub/Book/Ch_Synthetic"	// update as necessary
+cd "/Users/Pavel/Documents/GitHub/Dissertation/Ch_Synthetic"	// update as necessary
 local pathmain `c(pwd)'
 
 global pathdlfs "/Users/Pavel/Dropbox/Dissertation/Book-DB-Sync/Ch_Synt-DB/Codes-DB/August-2021"
@@ -37,6 +37,7 @@ use $file_dta2, clear
 * ------------------------------------------------------------------------------
 log using $file_log, replace
 // do "$pathcode/spov_pre"
+do "$pathcode/spov_stats"
 do "$pathcode/spov_combined_rho"
 do "$pathcode/spov_combined_group"
 do "$pathcode/spov_combined_usyc"
