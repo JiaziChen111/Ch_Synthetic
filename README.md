@@ -8,10 +8,11 @@ The files in this folder are provided to facilitate the replication of the resul
 The results in the paper were generated using the following:
 - Operating system: macOS 10.14.6
 - Software: Matlab R2019b, Stata 15
-- Add-ons. Matlab toolboxes: Financial. Stata: in xtscc.ado comment out lines 73-83.
+- Add-ons. Matlab toolboxes: Financial. Stata: in xtscc.ado comment out lines 74-83*.
 - Restricted data sources: Bloomberg, Refinitv
 - Expected running time: Pre-Analysis (XX min/hr), only if replicated from scratch (i.e. using data directly downloaded from Bloomberg and Refinitv); Analysis (XX min/hr)
 
+* Comment out section 'Check if dataset's timevar is regularly spaced' because it uses `tab `timevar'` which yields an error (too many variables). In Stata, to find the location of the xtscc.ado file, type `which xtscc`.
 
 ## CONTENTS OF THE MAIN FOLDER
 -------------------------------------------------------------------------------------

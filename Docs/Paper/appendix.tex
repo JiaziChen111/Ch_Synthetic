@@ -9,6 +9,7 @@
 
 \renewcommand\thefigure{\thesection.\arabic{figure}}
 \section{A Proxy for Long-Term Inflation Forecasts} \label{sec:trendinf}
+\setcounter{page}{1}
 \setcounter{figure}{0}
 
 An advantage of the small open economy approach to infer long-term forecasts for the short rate is that, for emerging markets, it only requires data on inflation forecasts, or a proxy in the case of countries with no long-term forecasts available as is the case for Israel and South Africa.
@@ -25,7 +26,7 @@ during the sample period.
 Therefore, for both countries, trend inflation is calculated for the whole period %but only considered within the time range 
 for which survey data is available for the rest of the countries in the sample, and as long as the resulting trend is within the respective inflation target band.
 
-Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa along with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e. no marked upward or downward trend) and for which survey data is available.
+Figure \ref{fig:CPI_ILSZAR} shows the realized and trend inflation for Israel and South Africa along with those of Malaysia and Thailand, two countries with a similar pattern for inflation (i.e., no marked upward or downward trend) and for which survey data is available.
 %It supports that t
 The figure shows that trend inflation seems to be a good proxy for the long-term inflation forecasts in Malaysia and Thailand.
 Also, as can be seen in the main text (figure \ref{fig:wnCPI}), 5-year and long-term inflation forecasts follow each other closely, therefore trend inflation is used as the proxy for both the 5-year and the long-term inflation forecasts in the case of Israel and South Africa.
@@ -75,8 +76,10 @@ Also, as can be seen in the main text (figure \ref{fig:wnCPI}), 5-year and long-
 
 An alternative approach to rolling correlations for assessing the comovement of yields is the connectedness index of \cite{DieboldYilmaz:2014}. 
 The index assesses shares of forecast error variation in a country's bond market due to shocks arising elsewhere.\footnote{ Following \cite{ACDM:2019} and \cite{BostanciYilmaz:2020}, I compute the index  using a VAR(1), with a forecast horizon of 10 days and a rolling window of 150 days for the daily changes of yields.} %for each maturity  
-Higher numbers (between 0 and 100\%) indicate a higher degree of comovement. 
-Figure \ref{fig:dy_index_ts} exhibits the same patterns as those reported in figure \ref{fig:rolling_ts} using rolling correlations.
+%Higher numbers (between 0 and 100\%) indicate a higher degree of comovement. 
+%Figure \ref{fig:dy_index_ts} exhibits the same patterns as those reported in figure \ref{fig:rolling_ts} using rolling correlations.
+It ranges between 0 and 100\%, higher numbers indicate a higher degree of comovement. 
+Figure \ref{fig:dy_index_ts} exhibits the same patterns seen using rolling correlations (cf. figure \ref{fig:rolling_ts}).
 
 Figure \ref{subfig:dyindex10ynomsyn} compares the index for the nominal and synthetic yields of emerging markets with the nominal yields of advanced economies. %, and displays the index for all three components of emerging market yields. 
 The relatively low connectedness among the yields of emerging markets % to those of advanced economies shown 
@@ -122,9 +125,12 @@ are not spillovers originating in other emerging markets but in advanced economi
 %The connectedness index for emerging market yields (either nominal or synthetic) is, on average, slightly higher after the taper tantrum episode in 2013 than before. For the yields of advanced economies, the index increased from around 60 to somewhat above 70\% which, according to \cite{ACDM:2019}, has been driven by an increase in the connectedness of their term premia.
 
 Figure \ref{subfig:dyindex10ydcmp} shows the connectedness index for the components of emerging market yields. %The connectedness increased slightly after the taper tantrum.
-From all three components of emerging market yields, the term premium has been slightly more connected since the taper tantrum in 2013 with the expected future short rate becoming more connected towards the end of the sample.\footnote{ \cite{ACDM:2019} show that the increase in the connectedness among the yields of advanced economies has been driven by an increase in the connectedness of their term premia.} 
-Meanwhile, the credit risk compensation has been essentially the least connected component.
-Figure \ref{subfig:dyindex10ynomsyn} shows that the level of the index for synthetic yields tends to be higher than that for nominal yields, which supports that the credit risk component is %indeed a 
+The connectedness of all three components is similar, although 
+%From all three components of emerging market yields, the term premium has been slightly more connected since the taper tantrum in 2013 with 
+the expected future short rate has been slightly more connected over the sample period.\footnote{ \cite{ACDM:2019} show that the increase in the connectedness among the yields of advanced economies has been driven by an increase in the connectedness of their term premia.} 
+This suggests that the monetary stance of some emerging markets tends to be aligned.
+%Meanwhile, the credit risk compensation has been essentially the least connected component.
+Notice that figure \ref{subfig:dyindex10ynomsyn} shows that the level of the index for synthetic yields tends to be higher than that for nominal yields, which suggests that the credit risk component is %indeed a 
 more idiosyncratic. % of the yields.
 
 %Are the short and long end equally connected?
@@ -175,6 +181,7 @@ more idiosyncratic. % of the yields.
 \setcounter{figure}{0}
 
 \begin{landscape}
+	\input{../Figures/Estimation/crc_cds_EM}
 	%	\input{../Figures/Estimation/bsl_yQ_CI_10y_V1}
 	%	\input{../Figures/Estimation/bsl_yP_CI_10y_V1}
 	\input{../Figures/Estimation/bsl_tp_CI_10y_V1}
