@@ -6,7 +6,8 @@
 \usepackage{pdflscape}
 \usepackage{tabularx}
 \usepackage[margin=1in]{geometry}
-\input{../Settings/macros}
+\input{../Settings/macros_global}		   % Personalized commands
+\input{../Settings/macros_local}			% Personalized commands
 \pagestyle{empty}
 
 \begin{document}
@@ -17,7 +18,7 @@
 					\caption{Drivers of the Emerging Market 5-Year Nominal Yield and Its Components} \label{tab:ycdcmp5y}
 					\begin{threeparttable}
 						\estauto{../Tables/f_ycdcmp5y.tex}{6}
-						\tabnote{This table reports the estimated slope coefficients of panel data regressions of the 5-year nominal yield and its components (expected short rate, term premium and credit risk compensation) on selected explanatory variables. The sample includes monthly data for 15 emerging markets starting in 2000:1 and ending in 2019:1. The dependent variables are expressed in basis points. The explanatory variables are the U.S. term premium and the U.S. expected short rate according to \cite{KimWright:2005}  with the same maturity as the dependent variables, the policy rate, domestic inflation and unemployment, the standardized exchange rate (local currency per USD), the log of the Vix, the log of the U.S. and global economic policy uncertainty indexes based on \cite{BakerBloomDavis:2016}, the global economic activity index of \cite{Hamilton:2019}. Driscoll--Kraay standard errors in parenthesis; lag length up to which the residuals may be autocorrelated is indicated. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
+						\tabnote{This table reports the estimated slope coefficients of panel data regressions of the 5-year nominal yield and its components (expected short rate, term premium and credit risk compensation) on selected explanatory variables. The sample includes monthly data for 15 emerging markets starting in 2000:1 and ending in 2021:7. The dependent variables are expressed in basis points. The explanatory variables are the U.S. term premium and the U.S. expected short rate according to \cite{KimWright:2005} with the same maturity as the dependent variables, the policy rate, domestic inflation and unemployment, the standardized exchange rate (local currency per USD), the log of the VIX, the log of the U.S. and global economic policy uncertainty indexes based on \cite{BakerBloomDavis:2016}, the global economic activity index of \cite{Hamilton:2021}. Driscoll--Kraay standard errors in parenthesis; lag length up to which the residuals may be autocorrelated is indicated. *, **, *** asterisks respectively indicate significance at the 10\%, 5\% and 1\% level.}
 					\end{threeparttable}
 				\end{center}
 			\end{table}
