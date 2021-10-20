@@ -277,6 +277,7 @@ figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
 % sgmS baseline vs free: differences due to convergence, check fit for BRL-COP-MYR
 fldtype1 = 'mssb_';   fldvar  = 'tp';
 fldtype2 = 'mssf_';   fldname = [fldtype2 fldvar];
+if isfield(S,fldname)                                                   % fldname exists only if free sgmS case was ran
 figure
 for k0 = 1:nEMs
     if ~isempty(S(k0).(fldname))
@@ -291,6 +292,7 @@ lgd = legend({'Synthetic with Surveys Fixed','Synthetic with Surveys Free'},...
     'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = [fldtype1 fldtype2 fldvar]; save_figure(figdir,figname,formats,figsave)
+end
 
 % Synthetic vs nominal: yields only (gains from synthetic)
 fldtype1 = 'msy_';   fldvar  = 'tp';
