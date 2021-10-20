@@ -432,23 +432,47 @@ lgd = legend({'Observed','Fitted'},'Orientation','horizontal','AutoUpdate','off'
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = 's_ylds_d_yQ'; save_figure(figdir,figname,formats,figsave)
 
-    % Daily data: residuals 10Y
-fldname = {'ds_blncd','d_yQ','d_cr'};                                   % for monthly: {'ms_blncd','bsl_yQ','bsl_cr'};
-yr = 10;
+close all
+
+%% Residuals of synthetic: Actual minus fitted
+figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
+
+    % Monthly data: 10Y
+fldname = {'ms_blncd','bsl_yQ','bsl_cr'};                                   % for monthly: {'ms_blncd','bsl_yQ','bsl_cr'};
+yr      = 10;
+rescrc  = nan(nEMs,1);
 figure
 for k0 = 1:nEMs
     aux1 = S(k0).(fldname{1});
     aux2 = S(k0).(fldname{2});
-    %aux3 = S(k0).(fldname{3});
+    aux3 = S(k0).(fldname{3});
     ttaux1 = array2timetable(aux1(2:end,aux1(1,:) == yr),'RowTimes',datetime(aux1(2:end,1),'ConvertFrom','datenum'));
     ttaux2 = array2timetable(aux2(2:end,aux2(1,:) == yr),'RowTimes',datetime(aux2(2:end,1),'ConvertFrom','datenum'));
-    %ttaux3 = array2timetable(aux3(2:end,aux3(1,:) == yr),'RowTimes',datetime(aux3(2:end,1),'ConvertFrom','datenum'));
+    ttaux3 = array2timetable(aux3(2:end,aux3(1,:) == yr),'RowTimes',datetime(aux3(2:end,1),'ConvertFrom','datenum'));
     ttaux  = synchronize(ttaux1,ttaux2);
     ttaux.res = ttaux.(1) - ttaux.(2);                               	% actual minus fitted
     ttaux = removevars(ttaux,contains(ttaux.Properties.VariableNames,{'ttaux1','ttaux2'}));
-    %ttcor = synchronize(ttaux,ttaux3);
+    ttcor = synchronize(ttaux,ttaux3);
+    ttcor = rmmissing(ttcor);
+    ttcor(abs(ttcor{:,2}) < 0.0002,:) = [];                             % drop small CRC (<2 bps) o/w exaggerate ratio below 
+    rescrc(k0) = mean(ttcor{:,1}./ttcor{:,2})*100;                      % in basis points
     %[rho,pval] = corr(ttcor{:,:},'rows','complete');                    % corr b/w CRC and residual
-    %sprintf(['For ' S(k0).cty ', rho is %0.4f with a p-value of %0.4f'],rho(2,1),pval(2,1))
+    %sprintf([S(k0).iso ': corr Res-CRC is %0.4f with a p-value of %0.4f'],rho(2,1),pval(2,1))
+end
+sprintf('EM: Residual as pct of CRC: %d',mean(abs(rescrc)))
+
+    % Daily data: 10Y
+fldname = {'ds_blncd','d_yQ','d_cr'};                                   % for monthly: {'ms_blncd','bsl_yQ','bsl_cr'};
+yr      = 10;
+figure
+for k0 = 1:nEMs
+    aux1 = S(k0).(fldname{1});
+    aux2 = S(k0).(fldname{2});
+    ttaux1 = array2timetable(aux1(2:end,aux1(1,:) == yr),'RowTimes',datetime(aux1(2:end,1),'ConvertFrom','datenum'));
+    ttaux2 = array2timetable(aux2(2:end,aux2(1,:) == yr),'RowTimes',datetime(aux2(2:end,1),'ConvertFrom','datenum'));
+    ttaux  = synchronize(ttaux1,ttaux2);
+    ttaux.res = ttaux.(1) - ttaux.(2);                               	% actual minus fitted
+    ttaux = removevars(ttaux,contains(ttaux.Properties.VariableNames,{'ttaux1','ttaux2'}));
     
     subplot(3,5,k0)
     plot(ttaux.Time,ttaux.res*10000,'LineWidth',1.25)                  	% in basis points
@@ -796,6 +820,7 @@ figdir  = 'Estimation'; formats = {'eps'}; %figsave = false;
     % Monthly frequency
 fldname = {'bsl_cr','mc_blncd'};
 tnr = 10;
+corrcrclccs = nan(nEMs,1);
 figure
 for k0 = 1:nEMs
     subplot(3,5,k0)
@@ -805,7 +830,12 @@ for k0 = 1:nEMs
     title(S(k0).cty)
     datetick('x','yy'); yline(0); if ismember(k0,[1,6,11]); ylabel('%'); end
 %     L = get(gca,'XLim'); set(gca,'XTick',linspace(L(1),L(2),4))             % sets #ticks to 4
+    ttaux1 = array2timetable(var1,'RowTimes',datetime(S(k0).(fldname{1})(2:end,1),'ConvertFrom','datenum'));
+    ttaux2 = array2timetable(var2,'RowTimes',datetime(S(k0).(fldname{2})(2:end,1),'ConvertFrom','datenum'));
+    ttaux = synchronize(ttaux1,ttaux2,'intersection');
+    corrcrclccs(k0) = corr(ttaux{:,1},ttaux{:,2},'rows','complete');
 end
+sprintf('EM: Average Corr. CRC-LCCS: %d', mean(corrcrclccs))
 lbl = {'Own','DS'};
 lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
@@ -853,7 +883,7 @@ for k0 = 1:nEMs
     title(S(k0).cty)
     datetick('x','yy'); yline(0); if ismember(k0,[5,10,15]); ylabel('Basis Points'); end
 end
-lbl = {'Credit Risk Compensation (LC in %) (LHS)','CDS (USD in basis points) (RHS)'};
+lbl = {'Credit Risk Compensation (in LC) (LHS)','CDS (in USD) (RHS)'};
 lgd = legend(lbl,'Orientation','horizontal','AutoUpdate','off');
 set(lgd,'Position',[0.3730 0.0210 0.2554 0.0357],'Units','normalized')
 figname = 'crc_cds_EM'; save_figure(figdir,figname,formats,figsave)
