@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage[outdir=./]{epstopdf}  					% Avoids errors when input figures
+\usepackage[labelsep=period,labelfont=bf]{caption}
+%\usepackage{subcaption}
+
+\begin{document}
+	\begin{figure}[tbph]
+		\caption{CDS vs. Credit Risk Compensation: 5-Year Maturity} \label{fig:crc_cds_EM}
+		\begin{center}								% center the minipage on the line
+			\begin{minipage}{0.9\linewidth}
+				\begin{center}							% center the figure inside the minipage
+					\includegraphics[trim={0cm 0cm 0cm 0cm},clip,height=0.8\textheight,width=\linewidth]{../Figures/Estimation/crc_cds_EM.eps} \\
+				\end{center}
+				\fignotes{This figure compares the 5-year sovereign credit default swap rate (dash-dotted line) and the 5-year credit risk compensation (solid line). The credit risk compensation is the spread between the nominal and the fitted synthetic yield obtained from the survey-augmented model.}
+			\end{minipage}
+		\end{center}
+	\end{figure}
+\end{document}
+% trim = {<left> <lower> <right> <upper>}

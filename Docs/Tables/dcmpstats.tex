@@ -5,21 +5,24 @@
 \usepackage{threeparttable}
 \usepackage{pdflscape}
 \usepackage{tabularx}
+\usepackage{afterpage}
 %\usepackage[margin=1in]{geometry}
 %\input{../Settings/macros}
 
 \begin{document}
+%	\afterpage{
 	\begin{normalsize}
 %		\begin{landscape}
-			\begin{table}[t]
+			\begin{table}[t!]
 				\begin{center}
 					\caption{Descriptive Statistics for the Decomposition of Emerging Market Yields} \label{tab:dcmpstats}
 					\begin{threeparttable}
 						\estauto{../Tables/f_dcmpstats.tex}{6}
-						\tabnote{This table reports the average and the standard deviation using end-of-month data for different tenors of the components of the emerging market nominal yields. All figures are expressed in annualized percentage points.}
+						\tabnote{This table reports the mean and the standard deviation for different tenors of the three components of emerging market nominal yields. The statistics are computed using end-of-month data. All figures are expressed in annualized percentage points.}
 					\end{threeparttable}
 				\end{center}
 			\end{table}
 %		\end{landscape}
 	\end{normalsize}
+%	}
 \end{document}

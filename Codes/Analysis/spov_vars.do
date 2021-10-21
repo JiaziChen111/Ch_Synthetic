@@ -5,6 +5,7 @@ use $file_dta1, clear
 
 
 * Dates in Stata format
+/*	If format in Excel is: day/month/year HH:MM
 gen date  = dofc(time)
 gen datem = mofd(dofc(time))					// used to label graphs
 format date %td
@@ -12,11 +13,17 @@ format datem %tmCCYY
 order  date, first
 drop   time
 order  cty, after(date)
+*/
 
+/* If format in Excel is: day/month/year */
+rename time date
+gen datem = mofd(date)							// used to label graphs
+format datem %tmCCYY
+order  cty, after(date)
 
 * Business calendar based on current dataset
 capture {
-	// bcal create calspov, from(date) purpose(Convert daily data into business calendar dates) replace
+	bcal create calspov, from(date) purpose(Convert daily data into business calendar dates) replace
 	bcal load calspov
 	gen bizdate = bofd("calspov",date)
 	format %tbcalspov bizdate
