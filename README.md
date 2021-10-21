@@ -1,6 +1,6 @@
 # Ch_Synthetic
 
-The files in this folder facilitate the replication of the results in "Term Premia and Credit Risk in Emerging Markets: The Role of U.S. Monetary Policy" by Pavel Solís (pavel.solis@gmail.com)
+The files in this folder facilitate the replication of the results in "[Term Premia and Credit Risk in Emerging Markets: The Role of U.S. Monetary Policy](https://pavelsolis.github.io/files/research/EMYields.pdf)" by Pavel Solís (pavel.solis@gmail.com)
 
 
 ## System Features
