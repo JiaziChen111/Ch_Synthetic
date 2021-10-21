@@ -46,9 +46,9 @@ Docs folder:
 
 ## DATA FILES
 -------------------------------------------------------------------------------------
-See the metadata guide (Data -> Metadata -> MetadataGuide.docx) for a description of all original data files (names, sources, date downloaded, list of variables, sample period) and how to recreate them.
+The repository does not support .xls nor .xlsx files. See the metadata guide (Data -> Metadata -> MetadataGuide.docx) for a description of all original data files (names, sources, date downloaded, list of variables, sample period) and how to recreate them.
 
-Some files contain publicly available data while others require access to Bloomberg and Datastream. Datasets with restricted access are not shared due to licensing rights.
+Datasets that require access to Bloomberg and Datastream cannot be shared due to licensing rights. All other files can be shared upon request.
 
 From the datasets in the Raw folder, the codes generate new datasets. Some of them are stored outside the main folder Ch_Synt due to their large sizes; they are: struct_datady_cells.mat, struct_datady_S.mat, struct_datamy_S.mat, dataspillovers1.dta, dataspillovers2.dta. Before running the codes (either individually or via runAll.sh), you need to define where those large datasets will be stored in your computer by updating the paths in the respective codes (read_data.m, ts_analysis.m, spillovers.do). 
 
