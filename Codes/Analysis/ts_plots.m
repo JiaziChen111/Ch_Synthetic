@@ -2,8 +2,8 @@ function ts_plots(S,currEM,currAE,kwtp,vix,figsave)
 % TS_PLOTS Plot different series after estimation of affine model
 
 % m-files called: datesminmax, syncdatasets, inflation_target, save_figure,
-% rollingcorrs, ts_dyindex
-% Pavel Solís (pavel.solis@gmail.com), August 2021
+% read_spf, read_cds, rollingcorrs, ts_dyindex
+% Pavel Solís (pavel.solis@gmail.com), October 2021
 %%
 if nargin < 6; figsave = false; end
 nEMs = length(currEM);
