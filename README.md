@@ -3,7 +3,7 @@
 The files in this folder facilitate the replication of the results in "Term Premia and Credit Risk in Emerging Markets: The Role of U.S. Monetary Policy" by Pavel Solís (pavel.solis@gmail.com)
 
 
-## SYSTEM FEATURES
+## System Features
 -------------------------------------------------------------------------------------
 The results in the paper were generated using the following:
 - Operating systems: macOS 11.6, Windows 10 Enterprise
@@ -15,7 +15,7 @@ The results in the paper were generated using the following:
 * Comment out section `Check if dataset's timevar is regularly spaced` (lines 74-83) because it uses `tab `timevar'` which gives the error `too many variables`. To find the location of the xtscc.ado file, type `which xtscc` in Stata.
 
 
-## CONTENTS OF MAIN FOLDER (Ch_Synt)
+## Contents of Main Folder (Ch_Synt)
 -------------------------------------------------------------------------------------
 README.txt (this file)
 
@@ -44,7 +44,7 @@ Docs folder:
 - Extra folder: auxiliary files not used in the paper nor the slides
 
 
-## DATA FILES
+## Data Files
 -------------------------------------------------------------------------------------
 The repository does not support .xls nor .xlsx files. See the metadata guide (Data -> Metadata -> MetadataGuide.docx) for a description of all original data files (names, sources, date downloaded, list of variables, sample period) and how to recreate them.
 
@@ -53,7 +53,7 @@ Datasets that require access to Bloomberg and Datastream cannot be shared due to
 From the datasets in the Raw folder, the codes generate new datasets. Some of them are stored outside the main folder Ch_Synt due to their large sizes; they are: struct_datady_cells.mat, struct_datady_S.mat, struct_datamy_S.mat, dataspillovers1.dta, dataspillovers2.dta. Before running the codes (either individually or via runAll.sh), you need to define where those large datasets will be stored in your computer by updating the paths in the respective codes (read_data.m, ts_analysis.m, spillovers.do). 
 
 
-## INSTRUCTIONS TO REPLICATE THE STUDY
+## Instructions to Replicate the Study
 -------------------------------------------------------------------------------------
 runAll.sh calls the scripts to reproduce the results (figures and tables) and to generate the latest versions of the paper and the slides. If you don't want to or can't execute runAll.sh, you can replicate the results by manually executing the scripts in the same order as in runAll.sh (for this, open it with a text editor).
 
@@ -63,7 +63,7 @@ The scripts called by runAll.sh are master files. The idea behind them is strati
 - slides.tex: call title_slide.tex as well as equations, figures and tables.
 
 
-## COMMENTS
+## Comments
 -------------------------------------------------------------------------------------
 If you add or modify the files in the main folder, keep in mind that the names of files and folders must have *no* spaces.
 
@@ -77,31 +77,32 @@ On reproducibility of empirical research, see:
 - Chang & Li, 2017. A Pre-analysis Plan to Replicate Sixty Economics Research Papers That Worked Half of the Time
 
 
-## WORKFLOW OF MATLAB CODES (OPTIONAL)
+## Workflow of Matlab Codes (Optional)
 -------------------------------------------------------------------------------------
 Most data in Matlab are stored in a structure array of countries with different fields; the information in key fields is stored as a timetable (a Matlab data type). Below are details to facilitate following the workflow of the codes.
 
 In the Pre-Analysis folder, read_data.m -> generates dataset_daily (approx. runtime: 1 hr)
-	read_platforms	-> tickers from Bloomberg and Datastream
-	read_usyc	-> data from GSW and H.15
-	fwd_prm		-> short- and long-term forward premia
-	zc_yields	-> par converted into zero-coupon yields
-	spreads		-> CIP deviations, yield spreads (LC, FC)
-	read_cip		-> load DIS dataset
-	plot_spreads	-> plot (term structure of) spreads
-	compare_cip	-> compare own spreads vs DIS
+- read_platforms	-> tickers from Bloomberg and Datastream
+- read_usyc	-> data from GSW and H.15
+- fwd_prm		-> short- and long-term forward premia
+- zc_yields	-> par converted into zero-coupon yields
+- spreads		-> CIP deviations, yield spreads (LC, FC)
+- read_cip		-> load DIS dataset
+- plot_spreads	-> plot (term structure of) spreads
+- compare_cip	-> compare own spreads vs DIS
 variable types in header_daily: RHO,LCNOM,LCSYNT,LCSPRD,CIPDEV,FCSPRD
+
 auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
 In the Analysis folder, ts_analysis.m -> generates structure with data in fields (approx. runtime: 2 hrs)
-	daily2dymy	-> extract monthly data
-	add_macroNsvys	-> add macro and survey data
-	append_svys2ylds	-> combine yield and survey data
-	atsm_estimation 	-> estimate model w/ and w/o survey data, nominal & synthetic YCs
-	se_components	-> compute standard errors using the delta method
-	(post-estimation)-> assess_fit, add_vars, ts_plots, ts_correlations, ts_pca
-	atsm_daily	-> estimate model w/ daily data
-	construct_panel 	-> construct panel dataset
+- daily2dymy	-> extract monthly data
+- add_macroNsvys	-> add macro and survey data
+- append_svys2ylds	-> combine yield and survey data
+- atsm_estimation 	-> estimate model w/ and w/o survey data, nominal & synthetic YCs
+- se_components	-> compute standard errors using the delta method
+- (post-estimation)-> assess_fit, add_vars, ts_plots, ts_correlations, ts_pca
+- atsm_daily	-> estimate model w/ daily data
+- construct_panel 	-> construct panel dataset
 auxiliary m-files: read_macrovars, read_kw
 
 'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified with a filter over header_daily
