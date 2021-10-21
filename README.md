@@ -90,7 +90,8 @@ In the Pre-Analysis folder, read_data.m -> generates dataset_daily (approx. runt
 - read_cip		-> load DIS dataset
 - plot_spreads	-> plot (term structure of) spreads
 - compare_cip	-> compare own spreads vs DIS
-variable types in header_daily: RHO,LCNOM,LCSYNT,LCSPRD,CIPDEV,FCSPRD
+
+variable types in header_daily: RHO, LCNOM, LCSYNT, LCSPRD, CIPDEV, FCSPRD
 
 auxiliary m-files: compare_tbills, compare_ycs, compare_fx
 
@@ -103,6 +104,7 @@ In the Analysis folder, ts_analysis.m -> generates structure with data in fields
 - (post-estimation)-> assess_fit, add_vars, ts_plots, ts_correlations, ts_pca
 - atsm_daily	-> estimate model w/ daily data
 - construct_panel 	-> construct panel dataset
+
 auxiliary m-files: read_macrovars, read_kw
 
 'dataset_daily' contains yield curves (LC, FC, US), forward premiums, spreads (LC, FC, LC-US) for different maturities with DAILY frequency. All series run top-down old-new, series were appended to the RIGHT. Series are identified with a filter over header_daily
