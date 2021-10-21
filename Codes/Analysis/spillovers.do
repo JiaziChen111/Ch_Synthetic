@@ -1,5 +1,5 @@
 /* Code for 'Term Premia and Credit Risk in Emerging Markets: The Role of U.S. 
-Monetary Policy' by Pavel Solís, February 2021
+Monetary Policy' by Pavel Solís (pavel.solis@gmail.com), October 2021
 
 This code uses local projections to estimate the reponse of emerging market bond
 yields to a 1 basis point change in U.S. target, path and LSAP shocks */
